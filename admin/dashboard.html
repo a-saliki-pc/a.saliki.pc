@@ -1,0 +1,1377 @@
+<!DOCTYPE html>
+<html lang="fr" id="htmlRoot">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard Admin — A SALIKI PC</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bleu-nuit: #0a1428;
+      --bleu-carte: #0f1e38;
+      --bleu-bordure: #1a2f52;
+      --cyan-neon: #22d3ee;
+      --vert-neon: #4ade80;
+      --violet-tech: #8b5cf6;
+      --or: #fbbf24;
+      --rose: #f472b6;
+      --rouge: #ef4444;
+      --texte-principal: #ffffff;
+      --texte-secondaire: #94a3b8;
+      --fond-principal: #050b14;
+      --fond-secondaire: #0a1428;
+      --bordure: #1a2f52;
+      --rayon: 1rem;
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--fond-principal);
+      color: var(--texte-secondaire);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+    h1, h2, h3, h4 { font-family: 'Space Grotesk', sans-serif; letter-spacing: -0.02em; color: var(--texte-principal); }
+    a { text-decoration: none; color: inherit; }
+
+    .sidebar {
+      position: fixed;
+      top: 0; left: 0;
+      width: 260px;
+      height: 100vh;
+      background: linear-gradient(180deg, var(--fond-secondaire), #060d1a);
+      border-right: 1px solid var(--bordure);
+      padding: 1.5rem 1rem;
+      overflow-y: auto;
+      z-index: 100;
+      transition: transform 0.3s ease;
+    }
+    .sidebar .sb-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0 0.8rem 1.5rem;
+      border-bottom: 1px solid var(--bordure);
+      margin-bottom: 1.5rem;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--texte-principal);
+    }
+    .sidebar .sb-logo .sb-icon {
+      width: 36px; height: 36px;
+      border-radius: 0.5rem;
+      background: linear-gradient(135deg, var(--cyan-neon), var(--vert-neon));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #050b14;
+      font-size: 1rem;
+      box-shadow: 0 0 20px -5px rgba(34, 211, 238, 0.7);
+    }
+    .sidebar .sb-logo span {
+      background: linear-gradient(135deg, var(--cyan-neon), var(--vert-neon));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .sb-nav { list-style: none; }
+    .sb-nav li { margin-bottom: 0.3rem; }
+    .sb-nav a {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      padding: 0.7rem 0.9rem;
+      border-radius: 0.5rem;
+      color: var(--texte-secondaire);
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: var(--transition);
+      cursor: pointer;
+    }
+    .sb-nav a:hover { background: rgba(34, 211, 238, 0.08); color: var(--cyan-neon); }
+    .sb-nav a.actif {
+      background: linear-gradient(135deg, rgba(34, 211, 238, 0.15), rgba(74, 222, 128, 0.1));
+      color: var(--cyan-neon);
+      border-left: 3px solid var(--cyan-neon);
+    }
+    .sb-nav a i { width: 20px; text-align: center; font-size: 1rem; }
+    .sb-nav .section-label {
+      font-size: 0.68rem;
+      font-weight: 700;
+      color: var(--texte-secondaire);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      padding: 1.2rem 0.9rem 0.5rem;
+      opacity: 0.5;
+    }
+    .sb-footer {
+      margin-top: 2rem;
+      padding: 1rem 0.9rem;
+      border-top: 1px solid var(--bordure);
+    }
+    .sb-user {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      margin-bottom: 0.8rem;
+      font-size: 0.82rem;
+    }
+    .sb-user .avatar {
+      width: 34px; height: 34px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--violet-tech), var(--rose));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 700;
+      font-size: 0.85rem;
+      flex-shrink: 0;
+    }
+    .sb-user .info { flex: 1; overflow: hidden; }
+    .sb-user .info .name { font-weight: 600; color: var(--texte-principal); font-size: 0.85rem; }
+    .sb-user .info .email {
+      color: var(--texte-secondaire);
+      font-size: 0.72rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .btn-deconnexion {
+      width: 100%;
+      padding: 0.6rem;
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      color: var(--rouge);
+      border-radius: 0.5rem;
+      font-family: inherit;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+    .btn-deconnexion:hover { background: var(--rouge); color: white; }
+
+    .main {
+      margin-left: 260px;
+      padding: 2rem;
+      min-height: 100vh;
+    }
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .topbar h1 { font-size: 1.8rem; font-weight: 700; }
+    .topbar .actions { display: flex; gap: 0.6rem; align-items: center; }
+    .btn-action {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.65rem 1.2rem;
+      border-radius: 0.5rem;
+      font-family: inherit;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      border: 1px solid;
+    }
+    .btn-action.primary {
+      background: linear-gradient(135deg, var(--cyan-neon), var(--vert-neon));
+      color: #050b14;
+      border: none;
+    }
+    .btn-action.primary:hover { transform: translateY(-2px); box-shadow: 0 0 25px -5px rgba(34, 211, 238, 0.8); }
+    .btn-action.ghost {
+      background: transparent;
+      border-color: var(--bordure);
+      color: var(--texte-secondaire);
+    }
+    .btn-action.ghost:hover { border-color: var(--cyan-neon); color: var(--cyan-neon); }
+
+    .panel { display: none; }
+    .panel.actif { display: block; animation: fadeIn 0.3s ease; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    .stat-card {
+      background: linear-gradient(160deg, var(--bleu-carte), var(--fond-secondaire));
+      border: 1px solid var(--bordure);
+      border-radius: var(--rayon);
+      padding: 1.3rem 1.4rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      transition: var(--transition);
+    }
+    .stat-card:hover { border-color: rgba(34, 211, 238, 0.4); transform: translateY(-3px); }
+    .stat-card .stat-icon {
+      width: 48px; height: 48px;
+      border-radius: 0.6rem;
+      background: rgba(34, 211, 238, 0.1);
+      border: 1px solid rgba(34, 211, 238, 0.25);
+      color: var(--cyan-neon);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      flex-shrink: 0;
+    }
+    .stat-card .stat-info .nb {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--texte-principal);
+      line-height: 1;
+    }
+    .stat-card .stat-info .lbl { font-size: 0.78rem; color: var(--texte-secondaire); margin-top: 0.2rem; }
+
+    .table-card {
+      background: linear-gradient(160deg, var(--bleu-carte), var(--fond-secondaire));
+      border: 1px solid var(--bordure);
+      border-radius: var(--rayon);
+      overflow: hidden;
+      margin-bottom: 1.5rem;
+    }
+    .table-header {
+      padding: 1.2rem 1.5rem;
+      border-bottom: 1px solid var(--bordure);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+    }
+    .table-header h2 { font-size: 1.1rem; font-weight: 700; display: flex; align-items: center; gap: 0.5rem; }
+    .table-header h2 i { color: var(--cyan-neon); }
+    .table-scroll { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; min-width: 600px; }
+    thead { background: rgba(34, 211, 238, 0.05); }
+    th {
+      padding: 0.85rem 1rem;
+      text-align: left;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--cyan-neon);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      border-bottom: 1px solid var(--bordure);
+    }
+    td {
+      padding: 0.9rem 1rem;
+      font-size: 0.88rem;
+      color: var(--texte-secondaire);
+      border-bottom: 1px solid var(--bordure);
+    }
+    tbody tr:hover { background: rgba(34, 211, 238, 0.03); }
+    tbody tr:last-child td { border-bottom: none; }
+
+    .badge {
+      display: inline-block;
+      padding: 0.25rem 0.7rem;
+      border-radius: 2rem;
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+    .badge.vert { background: rgba(74, 222, 128, 0.12); color: var(--vert-neon); border: 1px solid rgba(74, 222, 128, 0.3); }
+    .badge.or { background: rgba(251, 191, 36, 0.12); color: var(--or); border: 1px solid rgba(251, 191, 36, 0.3); }
+    .badge.rose { background: rgba(244, 114, 182, 0.12); color: var(--rose); border: 1px solid rgba(244, 114, 182, 0.3); }
+    .badge.violet { background: rgba(139, 92, 246, 0.12); color: var(--violet-tech); border: 1px solid rgba(139, 92, 246, 0.3); }
+    .badge.rouge { background: rgba(239, 68, 68, 0.12); color: var(--rouge); border: 1px solid rgba(239, 68, 68, 0.3); }
+
+    .btn-icon {
+      width: 32px; height: 32px;
+      border-radius: 0.4rem;
+      border: 1px solid;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      transition: var(--transition);
+      margin-right: 0.3rem;
+      background: transparent;
+    }
+    .btn-icon.edit { border-color: rgba(34, 211, 238, 0.4); color: var(--cyan-neon); }
+    .btn-icon.edit:hover { background: var(--cyan-neon); color: #050b14; }
+    .btn-icon.delete { border-color: rgba(239, 68, 68, 0.4); color: var(--rouge); }
+    .btn-icon.delete:hover { background: var(--rouge); color: white; }
+
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(5, 11, 20, 0.85);
+      backdrop-filter: blur(8px);
+      z-index: 5000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      overflow-y: auto;
+    }
+    .modal-overlay.ouvert { display: flex; }
+    .modal-box {
+      background: var(--fond-secondaire);
+      border: 1px solid var(--bordure);
+      border-radius: var(--rayon);
+      width: 100%;
+      max-width: 700px;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
+      animation: slideUp 0.3s ease;
+    }
+    @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    .modal-header {
+      padding: 1.3rem 1.5rem;
+      border-bottom: 1px solid var(--bordure);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      background: var(--fond-secondaire);
+      z-index: 10;
+    }
+    .modal-header h2 { font-size: 1.15rem; display: flex; align-items: center; gap: 0.5rem; }
+    .modal-header h2 i { color: var(--cyan-neon); }
+    .modal-close {
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      color: var(--rouge);
+      width: 34px; height: 34px;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .modal-close:hover { background: var(--rouge); color: white; }
+    .modal-body { padding: 1.5rem; }
+
+    .form-group { margin-bottom: 1.1rem; }
+    .form-group label {
+      display: block;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--cyan-neon);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.45rem;
+    }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      background: var(--fond-principal);
+      border: 1.5px solid var(--bordure);
+      border-radius: 0.5rem;
+      color: var(--texte-principal);
+      font-family: inherit;
+      font-size: 0.92rem;
+      transition: var(--transition);
+    }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: var(--cyan-neon);
+      box-shadow: 0 0 15px -5px rgba(34, 211, 238, 0.5);
+    }
+    .form-group textarea { resize: vertical; min-height: 90px; }
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+    @media (max-width: 600px) { .form-row { grid-template-columns: 1fr; } }
+    .form-checkbox {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.7rem 1rem;
+      background: var(--fond-principal);
+      border: 1.5px solid var(--bordure);
+      border-radius: 0.5rem;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+    .form-checkbox input { width: auto; }
+    .form-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 0.7rem;
+      padding-top: 1.2rem;
+      border-top: 1px solid var(--bordure);
+      margin-top: 1.5rem;
+    }
+    .btn-submit {
+      padding: 0.75rem 1.6rem;
+      border-radius: 0.5rem;
+      font-family: inherit;
+      font-size: 0.9rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: var(--transition);
+      border: none;
+      background: linear-gradient(135deg, var(--cyan-neon), var(--vert-neon));
+      color: #050b14;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 0 25px -5px rgba(34, 211, 238, 0.8); }
+    .btn-submit:disabled { opacity: 0.5; cursor: not-allowed; }
+    .btn-cancel {
+      padding: 0.75rem 1.6rem;
+      border-radius: 0.5rem;
+      font-family: inherit;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      background: transparent;
+      border: 1px solid var(--bordure);
+      color: var(--texte-secondaire);
+    }
+    .btn-cancel:hover { border-color: var(--rouge); color: var(--rouge); }
+
+    .file-upload {
+      border: 2px dashed var(--bordure);
+      border-radius: 0.6rem;
+      padding: 1.5rem;
+      text-align: center;
+      cursor: pointer;
+      transition: var(--transition);
+      background: var(--fond-principal);
+    }
+    .file-upload:hover { border-color: var(--cyan-neon); background: rgba(34, 211, 238, 0.03); }
+    .file-upload.dragover { border-color: var(--cyan-neon); background: rgba(34, 211, 238, 0.08); }
+    .file-upload i { font-size: 2rem; color: var(--cyan-neon); margin-bottom: 0.5rem; display: block; }
+    .file-upload p { font-size: 0.88rem; color: var(--texte-secondaire); }
+    .file-upload .file-info { margin-top: 0.5rem; font-size: 0.82rem; color: var(--vert-neon); font-weight: 600; }
+
+    .loading {
+      text-align: center;
+      padding: 3rem;
+      color: var(--texte-secondaire);
+    }
+    .loading i { font-size: 2rem; color: var(--cyan-neon); animation: spin 1s linear infinite; display: block; margin-bottom: 1rem; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .empty {
+      text-align: center;
+      padding: 3rem 2rem;
+      color: var(--texte-secondaire);
+    }
+    .empty i { font-size: 3rem; color: var(--bordure); margin-bottom: 1rem; display: block; }
+    .empty h3 { color: var(--texte-principal); font-size: 1.1rem; margin-bottom: 0.4rem; }
+
+    .btn-menu {
+      display: none;
+      background: rgba(34, 211, 238, 0.1);
+      border: 1px solid rgba(34, 211, 238, 0.3);
+      color: var(--cyan-neon);
+      width: 42px; height: 42px;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+    @media (max-width: 900px) {
+      .sidebar { transform: translateX(-100%); }
+      .sidebar.ouvert { transform: translateX(0); }
+      .main { margin-left: 0; padding: 1rem; }
+      .btn-menu { display: flex; align-items: center; justify-content: center; }
+      .topbar h1 { font-size: 1.4rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <aside class="sidebar" id="sidebar">
+    <div class="sb-logo">
+      <div class="sb-icon"><i class="fas fa-atom"></i></div>
+      A SALIKI <span>PC</span>
+    </div>
+    <ul class="sb-nav">
+      <li><a data-panel="overview" class="actif"><i class="fas fa-chart-line"></i> Vue d'ensemble</a></li>
+      <li class="section-label">Contenu</li>
+      <li><a data-panel="cours"><i class="fas fa-book"></i> Cours</a></li>
+      <li><a data-panel="ressources"><i class="fas fa-file-pdf"></i> Ressources PDF</a></li>
+      <li><a data-panel="examens"><i class="fas fa-file-signature"></i> Examens</a></li>
+      <li><a data-panel="simulations"><i class="fas fa-flask"></i> Simulations</a></li>
+      <li class="section-label">Site</li>
+      <li><a data-panel="stats"><i class="fas fa-chart-bar"></i> Statistiques</a></li>
+      <li><a data-panel="temoignages"><i class="fas fa-comment"></i> Témoignages</a></li>
+      <li class="section-label">Système</li>
+      <li><a href="../index.html" target="_blank"><i class="fas fa-external-link-alt"></i> Voir le site</a></li>
+    </ul>
+    <div class="sb-footer">
+      <div class="sb-user">
+        <div class="avatar" id="userAvatar">A</div>
+        <div class="info">
+          <div class="name" id="userName">Admin</div>
+          <div class="email" id="userEmail">—</div>
+        </div>
+      </div>
+      <button class="btn-deconnexion" id="btnDeconnexion">
+        <i class="fas fa-sign-out-alt"></i> Déconnexion
+      </button>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="topbar">
+      <div style="display:flex;align-items:center;gap:1rem;">
+        <button class="btn-menu" id="btnMenu"><i class="fas fa-bars"></i></button>
+        <h1 id="pageTitle">Vue d'ensemble</h1>
+      </div>
+      <div class="actions">
+        <button class="btn-action ghost" id="btnRafraichir"><i class="fas fa-sync-alt"></i> Rafraîchir</button>
+      </div>
+    </div>
+
+    <section class="panel actif" id="panel-overview">
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon"><i class="fas fa-book"></i></div>
+          <div class="stat-info"><div class="nb" id="nbCours">—</div><div class="lbl">Cours</div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon"><i class="fas fa-file-pdf"></i></div>
+          <div class="stat-info"><div class="nb" id="nbRessources">—</div><div class="lbl">Ressources</div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon"><i class="fas fa-file-signature"></i></div>
+          <div class="stat-info"><div class="nb" id="nbExamens">—</div><div class="lbl">Examens</div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon"><i class="fas fa-flask"></i></div>
+          <div class="stat-info"><div class="nb" id="nbSimulations">—</div><div class="lbl">Simulations</div></div>
+        </div>
+      </div>
+      <div class="table-card">
+        <div class="table-header">
+          <h2><i class="fas fa-clock"></i> Dernières ressources ajoutées</h2>
+        </div>
+        <div id="apercuRecent">
+          <div class="loading"><i class="fas fa-spinner"></i><p>Chargement...</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel" id="panel-cours">
+      <div class="table-card">
+        <div class="table-header">
+          <h2><i class="fas fa-book"></i> Gestion des cours</h2>
+          <button class="btn-action primary" onclick="ouvrirModalCours()"><i class="fas fa-plus"></i> Ajouter un cours</button>
+        </div>
+        <div id="listeCours">
+          <div class="loading"><i class="fas fa-spinner"></i><p>Chargement...</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel" id="panel-ressources">
+      <div class="table-card">
+        <div class="table-header">
+          <h2><i class="fas fa-file-pdf"></i> Gestion des ressources PDF</h2>
+          <button class="btn-action primary" onclick="ouvrirModalRessource()"><i class="fas fa-upload"></i> Ajouter une ressource</button>
+        </div>
+        <div id="listeRessources">
+          <div class="loading"><i class="fas fa-spinner"></i><p>Chargement...</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel" id="panel-examens">
+      <div class="table-card">
+        <div class="table-header">
+          <h2><i class="fas fa-file-signature"></i> Gestion des examens</h2>
+          <button class="btn-action primary" onclick="ouvrirModalExamen()"><i class="fas fa-plus"></i> Ajouter un examen</button>
+        </div>
+        <div id="listeExamens">
+          <div class="loading"><i class="fas fa-spinner"></i><p>Chargement...</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel" id="panel-simulations">
+      <div class="table-card">
+        <div class="table-header">
+          <h2><i class="fas fa-flask"></i> Gestion des simulations</h2>
+          <button class="btn-action primary" onclick="ouvrirModalSimulation()"><i class="fas fa-plus"></i> Ajouter une simulation</button>
+        </div>
+        <div id="listeSimulations">
+          <div class="loading"><i class="fas fa-spinner"></i><p>Chargement...</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel" id="panel-stats">
+      <div class="table-card">
+        <div class="table-header">
+          <h2><i class="fas fa-chart-bar"></i> Statistiques de la page d'accueil</h2>
+        </div>
+        <div id="listeStats">
+          <div class="loading"><i class="fas fa-spinner"></i><p>Chargement...</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel" id="panel-temoignages">
+      <div class="table-card">
+        <div class="table-header">
+          <h2><i class="fas fa-comment"></i> Gestion des témoignages</h2>
+          <button class="btn-action primary" onclick="ouvrirModalTemoignage()"><i class="fas fa-plus"></i> Ajouter un témoignage</button>
+        </div>
+        <div id="listeTemoignages">
+          <div class="loading"><i class="fas fa-spinner"></i><p>Chargement...</p></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h2 id="modalTitle"><i class="fas fa-edit"></i> Formulaire</h2>
+        <button class="modal-close" onclick="fermerModal()"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="modal-body" id="modalBody"></div>
+    </div>
+  </div>
+
+  <script src="supabase-config.js"></script>
+  <script>
+    let currentUser = null;
+    let currentPanel = 'overview';
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      const session = await protegerPage();
+      if (!session) return;
+      currentUser = session.user;
+      const email = currentUser.email || '';
+      document.getElementById('userName').textContent = email.split('@')[0] || 'Admin';
+      document.getElementById('userEmail').textContent = email;
+      document.getElementById('userAvatar').textContent = (email[0] || 'A').toUpperCase();
+      bindEvents();
+      chargerOverview();
+    });
+
+    function bindEvents() {
+      document.querySelectorAll('.sb-nav a[data-panel]').forEach(a => {
+        a.addEventListener('click', () => {
+          const panel = a.getAttribute('data-panel');
+          changerPanel(panel);
+          document.querySelectorAll('.sb-nav a').forEach(x => x.classList.remove('actif'));
+          a.classList.add('actif');
+          document.getElementById('sidebar').classList.remove('ouvert');
+        });
+      });
+      document.getElementById('btnDeconnexion').addEventListener('click', async () => {
+        if (confirm('Se déconnecter ?')) await deconnexion();
+      });
+      document.getElementById('btnRafraichir').addEventListener('click', () => {
+        chargerPanel(currentPanel);
+        afficherMessage('Données rafraîchies', 'succes');
+      });
+      document.getElementById('btnMenu').addEventListener('click', () => {
+        document.getElementById('sidebar').classList.toggle('ouvert');
+      });
+      document.getElementById('modalOverlay').addEventListener('click', (e) => {
+        if (e.target.id === 'modalOverlay') fermerModal();
+      });
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') fermerModal();
+      });
+    }
+
+    const titresPanel = {
+      overview: "Vue d'ensemble",
+      cours: 'Gestion des cours',
+      ressources: 'Ressources PDF',
+      examens: 'Gestion des examens',
+      simulations: 'Simulations',
+      stats: 'Statistiques',
+      temoignages: 'Témoignages'
+    };
+
+    function changerPanel(panel) {
+      currentPanel = panel;
+      document.querySelectorAll('.panel').forEach(p => p.classList.remove('actif'));
+      document.getElementById('panel-' + panel).classList.add('actif');
+      document.getElementById('pageTitle').textContent = titresPanel[panel] || panel;
+      chargerPanel(panel);
+    }
+
+    function chargerPanel(panel) {
+      switch (panel) {
+        case 'overview': chargerOverview(); break;
+        case 'cours': chargerCours(); break;
+        case 'ressources': chargerRessources(); break;
+        case 'examens': chargerExamens(); break;
+        case 'simulations': chargerSimulations(); break;
+        case 'stats': chargerStats(); break;
+        case 'temoignages': chargerTemoignages(); break;
+      }
+    }
+
+    async function chargerOverview() {
+      try {
+        const [c, r, e, s] = await Promise.all([
+          lireTable('cours'), lireTable('ressources'),
+          lireTable('examens'), lireTable('simulations')
+        ]);
+        document.getElementById('nbCours').textContent = c.length;
+        document.getElementById('nbRessources').textContent = r.length;
+        document.getElementById('nbExamens').textContent = e.length;
+        document.getElementById('nbSimulations').textContent = s.length;
+        const recent = r.slice(0, 5);
+        const container = document.getElementById('apercuRecent');
+        if (recent.length === 0) {
+          container.innerHTML = '<div class="empty"><i class="fas fa-inbox"></i><h3>Aucune ressource</h3><p>Commencez par ajouter une ressource PDF.</p></div>';
+        } else {
+          container.innerHTML = `
+            <div class="table-scroll">
+              <table>
+                <thead><tr><th>Titre</th><th>Type</th><th>Date</th></tr></thead>
+                <tbody>
+                  ${recent.map(x => `
+                    <tr>
+                      <td>${x.titre_fr || '—'}</td>
+                      <td><span class="badge violet">${x.type || '—'}</span></td>
+                      <td>${formaterDate(x.created_at)}</td>
+                    </tr>
+                  `).join('')}
+                </tbody>
+              </table>
+            </div>
+          `;
+        }
+      } catch (err) {
+        afficherMessage('Erreur chargement : ' + err.message, 'erreur');
+      }
+    }
+
+    async function chargerCours() {
+      const container = document.getElementById('listeCours');
+      try {
+        const data = await lireTable('cours', { ordre: { col: 'created_at', asc: false } });
+        if (data.length === 0) {
+          container.innerHTML = '<div class="empty"><i class="fas fa-inbox"></i><h3>Aucun cours</h3><p>Cliquez sur "Ajouter un cours".</p></div>';
+          return;
+        }
+        container.innerHTML = `
+          <div class="table-scroll">
+            <table>
+              <thead><tr><th>Titre</th><th>Niveau</th><th>Matière</th><th>Statut</th><th>Publié</th><th>Actions</th></tr></thead>
+              <tbody>
+                ${data.map(c => `
+                  <tr>
+                    <td><strong style="color:#fff">${c.titre_fr}</strong></td>
+                    <td><span class="badge violet">${c.niveau}</span></td>
+                    <td>${c.matiere}</td>
+                    <td><span class="badge ${c.statut === 'gratuit' ? 'vert' : 'or'}">${c.statut}</span></td>
+                    <td><span class="badge ${c.publie ? 'vert' : 'rouge'}">${c.publie ? 'Oui' : 'Non'}</span></td>
+                    <td>
+                      <button class="btn-icon edit" onclick='editerCours(${JSON.stringify(c).replace(/'/g, "&#39;")})'><i class="fas fa-edit"></i></button>
+                      <button class="btn-icon delete" onclick="supprimerCours('${c.id}')"><i class="fas fa-trash"></i></button>
+                    </td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          </div>
+        `;
+      } catch (err) {
+        container.innerHTML = `<div class="empty"><i class="fas fa-exclamation-triangle"></i><h3>Erreur</h3><p>${err.message}</p></div>`;
+      }
+    }
+
+    async function chargerRessources() {
+      const container = document.getElementById('listeRessources');
+      try {
+        const data = await lireTable('ressources', { ordre: { col: 'created_at', asc: false } });
+        if (data.length === 0) {
+          container.innerHTML = '<div class="empty"><i class="fas fa-inbox"></i><h3>Aucune ressource</h3><p>Uploadez votre premier PDF.</p></div>';
+          return;
+        }
+        container.innerHTML = `
+          <div class="table-scroll">
+            <table>
+              <thead><tr><th>Titre</th><th>Type</th><th>Taille</th><th>Publié</th><th>Actions</th></tr></thead>
+              <tbody>
+                ${data.map(r => `
+                  <tr>
+                    <td><strong style="color:#fff">${r.titre_fr}</strong></td>
+                    <td><span class="badge violet">${r.type}</span></td>
+                    <td>${r.taille || '—'}</td>
+                    <td><span class="badge ${r.publie ? 'vert' : 'rouge'}">${r.publie ? 'Oui' : 'Non'}</span></td>
+                    <td>
+                      ${r.fichier_url ? `<a class="btn-icon edit" href="${r.fichier_url}" target="_blank"><i class="fas fa-eye"></i></a>` : ''}
+                      <button class="btn-icon delete" onclick="supprimerRessource('${r.id}', '${r.fichier_url || ''}')"><i class="fas fa-trash"></i></button>
+                    </td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          </div>
+        `;
+      } catch (err) {
+        container.innerHTML = `<div class="empty"><i class="fas fa-exclamation-triangle"></i><h3>Erreur</h3><p>${err.message}</p></div>`;
+      }
+    }
+
+    async function chargerExamens() {
+      const container = document.getElementById('listeExamens');
+      try {
+        const data = await lireTable('examens', { ordre: { col: 'annee', asc: false } });
+        if (data.length === 0) {
+          container.innerHTML = '<div class="empty"><i class="fas fa-inbox"></i><h3>Aucun examen</h3></div>';
+          return;
+        }
+        container.innerHTML = `
+          <div class="table-scroll">
+            <table>
+              <thead><tr><th>Titre</th><th>Niveau</th><th>Type</th><th>Année</th><th>Publié</th><th>Actions</th></tr></thead>
+              <tbody>
+                ${data.map(e => `
+                  <tr>
+                    <td><strong style="color:#fff">${e.titre_fr}</strong></td>
+                    <td><span class="badge violet">${e.niveau}</span></td>
+                    <td><span class="badge rose">${e.type}</span></td>
+                    <td>${e.annee}</td>
+                    <td><span class="badge ${e.publie ? 'vert' : 'rouge'}">${e.publie ? 'Oui' : 'Non'}</span></td>
+                    <td>
+                      <button class="btn-icon edit" onclick='editerExamen(${JSON.stringify(e).replace(/'/g, "&#39;")})'><i class="fas fa-edit"></i></button>
+                      <button class="btn-icon delete" onclick="supprimerExamen('${e.id}')"><i class="fas fa-trash"></i></button>
+                    </td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          </div>
+        `;
+      } catch (err) {
+        container.innerHTML = `<div class="empty"><i class="fas fa-exclamation-triangle"></i><h3>Erreur</h3><p>${err.message}</p></div>`;
+      }
+    }
+
+    async function chargerSimulations() {
+      const container = document.getElementById('listeSimulations');
+      try {
+        const data = await lireTable('simulations', { ordre: { col: 'ordre', asc: true } });
+        if (data.length === 0) {
+          container.innerHTML = '<div class="empty"><i class="fas fa-inbox"></i><h3>Aucune simulation</h3></div>';
+          return;
+        }
+        container.innerHTML = `
+          <div class="table-scroll">
+            <table>
+              <thead><tr><th>Titre</th><th>Catégorie</th><th>Publié</th><th>Actions</th></tr></thead>
+              <tbody>
+                ${data.map(s => `
+                  <tr>
+                    <td><strong style="color:#fff">${s.titre_fr}</strong></td>
+                    <td><span class="badge violet">${s.categorie}</span></td>
+                    <td><span class="badge ${s.publie ? 'vert' : 'rouge'}">${s.publie ? 'Oui' : 'Non'}</span></td>
+                    <td>
+                      <button class="btn-icon edit" onclick='editerSimulation(${JSON.stringify(s).replace(/'/g, "&#39;")})'><i class="fas fa-edit"></i></button>
+                      <button class="btn-icon delete" onclick="supprimerSimulation('${s.id}')"><i class="fas fa-trash"></i></button>
+                    </td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          </div>
+        `;
+      } catch (err) {
+        container.innerHTML = `<div class="empty"><i class="fas fa-exclamation-triangle"></i><h3>Erreur</h3><p>${err.message}</p></div>`;
+      }
+    }
+
+    async function chargerStats() {
+      const container = document.getElementById('listeStats');
+      try {
+        const data = await lireTable('stats', { ordre: { col: 'ordre', asc: true } });
+        if (data.length === 0) {
+          container.innerHTML = '<div class="empty"><i class="fas fa-inbox"></i><h3>Aucune statistique</h3></div>';
+          return;
+        }
+        container.innerHTML = `
+          <div class="table-scroll">
+            <table>
+              <thead><tr><th>Clé</th><th>Valeur</th><th>Libellé FR</th><th>Libellé AR</th><th>Actions</th></tr></thead>
+              <tbody>
+                ${data.map(s => `
+                  <tr>
+                    <td><span class="badge violet">${s.cle}</span></td>
+                    <td><strong style="color:#fff">${s.valeur}</strong></td>
+                    <td>${s.libelle_fr}</td>
+                    <td>${s.libelle_ar}</td>
+                    <td><button class="btn-icon edit" onclick='editerStat(${JSON.stringify(s).replace(/'/g, "&#39;")})'><i class="fas fa-edit"></i></button></td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          </div>
+        `;
+      } catch (err) {
+        container.innerHTML = `<div class="empty"><i class="fas fa-exclamation-triangle"></i><h3>Erreur</h3><p>${err.message}</p></div>`;
+      }
+    }
+
+    async function chargerTemoignages() {
+      const container = document.getElementById('listeTemoignages');
+      try {
+        const data = await lireTable('temoignages', { ordre: { col: 'ordre', asc: true } });
+        if (data.length === 0) {
+          container.innerHTML = '<div class="empty"><i class="fas fa-inbox"></i><h3>Aucun témoignage</h3></div>';
+          return;
+        }
+        container.innerHTML = `
+          <div class="table-scroll">
+            <table>
+              <thead><tr><th>Prénom</th><th>Niveau</th><th>Commentaire</th><th>Publié</th><th>Actions</th></tr></thead>
+              <tbody>
+                ${data.map(t => `
+                  <tr>
+                    <td><strong style="color:#fff">${t.prenom}</strong></td>
+                    <td>${t.niveau_fr || '—'}</td>
+                    <td>${(t.commentaire_fr || '').substring(0, 50)}...</td>
+                    <td><span class="badge ${t.publie ? 'vert' : 'rouge'}">${t.publie ? 'Oui' : 'Non'}</span></td>
+                    <td>
+                      <button class="btn-icon edit" onclick='editerTemoignage(${JSON.stringify(t).replace(/'/g, "&#39;")})'><i class="fas fa-edit"></i></button>
+                      <button class="btn-icon delete" onclick="supprimerTemoignage('${t.id}')"><i class="fas fa-trash"></i></button>
+                    </td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          </div>
+        `;
+      } catch (err) {
+        container.innerHTML = `<div class="empty"><i class="fas fa-exclamation-triangle"></i><h3>Erreur</h3><p>${err.message}</p></div>`;
+      }
+    }
+
+    function ouvrirModal(titre, contenu) {
+      document.getElementById('modalTitle').innerHTML = '<i class="fas fa-edit"></i> ' + titre;
+      document.getElementById('modalBody').innerHTML = contenu;
+      document.getElementById('modalOverlay').classList.add('ouvert');
+    }
+
+    function fermerModal() {
+      document.getElementById('modalOverlay').classList.remove('ouvert');
+    }
+
+    function ouvrirModalCours(data = null) {
+      const d = data || {};
+      const editing = !!data;
+      const contenu = `
+        <div class="form-row">
+          <div class="form-group"><label>Titre (FR)</label><input type="text" id="c_titre_fr" value="${d.titre_fr || ''}"></div>
+          <div class="form-group"><label>Titre (AR)</label><input type="text" id="c_titre_ar" value="${d.titre_ar || ''}"></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Niveau</label>
+            <select id="c_niveau">
+              <option value="tronc" ${d.niveau === 'tronc' ? 'selected' : ''}>Tronc Commun</option>
+              <option value="1bac" ${d.niveau === '1bac' ? 'selected' : ''}>1ère Bac</option>
+              <option value="2bacpc" ${d.niveau === '2bacpc' ? 'selected' : ''}>2ème Bac PC</option>
+              <option value="2bacsvt" ${d.niveau === '2bacsvt' ? 'selected' : ''}>2ème Bac SVT</option>
+            </select>
+          </div>
+          <div class="form-group"><label>Matière</label>
+            <select id="c_matiere">
+              <option value="physique" ${d.matiere === 'physique' ? 'selected' : ''}>Physique</option>
+              <option value="chimie" ${d.matiere === 'chimie' ? 'selected' : ''}>Chimie</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Chapitre (FR)</label><input type="text" id="c_chapitre_fr" value="${d.chapitre_fr || ''}"></div>
+          <div class="form-group"><label>Chapitre (AR)</label><input type="text" id="c_chapitre_ar" value="${d.chapitre_ar || ''}"></div>
+        </div>
+        <div class="form-group"><label>Description (FR)</label><textarea id="c_desc_fr">${d.description_fr || ''}</textarea></div>
+        <div class="form-group"><label>Description (AR)</label><textarea id="c_desc_ar">${d.description_ar || ''}</textarea></div>
+        <div class="form-row">
+          <div class="form-group"><label>Icône</label><input type="text" id="c_icone" value="${d.icone || 'fa-book'}"></div>
+          <div class="form-group"><label>Statut</label>
+            <select id="c_statut">
+              <option value="gratuit" ${d.statut === 'gratuit' ? 'selected' : ''}>Gratuit</option>
+              <option value="premium" ${d.statut === 'premium' ? 'selected' : ''}>Premium</option>
+            </select>
+          </div>
+        </div>
+        <label class="form-checkbox"><input type="checkbox" id="c_publie" ${d.publie !== false ? 'checked' : ''}> Publier ce cours</label>
+        <div class="form-actions">
+          <button class="btn-cancel" onclick="fermerModal()">Annuler</button>
+          <button class="btn-submit" onclick="sauvegarderCours(${editing ? `'${d.id}'` : 'null'})"><i class="fas fa-save"></i> Enregistrer</button>
+        </div>
+      `;
+      ouvrirModal(editing ? 'Modifier le cours' : 'Ajouter un cours', contenu);
+    }
+
+    async function sauvegarderCours(id) {
+      const data = {
+        titre_fr: document.getElementById('c_titre_fr').value,
+        titre_ar: document.getElementById('c_titre_ar').value,
+        niveau: document.getElementById('c_niveau').value,
+        matiere: document.getElementById('c_matiere').value,
+        chapitre_fr: document.getElementById('c_chapitre_fr').value,
+        chapitre_ar: document.getElementById('c_chapitre_ar').value,
+        description_fr: document.getElementById('c_desc_fr').value,
+        description_ar: document.getElementById('c_desc_ar').value,
+        icone: document.getElementById('c_icone').value,
+        statut: document.getElementById('c_statut').value,
+        publie: document.getElementById('c_publie').checked
+      };
+      try {
+        if (id) await modifierLigne('cours', id, data);
+        else await insererLigne('cours', data);
+        afficherMessage('Cours enregistré !', 'succes');
+        fermerModal();
+        chargerCours();
+      } catch (err) { afficherMessage('Erreur : ' + err.message, 'erreur'); }
+    }
+
+    function editerCours(c) { ouvrirModalCours(c); }
+
+    async function supprimerCours(id) {
+      if (!confirm('Supprimer ce cours ?')) return;
+      try {
+        await supprimerLigne('cours', id);
+        afficherMessage('Cours supprimé', 'succes');
+        chargerCours();
+      } catch (err) { afficherMessage('Erreur : ' + err.message, 'erreur'); }
+    }
+
+    function ouvrirModalRessource() {
+      const contenu = `
+        <div class="form-group">
+          <label>Fichier PDF</label>
+          <div class="file-upload" id="fileUpload">
+            <i class="fas fa-cloud-upload-alt"></i>
+            <p>Cliquez ou glissez-déposez votre PDF</p>
+            <input type="file" id="fileInput" accept="application/pdf" hidden>
+            <div class="file-info" id="fileInfo"></div>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Titre (FR)</label><input type="text" id="r_titre_fr"></div>
+          <div class="form-group"><label>Titre (AR)</label><input type="text" id="r_titre_ar"></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Type</label>
+            <select id="r_type">
+              <option value="cours">Cours</option>
+              <option value="exercice">Exercice</option>
+              <option value="corrige">Corrigé</option>
+              <option value="examen">Examen</option>
+              <option value="fiche">Fiche</option>
+            </select>
+          </div>
+          <div class="form-group"><label>Taille</label><input type="text" id="r_taille" placeholder="ex: 2.4 Mo"></div>
+        </div>
+        <label class="form-checkbox"><input type="checkbox" id="r_publie" checked> Publier cette ressource</label>
+        <div class="form-actions">
+          <button class="btn-cancel" onclick="fermerModal()">Annuler</button>
+          <button class="btn-submit" id="btnSaveRessource"><i class="fas fa-upload"></i> Uploader</button>
+        </div>
+      `;
+      ouvrirModal('Ajouter une ressource', contenu);
+      const fu = document.getElementById('fileUpload');
+      const fi = document.getElementById('fileInput');
+      const finfo = document.getElementById('fileInfo');
+      let fichier = null;
+      fu.addEventListener('click', () => fi.click());
+      fu.addEventListener('dragover', e => { e.preventDefault(); fu.classList.add('dragover'); });
+      fu.addEventListener('dragleave', () => fu.classList.remove('dragover'));
+      fu.addEventListener('drop', e => {
+        e.preventDefault(); fu.classList.remove('dragover');
+        if (e.dataTransfer.files.length) { fichier = e.dataTransfer.files[0]; finfo.textContent = fichier.name; }
+      });
+      fi.addEventListener('change', e => {
+        if (e.target.files.length) { fichier = e.target.files[0]; finfo.textContent = fichier.name; }
+      });
+      document.getElementById('btnSaveRessource').addEventListener('click', async () => {
+        const titre_fr = document.getElementById('r_titre_fr').value;
+        const titre_ar = document.getElementById('r_titre_ar').value;
+        const type = document.getElementById('r_type').value;
+        const taille = document.getElementById('r_taille').value;
+        const publie = document.getElementById('r_publie').checked;
+        if (!titre_fr) { afficherMessage('Le titre FR est obligatoire', 'erreur'); return; }
+        if (!fichier) { afficherMessage('Veuillez sélectionner un PDF', 'erreur'); return; }
+        const btn = document.getElementById('btnSaveRessource');
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Upload...';
+        try {
+          const chemin = `${type}/${Date.now()}_${fichier.name}`;
+          const url = await uploaderFichier(fichier, chemin);
+          await insererLigne('ressources', {
+            titre_fr, titre_ar, type, taille, publie,
+            fichier_url: url, description_fr: '', description_ar: ''
+          });
+          afficherMessage('Ressource uploadée !', 'succes');
+          fermerModal();
+          chargerRessources();
+        } catch (err) {
+          afficherMessage('Erreur : ' + err.message, 'erreur');
+          btn.disabled = false;
+          btn.innerHTML = '<i class="fas fa-upload"></i> Uploader';
+        }
+      });
+    }
+
+    async function supprimerRessource(id, url) {
+      if (!confirm('Supprimer cette ressource ?')) return;
+      try {
+        if (url && url.includes('ressources-pdf')) {
+          const chemin = url.split('/ressources-pdf/')[1];
+          if (chemin) await supprimerFichier(chemin);
+        }
+        await supprimerLigne('ressources', id);
+        afficherMessage('Ressource supprimée', 'succes');
+        chargerRessources();
+      } catch (err) { afficherMessage('Erreur : ' + err.message, 'erreur'); }
+    }
+
+    function ouvrirModalExamen(data = null) {
+      const d = data || {};
+      const editing = !!data;
+      const contenu = `
+        <div class="form-row">
+          <div class="form-group"><label>Titre (FR)</label><input type="text" id="e_titre_fr" value="${d.titre_fr || ''}"></div>
+          <div class="form-group"><label>Titre (AR)</label><input type="text" id="e_titre_ar" value="${d.titre_ar || ''}"></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Niveau</label>
+            <select id="e_niveau">
+              <option value="2bacpc" ${d.niveau === '2bacpc' ? 'selected' : ''}>2ème Bac PC</option>
+              <option value="2bacsvt" ${d.niveau === '2bacsvt' ? 'selected' : ''}>2ème Bac SVT</option>
+              <option value="1bac" ${d.niveau === '1bac' ? 'selected' : ''}>1ère Bac</option>
+              <option value="tronc" ${d.niveau === 'tronc' ? 'selected' : ''}>Tronc Commun</option>
+            </select>
+          </div>
+          <div class="form-group"><label>Type</label>
+            <select id="e_type">
+              <option value="controle" ${d.type === 'controle' ? 'selected' : ''}>Contrôle</option>
+              <option value="regional" ${d.type === 'regional' ? 'selected' : ''}>Régional</option>
+              <option value="national" ${d.type === 'national' ? 'selected' : ''}>National</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Année</label><input type="number" id="e_annee" value="${d.annee || 2024}"></div>
+          <div class="form-group"><label>Durée (min)</label><input type="number" id="e_duree" value="${d.duree || 120}"></div>
+        </div>
+        <div class="form-group"><label>Description (FR)</label><textarea id="e_desc_fr">${d.description_fr || ''}</textarea></div>
+        <label class="form-checkbox"><input type="checkbox" id="e_publie" ${d.publie !== false ? 'checked' : ''}> Publier</label>
+        <div class="form-actions">
+          <button class="btn-cancel" onclick="fermerModal()">Annuler</button>
+          <button class="btn-submit" onclick="sauvegarderExamen(${editing ? `'${d.id}'` : 'null'})"><i class="fas fa-save"></i> Enregistrer</button>
+        </div>
+      `;
+      ouvrirModal(editing ? "Modifier l'examen" : 'Ajouter un examen', contenu);
+    }
+
+    async function sauvegarderExamen(id) {
+      const data = {
+        titre_fr: document.getElementById('e_titre_fr').value,
+        titre_ar: document.getElementById('e_titre_ar').value,
+        niveau: document.getElementById('e_niveau').value,
+        type: document.getElementById('e_type').value,
+        annee: parseInt(document.getElementById('e_annee').value),
+        duree: parseInt(document.getElementById('e_duree').value),
+        description_fr: document.getElementById('e_desc_fr').value,
+        publie: document.getElementById('e_publie').checked,
+        matiere: 'pc'
+      };
+      try {
+        if (id) await modifierLigne('examens', id, data);
+        else await insererLigne('examens', data);
+        afficherMessage('Examen enregistré !', 'succes');
+        fermerModal();
+        chargerExamens();
+      } catch (err) { afficherMessage('Erreur : ' + err.message, 'erreur'); }
+    }
+
+    function editerExamen(e) { ouvrirModalExamen(e); }
+
+    async function supprimerExamen(id) {
+      if (!confirm('Supprimer cet examen ?')) return;
+      try {
+        await supprimerLigne('examens', id);
+        afficherMessage('Examen supprimé', 'succes');
+        chargerExamens();
+      } catch (err) { afficherMessage('Erreur : ' + err.message, 'erreur'); }
+    }
+
+    function ouvrirModalSimulation(data = null) {
+      const d = data || {};
+      const editing = !!data;
+      const contenu = `
+        <div class="form-row">
+          <div class="form-group"><label>Titre (FR)</label><input type="text" id="s_titre_fr" value="${d.titre_fr || ''}"></div>
+          <div class="form-group"><label>Titre (AR)</label><input type="text" id="s_titre_ar" value="${d.titre_ar || ''}"></div>
+        </div>
+        <div class="form-group"><label>Catégorie</label>
+          <select id="s_categorie">
+            <option value="ondes" ${d.categorie === 'ondes' ? 'selected' : ''}>Ondes</option>
+            <option value="cinetique" ${d.categorie === 'cinetique' ? 'selected' : ''}>Cinétique</option>
+            <option value="nucleaire" ${d.categorie === 'nucleaire' ? 'selected' : ''}>Nucléaire</option>
+            <option value="mecanique" ${d.categorie === 'mecanique' ? 'selected' : ''}>Mécanique</option>
+            <option value="electricite" ${d.categorie === 'electricite' ? 'selected' : ''}>Électricité</option>
+          </select>
+        </div>
+        <div class="form-group"><label>Description (FR)</label><textarea id="s_desc_fr">${d.description_fr || ''}</textarea></div>
+        <div class="form-group"><label>Icône</label><input type="text" id="s_icone" value="${d.icone || 'fa-flask'}"></div>
+        <div class="form-group"><label>Ordre</label><input type="number" id="s_ordre" value="${d.ordre || 0}"></div>
+        <label class="form-checkbox"><input type="checkbox" id="s_publie" ${d.publie !== false ? 'checked' : ''}> Publier</label>
+        <div class="form-actions">
+          <button class="btn-cancel" onclick="fermerModal()">Annuler</button>
+          <button class="btn-submit" onclick="sauvegarderSimulation(${editing ? `'${d.id}'` : 'null'})"><i class="fas fa-save"></i> Enregistrer</button>
+        </div>
+      `;
+      ouvrirModal(editing ? 'Modifier la simulation' : 'Ajouter une simulation', contenu);
+    }
+
+    async function sauvegarderSimulation(id) {
+      const data = {
+        titre_fr: document.getElementById('s_titre_fr').value,
+        titre_ar: document.getElementById('s_titre_ar').value,
+        categorie: document.getElementById('s_categorie').value,
+        description_fr: document.getElementById('s_desc_fr').value,
+        icone: document.getElementById('s_icone').value,
+        ordre: parseInt(document.getElementById('s_ordre').value),
+        publie: document.getElementById('s_publie').checked
+      };
+      try {
+        if (id) await modifierLigne('simulations', id, data);
+        else await insererLigne('simulations', data);
+        afficherMessage('Simulation enregistrée !', 'succes');
+        fermerModal();
+        chargerSimulations();
+      } catch (err) { afficherMessage('Erreur : ' + err.message, 'erreur'); }
+    }
+
+    function editerSimulation(s) { ouvrirModalSimulation(s); }
+
+    async function supprimerSimulation(id) {
+      if (!confirm('Supprimer ?')) return;
+      try {
+        await supprimerLigne('simulations', id);
+        afficherMessage('Simulation supprimée', 'succes');
+        chargerSimulations();
+      } catch (err) { afficherMessage('Erreur : ' + err.message, 'erreur'); }
+    }
+
+    function ouvrirModalStat(data = null) {
+      const d = data || {};
+      const contenu = `
+        <div class="form-group"><label>Clé</label><input type="text" id="st_cle" value="${d.cle || ''}" readonly></div>
+        <div class="form-group"><label>Valeur</label><input type="text" id="st_valeur" value="${d.valeur || ''}"></div>
+        <div class="form-row">
+          <div class="form-group"><label>Libellé FR</label><input type="text" id="st_lib_fr" value="${d.libelle_fr || ''}"></div>
+          <div class="form-group"><label>Libellé AR</label><input type="text" id="st_lib_ar" value="${d.libelle_ar || ''}"></div>
+        </div>
+        <div class="form-group"><label>Ordre</label><input type="number" id="st_ordre" value="${d.ordre || 0}"></div>
+        <div class="form-actions">
+          <button class="btn-cancel" onclick="fermerModal()">Annuler</button>
+          <button class="btn-submit" onclick="sauvegarderStat('${d.id}')"><i class="fas fa-save"></i> Enregistrer</button>
+        </div>
+      `;
+      ouvrirModal('Modifier la statistique', contenu);
+    }
+
+    async function sauvegarderStat(id) {
+      const data = {
+        valeur: document.getElementById('st_valeur').value,
+        libelle_fr: document.getElementById('st_lib_fr').value,
+        libelle_ar: document.getElementById('st_lib_ar').value,
+        ordre: parseInt(document.getElementById('st_ordre').value)
+      };
+      try {
+        await modifierLigne('stats', id, data);
+        afficherMessage('Statistique enregistrée !', 'succes');
+        fermerModal();
+        chargerStats();
+      } catch (err) { afficherMessage('Erreur : ' + err.message, 'erreur'); }
+    }
+
+    function editerStat(s) { ouvrirModalStat(s); }
+
+    function ouvrirModalTemoignage(data = null) {
+      const d = data || {};
+      const editing = !!data;
+      const contenu = `
+        <div class="form-group"><label>Prénom</label><input type="text" id="t_prenom" value="${d.prenom || ''}"></div>
+        <div class="form-row">
+          <div class="form-group"><label>Niveau FR</label><input type="text" id="t_niv_fr" value="${d.niveau_fr || ''}"></div>
+          <div class="form-group"><label>Niveau AR</label><input type="text" id="t_niv_ar" value="${d.niveau_ar || ''}"></div>
+        </div>
+        <div class="form-group"><label>Commentaire FR</label><textarea id="t_com_fr">${d.commentaire_fr || ''}</textarea></div>
+        <div class="form-group"><label>Commentaire AR</label><textarea id="t_com_ar">${d.commentaire_ar || ''}</textarea></div>
+        <div class="form-group"><label>Ordre</label><input type="number" id="t_ordre" value="${d.ordre || 0}"></div>
+        <label class="form-checkbox"><input type="checkbox" id="t_publie" ${d.publie !== false ? 'checked' : ''}> Publier</label>
+        <div class="form-actions">
+          <button class="btn-cancel" onclick="fermerModal()">Annuler</button>
+          <button class="btn-submit" onclick="sauvegarderTemoignage(${editing ? `'${d.id}'` : 'null'})"><i class="fas fa-save"></i> Enregistrer</button>
+        </div>
+      `;
+      ouvrirModal(editing ? 'Modifier le témoignage' : 'Ajouter un témoignage', contenu);
+    }
+
+    async function sauvegarderTemoignage(id) {
+      const data = {
+        prenom: document.getElementById('t_prenom').value,
+        niveau_fr: document.getElementById('t_niv_fr').value,
+        niveau_ar: document.getElementById('t_niv_ar').value,
+        commentaire_fr: document.getElementById('t_com_fr').value,
+        commentaire_ar: document.getElementById('t_com_ar').value,
+        ordre: parseInt(document.getElementById('t_ordre').value),
+        publie: document.getElementById('t_publie').checked
+      };
+      try {
+        if (id) await modifierLigne('temoignages', id, data);
+        else await insererLigne('temoignages', data);
+        afficherMessage('Témoignage enregistré !', 'succes');
+        fermerModal();
+        chargerTemoignages();
+      } catch (err) { afficherMessage('Erreur : ' + err.message, 'erreur'); }
+    }
+
+    function editerTemoignage(t) { ouvrirModalTemoignage(t); }
+
+    async function supprimerTemoignage(id) {
+      if (!confirm('Supprimer ?')) return;
+      try {
+        await supprimerLigne('temoignages', id);
+        afficherMessage('Témoignage supprimé', 'succes');
+        chargerTemoignages();
+      } catch (err) { afficherMessage('Erreur : ' + err.message, 'erreur'); }
+    }
+  </script>
+</body>
+</html>
