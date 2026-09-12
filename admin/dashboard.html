@@ -1127,7 +1127,11 @@
         btn.disabled = true;
         btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Upload...';
         try {
-          const chemin = `${type}/${Date.now()}_${fichier.name}`;
+          const nomSecurise = fichier.name
+            .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+            .replace(/[^a-zA-Z0-9._-]/g, '_')
+            .replace(/_+/g, '_');
+          const chemin = `${type}/${Date.now()}_${nomSecurise}`;
           const url = await uploaderFichier(fichier, chemin);
           await insererLigne('ressources', {
             titre_fr, titre_ar, type, taille, publie,
