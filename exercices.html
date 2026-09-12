@@ -1,0 +1,1190 @@
+<!DOCTYPE html>
+<html lang="fr" id="htmlRoot">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Exercices — A SALIKI PC</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+  <style>
+    :root {
+      --noir-profond: #050b14;
+      --bleu-nuit: #0a1428;
+      --bleu-carte: #0f1e38;
+      --bleu-bordure: #1a2f52;
+      --cyan-neon: #22d3ee;
+      --cyan-clair: #67e8f9;
+      --vert-neon: #4ade80;
+      --vert-fluo: #22c55e;
+      --violet-tech: #8b5cf6;
+      --or: #fbbf24;
+      --rose: #f472b6;
+      --rouge: #ef4444;
+      --texte-principal: #ffffff;
+      --texte-secondaire: #94a3b8;
+      --texte-tertiaire: #cbd5e1;
+      --fond-principal: #050b14;
+      --fond-secondaire: #0a1428;
+      --fond-carte: #0f1e38;
+      --bordure: #1a2f52;
+      --ombre-neon: 0 0 40px -10px rgba(34, 211, 238, 0.4);
+      --ombre-vert: 0 0 40px -10px rgba(74, 222, 128, 0.35);
+      --rayon: 1rem;
+      --rayon-petit: 0.6rem;
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      --grille-couleur: rgba(34, 211, 238, 0.03);
+    }
+    [data-theme="light"] {
+      --noir-profond: #f8fafc;
+      --bleu-nuit: #ffffff;
+      --bleu-carte: #ffffff;
+      --bleu-bordure: #e2e8f0;
+      --cyan-neon: #0891b2;
+      --cyan-clair: #06b6d4;
+      --vert-neon: #16a34a;
+      --vert-fluo: #22c55e;
+      --violet-tech: #7c3aed;
+      --or: #d97706;
+      --rose: #db2777;
+      --rouge: #dc2626;
+      --texte-principal: #0a1428;
+      --texte-secondaire: #475569;
+      --texte-tertiaire: #334155;
+      --fond-principal: #f8fafc;
+      --fond-secondaire: #ffffff;
+      --fond-carte: #ffffff;
+      --bordure: #e2e8f0;
+      --ombre-neon: 0 10px 30px -10px rgba(8, 145, 178, 0.25);
+      --ombre-vert: 0 10px 30px -10px rgba(22, 163, 74, 0.25);
+      --grille-couleur: rgba(8, 145, 178, 0.05);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--fond-principal);
+      color: var(--texte-tertiaire);
+      line-height: 1.6;
+      overflow-x: hidden;
+      transition: background-color 0.4s ease, color 0.4s ease;
+    }
+    [dir="rtl"] body { font-family: 'Cairo', 'Inter', sans-serif; }
+    h1, h2, h3, h4, .logo { font-family: 'Space Grotesk', sans-serif; letter-spacing: -0.02em; }
+    [dir="rtl"] h1, [dir="rtl"] h2, [dir="rtl"] h3, [dir="rtl"] h4 { font-family: 'Cairo', sans-serif; letter-spacing: 0; }
+    a { text-decoration: none; color: inherit; }
+    .container { max-width: 1400px; margin: 0 auto; padding: 0 1.5rem; }
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background-image:
+        linear-gradient(var(--grille-couleur) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grille-couleur) 1px, transparent 1px);
+      background-size: 50px 50px;
+      pointer-events: none;
+      z-index: 0;
+    }
+    section, header { position: relative; z-index: 1; }
+
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(5, 11, 20, 0.9);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--bordure);
+    }
+    [data-theme="light"] .header { background: rgba(255, 255, 255, 0.9); }
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.9rem 0;
+      gap: 1rem;
+    }
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--texte-principal);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      white-space: nowrap;
+    }
+    .logo-icon {
+      width: 38px; height: 38px;
+      border-radius: 0.5rem;
+      background: linear-gradient(135deg, var(--cyan-neon), var(--vert-neon));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #050b14;
+      font-size: 1.1rem;
+      box-shadow: 0 0 20px -5px rgba(34, 211, 238, 0.7);
+    }
+    .logo span {
+      background: linear-gradient(135deg, var(--cyan-neon), var(--vert-neon));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .nav-desktop { display: flex; align-items: center; gap: 0.1rem; }
+    .nav-desktop a {
+      padding: 0.5rem 0.85rem;
+      font-size: 0.88rem;
+      font-weight: 500;
+      color: var(--texte-secondaire);
+      border-radius: 0.4rem;
+      transition: var(--transition);
+      white-space: nowrap;
+    }
+    .nav-desktop a:hover { color: var(--vert-neon); background: rgba(74, 222, 128, 0.08); }
+    .nav-desktop a.actif { color: var(--vert-neon); background: rgba(74, 222, 128, 0.12); }
+    .nav-desktop a.admin-link { color: var(--rose); }
+    .header-actions { display: flex; align-items: center; gap: 0.5rem; }
+    .lang-switcher {
+      display: flex;
+      background: rgba(74, 222, 128, 0.08);
+      border: 1px solid var(--bordure);
+      border-radius: 0.4rem;
+      overflow: hidden;
+    }
+    .lang-btn {
+      background: transparent;
+      border: none;
+      color: var(--texte-secondaire);
+      font-family: inherit;
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 0.55rem 0.85rem;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .lang-btn.actif {
+      background: linear-gradient(135deg, var(--vert-neon), var(--cyan-neon));
+      color: #050b14;
+    }
+
+    .hero-ex {
+      padding: 3.5rem 0 2rem;
+      text-align: center;
+      position: relative;
+    }
+    .hero-ex::before {
+      content: '';
+      position: absolute;
+      top: -50%; left: 50%;
+      transform: translateX(-50%);
+      width: 700px; height: 500px;
+      background: radial-gradient(ellipse, rgba(74, 222, 128, 0.12), transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+    .hero-ex h1 {
+      font-size: 2.6rem;
+      font-weight: 700;
+      color: var(--texte-principal);
+      margin-bottom: 0.6rem;
+      position: relative;
+    }
+    .hero-ex h1 .accent {
+      background: linear-gradient(135deg, var(--vert-neon), var(--cyan-neon));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-ex p {
+      color: var(--texte-secondaire);
+      font-size: 1.05rem;
+      max-width: 700px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .search-wrap {
+      max-width: 700px;
+      margin: 2rem auto 1.5rem;
+      position: relative;
+    }
+    .search-input {
+      width: 100%;
+      padding: 1rem 1.2rem 1rem 3.2rem;
+      background: var(--fond-carte);
+      border: 1.5px solid var(--bordure);
+      border-radius: 0.8rem;
+      color: var(--texte-principal);
+      font-family: inherit;
+      font-size: 1rem;
+      transition: var(--transition);
+    }
+    [dir="rtl"] .search-input { padding: 1rem 3.2rem 1rem 1.2rem; }
+    .search-input:focus {
+      outline: none;
+      border-color: var(--vert-neon);
+      box-shadow: 0 0 20px -5px rgba(74, 222, 128, 0.5);
+    }
+    .search-icon {
+      position: absolute;
+      top: 50%; left: 1.2rem;
+      transform: translateY(-50%);
+      color: var(--vert-neon);
+      font-size: 1.1rem;
+      pointer-events: none;
+    }
+    [dir="rtl"] .search-icon { left: auto; right: 1.2rem; }
+
+    .stats-bar {
+      max-width: 900px;
+      margin: 0 auto 2rem;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+    }
+    .stat-box {
+      background: var(--fond-carte);
+      border: 1px solid var(--bordure);
+      border-radius: var(--rayon-petit);
+      padding: 1rem 1.2rem;
+      text-align: center;
+      transition: var(--transition);
+    }
+    .stat-box:hover { border-color: var(--vert-neon); transform: translateY(-3px); }
+    .stat-box .num {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--vert-neon), var(--cyan-neon));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1;
+    }
+    .stat-box .lbl {
+      font-size: 0.78rem;
+      color: var(--texte-secondaire);
+      margin-top: 0.3rem;
+    }
+
+    .filtres-panel {
+      background: var(--fond-carte);
+      border: 1px solid var(--bordure);
+      border-radius: var(--rayon);
+      padding: 1.3rem 1.5rem;
+      margin-bottom: 2rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      gap: 1rem;
+      align-items: end;
+    }
+    .filtre-group label {
+      display: block;
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--vert-neon);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.5rem;
+    }
+    .filtre-select {
+      width: 100%;
+      padding: 0.65rem 0.9rem;
+      background: var(--fond-principal);
+      border: 1px solid var(--bordure);
+      border-radius: 0.5rem;
+      color: var(--texte-principal);
+      font-family: inherit;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .filtre-select:focus { outline: none; border-color: var(--vert-neon); }
+    .btn-reset {
+      background: rgba(239, 68, 68, 0.08);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      color: var(--rouge);
+      padding: 0.65rem 1.2rem;
+      border-radius: 0.5rem;
+      font-family: inherit;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      justify-content: center;
+    }
+    .btn-reset:hover { background: var(--rouge); color: white; }
+
+    .resultats-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      padding: 0.8rem 1rem;
+      background: rgba(74, 222, 128, 0.05);
+      border: 1px solid rgba(74, 222, 128, 0.15);
+      border-radius: 0.6rem;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .resultats-bar .count { font-size: 0.9rem; color: var(--texte-secondaire); }
+    .resultats-bar .count strong { color: var(--vert-neon); font-weight: 700; font-size: 1.1rem; }
+
+    .ex-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 3rem;
+    }
+    .ex-card {
+      background: linear-gradient(160deg, var(--fond-carte), var(--fond-secondaire));
+      border: 1px solid var(--bordure);
+      border-radius: var(--rayon);
+      padding: 1.4rem;
+      transition: var(--transition);
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .ex-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(74, 222, 128, 0.4);
+      box-shadow: var(--ombre-vert);
+    }
+    .ex-card.resolu { border-color: rgba(74, 222, 128, 0.5); }
+    .ex-card.resolu::before {
+      content: '\f00c';
+      font-family: 'Font Awesome 6 Free';
+      font-weight: 900;
+      position: absolute;
+      top: 12px; right: 12px;
+      width: 30px; height: 30px;
+      border-radius: 50%;
+      background: var(--vert-neon);
+      color: #050b14;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
+      box-shadow: 0 0 15px rgba(74, 222, 128, 0.6);
+    }
+    [dir="rtl"] .ex-card.resolu::before { right: auto; left: 12px; }
+
+    .ex-card .ex-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+    .ex-card .ex-tags { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+    .ex-card .ex-tag {
+      font-size: 0.68rem;
+      font-weight: 600;
+      padding: 0.22rem 0.7rem;
+      border-radius: 2rem;
+      text-transform: uppercase;
+    }
+    .ex-card .ex-tag.niveau {
+      background: rgba(34, 211, 238, 0.1);
+      border: 1px solid rgba(34, 211, 238, 0.3);
+      color: var(--cyan-neon);
+    }
+    .ex-card .ex-tag.matiere {
+      background: rgba(139, 92, 246, 0.1);
+      border: 1px solid rgba(139, 92, 246, 0.3);
+      color: var(--violet-tech);
+    }
+    .ex-card .difficulte { display: flex; gap: 0.15rem; align-items: center; font-size: 0.9rem; }
+    .ex-card .difficulte .star { color: var(--or); filter: drop-shadow(0 0 3px rgba(251, 191, 36, 0.6)); }
+    .ex-card .difficulte .star.vide { color: rgba(251, 191, 36, 0.25); filter: none; }
+    .ex-card h3 { font-size: 1.05rem; font-weight: 600; color: var(--texte-principal); line-height: 1.35; }
+    .ex-card .chapitre {
+      font-size: 0.78rem;
+      color: var(--vert-neon);
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+    .ex-card .enonce-court {
+      font-size: 0.87rem;
+      color: var(--texte-secondaire);
+      line-height: 1.55;
+      flex: 1;
+    }
+    .ex-card .ex-meta {
+      display: flex;
+      gap: 0.9rem;
+      font-size: 0.75rem;
+      color: var(--texte-secondaire);
+      padding-top: 0.5rem;
+      border-top: 1px solid var(--bordure);
+    }
+    .ex-card .ex-meta span { display: flex; align-items: center; gap: 0.3rem; }
+    .ex-card .ex-meta i { color: var(--cyan-neon); }
+    .ex-card .ex-actions { display: flex; gap: 0.5rem; }
+    .ex-card .btn-ex {
+      flex: 1;
+      padding: 0.65rem 1rem;
+      border-radius: 0.5rem;
+      font-family: inherit;
+      font-size: 0.83rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+      border: 1px solid;
+    }
+    .ex-card .btn-ex.voir {
+      background: rgba(34, 211, 238, 0.08);
+      border-color: rgba(34, 211, 238, 0.3);
+      color: var(--cyan-neon);
+    }
+    .ex-card .btn-ex.voir:hover { background: var(--cyan-neon); color: #050b14; }
+    .ex-card .btn-ex.corrige {
+      background: rgba(74, 222, 128, 0.08);
+      border-color: rgba(74, 222, 128, 0.3);
+      color: var(--vert-neon);
+    }
+    .ex-card .btn-ex.corrige:hover { background: var(--vert-neon); color: #050b14; }
+
+    .aucun-resultat {
+      text-align: center;
+      padding: 4rem 2rem;
+      color: var(--texte-secondaire);
+    }
+    .aucun-resultat i { font-size: 4rem; color: var(--bordure); margin-bottom: 1rem; }
+    .aucun-resultat h3 { color: var(--texte-principal); font-size: 1.3rem; margin-bottom: 0.5rem; }
+
+    .voir-plus-wrap { text-align: center; margin-bottom: 3rem; }
+    .btn-voir-plus {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.85rem 2rem;
+      background: rgba(74, 222, 128, 0.08);
+      border: 1.5px solid var(--vert-neon);
+      color: var(--vert-neon);
+      border-radius: 0.5rem;
+      font-family: inherit;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .btn-voir-plus:hover { background: var(--vert-neon); color: #050b14; }
+
+    .panneau-detail {
+      position: fixed;
+      top: 0; right: 0;
+      width: 100%;
+      max-width: 750px;
+      height: 100vh;
+      background: var(--fond-secondaire);
+      border-left: 1px solid var(--bordure);
+      z-index: 2000;
+      transform: translateX(100%);
+      transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      overflow-y: auto;
+      box-shadow: -20px 0 60px rgba(0, 0, 0, 0.5);
+    }
+    [dir="rtl"] .panneau-detail {
+      right: auto; left: 0;
+      border-left: none;
+      border-right: 1px solid var(--bordure);
+      transform: translateX(-100%);
+    }
+    .panneau-detail.ouvert { transform: translateX(0); }
+    .panneau-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(5, 11, 20, 0.7);
+      backdrop-filter: blur(4px);
+      z-index: 1999;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+    }
+    .panneau-overlay.ouvert { opacity: 1; pointer-events: all; }
+    .panneau-header {
+      position: sticky;
+      top: 0;
+      background: var(--fond-secondaire);
+      border-bottom: 1px solid var(--bordure);
+      padding: 1.2rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 10;
+    }
+    .panneau-header h2 {
+      font-size: 1.15rem;
+      color: var(--texte-principal);
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+    .panneau-header h2 i { color: var(--vert-neon); }
+    .btn-fermer {
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      color: var(--rouge);
+      width: 38px; height: 38px;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      transition: var(--transition);
+    }
+    .btn-fermer:hover { background: var(--rouge); color: white; }
+    .panneau-corps { padding: 1.5rem; }
+    .ex-hero {
+      background: linear-gradient(135deg, rgba(74, 222, 128, 0.12), rgba(34, 211, 238, 0.08));
+      border: 1px solid rgba(74, 222, 128, 0.25);
+      border-radius: var(--rayon);
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .ex-hero h1 { font-size: 1.4rem; color: var(--texte-principal); margin-bottom: 0.6rem; line-height: 1.35; }
+    .ex-hero .badges { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.8rem; }
+    .ex-hero .badges span {
+      background: rgba(5, 11, 20, 0.5);
+      border: 1px solid rgba(74, 222, 128, 0.3);
+      color: var(--vert-neon);
+      padding: 0.3rem 0.8rem;
+      border-radius: 2rem;
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+    .panneau-section { margin-bottom: 1.5rem; }
+    .panneau-section h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--texte-principal);
+      margin-bottom: 0.8rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .panneau-section h3 i { color: var(--vert-neon); }
+    .enonce-box {
+      background: var(--fond-principal);
+      border: 1px solid var(--bordure);
+      border-left: 4px solid var(--cyan-neon);
+      border-radius: 0.5rem;
+      padding: 1.2rem 1.4rem;
+      color: var(--texte-tertiaire);
+      font-size: 0.95rem;
+      line-height: 1.75;
+    }
+    [dir="rtl"] .enonce-box { border-left: none; border-right: 4px solid var(--cyan-neon); }
+    .enonce-box p { margin-bottom: 0.8rem; }
+    .enonce-box p:last-child { margin-bottom: 0; }
+    .enonce-box ul { margin-left: 1.3rem; margin-bottom: 0.8rem; }
+    [dir="rtl"] .enonce-box ul { margin-left: 0; margin-right: 1.3rem; }
+    .enonce-box .katex { color: var(--cyan-neon); }
+
+    .btn-reveler {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      width: 100%;
+      padding: 1rem;
+      background: linear-gradient(135deg, rgba(74, 222, 128, 0.1), rgba(34, 211, 238, 0.1));
+      border: 1.5px dashed rgba(74, 222, 128, 0.4);
+      color: var(--vert-neon);
+      border-radius: 0.6rem;
+      font-family: inherit;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      margin-bottom: 1.5rem;
+    }
+    .btn-reveler:hover { border-style: solid; background: linear-gradient(135deg, rgba(74, 222, 128, 0.2), rgba(34, 211, 238, 0.15)); }
+
+    .corrige-wrap { display: none; }
+    .corrige-wrap.visible { display: block; animation: slideIn 0.4s ease; }
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .etape-correction {
+      background: var(--fond-principal);
+      border: 1px solid var(--bordure);
+      border-radius: 0.6rem;
+      padding: 1.2rem 1.4rem;
+      margin-bottom: 1rem;
+      position: relative;
+      border-left: 4px solid var(--vert-neon);
+    }
+    [dir="rtl"] .etape-correction { border-left: none; border-right: 4px solid var(--vert-neon); }
+    .etape-correction .etape-num {
+      position: absolute;
+      top: -10px; left: 15px;
+      background: var(--vert-neon);
+      color: #050b14;
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700;
+      font-size: 0.72rem;
+      padding: 0.2rem 0.7rem;
+      border-radius: 2rem;
+      text-transform: uppercase;
+    }
+    [dir="rtl"] .etape-correction .etape-num { left: auto; right: 15px; }
+    .etape-correction h4 { font-size: 0.9rem; color: var(--vert-neon); margin-bottom: 0.6rem; font-weight: 700; margin-top: 0.3rem; }
+    .etape-correction .contenu-etape { color: var(--texte-tertiaire); font-size: 0.92rem; line-height: 1.7; }
+    .etape-correction .contenu-etape .katex { color: var(--cyan-neon); font-size: 1.05rem; }
+    .resultat-final {
+      background: linear-gradient(135deg, rgba(74, 222, 128, 0.15), rgba(34, 211, 238, 0.1));
+      border: 1.5px solid var(--vert-neon);
+      border-radius: 0.6rem;
+      padding: 1.2rem 1.4rem;
+      text-align: center;
+      margin-top: 1rem;
+    }
+    .resultat-final .titre-res {
+      color: var(--vert-neon);
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 0.5rem;
+    }
+    .resultat-final .valeur-res { color: var(--texte-principal); font-size: 1.15rem; font-weight: 600; font-family: 'Space Grotesk', sans-serif; }
+    .resultat-final .valeur-res .katex { color: var(--vert-neon); }
+
+    .theme-toggle {
+      position: fixed;
+      bottom: 2rem; right: 2rem;
+      width: 58px; height: 58px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--cyan-neon), var(--vert-neon));
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      color: #050b14;
+      box-shadow: 0 8px 30px -5px rgba(34, 211, 238, 0.7);
+      transition: var(--transition);
+      z-index: 9999;
+    }
+    [dir="rtl"] .theme-toggle { right: auto; left: 2rem; }
+    .theme-toggle:hover { transform: translateY(-4px) rotate(15deg) scale(1.05); }
+    .theme-toggle .icon-sun { display: none; }
+    [data-theme="light"] .theme-toggle .icon-sun { display: block; }
+    [data-theme="light"] .theme-toggle .icon-moon { display: none; }
+
+    @media (max-width: 768px) {
+      .nav-desktop { display: none; }
+      .hero-ex h1 { font-size: 1.9rem; }
+      .ex-grid { grid-template-columns: 1fr; }
+      .filtres-panel { grid-template-columns: 1fr; }
+      .panneau-detail { max-width: 100%; }
+      .stats-bar { grid-template-columns: 1fr; }
+      .ex-card .ex-actions { flex-direction: column; }
+    }
+    @media (max-width: 480px) {
+      .container { padding: 0 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <div class="container header-inner">
+      <a href="index.html" class="logo">
+        <span class="logo-icon"><i class="fas fa-atom"></i></span>
+        A SALIKI <span>PC</span>
+      </a>
+      <nav class="nav-desktop">
+        <a href="index.html" data-i18n="nav.home">Accueil</a>
+        <a href="cours.html" data-i18n="nav.cours">Cours</a>
+        <a href="exercices.html" class="actif" data-i18n="nav.exercices">Exercices</a>
+        <a href="examens.html" data-i18n="nav.examens">Examens</a>
+        <a href="simulations.html" data-i18n="nav.simulations">Simulations</a>
+        <a href="qcm.html" data-i18n="nav.qcm">QCM</a>
+        <a href="ressources.html" data-i18n="nav.ressources">Ressources</a>
+        <a href="admin/login.html" class="admin-link" data-i18n="nav.admin">Admin</a>
+      </nav>
+      <div class="header-actions">
+        <div class="lang-switcher">
+          <button class="lang-btn actif" data-lang="fr">FR</button>
+          <button class="lang-btn" data-lang="ar">AR</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section class="hero-ex">
+    <div class="container">
+      <h1><span data-i18n="ex.titre1">Tous les</span> <span class="accent" data-i18n="ex.titre2">exercices</span></h1>
+      <p data-i18n="ex.desc">Entraînez-vous avec des exercices progressifs. Consultez les corrigés détaillés étape par étape.</p>
+    </div>
+  </section>
+
+  <div class="container">
+    <div class="search-wrap">
+      <i class="fas fa-search search-icon"></i>
+      <input type="text" class="search-input" id="searchInput" placeholder="Rechercher un exercice..." data-i18n-placeholder="ex.searchPlaceholder">
+    </div>
+
+    <div class="stats-bar">
+      <div class="stat-box">
+        <div class="num" id="statTotal">0</div>
+        <div class="lbl" data-i18n="ex.statTotal">Exercices disponibles</div>
+      </div>
+      <div class="stat-box">
+        <div class="num" id="statResolus">0</div>
+        <div class="lbl" data-i18n="ex.statResolus">Exercices résolus</div>
+      </div>
+      <div class="stat-box">
+        <div class="num" id="statProgression">0%</div>
+        <div class="lbl" data-i18n="ex.statProgression">Progression</div>
+      </div>
+    </div>
+
+    <div class="filtres-panel">
+      <div class="filtre-group">
+        <label data-i18n="filtre.niveau">Niveau</label>
+        <select class="filtre-select" id="filtreNiveau">
+          <option value="all" data-i18n="filtre.tousNiveaux">Tous les niveaux</option>
+          <option value="tronc" data-i18n="niveau.tronc">Tronc Commun</option>
+          <option value="1bac" data-i18n="niveau.1bac">1ère Bac</option>
+          <option value="2bacpc" data-i18n="niveau.2bacpc">2ème Bac PC</option>
+          <option value="2bacsvt" data-i18n="niveau.2bacsvt">2ème Bac SVT</option>
+        </select>
+      </div>
+      <div class="filtre-group">
+        <label data-i18n="filtre.matiere">Matière</label>
+        <select class="filtre-select" id="filtreMatiere">
+          <option value="all" data-i18n="filtre.toutesMatieres">Toutes les matières</option>
+          <option value="physique" data-i18n="matiere.physique">Physique</option>
+          <option value="chimie" data-i18n="matiere.chimie">Chimie</option>
+        </select>
+      </div>
+      <div class="filtre-group">
+        <label data-i18n="filtre.difficulte">Difficulté</label>
+        <select class="filtre-select" id="filtreDifficulte">
+          <option value="all" data-i18n="filtre.toutesDifficultes">Toutes</option>
+          <option value="1">⭐ Facile</option>
+          <option value="2">⭐⭐ Moyen</option>
+          <option value="3">⭐⭐⭐ Difficile</option>
+        </select>
+      </div>
+      <button class="btn-reset" id="btnReset">
+        <i class="fas fa-redo"></i> <span data-i18n="filtre.reset">Réinitialiser</span>
+      </button>
+    </div>
+
+    <div class="resultats-bar">
+      <span class="count"><strong id="countResultats">0</strong> <span data-i18n="ex.resultats">exercices trouvés</span></span>
+    </div>
+
+    <div class="ex-grid" id="exGrid"></div>
+
+    <div class="aucun-resultat" id="aucunResultat" style="display: none;">
+      <i class="fas fa-search"></i>
+      <h3 data-i18n="ex.aucunTitre">Aucun exercice trouvé</h3>
+      <p data-i18n="ex.aucunDesc">Essayez de modifier vos filtres.</p>
+    </div>
+
+    <div class="voir-plus-wrap" id="voirPlusWrap" style="display: none;">
+      <button class="btn-voir-plus" id="btnVoirPlus">
+        <i class="fas fa-plus-circle"></i> <span data-i18n="ex.voirPlus">Voir plus d'exercices</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="panneau-overlay" id="panneauOverlay"></div>
+  <div class="panneau-detail" id="panneauDetail">
+    <div class="panneau-header">
+      <h2><i class="fas fa-pencil-alt"></i> <span data-i18n="panneau.titre">Détail de l'exercice</span></h2>
+      <button class="btn-fermer" id="btnFermerPanneau"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="panneau-corps" id="panneauCorps"></div>
+  </div>
+
+  <button class="theme-toggle" id="themeToggle">
+    <i class="fas fa-moon icon-moon"></i>
+    <i class="fas fa-sun icon-sun"></i>
+  </button>
+
+  <script>
+    const exercices = [
+      { id: 'ex1', niveau: '2bacpc', matiere: 'physique', chapitre_fr: 'Ondes mécaniques', chapitre_ar: 'الموجات الميكانيكية', difficulte: 1, titre_fr: 'Calcul de la célérité', titre_ar: 'حساب السرعة', enonce_court_fr: 'Une onde parcourt 3,4 m en 0,02 s. Calculer sa célérité.', enonce_court_ar: 'موجة تقطع 3,4 m في 0,02 s.', enonce_fr: 'Une onde parcourt 3,4 m en 0,02 s. Calculer sa célérité.', enonce_ar: 'موجة تقطع 3,4 m في 0,02 s. احسب سرعتها.', resultat_fr: '$v = 170 \\text{ m/s}$', resultat_ar: '$v = 170 \\text{ m/s}$' },
+      { id: 'ex2', niveau: '2bacpc', matiere: 'physique', chapitre_fr: 'Électricité', chapitre_ar: 'الكهرباء', difficulte: 2, titre_fr: 'Dipôle RC', titre_ar: 'ثنائي القطب RC', enonce_court_fr: 'Calculer la constante de temps τ avec R=1kΩ et C=10µF.', enonce_court_ar: 'احسب الثابت الزمني τ.', enonce_fr: 'Calculer τ pour R=1kΩ et C=10µF.', enonce_ar: 'احسب τ لـ R=1kΩ و C=10µF.', resultat_fr: '$\\tau = 10 \\text{ ms}$', resultat_ar: '$\\tau = 10 \\text{ ms}$' },
+      { id: 'ex3', niveau: '2bacpc', matiere: 'physique', chapitre_fr: 'Nucléaire', chapitre_ar: 'النووي', difficulte: 2, titre_fr: 'Demi-vie radioactive', titre_ar: 'نصف العمر', enonce_court_fr: 'T₁/₂ = 5 jours. Combien reste-t-il de noyaux après 15 jours ?', enonce_court_ar: 'نصف العمر 5 أيام. كم يتبقى بعد 15 يوماً؟', enonce_fr: 'N₀ = 8×10²⁰ noyaux, T₁/₂ = 5 jours. Combien reste-t-il après 15 jours ?', enonce_ar: 'N₀ = 8×10²⁰ نواة، نصف العمر 5 أيام. كم يتبقى بعد 15 يوماً؟', resultat_fr: '$N = 10^{20}$ noyaux', resultat_ar: '$N = 10^{20}$ نواة' },
+      { id: 'ex4', niveau: '2bacpc', matiere: 'physique', chapitre_fr: 'Mécanique', chapitre_ar: 'الميكانيك', difficulte: 1, titre_fr: 'Chute libre', titre_ar: 'السقوط الحر', enonce_court_fr: 'Un objet tombe de 45 m. Calculer le temps de chute.', enonce_court_ar: 'يسقط جسم من 45 m. احسب المدة.', enonce_fr: 'h = 45 m, g = 10 m/s². Calculer le temps de chute.', enonce_ar: 'h = 45 m، g = 10 m/s². احسب مدة السقوط.', resultat_fr: '$t = 3 \\text{ s}$', resultat_ar: '$t = 3 \\text{ s}$' },
+      { id: 'ex5', niveau: '2bacpc', matiere: 'physique', chapitre_fr: 'Oscillations', chapitre_ar: 'التذبذبات', difficulte: 2, titre_fr: 'Période propre LC', titre_ar: 'الدور الخاص LC', enonce_court_fr: 'Calculer T₀ pour L=0,2 H et C=10 µF.', enonce_court_ar: 'احسب T₀ لـ L=0,2 H و C=10 µF.', enonce_fr: 'L=0,2 H, C=10 µF. Calculer la période propre T₀.', enonce_ar: 'L=0,2 H، C=10 µF. احسب الدور الخاص T₀.', resultat_fr: '$T_0 \\approx 8,9 \\text{ ms}$', resultat_ar: '$T_0 \\approx 8,9 \\text{ ms}$' },
+      { id: 'ex6', niveau: '2bacpc', matiere: 'chimie', chapitre_fr: 'Cinétique', chapitre_ar: 'الحركية', difficulte: 2, titre_fr: 'Vitesse moyenne', titre_ar: 'السرعة المتوسطة', enonce_court_fr: 'C passe de 0,80 à 0,20 mol/L en 120 s. Calculer v.', enonce_court_ar: 'التركيز ينخفض من 0,80 إلى 0,20 mol/L في 120 s.', enonce_fr: 'C₁=0,80, C₂=0,20 mol/L, Δt=120s. Calculer la vitesse moyenne.', enonce_ar: 'C₁=0,80، C₂=0,20 mol/L، Δt=120s. احسب السرعة.', resultat_fr: '$v = 5 \\times 10^{-3} \\text{ mol/(L·s)}$', resultat_ar: '$v = 5 \\times 10^{-3} \\text{ mol/(L·s)}$' },
+      { id: 'ex7', niveau: '2bacpc', matiere: 'chimie', chapitre_fr: 'Acide-base', chapitre_ar: 'الحموض والقواعد', difficulte: 2, titre_fr: 'Calcul du pH', titre_ar: 'حساب pH', enonce_court_fr: 'Calculer le pH d\'une solution HCl à 10⁻² mol/L.', enonce_court_ar: 'احسب pH محلول HCl عند 10⁻² mol/L.', enonce_fr: 'Solution HCl à C = 10⁻² mol/L. Calculer le pH.', enonce_ar: 'محلول HCl بتركيز 10⁻² mol/L. احسب pH.', resultat_fr: '$\\text{pH} = 2$', resultat_ar: '$\\text{pH} = 2$' },
+      { id: 'ex8', niveau: '2bacpc', matiere: 'chimie', chapitre_fr: 'Oxydoréduction', chapitre_ar: 'الأكسدة والإرجاع', difficulte: 2, titre_fr: 'Pile électrochimique', titre_ar: 'عمود كهروكيميائي', enonce_court_fr: 'Identifier l\'anode et la cathode dans une pile Daniell.', enonce_court_ar: 'حدد المصعد والمهبط في عمود دانيال.', enonce_fr: 'Dans une pile Daniell, identifier où se produit l\'oxydation.', enonce_ar: 'في عمود دانيال، حدد مكان الأكسدة.', resultat_fr: 'Oxydation à l\'anode (Zn)', resultat_ar: 'الأكسدة عند المصعد (Zn)' },
+      { id: 'ex9', niveau: '1bac', matiere: 'physique', chapitre_fr: 'Électricité', chapitre_ar: 'الكهرباء', difficulte: 1, titre_fr: 'Loi d\'Ohm', titre_ar: 'قانون أوم', enonce_court_fr: 'R₁=100Ω, R₂=200Ω en série, U=6V. Calculer I.', enonce_court_ar: 'R₁=100Ω، R₂=200Ω على التوالي، U=6V. احسب I.', enonce_fr: 'Deux résistances en série (100Ω, 200Ω), U=6V. Calculer I.', enonce_ar: 'مقاومتان على التوالي (100Ω، 200Ω)، U=6V. احسب I.', resultat_fr: '$I = 20 \\text{ mA}$', resultat_ar: '$I = 20 \\text{ mA}$' },
+      { id: 'ex10', niveau: '1bac', matiere: 'chimie', chapitre_fr: 'Mole', chapitre_ar: 'المول', difficulte: 1, titre_fr: 'Quantité de matière', titre_ar: 'كمية المادة', enonce_court_fr: 'Calculer n dans 36 g d\'eau (M=18 g/mol).', enonce_court_ar: 'احسب n في 36 g من الماء (M=18 g/mol).', enonce_fr: 'm = 36 g d\'eau, M = 18 g/mol. Calculer n.', enonce_ar: 'm = 36 g من الماء، M = 18 g/mol. احسب n.', resultat_fr: '$n = 2 \\text{ mol}$', resultat_ar: '$n = 2 \\text{ mol}$' },
+      { id: 'ex11', niveau: 'tronc', matiere: 'physique', chapitre_fr: 'Mécanique', chapitre_ar: 'الميكانيك', difficulte: 1, titre_fr: 'Vitesse moyenne', titre_ar: 'السرعة المتوسطة', enonce_court_fr: 'Un cycliste parcourt 30 km en 1h30. Calculer v.', enonce_court_ar: 'راكب دراجة يقطع 30 km في 1h30. احسب v.', enonce_fr: 'd=30 km, Δt=1h30. Calculer la vitesse moyenne.', enonce_ar: 'd=30 km، Δt=1h30. احسب السرعة المتوسطة.', resultat_fr: '$v = 20 \\text{ km/h}$', resultat_ar: '$v = 20 \\text{ km/h}$' },
+      { id: 'ex12', niveau: '2bacsvt', matiere: 'physique', chapitre_fr: 'Nucléaire', chapitre_ar: 'النووي', difficulte: 3, titre_fr: 'Énergie de liaison', titre_ar: 'طاقة الربط', enonce_court_fr: 'Calculer l\'énergie de liaison du noyau ⁴He.', enonce_court_ar: 'احسب طاقة الربط لنواة ⁴He.', enonce_fr: 'Calculer l\'énergie de liaison du noyau d\'hélium ⁴He.', enonce_ar: 'احسب طاقة الربط لنواة الهيليوم ⁴He.', resultat_fr: '$E_l = 28,3 \\text{ MeV}$', resultat_ar: '$E_l = 28,3 \\text{ MeV}$' }
+    ];
+
+    const trad = {
+      fr: {
+        'nav.home': 'Accueil', 'nav.cours': 'Cours', 'nav.exercices': 'Exercices',
+        'nav.examens': 'Examens', 'nav.simulations': 'Simulations', 'nav.qcm': 'QCM',
+        'nav.ressources': 'Ressources', 'nav.admin': 'Admin',
+        'ex.titre1': 'Tous les', 'ex.titre2': 'exercices',
+        'ex.desc': 'Entraînez-vous avec des exercices progressifs. Consultez les corrigés détaillés étape par étape.',
+        'ex.searchPlaceholder': 'Rechercher un exercice...',
+        'ex.resultats': 'exercices trouvés',
+        'ex.aucunTitre': 'Aucun exercice trouvé',
+        'ex.aucunDesc': 'Essayez de modifier vos filtres.',
+        'ex.voirPlus': "Voir plus d'exercices",
+        'ex.statTotal': 'Exercices disponibles',
+        'ex.statResolus': 'Exercices résolus',
+        'ex.statProgression': 'Progression',
+        'filtre.niveau': 'Niveau', 'filtre.matiere': 'Matière', 'filtre.difficulte': 'Difficulté',
+        'filtre.tousNiveaux': 'Tous les niveaux', 'filtre.toutesMatieres': 'Toutes les matières',
+        'filtre.toutesDifficultes': 'Toutes', 'filtre.reset': 'Réinitialiser',
+        'niveau.tronc': 'Tronc Commun', 'niveau.1bac': '1ère Bac',
+        'niveau.2bacpc': '2ème Bac PC', 'niveau.2bacsvt': '2ème Bac SVT',
+        'matiere.physique': 'Physique', 'matiere.chimie': 'Chimie',
+        'btn.voir': 'Voir', 'btn.corrige': 'Corrigé',
+        'panneau.titre': "Détail de l'exercice",
+        'panneau.enonce': 'Énoncé',
+        'panneau.reveler': 'Révéler le corrigé',
+        'panneau.resultat': 'Résultat final',
+        'panneau.etape': 'Étape'
+      },
+      ar: {
+        'nav.home': 'الرئيسية', 'nav.cours': 'الدروس', 'nav.exercices': 'التمارين',
+        'nav.examens': 'الامتحانات', 'nav.simulations': 'المحاكاة', 'nav.qcm': 'اختبار',
+        'nav.ressources': 'الموارد', 'nav.admin': 'الإدارة',
+        'ex.titre1': 'جميع', 'ex.titre2': 'التمارين',
+        'ex.desc': 'تدرب مع تمارين متدرجة. اطلع على الحلول المفصلة خطوة بخطوة.',
+        'ex.searchPlaceholder': 'ابحث عن تمرين...',
+        'ex.resultats': 'تمرين تم إيجاده',
+        'ex.aucunTitre': 'لا يوجد أي تمرين',
+        'ex.aucunDesc': 'حاول تغيير الفلاتر.',
+        'ex.voirPlus': 'عرض المزيد',
+        'ex.statTotal': 'التمارين المتاحة',
+        'ex.statResolus': 'التمارين المحلولة',
+        'ex.statProgression': 'التقدم',
+        'filtre.niveau': 'المستوى', 'filtre.matiere': 'المادة', 'filtre.difficulte': 'الصعوبة',
+        'filtre.tousNiveaux': 'جميع المستويات', 'filtre.toutesMatieres': 'جميع المواد',
+        'filtre.toutesDifficultes': 'الكل', 'filtre.reset': 'إعادة',
+        'niveau.tronc': 'الجذع المشترك', 'niveau.1bac': 'الأولى باك',
+        'niveau.2bacpc': 'الثانية باك ع.ف', 'niveau.2bacsvt': 'الثانية باك ع.ح.أ',
+        'matiere.physique': 'الفيزياء', 'matiere.chimie': 'الكيمياء',
+        'btn.voir': 'عرض', 'btn.corrige': 'الحل',
+        'panneau.titre': 'تفاصيل التمرين',
+        'panneau.enonce': 'النص',
+        'panneau.reveler': 'اكشف الحل',
+        'panneau.resultat': 'النتيجة النهائية',
+        'panneau.etape': 'الخطوة'
+      }
+    };
+
+    let currentLang = localStorage.getItem('asaliki-lang') || 'fr';
+    let filtres = { niveau: 'all', matiere: 'all', difficulte: 'all', recherche: '' };
+    let exAffiches = 8;
+    let resolus = JSON.parse(localStorage.getItem('asaliki-resolus') || '[]');
+
+    document.addEventListener('DOMContentLoaded', () => {
+      appliquerTheme();
+      afficherExercices();
+      mettreAJourStats();
+      bindEvents();
+      appliquerLangue(currentLang);
+    });
+
+    function appliquerTheme() {
+      const savedTheme = localStorage.getItem('asaliki-theme') || 'dark';
+      document.getElementById('htmlRoot').setAttribute('data-theme', savedTheme);
+    }
+
+    function appliquerLangue(lang) {
+      currentLang = lang;
+      document.getElementById('htmlRoot').setAttribute('lang', lang);
+      document.getElementById('htmlRoot').setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (trad[lang] && trad[lang][key]) el.textContent = trad[lang][key];
+      });
+      document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+        const key = el.getAttribute('data-i18n-placeholder');
+        if (trad[lang] && trad[lang][key]) el.placeholder = trad[lang][key];
+      });
+      document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.classList.toggle('actif', btn.getAttribute('data-lang') === lang);
+      });
+      localStorage.setItem('asaliki-lang', lang);
+      afficherExercices();
+    }
+
+    function bindEvents() {
+      document.getElementById('searchInput').addEventListener('input', (e) => {
+        filtres.recherche = e.target.value.toLowerCase().trim();
+        exAffiches = 8;
+        afficherExercices();
+      });
+      ['Niveau', 'Matiere', 'Difficulte'].forEach(f => {
+        document.getElementById('filtre' + f).addEventListener('change', (e) => {
+          filtres[f.toLowerCase()] = e.target.value;
+          exAffiches = 8;
+          afficherExercices();
+        });
+      });
+      document.getElementById('btnReset').addEventListener('click', () => {
+        filtres = { niveau: 'all', matiere: 'all', difficulte: 'all', recherche: '' };
+        document.getElementById('searchInput').value = '';
+        document.getElementById('filtreNiveau').value = 'all';
+        document.getElementById('filtreMatiere').value = 'all';
+        document.getElementById('filtreDifficulte').value = 'all';
+        exAffiches = 8;
+        afficherExercices();
+      });
+      document.getElementById('btnVoirPlus').addEventListener('click', () => {
+        exAffiches += 8;
+        afficherExercices();
+      });
+      document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.addEventListener('click', () => appliquerLangue(btn.getAttribute('data-lang')));
+      });
+      document.getElementById('themeToggle').addEventListener('click', () => {
+        const current = document.getElementById('htmlRoot').getAttribute('data-theme');
+        const next = current === 'dark' ? 'light' : 'dark';
+        document.getElementById('htmlRoot').setAttribute('data-theme', next);
+        localStorage.setItem('asaliki-theme', next);
+      });
+      document.getElementById('btnFermerPanneau').addEventListener('click', fermerPanneau);
+      document.getElementById('panneauOverlay').addEventListener('click', fermerPanneau);
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') fermerPanneau();
+      });
+    }
+
+    function filtrerExercices() {
+      return exercices.filter(e => {
+        if (filtres.niveau !== 'all' && e.niveau !== filtres.niveau) return false;
+        if (filtres.matiere !== 'all' && e.matiere !== filtres.matiere) return false;
+        if (filtres.difficulte !== 'all' && e.difficulte !== parseInt(filtres.difficulte)) return false;
+        if (filtres.recherche) {
+          const titre = currentLang === 'fr' ? e.titre_fr : e.titre_ar;
+          const chap = currentLang === 'fr' ? e.chapitre_fr : e.chapitre_ar;
+          const texte = (titre + ' ' + chap).toLowerCase();
+          if (!texte.includes(filtres.recherche)) return false;
+        }
+        return true;
+      });
+    }
+
+    function afficherExercices() {
+      const grid = document.getElementById('exGrid');
+      const aucun = document.getElementById('aucunResultat');
+      const voirPlusWrap = document.getElementById('voirPlusWrap');
+      const filtered = filtrerExercices();
+      const displayed = filtered.slice(0, exAffiches);
+
+      document.getElementById('countResultats').textContent = filtered.length;
+
+      if (filtered.length === 0) {
+        grid.innerHTML = '';
+        grid.style.display = 'none';
+        aucun.style.display = 'block';
+        voirPlusWrap.style.display = 'none';
+        return;
+      }
+
+      grid.style.display = 'grid';
+      aucun.style.display = 'none';
+      grid.innerHTML = '';
+      displayed.forEach(e => grid.appendChild(creerCarte(e)));
+      voirPlusWrap.style.display = filtered.length > exAffiches ? 'block' : 'none';
+    }
+
+    function creerCarte(e) {
+      const card = document.createElement('div');
+      card.className = 'ex-card' + (resolus.includes(e.id) ? ' resolu' : '');
+      const niveauLabel = trad[currentLang]['niveau.' + e.niveau];
+      const matiereLabel = trad[currentLang]['matiere.' + e.matiere];
+      const titre = currentLang === 'fr' ? e.titre_fr : e.titre_ar;
+      const chap = currentLang === 'fr' ? e.chapitre_fr : e.chapitre_ar;
+      const enonce = currentLang === 'fr' ? e.enonce_court_fr : e.enonce_court_ar;
+
+      const etoiles = [1, 2, 3].map(i =>
+        `<span class="star ${i <= e.difficulte ? '' : 'vide'}">★</span>`
+      ).join('');
+
+      card.innerHTML = `
+        <div class="ex-header">
+          <div class="ex-tags">
+            <span class="ex-tag niveau">${niveauLabel}</span>
+            <span class="ex-tag matiere">${matiereLabel}</span>
+          </div>
+          <div class="difficulte">${etoiles}</div>
+        </div>
+        <h3>${titre}</h3>
+        <div class="chapitre"><i class="fas fa-bookmark"></i> ${chap}</div>
+        <div class="enonce-court">${enonce}</div>
+        <div class="ex-meta">
+          <span><i class="fas fa-user"></i> A. Saliki</span>
+          <span><i class="fas fa-list-ol"></i> ${currentLang === 'fr' ? 'Corrigé détaillé' : 'حل مفصل'}</span>
+        </div>
+        <div class="ex-actions">
+          <button class="btn-ex voir" data-action="voir">
+            <i class="fas fa-eye"></i> ${trad[currentLang]['btn.voir']}
+          </button>
+          <button class="btn-ex corrige" data-action="corrige">
+            <i class="fas fa-lightbulb"></i> ${trad[currentLang]['btn.corrige']}
+          </button>
+        </div>
+      `;
+
+      card.querySelector('[data-action="voir"]').addEventListener('click', (ev) => {
+        ev.stopPropagation();
+        ouvrirPanneau(e, false);
+      });
+      card.querySelector('[data-action="corrige"]').addEventListener('click', (ev) => {
+        ev.stopPropagation();
+        ouvrirPanneau(e, true);
+      });
+
+      return card;
+    }
+
+    function ouvrirPanneau(e, ouvrirCorrige) {
+      const panneau = document.getElementById('panneauDetail');
+      const overlay = document.getElementById('panneauOverlay');
+      const corps = document.getElementById('panneauCorps');
+
+      const niveauLabel = trad[currentLang]['niveau.' + e.niveau];
+      const matiereLabel = trad[currentLang]['matiere.' + e.matiere];
+      const titre = currentLang === 'fr' ? e.titre_fr : e.titre_ar;
+      const chap = currentLang === 'fr' ? e.chapitre_fr : e.chapitre_ar;
+      const enonce = currentLang === 'fr' ? e.enonce_fr : e.enonce_ar;
+      const resultat = currentLang === 'fr' ? e.resultat_fr : e.resultat_ar;
+
+      const etoiles = [1, 2, 3].map(i =>
+        `<span class="star ${i <= e.difficulte ? '' : 'vide'}">★</span>`
+      ).join('');
+
+      corps.innerHTML = `
+        <div class="ex-hero">
+          <h1>${titre}</h1>
+          <div class="badges">
+            <span>${niveauLabel}</span>
+            <span>${matiereLabel}</span>
+            <span>${chap}</span>
+          </div>
+        </div>
+
+        <div class="panneau-section">
+          <h3><i class="fas fa-file-alt"></i> ${trad[currentLang]['panneau.enonce']}</h3>
+          <div class="enonce-box">
+            <p>${enonce}</p>
+          </div>
+        </div>
+
+        <button class="btn-reveler" id="btnReveler">
+          <i class="fas fa-lightbulb"></i>
+          ${trad[currentLang]['panneau.reveler']}
+        </button>
+
+        <div class="corrige-wrap ${ouvrirCorrige ? 'visible' : ''}" id="corrigeWrap">
+          <div class="panneau-section">
+            <h3><i class="fas fa-check-circle"></i> ${trad[currentLang]['panneau.reveler']}</h3>
+            <div class="etape-correction">
+              <span class="etape-num">${trad[currentLang]['panneau.etape']} 1</span>
+              <h4>${currentLang === 'fr' ? 'Identifier les données' : 'تحديد المعطيات'}</h4>
+              <div class="contenu-etape">
+                <p>${currentLang === 'fr' ? 'Lire l\'énoncé et repérer les valeurs données.' : 'اقرأ النص وحدد القيم المعطاة.'}</p>
+              </div>
+            </div>
+            <div class="etape-correction">
+              <span class="etape-num">${trad[currentLang]['panneau.etape']} 2</span>
+              <h4>${currentLang === 'fr' ? 'Appliquer la formule' : 'تطبيق الصيغة'}</h4>
+              <div class="contenu-etape">
+                <p>${currentLang === 'fr' ? 'Utiliser la formule adaptée au problème.' : 'استعمل الصيغة المناسبة.'}</p>
+              </div>
+            </div>
+            <div class="etape-correction">
+              <span class="etape-num">${trad[currentLang]['panneau.etape']} 3</span>
+              <h4>${currentLang === 'fr' ? 'Calcul final' : 'الحساب النهائي'}</h4>
+              <div class="contenu-etape">
+                <p>${currentLang === 'fr' ? 'Effectuer le calcul et vérifier l\'unité.' : 'أجرِ الحساب وتحقق من الوحدة.'}</p>
+              </div>
+            </div>
+            <div class="resultat-final">
+              <div class="titre-res">${trad[currentLang]['panneau.resultat']}</div>
+              <div class="valeur-res">${resultat}</div>
+            </div>
+          </div>
+        </div>
+      `;
+
+      if (window.renderMathInElement) {
+        renderMathInElement(corps, {
+          delimiters: [
+            { left: '$$', right: '$$', display: true },
+            { left: '$', right: '$', display: false }
+          ],
+          throwOnError: false
+        });
+      }
+
+      document.getElementById('btnReveler').addEventListener('click', () => {
+        document.getElementById('corrigeWrap').classList.add('visible');
+        document.getElementById('btnReveler').style.display = 'none';
+        if (!resolus.includes(e.id)) {
+          resolus.push(e.id);
+          localStorage.setItem('asaliki-resolus', JSON.stringify(resolus));
+          mettreAJourStats();
+          afficherExercices();
+        }
+      });
+
+      if (ouvrirCorrige) {
+        document.getElementById('btnReveler').style.display = 'none';
+        if (!resolus.includes(e.id)) {
+          resolus.push(e.id);
+          localStorage.setItem('asaliki-resolus', JSON.stringify(resolus));
+          mettreAJourStats();
+        }
+      }
+
+      panneau.classList.add('ouvert');
+      overlay.classList.add('ouvert');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function fermerPanneau() {
+      document.getElementById('panneauDetail').classList.remove('ouvert');
+      document.getElementById('panneauOverlay').classList.remove('ouvert');
+      document.body.style.overflow = '';
+    }
+
+    function mettreAJourStats() {
+      const total = exercices.length;
+      const nbResolus = resolus.length;
+      const progression = total > 0 ? Math.round((nbResolus / total) * 100) : 0;
+      document.getElementById('statTotal').textContent = total;
+      document.getElementById('statResolus').textContent = nbResolus;
+      document.getElementById('statProgression').textContent = progression + '%';
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,1853 @@
+<!DOCTYPE html>
+<html lang="fr" id="htmlRoot">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A SALIKI PC — Physique & Chimie pour lycéens marocains</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --noir-profond: #050b14;
+      --bleu-nuit: #0a1428;
+      --bleu-carte: #0f1e38;
+      --bleu-bordure: #1a2f52;
+      --cyan-neon: #22d3ee;
+      --cyan-clair: #67e8f9;
+      --vert-neon: #4ade80;
+      --vert-fluo: #22c55e;
+      --violet-tech: #8b5cf6;
+      --or: #fbbf24;
+      --rose: #f472b6;
+      --blanc: #ffffff;
+      --texte-principal: #ffffff;
+      --texte-secondaire: #94a3b8;
+      --texte-tertiaire: #cbd5e1;
+      --fond-principal: #050b14;
+      --fond-secondaire: #0a1428;
+      --fond-carte: #0f1e38;
+      --bordure: #1a2f52;
+      --ombre-neon: 0 0 40px -10px rgba(34, 211, 238, 0.4);
+      --ombre-vert: 0 0 40px -10px rgba(74, 222, 128, 0.35);
+      --rayon: 1rem;
+      --rayon-petit: 0.6rem;
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      --grille-couleur: rgba(34, 211, 238, 0.03);
+    }
+
+    [data-theme="light"] {
+      --noir-profond: #f8fafc;
+      --bleu-nuit: #ffffff;
+      --bleu-carte: #ffffff;
+      --bleu-bordure: #e2e8f0;
+      --cyan-neon: #0891b2;
+      --cyan-clair: #06b6d4;
+      --vert-neon: #16a34a;
+      --vert-fluo: #22c55e;
+      --violet-tech: #7c3aed;
+      --or: #d97706;
+      --rose: #db2777;
+      --blanc: #0a1428;
+      --texte-principal: #0a1428;
+      --texte-secondaire: #475569;
+      --texte-tertiaire: #334155;
+      --fond-principal: #f8fafc;
+      --fond-secondaire: #ffffff;
+      --fond-carte: #ffffff;
+      --bordure: #e2e8f0;
+      --ombre-neon: 0 10px 30px -10px rgba(8, 145, 178, 0.25);
+      --ombre-vert: 0 10px 30px -10px rgba(22, 163, 74, 0.25);
+      --grille-couleur: rgba(8, 145, 178, 0.05);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--fond-principal);
+      color: var(--texte-tertiaire);
+      line-height: 1.6;
+      overflow-x: hidden;
+      transition: background-color 0.4s ease, color 0.4s ease;
+    }
+
+    [dir="rtl"] body { font-family: 'Cairo', 'Inter', sans-serif; }
+
+    h1, h2, h3, h4, .logo { font-family: 'Space Grotesk', sans-serif; letter-spacing: -0.02em; }
+    [dir="rtl"] h1, [dir="rtl"] h2, [dir="rtl"] h3, [dir="rtl"] h4 { font-family: 'Cairo', sans-serif; letter-spacing: 0; }
+
+    a { text-decoration: none; color: inherit; }
+    .container { max-width: 1280px; margin: 0 auto; padding: 0 1.5rem; }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background-image:
+        linear-gradient(var(--grille-couleur) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grille-couleur) 1px, transparent 1px);
+      background-size: 50px 50px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    section, header, footer { position: relative; z-index: 1; }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      padding: 0.85rem 2rem;
+      border-radius: 0.5rem;
+      font-weight: 600;
+      font-size: 0.95rem;
+      border: none;
+      cursor: pointer;
+      transition: var(--transition);
+      text-align: center;
+      font-family: inherit;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn::after {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%;
+      width: 100%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+      transition: left 0.6s ease;
+    }
+
+    .btn:hover::after { left: 100%; }
+
+    .btn-cyan {
+      background: linear-gradient(135deg, var(--cyan-neon), #0891b2);
+      color: #ffffff;
+      box-shadow: 0 0 25px -5px rgba(34, 211, 238, 0.6);
+    }
+
+    .btn-cyan:hover { transform: translateY(-2px); box-shadow: 0 0 40px -5px rgba(34, 211, 238, 0.9); }
+
+    .btn-vert {
+      background: linear-gradient(135deg, var(--vert-neon), var(--vert-fluo));
+      color: #ffffff;
+      box-shadow: 0 0 25px -5px rgba(74, 222, 128, 0.6);
+    }
+
+    .btn-vert:hover { transform: translateY(-2px); }
+
+    .btn-outline-cyan {
+      background: transparent;
+      border: 1.5px solid var(--cyan-neon);
+      color: var(--cyan-neon);
+    }
+
+    .btn-outline-cyan:hover { background: rgba(34, 211, 238, 0.1); }
+
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(5, 11, 20, 0.85);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--bordure);
+      transition: background 0.4s ease;
+    }
+
+    [data-theme="light"] .header { background: rgba(255, 255, 255, 0.9); }
+
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.9rem 0;
+      gap: 1rem;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--texte-principal);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      white-space: nowrap;
+    }
+
+    .logo-icon {
+      width: 38px; height: 38px;
+      border-radius: 0.5rem;
+      background: linear-gradient(135deg, var(--cyan-neon), var(--vert-neon));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #050b14;
+      font-size: 1.1rem;
+      box-shadow: 0 0 20px -5px rgba(34, 211, 238, 0.7);
+    }
+
+    .logo span {
+      background: linear-gradient(135deg, var(--cyan-neon), var(--vert-neon));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .nav-desktop { display: flex; align-items: center; gap: 0.1rem; }
+
+    .nav-desktop a {
+      padding: 0.5rem 0.85rem;
+      font-size: 0.88rem;
+      font-weight: 500;
+      color: var(--texte-secondaire);
+      border-radius: 0.4rem;
+      transition: var(--transition);
+      white-space: nowrap;
+    }
+
+    .nav-desktop a:hover { color: var(--cyan-neon); background: rgba(34, 211, 238, 0.08); }
+    .nav-desktop a.actif { color: var(--cyan-neon); background: rgba(34, 211, 238, 0.12); }
+    .nav-desktop a.admin-link { color: var(--rose); }
+    .nav-desktop a.admin-link:hover { color: var(--rose); background: rgba(244, 114, 182, 0.12); }
+
+    .header-actions { display: flex; align-items: center; gap: 0.5rem; }
+
+    .lang-switcher {
+      display: flex;
+      background: rgba(34, 211, 238, 0.08);
+      border: 1px solid var(--bordure);
+      border-radius: 0.4rem;
+      overflow: hidden;
+    }
+
+    .lang-btn {
+      background: transparent;
+      border: none;
+      color: var(--texte-secondaire);
+      font-family: inherit;
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 0.55rem 0.85rem;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .lang-btn.actif {
+      background: linear-gradient(135deg, var(--cyan-neon), var(--vert-neon));
+      color: #050b14;
+    }
+
+    .btn-connexion {
+      background: linear-gradient(135deg, var(--cyan-neon), var(--vert-neon));
+      color: #050b14;
+      padding: 0.6rem 1.3rem;
+      border-radius: 0.5rem;
+      font-weight: 600;
+      font-size: 0.85rem;
+      transition: var(--transition);
+      box-shadow: 0 0 20px -8px rgba(34, 211, 238, 0.6);
+    }
+
+    .burger {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 1.4rem;
+      color: var(--cyan-neon);
+      cursor: pointer;
+    }
+
+    .hero {
+      padding: 5rem 0 6rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -20%; right: -10%;
+      width: 700px; height: 700px;
+      background: radial-gradient(circle, rgba(34, 211, 238, 0.15), transparent 60%);
+      border-radius: 50%;
+      pointer-events: none;
+      animation: float 8s ease-in-out infinite;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -30%; left: -10%;
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(74, 222, 128, 0.12), transparent 60%);
+      border-radius: 50%;
+      pointer-events: none;
+      animation: float 10s ease-in-out infinite reverse;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(30px, -30px) scale(1.1); }
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(34, 211, 238, 0.08);
+      border: 1px solid rgba(34, 211, 238, 0.25);
+      color: var(--cyan-neon);
+      padding: 0.4rem 1rem;
+      border-radius: 2rem;
+      font-size: 0.8rem;
+      font-weight: 500;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-tag .dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--vert-neon);
+      box-shadow: 0 0 10px var(--vert-neon);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(1.3); }
+    }
+
+    .hero-texte h1 {
+      font-size: 3.8rem;
+      font-weight: 700;
+      line-height: 1.05;
+      color: var(--texte-principal);
+      margin-bottom: 0.6rem;
+    }
+
+    .hero-texte h1 .accent {
+      background: linear-gradient(135deg, var(--cyan-neon), var(--vert-neon));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-texte .sous-titre {
+      font-size: 1.2rem;
+      font-weight: 500;
+      color: var(--cyan-clair);
+      margin-bottom: 1.5rem;
+      font-family: 'Space Grotesk', sans-serif;
+      min-height: 1.8rem;
+    }
+
+    .typing-cursor {
+      display: inline-block;
+      width: 2px;
+      height: 1.1em;
+      background: var(--cyan-neon);
+      margin-left: 2px;
+      vertical-align: middle;
+      animation: blink 1s infinite;
+    }
+
+    @keyframes blink {
+      0%, 50% { opacity: 1; }
+      51%, 100% { opacity: 0; }
+    }
+
+    .hero-texte p {
+      font-size: 1.05rem;
+      color: var(--texte-secondaire);
+      max-width: 520px;
+      margin-bottom: 2rem;
+      line-height: 1.75;
+    }
+
+    .hero-boutons {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-bottom: 2.5rem;
+    }
+
+    .hero-stats-mini {
+      display: flex;
+      gap: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--bordure);
+    }
+
+    .hero-stats-mini .item { display: flex; flex-direction: column; }
+
+    .hero-stats-mini .item .nb {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--cyan-neon);
+    }
+
+    .hero-stats-mini .item .lbl { font-size: 0.8rem; color: var(--texte-secondaire); }
+
+    .hero-illustration {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 400px;
+    }
+
+    .atome-container { position: relative; width: 340px; height: 340px; }
+
+    .atome-noyau {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 70px; height: 70px;
+      border-radius: 50%;
+      background: radial-gradient(circle, var(--cyan-neon), #0891b2);
+      box-shadow: 0 0 50px rgba(34, 211, 238, 0.8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #050b14;
+      font-size: 1.8rem;
+      z-index: 3;
+    }
+
+    .orbite {
+      position: absolute;
+      top: 50%; left: 50%;
+      border-radius: 50%;
+      border: 1.5px dashed rgba(34, 211, 238, 0.3);
+      transform: translate(-50%, -50%);
+    }
+
+    .orbite-1 { width: 180px; height: 180px; animation: rotation 8s linear infinite; }
+    .orbite-2 { width: 260px; height: 260px; animation: rotation 12s linear infinite reverse; border-color: rgba(74, 222, 128, 0.3); }
+    .orbite-3 { width: 340px; height: 340px; animation: rotation 18s linear infinite; border-color: rgba(139, 92, 246, 0.25); }
+
+    .electron {
+      position: absolute;
+      width: 14px; height: 14px;
+      border-radius: 50%;
+      background: var(--vert-neon);
+      box-shadow: 0 0 20px var(--vert-neon);
+    }
+
+    .orbite-1 .electron { top: -7px; left: 50%; margin-left: -7px; }
+    .orbite-2 .electron { top: 50%; right: -7px; margin-top: -7px; background: var(--cyan-neon); }
+    .orbite-3 .electron { bottom: -7px; left: 50%; margin-left: -7px; background: var(--violet-tech); }
+
+    @keyframes rotation {
+      from { transform: translate(-50%, -50%) rotate(0deg); }
+      to { transform: translate(-50%, -50%) rotate(360deg); }
+    }
+
+    .section { padding: 5rem 0; }
+
+    .section-titre { text-align: center; margin-bottom: 3rem; }
+
+    .section-titre .kicker {
+      display: inline-block;
+      color: var(--cyan-neon);
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      margin-bottom: 0.8rem;
+      padding: 0.3rem 1rem;
+      border: 1px solid rgba(34, 211, 238, 0.3);
+      border-radius: 2rem;
+      background: rgba(34, 211, 238, 0.05);
+    }
+
+    .section-titre h2 {
+      font-size: 2.3rem;
+      font-weight: 700;
+      color: var(--texte-principal);
+      margin-bottom: 0.8rem;
+    }
+
+    .section-titre p {
+      color: var(--texte-secondaire);
+      font-size: 1.05rem;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .etapes-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5rem;
+    }
+
+    .etape {
+      background: linear-gradient(145deg, var(--fond-carte), var(--fond-secondaire));
+      border: 1px solid var(--bordure);
+      border-radius: var(--rayon);
+      padding: 2rem 1.5rem;
+      position: relative;
+      transition: var(--transition);
+    }
+
+    .etape:hover { transform: translateY(-8px); border-color: rgba(34, 211, 238, 0.4); box-shadow: var(--ombre-neon); }
+
+    .etape .numero {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: rgba(34, 211, 238, 0.15);
+      position: absolute;
+      top: 1rem; right: 1.2rem;
+    }
+
+    .etape .icone {
+      width: 50px; height: 50px;
+      border-radius: 0.7rem;
+      background: rgba(34, 211, 238, 0.08);
+      border: 1px solid rgba(34, 211, 238, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      color: var(--cyan-neon);
+      margin-bottom: 1.2rem;
+    }
+
+    .etape h3 { font-size: 1.1rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--texte-principal); }
+    .etape p { font-size: 0.88rem; color: var(--texte-secondaire); }
+
+    .cartes-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .carte-cours {
+      background: linear-gradient(160deg, var(--fond-carte), var(--fond-secondaire));
+      border: 1px solid var(--bordure);
+      border-radius: var(--rayon);
+      overflow: hidden;
+      transition: var(--transition);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .carte-cours:hover { transform: translateY(-6px); border-color: rgba(34, 211, 238, 0.4); box-shadow: var(--ombre-neon); }
+
+    .carte-cours .image {
+      height: 150px;
+      background: linear-gradient(135deg, rgba(34, 211, 238, 0.15), rgba(74, 222, 128, 0.1));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.8rem;
+      color: var(--cyan-neon);
+      position: relative;
+      border-bottom: 1px solid var(--bordure);
+    }
+
+    .carte-cours .image.chimie { background: linear-gradient(135deg, rgba(139, 92, 246, 0.15), rgba(74, 222, 128, 0.1)); color: var(--vert-neon); }
+    .carte-cours .image.elec { background: linear-gradient(135deg, rgba(251, 191, 36, 0.15), rgba(34, 211, 238, 0.1)); color: var(--or); }
+    .carte-cours .image.acide { background: linear-gradient(135deg, rgba(74, 222, 128, 0.15), rgba(34, 211, 238, 0.1)); color: var(--vert-neon); }
+
+    .carte-cours .badge-niveau {
+      position: absolute;
+      top: 12px; left: 12px;
+      background: rgba(5, 11, 20, 0.85);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(34, 211, 238, 0.4);
+      color: var(--cyan-neon);
+      font-size: 0.7rem;
+      font-weight: 600;
+      padding: 0.3rem 0.8rem;
+      border-radius: 2rem;
+      text-transform: uppercase;
+    }
+
+    .carte-cours .contenu { padding: 1.3rem; flex: 1; display: flex; flex-direction: column; }
+
+    .carte-cours .matiere {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--vert-neon);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.4rem;
+    }
+
+    .carte-cours h3 { font-size: 1.1rem; font-weight: 600; color: var(--texte-principal); margin-bottom: 0.8rem; line-height: 1.3; }
+
+    .carte-cours .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem 1rem;
+      font-size: 0.78rem;
+      color: var(--texte-secondaire);
+      margin-bottom: 1rem;
+    }
+
+    .carte-cours .meta span { display: flex; align-items: center; gap: 0.3rem; }
+    .carte-cours .meta i { color: var(--cyan-neon); font-size: 0.75rem; }
+
+    .carte-cours .statut {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 0.25rem 0.8rem;
+      border-radius: 2rem;
+      margin-bottom: 1rem;
+      align-self: flex-start;
+      text-transform: uppercase;
+    }
+
+    .statut.gratuit { background: rgba(74, 222, 128, 0.12); color: var(--vert-neon); border: 1px solid rgba(74, 222, 128, 0.3); }
+    .statut.premium { background: rgba(251, 191, 36, 0.12); color: var(--or); border: 1px solid rgba(251, 191, 36, 0.3); }
+
+    .carte-cours .btn-carte {
+      margin-top: auto;
+      display: inline-flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      padding: 0.7rem 1.1rem;
+      background: rgba(34, 211, 238, 0.08);
+      border: 1px solid rgba(34, 211, 238, 0.3);
+      color: var(--cyan-neon);
+      border-radius: 0.5rem;
+      font-weight: 600;
+      font-size: 0.85rem;
+      transition: var(--transition);
+    }
+
+    .carte-cours .btn-carte:hover { background: var(--cyan-neon); color: #050b14; }
+
+    .niveaux-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; }
+
+    .niveau-carte {
+      background: linear-gradient(160deg, var(--fond-carte), var(--fond-secondaire));
+      border: 1px solid var(--bordure);
+      border-radius: var(--rayon);
+      padding: 2rem 1.5rem;
+      text-align: center;
+      transition: var(--transition);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .niveau-carte:hover { transform: translateY(-8px); border-color: rgba(34, 211, 238, 0.4); box-shadow: var(--ombre-neon); }
+
+    .niveau-carte .icone { font-size: 2.2rem; margin-bottom: 0.5rem; }
+    .niveau-carte h3 { font-size: 0.95rem; font-weight: 600; color: var(--texte-principal); line-height: 1.3; }
+    .niveau-carte p { font-size: 0.82rem; color: var(--texte-secondaire); margin-bottom: 1rem; }
+
+    .niveau-carte .btn-explorer {
+      background: transparent;
+      color: var(--cyan-neon);
+      padding: 0.5rem 1.5rem;
+      border: 1px solid rgba(34, 211, 238, 0.4);
+      border-radius: 2rem;
+      font-weight: 600;
+      font-size: 0.82rem;
+      transition: var(--transition);
+      cursor: pointer;
+      font-family: inherit;
+      text-decoration: none;
+    }
+
+    .niveau-carte .btn-explorer:hover { background: var(--cyan-neon); color: #050b14; }
+
+    .avantages-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; }
+
+    .avantage {
+      background: linear-gradient(160deg, var(--fond-carte), var(--fond-secondaire));
+      border: 1px solid var(--bordure);
+      border-radius: var(--rayon);
+      padding: 2rem 1.5rem;
+      transition: var(--transition);
+    }
+
+    .avantage:hover { transform: translateY(-8px); border-color: rgba(74, 222, 128, 0.4); box-shadow: var(--ombre-vert); }
+
+    .avantage .icone {
+      width: 50px; height: 50px;
+      border-radius: 0.7rem;
+      background: rgba(74, 222, 128, 0.08);
+      border: 1px solid rgba(74, 222, 128, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .avantage h3 { font-size: 1.05rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--texte-principal); }
+    .avantage p { font-size: 0.88rem; color: var(--texte-secondaire); }
+
+    .populaires-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+
+    .populaire-item {
+      background: linear-gradient(160deg, var(--fond-carte), var(--fond-secondaire));
+      border: 1px solid var(--bordure);
+      border-radius: var(--rayon-petit);
+      padding: 1.2rem 1.4rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      transition: var(--transition);
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .populaire-item:hover { border-color: rgba(34, 211, 238, 0.4); transform: translateX(5px); box-shadow: var(--ombre-neon); }
+
+    .populaire-item .rang {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--cyan-neon), var(--vert-neon));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      min-width: 35px;
+    }
+
+    .populaire-item .info h4 { font-size: 0.95rem; font-weight: 600; color: var(--texte-principal); }
+    .populaire-item .info span { font-size: 0.78rem; color: var(--texte-secondaire); }
+
+    .matieres-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+
+    .matiere-bloc {
+      border-radius: var(--rayon);
+      padding: 2.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      transition: var(--transition);
+      border: 1px solid;
+    }
+
+    .matiere-bloc.physique { background: linear-gradient(145deg, rgba(34, 211, 238, 0.12), var(--fond-secondaire)); border-color: rgba(34, 211, 238, 0.4); }
+    .matiere-bloc.physique:hover { box-shadow: var(--ombre-neon); transform: translateY(-5px); }
+    .matiere-bloc.chimie { background: linear-gradient(145deg, rgba(74, 222, 128, 0.12), var(--fond-secondaire)); border-color: rgba(74, 222, 128, 0.4); }
+    .matiere-bloc.chimie:hover { box-shadow: var(--ombre-vert); transform: translateY(-5px); }
+
+    .matiere-bloc h3 { font-size: 1.8rem; font-weight: 700; color: var(--texte-principal); display: flex; align-items: center; gap: 0.8rem; }
+
+    .matiere-bloc .chapitres { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0.5rem 0 1rem; }
+
+    .matiere-bloc .chapitres span {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 0.3rem 0.9rem;
+      border-radius: 2rem;
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--texte-tertiaire);
+    }
+
+    .matiere-bloc .btn-matiere {
+      padding: 0.8rem 1.8rem;
+      border-radius: 0.5rem;
+      font-weight: 600;
+      transition: var(--transition);
+      align-self: flex-start;
+      font-size: 0.9rem;
+      font-family: inherit;
+      cursor: pointer;
+      border: 1px solid;
+      text-decoration: none;
+    }
+
+    .matiere-bloc.physique .btn-matiere { background: rgba(34, 211, 238, 0.15); border-color: var(--cyan-neon); color: var(--cyan-neon); }
+    .matiere-bloc.physique .btn-matiere:hover { background: var(--cyan-neon); color: #050b14; }
+    .matiere-bloc.chimie .btn-matiere { background: rgba(74, 222, 128, 0.15); border-color: var(--vert-neon); color: var(--vert-neon); }
+    .matiere-bloc.chimie .btn-matiere:hover { background: var(--vert-neon); color: #050b14; }
+
+    .examens-section {
+      background: linear-gradient(135deg, rgba(34, 211, 238, 0.1), rgba(74, 222, 128, 0.08));
+      border: 1px solid rgba(34, 211, 238, 0.3);
+      border-radius: var(--rayon);
+      padding: 4rem 3rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .examens-section h2 { font-size: 2.3rem; font-weight: 700; color: var(--texte-principal); margin-bottom: 1rem; position: relative; }
+    .examens-section p { color: var(--texte-tertiaire); max-width: 650px; margin: 0 auto 2rem; font-size: 1.05rem; position: relative; }
+
+    .simulations-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.2rem; }
+
+    .simulation-item {
+      background: linear-gradient(160deg, var(--fond-carte), var(--fond-secondaire));
+      border: 1px solid var(--bordure);
+      border-radius: var(--rayon-petit);
+      padding: 1.5rem;
+      text-align: center;
+      transition: var(--transition);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .simulation-item:hover { border-color: rgba(34, 211, 238, 0.5); transform: translateY(-5px); box-shadow: var(--ombre-neon); }
+
+    .simulation-item .icone { font-size: 2rem; margin-bottom: 0.3rem; }
+    .simulation-item h4 { font-size: 0.98rem; font-weight: 600; color: var(--texte-principal); }
+    .simulation-item p { font-size: 0.8rem; color: var(--texte-secondaire); }
+
+    .professeur-section {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 3rem;
+      align-items: center;
+      background: linear-gradient(160deg, var(--fond-carte), var(--fond-secondaire));
+      border: 1px solid var(--bordure);
+      border-radius: var(--rayon);
+      padding: 3rem;
+    }
+
+    .professeur-photo {
+      width: 100%;
+      aspect-ratio: 1/1;
+      border-radius: var(--rayon);
+      background: linear-gradient(135deg, rgba(34, 211, 238, 0.15), rgba(74, 222, 128, 0.1));
+      border: 2px solid rgba(34, 211, 238, 0.4);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: var(--cyan-neon);
+      font-size: 4rem;
+    }
+
+    .professeur-photo .placeholder-texte {
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: var(--texte-secondaire);
+      margin-top: 0.5rem;
+    }
+
+    .professeur-info h2 { font-size: 2rem; font-weight: 700; color: var(--texte-principal); margin-bottom: 0.3rem; }
+    .professeur-info .titre { font-size: 1rem; color: var(--cyan-neon); font-weight: 600; margin-bottom: 1.2rem; }
+    .professeur-info p { color: var(--texte-secondaire); margin-bottom: 1rem; line-height: 1.75; font-size: 0.95rem; }
+    .professeur-info .tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.2rem; }
+
+    .professeur-info .tags span {
+      background: rgba(34, 211, 238, 0.08);
+      border: 1px solid rgba(34, 211, 238, 0.2);
+      padding: 0.35rem 1rem;
+      border-radius: 2rem;
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--cyan-clair);
+    }
+
+    .stats-section {
+      background: linear-gradient(135deg, rgba(34, 211, 238, 0.08), rgba(74, 222, 128, 0.06));
+      border: 1px solid rgba(34, 211, 238, 0.25);
+      border-radius: var(--rayon);
+      padding: 3.5rem 2rem;
+    }
+
+    .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; text-align: center; }
+
+    .stat-item .chiffre {
+      font-size: 2.8rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--cyan-neon), var(--vert-neon));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1;
+      margin-bottom: 0.5rem;
+    }
+
+    .stat-item .label { font-size: 0.9rem; font-weight: 500; color: var(--texte-secondaire); }
+
+    .temoignages-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+
+    .temoignage {
+      background: linear-gradient(160deg, var(--fond-carte), var(--fond-secondaire));
+      border: 1px solid var(--bordure);
+      border-radius: var(--rayon);
+      padding: 2rem;
+      transition: var(--transition);
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .temoignage:hover { transform: translateY(-8px); border-color: rgba(34, 211, 238, 0.4); box-shadow: var(--ombre-neon); }
+
+    .temoignage .avatar {
+      width: 48px; height: 48px;
+      border-radius: 0.6rem;
+      background: linear-gradient(135deg, var(--cyan-neon), var(--vert-neon));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #050b14;
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+
+    .temoignage .commentaire { font-size: 0.92rem; color: var(--texte-tertiaire); line-height: 1.75; flex: 1; }
+    .temoignage .auteur { font-weight: 600; color: var(--texte-principal); font-size: 0.92rem; }
+    .temoignage .niveau { font-size: 0.78rem; color: var(--cyan-neon); font-weight: 500; }
+
+    .cta-final {
+      background: linear-gradient(135deg, rgba(34, 211, 238, 0.12), rgba(74, 222, 128, 0.1));
+      border: 1px solid rgba(34, 211, 238, 0.3);
+      border-radius: var(--rayon);
+      padding: 4rem 3rem;
+      text-align: center;
+    }
+
+    .cta-final h2 { font-size: 2.3rem; font-weight: 700; color: var(--texte-principal); margin-bottom: 1rem; }
+    .cta-final p { color: var(--texte-tertiaire); max-width: 600px; margin: 0 auto 2rem; font-size: 1.05rem; }
+
+    .footer {
+      background: var(--fond-secondaire);
+      border-top: 1px solid var(--bordure);
+      padding: 4rem 0 2rem;
+      margin-top: 4rem;
+    }
+
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem; margin-bottom: 3rem; }
+
+    .footer-col h4 { color: var(--texte-principal); font-size: 1rem; font-weight: 600; margin-bottom: 1.2rem; font-family: 'Space Grotesk', sans-serif; }
+    .footer-col p { font-size: 0.88rem; line-height: 1.75; margin-bottom: 1rem; color: var(--texte-secondaire); }
+    .footer-col ul { list-style: none; }
+    .footer-col ul li { margin-bottom: 0.7rem; }
+    .footer-col ul li a { font-size: 0.88rem; color: var(--texte-secondaire); transition: var(--transition); display: inline-block; }
+    .footer-col ul li a:hover { color: var(--cyan-neon); padding-left: 4px; }
+
+    .footer-social { display: flex; gap: 0.6rem; margin-top: 1rem; }
+
+    .footer-social a {
+      width: 38px; height: 38px;
+      border-radius: 0.5rem;
+      background: rgba(34, 211, 238, 0.08);
+      border: 1px solid var(--bordure);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--texte-secondaire);
+      transition: var(--transition);
+      font-size: 0.95rem;
+    }
+
+    .footer-social a:hover { background: var(--cyan-neon); color: #050b14; transform: translateY(-3px); }
+
+    .footer-bottom {
+      border-top: 1px solid var(--bordure);
+      padding-top: 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      font-size: 0.82rem;
+      color: var(--texte-secondaire);
+    }
+
+    .theme-toggle {
+      position: fixed;
+      bottom: 2rem; right: 2rem;
+      width: 58px; height: 58px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--cyan-neon), var(--vert-neon));
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      color: #050b14;
+      box-shadow: 0 8px 30px -5px rgba(34, 211, 238, 0.7);
+      transition: var(--transition);
+      z-index: 9999;
+    }
+
+    .theme-toggle:hover { transform: translateY(-4px) rotate(15deg) scale(1.05); }
+
+    .theme-toggle .icon-sun { display: none; }
+    [data-theme="light"] .theme-toggle .icon-sun { display: block; }
+    [data-theme="light"] .theme-toggle .icon-moon { display: none; }
+
+    @media (max-width: 1024px) {
+      .hero-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .hero-texte h1 { font-size: 3rem; }
+      .etapes-grid, .niveaux-grid, .avantages-grid { grid-template-columns: repeat(2, 1fr); }
+      .populaires-grid, .simulations-grid, .temoignages-grid { grid-template-columns: repeat(2, 1fr); }
+      .professeur-section { grid-template-columns: 1fr; text-align: center; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 768px) {
+      .nav-desktop { display: none; }
+      .burger { display: block; }
+      .btn-connexion { display: none; }
+      .hero-texte h1 { font-size: 2.4rem; }
+      .etapes-grid, .niveaux-grid, .avantages-grid, .populaires-grid,
+      .simulations-grid, .temoignages-grid, .matieres-grid { grid-template-columns: 1fr; }
+      .stats-grid { grid-template-columns: 1fr 1fr; }
+      .footer-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .cartes-grid { grid-template-columns: 1fr; }
+      .examens-section, .cta-final { padding: 2.5rem 1.5rem; }
+      .examens-section h2, .cta-final h2 { font-size: 1.7rem; }
+    }
+
+    @media (max-width: 480px) {
+      .hero-texte h1 { font-size: 2rem; }
+      .hero-boutons { flex-direction: column; }
+      .hero-boutons .btn { width: 100%; }
+      .stats-grid { grid-template-columns: 1fr; }
+      .container { padding: 0 1rem; }
+      .section { padding: 3rem 0; }
+      .lang-switcher { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="container header-inner">
+      <a href="index.html" class="logo">
+        <span class="logo-icon"><i class="fas fa-atom"></i></span>
+        A SALIKI <span>PC</span>
+      </a>
+
+      <nav class="nav-desktop">
+        <a href="index.html" class="actif" data-i18n="nav.home">Accueil</a>
+        <a href="cours.html" data-i18n="nav.cours">Cours</a>
+        <a href="exercices.html" data-i18n="nav.exercices">Exercices</a>
+        <a href="examens.html" data-i18n="nav.examens">Examens</a>
+        <a href="simulations.html" data-i18n="nav.simulations">Simulations</a>
+        <a href="qcm.html" data-i18n="nav.qcm">QCM</a>
+        <a href="ressources.html" data-i18n="nav.ressources">Ressources</a>
+        <a href="admin/login.html" class="admin-link" data-i18n="nav.admin">Admin</a>
+      </nav>
+
+      <div class="header-actions">
+        <div class="lang-switcher">
+          <button class="lang-btn actif" data-lang="fr">FR</button>
+          <button class="lang-btn" data-lang="ar">AR</button>
+        </div>
+        <a href="admin/login.html" class="btn-connexion" data-i18n="nav.connexion">Connexion</a>
+        <button class="burger"><i class="fas fa-bars"></i></button>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container hero-grid">
+      <div class="hero-texte">
+        <div class="hero-tag">
+          <span class="dot"></span>
+          <span data-i18n="hero.tag">Plateforme Physique-Chimie · Lycée Maroc</span>
+        </div>
+        <h1>A SALIKI <span class="accent">PC</span></h1>
+        <p class="sous-titre">
+          <span id="typing-text"></span><span class="typing-cursor"></span>
+        </p>
+        <p data-i18n="hero.description">Cours, exercices, corrigés, examens et simulations pour apprendre, comprendre et réussir en Physique-Chimie.</p>
+        <div class="hero-boutons">
+          <a href="cours.html" class="btn btn-cyan"><i class="fas fa-book-open"></i> <span data-i18n="hero.btn1">Découvrir les cours</span></a>
+          <a href="ressources.html" class="btn btn-outline-cyan"><i class="fas fa-flask"></i> <span data-i18n="hero.btn2">Explorer les ressources</span></a>
+        </div>
+        <div class="hero-stats-mini">
+          <div class="item">
+            <span class="nb">500+</span>
+            <span class="lbl" data-i18n="hero.stat1">Ressources</span>
+          </div>
+          <div class="item">
+            <span class="nb">100+</span>
+            <span class="lbl" data-i18n="hero.stat2">Cours</span>
+          </div>
+          <div class="item">
+            <span class="nb">1000+</span>
+            <span class="lbl" data-i18n="hero.stat3">Exercices</span>
+          </div>
+        </div>
+      </div>
+      <div class="hero-illustration">
+        <div class="atome-container">
+          <div class="orbite orbite-3"></div>
+          <div class="orbite orbite-2"></div>
+          <div class="orbite orbite-1"></div>
+          <div class="atome-noyau"><i class="fas fa-bolt"></i></div>
+          <div class="electron"></div>
+          <div class="electron"></div>
+          <div class="electron"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMMENT ÇA MARCHE -->
+  <section class="section">
+    <div class="container">
+      <div class="section-titre">
+        <span class="kicker" data-i18n="methode.kicker">Méthode</span>
+        <h2 data-i18n="methode.titre">Comment ça marche ?</h2>
+        <p data-i18n="methode.desc">Un parcours simple et structuré pour progresser efficacement.</p>
+      </div>
+      <div class="etapes-grid">
+        <div class="etape">
+          <span class="numero">01</span>
+          <div class="icone"><i class="fas fa-layer-group"></i></div>
+          <h3 data-i18n="etape1.titre">Choisissez votre niveau</h3>
+          <p data-i18n="etape1.desc">Tronc Commun, 1ère Bac, 2ème Bac PC ou 2ème Bac SVT.</p>
+        </div>
+        <div class="etape">
+          <span class="numero">02</span>
+          <div class="icone"><i class="fas fa-flask"></i></div>
+          <h3 data-i18n="etape2.titre">Choisissez votre matière</h3>
+          <p data-i18n="etape2.desc">Physique ou Chimie.</p>
+        </div>
+        <div class="etape">
+          <span class="numero">03</span>
+          <div class="icone"><i class="fas fa-book"></i></div>
+          <h3 data-i18n="etape3.titre">Choisissez votre chapitre</h3>
+          <p data-i18n="etape3.desc">Accédez directement au chapitre souhaité.</p>
+        </div>
+        <div class="etape">
+          <span class="numero">04</span>
+          <div class="icone"><i class="fas fa-graduation-cap"></i></div>
+          <h3 data-i18n="etape4.titre">Apprenez et entraînez-vous</h3>
+          <p data-i18n="etape4.desc">Cours, exercices, corrigés, examens et simulations.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- NOUVEAUX COURS -->
+  <section class="section">
+    <div class="container">
+      <div class="section-titre">
+        <span class="kicker" data-i18n="nouveaux.kicker">Récemment ajouté</span>
+        <h2 data-i18n="nouveaux.titre">Nouveaux cours</h2>
+        <p data-i18n="nouveaux.desc">Découvrez les dernières ressources ajoutées sur A Saliki PC.</p>
+      </div>
+      <div class="cartes-grid">
+        <div class="carte-cours">
+          <div class="image">
+            <i class="fas fa-water"></i>
+            <span class="badge-niveau" data-i18n="niveau.2bacpc">2ème Bac PC</span>
+          </div>
+          <div class="contenu">
+            <div class="matiere" data-i18n="matiere.physique">Physique</div>
+            <h3 data-i18n="cours1.titre">Les ondes mécaniques</h3>
+            <div class="meta">
+              <span><i class="fas fa-user"></i> A. Saliki</span>
+              <span><i class="fas fa-file-alt"></i> <span data-i18n="cours1.ressources">12 ressources</span></span>
+            </div>
+            <span class="statut gratuit" data-i18n="statut.gratuit">Gratuit</span>
+            <a href="cours.html" class="btn-carte"><span data-i18n="btn.commencer">Commencer</span> <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </div>
+        <div class="carte-cours">
+          <div class="image chimie">
+            <i class="fas fa-flask"></i>
+            <span class="badge-niveau" data-i18n="niveau.2bacsvt">2ème Bac SVT</span>
+          </div>
+          <div class="contenu">
+            <div class="matiere" data-i18n="matiere.chimie">Chimie</div>
+            <h3 data-i18n="cours2.titre">Transformations chimiques</h3>
+            <div class="meta">
+              <span><i class="fas fa-user"></i> A. Saliki</span>
+              <span><i class="fas fa-file-alt"></i> <span data-i18n="cours2.ressources">9 ressources</span></span>
+            </div>
+            <span class="statut gratuit" data-i18n="statut.gratuit">Gratuit</span>
+            <a href="cours.html" class="btn-carte"><span data-i18n="btn.commencer">Commencer</span> <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </div>
+        <div class="carte-cours">
+          <div class="image elec">
+            <i class="fas fa-bolt"></i>
+            <span class="badge-niveau" data-i18n="niveau.1bac">1ère Bac</span>
+          </div>
+          <div class="contenu">
+            <div class="matiere" data-i18n="matiere.physique">Physique</div>
+            <h3 data-i18n="cours3.titre">Électricité et circuits</h3>
+            <div class="meta">
+              <span><i class="fas fa-user"></i> A. Saliki</span>
+              <span><i class="fas fa-file-alt"></i> <span data-i18n="cours3.ressources">15 ressources</span></span>
+            </div>
+            <span class="statut premium" data-i18n="statut.premium">Premium</span>
+            <a href="cours.html" class="btn-carte"><span data-i18n="btn.commencer">Commencer</span> <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </div>
+        <div class="carte-cours">
+          <div class="image acide">
+            <i class="fas fa-dna"></i>
+            <span class="badge-niveau" data-i18n="niveau.tronccommun">Tronc Commun</span>
+          </div>
+          <div class="contenu">
+            <div class="matiere" data-i18n="matiere.chimie">Chimie</div>
+            <h3 data-i18n="cours4.titre">Acido-basique</h3>
+            <div class="meta">
+              <span><i class="fas fa-user"></i> A. Saliki</span>
+              <span><i class="fas fa-file-alt"></i> <span data-i18n="cours4.ressources">8 ressources</span></span>
+            </div>
+            <span class="statut gratuit" data-i18n="statut.gratuit">Gratuit</span>
+            <a href="cours.html" class="btn-carte"><span data-i18n="btn.commencer">Commencer</span> <i class="fas fa-arrow-right"></i></a>
+          </div>
+        </div>
+      </div>
+      <div style="text-align: center; margin-top: 2.5rem;">
+        <a href="cours.html" class="btn btn-outline-cyan">Voir tous les cours <i class="fas fa-arrow-right"></i></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- NIVEAUX -->
+  <section class="section">
+    <div class="container">
+      <div class="section-titre">
+        <span class="kicker" data-i18n="niveaux.kicker">Parcours</span>
+        <h2 data-i18n="niveaux.titre">Choisissez votre niveau</h2>
+        <p data-i18n="niveaux.desc">Des ressources adaptées à chaque programme du lycée marocain.</p>
+      </div>
+      <div class="niveaux-grid">
+        <div class="niveau-carte">
+          <div class="icone">📘</div>
+          <h3 data-i18n="niveau.tronccommun">TRONC COMMUN</h3>
+          <p data-i18n="niveau.pc">Physique & Chimie</p>
+          <a href="cours.html" class="btn-explorer" data-i18n="btn.explorer">Explorer</a>
+        </div>
+        <div class="niveau-carte">
+          <div class="icone">📗</div>
+          <h3 data-i18n="niveau.1bacse">1ÈRE BAC SCIENCES EXPÉRIMENTALES</h3>
+          <p data-i18n="niveau.pc">Physique & Chimie</p>
+          <a href="cours.html" class="btn-explorer" data-i18n="btn.explorer">Explorer</a>
+        </div>
+        <div class="niveau-carte">
+          <div class="icone">📙</div>
+          <h3 data-i18n="niveau.2bacpc">2ÈME BAC PC</h3>
+          <p data-i18n="niveau.pc">Physique & Chimie</p>
+          <a href="cours.html" class="btn-explorer" data-i18n="btn.explorer">Explorer</a>
+        </div>
+        <div class="niveau-carte">
+          <div class="icone">📕</div>
+          <h3 data-i18n="niveau.2bacsvt">2ÈME BAC SVT</h3>
+          <p data-i18n="niveau.pc">Physique & Chimie</p>
+          <a href="cours.html" class="btn-explorer" data-i18n="btn.explorer">Explorer</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- POURQUOI -->
+  <section class="section">
+    <div class="container">
+      <div class="section-titre">
+        <span class="kicker" data-i18n="pourquoi.kicker">Nos atouts</span>
+        <h2 data-i18n="pourquoi.titre">Pourquoi A Saliki PC ?</h2>
+        <p data-i18n="pourquoi.desc">Une plateforme pensée pour la réussite des lycéens marocains.</p>
+      </div>
+      <div class="avantages-grid">
+        <div class="avantage">
+          <div class="icone">👨‍🏫</div>
+          <h3 data-i18n="avantage1.titre">Un professeur passionné</h3>
+          <p data-i18n="avantage1.desc">Une pédagogie basée sur la compréhension des concepts scientifiques.</p>
+        </div>
+        <div class="avantage">
+          <div class="icone">📚</div>
+          <h3 data-i18n="avantage2.titre">Des ressources structurées</h3>
+          <p data-i18n="avantage2.desc">Cours, exercices, corrigés et examens organisés par niveau et chapitre.</p>
+        </div>
+        <div class="avantage">
+          <div class="icone">💻</div>
+          <h3 data-i18n="avantage3.titre">Apprendre à son rythme</h3>
+          <p data-i18n="avantage3.desc">Les ressources sont accessibles en ligne depuis ordinateur, tablette ou smartphone.</p>
+        </div>
+        <div class="avantage">
+          <div class="icone">🎯</div>
+          <h3 data-i18n="avantage4.titre">Préparer les examens</h3>
+          <p data-i18n="avantage4.desc">Des ressources adaptées à la préparation des contrôles et examens.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COURS POPULAIRES -->
+  <section class="section">
+    <div class="container">
+      <div class="section-titre">
+        <span class="kicker" data-i18n="populaires.kicker">Top ressources</span>
+        <h2 data-i18n="populaires.titre">Cours populaires</h2>
+        <p data-i18n="populaires.desc">Les ressources les plus consultées par les élèves.</p>
+      </div>
+      <div class="populaires-grid">
+        <a href="cours.html" class="populaire-item">
+          <span class="rang">01</span>
+          <div class="info">
+            <h4 data-i18n="pop1.titre">Mécanique</h4>
+            <span data-i18n="pop1.desc">2ème Bac PC · Physique</span>
+          </div>
+        </a>
+        <a href="cours.html" class="populaire-item">
+          <span class="rang">02</span>
+          <div class="info">
+            <h4 data-i18n="pop2.titre">Ondes</h4>
+            <span data-i18n="pop2.desc">2ème Bac PC · Physique</span>
+          </div>
+        </a>
+        <a href="cours.html" class="populaire-item">
+          <span class="rang">03</span>
+          <div class="info">
+            <h4 data-i18n="pop3.titre">Électricité</h4>
+            <span data-i18n="pop3.desc">1ère Bac · Physique</span>
+          </div>
+        </a>
+        <a href="cours.html" class="populaire-item">
+          <span class="rang">04</span>
+          <div class="info">
+            <h4 data-i18n="pop4.titre">Acido-basique</h4>
+            <span data-i18n="pop4.desc">2ème Bac SVT · Chimie</span>
+          </div>
+        </a>
+        <a href="cours.html" class="populaire-item">
+          <span class="rang">05</span>
+          <div class="info">
+            <h4 data-i18n="pop5.titre">Transformations chimiques</h4>
+            <span data-i18n="pop5.desc">Tronc Commun · Chimie</span>
+          </div>
+        </a>
+        <a href="cours.html" class="populaire-item">
+          <span class="rang">06</span>
+          <div class="info">
+            <h4 data-i18n="pop6.titre">Optique</h4>
+            <span data-i18n="pop6.desc">1ère Bac · Physique</span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- PHYSIQUE & CHIMIE -->
+  <section class="section">
+    <div class="container">
+      <div class="section-titre">
+        <span class="kicker" data-i18n="matieres.kicker">Disciplines</span>
+        <h2 data-i18n="matieres.titre">Physique & Chimie</h2>
+        <p data-i18n="matieres.desc">Deux univers scientifiques à explorer.</p>
+      </div>
+      <div class="matieres-grid">
+        <div class="matiere-bloc physique">
+          <h3>⚡ <span data-i18n="physique.titre">PHYSIQUE</span></h3>
+          <div class="chapitres">
+            <span data-i18n="physique.ch1">Mécanique</span>
+            <span data-i18n="physique.ch2">Électricité</span>
+            <span data-i18n="physique.ch3">Ondes</span>
+            <span data-i18n="physique.ch4">Optique</span>
+            <span data-i18n="physique.ch5">Nucléaire</span>
+            <span data-i18n="physique.ch6">Oscillations</span>
+          </div>
+          <a href="cours.html" class="btn-matiere"><span data-i18n="physique.btn">Explorer la Physique</span> <i class="fas fa-arrow-right"></i></a>
+        </div>
+        <div class="matiere-bloc chimie">
+          <h3>🧪 <span data-i18n="chimie.titre">CHIMIE</span></h3>
+          <div class="chapitres">
+            <span data-i18n="chimie.ch1">Transformations chimiques</span>
+            <span data-i18n="chimie.ch2">Cinétique</span>
+            <span data-i18n="chimie.ch3">Acide-base</span>
+            <span data-i18n="chimie.ch4">Oxydoréduction</span>
+            <span data-i18n="chimie.ch5">Chimie organique</span>
+          </div>
+          <a href="cours.html" class="btn-matiere"><span data-i18n="chimie.btn">Explorer la Chimie</span> <i class="fas fa-arrow-right"></i></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXAMENS -->
+  <section class="section">
+    <div class="container">
+      <div class="examens-section">
+        <h2 data-i18n="examens.titre">Préparez vos examens</h2>
+        <p data-i18n="examens.desc">Retrouvez les contrôles, examens régionaux, examens nationaux et sujets de préparation organisés par niveau et par année.</p>
+        <a href="examens.html" class="btn btn-cyan"><span data-i18n="examens.btn">Voir les examens</span> <i class="fas fa-arrow-right"></i></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- SIMULATIONS -->
+  <section class="section">
+    <div class="container">
+      <div class="section-titre">
+        <span class="kicker" data-i18n="simulations.kicker">Interactif</span>
+        <h2 data-i18n="simulations.titre">Simulations scientifiques</h2>
+        <p data-i18n="simulations.desc">Des outils interactifs pour mieux comprendre les phénomènes.</p>
+      </div>
+      <div class="simulations-grid">
+        <a href="simulations.html" class="simulation-item">
+          <div class="icone">⚡</div>
+          <h4 data-i18n="sim1.titre">Circuits électriques</h4>
+          <p data-i18n="sim1.desc">Manipulez les composants et observez les effets.</p>
+        </a>
+        <a href="simulations.html" class="simulation-item">
+          <div class="icone">🌊</div>
+          <h4 data-i18n="sim2.titre">Ondes</h4>
+          <p data-i18n="sim2.desc">Visualisez la propagation et les interférences.</p>
+        </a>
+        <a href="simulations.html" class="simulation-item">
+          <div class="icone">🔭</div>
+          <h4 data-i18n="sim3.titre">Optique</h4>
+          <p data-i18n="sim3.desc">Explorez la réfraction et les lentilles.</p>
+        </a>
+        <a href="simulations.html" class="simulation-item">
+          <div class="icone">🧲</div>
+          <h4 data-i18n="sim4.titre">Magnétisme</h4>
+          <p data-i18n="sim4.desc">Découvrez les champs magnétiques.</p>
+        </a>
+        <a href="simulations.html" class="simulation-item">
+          <div class="icone">🧪</div>
+          <h4 data-i18n="sim5.titre">Réactions chimiques</h4>
+          <p data-i18n="sim5.desc">Testez des réactions en toute sécurité.</p>
+        </a>
+        <a href="simulations.html" class="simulation-item">
+          <div class="icone">⚛️</div>
+          <h4 data-i18n="sim6.titre">Radioactivité</h4>
+          <p data-i18n="sim6.desc">Comprenez la désintégration et les rayonnements.</p>
+        </a>
+      </div>
+      <div style="text-align: center; margin-top: 2.5rem;">
+        <a href="simulations.html" class="btn btn-vert"><span data-i18n="simulations.btn">Explorer les simulations</span> <i class="fas fa-arrow-right"></i></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- QCM -->
+  <section class="section" style="padding-top: 0;">
+    <div class="container">
+      <div class="examens-section" style="background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(244, 114, 182, 0.08)); border-color: rgba(139, 92, 246, 0.3);">
+        <h2 data-i18n="qcm.section.titre">Testez vos connaissances</h2>
+        <p data-i18n="qcm.section.desc">Répondez à des QCM interactifs et recevez une correction immédiate avec explications détaillées. Choisissez votre niveau, votre matière et entraînez-vous !</p>
+        <a href="qcm.html" class="btn btn-cyan" style="background: linear-gradient(135deg, var(--violet-tech), var(--rose)); color: white;">
+          <i class="fas fa-question-circle"></i> <span data-i18n="qcm.section.btn">Commencer un QCM</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROFESSEUR -->
+  <section class="section">
+    <div class="container">
+      <div class="professeur-section">
+        <div class="professeur-photo">
+          <i class="fas fa-user-circle"></i>
+          <span class="placeholder-texte" data-i18n="prof.photo">Photo du professeur</span>
+        </div>
+        <div class="professeur-info">
+          <h2>A. Saliki</h2>
+          <div class="titre" data-i18n="prof.titre">Professeur de Physique-Chimie</div>
+          <p data-i18n="prof.p1">Passionné par les sciences et l'enseignement, j'accompagne les lycéens marocains depuis plus de 15 ans dans leur apprentissage de la Physique-Chimie.</p>
+          <p data-i18n="prof.p2">Ma philosophie pédagogique repose sur la compréhension profonde des concepts, la pratique régulière et la confiance en soi. J'ai créé A Saliki PC pour rendre les ressources scientifiques accessibles à tous, partout au Maroc.</p>
+          <div class="tags">
+            <span data-i18n="prof.tag1">Pédagogie active</span>
+            <span data-i18n="prof.tag2">Préparation aux examens</span>
+            <span data-i18n="prof.tag3">Simulations interactives</span>
+            <span data-i18n="prof.tag4">Ressources structurées</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATISTIQUES -->
+  <section class="section">
+    <div class="container">
+      <div class="stats-section">
+        <div class="stats-grid">
+          <div class="stat-item">
+            <div class="chiffre">500+</div>
+            <div class="label" data-i18n="stat1">Ressources</div>
+          </div>
+          <div class="stat-item">
+            <div class="chiffre">100+</div>
+            <div class="label" data-i18n="stat2">Cours</div>
+          </div>
+          <div class="stat-item">
+            <div class="chiffre">1000+</div>
+            <div class="label" data-i18n="stat3">Exercices</div>
+          </div>
+          <div class="stat-item">
+            <div class="chiffre">24/7</div>
+            <div class="label" data-i18n="stat4">Accès aux ressources</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TÉMOIGNAGES -->
+  <section class="section">
+    <div class="container">
+      <div class="section-titre">
+        <span class="kicker" data-i18n="temoignages.kicker">Retours d'élèves</span>
+        <h2 data-i18n="temoignages.titre">Ce que pensent nos élèves</h2>
+        <p data-i18n="temoignages.desc">Des retours qui nous motivent à progresser.</p>
+      </div>
+      <div class="temoignages-grid">
+        <div class="temoignage">
+          <div class="avatar">Y</div>
+          <p class="commentaire" data-i18n="temoin1.commentaire">"Grâce à A Saliki PC, j'ai enfin compris les ondes mécaniques. Les explications sont claires et les exercices corrigés m'ont beaucoup aidé."</p>
+          <div>
+            <div class="auteur">Youssef</div>
+            <div class="niveau" data-i18n="temoin1.niveau">2ème Bac PC</div>
+          </div>
+        </div>
+        <div class="temoignage">
+          <div class="avatar">S</div>
+          <p class="commentaire" data-i18n="temoin2.commentaire">"Les simulations interactives sont géniales ! On peut vraiment voir ce qui se passe dans un circuit électrique. Merci beaucoup !"</p>
+          <div>
+            <div class="auteur">Salma</div>
+            <div class="niveau" data-i18n="temoin2.niveau">1ère Bac Sciences</div>
+          </div>
+        </div>
+        <div class="temoignage">
+          <div class="avatar">A</div>
+          <p class="commentaire" data-i18n="temoin3.commentaire">"Je recommande vivement ce site à tous les lycéens. Les ressources sont bien organisées et on trouve tout ce qu'il faut pour réviser."</p>
+          <div>
+            <div class="auteur">Amine</div>
+            <div class="niveau" data-i18n="temoin3.niveau">Tronc Commun</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA FINAL -->
+  <section class="section">
+    <div class="container">
+      <div class="cta-final">
+        <h2 data-i18n="cta.titre">Prêt à progresser en Physique-Chimie ?</h2>
+        <p data-i18n="cta.desc">Explorez les cours, entraînez-vous avec les exercices et préparez vos examens avec A Saliki PC.</p>
+        <a href="cours.html" class="btn btn-cyan" style="font-size: 1.05rem; padding: 1rem 2.5rem;"><span data-i18n="cta.btn">Commencer maintenant</span> <i class="fas fa-arrow-right"></i></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <h4><i class="fas fa-atom" style="margin-right: 6px; color: var(--cyan-neon);"></i> A SALIKI PC</h4>
+          <p data-i18n="footer.desc">Physique & Chimie — Ressources pour les lycéens marocains.</p>
+          <div class="footer-social">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-youtube"></i></a>
+            <a href="#"><i class="fab fa-whatsapp"></i></a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4 data-i18n="footer.niveaux">Niveaux</h4>
+          <ul>
+            <li><a href="cours.html" data-i18n="niveau.tronccommun">Tronc Commun</a></li>
+            <li><a href="cours.html" data-i18n="niveau.1bac">1ère Bac</a></li>
+            <li><a href="cours.html" data-i18n="niveau.2bacpc">2ème Bac PC</a></li>
+            <li><a href="cours.html" data-i18n="niveau.2bacsvt">2ème Bac SVT</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4 data-i18n="footer.ressources">Ressources</h4>
+          <ul>
+            <li><a href="cours.html" data-i18n="nav.cours">Cours</a></li>
+            <li><a href="exercices.html" data-i18n="nav.exercices">Exercices</a></li>
+            <li><a href="examens.html" data-i18n="nav.examens">Examens</a></li>
+            <li><a href="simulations.html" data-i18n="nav.simulations">Simulations</a></li>
+            <li><a href="qcm.html" data-i18n="nav.qcm">QCM</a></li>
+            <li><a href="ressources.html" data-i18n="nav.ressources">Ressources</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4 data-i18n="footer.informations">Informations</h4>
+          <ul>
+            <li><a href="index.html" data-i18n="nav.home">Accueil</a></li>
+            <li><a href="admin/login.html" data-i18n="nav.admin">Administration</a></li>
+            <li><a href="#" data-i18n="footer.conditions">Conditions</a></li>
+            <li><a href="#" data-i18n="footer.confidentialite">Politique de confidentialité</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span data-i18n="footer.copyright">© 2026 A SALIKI PC — Tous droits réservés.</span>
+        <span><span data-i18n="footer.concu">Conçu pour les lycéens marocains</span> <i class="fas fa-heart" style="color: var(--vert-neon);"></i></span>
+      </div>
+    </div>
+  </footer>
+
+  <button class="theme-toggle" id="themeToggle" aria-label="Changer de thème">
+    <i class="fas fa-moon icon-moon"></i>
+    <i class="fas fa-sun icon-sun"></i>
+  </button>
+
+  <script>
+    const themeToggle = document.getElementById('themeToggle');
+    const htmlRoot = document.getElementById('htmlRoot');
+    const savedTheme = localStorage.getItem('asaliki-theme') || 'dark';
+    htmlRoot.setAttribute('data-theme', savedTheme);
+
+    themeToggle.addEventListener('click', () => {
+      const current = htmlRoot.getAttribute('data-theme');
+      const next = current === 'dark' ? 'light' : 'dark';
+      htmlRoot.setAttribute('data-theme', next);
+      localStorage.setItem('asaliki-theme', next);
+    });
+
+    const translations = {
+      fr: {
+        'nav.home': 'Accueil', 'nav.cours': 'Cours', 'nav.exercices': 'Exercices',
+        'nav.examens': 'Examens', 'nav.simulations': 'Simulations', 'nav.qcm': 'QCM',
+        'nav.ressources': 'Ressources', 'nav.admin': 'Admin', 'nav.connexion': 'Connexion',
+        'hero.tag': 'Plateforme Physique-Chimie · Lycée Maroc',
+        'hero.sousTitre': 'Physique & Chimie pour les lycéens marocains',
+        'hero.description': 'Cours, exercices, corrigés, examens et simulations pour apprendre, comprendre et réussir en Physique-Chimie.',
+        'hero.btn1': 'Découvrir les cours', 'hero.btn2': 'Explorer les ressources',
+        'hero.stat1': 'Ressources', 'hero.stat2': 'Cours', 'hero.stat3': 'Exercices',
+        'methode.kicker': 'Méthode', 'methode.titre': 'Comment ça marche ?', 'methode.desc': 'Un parcours simple et structuré pour progresser efficacement.',
+        'etape1.titre': 'Choisissez votre niveau', 'etape1.desc': 'Tronc Commun, 1ère Bac, 2ème Bac PC ou 2ème Bac SVT.',
+        'etape2.titre': 'Choisissez votre matière', 'etape2.desc': 'Physique ou Chimie.',
+        'etape3.titre': 'Choisissez votre chapitre', 'etape3.desc': 'Accédez directement au chapitre souhaité.',
+        'etape4.titre': 'Apprenez et entraînez-vous', 'etape4.desc': 'Cours, exercices, corrigés, examens et simulations.',
+        'nouveaux.kicker': 'Récemment ajouté', 'nouveaux.titre': 'Nouveaux cours', 'nouveaux.desc': 'Découvrez les dernières ressources ajoutées sur A Saliki PC.',
+        'cours1.titre': 'Les ondes mécaniques', 'cours1.ressources': '12 ressources',
+        'cours2.titre': 'Transformations chimiques', 'cours2.ressources': '9 ressources',
+        'cours3.titre': 'Électricité et circuits', 'cours3.ressources': '15 ressources',
+        'cours4.titre': 'Acido-basique', 'cours4.ressources': '8 ressources',
+        'matiere.physique': 'Physique', 'matiere.chimie': 'Chimie',
+        'statut.gratuit': 'Gratuit', 'statut.premium': 'Premium', 'btn.commencer': 'Commencer',
+        'niveaux.kicker': 'Parcours', 'niveaux.titre': 'Choisissez votre niveau', 'niveaux.desc': 'Des ressources adaptées à chaque programme du lycée marocain.',
+        'niveau.tronccommun': 'TRONC COMMUN', 'niveau.1bacse': '1ÈRE BAC SCIENCES EXPÉRIMENTALES',
+        'niveau.1bac': '1ère Bac', 'niveau.2bacpc': '2ÈME BAC PC', 'niveau.2bacsvt': '2ÈME BAC SVT',
+        'niveau.pc': 'Physique & Chimie', 'btn.explorer': 'Explorer',
+        'pourquoi.kicker': 'Nos atouts', 'pourquoi.titre': 'Pourquoi A Saliki PC ?', 'pourquoi.desc': 'Une plateforme pensée pour la réussite des lycéens marocains.',
+        'avantage1.titre': 'Un professeur passionné', 'avantage1.desc': 'Une pédagogie basée sur la compréhension des concepts scientifiques.',
+        'avantage2.titre': 'Des ressources structurées', 'avantage2.desc': 'Cours, exercices, corrigés et examens organisés par niveau et chapitre.',
+        'avantage3.titre': 'Apprendre à son rythme', 'avantage3.desc': 'Les ressources sont accessibles en ligne.',
+        'avantage4.titre': 'Préparer les examens', 'avantage4.desc': 'Des ressources adaptées à la préparation.',
+        'populaires.kicker': 'Top ressources', 'populaires.titre': 'Cours populaires', 'populaires.desc': 'Les ressources les plus consultées.',
+        'pop1.titre': 'Mécanique', 'pop1.desc': '2ème Bac PC · Physique',
+        'pop2.titre': 'Ondes', 'pop2.desc': '2ème Bac PC · Physique',
+        'pop3.titre': 'Électricité', 'pop3.desc': '1ère Bac · Physique',
+        'pop4.titre': 'Acido-basique', 'pop4.desc': '2ème Bac SVT · Chimie',
+        'pop5.titre': 'Transformations chimiques', 'pop5.desc': 'Tronc Commun · Chimie',
+        'pop6.titre': 'Optique', 'pop6.desc': '1ère Bac · Physique',
+        'matieres.kicker': 'Disciplines', 'matieres.titre': 'Physique & Chimie', 'matieres.desc': 'Deux univers scientifiques à explorer.',
+        'physique.titre': 'PHYSIQUE', 'physique.ch1': 'Mécanique', 'physique.ch2': 'Électricité',
+        'physique.ch3': 'Ondes', 'physique.ch4': 'Optique', 'physique.ch5': 'Nucléaire',
+        'physique.ch6': 'Oscillations', 'physique.btn': 'Explorer la Physique',
+        'chimie.titre': 'CHIMIE', 'chimie.ch1': 'Transformations chimiques', 'chimie.ch2': 'Cinétique',
+        'chimie.ch3': 'Acide-base', 'chimie.ch4': 'Oxydoréduction', 'chimie.ch5': 'Chimie organique',
+        'chimie.btn': 'Explorer la Chimie',
+        'examens.titre': 'Préparez vos examens', 'examens.desc': 'Retrouvez les contrôles, examens régionaux, examens nationaux et sujets de préparation.',
+        'examens.btn': 'Voir les examens',
+        'simulations.kicker': 'Interactif', 'simulations.titre': 'Simulations scientifiques', 'simulations.desc': 'Des outils interactifs pour mieux comprendre.',
+        'sim1.titre': 'Circuits électriques', 'sim1.desc': 'Manipulez les composants.',
+        'sim2.titre': 'Ondes', 'sim2.desc': 'Visualisez la propagation.',
+        'sim3.titre': 'Optique', 'sim3.desc': 'Explorez la réfraction.',
+        'sim4.titre': 'Magnétisme', 'sim4.desc': 'Découvrez les champs magnétiques.',
+        'sim5.titre': 'Réactions chimiques', 'sim5.desc': 'Testez des réactions.',
+        'sim6.titre': 'Radioactivité', 'sim6.desc': 'Comprenez la désintégration.',
+        'simulations.btn': 'Explorer les simulations',
+        'qcm.section.titre': 'Testez vos connaissances',
+        'qcm.section.desc': 'Répondez à des QCM interactifs et recevez une correction immédiate.',
+        'qcm.section.btn': 'Commencer un QCM',
+        'prof.photo': 'Photo du professeur', 'prof.titre': 'Professeur de Physique-Chimie',
+        'prof.p1': "Passionné par les sciences, j'accompagne les lycéens marocains depuis plus de 15 ans.",
+        'prof.p2': "J'ai créé A Saliki PC pour rendre les ressources scientifiques accessibles à tous.",
+        'prof.tag1': 'Pédagogie active', 'prof.tag2': 'Préparation aux examens',
+        'prof.tag3': 'Simulations interactives', 'prof.tag4': 'Ressources structurées',
+        'stat1': 'Ressources', 'stat2': 'Cours', 'stat3': 'Exercices', 'stat4': 'Accès aux ressources',
+        'temoignages.kicker': "Retours d'élèves", 'temoignages.titre': 'Ce que pensent nos élèves', 'temoignages.desc': 'Des retours qui nous motivent.',
+        'temoin1.commentaire': '"Grâce à A Saliki PC, j\'ai enfin compris les ondes."',
+        'temoin1.niveau': '2ème Bac PC',
+        'temoin2.commentaire': '"Les simulations interactives sont géniales !"',
+        'temoin2.niveau': '1ère Bac Sciences',
+        'temoin3.commentaire': '"Je recommande vivement ce site à tous les lycéens."',
+        'temoin3.niveau': 'Tronc Commun',
+        'cta.titre': 'Prêt à progresser en Physique-Chimie ?',
+        'cta.desc': 'Explorez les cours et préparez vos examens avec A Saliki PC.',
+        'cta.btn': 'Commencer maintenant',
+        'footer.desc': 'Physique & Chimie — Ressources pour les lycéens marocains.',
+        'footer.niveaux': 'Niveaux', 'footer.ressources': 'Ressources',
+        'footer.informations': 'Informations', 'footer.conditions': 'Conditions',
+        'footer.confidentialite': 'Politique de confidentialité',
+        'footer.copyright': '© 2026 A SALIKI PC — Tous droits réservés.',
+        'footer.concu': 'Conçu pour les lycéens marocains'
+      },
+      ar: {
+        'nav.home': 'الرئيسية', 'nav.cours': 'الدروس', 'nav.exercices': 'التمارين',
+        'nav.examens': 'الامتحانات', 'nav.simulations': 'المحاكاة', 'nav.qcm': 'اختبار',
+        'nav.ressources': 'الموارد', 'nav.admin': 'الإدارة', 'nav.connexion': 'تسجيل الدخول',
+        'hero.tag': 'منصة الفيزياء والكيمياء · الثانوية المغربية',
+        'hero.sousTitre': 'الفيزياء والكيمياء لطلاب الثانوية المغربية',
+        'hero.description': 'دروس، تمارين، حلول، امتحانات ومحاكاة للتعلم والنجاح.',
+        'hero.btn1': 'اكتشف الدروس', 'hero.btn2': 'استكشف الموارد',
+        'hero.stat1': 'موارد', 'hero.stat2': 'دروس', 'hero.stat3': 'تمارين',
+        'methode.kicker': 'الطريقة', 'methode.titre': 'كيف يعمل الموقع؟', 'methode.desc': 'مسار بسيط ومنظم.',
+        'etape1.titre': 'اختر مستواك', 'etape1.desc': 'الجذع المشترك، الأولى باك، الثانية باك.',
+        'etape2.titre': 'اختر مادتك', 'etape2.desc': 'الفيزياء أو الكيمياء.',
+        'etape3.titre': 'اختر درسك', 'etape3.desc': 'انتقل مباشرة إلى الدرس.',
+        'etape4.titre': 'تعلم وتدرب', 'etape4.desc': 'دروس، تمارين، حلول، امتحانات.',
+        'nouveaux.kicker': 'أضيف حديثاً', 'nouveaux.titre': 'دروس جديدة', 'nouveaux.desc': 'اكتشف آخر الموارد.',
+        'cours1.titre': 'الموجات الميكانيكية', 'cours1.ressources': '12 مورداً',
+        'cours2.titre': 'التحولات الكيميائية', 'cours2.ressources': '9 موارد',
+        'cours3.titre': 'الكهرباء والدارات', 'cours3.ressources': '15 مورداً',
+        'cours4.titre': 'الحموض والقواعد', 'cours4.ressources': '8 موارد',
+        'matiere.physique': 'الفيزياء', 'matiere.chimie': 'الكيمياء',
+        'statut.gratuit': 'مجاني', 'statut.premium': 'مدفوع', 'btn.commencer': 'ابدأ',
+        'niveaux.kicker': 'المسارات', 'niveaux.titre': 'اختر مستواك', 'niveaux.desc': 'موارد مناسبة لكل مستوى.',
+        'niveau.tronccommun': 'الجذع المشترك', 'niveau.1bacse': 'الأولى باك علوم تجريبية',
+        'niveau.1bac': 'الأولى باك', 'niveau.2bacpc': 'الثانية باك ع.ف', 'niveau.2bacsvt': 'الثانية باك ع.ح.أ',
+        'niveau.pc': 'الفيزياء والكيمياء', 'btn.explorer': 'استكشف',
+        'pourquoi.kicker': 'مميزاتنا', 'pourquoi.titre': 'لماذا A Saliki PC؟', 'pourquoi.desc': 'منصة مصممة لنجاح الطلاب.',
+        'avantage1.titre': 'أستاذ شغوف', 'avantage1.desc': 'بيداغوجيا مبنية على الفهم.',
+        'avantage2.titre': 'موارد منظمة', 'avantage2.desc': 'دروس، تمارين، حلول وامتحانات.',
+        'avantage3.titre': 'التعلم بالوتيرة المناسبة', 'avantage3.desc': 'الموارد متاحة عبر الإنترنت.',
+        'avantage4.titre': 'التحضير للامتحانات', 'avantage4.desc': 'موارد مناسبة للتحضير.',
+        'populaires.kicker': 'الأكثر طلباً', 'populaires.titre': 'الدروس الشائعة', 'populaires.desc': 'الموارد الأكثر زيارة.',
+        'pop1.titre': 'الميكانيك', 'pop1.desc': 'الثانية باك ع.ف · الفيزياء',
+        'pop2.titre': 'الموجات', 'pop2.desc': 'الثانية باك ع.ف · الفيزياء',
+        'pop3.titre': 'الكهرباء', 'pop3.desc': 'الأولى باك · الفيزياء',
+        'pop4.titre': 'الحموض والقواعد', 'pop4.desc': 'الثانية باك ع.ح.أ · الكيمياء',
+        'pop5.titre': 'التحولات الكيميائية', 'pop5.desc': 'الجذع المشترك · الكيمياء',
+        'pop6.titre': 'البصريات', 'pop6.desc': 'الأولى باك · الفيزياء',
+        'matieres.kicker': 'التخصصات', 'matieres.titre': 'الفيزياء والكيمياء', 'matieres.desc': 'عالمين علميين.',
+        'physique.titre': 'الفيزياء', 'physique.ch1': 'الميكانيك', 'physique.ch2': 'الكهرباء',
+        'physique.ch3': 'الموجات', 'physique.ch4': 'البصريات', 'physique.ch5': 'النووي',
+        'physique.ch6': 'الاهتزازات', 'physique.btn': 'استكشف الفيزياء',
+        'chimie.titre': 'الكيمياء', 'chimie.ch1': 'التحولات الكيميائية', 'chimie.ch2': 'الحركية',
+        'chimie.ch3': 'الحموض والقواعد', 'chimie.ch4': 'الأكسدة والإرجاع', 'chimie.ch5': 'الكيمياء العضوية',
+        'chimie.btn': 'استكشف الكيمياء',
+        'examens.titre': 'استعد لامتحاناتك', 'examens.desc': 'اكتشف الفروض، الامتحانات الجهوية والوطنية.',
+        'examens.btn': 'شاهد الامتحانات',
+        'simulations.kicker': 'تفاعلي', 'simulations.titre': 'المحاكاة العلمية', 'simulations.desc': 'أدوات تفاعلية.',
+        'sim1.titre': 'الدارات الكهربائية', 'sim1.desc': 'تعامل مع المكونات.',
+        'sim2.titre': 'الموجات', 'sim2.desc': 'شاهد الانتشار.',
+        'sim3.titre': 'البصريات', 'sim3.desc': 'استكشف الانكسار.',
+        'sim4.titre': 'المغناطيسية', 'sim4.desc': 'اكتشف المجالات.',
+        'sim5.titre': 'التفاعلات الكيميائية', 'sim5.desc': 'جرب التفاعلات.',
+        'sim6.titre': 'النشاط الإشعاعي', 'sim6.desc': 'افهم التحلل.',
+        'simulations.btn': 'استكشف المحاكاة',
+        'qcm.section.titre': 'اختبر معلوماتك',
+        'qcm.section.desc': 'أجب على اختبارات تفاعلية واحصل على تصحيح فوري.',
+        'qcm.section.btn': 'ابدأ اختباراً',
+        'prof.photo': 'صورة الأستاذ', 'prof.titre': 'أستاذ الفيزياء والكيمياء',
+        'prof.p1': 'شغوف بالعلوم والتعليم، أرافق طلاب الثانوية المغربية منذ أكثر من 15 سنة.',
+        'prof.p2': 'أنشأت A Saliki PC لجعل الموارد العلمية في متناول الجميع.',
+        'prof.tag1': 'بيداغوجيا نشطة', 'prof.tag2': 'التحضير للامتحانات',
+        'prof.tag3': 'محاكاة تفاعلية', 'prof.tag4': 'موارد منظمة',
+        'stat1': 'موارد', 'stat2': 'دروس', 'stat3': 'تمارين', 'stat4': 'وصول على مدار الساعة',
+        'temoignages.kicker': 'آراء التلاميذ', 'temoignages.titre': 'ماذا يقول تلاميذنا', 'temoignages.desc': 'آراء تحفزنا.',
+        'temoin1.commentaire': '"بفضل A Saliki PC، فهمت أخيراً الموجات."',
+        'temoin1.niveau': 'الثانية باك ع.ف',
+        'temoin2.commentaire': '"المحاكاة التفاعلية رائعة!"',
+        'temoin2.niveau': 'الأولى باك علوم',
+        'temoin3.commentaire': '"أنصح بشدة بهذا الموقع."',
+        'temoin3.niveau': 'الجذع المشترك',
+        'cta.titre': 'مستعد للتقدم؟',
+        'cta.desc': 'استكشف الدروس واستعد لامتحاناتك مع A Saliki PC.',
+        'cta.btn': 'ابدأ الآن',
+        'footer.desc': 'الفيزياء والكيمياء — موارد لطلاب الثانوية المغربية.',
+        'footer.niveaux': 'المستويات', 'footer.ressources': 'الموارد',
+        'footer.informations': 'معلومات', 'footer.conditions': 'الشروط',
+        'footer.confidentialite': 'سياسة الخصوصية',
+        'footer.copyright': '© 2026 A SALIKI PC — جميع الحقوق محفوظة.',
+        'footer.concu': 'مصمم لطلاب الثانوية المغربية'
+      }
+    };
+
+    let currentLang = localStorage.getItem('asaliki-lang') || 'fr';
+
+    function setLanguage(lang) {
+      currentLang = lang;
+      if (lang === 'ar') {
+        htmlRoot.setAttribute('dir', 'rtl');
+        htmlRoot.setAttribute('lang', 'ar');
+      } else {
+        htmlRoot.setAttribute('dir', 'ltr');
+        htmlRoot.setAttribute('lang', 'fr');
+      }
+
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (translations[lang] && translations[lang][key]) {
+          el.textContent = translations[lang][key];
+        }
+      });
+
+      document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.classList.toggle('actif', btn.getAttribute('data-lang') === lang);
+      });
+
+      localStorage.setItem('asaliki-lang', lang);
+      startTyping();
+    }
+
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+      btn.addEventListener('click', () => setLanguage(btn.getAttribute('data-lang')));
+    });
+
+    const typingEl = document.getElementById('typing-text');
+    let typingIndex = 0;
+    let typingTimer = null;
+
+    function startTyping() {
+      const text = translations[currentLang]['hero.sousTitre'] || '';
+      typingEl.textContent = '';
+      typingIndex = 0;
+      clearInterval(typingTimer);
+      typingTimer = setInterval(() => {
+        if (typingIndex < text.length) {
+          typingEl.textContent += text.charAt(typingIndex);
+          typingIndex++;
+        } else {
+          clearInterval(typingTimer);
+          setTimeout(() => {
+            typingTimer = setInterval(() => {
+              if (typingIndex > 0) {
+                typingEl.textContent = text.substring(0, typingIndex - 1);
+                typingIndex--;
+              } else {
+                clearInterval(typingTimer);
+                setTimeout(startTyping, 500);
+              }
+            }, 30);
+          }, 3000);
+        }
+      }, 60);
+    }
+
+    setLanguage(currentLang);
+  </script>
+</body>
+</html>

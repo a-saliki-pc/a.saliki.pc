@@ -1,0 +1,1309 @@
+<!DOCTYPE html>
+<html lang="fr" id="htmlRoot">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Examens — A SALIKI PC</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --noir-profond: #050b14;
+      --bleu-nuit: #0a1428;
+      --bleu-carte: #0f1e38;
+      --bleu-bordure: #1a2f52;
+      --cyan-neon: #22d3ee;
+      --cyan-clair: #67e8f9;
+      --vert-neon: #4ade80;
+      --vert-fluo: #22c55e;
+      --violet-tech: #8b5cf6;
+      --or: #fbbf24;
+      --rose: #f472b6;
+      --rouge: #ef4444;
+      --texte-principal: #ffffff;
+      --texte-secondaire: #94a3b8;
+      --texte-tertiaire: #cbd5e1;
+      --fond-principal: #050b14;
+      --fond-secondaire: #0a1428;
+      --fond-carte: #0f1e38;
+      --bordure: #1a2f52;
+      --ombre-rose: 0 0 40px -10px rgba(244, 114, 182, 0.4);
+      --rayon: 1rem;
+      --rayon-petit: 0.6rem;
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      --grille-couleur: rgba(244, 114, 182, 0.03);
+    }
+    [data-theme="light"] {
+      --noir-profond: #f8fafc;
+      --bleu-nuit: #ffffff;
+      --bleu-carte: #ffffff;
+      --bleu-bordure: #e2e8f0;
+      --cyan-neon: #0891b2;
+      --cyan-clair: #06b6d4;
+      --vert-neon: #16a34a;
+      --vert-fluo: #22c55e;
+      --violet-tech: #7c3aed;
+      --or: #d97706;
+      --rose: #db2777;
+      --rouge: #dc2626;
+      --texte-principal: #0a1428;
+      --texte-secondaire: #475569;
+      --texte-tertiaire: #334155;
+      --fond-principal: #f8fafc;
+      --fond-secondaire: #ffffff;
+      --fond-carte: #ffffff;
+      --bordure: #e2e8f0;
+      --ombre-rose: 0 10px 30px -10px rgba(219, 39, 119, 0.25);
+      --grille-couleur: rgba(219, 39, 119, 0.05);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--fond-principal);
+      color: var(--texte-tertiaire);
+      line-height: 1.6;
+      overflow-x: hidden;
+      transition: background-color 0.4s ease, color 0.4s ease;
+    }
+    [dir="rtl"] body { font-family: 'Cairo', 'Inter', sans-serif; }
+    h1, h2, h3, h4, .logo { font-family: 'Space Grotesk', sans-serif; letter-spacing: -0.02em; }
+    [dir="rtl"] h1, [dir="rtl"] h2, [dir="rtl"] h3, [dir="rtl"] h4 { font-family: 'Cairo', sans-serif; letter-spacing: 0; }
+    a { text-decoration: none; color: inherit; }
+    .container { max-width: 1400px; margin: 0 auto; padding: 0 1.5rem; }
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background-image:
+        linear-gradient(var(--grille-couleur) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grille-couleur) 1px, transparent 1px);
+      background-size: 50px 50px;
+      pointer-events: none;
+      z-index: 0;
+    }
+    section, header { position: relative; z-index: 1; }
+
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(5, 11, 20, 0.9);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--bordure);
+    }
+    [data-theme="light"] .header { background: rgba(255, 255, 255, 0.9); }
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.9rem 0;
+      gap: 1rem;
+    }
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--texte-principal);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      white-space: nowrap;
+    }
+    .logo-icon {
+      width: 38px; height: 38px;
+      border-radius: 0.5rem;
+      background: linear-gradient(135deg, var(--cyan-neon), var(--vert-neon));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #050b14;
+      font-size: 1.1rem;
+      box-shadow: 0 0 20px -5px rgba(34, 211, 238, 0.7);
+    }
+    .logo span {
+      background: linear-gradient(135deg, var(--cyan-neon), var(--vert-neon));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .nav-desktop { display: flex; align-items: center; gap: 0.1rem; }
+    .nav-desktop a {
+      padding: 0.5rem 0.85rem;
+      font-size: 0.88rem;
+      font-weight: 500;
+      color: var(--texte-secondaire);
+      border-radius: 0.4rem;
+      transition: var(--transition);
+      white-space: nowrap;
+    }
+    .nav-desktop a:hover { color: var(--rose); background: rgba(244, 114, 182, 0.08); }
+    .nav-desktop a.actif { color: var(--rose); background: rgba(244, 114, 182, 0.12); }
+    .nav-desktop a.admin-link { color: var(--rose); }
+    .header-actions { display: flex; align-items: center; gap: 0.5rem; }
+    .lang-switcher {
+      display: flex;
+      background: rgba(244, 114, 182, 0.08);
+      border: 1px solid var(--bordure);
+      border-radius: 0.4rem;
+      overflow: hidden;
+    }
+    .lang-btn {
+      background: transparent;
+      border: none;
+      color: var(--texte-secondaire);
+      font-family: inherit;
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 0.55rem 0.85rem;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .lang-btn.actif {
+      background: linear-gradient(135deg, var(--rose), var(--violet-tech));
+      color: white;
+    }
+
+    .hero-ex {
+      padding: 3.5rem 0 2rem;
+      text-align: center;
+      position: relative;
+    }
+    .hero-ex::before {
+      content: '';
+      position: absolute;
+      top: -50%; left: 50%;
+      transform: translateX(-50%);
+      width: 700px; height: 500px;
+      background: radial-gradient(ellipse, rgba(244, 114, 182, 0.12), transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+    .hero-ex h1 {
+      font-size: 2.6rem;
+      font-weight: 700;
+      color: var(--texte-principal);
+      margin-bottom: 0.6rem;
+      position: relative;
+    }
+    .hero-ex h1 .accent {
+      background: linear-gradient(135deg, var(--rose), var(--violet-tech));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-ex p {
+      color: var(--texte-secondaire);
+      font-size: 1.05rem;
+      max-width: 700px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .search-wrap {
+      max-width: 700px;
+      margin: 2rem auto 1.5rem;
+      position: relative;
+    }
+    .search-input {
+      width: 100%;
+      padding: 1rem 1.2rem 1rem 3.2rem;
+      background: var(--fond-carte);
+      border: 1.5px solid var(--bordure);
+      border-radius: 0.8rem;
+      color: var(--texte-principal);
+      font-family: inherit;
+      font-size: 1rem;
+      transition: var(--transition);
+    }
+    [dir="rtl"] .search-input { padding: 1rem 3.2rem 1rem 1.2rem; }
+    .search-input:focus { outline: none; border-color: var(--rose); box-shadow: 0 0 20px -5px rgba(244, 114, 182, 0.5); }
+    .search-icon {
+      position: absolute;
+      top: 50%; left: 1.2rem;
+      transform: translateY(-50%);
+      color: var(--rose);
+      font-size: 1.1rem;
+      pointer-events: none;
+    }
+    [dir="rtl"] .search-icon { left: auto; right: 1.2rem; }
+
+    .stats-bar {
+      max-width: 900px;
+      margin: 0 auto 2rem;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+    }
+    .stat-box {
+      background: var(--fond-carte);
+      border: 1px solid var(--bordure);
+      border-radius: var(--rayon-petit);
+      padding: 1rem 1.2rem;
+      text-align: center;
+      transition: var(--transition);
+    }
+    .stat-box:hover { border-color: var(--rose); transform: translateY(-3px); }
+    .stat-box .num {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--rose), var(--violet-tech));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1;
+    }
+    .stat-box .lbl { font-size: 0.78rem; color: var(--texte-secondaire); margin-top: 0.3rem; }
+
+    .filtres-panel {
+      background: var(--fond-carte);
+      border: 1px solid var(--bordure);
+      border-radius: var(--rayon);
+      padding: 1.3rem 1.5rem;
+      margin-bottom: 2rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      gap: 1rem;
+      align-items: end;
+    }
+    .filtre-group label {
+      display: block;
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--rose);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.5rem;
+    }
+    .filtre-select {
+      width: 100%;
+      padding: 0.65rem 0.9rem;
+      background: var(--fond-principal);
+      border: 1px solid var(--bordure);
+      border-radius: 0.5rem;
+      color: var(--texte-principal);
+      font-family: inherit;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .filtre-select:focus { outline: none; border-color: var(--rose); }
+    .btn-reset {
+      background: rgba(239, 68, 68, 0.08);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      color: var(--rouge);
+      padding: 0.65rem 1.2rem;
+      border-radius: 0.5rem;
+      font-family: inherit;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      justify-content: center;
+    }
+    .btn-reset:hover { background: var(--rouge); color: white; }
+
+    .resultats-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      padding: 0.8rem 1rem;
+      background: rgba(244, 114, 182, 0.05);
+      border: 1px solid rgba(244, 114, 182, 0.15);
+      border-radius: 0.6rem;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .resultats-bar .count { font-size: 0.9rem; color: var(--texte-secondaire); }
+    .resultats-bar .count strong { color: var(--rose); font-weight: 700; font-size: 1.1rem; }
+
+    .ex-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 3rem;
+    }
+    .ex-card {
+      background: linear-gradient(160deg, var(--fond-carte), var(--fond-secondaire));
+      border: 1px solid var(--bordure);
+      border-radius: var(--rayon);
+      overflow: hidden;
+      transition: var(--transition);
+      display: flex;
+      flex-direction: column;
+    }
+    .ex-card:hover { transform: translateY(-6px); border-color: rgba(244, 114, 182, 0.4); box-shadow: var(--ombre-rose); }
+    .ex-card .ex-banner {
+      height: 110px;
+      padding: 1.2rem 1.4rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: relative;
+      border-bottom: 1px solid var(--bordure);
+    }
+    .ex-card .ex-banner.controle { background: linear-gradient(135deg, rgba(34, 211, 238, 0.15), rgba(74, 222, 128, 0.1)); }
+    .ex-card .ex-banner.regional { background: linear-gradient(135deg, rgba(251, 191, 36, 0.15), rgba(244, 114, 182, 0.1)); }
+    .ex-card .ex-banner.national { background: linear-gradient(135deg, rgba(244, 114, 182, 0.18), rgba(139, 92, 246, 0.12)); }
+    .ex-card .icon-type {
+      width: 55px; height: 55px;
+      border-radius: 0.8rem;
+      background: rgba(5, 11, 20, 0.6);
+      backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .ex-card .icon-type.controle { color: var(--cyan-neon); }
+    .ex-card .icon-type.regional { color: var(--or); }
+    .ex-card .icon-type.national { color: var(--rose); }
+    .ex-card .annee-badge {
+      background: rgba(5, 11, 20, 0.75);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(244, 114, 182, 0.4);
+      color: var(--rose);
+      padding: 0.35rem 0.9rem;
+      border-radius: 2rem;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 700;
+    }
+    [data-theme="light"] .ex-card .annee-badge,
+    [data-theme="light"] .ex-card .icon-type { background: rgba(255, 255, 255, 0.85); }
+
+    .ex-card .contenu { padding: 1.3rem; flex: 1; display: flex; flex-direction: column; }
+    .ex-card .type-label {
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--rose);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.4rem;
+    }
+    .ex-card .type-label.controle { color: var(--cyan-neon); }
+    .ex-card .type-label.regional { color: var(--or); }
+    .ex-card h3 { font-size: 1.08rem; font-weight: 600; color: var(--texte-principal); margin-bottom: 0.7rem; line-height: 1.35; }
+    .ex-card .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem 0.9rem;
+      font-size: 0.78rem;
+      color: var(--texte-secondaire);
+      margin-bottom: 1rem;
+    }
+    .ex-card .meta span { display: flex; align-items: center; gap: 0.3rem; }
+    .ex-card .meta i { color: var(--rose); font-size: 0.72rem; }
+    .ex-card .ex-desc { font-size: 0.85rem; color: var(--texte-secondaire); line-height: 1.55; margin-bottom: 1rem; flex: 1; }
+    .ex-card .btn-voir {
+      display: inline-flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      padding: 0.7rem 1.1rem;
+      background: rgba(244, 114, 182, 0.08);
+      border: 1px solid rgba(244, 114, 182, 0.3);
+      color: var(--rose);
+      border-radius: 0.5rem;
+      font-weight: 600;
+      font-size: 0.85rem;
+      transition: var(--transition);
+      cursor: pointer;
+      font-family: inherit;
+    }
+    .ex-card .btn-voir:hover { background: var(--rose); color: white; }
+
+    .aucun-resultat {
+      text-align: center;
+      padding: 4rem 2rem;
+      color: var(--texte-secondaire);
+    }
+    .aucun-resultat i { font-size: 4rem; color: var(--bordure); margin-bottom: 1rem; }
+    .aucun-resultat h3 { color: var(--texte-principal); font-size: 1.3rem; margin-bottom: 0.5rem; }
+
+    .voir-plus-wrap { text-align: center; margin-bottom: 3rem; }
+    .btn-voir-plus {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.85rem 2rem;
+      background: rgba(244, 114, 182, 0.08);
+      border: 1.5px solid var(--rose);
+      color: var(--rose);
+      border-radius: 0.5rem;
+      font-family: inherit;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .btn-voir-plus:hover { background: var(--rose); color: white; }
+
+    .panneau-detail {
+      position: fixed;
+      top: 0; right: 0;
+      width: 100%;
+      max-width: 750px;
+      height: 100vh;
+      background: var(--fond-secondaire);
+      border-left: 1px solid var(--bordure);
+      z-index: 2000;
+      transform: translateX(100%);
+      transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      overflow-y: auto;
+      box-shadow: -20px 0 60px rgba(0, 0, 0, 0.5);
+    }
+    [dir="rtl"] .panneau-detail {
+      right: auto; left: 0;
+      border-left: none;
+      border-right: 1px solid var(--bordure);
+      transform: translateX(-100%);
+    }
+    .panneau-detail.ouvert { transform: translateX(0); }
+    .panneau-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(5, 11, 20, 0.7);
+      backdrop-filter: blur(4px);
+      z-index: 1999;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+    }
+    .panneau-overlay.ouvert { opacity: 1; pointer-events: all; }
+    .panneau-header {
+      position: sticky;
+      top: 0;
+      background: var(--fond-secondaire);
+      border-bottom: 1px solid var(--bordure);
+      padding: 1.2rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 10;
+    }
+    .panneau-header h2 {
+      font-size: 1.15rem;
+      color: var(--texte-principal);
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+    .panneau-header h2 i { color: var(--rose); }
+    .btn-fermer {
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      color: var(--rouge);
+      width: 38px; height: 38px;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      transition: var(--transition);
+    }
+    .btn-fermer:hover { background: var(--rouge); color: white; }
+    .panneau-corps { padding: 1.5rem; }
+
+    .ex-hero {
+      background: linear-gradient(135deg, rgba(244, 114, 182, 0.12), rgba(139, 92, 246, 0.08));
+      border: 1px solid rgba(244, 114, 182, 0.25);
+      border-radius: var(--rayon);
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .ex-hero h1 { font-size: 1.4rem; color: var(--texte-principal); margin-bottom: 0.6rem; line-height: 1.35; }
+    .ex-hero .badges { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.8rem; }
+    .ex-hero .badges span {
+      background: rgba(5, 11, 20, 0.5);
+      border: 1px solid rgba(244, 114, 182, 0.3);
+      color: var(--rose);
+      padding: 0.3rem 0.8rem;
+      border-radius: 2rem;
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+    .panneau-section { margin-bottom: 1.5rem; }
+    .panneau-section h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--texte-principal);
+      margin-bottom: 0.8rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .panneau-section h3 i { color: var(--rose); }
+    .panneau-section p { color: var(--texte-secondaire); font-size: 0.92rem; line-height: 1.75; margin-bottom: 0.8rem; }
+
+    .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; margin-bottom: 1rem; }
+    .info-item {
+      background: var(--fond-principal);
+      border: 1px solid var(--bordure);
+      border-radius: 0.5rem;
+      padding: 0.8rem 1rem;
+    }
+    .info-item .lbl {
+      font-size: 0.72rem;
+      color: var(--texte-secondaire);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.3rem;
+    }
+    .info-item .val { font-size: 1rem; font-weight: 600; color: var(--rose); font-family: 'Space Grotesk', sans-serif; }
+
+    .structure-liste { display: flex; flex-direction: column; gap: 0.6rem; }
+    .structure-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      background: var(--fond-principal);
+      border: 1px solid var(--bordure);
+      border-radius: 0.5rem;
+      padding: 0.85rem 1rem;
+    }
+    .structure-item .num-ex {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--rose), var(--violet-tech));
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700;
+      font-size: 0.85rem;
+      flex-shrink: 0;
+    }
+    .structure-item .info { flex: 1; }
+    .structure-item .info h4 { font-size: 0.9rem; font-weight: 600; color: var(--texte-principal); margin-bottom: 0.15rem; }
+    .structure-item .bareme {
+      background: rgba(244, 114, 182, 0.1);
+      border: 1px solid rgba(244, 114, 182, 0.3);
+      color: var(--rose);
+      padding: 0.3rem 0.8rem;
+      border-radius: 2rem;
+      font-size: 0.78rem;
+      font-weight: 600;
+      font-family: 'Space Grotesk', sans-serif;
+    }
+
+    .actions-examen { display: flex; flex-direction: column; gap: 0.7rem; margin-top: 1.5rem; }
+    .btn-action {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      padding: 0.95rem 1.5rem;
+      border-radius: 0.6rem;
+      font-family: inherit;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      border: 1px solid;
+    }
+    .btn-action.pdf {
+      background: linear-gradient(135deg, rgba(244, 114, 182, 0.15), rgba(139, 92, 246, 0.1));
+      border-color: var(--rose);
+      color: var(--rose);
+    }
+    .btn-action.pdf:hover { background: var(--rose); color: white; }
+    .btn-action.minuterie {
+      background: rgba(251, 191, 36, 0.08);
+      border-color: var(--or);
+      color: var(--or);
+    }
+    .btn-action.minuterie:hover { background: var(--or); color: #050b14; }
+
+    .minuterie-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(5, 11, 20, 0.95);
+      backdrop-filter: blur(10px);
+      z-index: 5000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+    .minuterie-overlay.ouvert { display: flex; }
+    .minuterie-box {
+      background: linear-gradient(160deg, var(--fond-carte), var(--fond-secondaire));
+      border: 2px solid var(--rose);
+      border-radius: var(--rayon);
+      padding: 2.5rem;
+      text-align: center;
+      max-width: 500px;
+      width: 100%;
+      box-shadow: 0 0 80px -10px rgba(244, 114, 182, 0.6);
+    }
+    .minuterie-box h3 { font-size: 1.3rem; color: var(--texte-principal); margin-bottom: 0.5rem; }
+    .minuterie-box .ex-nom { color: var(--texte-secondaire); font-size: 0.9rem; margin-bottom: 2rem; }
+    .timer-display {
+      font-family: 'Space Grotesk', monospace;
+      font-size: 4.5rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--rose), var(--violet-tech));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1;
+      margin-bottom: 0.5rem;
+    }
+    .timer-display.danger { animation: pulseTimer 1s ease infinite; }
+    @keyframes pulseTimer { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+    .timer-label { color: var(--texte-secondaire); font-size: 0.85rem; margin-bottom: 2rem; text-transform: uppercase; letter-spacing: 0.1em; }
+    .timer-bar-outer { height: 8px; background: rgba(244, 114, 182, 0.15); border-radius: 4px; overflow: hidden; margin-bottom: 2rem; }
+    .timer-bar-inner { height: 100%; width: 100%; background: linear-gradient(90deg, var(--rose), var(--violet-tech)); border-radius: 4px; transition: width 1s linear; }
+    .timer-actions { display: flex; gap: 0.7rem; justify-content: center; flex-wrap: wrap; }
+    .btn-timer {
+      padding: 0.7rem 1.5rem;
+      border-radius: 0.5rem;
+      font-family: inherit;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      border: 1px solid;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .btn-timer.play { background: linear-gradient(135deg, var(--rose), var(--violet-tech)); color: white; border-color: transparent; }
+    .btn-timer.play:hover { transform: translateY(-2px); box-shadow: 0 0 25px -5px rgba(244, 114, 182, 0.8); }
+    .btn-timer.pause { background: rgba(251, 191, 36, 0.1); border-color: var(--or); color: var(--or); }
+    .btn-timer.reset { background: rgba(239, 68, 68, 0.1); border-color: var(--rouge); color: var(--rouge); }
+    .btn-timer.close { background: transparent; border-color: var(--bordure); color: var(--texte-secondaire); }
+
+    .alerte-fin {
+      background: linear-gradient(135deg, rgba(239, 68, 68, 0.2), rgba(251, 191, 36, 0.15));
+      border: 2px solid var(--rouge);
+      border-radius: 0.6rem;
+      padding: 1rem;
+      margin-top: 1.5rem;
+      color: var(--rouge);
+      font-weight: 700;
+      display: none;
+    }
+    .alerte-fin.visible { display: block; animation: pulseTimer 1s ease infinite; }
+
+    .theme-toggle {
+      position: fixed;
+      bottom: 2rem; right: 2rem;
+      width: 58px; height: 58px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--cyan-neon), var(--vert-neon));
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      color: #050b14;
+      box-shadow: 0 8px 30px -5px rgba(34, 211, 238, 0.7);
+      transition: var(--transition);
+      z-index: 9999;
+    }
+    [dir="rtl"] .theme-toggle { right: auto; left: 2rem; }
+    .theme-toggle:hover { transform: translateY(-4px) rotate(15deg) scale(1.05); }
+    .theme-toggle .icon-sun { display: none; }
+    [data-theme="light"] .theme-toggle .icon-sun { display: block; }
+    [data-theme="light"] .theme-toggle .icon-moon { display: none; }
+
+    @media (max-width: 768px) {
+      .nav-desktop { display: none; }
+      .hero-ex h1 { font-size: 1.9rem; }
+      .ex-grid { grid-template-columns: 1fr; }
+      .filtres-panel { grid-template-columns: 1fr; }
+      .panneau-detail { max-width: 100%; }
+      .stats-bar { grid-template-columns: 1fr; }
+      .info-grid { grid-template-columns: 1fr; }
+      .timer-display { font-size: 3.5rem; }
+    }
+    @media (max-width: 480px) {
+      .container { padding: 0 1rem; }
+      .minuterie-box { padding: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <div class="container header-inner">
+      <a href="index.html" class="logo">
+        <span class="logo-icon"><i class="fas fa-atom"></i></span>
+        A SALIKI <span>PC</span>
+      </a>
+      <nav class="nav-desktop">
+        <a href="index.html" data-i18n="nav.home">Accueil</a>
+        <a href="cours.html" data-i18n="nav.cours">Cours</a>
+        <a href="exercices.html" data-i18n="nav.exercices">Exercices</a>
+        <a href="examens.html" class="actif" data-i18n="nav.examens">Examens</a>
+        <a href="simulations.html" data-i18n="nav.simulations">Simulations</a>
+        <a href="qcm.html" data-i18n="nav.qcm">QCM</a>
+        <a href="ressources.html" data-i18n="nav.ressources">Ressources</a>
+        <a href="admin/login.html" class="admin-link" data-i18n="nav.admin">Admin</a>
+      </nav>
+      <div class="header-actions">
+        <div class="lang-switcher">
+          <button class="lang-btn actif" data-lang="fr">FR</button>
+          <button class="lang-btn" data-lang="ar">AR</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section class="hero-ex">
+    <div class="container">
+      <h1><span data-i18n="exam.titre1">Préparez vos</span> <span class="accent" data-i18n="exam.titre2">examens</span></h1>
+      <p data-i18n="exam.desc">Retrouvez les contrôles, examens régionaux et nationaux organisés par niveau et par année. Mode examen chronométré disponible.</p>
+    </div>
+  </section>
+
+  <div class="container">
+    <div class="search-wrap">
+      <i class="fas fa-search search-icon"></i>
+      <input type="text" class="search-input" id="searchInput" placeholder="Rechercher un examen, une année..." data-i18n-placeholder="exam.searchPlaceholder">
+    </div>
+
+    <div class="stats-bar">
+      <div class="stat-box">
+        <div class="num" id="statTotal">0</div>
+        <div class="lbl" data-i18n="exam.statTotal">Examens disponibles</div>
+      </div>
+      <div class="stat-box">
+        <div class="num" id="statConsultes">0</div>
+        <div class="lbl" data-i18n="exam.statConsultes">Examens consultés</div>
+      </div>
+      <div class="stat-box">
+        <div class="num" id="statAnnees">0</div>
+        <div class="lbl" data-i18n="exam.statAnnees">Années couvertes</div>
+      </div>
+    </div>
+
+    <div class="filtres-panel">
+      <div class="filtre-group">
+        <label data-i18n="filtre.niveau">Niveau</label>
+        <select class="filtre-select" id="filtreNiveau">
+          <option value="all" data-i18n="filtre.tousNiveaux">Tous les niveaux</option>
+          <option value="2bacpc" data-i18n="niveau.2bacpc">2ème Bac PC</option>
+          <option value="2bacsvt" data-i18n="niveau.2bacsvt">2ème Bac SVT</option>
+          <option value="1bac" data-i18n="niveau.1bac">1ère Bac</option>
+          <option value="tronc" data-i18n="niveau.tronc">Tronc Commun</option>
+        </select>
+      </div>
+      <div class="filtre-group">
+        <label data-i18n="filtre.type">Type</label>
+        <select class="filtre-select" id="filtreType">
+          <option value="all" data-i18n="filtre.tousTypes">Tous les types</option>
+          <option value="controle" data-i18n="type.controle">Contrôle</option>
+          <option value="regional" data-i18n="type.regional">Examen régional</option>
+          <option value="national" data-i18n="type.national">Examen national</option>
+        </select>
+      </div>
+      <div class="filtre-group">
+        <label data-i18n="filtre.annee">Année</label>
+        <select class="filtre-select" id="filtreAnnee">
+          <option value="all" data-i18n="filtre.toutesAnnees">Toutes les années</option>
+        </select>
+      </div>
+      <button class="btn-reset" id="btnReset">
+        <i class="fas fa-redo"></i> <span data-i18n="filtre.reset">Réinitialiser</span>
+      </button>
+    </div>
+
+    <div class="resultats-bar">
+      <span class="count"><strong id="countResultats">0</strong> <span data-i18n="exam.resultats">examens trouvés</span></span>
+    </div>
+
+    <div class="ex-grid" id="exGrid"></div>
+
+    <div class="aucun-resultat" id="aucunResultat" style="display: none;">
+      <i class="fas fa-search"></i>
+      <h3 data-i18n="exam.aucunTitre">Aucun examen trouvé</h3>
+      <p data-i18n="exam.aucunDesc">Essayez de modifier vos filtres.</p>
+    </div>
+
+    <div class="voir-plus-wrap" id="voirPlusWrap" style="display: none;">
+      <button class="btn-voir-plus" id="btnVoirPlus">
+        <i class="fas fa-plus-circle"></i> <span data-i18n="exam.voirPlus">Voir plus d'examens</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="panneau-overlay" id="panneauOverlay"></div>
+  <div class="panneau-detail" id="panneauDetail">
+    <div class="panneau-header">
+      <h2><i class="fas fa-file-signature"></i> <span data-i18n="panneau.titre">Détail de l'examen</span></h2>
+      <button class="btn-fermer" id="btnFermerPanneau"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="panneau-corps" id="panneauCorps"></div>
+  </div>
+
+  <div class="minuterie-overlay" id="minuterieOverlay">
+    <div class="minuterie-box">
+      <h3><i class="fas fa-hourglass-half" style="color: var(--or);"></i> <span data-i18n="minuterie.titre">Mode examen blanc</span></h3>
+      <p class="ex-nom" id="minuterieExNom">—</p>
+      <div class="timer-display" id="timerDisplay">02:00:00</div>
+      <div class="timer-label" data-i18n="minuterie.restant">Temps restant</div>
+      <div class="timer-bar-outer"><div class="timer-bar-inner" id="timerBar"></div></div>
+      <div class="timer-actions">
+        <button class="btn-timer play" id="btnTimerPlay"><i class="fas fa-play"></i> <span data-i18n="minuterie.play">Démarrer</span></button>
+        <button class="btn-timer pause" id="btnTimerPause" style="display: none;"><i class="fas fa-pause"></i> <span data-i18n="minuterie.pause">Pause</span></button>
+        <button class="btn-timer reset" id="btnTimerReset"><i class="fas fa-redo"></i> <span data-i18n="minuterie.reset">Reset</span></button>
+        <button class="btn-timer close" id="btnTimerClose"><i class="fas fa-times"></i> <span data-i18n="minuterie.fermer">Fermer</span></button>
+      </div>
+      <div class="alerte-fin" id="alerteFin"><i class="fas fa-bell"></i> <span data-i18n="minuterie.fini">Temps écoulé !</span></div>
+    </div>
+  </div>
+
+  <button class="theme-toggle" id="themeToggle">
+    <i class="fas fa-moon icon-moon"></i>
+    <i class="fas fa-sun icon-sun"></i>
+  </button>
+
+  <script>
+    const examens = [
+      { id: 'e1', niveau: '2bacpc', matiere: 'pc', type: 'national', annee: 2024, session_fr: 'Session normale', session_ar: 'الدورة العادية', titre_fr: 'Examen national 2024 — 2ème Bac PC', titre_ar: 'الامتحان الوطني 2024 — 2 باك ع.ف', description_fr: 'Examen national de Physique-Chimie, session normale 2024.', description_ar: 'الامتحان الوطني في الفيزياء والكيمياء 2024.', duree: 180, ex: 4 },
+      { id: 'e2', niveau: '2bacpc', matiere: 'pc', type: 'national', annee: 2023, session_fr: 'Session normale', session_ar: 'الدورة العادية', titre_fr: 'Examen national 2023 — 2ème Bac PC', titre_ar: 'الامتحان الوطني 2023 — 2 باك ع.ف', description_fr: 'Examen national 2023, filière Sciences Physiques.', description_ar: 'الامتحان الوطني 2023، مسلك العلوم الفيزيائية.', duree: 180, ex: 4 },
+      { id: 'e3', niveau: '2bacpc', matiere: 'pc', type: 'national', annee: 2022, session_fr: 'Session normale', session_ar: 'الدورة العادية', titre_fr: 'Examen national 2022 — 2ème Bac PC', titre_ar: 'الامتحان الوطني 2022 — 2 باك ع.ف', description_fr: 'Examen national 2022, filière Sciences Physiques.', description_ar: 'الامتحان الوطني 2022.', duree: 180, ex: 4 },
+      { id: 'e4', niveau: '2bacpc', matiere: 'pc', type: 'regional', annee: 2024, session_fr: 'Session normale', session_ar: 'الدورة العادية', titre_fr: 'Examen régional 2024 — Casablanca-Settat', titre_ar: 'الامتحان الجهوي 2024 — الدار البيضاء', description_fr: 'Examen régional 2024, Académie de Casablanca-Settat.', description_ar: 'الامتحان الجهوي 2024، أكاديمية الدار البيضاء.', duree: 120, ex: 3 },
+      { id: 'e5', niveau: '2bacpc', matiere: 'pc', type: 'regional', annee: 2023, session_fr: 'Session normale', session_ar: 'الدورة العادية', titre_fr: 'Examen régional 2023 — Rabat-Salé-Kénitra', titre_ar: 'الامتحان الجهوي 2023 — الرباط', description_fr: 'Examen régional 2023, Académie de Rabat-Salé-Kénitra.', description_ar: 'الامتحان الجهوي 2023، أكاديمية الرباط.', duree: 120, ex: 3 },
+      { id: 'e6', niveau: '2bacpc', matiere: 'pc', type: 'controle', annee: 2024, session_fr: 'Semestre 1', session_ar: 'الدورة الأولى', titre_fr: 'Contrôle continu n°1 — Semestre 1', titre_ar: 'الفرض المحروس رقم 1', description_fr: 'Premier contrôle continu du semestre 1.', description_ar: 'الفرض المحروس الأول للدورة الأولى.', duree: 90, ex: 2 },
+      { id: 'e7', niveau: '2bacpc', matiere: 'pc', type: 'controle', annee: 2024, session_fr: 'Semestre 1', session_ar: 'الدورة الأولى', titre_fr: 'Contrôle continu n°2 — Semestre 1', titre_ar: 'الفرض المحروس رقم 2', description_fr: 'Deuxième contrôle continu.', description_ar: 'الفرض المحروس الثاني.', duree: 90, ex: 2 },
+      { id: 'e8', niveau: '2bacsvt', matiere: 'pc', type: 'national', annee: 2024, session_fr: 'Session normale', session_ar: 'الدورة العادية', titre_fr: 'Examen national 2024 — 2ème Bac SVT', titre_ar: 'الامتحان الوطني 2024 — 2 باك ع.ح.أ', description_fr: 'Examen national 2024, filière SVT.', description_ar: 'الامتحان الوطني 2024، مسلك ع.ح.أ.', duree: 120, ex: 3 },
+      { id: 'e9', niveau: '2bacsvt', matiere: 'pc', type: 'national', annee: 2023, session_fr: 'Session normale', session_ar: 'الدورة العادية', titre_fr: 'Examen national 2023 — 2ème Bac SVT', titre_ar: 'الامتحان الوطني 2023 — 2 باك ع.ح.أ', description_fr: 'Examen national 2023, filière SVT.', description_ar: 'الامتحان الوطني 2023.', duree: 120, ex: 3 },
+      { id: 'e10', niveau: '2bacsvt', matiere: 'pc', type: 'regional', annee: 2024, session_fr: 'Session normale', session_ar: 'الدورة العادية', titre_fr: 'Examen régional 2024 — Fès-Meknès', titre_ar: 'الامتحان الجهوي 2024 — فاس', description_fr: 'Examen régional 2024, filière SVT.', description_ar: 'الامتحان الجهوي 2024.', duree: 120, ex: 3 },
+      { id: 'e11', niveau: '1bac', matiere: 'pc', type: 'regional', annee: 2024, session_fr: 'Session normale', session_ar: 'الدورة العادية', titre_fr: 'Examen régional 2024 — 1ère Bac SE', titre_ar: 'الامتحان الجهوي 2024 — 1 باك ع.ت', description_fr: 'Examen régional de Physique-Chimie, 1ère Bac SE.', description_ar: 'الامتحان الجهوي للأولى باك علوم تجريبية.', duree: 120, ex: 3 },
+      { id: 'e12', niveau: '1bac', matiere: 'pc', type: 'regional', annee: 2023, session_fr: 'Session normale', session_ar: 'الدورة العادية', titre_fr: 'Examen régional 2023 — 1ère Bac SE', titre_ar: 'الامتحان الجهوي 2023 — 1 باك ع.ت', description_fr: 'Examen régional 2023, 1ère Bac Sciences Expérimentales.', description_ar: 'الامتحان الجهوي 2023.', duree: 120, ex: 3 },
+      { id: 'e13', niveau: 'tronc', matiere: 'pc', type: 'controle', annee: 2024, session_fr: 'Semestre 1', session_ar: 'الدورة الأولى', titre_fr: 'Contrôle continu n°1 — Tronc Commun', titre_ar: 'الفرض المحروس رقم 1 — ج.م', description_fr: 'Premier contrôle continu de Tronc Commun.', description_ar: 'الفرض المحروس الأول للجذع المشترك.', duree: 60, ex: 2 }
+    ];
+
+    const trad = {
+      fr: {
+        'nav.home': 'Accueil', 'nav.cours': 'Cours', 'nav.exercices': 'Exercices',
+        'nav.examens': 'Examens', 'nav.simulations': 'Simulations', 'nav.qcm': 'QCM',
+        'nav.ressources': 'Ressources', 'nav.admin': 'Admin',
+        'exam.titre1': 'Préparez vos', 'exam.titre2': 'examens',
+        'exam.desc': 'Retrouvez les contrôles, examens régionaux et nationaux organisés par niveau et par année. Mode examen chronométré disponible.',
+        'exam.searchPlaceholder': 'Rechercher un examen, une année...',
+        'exam.resultats': 'examens trouvés',
+        'exam.aucunTitre': 'Aucun examen trouvé',
+        'exam.aucunDesc': 'Essayez de modifier vos filtres.',
+        'exam.voirPlus': "Voir plus d'examens",
+        'exam.statTotal': 'Examens disponibles',
+        'exam.statConsultes': 'Examens consultés',
+        'exam.statAnnees': 'Années couvertes',
+        'filtre.niveau': 'Niveau', 'filtre.type': 'Type', 'filtre.annee': 'Année',
+        'filtre.tousNiveaux': 'Tous les niveaux', 'filtre.tousTypes': 'Tous les types',
+        'filtre.toutesAnnees': 'Toutes les années', 'filtre.reset': 'Réinitialiser',
+        'niveau.tronc': 'Tronc Commun', 'niveau.1bac': '1ère Bac',
+        'niveau.2bacpc': '2ème Bac PC', 'niveau.2bacsvt': '2ème Bac SVT',
+        'type.controle': 'Contrôle', 'type.regional': 'Examen régional', 'type.national': 'Examen national',
+        'btn.voir': 'Voir le sujet',
+        'panneau.titre': "Détail de l'examen",
+        'panneau.description': 'Description',
+        'panneau.infos': 'Informations',
+        'panneau.duree': 'Durée',
+        'panneau.session': 'Session',
+        'panneau.annee': 'Année',
+        'panneau.type': 'Type',
+        'panneau.structure': "Structure de l'examen",
+        'panneau.pdf': 'Télécharger le PDF',
+        'panneau.minuterie': 'Mode examen blanc (chronométré)',
+        'minuterie.titre': 'Mode examen blanc',
+        'minuterie.restant': 'Temps restant',
+        'minuterie.play': 'Démarrer', 'minuterie.pause': 'Pause',
+        'minuterie.reset': 'Reset', 'minuterie.fermer': 'Fermer',
+        'minuterie.fini': 'Temps écoulé !',
+        'panneau.exercice': 'Exercice'
+      },
+      ar: {
+        'nav.home': 'الرئيسية', 'nav.cours': 'الدروس', 'nav.exercices': 'التمارين',
+        'nav.examens': 'الامتحانات', 'nav.simulations': 'المحاكاة', 'nav.qcm': 'اختبار',
+        'nav.ressources': 'الموارد', 'nav.admin': 'الإدارة',
+        'exam.titre1': 'استعد', 'exam.titre2': 'لامتحاناتك',
+        'exam.desc': 'اكتشف الفروض، الامتحانات الجهوية والوطنية المنظمة حسب المستوى والسنة.',
+        'exam.searchPlaceholder': 'ابحث عن امتحان...',
+        'exam.resultats': 'امتحان تم إيجاده',
+        'exam.aucunTitre': 'لا يوجد أي امتحان',
+        'exam.aucunDesc': 'حاول تغيير الفلاتر.',
+        'exam.voirPlus': 'عرض المزيد',
+        'exam.statTotal': 'الامتحانات المتاحة',
+        'exam.statConsultes': 'الامتحانات المستشارة',
+        'exam.statAnnees': 'السنوات المغطاة',
+        'filtre.niveau': 'المستوى', 'filtre.type': 'النوع', 'filtre.annee': 'السنة',
+        'filtre.tousNiveaux': 'جميع المستويات', 'filtre.tousTypes': 'جميع الأنواع',
+        'filtre.toutesAnnees': 'جميع السنوات', 'filtre.reset': 'إعادة',
+        'niveau.tronc': 'الجذع المشترك', 'niveau.1bac': 'الأولى باك',
+        'niveau.2bacpc': 'الثانية باك ع.ف', 'niveau.2bacsvt': 'الثانية باك ع.ح.أ',
+        'type.controle': 'فرض محروس', 'type.regional': 'امتحان جهوي', 'type.national': 'امتحان وطني',
+        'btn.voir': 'شاهد الموضوع',
+        'panneau.titre': 'تفاصيل الامتحان',
+        'panneau.description': 'الوصف',
+        'panneau.infos': 'معلومات',
+        'panneau.duree': 'المدة',
+        'panneau.session': 'الدورة',
+        'panneau.annee': 'السنة',
+        'panneau.type': 'النوع',
+        'panneau.structure': 'بنية الامتحان',
+        'panneau.pdf': 'تحميل PDF',
+        'panneau.minuterie': 'وضع الامتحان الموقوت',
+        'minuterie.titre': 'وضع الامتحان',
+        'minuterie.restant': 'الوقت المتبقي',
+        'minuterie.play': 'تشغيل', 'minuterie.pause': 'إيقاف',
+        'minuterie.reset': 'إعادة', 'minuterie.fermer': 'إغلاق',
+        'minuterie.fini': 'انتهى الوقت!',
+        'panneau.exercice': 'تمرين'
+      }
+    };
+
+    let currentLang = localStorage.getItem('asaliki-lang') || 'fr';
+    let filtres = { niveau: 'all', type: 'all', annee: 'all', recherche: '' };
+    let exAffiches = 6;
+    let consultes = JSON.parse(localStorage.getItem('asaliki-consultes') || '[]');
+    let timerInterval = null;
+    let timerSecondes = 0;
+    let timerSecondesInitial = 0;
+
+    document.addEventListener('DOMContentLoaded', () => {
+      appliquerTheme();
+      remplirFiltresAnnees();
+      afficherExamens();
+      mettreAJourStats();
+      bindEvents();
+      appliquerLangue(currentLang);
+    });
+
+    function appliquerTheme() {
+      const savedTheme = localStorage.getItem('asaliki-theme') || 'dark';
+      document.getElementById('htmlRoot').setAttribute('data-theme', savedTheme);
+    }
+
+    function appliquerLangue(lang) {
+      currentLang = lang;
+      document.getElementById('htmlRoot').setAttribute('lang', lang);
+      document.getElementById('htmlRoot').setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (trad[lang] && trad[lang][key]) el.textContent = trad[lang][key];
+      });
+      document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+        const key = el.getAttribute('data-i18n-placeholder');
+        if (trad[lang] && trad[lang][key]) el.placeholder = trad[lang][key];
+      });
+      document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.classList.toggle('actif', btn.getAttribute('data-lang') === lang);
+      });
+      localStorage.setItem('asaliki-lang', lang);
+      remplirFiltresAnnees();
+      afficherExamens();
+    }
+
+    function remplirFiltresAnnees() {
+      const select = document.getElementById('filtreAnnee');
+      const valActuelle = select.value;
+      const annees = [...new Set(examens.map(e => e.annee))].sort((a, b) => b - a);
+      select.innerHTML = `<option value="all">${trad[currentLang]['filtre.toutesAnnees']}</option>`;
+      annees.forEach(a => {
+        const opt = document.createElement('option');
+        opt.value = a;
+        opt.textContent = a;
+        select.appendChild(opt);
+      });
+      if (annees.includes(parseInt(valActuelle))) select.value = valActuelle;
+    }
+
+    function bindEvents() {
+      document.getElementById('searchInput').addEventListener('input', (e) => {
+        filtres.recherche = e.target.value.toLowerCase().trim();
+        exAffiches = 6;
+        afficherExamens();
+      });
+      ['Niveau', 'Type', 'Annee'].forEach(f => {
+        document.getElementById('filtre' + f).addEventListener('change', (e) => {
+          filtres[f.toLowerCase()] = e.target.value;
+          exAffiches = 6;
+          afficherExamens();
+        });
+      });
+      document.getElementById('btnReset').addEventListener('click', () => {
+        filtres = { niveau: 'all', type: 'all', annee: 'all', recherche: '' };
+        document.getElementById('searchInput').value = '';
+        document.getElementById('filtreNiveau').value = 'all';
+        document.getElementById('filtreType').value = 'all';
+        document.getElementById('filtreAnnee').value = 'all';
+        exAffiches = 6;
+        afficherExamens();
+      });
+      document.getElementById('btnVoirPlus').addEventListener('click', () => {
+        exAffiches += 6;
+        afficherExamens();
+      });
+      document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.addEventListener('click', () => appliquerLangue(btn.getAttribute('data-lang')));
+      });
+      document.getElementById('themeToggle').addEventListener('click', () => {
+        const current = document.getElementById('htmlRoot').getAttribute('data-theme');
+        const next = current === 'dark' ? 'light' : 'dark';
+        document.getElementById('htmlRoot').setAttribute('data-theme', next);
+        localStorage.setItem('asaliki-theme', next);
+      });
+      document.getElementById('btnFermerPanneau').addEventListener('click', fermerPanneau);
+      document.getElementById('panneauOverlay').addEventListener('click', fermerPanneau);
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') { fermerPanneau(); fermerMinuterie(); }
+      });
+      document.getElementById('btnTimerPlay').addEventListener('click', demarrerTimer);
+      document.getElementById('btnTimerPause').addEventListener('click', pauseTimer);
+      document.getElementById('btnTimerReset').addEventListener('click', resetTimer);
+      document.getElementById('btnTimerClose').addEventListener('click', fermerMinuterie);
+    }
+
+    function filtrerExamens() {
+      return examens.filter(e => {
+        if (filtres.niveau !== 'all' && e.niveau !== filtres.niveau) return false;
+        if (filtres.type !== 'all' && e.type !== filtres.type) return false;
+        if (filtres.annee !== 'all' && e.annee !== parseInt(filtres.annee)) return false;
+        if (filtres.recherche) {
+          const titre = currentLang === 'fr' ? e.titre_fr : e.titre_ar;
+          const texte = (titre + ' ' + e.annee).toLowerCase();
+          if (!texte.includes(filtres.recherche)) return false;
+        }
+        return true;
+      });
+    }
+
+    function afficherExamens() {
+      const grid = document.getElementById('exGrid');
+      const aucun = document.getElementById('aucunResultat');
+      const voirPlusWrap = document.getElementById('voirPlusWrap');
+      const filtered = filtrerExamens().sort((a, b) => b.annee - a.annee);
+      const displayed = filtered.slice(0, exAffiches);
+
+      document.getElementById('countResultats').textContent = filtered.length;
+
+      if (filtered.length === 0) {
+        grid.innerHTML = '';
+        grid.style.display = 'none';
+        aucun.style.display = 'block';
+        voirPlusWrap.style.display = 'none';
+        return;
+      }
+
+      grid.style.display = 'grid';
+      aucun.style.display = 'none';
+      grid.innerHTML = '';
+      displayed.forEach(e => grid.appendChild(creerCarte(e)));
+      voirPlusWrap.style.display = filtered.length > exAffiches ? 'block' : 'none';
+    }
+
+    function creerCarte(e) {
+      const card = document.createElement('div');
+      card.className = 'ex-card';
+      const icones = { controle: 'fa-pencil-alt', regional: 'fa-map-marked-alt', national: 'fa-trophy' };
+      const niveauLabel = trad[currentLang]['niveau.' + e.niveau];
+      const typeLabel = trad[currentLang]['type.' + e.type];
+      const titre = currentLang === 'fr' ? e.titre_fr : e.titre_ar;
+      const desc = currentLang === 'fr' ? e.description_fr : e.description_ar;
+      const session = currentLang === 'fr' ? e.session_fr : e.session_ar;
+
+      card.innerHTML = `
+        <div class="ex-banner ${e.type}">
+          <div class="icon-type ${e.type}"><i class="fas ${icones[e.type]}"></i></div>
+          <div class="annee-badge">${e.annee}</div>
+        </div>
+        <div class="contenu">
+          <div class="type-label ${e.type}">${typeLabel} · ${session}</div>
+          <h3>${titre}</h3>
+          <div class="meta">
+            <span><i class="fas fa-layer-group"></i> ${niveauLabel}</span>
+            <span><i class="fas fa-clock"></i> ${e.duree} min</span>
+            <span><i class="fas fa-list-ol"></i> ${e.ex} ${currentLang === 'fr' ? 'ex.' : 'تمرين'}</span>
+          </div>
+          <div class="ex-desc">${desc.substring(0, 110)}${desc.length > 110 ? '...' : ''}</div>
+          <button class="btn-voir">
+            <span>${trad[currentLang]['btn.voir']}</span>
+            <i class="fas fa-arrow-right"></i>
+          </button>
+        </div>
+      `;
+
+      card.querySelector('.btn-voir').addEventListener('click', () => ouvrirPanneau(e));
+      card.addEventListener('click', (ev) => {
+        if (!ev.target.closest('.btn-voir')) ouvrirPanneau(e);
+      });
+
+      return card;
+    }
+
+    function ouvrirPanneau(e) {
+      const panneau = document.getElementById('panneauDetail');
+      const overlay = document.getElementById('panneauOverlay');
+      const corps = document.getElementById('panneauCorps');
+
+      const niveauLabel = trad[currentLang]['niveau.' + e.niveau];
+      const typeLabel = trad[currentLang]['type.' + e.type];
+      const titre = currentLang === 'fr' ? e.titre_fr : e.titre_ar;
+      const desc = currentLang === 'fr' ? e.description_fr : e.description_ar;
+      const session = currentLang === 'fr' ? e.session_fr : e.session_ar;
+
+      const structureHTML = Array.from({ length: e.ex }, (_, i) => `
+        <div class="structure-item">
+          <div class="num-ex">${i + 1}</div>
+          <div class="info"><h4>${trad[currentLang]['panneau.exercice']} ${i + 1}</h4></div>
+          <div class="bareme">${Math.round(20 / e.ex)} pts</div>
+        </div>
+      `).join('');
+
+      corps.innerHTML = `
+        <div class="ex-hero">
+          <h1>${titre}</h1>
+          <div class="badges">
+            <span>${niveauLabel}</span>
+            <span>${typeLabel}</span>
+            <span>${e.annee}</span>
+            <span>${session}</span>
+          </div>
+        </div>
+
+        <div class="panneau-section">
+          <h3><i class="fas fa-info-circle"></i> ${trad[currentLang]['panneau.description']}</h3>
+          <p>${desc}</p>
+        </div>
+
+        <div class="panneau-section">
+          <h3><i class="fas fa-clipboard-list"></i> ${trad[currentLang]['panneau.infos']}</h3>
+          <div class="info-grid">
+            <div class="info-item"><div class="lbl">${trad[currentLang]['panneau.duree']}</div><div class="val">${e.duree} min</div></div>
+            <div class="info-item"><div class="lbl">${trad[currentLang]['panneau.session']}</div><div class="val">${session}</div></div>
+            <div class="info-item"><div class="lbl">${trad[currentLang]['panneau.annee']}</div><div class="val">${e.annee}</div></div>
+            <div class="info-item"><div class="lbl">${trad[currentLang]['panneau.type']}</div><div class="val">${typeLabel}</div></div>
+          </div>
+        </div>
+
+        <div class="panneau-section">
+          <h3><i class="fas fa-list-ol"></i> ${trad[currentLang]['panneau.structure']}</h3>
+          <div class="structure-liste">${structureHTML}</div>
+        </div>
+
+        <div class="actions-examen">
+          <button class="btn-action pdf" id="btnPdf">
+            <i class="fas fa-file-pdf"></i> ${trad[currentLang]['panneau.pdf']}
+          </button>
+          <button class="btn-action minuterie" id="btnMinuterie">
+            <i class="fas fa-hourglass-half"></i> ${trad[currentLang]['panneau.minuterie']}
+          </button>
+        </div>
+      `;
+
+      document.getElementById('btnPdf').addEventListener('click', () => {
+        alert(currentLang === 'fr' ? 'PDF bientôt disponible.' : 'PDF قريباً.');
+      });
+      document.getElementById('btnMinuterie').addEventListener('click', () => ouvrirMinuterie(e));
+
+      if (!consultes.includes(e.id)) {
+        consultes.push(e.id);
+        localStorage.setItem('asaliki-consultes', JSON.stringify(consultes));
+        mettreAJourStats();
+      }
+
+      panneau.classList.add('ouvert');
+      overlay.classList.add('ouvert');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function fermerPanneau() {
+      document.getElementById('panneauDetail').classList.remove('ouvert');
+      document.getElementById('panneauOverlay').classList.remove('ouvert');
+      document.body.style.overflow = '';
+    }
+
+    function ouvrirMinuterie(e) {
+      const overlay = document.getElementById('minuterieOverlay');
+      overlay.classList.add('ouvert');
+      const titre = currentLang === 'fr' ? e.titre_fr : e.titre_ar;
+      document.getElementById('minuterieExNom').textContent = titre;
+      timerSecondesInitial = e.duree * 60;
+      resetTimer();
+    }
+
+    function fermerMinuterie() {
+      document.getElementById('minuterieOverlay').classList.remove('ouvert');
+      if (timerInterval) clearInterval(timerInterval);
+      timerInterval = null;
+      document.getElementById('alerteFin').classList.remove('visible');
+    }
+
+    function formaterTemps(sec) {
+      const h = Math.floor(sec / 3600);
+      const m = Math.floor((sec % 3600) / 60);
+      const s = sec % 60;
+      return `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+    }
+
+    function mettreAJourTimer() {
+      const display = document.getElementById('timerDisplay');
+      const bar = document.getElementById('timerBar');
+      display.textContent = formaterTemps(timerSecondes);
+      const pct = timerSecondesInitial > 0 ? (timerSecondes / timerSecondesInitial) * 100 : 0;
+      bar.style.width = pct + '%';
+      if (timerSecondes <= 300) display.classList.add('danger');
+      else display.classList.remove('danger');
+      if (timerSecondes <= 0) {
+        clearInterval(timerInterval);
+        timerInterval = null;
+        document.getElementById('alerteFin').classList.add('visible');
+        document.getElementById('btnTimerPlay').style.display = 'inline-flex';
+        document.getElementById('btnTimerPause').style.display = 'none';
+      }
+    }
+
+    function demarrerTimer() {
+      if (timerInterval) return;
+      document.getElementById('btnTimerPlay').style.display = 'none';
+      document.getElementById('btnTimerPause').style.display = 'inline-flex';
+      document.getElementById('alerteFin').classList.remove('visible');
+      timerInterval = setInterval(() => {
+        if (timerSecondes > 0) {
+          timerSecondes--;
+          mettreAJourTimer();
+        }
+      }, 1000);
+    }
+
+    function pauseTimer() {
+      if (timerInterval) { clearInterval(timerInterval); timerInterval = null; }
+      document.getElementById('btnTimerPlay').style.display = 'inline-flex';
+      document.getElementById('btnTimerPause').style.display = 'none';
+    }
+
+    function resetTimer() {
+      if (timerInterval) clearInterval(timerInterval);
+      timerInterval = null;
+      timerSecondes = timerSecondesInitial;
+      document.getElementById('btnTimerPlay').style.display = 'inline-flex';
+      document.getElementById('btnTimerPause').style.display = 'none';
+      document.getElementById('alerteFin').classList.remove('visible');
+      mettreAJourTimer();
+    }
+
+    function mettreAJourStats() {
+      const total = examens.length;
+      const nbConsultes = consultes.length;
+      const annees = [...new Set(examens.map(e => e.annee))].length;
+      document.getElementById('statTotal').textContent = total;
+      document.getElementById('statConsultes').textContent = nbConsultes;
+      document.getElementById('statAnnees').textContent = annees;
+    }
+  </script>
+</body>
+</html>
