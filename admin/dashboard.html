@@ -1067,7 +1067,24 @@
       } catch (err) { afficherMessage('Erreur : ' + err.message, 'erreur'); }
     }
 
-    function ouvrirModalRessource() {
+    /* ============================================================
+       RESSOURCES PDF — AVEC SÉLECTION DU COURS ASSOCIÉ
+    ============================================================ */
+    async function ouvrirModalRessource() {
+      let coursListe = [];
+      try {
+        coursListe = await lireTable('cours', {
+          filtres: { publie: true },
+          ordre: { col: 'created_at', asc: false }
+        });
+      } catch (err) {
+        console.error('Erreur chargement cours:', err);
+      }
+
+      const optionsCours = coursListe.map(c =>
+        `<option value="${c.id}">${c.titre_fr}</option>`
+      ).join('');
+
       const contenu = `
         <div class="form-group">
           <label>Fichier PDF</label>
@@ -1094,6 +1111,13 @@
           </div>
           <div class="form-group"><label>Taille</label><input type="text" id="r_taille" placeholder="ex: 2.4 Mo"></div>
         </div>
+        <div class="form-group">
+          <label>📚 Cours associé (optionnel)</label>
+          <select id="r_cours_id">
+            <option value="">— Aucun —</option>
+            ${optionsCours}
+          </select>
+        </div>
         <label class="form-checkbox"><input type="checkbox" id="r_publie" checked> Publier cette ressource</label>
         <div class="form-actions">
           <button class="btn-cancel" onclick="fermerModal()">Annuler</button>
@@ -1101,10 +1125,12 @@
         </div>
       `;
       ouvrirModal('Ajouter une ressource', contenu);
+
       const fu = document.getElementById('fileUpload');
       const fi = document.getElementById('fileInput');
       const finfo = document.getElementById('fileInfo');
       let fichier = null;
+
       fu.addEventListener('click', () => fi.click());
       fu.addEventListener('dragover', e => { e.preventDefault(); fu.classList.add('dragover'); });
       fu.addEventListener('dragleave', () => fu.classList.remove('dragover'));
@@ -1115,17 +1141,22 @@
       fi.addEventListener('change', e => {
         if (e.target.files.length) { fichier = e.target.files[0]; finfo.textContent = fichier.name; }
       });
+
       document.getElementById('btnSaveRessource').addEventListener('click', async () => {
         const titre_fr = document.getElementById('r_titre_fr').value;
         const titre_ar = document.getElementById('r_titre_ar').value;
         const type = document.getElementById('r_type').value;
         const taille = document.getElementById('r_taille').value;
         const publie = document.getElementById('r_publie').checked;
+        const cours_id = document.getElementById('r_cours_id').value || null;
+
         if (!titre_fr) { afficherMessage('Le titre FR est obligatoire', 'erreur'); return; }
         if (!fichier) { afficherMessage('Veuillez sélectionner un PDF', 'erreur'); return; }
+
         const btn = document.getElementById('btnSaveRessource');
         btn.disabled = true;
         btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Upload...';
+
         try {
           const nomSecurise = fichier.name
             .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
@@ -1133,10 +1164,19 @@
             .replace(/_+/g, '_');
           const chemin = `${type}/${Date.now()}_${nomSecurise}`;
           const url = await uploaderFichier(fichier, chemin);
+
           await insererLigne('ressources', {
-            titre_fr, titre_ar, type, taille, publie,
-            fichier_url: url, description_fr: '', description_ar: ''
+            titre_fr,
+            titre_ar,
+            type,
+            taille,
+            publie,
+            fichier_url: url,
+            cours_id: cours_id,
+            description_fr: '',
+            description_ar: ''
           });
+
           afficherMessage('Ressource uploadée !', 'succes');
           fermerModal();
           chargerRessources();
