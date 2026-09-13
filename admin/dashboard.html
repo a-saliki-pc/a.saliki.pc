@@ -853,7 +853,7 @@
         container.innerHTML = `
           <div class="table-scroll">
             <table>
-              <thead><tr><th>Titre</th><th>Niveau</th><th>Type</th><th>Année</th><th>Publié</th><th>Actions</th></tr></thead>
+              <thead><tr><th>Titre</th><th>Niveau</th><th>Type</th><th>Année</th><th>PDF</th><th>Publié</th><th>Actions</th></tr></thead>
               <tbody>
                 ${data.map(e => `
                   <tr>
@@ -861,8 +861,10 @@
                     <td><span class="badge violet">${e.niveau}</span></td>
                     <td><span class="badge rose">${e.type}</span></td>
                     <td>${e.annee}</td>
+                    <td>${e.fichier_url ? '✅' : '❌'}</td>
                     <td><span class="badge ${e.publie ? 'vert' : 'rouge'}">${e.publie ? 'Oui' : 'Non'}</span></td>
                     <td>
+                      ${e.fichier_url ? `<a class="btn-icon edit" href="${e.fichier_url}" target="_blank"><i class="fas fa-eye"></i></a>` : ''}
                       <button class="btn-icon edit" onclick='editerExamen(${JSON.stringify(e).replace(/'/g, "&#39;")})'><i class="fas fa-edit"></i></button>
                       <button class="btn-icon delete" onclick="supprimerExamen('${e.id}')"><i class="fas fa-trash"></i></button>
                     </td>
@@ -1067,9 +1069,6 @@
       } catch (err) { afficherMessage('Erreur : ' + err.message, 'erreur'); }
     }
 
-    /* ============================================================
-       RESSOURCES PDF — AVEC SÉLECTION DU COURS ASSOCIÉ
-    ============================================================ */
     async function ouvrirModalRessource() {
       let coursListe = [];
       try {
@@ -1201,6 +1200,9 @@
       } catch (err) { afficherMessage('Erreur : ' + err.message, 'erreur'); }
     }
 
+    /* ============================================================
+       EXAMENS — avec upload PDF (sujet + corrigé)
+    ============================================================ */
     function ouvrirModalExamen(data = null) {
       const d = data || {};
       const editing = !!data;
@@ -1231,34 +1233,130 @@
           <div class="form-group"><label>Durée (min)</label><input type="number" id="e_duree" value="${d.duree || 120}"></div>
         </div>
         <div class="form-group"><label>Description (FR)</label><textarea id="e_desc_fr">${d.description_fr || ''}</textarea></div>
-        <label class="form-checkbox"><input type="checkbox" id="e_publie" ${d.publie !== false ? 'checked' : ''}> Publier</label>
+        <div class="form-group">
+          <label>📄 PDF du sujet</label>
+          <div class="file-upload" id="fileUploadSujet">
+            <i class="fas fa-file-pdf"></i>
+            <p>${d.fichier_url ? '✅ PDF déjà uploadé — Cliquez pour remplacer' : 'Cliquez ou glissez-déposez le PDF du sujet'}</p>
+            <input type="file" id="fileInputSujet" accept="application/pdf" hidden>
+            <div class="file-info" id="fileInfoSujet">${d.fichier_url ? 'Fichier actuel : ' + d.fichier_url.split('/').pop() : ''}</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>📄 PDF du corrigé (optionnel)</label>
+          <div class="file-upload" id="fileUploadCorrige">
+            <i class="fas fa-file-pdf"></i>
+            <p>${d.fichier_corrige_url ? '✅ Corrigé déjà uploadé — Cliquez pour remplacer' : 'Cliquez ou glissez-déposez le PDF du corrigé'}</p>
+            <input type="file" id="fileInputCorrige" accept="application/pdf" hidden>
+            <div class="file-info" id="fileInfoCorrige">${d.fichier_corrige_url ? 'Fichier actuel : ' + d.fichier_corrige_url.split('/').pop() : ''}</div>
+          </div>
+        </div>
+        <label class="form-checkbox"><input type="checkbox" id="e_publie" ${d.publie !== false ? 'checked' : ''}> Publier cet examen</label>
         <div class="form-actions">
           <button class="btn-cancel" onclick="fermerModal()">Annuler</button>
-          <button class="btn-submit" onclick="sauvegarderExamen(${editing ? `'${d.id}'` : 'null'})"><i class="fas fa-save"></i> Enregistrer</button>
+          <button class="btn-submit" id="btnSaveExamen"><i class="fas fa-save"></i> Enregistrer</button>
         </div>
       `;
       ouvrirModal(editing ? "Modifier l'examen" : 'Ajouter un examen', contenu);
-    }
 
-    async function sauvegarderExamen(id) {
-      const data = {
-        titre_fr: document.getElementById('e_titre_fr').value,
-        titre_ar: document.getElementById('e_titre_ar').value,
-        niveau: document.getElementById('e_niveau').value,
-        type: document.getElementById('e_type').value,
-        annee: parseInt(document.getElementById('e_annee').value),
-        duree: parseInt(document.getElementById('e_duree').value),
-        description_fr: document.getElementById('e_desc_fr').value,
-        publie: document.getElementById('e_publie').checked,
-        matiere: 'pc'
-      };
-      try {
-        if (id) await modifierLigne('examens', id, data);
-        else await insererLigne('examens', data);
-        afficherMessage('Examen enregistré !', 'succes');
-        fermerModal();
-        chargerExamens();
-      } catch (err) { afficherMessage('Erreur : ' + err.message, 'erreur'); }
+      let fichierSujet = null;
+      let fichierCorrige = null;
+
+      // Upload sujet
+      const fuSujet = document.getElementById('fileUploadSujet');
+      const fiSujet = document.getElementById('fileInputSujet');
+      const finfoSujet = document.getElementById('fileInfoSujet');
+      fuSujet.addEventListener('click', () => fiSujet.click());
+      fuSujet.addEventListener('dragover', e => { e.preventDefault(); fuSujet.classList.add('dragover'); });
+      fuSujet.addEventListener('dragleave', () => fuSujet.classList.remove('dragover'));
+      fuSujet.addEventListener('drop', e => {
+        e.preventDefault(); fuSujet.classList.remove('dragover');
+        if (e.dataTransfer.files.length) { fichierSujet = e.dataTransfer.files[0]; finfoSujet.textContent = fichierSujet.name; }
+      });
+      fiSujet.addEventListener('change', e => {
+        if (e.target.files.length) { fichierSujet = e.target.files[0]; finfoSujet.textContent = fichierSujet.name; }
+      });
+
+      // Upload corrigé
+      const fuCorr = document.getElementById('fileUploadCorrige');
+      const fiCorr = document.getElementById('fileInputCorrige');
+      const finfoCorr = document.getElementById('fileInfoCorrige');
+      fuCorr.addEventListener('click', () => fiCorr.click());
+      fuCorr.addEventListener('dragover', e => { e.preventDefault(); fuCorr.classList.add('dragover'); });
+      fuCorr.addEventListener('dragleave', () => fuCorr.classList.remove('dragover'));
+      fuCorr.addEventListener('drop', e => {
+        e.preventDefault(); fuCorr.classList.remove('dragover');
+        if (e.dataTransfer.files.length) { fichierCorrige = e.dataTransfer.files[0]; finfoCorr.textContent = fichierCorrige.name; }
+      });
+      fiCorr.addEventListener('change', e => {
+        if (e.target.files.length) { fichierCorrige = e.target.files[0]; finfoCorr.textContent = fichierCorrige.name; }
+      });
+
+      // Bouton Enregistrer
+      document.getElementById('btnSaveExamen').addEventListener('click', async () => {
+        const titre_fr = document.getElementById('e_titre_fr').value;
+        const titre_ar = document.getElementById('e_titre_ar').value;
+        const niveau = document.getElementById('e_niveau').value;
+        const type = document.getElementById('e_type').value;
+        const annee = parseInt(document.getElementById('e_annee').value);
+        const duree = parseInt(document.getElementById('e_duree').value);
+        const description_fr = document.getElementById('e_desc_fr').value;
+        const publie = document.getElementById('e_publie').checked;
+
+        if (!titre_fr) { afficherMessage('Le titre FR est obligatoire', 'erreur'); return; }
+
+        const btn = document.getElementById('btnSaveExamen');
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enregistrement...';
+
+        try {
+          let fichier_url = d.fichier_url || null;
+          let fichier_corrige_url = d.fichier_corrige_url || null;
+
+          if (fichierSujet) {
+            const nomSecurise = fichierSujet.name
+              .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+              .replace(/[^a-zA-Z0-9._-]/g, '_')
+              .replace(/_+/g, '_');
+            const chemin = `examens/sujets/${Date.now()}_${nomSecurise}`;
+            fichier_url = await uploaderFichier(fichierSujet, chemin);
+          }
+
+          if (fichierCorrige) {
+            const nomSecurise = fichierCorrige.name
+              .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+              .replace(/[^a-zA-Z0-9._-]/g, '_')
+              .replace(/_+/g, '_');
+            const chemin = `examens/corriges/${Date.now()}_${nomSecurise}`;
+            fichier_corrige_url = await uploaderFichier(fichierCorrige, chemin);
+          }
+
+          const dataExamen = {
+            titre_fr,
+            titre_ar,
+            niveau,
+            type,
+            annee,
+            duree,
+            description_fr,
+            publie,
+            matiere: 'pc',
+            fichier_url,
+            fichier_corrige_url
+          };
+
+          if (editing) await modifierLigne('examens', d.id, dataExamen);
+          else await insererLigne('examens', dataExamen);
+
+          afficherMessage('Examen enregistré !', 'succes');
+          fermerModal();
+          chargerExamens();
+        } catch (err) {
+          afficherMessage('Erreur : ' + err.message, 'erreur');
+          btn.disabled = false;
+          btn.innerHTML = '<i class="fas fa-save"></i> Enregistrer';
+        }
+      });
     }
 
     function editerExamen(e) { ouvrirModalExamen(e); }
