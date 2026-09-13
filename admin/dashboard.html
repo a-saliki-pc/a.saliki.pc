@@ -333,7 +333,7 @@
       border: 1px solid var(--bordure);
       border-radius: var(--rayon);
       width: 100%;
-      max-width: 700px;
+      max-width: 750px;
       max-height: 90vh;
       overflow-y: auto;
       box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
@@ -486,6 +486,9 @@
     .empty i { font-size: 3rem; color: var(--bordure); margin-bottom: 1rem; display: block; }
     .empty h3 { color: var(--texte-principal); font-size: 1.1rem; margin-bottom: 0.4rem; }
 
+    .stars { color: var(--or); font-size: 0.9rem; }
+    .stars .vide { color: rgba(251, 191, 36, 0.25); }
+
     .btn-menu {
       display: none;
       background: rgba(34, 211, 238, 0.1);
@@ -518,6 +521,7 @@
       <li><a data-panel="cours"><i class="fas fa-book"></i> Cours</a></li>
       <li><a data-panel="ressources"><i class="fas fa-file-pdf"></i> Ressources PDF</a></li>
       <li><a data-panel="examens"><i class="fas fa-file-signature"></i> Examens</a></li>
+      <li><a data-panel="exercices"><i class="fas fa-pencil-alt"></i> Exercices</a></li>
       <li><a data-panel="simulations"><i class="fas fa-flask"></i> Simulations</a></li>
       <li class="section-label">Site</li>
       <li><a data-panel="stats"><i class="fas fa-chart-bar"></i> Statistiques</a></li>
@@ -565,6 +569,10 @@
           <div class="stat-info"><div class="nb" id="nbExamens">—</div><div class="lbl">Examens</div></div>
         </div>
         <div class="stat-card">
+          <div class="stat-icon"><i class="fas fa-pencil-alt"></i></div>
+          <div class="stat-info"><div class="nb" id="nbExercices">—</div><div class="lbl">Exercices</div></div>
+        </div>
+        <div class="stat-card">
           <div class="stat-icon"><i class="fas fa-flask"></i></div>
           <div class="stat-info"><div class="nb" id="nbSimulations">—</div><div class="lbl">Simulations</div></div>
         </div>
@@ -610,6 +618,18 @@
           <button class="btn-action primary" onclick="ouvrirModalExamen()"><i class="fas fa-plus"></i> Ajouter un examen</button>
         </div>
         <div id="listeExamens">
+          <div class="loading"><i class="fas fa-spinner"></i><p>Chargement...</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel" id="panel-exercices">
+      <div class="table-card">
+        <div class="table-header">
+          <h2><i class="fas fa-pencil-alt"></i> Gestion des exercices</h2>
+          <button class="btn-action primary" onclick="ouvrirModalExercice()"><i class="fas fa-plus"></i> Ajouter un exercice</button>
+        </div>
+        <div id="listeExercices">
           <div class="loading"><i class="fas fa-spinner"></i><p>Chargement...</p></div>
         </div>
       </div>
@@ -711,6 +731,7 @@
       cours: 'Gestion des cours',
       ressources: 'Ressources PDF',
       examens: 'Gestion des examens',
+      exercices: 'Gestion des exercices',
       simulations: 'Simulations',
       stats: 'Statistiques',
       temoignages: 'Témoignages'
@@ -730,6 +751,7 @@
         case 'cours': chargerCours(); break;
         case 'ressources': chargerRessources(); break;
         case 'examens': chargerExamens(); break;
+        case 'exercices': chargerExercices(); break;
         case 'simulations': chargerSimulations(); break;
         case 'stats': chargerStats(); break;
         case 'temoignages': chargerTemoignages(); break;
@@ -738,13 +760,14 @@
 
     async function chargerOverview() {
       try {
-        const [c, r, e, s] = await Promise.all([
+        const [c, r, e, ex, s] = await Promise.all([
           lireTable('cours'), lireTable('ressources'),
-          lireTable('examens'), lireTable('simulations')
+          lireTable('examens'), lireTable('exercices'), lireTable('simulations')
         ]);
         document.getElementById('nbCours').textContent = c.length;
         document.getElementById('nbRessources').textContent = r.length;
         document.getElementById('nbExamens').textContent = e.length;
+        document.getElementById('nbExercices').textContent = ex.length;
         document.getElementById('nbSimulations').textContent = s.length;
         const recent = r.slice(0, 5);
         const container = document.getElementById('apercuRecent');
@@ -879,6 +902,48 @@
       }
     }
 
+    async function chargerExercices() {
+      const container = document.getElementById('listeExercices');
+      try {
+        const data = await lireTable('exercices', { ordre: { col: 'created_at', asc: false } });
+        if (data.length === 0) {
+          container.innerHTML = '<div class="empty"><i class="fas fa-inbox"></i><h3>Aucun exercice</h3><p>Cliquez sur "Ajouter un exercice".</p></div>';
+          return;
+        }
+        container.innerHTML = `
+          <div class="table-scroll">
+            <table>
+              <thead><tr><th>Titre</th><th>Niveau</th><th>Matière</th><th>Difficulté</th><th>PDF</th><th>Publié</th><th>Actions</th></tr></thead>
+              <tbody>
+                ${data.map(ex => {
+                  const etoiles = [1, 2, 3].map(i =>
+                    `<span class="${i <= (ex.difficulte || 1) ? '' : 'vide'}">★</span>`
+                  ).join('');
+                  return `
+                    <tr>
+                      <td><strong style="color:#fff">${ex.titre_fr}</strong></td>
+                      <td><span class="badge violet">${ex.niveau}</span></td>
+                      <td>${ex.matiere}</td>
+                      <td><span class="stars">${etoiles}</span></td>
+                      <td>${ex.fichier_url ? '✅' : '❌'}</td>
+                      <td><span class="badge ${ex.publie ? 'vert' : 'rouge'}">${ex.publie ? 'Oui' : 'Non'}</span></td>
+                      <td>
+                        ${ex.fichier_url ? `<a class="btn-icon edit" href="${ex.fichier_url}" target="_blank"><i class="fas fa-eye"></i></a>` : ''}
+                        <button class="btn-icon edit" onclick='editerExercice(${JSON.stringify(ex).replace(/'/g, "&#39;")})'><i class="fas fa-edit"></i></button>
+                        <button class="btn-icon delete" onclick="supprimerExercice('${ex.id}')"><i class="fas fa-trash"></i></button>
+                      </td>
+                    </tr>
+                  `;
+                }).join('')}
+              </tbody>
+            </table>
+          </div>
+        `;
+      } catch (err) {
+        container.innerHTML = `<div class="empty"><i class="fas fa-exclamation-triangle"></i><h3>Erreur</h3><p>${err.message}</p></div>`;
+      }
+    }
+
     async function chargerSimulations() {
       const container = document.getElementById('listeSimulations');
       try {
@@ -987,6 +1052,9 @@
       document.getElementById('modalOverlay').classList.remove('ouvert');
     }
 
+    /* ============================================================
+       COURS
+    ============================================================ */
     function ouvrirModalCours(data = null) {
       const d = data || {};
       const editing = !!data;
@@ -1069,6 +1137,9 @@
       } catch (err) { afficherMessage('Erreur : ' + err.message, 'erreur'); }
     }
 
+    /* ============================================================
+       RESSOURCES PDF
+    ============================================================ */
     async function ouvrirModalRessource() {
       let coursListe = [];
       try {
@@ -1076,9 +1147,7 @@
           filtres: { publie: true },
           ordre: { col: 'created_at', asc: false }
         });
-      } catch (err) {
-        console.error('Erreur chargement cours:', err);
-      }
+      } catch (err) { console.error(err); }
 
       const optionsCours = coursListe.map(c =>
         `<option value="${c.id}">${c.titre_fr}</option>`
@@ -1165,15 +1234,9 @@
           const url = await uploaderFichier(fichier, chemin);
 
           await insererLigne('ressources', {
-            titre_fr,
-            titre_ar,
-            type,
-            taille,
-            publie,
-            fichier_url: url,
-            cours_id: cours_id,
-            description_fr: '',
-            description_ar: ''
+            titre_fr, titre_ar, type, taille, publie,
+            fichier_url: url, cours_id: cours_id,
+            description_fr: '', description_ar: ''
           });
 
           afficherMessage('Ressource uploadée !', 'succes');
@@ -1262,7 +1325,6 @@
       let fichierSujet = null;
       let fichierCorrige = null;
 
-      // Upload sujet
       const fuSujet = document.getElementById('fileUploadSujet');
       const fiSujet = document.getElementById('fileInputSujet');
       const finfoSujet = document.getElementById('fileInfoSujet');
@@ -1277,7 +1339,6 @@
         if (e.target.files.length) { fichierSujet = e.target.files[0]; finfoSujet.textContent = fichierSujet.name; }
       });
 
-      // Upload corrigé
       const fuCorr = document.getElementById('fileUploadCorrige');
       const fiCorr = document.getElementById('fileInputCorrige');
       const finfoCorr = document.getElementById('fileInfoCorrige');
@@ -1292,7 +1353,6 @@
         if (e.target.files.length) { fichierCorrige = e.target.files[0]; finfoCorr.textContent = fichierCorrige.name; }
       });
 
-      // Bouton Enregistrer
       document.getElementById('btnSaveExamen').addEventListener('click', async () => {
         const titre_fr = document.getElementById('e_titre_fr').value;
         const titre_ar = document.getElementById('e_titre_ar').value;
@@ -1332,17 +1392,9 @@
           }
 
           const dataExamen = {
-            titre_fr,
-            titre_ar,
-            niveau,
-            type,
-            annee,
-            duree,
-            description_fr,
-            publie,
-            matiere: 'pc',
-            fichier_url,
-            fichier_corrige_url
+            titre_fr, titre_ar, niveau, type, annee, duree,
+            description_fr, publie, matiere: 'pc',
+            fichier_url, fichier_corrige_url
           };
 
           if (editing) await modifierLigne('examens', d.id, dataExamen);
@@ -1370,6 +1422,153 @@
       } catch (err) { afficherMessage('Erreur : ' + err.message, 'erreur'); }
     }
 
+    /* ============================================================
+       EXERCICES — avec upload PDF
+    ============================================================ */
+    function ouvrirModalExercice(data = null) {
+      const d = data || {};
+      const editing = !!data;
+      const contenu = `
+        <div class="form-row">
+          <div class="form-group"><label>Titre (FR)</label><input type="text" id="ex_titre_fr" value="${d.titre_fr || ''}"></div>
+          <div class="form-group"><label>Titre (AR)</label><input type="text" id="ex_titre_ar" value="${d.titre_ar || ''}"></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Niveau</label>
+            <select id="ex_niveau">
+              <option value="tronc" ${d.niveau === 'tronc' ? 'selected' : ''}>Tronc Commun</option>
+              <option value="1bac" ${d.niveau === '1bac' ? 'selected' : ''}>1ère Bac</option>
+              <option value="2bacpc" ${d.niveau === '2bacpc' ? 'selected' : ''}>2ème Bac PC</option>
+              <option value="2bacsvt" ${d.niveau === '2bacsvt' ? 'selected' : ''}>2ème Bac SVT</option>
+            </select>
+          </div>
+          <div class="form-group"><label>Matière</label>
+            <select id="ex_matiere">
+              <option value="physique" ${d.matiere === 'physique' ? 'selected' : ''}>Physique</option>
+              <option value="chimie" ${d.matiere === 'chimie' ? 'selected' : ''}>Chimie</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Chapitre (FR)</label><input type="text" id="ex_chapitre_fr" value="${d.chapitre_fr || ''}"></div>
+          <div class="form-group"><label>Chapitre (AR)</label><input type="text" id="ex_chapitre_ar" value="${d.chapitre_ar || ''}"></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Difficulté (1 à 3)</label>
+            <select id="ex_difficulte">
+              <option value="1" ${d.difficulte === 1 ? 'selected' : ''}>⭐ Facile</option>
+              <option value="2" ${d.difficulte === 2 ? 'selected' : ''}>⭐⭐ Moyen</option>
+              <option value="3" ${d.difficulte === 3 ? 'selected' : ''}>⭐⭐⭐ Difficile</option>
+            </select>
+          </div>
+          <div class="form-group"><label>Ordre</label><input type="number" id="ex_ordre" value="${d.ordre || 0}"></div>
+        </div>
+        <div class="form-group"><label>Énoncé court (FR)</label><textarea id="ex_enonce_court_fr">${d.enonce_court_fr || ''}</textarea></div>
+        <div class="form-group"><label>Énoncé court (AR)</label><textarea id="ex_enonce_court_ar">${d.enonce_court_ar || ''}</textarea></div>
+        <div class="form-group"><label>Énoncé complet (FR)</label><textarea id="ex_enonce_fr">${d.enonce_fr || ''}</textarea></div>
+        <div class="form-group"><label>Énoncé complet (AR)</label><textarea id="ex_enonce_ar">${d.enonce_ar || ''}</textarea></div>
+        <div class="form-row">
+          <div class="form-group"><label>Résultat final (FR)</label><input type="text" id="ex_resultat_fr" value="${d.resultat_fr || ''}"></div>
+          <div class="form-group"><label>Résultat final (AR)</label><input type="text" id="ex_resultat_ar" value="${d.resultat_ar || ''}"></div>
+        </div>
+        <div class="form-group">
+          <label>📄 PDF de l'exercice (optionnel)</label>
+          <div class="file-upload" id="fileUploadEx">
+            <i class="fas fa-file-pdf"></i>
+            <p>${d.fichier_url ? '✅ PDF déjà uploadé — Cliquez pour remplacer' : 'Cliquez ou glissez-déposez le PDF de l\'exercice'}</p>
+            <input type="file" id="fileInputEx" accept="application/pdf" hidden>
+            <div class="file-info" id="fileInfoEx">${d.fichier_url ? 'Fichier actuel : ' + d.fichier_url.split('/').pop() : ''}</div>
+          </div>
+        </div>
+        <label class="form-checkbox"><input type="checkbox" id="ex_publie" ${d.publie !== false ? 'checked' : ''}> Publier cet exercice</label>
+        <div class="form-actions">
+          <button class="btn-cancel" onclick="fermerModal()">Annuler</button>
+          <button class="btn-submit" id="btnSaveExercice"><i class="fas fa-save"></i> Enregistrer</button>
+        </div>
+      `;
+      ouvrirModal(editing ? "Modifier l'exercice" : 'Ajouter un exercice', contenu);
+
+      let fichierEx = null;
+      const fuEx = document.getElementById('fileUploadEx');
+      const fiEx = document.getElementById('fileInputEx');
+      const finfoEx = document.getElementById('fileInfoEx');
+      fuEx.addEventListener('click', () => fiEx.click());
+      fuEx.addEventListener('dragover', e => { e.preventDefault(); fuEx.classList.add('dragover'); });
+      fuEx.addEventListener('dragleave', () => fuEx.classList.remove('dragover'));
+      fuEx.addEventListener('drop', e => {
+        e.preventDefault(); fuEx.classList.remove('dragover');
+        if (e.dataTransfer.files.length) { fichierEx = e.dataTransfer.files[0]; finfoEx.textContent = fichierEx.name; }
+      });
+      fiEx.addEventListener('change', e => {
+        if (e.target.files.length) { fichierEx = e.target.files[0]; finfoEx.textContent = fichierEx.name; }
+      });
+
+      document.getElementById('btnSaveExercice').addEventListener('click', async () => {
+        const titre_fr = document.getElementById('ex_titre_fr').value;
+        if (!titre_fr) { afficherMessage('Le titre FR est obligatoire', 'erreur'); return; }
+
+        const btn = document.getElementById('btnSaveExercice');
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enregistrement...';
+
+        try {
+          let fichier_url = d.fichier_url || null;
+          if (fichierEx) {
+            const nomSecurise = fichierEx.name
+              .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+              .replace(/[^a-zA-Z0-9._-]/g, '_')
+              .replace(/_+/g, '_');
+            const chemin = `exercices/${Date.now()}_${nomSecurise}`;
+            fichier_url = await uploaderFichier(fichierEx, chemin);
+          }
+
+          const dataEx = {
+            titre_fr,
+            titre_ar: document.getElementById('ex_titre_ar').value,
+            niveau: document.getElementById('ex_niveau').value,
+            matiere: document.getElementById('ex_matiere').value,
+            chapitre_fr: document.getElementById('ex_chapitre_fr').value,
+            chapitre_ar: document.getElementById('ex_chapitre_ar').value,
+            difficulte: parseInt(document.getElementById('ex_difficulte').value),
+            ordre: parseInt(document.getElementById('ex_ordre').value),
+            enonce_court_fr: document.getElementById('ex_enonce_court_fr').value,
+            enonce_court_ar: document.getElementById('ex_enonce_court_ar').value,
+            enonce_fr: document.getElementById('ex_enonce_fr').value,
+            enonce_ar: document.getElementById('ex_enonce_ar').value,
+            resultat_fr: document.getElementById('ex_resultat_fr').value,
+            resultat_ar: document.getElementById('ex_resultat_ar').value,
+            fichier_url,
+            publie: document.getElementById('ex_publie').checked
+          };
+
+          if (editing) await modifierLigne('exercices', d.id, dataEx);
+          else await insererLigne('exercices', dataEx);
+
+          afficherMessage('Exercice enregistré !', 'succes');
+          fermerModal();
+          chargerExercices();
+        } catch (err) {
+          afficherMessage('Erreur : ' + err.message, 'erreur');
+          btn.disabled = false;
+          btn.innerHTML = '<i class="fas fa-save"></i> Enregistrer';
+        }
+      });
+    }
+
+    function editerExercice(ex) { ouvrirModalExercice(ex); }
+
+    async function supprimerExercice(id) {
+      if (!confirm('Supprimer cet exercice ?')) return;
+      try {
+        await supprimerLigne('exercices', id);
+        afficherMessage('Exercice supprimé', 'succes');
+        chargerExercices();
+      } catch (err) { afficherMessage('Erreur : ' + err.message, 'erreur'); }
+    }
+
+    /* ============================================================
+       SIMULATIONS
+    ============================================================ */
     function ouvrirModalSimulation(data = null) {
       const d = data || {};
       const editing = !!data;
@@ -1429,6 +1628,9 @@
       } catch (err) { afficherMessage('Erreur : ' + err.message, 'erreur'); }
     }
 
+    /* ============================================================
+       STATS
+    ============================================================ */
     function ouvrirModalStat(data = null) {
       const d = data || {};
       const contenu = `
@@ -1464,6 +1666,9 @@
 
     function editerStat(s) { ouvrirModalStat(s); }
 
+    /* ============================================================
+       TÉMOIGNAGES
+    ============================================================ */
     function ouvrirModalTemoignage(data = null) {
       const d = data || {};
       const editing = !!data;
