@@ -571,12 +571,25 @@
       border: 1px solid;
       text-decoration: none;
     }
-    .btn-action.pdf {
+    .btn-action.sujet {
       background: linear-gradient(135deg, rgba(244, 114, 182, 0.15), rgba(139, 92, 246, 0.1));
       border-color: var(--rose);
       color: var(--rose);
     }
-    .btn-action.pdf:hover { background: var(--rose); color: white; }
+    .btn-action.sujet:hover { background: var(--rose); color: white; }
+    .btn-action.corrige {
+      background: rgba(74, 222, 128, 0.08);
+      border-color: var(--vert-neon);
+      color: var(--vert-neon);
+    }
+    .btn-action.corrige:hover { background: var(--vert-neon); color: #050b14; }
+    .btn-action.indispo {
+      background: rgba(148, 163, 184, 0.08);
+      border-color: var(--bordure);
+      color: var(--texte-secondaire);
+      cursor: not-allowed;
+      opacity: 0.6;
+    }
     .btn-action.minuterie {
       background: rgba(251, 191, 36, 0.08);
       border-color: var(--or);
@@ -867,8 +880,10 @@
         'panneau.session': 'Session',
         'panneau.annee': 'Année',
         'panneau.type': 'Type',
-        'panneau.pdf': 'Télécharger le PDF',
-        'panneau.pdfIndispo': 'PDF bientôt disponible',
+        'panneau.sujet': 'Télécharger le sujet',
+        'panneau.corrige': 'Télécharger le corrigé',
+        'panneau.sujetIndispo': 'Sujet bientôt disponible',
+        'panneau.corrigeIndispo': 'Corrigé bientôt disponible',
         'panneau.minuterie': 'Mode examen blanc (chronométré)',
         'minuterie.titre': 'Mode examen blanc',
         'minuterie.restant': 'Temps restant',
@@ -905,8 +920,10 @@
         'panneau.session': 'الدورة',
         'panneau.annee': 'السنة',
         'panneau.type': 'النوع',
-        'panneau.pdf': 'تحميل PDF',
-        'panneau.pdfIndispo': 'PDF قريباً',
+        'panneau.sujet': 'تحميل الموضوع',
+        'panneau.corrige': 'تحميل التصحيح',
+        'panneau.sujetIndispo': 'الموضوع قريباً',
+        'panneau.corrigeIndispo': 'التصحيح قريباً',
         'panneau.minuterie': 'وضع الامتحان الموقوت',
         'minuterie.titre': 'وضع الامتحان',
         'minuterie.restant': 'الوقت المتبقي',
@@ -1143,11 +1160,19 @@
 
         <div class="actions-examen">
           ${e.fichier_url
-            ? `<a class="btn-action pdf" href="${e.fichier_url}" target="_blank" rel="noopener">
-                <i class="fas fa-file-pdf"></i> ${trad[currentLang]['panneau.pdf']}
+            ? `<a class="btn-action sujet" href="${e.fichier_url}" target="_blank" rel="noopener">
+                <i class="fas fa-file-pdf"></i> ${trad[currentLang]['panneau.sujet']}
               </a>`
-            : `<button class="btn-action pdf" style="opacity:0.5;cursor:not-allowed;" disabled>
-                <i class="fas fa-file-pdf"></i> ${trad[currentLang]['panneau.pdfIndispo']}
+            : `<button class="btn-action indispo" disabled>
+                <i class="fas fa-file-pdf"></i> ${trad[currentLang]['panneau.sujetIndispo']}
+              </button>`
+          }
+          ${e.fichier_corrige_url
+            ? `<a class="btn-action corrige" href="${e.fichier_corrige_url}" target="_blank" rel="noopener">
+                <i class="fas fa-check-circle"></i> ${trad[currentLang]['panneau.corrige']}
+              </a>`
+            : `<button class="btn-action indispo" disabled>
+                <i class="fas fa-check-circle"></i> ${trad[currentLang]['panneau.corrigeIndispo']}
               </button>`
           }
           <button class="btn-action minuterie" id="btnMinuterie">
