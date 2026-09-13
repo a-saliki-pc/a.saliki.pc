@@ -314,6 +314,8 @@
     .btn-icon.edit:hover { background: var(--cyan-neon); color: #050b14; }
     .btn-icon.delete { border-color: rgba(239, 68, 68, 0.4); color: var(--rouge); }
     .btn-icon.delete:hover { background: var(--rouge); color: white; }
+    .btn-icon.eye { border-color: rgba(74, 222, 128, 0.4); color: var(--vert-neon); }
+    .btn-icon.eye:hover { background: var(--vert-neon); color: #050b14; }
 
     .modal-overlay {
       position: fixed;
@@ -851,7 +853,7 @@
                     <td>${r.taille || '—'}</td>
                     <td><span class="badge ${r.publie ? 'vert' : 'rouge'}">${r.publie ? 'Oui' : 'Non'}</span></td>
                     <td>
-                      ${r.fichier_url ? `<a class="btn-icon edit" href="${r.fichier_url}" target="_blank"><i class="fas fa-eye"></i></a>` : ''}
+                      ${r.fichier_url ? `<a class="btn-icon eye" href="${r.fichier_url}" target="_blank"><i class="fas fa-eye"></i></a>` : ''}
                       <button class="btn-icon delete" onclick="supprimerRessource('${r.id}', '${r.fichier_url || ''}')"><i class="fas fa-trash"></i></button>
                     </td>
                   </tr>
@@ -876,7 +878,7 @@
         container.innerHTML = `
           <div class="table-scroll">
             <table>
-              <thead><tr><th>Titre</th><th>Niveau</th><th>Type</th><th>Année</th><th>PDF</th><th>Publié</th><th>Actions</th></tr></thead>
+              <thead><tr><th>Titre</th><th>Niveau</th><th>Type</th><th>Année</th><th>Sujet</th><th>Corrigé</th><th>Publié</th><th>Actions</th></tr></thead>
               <tbody>
                 ${data.map(e => `
                   <tr>
@@ -885,9 +887,9 @@
                     <td><span class="badge rose">${e.type}</span></td>
                     <td>${e.annee}</td>
                     <td>${e.fichier_url ? '✅' : '❌'}</td>
+                    <td>${e.fichier_corrige_url ? '✅' : '❌'}</td>
                     <td><span class="badge ${e.publie ? 'vert' : 'rouge'}">${e.publie ? 'Oui' : 'Non'}</span></td>
                     <td>
-                      ${e.fichier_url ? `<a class="btn-icon edit" href="${e.fichier_url}" target="_blank"><i class="fas fa-eye"></i></a>` : ''}
                       <button class="btn-icon edit" onclick='editerExamen(${JSON.stringify(e).replace(/'/g, "&#39;")})'><i class="fas fa-edit"></i></button>
                       <button class="btn-icon delete" onclick="supprimerExamen('${e.id}')"><i class="fas fa-trash"></i></button>
                     </td>
@@ -913,7 +915,7 @@
         container.innerHTML = `
           <div class="table-scroll">
             <table>
-              <thead><tr><th>Titre</th><th>Niveau</th><th>Matière</th><th>Difficulté</th><th>PDF</th><th>Publié</th><th>Actions</th></tr></thead>
+              <thead><tr><th>Titre</th><th>Niveau</th><th>Matière</th><th>Difficulté</th><th>PDF</th><th>Corrigé</th><th>Publié</th><th>Actions</th></tr></thead>
               <tbody>
                 ${data.map(ex => {
                   const etoiles = [1, 2, 3].map(i =>
@@ -926,9 +928,9 @@
                       <td>${ex.matiere}</td>
                       <td><span class="stars">${etoiles}</span></td>
                       <td>${ex.fichier_url ? '✅' : '❌'}</td>
+                      <td>${ex.fichier_corrige_url ? '✅' : '❌'}</td>
                       <td><span class="badge ${ex.publie ? 'vert' : 'rouge'}">${ex.publie ? 'Oui' : 'Non'}</span></td>
                       <td>
-                        ${ex.fichier_url ? `<a class="btn-icon edit" href="${ex.fichier_url}" target="_blank"><i class="fas fa-eye"></i></a>` : ''}
                         <button class="btn-icon edit" onclick='editerExercice(${JSON.stringify(ex).replace(/'/g, "&#39;")})'><i class="fas fa-edit"></i></button>
                         <button class="btn-icon delete" onclick="supprimerExercice('${ex.id}')"><i class="fas fa-trash"></i></button>
                       </td>
@@ -1308,7 +1310,7 @@
         <div class="form-group">
           <label>📄 PDF du corrigé (optionnel)</label>
           <div class="file-upload" id="fileUploadCorrige">
-            <i class="fas fa-file-pdf"></i>
+            <i class="fas fa-check-circle"></i>
             <p>${d.fichier_corrige_url ? '✅ Corrigé déjà uploadé — Cliquez pour remplacer' : 'Cliquez ou glissez-déposez le PDF du corrigé'}</p>
             <input type="file" id="fileInputCorrige" accept="application/pdf" hidden>
             <div class="file-info" id="fileInfoCorrige">${d.fichier_corrige_url ? 'Fichier actuel : ' + d.fichier_corrige_url.split('/').pop() : ''}</div>
@@ -1423,7 +1425,7 @@
     }
 
     /* ============================================================
-       EXERCICES — avec upload PDF
+       EXERCICES — avec upload PDF (exercice + corrigé)
     ============================================================ */
     function ouvrirModalExercice(data = null) {
       const d = data || {};
@@ -1475,9 +1477,18 @@
           <label>📄 PDF de l'exercice (optionnel)</label>
           <div class="file-upload" id="fileUploadEx">
             <i class="fas fa-file-pdf"></i>
-            <p>${d.fichier_url ? '✅ PDF déjà uploadé — Cliquez pour remplacer' : 'Cliquez ou glissez-déposez le PDF de l\'exercice'}</p>
+            <p>${d.fichier_url ? '✅ PDF déjà uploadé — Cliquez pour remplacer' : 'Cliquez ou glissez-déposez le PDF de l\\'exercice'}</p>
             <input type="file" id="fileInputEx" accept="application/pdf" hidden>
             <div class="file-info" id="fileInfoEx">${d.fichier_url ? 'Fichier actuel : ' + d.fichier_url.split('/').pop() : ''}</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>✅ PDF du corrigé (optionnel)</label>
+          <div class="file-upload" id="fileUploadCorrigeEx">
+            <i class="fas fa-check-circle"></i>
+            <p>${d.fichier_corrige_url ? '✅ Corrigé déjà uploadé — Cliquez pour remplacer' : 'Cliquez ou glissez-déposez le PDF du corrigé'}</p>
+            <input type="file" id="fileInputCorrigeEx" accept="application/pdf" hidden>
+            <div class="file-info" id="fileInfoCorrigeEx">${d.fichier_corrige_url ? 'Fichier actuel : ' + d.fichier_corrige_url.split('/').pop() : ''}</div>
           </div>
         </div>
         <label class="form-checkbox"><input type="checkbox" id="ex_publie" ${d.publie !== false ? 'checked' : ''}> Publier cet exercice</label>
@@ -1489,6 +1500,8 @@
       ouvrirModal(editing ? "Modifier l'exercice" : 'Ajouter un exercice', contenu);
 
       let fichierEx = null;
+      let fichierCorrigeEx = null;
+
       const fuEx = document.getElementById('fileUploadEx');
       const fiEx = document.getElementById('fileInputEx');
       const finfoEx = document.getElementById('fileInfoEx');
@@ -1503,6 +1516,20 @@
         if (e.target.files.length) { fichierEx = e.target.files[0]; finfoEx.textContent = fichierEx.name; }
       });
 
+      const fuCorrEx = document.getElementById('fileUploadCorrigeEx');
+      const fiCorrEx = document.getElementById('fileInputCorrigeEx');
+      const finfoCorrEx = document.getElementById('fileInfoCorrigeEx');
+      fuCorrEx.addEventListener('click', () => fiCorrEx.click());
+      fuCorrEx.addEventListener('dragover', e => { e.preventDefault(); fuCorrEx.classList.add('dragover'); });
+      fuCorrEx.addEventListener('dragleave', () => fuCorrEx.classList.remove('dragover'));
+      fuCorrEx.addEventListener('drop', e => {
+        e.preventDefault(); fuCorrEx.classList.remove('dragover');
+        if (e.dataTransfer.files.length) { fichierCorrigeEx = e.dataTransfer.files[0]; finfoCorrEx.textContent = fichierCorrigeEx.name; }
+      });
+      fiCorrEx.addEventListener('change', e => {
+        if (e.target.files.length) { fichierCorrigeEx = e.target.files[0]; finfoCorrEx.textContent = fichierCorrigeEx.name; }
+      });
+
       document.getElementById('btnSaveExercice').addEventListener('click', async () => {
         const titre_fr = document.getElementById('ex_titre_fr').value;
         if (!titre_fr) { afficherMessage('Le titre FR est obligatoire', 'erreur'); return; }
@@ -1513,6 +1540,8 @@
 
         try {
           let fichier_url = d.fichier_url || null;
+          let fichier_corrige_url = d.fichier_corrige_url || null;
+
           if (fichierEx) {
             const nomSecurise = fichierEx.name
               .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
@@ -1520,6 +1549,15 @@
               .replace(/_+/g, '_');
             const chemin = `exercices/${Date.now()}_${nomSecurise}`;
             fichier_url = await uploaderFichier(fichierEx, chemin);
+          }
+
+          if (fichierCorrigeEx) {
+            const nomSecurise = fichierCorrigeEx.name
+              .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+              .replace(/[^a-zA-Z0-9._-]/g, '_')
+              .replace(/_+/g, '_');
+            const chemin = `exercices/corriges/${Date.now()}_${nomSecurise}`;
+            fichier_corrige_url = await uploaderFichier(fichierCorrigeEx, chemin);
           }
 
           const dataEx = {
@@ -1538,6 +1576,7 @@
             resultat_fr: document.getElementById('ex_resultat_fr').value,
             resultat_ar: document.getElementById('ex_resultat_ar').value,
             fichier_url,
+            fichier_corrige_url,
             publie: document.getElementById('ex_publie').checked
           };
 
