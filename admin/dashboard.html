@@ -335,7 +335,7 @@
       border: 1px solid var(--bordure);
       border-radius: var(--rayon);
       width: 100%;
-      max-width: 750px;
+      max-width: 700px;
       max-height: 90vh;
       overflow-y: auto;
       box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
@@ -915,7 +915,7 @@
         container.innerHTML = `
           <div class="table-scroll">
             <table>
-              <thead><tr><th>Titre</th><th>Niveau</th><th>Matière</th><th>Difficulté</th><th>PDF</th><th>Corrigé</th><th>Publié</th><th>Actions</th></tr></thead>
+              <thead><tr><th>Titre</th><th>Niveau</th><th>Matière</th><th>Difficulté</th><th>Énoncé</th><th>Corrigé</th><th>Publié</th><th>Actions</th></tr></thead>
               <tbody>
                 ${data.map(ex => {
                   const etoiles = [1, 2, 3].map(i =>
@@ -1425,7 +1425,7 @@
     }
 
     /* ============================================================
-       EXERCICES — CORRIGÉ : plus de "l\\'exercice" problématique
+       EXERCICES — SIMPLIFIÉ : seulement PDF, pas d'énoncé texte
     ============================================================ */
     function ouvrirModalExercice(data = null) {
       const d = data || {};
@@ -1465,19 +1465,11 @@
           </div>
           <div class="form-group"><label>Ordre</label><input type="number" id="ex_ordre" value="${d.ordre || 0}"></div>
         </div>
-        <div class="form-group"><label>Énoncé court (FR)</label><textarea id="ex_enonce_court_fr">${d.enonce_court_fr || ''}</textarea></div>
-        <div class="form-group"><label>Énoncé court (AR)</label><textarea id="ex_enonce_court_ar">${d.enonce_court_ar || ''}</textarea></div>
-        <div class="form-group"><label>Énoncé complet (FR)</label><textarea id="ex_enonce_fr">${d.enonce_fr || ''}</textarea></div>
-        <div class="form-group"><label>Énoncé complet (AR)</label><textarea id="ex_enonce_ar">${d.enonce_ar || ''}</textarea></div>
-        <div class="form-row">
-          <div class="form-group"><label>Résultat final (FR)</label><input type="text" id="ex_resultat_fr" value="${d.resultat_fr || ''}"></div>
-          <div class="form-group"><label>Résultat final (AR)</label><input type="text" id="ex_resultat_ar" value="${d.resultat_ar || ''}"></div>
-        </div>
         <div class="form-group">
-          <label>PDF de l'exercice (optionnel)</label>
+          <label>PDF de l'exercice</label>
           <div class="file-upload" id="fileUploadEx">
             <i class="fas fa-file-pdf"></i>
-            <p>${d.fichier_url ? 'PDF deja uploade' : 'Cliquez pour uploader le PDF'}</p>
+            <p>${d.fichier_url ? 'PDF déjà uploadé — Cliquez pour remplacer' : 'Cliquez ou glissez-déposez le PDF'}</p>
             <input type="file" id="fileInputEx" accept="application/pdf" hidden>
             <div class="file-info" id="fileInfoEx">${d.fichier_url ? 'Fichier actuel : ' + d.fichier_url.split('/').pop() : ''}</div>
           </div>
@@ -1569,12 +1561,6 @@
             chapitre_ar: document.getElementById('ex_chapitre_ar').value,
             difficulte: parseInt(document.getElementById('ex_difficulte').value),
             ordre: parseInt(document.getElementById('ex_ordre').value),
-            enonce_court_fr: document.getElementById('ex_enonce_court_fr').value,
-            enonce_court_ar: document.getElementById('ex_enonce_court_ar').value,
-            enonce_fr: document.getElementById('ex_enonce_fr').value,
-            enonce_ar: document.getElementById('ex_enonce_ar').value,
-            resultat_fr: document.getElementById('ex_resultat_fr').value,
-            resultat_ar: document.getElementById('ex_resultat_ar').value,
             fichier_url,
             fichier_corrige_url,
             publie: document.getElementById('ex_publie').checked
