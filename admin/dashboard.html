@@ -1182,7 +1182,7 @@
           <div class="form-group"><label>Taille</label><input type="text" id="r_taille" placeholder="ex: 2.4 Mo"></div>
         </div>
         <div class="form-group">
-          <label>📚 Cours associé (optionnel)</label>
+          <label>Cours associé (optionnel)</label>
           <select id="r_cours_id">
             <option value="">— Aucun —</option>
             ${optionsCours}
@@ -1266,7 +1266,7 @@
     }
 
     /* ============================================================
-       EXAMENS — avec upload PDF (sujet + corrigé)
+       EXAMENS
     ============================================================ */
     function ouvrirModalExamen(data = null) {
       const d = data || {};
@@ -1299,19 +1299,19 @@
         </div>
         <div class="form-group"><label>Description (FR)</label><textarea id="e_desc_fr">${d.description_fr || ''}</textarea></div>
         <div class="form-group">
-          <label>📄 PDF du sujet</label>
+          <label>PDF du sujet</label>
           <div class="file-upload" id="fileUploadSujet">
             <i class="fas fa-file-pdf"></i>
-            <p>${d.fichier_url ? '✅ PDF déjà uploadé — Cliquez pour remplacer' : 'Cliquez ou glissez-déposez le PDF du sujet'}</p>
+            <p>${d.fichier_url ? 'PDF déjà uploadé — Cliquez pour remplacer' : 'Cliquez ou glissez-déposez le PDF du sujet'}</p>
             <input type="file" id="fileInputSujet" accept="application/pdf" hidden>
             <div class="file-info" id="fileInfoSujet">${d.fichier_url ? 'Fichier actuel : ' + d.fichier_url.split('/').pop() : ''}</div>
           </div>
         </div>
         <div class="form-group">
-          <label>📄 PDF du corrigé (optionnel)</label>
+          <label>PDF du corrigé (optionnel)</label>
           <div class="file-upload" id="fileUploadCorrige">
             <i class="fas fa-check-circle"></i>
-            <p>${d.fichier_corrige_url ? '✅ Corrigé déjà uploadé — Cliquez pour remplacer' : 'Cliquez ou glissez-déposez le PDF du corrigé'}</p>
+            <p>${d.fichier_corrige_url ? 'Corrigé déjà uploadé — Cliquez pour remplacer' : 'Cliquez ou glissez-déposez le PDF du corrigé'}</p>
             <input type="file" id="fileInputCorrige" accept="application/pdf" hidden>
             <div class="file-info" id="fileInfoCorrige">${d.fichier_corrige_url ? 'Fichier actuel : ' + d.fichier_corrige_url.split('/').pop() : ''}</div>
           </div>
@@ -1425,7 +1425,7 @@
     }
 
     /* ============================================================
-       EXERCICES — avec upload PDF (exercice + corrigé)
+       EXERCICES — CORRIGÉ : plus de "l\\'exercice" problématique
     ============================================================ */
     function ouvrirModalExercice(data = null) {
       const d = data || {};
@@ -1458,9 +1458,9 @@
         <div class="form-row">
           <div class="form-group"><label>Difficulté (1 à 3)</label>
             <select id="ex_difficulte">
-              <option value="1" ${d.difficulte === 1 ? 'selected' : ''}>⭐ Facile</option>
-              <option value="2" ${d.difficulte === 2 ? 'selected' : ''}>⭐⭐ Moyen</option>
-              <option value="3" ${d.difficulte === 3 ? 'selected' : ''}>⭐⭐⭐ Difficile</option>
+              <option value="1" ${d.difficulte === 1 ? 'selected' : ''}>Facile</option>
+              <option value="2" ${d.difficulte === 2 ? 'selected' : ''}>Moyen</option>
+              <option value="3" ${d.difficulte === 3 ? 'selected' : ''}>Difficile</option>
             </select>
           </div>
           <div class="form-group"><label>Ordre</label><input type="number" id="ex_ordre" value="${d.ordre || 0}"></div>
@@ -1474,19 +1474,19 @@
           <div class="form-group"><label>Résultat final (AR)</label><input type="text" id="ex_resultat_ar" value="${d.resultat_ar || ''}"></div>
         </div>
         <div class="form-group">
-          <label>📄 PDF de l'exercice (optionnel)</label>
+          <label>PDF de l'exercice (optionnel)</label>
           <div class="file-upload" id="fileUploadEx">
             <i class="fas fa-file-pdf"></i>
-            <p>${d.fichier_url ? '✅ PDF déjà uploadé — Cliquez pour remplacer' : 'Cliquez ou glissez-déposez le PDF de l\\'exercice'}</p>
+            <p>${d.fichier_url ? 'PDF déjà uploadé — Cliquez pour remplacer' : 'Cliquez ou glissez-déposez le PDF de l exercice'}</p>
             <input type="file" id="fileInputEx" accept="application/pdf" hidden>
             <div class="file-info" id="fileInfoEx">${d.fichier_url ? 'Fichier actuel : ' + d.fichier_url.split('/').pop() : ''}</div>
           </div>
         </div>
         <div class="form-group">
-          <label>✅ PDF du corrigé (optionnel)</label>
+          <label>PDF du corrigé (optionnel)</label>
           <div class="file-upload" id="fileUploadCorrigeEx">
             <i class="fas fa-check-circle"></i>
-            <p>${d.fichier_corrige_url ? '✅ Corrigé déjà uploadé — Cliquez pour remplacer' : 'Cliquez ou glissez-déposez le PDF du corrigé'}</p>
+            <p>${d.fichier_corrige_url ? 'Corrigé déjà uploadé — Cliquez pour remplacer' : 'Cliquez ou glissez-déposez le PDF du corrigé'}</p>
             <input type="file" id="fileInputCorrigeEx" accept="application/pdf" hidden>
             <div class="file-info" id="fileInfoCorrigeEx">${d.fichier_corrige_url ? 'Fichier actuel : ' + d.fichier_corrige_url.split('/').pop() : ''}</div>
           </div>
