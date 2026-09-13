@@ -354,7 +354,6 @@
       border-color: rgba(74, 222, 128, 0.4);
       box-shadow: var(--ombre-vert);
     }
-
     .ex-card .ex-header {
       display: flex;
       justify-content: space-between;
@@ -407,9 +406,10 @@
     }
     .ex-card .ex-meta span { display: flex; align-items: center; gap: 0.3rem; }
     .ex-card .ex-meta i { color: var(--cyan-neon); }
-    .ex-card .ex-actions { display: flex; gap: 0.5rem; }
+    .ex-card .ex-actions { display: flex; gap: 0.5rem; flex-wrap: wrap; }
     .ex-card .btn-ex {
       flex: 1;
+      min-width: 100px;
       padding: 0.65rem 1rem;
       border-radius: 0.5rem;
       font-family: inherit;
@@ -429,14 +429,14 @@
       color: var(--cyan-neon);
     }
     .ex-card .btn-ex.voir:hover { background: var(--cyan-neon); color: #050b14; }
-    .ex-card .btn-ex.pdf {
+    .ex-card .btn-ex.corrige {
       background: rgba(74, 222, 128, 0.08);
       border-color: rgba(74, 222, 128, 0.3);
       color: var(--vert-neon);
       text-decoration: none;
     }
-    .ex-card .btn-ex.pdf:hover { background: var(--vert-neon); color: #050b14; }
-    .ex-card .btn-ex.pdf.indispo {
+    .ex-card .btn-ex.corrige:hover { background: var(--vert-neon); color: #050b14; }
+    .ex-card .btn-ex.corrige.indispo {
       background: rgba(148, 163, 184, 0.08);
       border-color: var(--bordure);
       color: var(--texte-secondaire);
@@ -600,6 +600,7 @@
       font-family: 'Space Grotesk', sans-serif;
     }
 
+    .actions-exercice { display: flex; flex-direction: column; gap: 0.7rem; margin-top: 1rem; }
     .btn-telecharger {
       display: flex;
       align-items: center;
@@ -614,12 +615,19 @@
       transition: var(--transition);
       border: 1px solid;
       text-decoration: none;
-      margin-top: 1rem;
+    }
+    .btn-telecharger.enonce {
+      background: linear-gradient(135deg, rgba(34, 211, 238, 0.15), rgba(74, 222, 128, 0.1));
+      border-color: var(--cyan-neon);
+      color: var(--cyan-neon);
+    }
+    .btn-telecharger.enonce:hover { background: var(--cyan-neon); color: #050b14; }
+    .btn-telecharger.corrige {
       background: linear-gradient(135deg, rgba(74, 222, 128, 0.15), rgba(34, 211, 238, 0.1));
       border-color: var(--vert-neon);
       color: var(--vert-neon);
     }
-    .btn-telecharger:hover { background: var(--vert-neon); color: #050b14; }
+    .btn-telecharger.corrige:hover { background: var(--vert-neon); color: #050b14; }
     .btn-telecharger.indispo {
       background: rgba(148, 163, 184, 0.08);
       border-color: var(--bordure);
@@ -695,7 +703,7 @@
   <section class="hero-ex">
     <div class="container">
       <h1><span data-i18n="ex.titre1">Tous les</span> <span class="accent" data-i18n="ex.titre2">exercices</span></h1>
-      <p data-i18n="ex.desc">Entraînez-vous avec des exercices progressifs. Consultez les énoncés et téléchargez les PDF.</p>
+      <p data-i18n="ex.desc">Entraînez-vous avec des exercices progressifs. Consultez les énoncés et téléchargez les corrigés.</p>
     </div>
   </section>
 
@@ -797,7 +805,7 @@
         'nav.examens': 'Examens', 'nav.simulations': 'Simulations', 'nav.qcm': 'QCM',
         'nav.ressources': 'Ressources', 'nav.admin': 'Admin',
         'ex.titre1': 'Tous les', 'ex.titre2': 'exercices',
-        'ex.desc': 'Entraînez-vous avec des exercices progressifs. Consultez les énoncés et téléchargez les PDF.',
+        'ex.desc': 'Entraînez-vous avec des exercices progressifs. Consultez les énoncés et téléchargez les corrigés.',
         'ex.searchPlaceholder': 'Rechercher un exercice...',
         'ex.resultats': 'exercices trouvés',
         'ex.aucunTitre': 'Aucun exercice trouvé',
@@ -812,18 +820,20 @@
         'niveau.2bacpc': '2ème Bac PC', 'niveau.2bacsvt': '2ème Bac SVT',
         'matiere.physique': 'Physique', 'matiere.chimie': 'Chimie',
         'btn.voir': 'Voir l\'énoncé',
-        'btn.pdf': 'Télécharger PDF',
-        'btn.pdfIndispo': 'PDF indisponible',
+        'btn.enonce': 'Télécharger l\'énoncé',
+        'btn.corrige': 'Télécharger le corrigé',
+        'btn.indispo': 'PDF indisponible',
         'panneau.titre': "Détail de l'exercice",
         'panneau.enonce': 'Énoncé complet',
-        'panneau.resultat': 'Résultat final'
+        'panneau.resultat': 'Résultat final',
+        'panneau.telecharger': 'Télécharger'
       },
       ar: {
         'nav.home': 'الرئيسية', 'nav.cours': 'الدروس', 'nav.exercices': 'التمارين',
         'nav.examens': 'الامتحانات', 'nav.simulations': 'المحاكاة', 'nav.qcm': 'اختبار',
         'nav.ressources': 'الموارد', 'nav.admin': 'الإدارة',
         'ex.titre1': 'جميع', 'ex.titre2': 'التمارين',
-        'ex.desc': 'تدرب مع تمارين متدرجة. اطلع على النصوص وقم بتحميل ملفات PDF.',
+        'ex.desc': 'تدرب مع تمارين متدرجة. اطلع على النصوص وقم بتحميل الحلول.',
         'ex.searchPlaceholder': 'ابحث عن تمرين...',
         'ex.resultats': 'تمرين تم إيجاده',
         'ex.aucunTitre': 'لا يوجد أي تمرين',
@@ -838,11 +848,13 @@
         'niveau.2bacpc': 'الثانية باك ع.ف', 'niveau.2bacsvt': 'الثانية باك ع.ح.أ',
         'matiere.physique': 'الفيزياء', 'matiere.chimie': 'الكيمياء',
         'btn.voir': 'عرض النص',
-        'btn.pdf': 'تحميل PDF',
-        'btn.pdfIndispo': 'PDF غير متوفر',
+        'btn.enonce': 'تحميل النص',
+        'btn.corrige': 'تحميل الحل',
+        'btn.indispo': 'PDF غير متوفر',
         'panneau.titre': 'تفاصيل التمرين',
         'panneau.enonce': 'النص الكامل',
-        'panneau.resultat': 'النتيجة النهائية'
+        'panneau.resultat': 'النتيجة النهائية',
+        'panneau.telecharger': 'تحميل'
       }
     };
 
@@ -1009,12 +1021,12 @@
           <button class="btn-ex voir">
             <i class="fas fa-eye"></i> ${trad[currentLang]['btn.voir']}
           </button>
-          ${e.fichier_url
-            ? `<a class="btn-ex pdf" href="${e.fichier_url}" target="_blank" rel="noopener">
-                <i class="fas fa-download"></i> ${trad[currentLang]['btn.pdf']}
+          ${e.fichier_corrige_url
+            ? `<a class="btn-ex corrige" href="${e.fichier_corrige_url}" target="_blank" rel="noopener">
+                <i class="fas fa-check-circle"></i> ${trad[currentLang]['btn.corrige']}
               </a>`
-            : `<button class="btn-ex pdf indispo" disabled>
-                <i class="fas fa-download"></i> ${trad[currentLang]['btn.pdfIndispo']}
+            : `<button class="btn-ex corrige indispo" disabled>
+                <i class="fas fa-check-circle"></i> ${trad[currentLang]['btn.indispo']}
               </button>`
           }
         </div>
@@ -1035,11 +1047,6 @@
       const chap = currentLang === 'fr' ? e.chapitre_fr : e.chapitre_ar;
       const enonce = currentLang === 'fr' ? e.enonce_fr : e.enonce_ar;
       const resultat = currentLang === 'fr' ? e.resultat_fr : e.resultat_ar;
-
-      const difficulte = e.difficulte || 1;
-      const etoiles = [1, 2, 3].map(i =>
-        `<span class="star ${i <= difficulte ? '' : 'vide'}">★</span>`
-      ).join('');
 
       corps.innerHTML = `
         <div class="ex-hero">
@@ -1067,14 +1074,24 @@
           </div>
         ` : ''}
 
-        ${e.fichier_url
-          ? `<a class="btn-telecharger" href="${e.fichier_url}" target="_blank" rel="noopener">
-              <i class="fas fa-download"></i> ${trad[currentLang]['btn.pdf']}
-            </a>`
-          : `<button class="btn-telecharger indispo" disabled>
-              <i class="fas fa-download"></i> ${trad[currentLang]['btn.pdfIndispo']}
-            </button>`
-        }
+        <div class="actions-exercice">
+          ${e.fichier_url
+            ? `<a class="btn-telecharger enonce" href="${e.fichier_url}" target="_blank" rel="noopener">
+                <i class="fas fa-file-pdf"></i> ${trad[currentLang]['btn.enonce']}
+              </a>`
+            : `<button class="btn-telecharger indispo" disabled>
+                <i class="fas fa-file-pdf"></i> ${trad[currentLang]['btn.indispo']}
+              </button>`
+          }
+          ${e.fichier_corrige_url
+            ? `<a class="btn-telecharger corrige" href="${e.fichier_corrige_url}" target="_blank" rel="noopener">
+                <i class="fas fa-check-circle"></i> ${trad[currentLang]['btn.corrige']}
+              </a>`
+            : `<button class="btn-telecharger indispo" disabled>
+                <i class="fas fa-check-circle"></i> ${trad[currentLang]['btn.indispo']}
+              </button>`
+          }
+        </div>
       `;
 
       if (window.renderMathInElement) {
