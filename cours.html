@@ -338,14 +338,6 @@
       background: linear-gradient(135deg, rgba(251, 191, 36, 0.15), rgba(34, 211, 238, 0.1));
       color: var(--or);
     }
-    .cours-card .image.nucleaire {
-      background: linear-gradient(135deg, rgba(244, 114, 182, 0.15), rgba(139, 92, 246, 0.1));
-      color: var(--rose);
-    }
-    .cours-card .image.meca {
-      background: linear-gradient(135deg, rgba(34, 211, 238, 0.15), rgba(34, 211, 238, 0.05));
-      color: var(--cyan-clair);
-    }
     .cours-card .badge-niveau {
       position: absolute;
       top: 12px; left: 12px;
@@ -425,23 +417,19 @@
     .aucun-resultat i { font-size: 4rem; color: var(--bordure); margin-bottom: 1rem; }
     .aucun-resultat h3 { color: var(--texte-principal); font-size: 1.3rem; margin-bottom: 0.5rem; }
 
-    .voir-plus-wrap { text-align: center; margin-bottom: 3rem; }
-    .btn-voir-plus {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.6rem;
-      padding: 0.85rem 2rem;
-      background: rgba(34, 211, 238, 0.08);
-      border: 1.5px solid var(--cyan-neon);
-      color: var(--cyan-neon);
-      border-radius: 0.5rem;
-      font-family: inherit;
-      font-size: 0.95rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: var(--transition);
+    .loading-zone {
+      text-align: center;
+      padding: 4rem;
+      color: var(--texte-secondaire);
     }
-    .btn-voir-plus:hover { background: var(--cyan-neon); color: #050b14; }
+    .loading-zone i {
+      font-size: 2.5rem;
+      color: var(--cyan-neon);
+      animation: spin 1s linear infinite;
+      display: block;
+      margin-bottom: 1rem;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
 
     .panneau-detail {
       position: fixed;
@@ -582,6 +570,8 @@
     .ressource-item .icon-type.cours { background: rgba(34, 211, 238, 0.1); color: var(--cyan-neon); }
     .ressource-item .icon-type.exercice { background: rgba(251, 191, 36, 0.1); color: var(--or); }
     .ressource-item .icon-type.corrige { background: rgba(74, 222, 128, 0.1); color: var(--vert-neon); }
+    .ressource-item .icon-type.examen { background: rgba(244, 114, 182, 0.1); color: var(--rose); }
+    .ressource-item .icon-type.fiche { background: rgba(139, 92, 246, 0.1); color: var(--violet-tech); }
     .ressource-item .info { flex: 1; }
     .ressource-item .info h4 { font-size: 0.9rem; font-weight: 600; color: var(--texte-principal); margin-bottom: 0.15rem; }
     .ressource-item .info span { font-size: 0.75rem; color: var(--texte-secondaire); }
@@ -596,6 +586,10 @@
       cursor: pointer;
       transition: var(--transition);
       font-family: inherit;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
     }
     .ressource-item .btn-dl:hover { background: var(--cyan-neon); color: #050b14; }
 
@@ -631,7 +625,6 @@
     }
     @media (max-width: 480px) {
       .container { padding: 0 1rem; }
-      .cours-card .image { height: 120px; }
     }
   </style>
 </head>
@@ -703,18 +696,17 @@
       <span class="count"><strong id="countResultats">0</strong> <span data-i18n="cours.resultats">cours trouvés</span></span>
     </div>
 
-    <div class="cours-grid" id="coursGrid"></div>
+    <div class="loading-zone" id="loadingZone">
+      <i class="fas fa-spinner"></i>
+      <p>Chargement des cours...</p>
+    </div>
+
+    <div class="cours-grid" id="coursGrid" style="display:none;"></div>
 
     <div class="aucun-resultat" id="aucunResultat" style="display: none;">
       <i class="fas fa-search"></i>
       <h3 data-i18n="cours.aucunTitre">Aucun cours trouvé</h3>
       <p data-i18n="cours.aucunDesc">Essayez de modifier vos filtres.</p>
-    </div>
-
-    <div class="voir-plus-wrap" id="voirPlusWrap" style="display: none;">
-      <button class="btn-voir-plus" id="btnVoirPlus">
-        <i class="fas fa-plus-circle"></i> <span data-i18n="cours.voirPlus">Voir plus de cours</span>
-      </button>
     </div>
   </div>
 
@@ -732,26 +724,19 @@
     <i class="fas fa-sun icon-sun"></i>
   </button>
 
+  <script src="admin/supabase-config.js"></script>
   <script>
-    const cours = [
-      { id: 'c1', niveau: '2bacpc', matiere: 'physique', chapitre_fr: 'Ondes mécaniques', chapitre_ar: 'الموجات الميكانيكية', titre_fr: 'Les ondes mécaniques progressives', titre_ar: 'الموجات الميكانيكية المتتالية', description_fr: 'Étude complète des ondes mécaniques.', description_ar: 'دراسة شاملة للموجات الميكانيكية.', icone: 'fa-water', classeIcone: '', ressources: 12, statut: 'gratuit' },
-      { id: 'c2', niveau: '2bacpc', matiere: 'physique', chapitre_fr: 'Électricité', chapitre_ar: 'الكهرباء', titre_fr: 'Le dipôle RC', titre_ar: 'ثنائي القطب RC', description_fr: 'Étude de la charge et décharge d\'un condensateur.', description_ar: 'دراسة شحن وتفريغ مكثف.', icone: 'fa-bolt', classeIcone: 'elec', ressources: 15, statut: 'premium' },
-      { id: 'c3', niveau: '2bacpc', matiere: 'physique', chapitre_fr: 'Oscillations', chapitre_ar: 'التذبذبات', titre_fr: 'Circuit RLC — oscillations libres', titre_ar: 'دارة RLC — التذبذبات الحرة', description_fr: 'Étude des oscillations libres et amorties.', description_ar: 'دراسة التذبذبات الحرة والمخمدة.', icone: 'fa-wave-square', classeIcone: 'elec', ressources: 14, statut: 'premium' },
-      { id: 'c4', niveau: '2bacpc', matiere: 'physique', chapitre_fr: 'Nucléaire', chapitre_ar: 'النووي', titre_fr: 'Décroissance radioactive', titre_ar: 'التحلل الإشعاعي', description_fr: 'Loi de décroissance radioactive, demi-vie.', description_ar: 'قانون التحلل الإشعاعي، نصف العمر.', icone: 'fa-radiation', classeIcone: 'nucleaire', ressources: 11, statut: 'gratuit' },
-      { id: 'c5', niveau: '2bacpc', matiere: 'physique', chapitre_fr: 'Mécanique', chapitre_ar: 'الميكانيك', titre_fr: 'Lois de Newton et mouvements', titre_ar: 'قوانين نيوتن والحركات', description_fr: 'Application des lois de Newton.', description_ar: 'تطبيق قوانين نيوتن.', icone: 'fa-rocket', classeIcone: 'meca', ressources: 13, statut: 'gratuit' },
-      { id: 'c6', niveau: '2bacpc', matiere: 'chimie', chapitre_fr: 'Cinétique', chapitre_ar: 'الحركية', titre_fr: 'Transformations lentes et rapides', titre_ar: 'التحولات البطيئة والسريعة', description_fr: 'Étude de la cinétique chimique.', description_ar: 'دراسة الحركية الكيميائية.', icone: 'fa-hourglass-half', classeIcone: 'chimie', ressources: 12, statut: 'gratuit' },
-      { id: 'c7', niveau: '2bacpc', matiere: 'chimie', chapitre_fr: 'Acide-base', chapitre_ar: 'الحموض والقواعد', titre_fr: 'Réactions acido-basiques', titre_ar: 'التفاعلات الحمضية-القاعدية', description_fr: 'Étude du pH, des couples acide/base.', description_ar: 'دراسة pH والثنائيات.', icone: 'fa-flask', classeIcone: 'chimie', ressources: 16, statut: 'premium' },
-      { id: 'c8', niveau: '2bacpc', matiere: 'chimie', chapitre_fr: 'Oxydoréduction', chapitre_ar: 'الأكسدة والإرجاع', titre_fr: 'Piles et électrolyse', titre_ar: 'الأعمدة والتحليل الكهربائي', description_fr: 'Fonctionnement des piles.', description_ar: 'عمل الأعمدة.', icone: 'fa-battery-full', classeIcone: 'chimie', ressources: 13, statut: 'premium' },
-      { id: 'c9', niveau: '2bacpc', matiere: 'chimie', chapitre_fr: 'Chimie organique', chapitre_ar: 'الكيمياء العضوية', titre_fr: 'Alcools, acides et esters', titre_ar: 'الكحولات والأحماض والإسترات', description_fr: 'Groupes fonctionnels.', description_ar: 'المجموعات الوظيفية.', icone: 'fa-dna', classeIcone: 'chimie', ressources: 10, statut: 'gratuit' },
-      { id: 'c10', niveau: '1bac', matiere: 'physique', chapitre_fr: 'Électricité', chapitre_ar: 'الكهرباء', titre_fr: 'Lois de l\'électricité', titre_ar: 'قوانين الكهرباء', description_fr: 'Loi d\'Ohm, associations.', description_ar: 'قانون أوم، التجميعات.', icone: 'fa-bolt', classeIcone: 'elec', ressources: 11, statut: 'gratuit' },
-      { id: 'c11', niveau: '1bac', matiere: 'physique', chapitre_fr: 'Optique', chapitre_ar: 'البصريات', titre_fr: 'Lentilles minces et images', titre_ar: 'العدسات الرقيقة والصور', description_fr: 'Étude des lentilles.', description_ar: 'دراسة العدسات.', icone: 'fa-eye', classeIcone: '', ressources: 9, statut: 'gratuit' },
-      { id: 'c12', niveau: '1bac', matiere: 'chimie', chapitre_fr: 'Mole', chapitre_ar: 'المول', titre_fr: 'La mole et les concentrations', titre_ar: 'المول والتراكيز', description_fr: 'Nombre d\'Avogadro.', description_ar: 'عدد أفوجادرو.', icone: 'fa-vial', classeIcone: 'chimie', ressources: 8, statut: 'gratuit' },
-      { id: 'c13', niveau: 'tronc', matiere: 'physique', chapitre_fr: 'Mécanique', chapitre_ar: 'الميكانيك', titre_fr: 'Mouvement et vitesse', titre_ar: 'الحركة والسرعة', description_fr: 'Notion de référentiel.', description_ar: 'مفهوم المرجع.', icone: 'fa-running', classeIcone: 'meca', ressources: 7, statut: 'gratuit' },
-      { id: 'c14', niveau: 'tronc', matiere: 'chimie', chapitre_fr: 'Atome', chapitre_ar: 'الذرة', titre_fr: 'Structure de l\'atome', titre_ar: 'بنية الذرة', description_fr: 'Composition de l\'atome.', description_ar: 'تركيب الذرة.', icone: 'fa-atom', classeIcone: 'chimie', ressources: 6, statut: 'gratuit' },
-      { id: 'c15', niveau: '2bacsvt', matiere: 'physique', chapitre_fr: 'Nucléaire', chapitre_ar: 'النووي', titre_fr: 'Noyau, masse et énergie', titre_ar: 'النواة، الكتلة والطاقة', description_fr: 'Équivalence masse-énergie.', description_ar: 'تكافؤ الكتلة-الطاقة.', icone: 'fa-radiation', classeIcone: 'nucleaire', ressources: 10, statut: 'gratuit' },
-      { id: 'c16', niveau: '2bacsvt', matiere: 'chimie', chapitre_fr: 'Acide-base', chapitre_ar: 'الحموض والقواعد', titre_fr: 'Réactions acido-basiques', titre_ar: 'التفاعلات الحمضية-القاعدية', description_fr: 'Couples acide/base.', description_ar: 'الثنائيات حمض/قاعدة.', icone: 'fa-flask', classeIcone: 'chimie', ressources: 9, statut: 'gratuit' }
-    ];
+    /* ============================================================
+       ÉTAT GLOBAL
+    ============================================================ */
+    let currentLang = localStorage.getItem('asaliki-lang') || 'fr';
+    let tousLesCours = [];
+    let toutesLesRessources = [];
+    let filtres = { niveau: 'all', matiere: 'all', recherche: '' };
 
+    /* ============================================================
+       TRADUCTIONS
+    ============================================================ */
     const trad = {
       fr: {
         'nav.home': 'Accueil', 'nav.cours': 'Cours', 'nav.exercices': 'Exercices',
@@ -763,7 +748,6 @@
         'cours.resultats': 'cours trouvés',
         'cours.aucunTitre': 'Aucun cours trouvé',
         'cours.aucunDesc': 'Essayez de modifier vos filtres.',
-        'cours.voirPlus': 'Voir plus de cours',
         'filtre.niveau': 'Niveau', 'filtre.matiere': 'Matière',
         'filtre.tousNiveaux': 'Tous les niveaux', 'filtre.toutesMatieres': 'Toutes les matières',
         'filtre.reset': 'Réinitialiser',
@@ -774,7 +758,8 @@
         'card.voirCours': 'Voir le cours',
         'panneau.description': 'Description',
         'panneau.ressources': 'Ressources disponibles',
-        'panneau.telecharger': 'Télécharger'
+        'panneau.telecharger': 'Télécharger',
+        'panneau.aucuneRessource': 'Aucune ressource disponible pour ce cours.'
       },
       ar: {
         'nav.home': 'الرئيسية', 'nav.cours': 'الدروس', 'nav.exercices': 'التمارين',
@@ -786,7 +771,6 @@
         'cours.resultats': 'درس تم إيجاده',
         'cours.aucunTitre': 'لا يوجد أي درس',
         'cours.aucunDesc': 'حاول تغيير الفلاتر.',
-        'cours.voirPlus': 'عرض المزيد',
         'filtre.niveau': 'المستوى', 'filtre.matiere': 'المادة',
         'filtre.tousNiveaux': 'جميع المستويات', 'filtre.toutesMatieres': 'جميع المواد',
         'filtre.reset': 'إعادة',
@@ -797,19 +781,19 @@
         'card.voirCours': 'شاهد الدرس',
         'panneau.description': 'الوصف',
         'panneau.ressources': 'الموارد المتاحة',
-        'panneau.telecharger': 'تحميل'
+        'panneau.telecharger': 'تحميل',
+        'panneau.aucuneRessource': 'لا توجد موارد متاحة لهذا الدرس.'
       }
     };
 
-    let currentLang = localStorage.getItem('asaliki-lang') || 'fr';
-    let filtres = { niveau: 'all', matiere: 'all', recherche: '' };
-    let coursAffiches = 8;
-
-    document.addEventListener('DOMContentLoaded', () => {
+    /* ============================================================
+       INITIALISATION
+    ============================================================ */
+    document.addEventListener('DOMContentLoaded', async () => {
       appliquerTheme();
-      afficherCours();
-      bindEvents();
       appliquerLangue(currentLang);
+      bindEvents();
+      await chargerDonnees();
     });
 
     function appliquerTheme() {
@@ -821,7 +805,6 @@
       currentLang = lang;
       document.getElementById('htmlRoot').setAttribute('lang', lang);
       document.getElementById('htmlRoot').setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
-
       document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
         if (trad[lang] && trad[lang][key]) el.textContent = trad[lang][key];
@@ -834,23 +817,20 @@
         btn.classList.toggle('actif', btn.getAttribute('data-lang') === lang);
       });
       localStorage.setItem('asaliki-lang', lang);
-      afficherCours();
+      if (tousLesCours.length > 0) afficherCours();
     }
 
     function bindEvents() {
       document.getElementById('searchInput').addEventListener('input', (e) => {
         filtres.recherche = e.target.value.toLowerCase().trim();
-        coursAffiches = 8;
         afficherCours();
       });
       document.getElementById('filtreNiveau').addEventListener('change', (e) => {
         filtres.niveau = e.target.value;
-        coursAffiches = 8;
         afficherCours();
       });
       document.getElementById('filtreMatiere').addEventListener('change', (e) => {
         filtres.matiere = e.target.value;
-        coursAffiches = 8;
         afficherCours();
       });
       document.getElementById('btnReset').addEventListener('click', () => {
@@ -858,11 +838,6 @@
         document.getElementById('searchInput').value = '';
         document.getElementById('filtreNiveau').value = 'all';
         document.getElementById('filtreMatiere').value = 'all';
-        coursAffiches = 8;
-        afficherCours();
-      });
-      document.getElementById('btnVoirPlus').addEventListener('click', () => {
-        coursAffiches += 8;
         afficherCours();
       });
       document.querySelectorAll('.lang-btn').forEach(btn => {
@@ -881,14 +856,42 @@
       });
     }
 
+    /* ============================================================
+       CHARGEMENT DES DONNÉES DEPUIS SUPABASE
+    ============================================================ */
+    async function chargerDonnees() {
+      try {
+        tousLesCours = await lireTable('cours', {
+          filtres: { publie: true },
+          ordre: { col: 'created_at', asc: false }
+        });
+
+        toutesLesRessources = await lireTable('ressources', {
+          filtres: { publie: true }
+        });
+
+        document.getElementById('loadingZone').style.display = 'none';
+        document.getElementById('coursGrid').style.display = 'grid';
+        afficherCours();
+      } catch (err) {
+        document.getElementById('loadingZone').innerHTML = `
+          <i class="fas fa-exclamation-triangle" style="color: #ef4444;"></i>
+          <p>Erreur de chargement : ${err.message}</p>
+        `;
+      }
+    }
+
+    /* ============================================================
+       FILTRAGE ET AFFICHAGE
+    ============================================================ */
     function filtrerCours() {
-      return cours.filter(c => {
+      return tousLesCours.filter(c => {
         if (filtres.niveau !== 'all' && c.niveau !== filtres.niveau) return false;
         if (filtres.matiere !== 'all' && c.matiere !== filtres.matiere) return false;
         if (filtres.recherche) {
           const titre = currentLang === 'fr' ? c.titre_fr : c.titre_ar;
           const chap = currentLang === 'fr' ? c.chapitre_fr : c.chapitre_ar;
-          const texte = (titre + ' ' + chap).toLowerCase();
+          const texte = ((titre || '') + ' ' + (chap || '')).toLowerCase();
           if (!texte.includes(filtres.recherche)) return false;
         }
         return true;
@@ -898,37 +901,38 @@
     function afficherCours() {
       const grid = document.getElementById('coursGrid');
       const aucun = document.getElementById('aucunResultat');
-      const voirPlusWrap = document.getElementById('voirPlusWrap');
       const filtered = filtrerCours();
-      const displayed = filtered.slice(0, coursAffiches);
 
       document.getElementById('countResultats').textContent = filtered.length;
 
       if (filtered.length === 0) {
-        grid.innerHTML = '';
         grid.style.display = 'none';
         aucun.style.display = 'block';
-        voirPlusWrap.style.display = 'none';
         return;
       }
 
       grid.style.display = 'grid';
       aucun.style.display = 'none';
       grid.innerHTML = '';
-      displayed.forEach(c => grid.appendChild(creerCarte(c)));
-      voirPlusWrap.style.display = filtered.length > coursAffiches ? 'block' : 'none';
+      filtered.forEach(c => grid.appendChild(creerCarte(c)));
     }
 
     function creerCarte(c) {
       const card = document.createElement('div');
       card.className = 'cours-card';
-      const niveauLabel = trad[currentLang]['niveau.' + c.niveau];
+      const niveauLabel = trad[currentLang]['niveau.' + c.niveau] || c.niveau;
       const titre = currentLang === 'fr' ? c.titre_fr : c.titre_ar;
-      const desc = currentLang === 'fr' ? c.description_fr : c.description_ar;
+      const chap = currentLang === 'fr' ? c.chapitre_fr : c.chapitre_ar;
+
+      const nbRessources = toutesLesRessources.filter(r => r.cours_id === c.id).length;
+
+      let classeIcone = '';
+      if (c.matiere === 'chimie') classeIcone = 'chimie';
+      else if (c.icone && c.icone.includes('bolt')) classeIcone = 'elec';
 
       card.innerHTML = `
-        <div class="image ${c.classeIcone}">
-          <i class="fas ${c.icone}"></i>
+        <div class="image ${classeIcone}">
+          <i class="fas ${c.icone || 'fa-book'}"></i>
           <span class="badge-niveau">${niveauLabel}</span>
         </div>
         <div class="contenu">
@@ -936,7 +940,7 @@
           <h3>${titre}</h3>
           <div class="meta">
             <span><i class="fas fa-user"></i> A. Saliki</span>
-            <span><i class="fas fa-file-alt"></i> ${c.ressources} ${currentLang === 'fr' ? 'ressources' : 'موارد'}</span>
+            <span><i class="fas fa-file-alt"></i> ${nbRessources} ${currentLang === 'fr' ? 'ressource(s)' : 'مورد'}</span>
           </div>
           <span class="statut ${c.statut}">${trad[currentLang]['statut.' + c.statut]}</span>
           <button class="btn-voir">
@@ -954,52 +958,58 @@
       return card;
     }
 
+    /* ============================================================
+       PANNEAU DÉTAIL
+    ============================================================ */
     function ouvrirPanneau(c) {
       const panneau = document.getElementById('panneauDetail');
       const overlay = document.getElementById('panneauOverlay');
       const corps = document.getElementById('panneauCorps');
-      const niveauLabel = trad[currentLang]['niveau.' + c.niveau];
+
+      const niveauLabel = trad[currentLang]['niveau.' + c.niveau] || c.niveau;
       const titre = currentLang === 'fr' ? c.titre_fr : c.titre_ar;
       const desc = currentLang === 'fr' ? c.description_fr : c.description_ar;
       const chap = currentLang === 'fr' ? c.chapitre_fr : c.chapitre_ar;
 
-      const ressources = [
-        { type: 'cours', titre: currentLang === 'fr' ? 'Cours complet PDF' : 'الدرس الكامل PDF', taille: '2.4 Mo' },
-        { type: 'exercice', titre: currentLang === 'fr' ? 'Exercices d\'application' : 'تمارين تطبيقية', taille: '1.1 Mo' },
-        { type: 'corrige', titre: currentLang === 'fr' ? 'Corrigés détaillés' : 'حلول مفصلة', taille: '980 Ko' }
-      ];
-
-      const icones = { cours: 'fa-file-pdf', exercice: 'fa-pencil-alt', corrige: 'fa-check-circle' };
+      const ressourcesDuCours = toutesLesRessources.filter(r => r.cours_id === c.id);
+      const icones = { cours: 'fa-file-pdf', exercice: 'fa-pencil-alt', corrige: 'fa-check-circle', examen: 'fa-file-signature', fiche: 'fa-file-alt' };
 
       corps.innerHTML = `
         <div class="panneau-hero">
-          <div class="icon-grand"><i class="fas ${c.icone}"></i></div>
+          <div class="icon-grand"><i class="fas ${c.icone || 'fa-book'}"></i></div>
           <h1>${titre}</h1>
           <div class="badges">
             <span>${niveauLabel}</span>
             <span>${trad[currentLang]['matiere.' + c.matiere]}</span>
             <span>${chap}</span>
-            <span>${c.ressources} ${currentLang === 'fr' ? 'ressources' : 'موارد'}</span>
           </div>
         </div>
         <div class="panneau-section">
           <h3><i class="fas fa-info-circle"></i> ${trad[currentLang]['panneau.description']}</h3>
-          <p>${desc}</p>
+          <p>${desc || '—'}</p>
         </div>
         <div class="panneau-section">
           <h3><i class="fas fa-folder-open"></i> ${trad[currentLang]['panneau.ressources']}</h3>
-          <div class="ressources-liste">
-            ${ressources.map(r => `
-              <div class="ressource-item">
-                <div class="icon-type ${r.type}"><i class="fas ${icones[r.type]}"></i></div>
-                <div class="info">
-                  <h4>${r.titre}</h4>
-                  <span>${r.taille}</span>
-                </div>
-                <button class="btn-dl">${trad[currentLang]['panneau.telecharger']}</button>
-              </div>
-            `).join('')}
-          </div>
+          ${ressourcesDuCours.length === 0
+            ? `<p style="color:#94a3b8;font-style:italic;">${trad[currentLang]['panneau.aucuneRessource']}</p>`
+            : `<div class="ressources-liste">
+                ${ressourcesDuCours.map(r => `
+                  <div class="ressource-item">
+                    <div class="icon-type ${r.type}"><i class="fas ${icones[r.type] || 'fa-file'}"></i></div>
+                    <div class="info">
+                      <h4>${currentLang === 'fr' ? r.titre_fr : r.titre_ar}</h4>
+                      <span>${r.taille || ''}</span>
+                    </div>
+                    ${r.fichier_url
+                      ? `<a class="btn-dl" href="${r.fichier_url}" target="_blank" rel="noopener">
+                          <i class="fas fa-download"></i> ${trad[currentLang]['panneau.telecharger']}
+                        </a>`
+                      : `<span class="btn-dl" style="opacity:0.5;cursor:not-allowed;">Indisponible</span>`
+                    }
+                  </div>
+                `).join('')}
+              </div>`
+          }
         </div>
       `;
 
