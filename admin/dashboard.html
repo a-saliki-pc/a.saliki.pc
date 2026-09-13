@@ -1477,7 +1477,7 @@
           <label>PDF de l'exercice (optionnel)</label>
           <div class="file-upload" id="fileUploadEx">
             <i class="fas fa-file-pdf"></i>
-            <p>${d.fichier_url ? 'PDF déjà uploadé — Cliquez pour remplacer' : 'Cliquez ou glissez-déposez le PDF de l exercice'}</p>
+            <p>${d.fichier_url ? 'PDF deja uploade' : 'Cliquez pour uploader le PDF'}</p>
             <input type="file" id="fileInputEx" accept="application/pdf" hidden>
             <div class="file-info" id="fileInfoEx">${d.fichier_url ? 'Fichier actuel : ' + d.fichier_url.split('/').pop() : ''}</div>
           </div>
