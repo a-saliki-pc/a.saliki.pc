@@ -6,9 +6,6 @@
   <title>Exercices — A SALIKI PC</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
-  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
-  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
   <style>
     :root {
       --noir-profond: #050b14;
@@ -390,12 +387,6 @@
       align-items: center;
       gap: 0.3rem;
     }
-    .ex-card .enonce-court {
-      font-size: 0.87rem;
-      color: var(--texte-secondaire);
-      line-height: 1.55;
-      flex: 1;
-    }
     .ex-card .ex-meta {
       display: flex;
       gap: 0.9rem;
@@ -403,6 +394,7 @@
       color: var(--texte-secondaire);
       padding-top: 0.5rem;
       border-top: 1px solid var(--bordure);
+      margin-top: auto;
     }
     .ex-card .ex-meta span { display: flex; align-items: center; gap: 0.3rem; }
     .ex-card .ex-meta i { color: var(--cyan-neon); }
@@ -422,26 +414,26 @@
       justify-content: center;
       gap: 0.4rem;
       border: 1px solid;
+      text-decoration: none;
     }
-    .ex-card .btn-ex.voir {
+    .ex-card .btn-ex.enonce {
       background: rgba(34, 211, 238, 0.08);
       border-color: rgba(34, 211, 238, 0.3);
       color: var(--cyan-neon);
     }
-    .ex-card .btn-ex.voir:hover { background: var(--cyan-neon); color: #050b14; }
+    .ex-card .btn-ex.enonce:hover { background: var(--cyan-neon); color: #050b14; }
     .ex-card .btn-ex.corrige {
       background: rgba(74, 222, 128, 0.08);
       border-color: rgba(74, 222, 128, 0.3);
       color: var(--vert-neon);
-      text-decoration: none;
     }
     .ex-card .btn-ex.corrige:hover { background: var(--vert-neon); color: #050b14; }
-    .ex-card .btn-ex.corrige.indispo {
+    .ex-card .btn-ex.indispo {
       background: rgba(148, 163, 184, 0.08);
       border-color: var(--bordure);
       color: var(--texte-secondaire);
       cursor: not-allowed;
-      opacity: 0.6;
+      opacity: 0.5;
     }
 
     .aucun-resultat {
@@ -470,7 +462,7 @@
       position: fixed;
       top: 0; right: 0;
       width: 100%;
-      max-width: 750px;
+      max-width: 700px;
       height: 100vh;
       background: var(--fond-secondaire);
       border-left: 1px solid var(--bordure);
@@ -536,11 +528,17 @@
       background: linear-gradient(135deg, rgba(74, 222, 128, 0.12), rgba(34, 211, 238, 0.08));
       border: 1px solid rgba(74, 222, 128, 0.25);
       border-radius: var(--rayon);
-      padding: 1.5rem;
+      padding: 2rem 1.5rem;
       margin-bottom: 1.5rem;
+      text-align: center;
+    }
+    .ex-hero .icon-grand {
+      font-size: 3rem;
+      color: var(--vert-neon);
+      margin-bottom: 0.8rem;
     }
     .ex-hero h1 { font-size: 1.4rem; color: var(--texte-principal); margin-bottom: 0.6rem; line-height: 1.35; }
-    .ex-hero .badges { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.8rem; }
+    .ex-hero .badges { display: flex; gap: 0.5rem; flex-wrap: wrap; justify-content: center; margin-top: 0.8rem; }
     .ex-hero .badges span {
       background: rgba(5, 11, 20, 0.5);
       border: 1px solid rgba(74, 222, 128, 0.3);
@@ -551,62 +549,14 @@
       font-weight: 600;
       text-transform: uppercase;
     }
-    .panneau-section { margin-bottom: 1.5rem; }
-    .panneau-section h3 {
-      font-size: 1rem;
-      font-weight: 700;
-      color: var(--texte-principal);
-      margin-bottom: 0.8rem;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-    .panneau-section h3 i { color: var(--vert-neon); }
-    .enonce-box {
-      background: var(--fond-principal);
-      border: 1px solid var(--bordure);
-      border-left: 4px solid var(--cyan-neon);
-      border-radius: 0.5rem;
-      padding: 1.2rem 1.4rem;
-      color: var(--texte-tertiaire);
-      font-size: 0.95rem;
-      line-height: 1.75;
-    }
-    [dir="rtl"] .enonce-box { border-left: none; border-right: 4px solid var(--cyan-neon); }
-    .enonce-box p { margin-bottom: 0.8rem; }
-    .enonce-box p:last-child { margin-bottom: 0; }
-    .enonce-box .katex { color: var(--cyan-neon); }
 
-    .resultat-final {
-      background: linear-gradient(135deg, rgba(74, 222, 128, 0.15), rgba(34, 211, 238, 0.1));
-      border: 1.5px solid var(--vert-neon);
-      border-radius: 0.6rem;
-      padding: 1.2rem 1.4rem;
-      text-align: center;
-      margin-top: 1rem;
-    }
-    .resultat-final .titre-res {
-      color: var(--vert-neon);
-      font-size: 0.78rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      margin-bottom: 0.5rem;
-    }
-    .resultat-final .valeur-res {
-      color: var(--texte-principal);
-      font-size: 1.15rem;
-      font-weight: 600;
-      font-family: 'Space Grotesk', sans-serif;
-    }
-
-    .actions-exercice { display: flex; flex-direction: column; gap: 0.7rem; margin-top: 1rem; }
+    .actions-exercice { display: flex; flex-direction: column; gap: 0.7rem; margin-top: 1.5rem; }
     .btn-telecharger {
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 0.6rem;
-      padding: 0.95rem 1.5rem;
+      padding: 1rem 1.5rem;
       border-radius: 0.6rem;
       font-family: inherit;
       font-size: 0.95rem;
@@ -703,7 +653,7 @@
   <section class="hero-ex">
     <div class="container">
       <h1><span data-i18n="ex.titre1">Tous les</span> <span class="accent" data-i18n="ex.titre2">exercices</span></h1>
-      <p data-i18n="ex.desc">Entraînez-vous avec des exercices progressifs. Consultez les énoncés et téléchargez les corrigés.</p>
+      <p data-i18n="ex.desc">Téléchargez les énoncés et les corrigés des exercices de Physique-Chimie.</p>
     </div>
   </section>
 
@@ -805,7 +755,7 @@
         'nav.examens': 'Examens', 'nav.simulations': 'Simulations', 'nav.qcm': 'QCM',
         'nav.ressources': 'Ressources', 'nav.admin': 'Admin',
         'ex.titre1': 'Tous les', 'ex.titre2': 'exercices',
-        'ex.desc': 'Entraînez-vous avec des exercices progressifs. Consultez les énoncés et téléchargez les corrigés.',
+        'ex.desc': 'Téléchargez les énoncés et les corrigés des exercices de Physique-Chimie.',
         'ex.searchPlaceholder': 'Rechercher un exercice...',
         'ex.resultats': 'exercices trouvés',
         'ex.aucunTitre': 'Aucun exercice trouvé',
@@ -819,21 +769,18 @@
         'niveau.tronc': 'Tronc Commun', 'niveau.1bac': '1ère Bac',
         'niveau.2bacpc': '2ème Bac PC', 'niveau.2bacsvt': '2ème Bac SVT',
         'matiere.physique': 'Physique', 'matiere.chimie': 'Chimie',
-        'btn.voir': 'Voir l\'énoncé',
+        'btn.voir': 'Détails',
         'btn.enonce': 'Télécharger l\'énoncé',
         'btn.corrige': 'Télécharger le corrigé',
         'btn.indispo': 'PDF indisponible',
-        'panneau.titre': "Détail de l'exercice",
-        'panneau.enonce': 'Énoncé complet',
-        'panneau.resultat': 'Résultat final',
-        'panneau.telecharger': 'Télécharger'
+        'panneau.titre': "Détail de l'exercice"
       },
       ar: {
         'nav.home': 'الرئيسية', 'nav.cours': 'الدروس', 'nav.exercices': 'التمارين',
         'nav.examens': 'الامتحانات', 'nav.simulations': 'المحاكاة', 'nav.qcm': 'اختبار',
         'nav.ressources': 'الموارد', 'nav.admin': 'الإدارة',
         'ex.titre1': 'جميع', 'ex.titre2': 'التمارين',
-        'ex.desc': 'تدرب مع تمارين متدرجة. اطلع على النصوص وقم بتحميل الحلول.',
+        'ex.desc': 'قم بتحميل نصوص وحلول تمارين الفيزياء والكيمياء.',
         'ex.searchPlaceholder': 'ابحث عن تمرين...',
         'ex.resultats': 'تمرين تم إيجاده',
         'ex.aucunTitre': 'لا يوجد أي تمرين',
@@ -847,14 +794,11 @@
         'niveau.tronc': 'الجذع المشترك', 'niveau.1bac': 'الأولى باك',
         'niveau.2bacpc': 'الثانية باك ع.ف', 'niveau.2bacsvt': 'الثانية باك ع.ح.أ',
         'matiere.physique': 'الفيزياء', 'matiere.chimie': 'الكيمياء',
-        'btn.voir': 'عرض النص',
+        'btn.voir': 'التفاصيل',
         'btn.enonce': 'تحميل النص',
         'btn.corrige': 'تحميل الحل',
         'btn.indispo': 'PDF غير متوفر',
-        'panneau.titre': 'تفاصيل التمرين',
-        'panneau.enonce': 'النص الكامل',
-        'panneau.resultat': 'النتيجة النهائية',
-        'panneau.telecharger': 'تحميل'
+        'panneau.titre': 'تفاصيل التمرين'
       }
     };
 
@@ -995,7 +939,6 @@
       const matiereLabel = trad[currentLang]['matiere.' + e.matiere] || e.matiere;
       const titre = currentLang === 'fr' ? e.titre_fr : e.titre_ar;
       const chap = currentLang === 'fr' ? e.chapitre_fr : e.chapitre_ar;
-      const enonce = currentLang === 'fr' ? e.enonce_court_fr : e.enonce_court_ar;
       const difficulte = e.difficulte || 1;
 
       const etoiles = [1, 2, 3].map(i =>
@@ -1012,101 +955,30 @@
         </div>
         <h3>${titre}</h3>
         <div class="chapitre"><i class="fas fa-bookmark"></i> ${chap || ''}</div>
-        <div class="enonce-court">${enonce || ''}</div>
         <div class="ex-meta">
           <span><i class="fas fa-user"></i> A. Saliki</span>
-          <span><i class="fas fa-file-alt"></i> ${currentLang === 'fr' ? 'Énoncé complet' : 'النص الكامل'}</span>
         </div>
         <div class="ex-actions">
-          <button class="btn-ex voir">
-            <i class="fas fa-eye"></i> ${trad[currentLang]['btn.voir']}
-          </button>
-          ${e.fichier_corrige_url
-            ? `<a class="btn-ex corrige" href="${e.fichier_corrige_url}" target="_blank" rel="noopener">
-                <i class="fas fa-check-circle"></i> ${trad[currentLang]['btn.corrige']}
-              </a>`
-            : `<button class="btn-ex corrige indispo" disabled>
-                <i class="fas fa-check-circle"></i> ${trad[currentLang]['btn.indispo']}
-              </button>`
-          }
-        </div>
-      `;
-
-      card.querySelector('.btn-ex.voir').addEventListener('click', () => ouvrirPanneau(e));
-      return card;
-    }
-
-    function ouvrirPanneau(e) {
-      const panneau = document.getElementById('panneauDetail');
-      const overlay = document.getElementById('panneauOverlay');
-      const corps = document.getElementById('panneauCorps');
-
-      const niveauLabel = trad[currentLang]['niveau.' + e.niveau] || e.niveau;
-      const matiereLabel = trad[currentLang]['matiere.' + e.matiere] || e.matiere;
-      const titre = currentLang === 'fr' ? e.titre_fr : e.titre_ar;
-      const chap = currentLang === 'fr' ? e.chapitre_fr : e.chapitre_ar;
-      const enonce = currentLang === 'fr' ? e.enonce_fr : e.enonce_ar;
-      const resultat = currentLang === 'fr' ? e.resultat_fr : e.resultat_ar;
-
-      corps.innerHTML = `
-        <div class="ex-hero">
-          <h1>${titre}</h1>
-          <div class="badges">
-            <span>${niveauLabel}</span>
-            <span>${matiereLabel}</span>
-            <span>${chap || ''}</span>
-          </div>
-        </div>
-
-        <div class="panneau-section">
-          <h3><i class="fas fa-file-alt"></i> ${trad[currentLang]['panneau.enonce']}</h3>
-          <div class="enonce-box">
-            <p>${enonce || '—'}</p>
-          </div>
-        </div>
-
-        ${resultat ? `
-          <div class="panneau-section">
-            <h3><i class="fas fa-check-circle"></i> ${trad[currentLang]['panneau.resultat']}</h3>
-            <div class="resultat-final">
-              <div class="valeur-res">${resultat}</div>
-            </div>
-          </div>
-        ` : ''}
-
-        <div class="actions-exercice">
           ${e.fichier_url
-            ? `<a class="btn-telecharger enonce" href="${e.fichier_url}" target="_blank" rel="noopener">
+            ? `<a class="btn-ex enonce" href="${e.fichier_url}" target="_blank" rel="noopener">
                 <i class="fas fa-file-pdf"></i> ${trad[currentLang]['btn.enonce']}
               </a>`
-            : `<button class="btn-telecharger indispo" disabled>
+            : `<button class="btn-ex indispo" disabled>
                 <i class="fas fa-file-pdf"></i> ${trad[currentLang]['btn.indispo']}
               </button>`
           }
           ${e.fichier_corrige_url
-            ? `<a class="btn-telecharger corrige" href="${e.fichier_corrige_url}" target="_blank" rel="noopener">
+            ? `<a class="btn-ex corrige" href="${e.fichier_corrige_url}" target="_blank" rel="noopener">
                 <i class="fas fa-check-circle"></i> ${trad[currentLang]['btn.corrige']}
               </a>`
-            : `<button class="btn-telecharger indispo" disabled>
+            : `<button class="btn-ex indispo" disabled>
                 <i class="fas fa-check-circle"></i> ${trad[currentLang]['btn.indispo']}
               </button>`
           }
         </div>
       `;
 
-      if (window.renderMathInElement) {
-        renderMathInElement(corps, {
-          delimiters: [
-            { left: '$$', right: '$$', display: true },
-            { left: '$', right: '$', display: false }
-          ],
-          throwOnError: false
-        });
-      }
-
-      panneau.classList.add('ouvert');
-      overlay.classList.add('ouvert');
-      document.body.style.overflow = 'hidden';
+      return card;
     }
 
     function fermerPanneau() {
