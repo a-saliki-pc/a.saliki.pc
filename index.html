@@ -19,6 +19,7 @@
       --violet-tech: #8b5cf6;
       --or: #fbbf24;
       --rose: #f472b6;
+      --rouge: #ef4444;
       --blanc: #ffffff;
       --texte-principal: #ffffff;
       --texte-secondaire: #94a3b8;
@@ -47,6 +48,7 @@
       --violet-tech: #7c3aed;
       --or: #d97706;
       --rose: #db2777;
+      --rouge: #dc2626;
       --blanc: #0a1428;
       --texte-principal: #0a1428;
       --texte-secondaire: #475569;
@@ -129,7 +131,10 @@
       box-shadow: 0 0 25px -5px rgba(34, 211, 238, 0.6);
     }
 
-    .btn-cyan:hover { transform: translateY(-2px); box-shadow: 0 0 40px -5px rgba(34, 211, 238, 0.9); }
+    .btn-cyan:hover {
+      box-shadow: 0 0 40px -5px rgba(34, 211, 238, 0.9);
+      transform: translateY(-2px);
+    }
 
     .btn-vert {
       background: linear-gradient(135deg, var(--vert-neon), var(--vert-fluo));
@@ -211,7 +216,6 @@
     .nav-desktop a:hover { color: var(--cyan-neon); background: rgba(34, 211, 238, 0.08); }
     .nav-desktop a.actif { color: var(--cyan-neon); background: rgba(34, 211, 238, 0.12); }
     .nav-desktop a.admin-link { color: var(--rose); }
-    .nav-desktop a.admin-link:hover { color: var(--rose); background: rgba(244, 114, 182, 0.12); }
 
     .header-actions { display: flex; align-items: center; gap: 0.5rem; }
 
@@ -251,15 +255,6 @@
       box-shadow: 0 0 20px -8px rgba(34, 211, 238, 0.6);
     }
 
-    .burger {
-      display: none;
-      background: none;
-      border: none;
-      font-size: 1.4rem;
-      color: var(--cyan-neon);
-      cursor: pointer;
-    }
-
     .hero {
       padding: 5rem 0 6rem;
       position: relative;
@@ -274,7 +269,6 @@
       background: radial-gradient(circle, rgba(34, 211, 238, 0.15), transparent 60%);
       border-radius: 50%;
       pointer-events: none;
-      animation: float 8s ease-in-out infinite;
     }
 
     .hero::after {
@@ -285,12 +279,6 @@
       background: radial-gradient(circle, rgba(74, 222, 128, 0.12), transparent 60%);
       border-radius: 50%;
       pointer-events: none;
-      animation: float 10s ease-in-out infinite reverse;
-    }
-
-    @keyframes float {
-      0%, 100% { transform: translate(0, 0) scale(1); }
-      50% { transform: translate(30px, -30px) scale(1.1); }
     }
 
     .hero-grid {
@@ -989,8 +977,8 @@
       z-index: 9999;
     }
 
+    [dir="rtl"] .theme-toggle { right: auto; left: 2rem; }
     .theme-toggle:hover { transform: translateY(-4px) rotate(15deg) scale(1.05); }
-
     .theme-toggle .icon-sun { display: none; }
     [data-theme="light"] .theme-toggle .icon-sun { display: block; }
     [data-theme="light"] .theme-toggle .icon-moon { display: none; }
@@ -1007,7 +995,6 @@
 
     @media (max-width: 768px) {
       .nav-desktop { display: none; }
-      .burger { display: block; }
       .btn-connexion { display: none; }
       .hero-texte h1 { font-size: 2.4rem; }
       .etapes-grid, .niveaux-grid, .avantages-grid, .populaires-grid,
@@ -1016,7 +1003,6 @@
       .footer-grid { grid-template-columns: 1fr; gap: 2rem; }
       .cartes-grid { grid-template-columns: 1fr; }
       .examens-section, .cta-final { padding: 2.5rem 1.5rem; }
-      .examens-section h2, .cta-final h2 { font-size: 1.7rem; }
     }
 
     @media (max-width: 480px) {
@@ -1032,7 +1018,6 @@
 </head>
 <body>
 
-  <!-- HEADER -->
   <header class="header">
     <div class="container header-inner">
       <a href="index.html" class="logo">
@@ -1057,12 +1042,10 @@
           <button class="lang-btn" data-lang="ar">AR</button>
         </div>
         <a href="admin/login.html" class="btn-connexion" data-i18n="nav.connexion">Connexion</a>
-        <button class="burger"><i class="fas fa-bars"></i></button>
       </div>
     </div>
   </header>
 
-  <!-- HERO -->
   <section class="hero">
     <div class="container hero-grid">
       <div class="hero-texte">
@@ -1108,7 +1091,6 @@
     </div>
   </section>
 
-  <!-- COMMENT ÇA MARCHE -->
   <section class="section">
     <div class="container">
       <div class="section-titre">
@@ -1145,7 +1127,6 @@
     </div>
   </section>
 
-  <!-- NOUVEAUX COURS -->
   <section class="section">
     <div class="container">
       <div class="section-titre">
@@ -1153,70 +1134,10 @@
         <h2 data-i18n="nouveaux.titre">Nouveaux cours</h2>
         <p data-i18n="nouveaux.desc">Découvrez les dernières ressources ajoutées sur A Saliki PC.</p>
       </div>
-      <div class="cartes-grid">
-        <div class="carte-cours">
-          <div class="image">
-            <i class="fas fa-water"></i>
-            <span class="badge-niveau" data-i18n="niveau.2bacpc">2ème Bac PC</span>
-          </div>
-          <div class="contenu">
-            <div class="matiere" data-i18n="matiere.physique">Physique</div>
-            <h3 data-i18n="cours1.titre">Les ondes mécaniques</h3>
-            <div class="meta">
-              <span><i class="fas fa-user"></i> A. Saliki</span>
-              <span><i class="fas fa-file-alt"></i> <span data-i18n="cours1.ressources">12 ressources</span></span>
-            </div>
-            <span class="statut gratuit" data-i18n="statut.gratuit">Gratuit</span>
-            <a href="cours.html" class="btn-carte"><span data-i18n="btn.commencer">Commencer</span> <i class="fas fa-arrow-right"></i></a>
-          </div>
-        </div>
-        <div class="carte-cours">
-          <div class="image chimie">
-            <i class="fas fa-flask"></i>
-            <span class="badge-niveau" data-i18n="niveau.2bacsvt">2ème Bac SVT</span>
-          </div>
-          <div class="contenu">
-            <div class="matiere" data-i18n="matiere.chimie">Chimie</div>
-            <h3 data-i18n="cours2.titre">Transformations chimiques</h3>
-            <div class="meta">
-              <span><i class="fas fa-user"></i> A. Saliki</span>
-              <span><i class="fas fa-file-alt"></i> <span data-i18n="cours2.ressources">9 ressources</span></span>
-            </div>
-            <span class="statut gratuit" data-i18n="statut.gratuit">Gratuit</span>
-            <a href="cours.html" class="btn-carte"><span data-i18n="btn.commencer">Commencer</span> <i class="fas fa-arrow-right"></i></a>
-          </div>
-        </div>
-        <div class="carte-cours">
-          <div class="image elec">
-            <i class="fas fa-bolt"></i>
-            <span class="badge-niveau" data-i18n="niveau.1bac">1ère Bac</span>
-          </div>
-          <div class="contenu">
-            <div class="matiere" data-i18n="matiere.physique">Physique</div>
-            <h3 data-i18n="cours3.titre">Électricité et circuits</h3>
-            <div class="meta">
-              <span><i class="fas fa-user"></i> A. Saliki</span>
-              <span><i class="fas fa-file-alt"></i> <span data-i18n="cours3.ressources">15 ressources</span></span>
-            </div>
-            <span class="statut premium" data-i18n="statut.premium">Premium</span>
-            <a href="cours.html" class="btn-carte"><span data-i18n="btn.commencer">Commencer</span> <i class="fas fa-arrow-right"></i></a>
-          </div>
-        </div>
-        <div class="carte-cours">
-          <div class="image acide">
-            <i class="fas fa-dna"></i>
-            <span class="badge-niveau" data-i18n="niveau.tronccommun">Tronc Commun</span>
-          </div>
-          <div class="contenu">
-            <div class="matiere" data-i18n="matiere.chimie">Chimie</div>
-            <h3 data-i18n="cours4.titre">Acido-basique</h3>
-            <div class="meta">
-              <span><i class="fas fa-user"></i> A. Saliki</span>
-              <span><i class="fas fa-file-alt"></i> <span data-i18n="cours4.ressources">8 ressources</span></span>
-            </div>
-            <span class="statut gratuit" data-i18n="statut.gratuit">Gratuit</span>
-            <a href="cours.html" class="btn-carte"><span data-i18n="btn.commencer">Commencer</span> <i class="fas fa-arrow-right"></i></a>
-          </div>
+      <div class="cartes-grid" id="nouveauxCoursGrid">
+        <div style="text-align:center;padding:3rem;grid-column:1/-1;color:#94a3b8;">
+          <i class="fas fa-spinner fa-spin" style="font-size:2rem;color:#22d3ee;"></i>
+          <p>Chargement...</p>
         </div>
       </div>
       <div style="text-align: center; margin-top: 2.5rem;">
@@ -1225,7 +1146,6 @@
     </div>
   </section>
 
-  <!-- NIVEAUX -->
   <section class="section">
     <div class="container">
       <div class="section-titre">
@@ -1262,7 +1182,6 @@
     </div>
   </section>
 
-  <!-- POURQUOI -->
   <section class="section">
     <div class="container">
       <div class="section-titre">
@@ -1295,7 +1214,6 @@
     </div>
   </section>
 
-  <!-- COURS POPULAIRES -->
   <section class="section">
     <div class="container">
       <div class="section-titre">
@@ -1350,7 +1268,6 @@
     </div>
   </section>
 
-  <!-- PHYSIQUE & CHIMIE -->
   <section class="section">
     <div class="container">
       <div class="section-titre">
@@ -1386,7 +1303,6 @@
     </div>
   </section>
 
-  <!-- EXAMENS -->
   <section class="section">
     <div class="container">
       <div class="examens-section">
@@ -1397,7 +1313,6 @@
     </div>
   </section>
 
-  <!-- SIMULATIONS -->
   <section class="section">
     <div class="container">
       <div class="section-titre">
@@ -1443,12 +1358,11 @@
     </div>
   </section>
 
-  <!-- QCM -->
   <section class="section" style="padding-top: 0;">
     <div class="container">
       <div class="examens-section" style="background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(244, 114, 182, 0.08)); border-color: rgba(139, 92, 246, 0.3);">
         <h2 data-i18n="qcm.section.titre">Testez vos connaissances</h2>
-        <p data-i18n="qcm.section.desc">Répondez à des QCM interactifs et recevez une correction immédiate avec explications détaillées. Choisissez votre niveau, votre matière et entraînez-vous !</p>
+        <p data-i18n="qcm.section.desc">Répondez à des QCM interactifs et recevez une correction immédiate avec explications détaillées.</p>
         <a href="qcm.html" class="btn btn-cyan" style="background: linear-gradient(135deg, var(--violet-tech), var(--rose)); color: white;">
           <i class="fas fa-question-circle"></i> <span data-i18n="qcm.section.btn">Commencer un QCM</span>
         </a>
@@ -1456,7 +1370,6 @@
     </div>
   </section>
 
-  <!-- PROFESSEUR -->
   <section class="section">
     <div class="container">
       <div class="professeur-section">
@@ -1480,33 +1393,31 @@
     </div>
   </section>
 
-  <!-- STATISTIQUES -->
   <section class="section">
     <div class="container">
       <div class="stats-section">
-        <div class="stats-grid">
+        <div class="stats-grid" id="statsGrid">
           <div class="stat-item">
             <div class="chiffre">500+</div>
-            <div class="label" data-i18n="stat1">Ressources</div>
+            <div class="label">Ressources</div>
           </div>
           <div class="stat-item">
             <div class="chiffre">100+</div>
-            <div class="label" data-i18n="stat2">Cours</div>
+            <div class="label">Cours</div>
           </div>
           <div class="stat-item">
             <div class="chiffre">1000+</div>
-            <div class="label" data-i18n="stat3">Exercices</div>
+            <div class="label">Exercices</div>
           </div>
           <div class="stat-item">
             <div class="chiffre">24/7</div>
-            <div class="label" data-i18n="stat4">Accès aux ressources</div>
+            <div class="label">Accès aux ressources</div>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- TÉMOIGNAGES -->
   <section class="section">
     <div class="container">
       <div class="section-titre">
@@ -1514,36 +1425,15 @@
         <h2 data-i18n="temoignages.titre">Ce que pensent nos élèves</h2>
         <p data-i18n="temoignages.desc">Des retours qui nous motivent à progresser.</p>
       </div>
-      <div class="temoignages-grid">
-        <div class="temoignage">
-          <div class="avatar">Y</div>
-          <p class="commentaire" data-i18n="temoin1.commentaire">"Grâce à A Saliki PC, j'ai enfin compris les ondes mécaniques. Les explications sont claires et les exercices corrigés m'ont beaucoup aidé."</p>
-          <div>
-            <div class="auteur">Youssef</div>
-            <div class="niveau" data-i18n="temoin1.niveau">2ème Bac PC</div>
-          </div>
-        </div>
-        <div class="temoignage">
-          <div class="avatar">S</div>
-          <p class="commentaire" data-i18n="temoin2.commentaire">"Les simulations interactives sont géniales ! On peut vraiment voir ce qui se passe dans un circuit électrique. Merci beaucoup !"</p>
-          <div>
-            <div class="auteur">Salma</div>
-            <div class="niveau" data-i18n="temoin2.niveau">1ère Bac Sciences</div>
-          </div>
-        </div>
-        <div class="temoignage">
-          <div class="avatar">A</div>
-          <p class="commentaire" data-i18n="temoin3.commentaire">"Je recommande vivement ce site à tous les lycéens. Les ressources sont bien organisées et on trouve tout ce qu'il faut pour réviser."</p>
-          <div>
-            <div class="auteur">Amine</div>
-            <div class="niveau" data-i18n="temoin3.niveau">Tronc Commun</div>
-          </div>
+      <div class="temoignages-grid" id="temoignagesGrid">
+        <div style="text-align:center;padding:3rem;grid-column:1/-1;color:#94a3b8;">
+          <i class="fas fa-spinner fa-spin" style="font-size:2rem;color:#22d3ee;"></i>
+          <p>Chargement...</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- CTA FINAL -->
   <section class="section">
     <div class="container">
       <div class="cta-final">
@@ -1554,7 +1444,6 @@
     </div>
   </section>
 
-  <!-- FOOTER -->
   <footer class="footer">
     <div class="container">
       <div class="footer-grid">
@@ -1605,23 +1494,14 @@
     </div>
   </footer>
 
-  <button class="theme-toggle" id="themeToggle" aria-label="Changer de thème">
+  <button class="theme-toggle" id="themeToggle">
     <i class="fas fa-moon icon-moon"></i>
     <i class="fas fa-sun icon-sun"></i>
   </button>
 
+  <script src="admin/supabase-config.js"></script>
   <script>
-    const themeToggle = document.getElementById('themeToggle');
-    const htmlRoot = document.getElementById('htmlRoot');
-    const savedTheme = localStorage.getItem('asaliki-theme') || 'dark';
-    htmlRoot.setAttribute('data-theme', savedTheme);
-
-    themeToggle.addEventListener('click', () => {
-      const current = htmlRoot.getAttribute('data-theme');
-      const next = current === 'dark' ? 'light' : 'dark';
-      htmlRoot.setAttribute('data-theme', next);
-      localStorage.setItem('asaliki-theme', next);
-    });
+    let currentLang = localStorage.getItem('asaliki-lang') || 'fr';
 
     const translations = {
       fr: {
@@ -1652,8 +1532,8 @@
         'pourquoi.kicker': 'Nos atouts', 'pourquoi.titre': 'Pourquoi A Saliki PC ?', 'pourquoi.desc': 'Une plateforme pensée pour la réussite des lycéens marocains.',
         'avantage1.titre': 'Un professeur passionné', 'avantage1.desc': 'Une pédagogie basée sur la compréhension des concepts scientifiques.',
         'avantage2.titre': 'Des ressources structurées', 'avantage2.desc': 'Cours, exercices, corrigés et examens organisés par niveau et chapitre.',
-        'avantage3.titre': 'Apprendre à son rythme', 'avantage3.desc': 'Les ressources sont accessibles en ligne.',
-        'avantage4.titre': 'Préparer les examens', 'avantage4.desc': 'Des ressources adaptées à la préparation.',
+        'avantage3.titre': 'Apprendre à son rythme', 'avantage3.desc': 'Les ressources sont accessibles en ligne depuis ordinateur, tablette ou smartphone.',
+        'avantage4.titre': 'Préparer les examens', 'avantage4.desc': 'Des ressources adaptées à la préparation des contrôles et examens.',
         'populaires.kicker': 'Top ressources', 'populaires.titre': 'Cours populaires', 'populaires.desc': 'Les ressources les plus consultées.',
         'pop1.titre': 'Mécanique', 'pop1.desc': '2ème Bac PC · Physique',
         'pop2.titre': 'Ondes', 'pop2.desc': '2ème Bac PC · Physique',
@@ -1668,7 +1548,7 @@
         'chimie.titre': 'CHIMIE', 'chimie.ch1': 'Transformations chimiques', 'chimie.ch2': 'Cinétique',
         'chimie.ch3': 'Acide-base', 'chimie.ch4': 'Oxydoréduction', 'chimie.ch5': 'Chimie organique',
         'chimie.btn': 'Explorer la Chimie',
-        'examens.titre': 'Préparez vos examens', 'examens.desc': 'Retrouvez les contrôles, examens régionaux, examens nationaux et sujets de préparation.',
+        'examens.titre': 'Préparez vos examens', 'examens.desc': 'Retrouvez les contrôles, examens régionaux, examens nationaux et sujets de préparation organisés par niveau et par année.',
         'examens.btn': 'Voir les examens',
         'simulations.kicker': 'Interactif', 'simulations.titre': 'Simulations scientifiques', 'simulations.desc': 'Des outils interactifs pour mieux comprendre.',
         'sim1.titre': 'Circuits électriques', 'sim1.desc': 'Manipulez les composants.',
@@ -1682,7 +1562,7 @@
         'qcm.section.desc': 'Répondez à des QCM interactifs et recevez une correction immédiate.',
         'qcm.section.btn': 'Commencer un QCM',
         'prof.photo': 'Photo du professeur', 'prof.titre': 'Professeur de Physique-Chimie',
-        'prof.p1': "Passionné par les sciences, j'accompagne les lycéens marocains depuis plus de 15 ans.",
+        'prof.p1': "Passionné par les sciences et l'enseignement, j'accompagne les lycéens marocains depuis plus de 15 ans.",
         'prof.p2': "J'ai créé A Saliki PC pour rendre les ressources scientifiques accessibles à tous.",
         'prof.tag1': 'Pédagogie active', 'prof.tag2': 'Préparation aux examens',
         'prof.tag3': 'Simulations interactives', 'prof.tag4': 'Ressources structurées',
@@ -1786,10 +1666,32 @@
       }
     };
 
-    let currentLang = localStorage.getItem('asaliki-lang') || 'fr';
+    // ============================================================
+    // ÉTAT GLOBAL
+    // ============================================================
+    let tousLesCours = [];
+    let toutesLesRessources = [];
+    let toutesLesStats = [];
+    let tousLesTemoignages = [];
+
+    // ============================================================
+    // INITIALISATION
+    // ============================================================
+    document.addEventListener('DOMContentLoaded', async () => {
+      appliquerTheme();
+      setLanguage(currentLang);
+      bindEvents();
+      await chargerDonnees();
+    });
+
+    function appliquerTheme() {
+      const savedTheme = localStorage.getItem('asaliki-theme') || 'dark';
+      document.getElementById('htmlRoot').setAttribute('data-theme', savedTheme);
+    }
 
     function setLanguage(lang) {
       currentLang = lang;
+      const htmlRoot = document.getElementById('htmlRoot');
       if (lang === 'ar') {
         htmlRoot.setAttribute('dir', 'rtl');
         htmlRoot.setAttribute('lang', 'ar');
@@ -1811,17 +1713,175 @@
 
       localStorage.setItem('asaliki-lang', lang);
       startTyping();
+      afficherStats();
+      afficherTemoignages();
     }
 
-    document.querySelectorAll('.lang-btn').forEach(btn => {
-      btn.addEventListener('click', () => setLanguage(btn.getAttribute('data-lang')));
-    });
+    function bindEvents() {
+      document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.addEventListener('click', () => setLanguage(btn.getAttribute('data-lang')));
+      });
+      document.getElementById('themeToggle').addEventListener('click', () => {
+        const current = document.getElementById('htmlRoot').getAttribute('data-theme');
+        const next = current === 'dark' ? 'light' : 'dark';
+        document.getElementById('htmlRoot').setAttribute('data-theme', next);
+        localStorage.setItem('asaliki-theme', next);
+      });
+    }
 
+    // ============================================================
+    // CHARGEMENT DES DONNÉES DEPUIS SUPABASE
+    // ============================================================
+    async function chargerDonnees() {
+      try {
+        const [coursData, ressourcesData, statsData, temoignagesData] = await Promise.all([
+          lireTable('cours', {
+            filtres: { publie: true },
+            ordre: { col: 'created_at', asc: false }
+          }),
+          lireTable('ressources', { filtres: { publie: true } }),
+          lireTable('stats', { ordre: { col: 'ordre', asc: true } }),
+          lireTable('temoignages', {
+            filtres: { publie: true },
+            ordre: { col: 'ordre', asc: true }
+          })
+        ]);
+
+        tousLesCours = coursData;
+        toutesLesRessources = ressourcesData;
+        toutesLesStats = statsData;
+        tousLesTemoignages = temoignagesData;
+
+        afficherNouveauxCours();
+        afficherStats();
+        afficherTemoignages();
+      } catch (err) {
+        console.error('Erreur chargement:', err);
+      }
+    }
+
+    // ============================================================
+    // AFFICHAGE DES NOUVEAUX COURS
+    // ============================================================
+    function afficherNouveauxCours() {
+      const grid = document.getElementById('nouveauxCoursGrid');
+      if (!grid) return;
+
+      const derniers = tousLesCours.slice(0, 4);
+      if (derniers.length === 0) {
+        grid.innerHTML = '<div style="text-align:center;padding:2rem;grid-column:1/-1;color:#94a3b8;">Aucun cours disponible</div>';
+        return;
+      }
+
+      grid.innerHTML = '';
+      derniers.forEach(c => {
+        const niveauLabel = getNiveauLabel(c.niveau);
+        const titre = currentLang === 'fr' ? c.titre_fr : c.titre_ar;
+        const nbRessources = toutesLesRessources.filter(r => r.cours_id === c.id).length;
+
+        let classeIcone = '';
+        if (c.matiere === 'chimie') classeIcone = 'chimie';
+        else if (c.icone && c.icone.includes('bolt')) classeIcone = 'elec';
+        else if (c.icone && c.icone.includes('dna')) classeIcone = 'acide';
+
+        const card = document.createElement('div');
+        card.className = 'carte-cours';
+        card.innerHTML = `
+          <div class="image ${classeIcone}">
+            <i class="fas ${c.icone || 'fa-book'}"></i>
+            <span class="badge-niveau">${niveauLabel}</span>
+          </div>
+          <div class="contenu">
+            <div class="matiere">${translations[currentLang]['matiere.' + c.matiere] || c.matiere}</div>
+            <h3>${titre}</h3>
+            <div class="meta">
+              <span><i class="fas fa-user"></i> A. Saliki</span>
+              <span><i class="fas fa-file-alt"></i> ${nbRessources} ${currentLang === 'fr' ? 'ressource(s)' : 'مورد'}</span>
+            </div>
+            <span class="statut ${c.statut}">${translations[currentLang]['statut.' + c.statut] || c.statut}</span>
+            <a href="cours.html" class="btn-carte">${translations[currentLang]['btn.commencer']} <i class="fas fa-arrow-right"></i></a>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    function getNiveauLabel(niveau) {
+      const map = {
+        'tronc': 'TRONC COMMUN',
+        '1bac': '1ÈRE BAC',
+        '2bacpc': '2ÈME BAC PC',
+        '2bacsvt': '2ÈME BAC SVT'
+      };
+      return map[niveau] || niveau;
+    }
+
+    // ============================================================
+    // AFFICHAGE DES STATISTIQUES (dynamique)
+    // ============================================================
+    function afficherStats() {
+      const grid = document.getElementById('statsGrid');
+      if (!grid) return;
+
+      if (toutesLesStats.length === 0) {
+        // Garde le contenu statique par défaut
+        return;
+      }
+
+      grid.innerHTML = '';
+      toutesLesStats.forEach(s => {
+        const div = document.createElement('div');
+        div.className = 'stat-item';
+        const libelle = currentLang === 'fr' ? s.libelle_fr : s.libelle_ar;
+        div.innerHTML = `
+          <div class="chiffre">${s.valeur}</div>
+          <div class="label">${libelle}</div>
+        `;
+        grid.appendChild(div);
+      });
+    }
+
+    // ============================================================
+    // AFFICHAGE DES TÉMOIGNAGES (dynamique)
+    // ============================================================
+    function afficherTemoignages() {
+      const grid = document.getElementById('temoignagesGrid');
+      if (!grid) return;
+
+      if (tousLesTemoignages.length === 0) {
+        grid.innerHTML = '<div style="text-align:center;padding:2rem;grid-column:1/-1;color:#94a3b8;">Aucun témoignage pour l\'instant</div>';
+        return;
+      }
+
+      grid.innerHTML = '';
+      tousLesTemoignages.forEach(t => {
+        const initiale = (t.prenom || 'A')[0].toUpperCase();
+        const commentaire = currentLang === 'fr' ? t.commentaire_fr : (t.commentaire_ar || t.commentaire_fr);
+        const niveau = currentLang === 'fr' ? t.niveau_fr : (t.niveau_ar || t.niveau_fr);
+
+        const div = document.createElement('div');
+        div.className = 'temoignage';
+        div.innerHTML = `
+          <div class="avatar">${initiale}</div>
+          <p class="commentaire">"${commentaire}"</p>
+          <div>
+            <div class="auteur">${t.prenom}</div>
+            <div class="niveau">${niveau || ''}</div>
+          </div>
+        `;
+        grid.appendChild(div);
+      });
+    }
+
+    // ============================================================
+    // EFFET TYPING DANS LE HERO
+    // ============================================================
     const typingEl = document.getElementById('typing-text');
     let typingIndex = 0;
     let typingTimer = null;
 
     function startTyping() {
+      if (!typingEl) return;
       const text = translations[currentLang]['hero.sousTitre'] || '';
       typingEl.textContent = '';
       typingIndex = 0;
@@ -1846,8 +1906,6 @@
         }
       }, 60);
     }
-
-    setLanguage(currentLang);
   </script>
 </body>
 </html>
