@@ -426,23 +426,19 @@
     .aucun-resultat i { font-size: 4rem; color: var(--bordure); margin-bottom: 1rem; }
     .aucun-resultat h3 { color: var(--texte-principal); font-size: 1.3rem; margin-bottom: 0.5rem; }
 
-    .voir-plus-wrap { text-align: center; margin-bottom: 3rem; }
-    .btn-voir-plus {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.6rem;
-      padding: 0.85rem 2rem;
-      background: rgba(244, 114, 182, 0.08);
-      border: 1.5px solid var(--rose);
-      color: var(--rose);
-      border-radius: 0.5rem;
-      font-family: inherit;
-      font-size: 0.95rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: var(--transition);
+    .loading-zone {
+      text-align: center;
+      padding: 4rem;
+      color: var(--texte-secondaire);
     }
-    .btn-voir-plus:hover { background: var(--rose); color: white; }
+    .loading-zone i {
+      font-size: 2.5rem;
+      color: var(--rose);
+      animation: spin 1s linear infinite;
+      display: block;
+      margin-bottom: 1rem;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
 
     .panneau-detail {
       position: fixed;
@@ -559,42 +555,6 @@
     }
     .info-item .val { font-size: 1rem; font-weight: 600; color: var(--rose); font-family: 'Space Grotesk', sans-serif; }
 
-    .structure-liste { display: flex; flex-direction: column; gap: 0.6rem; }
-    .structure-item {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      background: var(--fond-principal);
-      border: 1px solid var(--bordure);
-      border-radius: 0.5rem;
-      padding: 0.85rem 1rem;
-    }
-    .structure-item .num-ex {
-      width: 32px; height: 32px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, var(--rose), var(--violet-tech));
-      color: white;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: 'Space Grotesk', sans-serif;
-      font-weight: 700;
-      font-size: 0.85rem;
-      flex-shrink: 0;
-    }
-    .structure-item .info { flex: 1; }
-    .structure-item .info h4 { font-size: 0.9rem; font-weight: 600; color: var(--texte-principal); margin-bottom: 0.15rem; }
-    .structure-item .bareme {
-      background: rgba(244, 114, 182, 0.1);
-      border: 1px solid rgba(244, 114, 182, 0.3);
-      color: var(--rose);
-      padding: 0.3rem 0.8rem;
-      border-radius: 2rem;
-      font-size: 0.78rem;
-      font-weight: 600;
-      font-family: 'Space Grotesk', sans-serif;
-    }
-
     .actions-examen { display: flex; flex-direction: column; gap: 0.7rem; margin-top: 1.5rem; }
     .btn-action {
       display: flex;
@@ -609,6 +569,7 @@
       cursor: pointer;
       transition: var(--transition);
       border: 1px solid;
+      text-decoration: none;
     }
     .btn-action.pdf {
       background: linear-gradient(135deg, rgba(244, 114, 182, 0.15), rgba(139, 92, 246, 0.1));
@@ -764,14 +725,14 @@
   <section class="hero-ex">
     <div class="container">
       <h1><span data-i18n="exam.titre1">Préparez vos</span> <span class="accent" data-i18n="exam.titre2">examens</span></h1>
-      <p data-i18n="exam.desc">Retrouvez les contrôles, examens régionaux et nationaux organisés par niveau et par année. Mode examen chronométré disponible.</p>
+      <p data-i18n="exam.desc">Retrouvez les contrôles, examens régionaux et nationaux organisés par niveau et par année.</p>
     </div>
   </section>
 
   <div class="container">
     <div class="search-wrap">
       <i class="fas fa-search search-icon"></i>
-      <input type="text" class="search-input" id="searchInput" placeholder="Rechercher un examen, une année..." data-i18n-placeholder="exam.searchPlaceholder">
+      <input type="text" class="search-input" id="searchInput" placeholder="Rechercher un examen..." data-i18n-placeholder="exam.searchPlaceholder">
     </div>
 
     <div class="stats-bar">
@@ -780,12 +741,12 @@
         <div class="lbl" data-i18n="exam.statTotal">Examens disponibles</div>
       </div>
       <div class="stat-box">
-        <div class="num" id="statConsultes">0</div>
-        <div class="lbl" data-i18n="exam.statConsultes">Examens consultés</div>
-      </div>
-      <div class="stat-box">
         <div class="num" id="statAnnees">0</div>
         <div class="lbl" data-i18n="exam.statAnnees">Années couvertes</div>
+      </div>
+      <div class="stat-box">
+        <div class="num" id="statNationaux">0</div>
+        <div class="lbl" data-i18n="exam.statNationaux">Examens nationaux</div>
       </div>
     </div>
 
@@ -824,18 +785,17 @@
       <span class="count"><strong id="countResultats">0</strong> <span data-i18n="exam.resultats">examens trouvés</span></span>
     </div>
 
-    <div class="ex-grid" id="exGrid"></div>
+    <div class="loading-zone" id="loadingZone">
+      <i class="fas fa-spinner"></i>
+      <p>Chargement des examens...</p>
+    </div>
+
+    <div class="ex-grid" id="exGrid" style="display:none;"></div>
 
     <div class="aucun-resultat" id="aucunResultat" style="display: none;">
       <i class="fas fa-search"></i>
       <h3 data-i18n="exam.aucunTitre">Aucun examen trouvé</h3>
       <p data-i18n="exam.aucunDesc">Essayez de modifier vos filtres.</p>
-    </div>
-
-    <div class="voir-plus-wrap" id="voirPlusWrap" style="display: none;">
-      <button class="btn-voir-plus" id="btnVoirPlus">
-        <i class="fas fa-plus-circle"></i> <span data-i18n="exam.voirPlus">Voir plus d'examens</span>
-      </button>
     </div>
   </div>
 
@@ -870,22 +830,14 @@
     <i class="fas fa-sun icon-sun"></i>
   </button>
 
+  <script src="admin/supabase-config.js"></script>
   <script>
-    const examens = [
-      { id: 'e1', niveau: '2bacpc', matiere: 'pc', type: 'national', annee: 2024, session_fr: 'Session normale', session_ar: 'الدورة العادية', titre_fr: 'Examen national 2024 — 2ème Bac PC', titre_ar: 'الامتحان الوطني 2024 — 2 باك ع.ف', description_fr: 'Examen national de Physique-Chimie, session normale 2024.', description_ar: 'الامتحان الوطني في الفيزياء والكيمياء 2024.', duree: 180, ex: 4 },
-      { id: 'e2', niveau: '2bacpc', matiere: 'pc', type: 'national', annee: 2023, session_fr: 'Session normale', session_ar: 'الدورة العادية', titre_fr: 'Examen national 2023 — 2ème Bac PC', titre_ar: 'الامتحان الوطني 2023 — 2 باك ع.ف', description_fr: 'Examen national 2023, filière Sciences Physiques.', description_ar: 'الامتحان الوطني 2023، مسلك العلوم الفيزيائية.', duree: 180, ex: 4 },
-      { id: 'e3', niveau: '2bacpc', matiere: 'pc', type: 'national', annee: 2022, session_fr: 'Session normale', session_ar: 'الدورة العادية', titre_fr: 'Examen national 2022 — 2ème Bac PC', titre_ar: 'الامتحان الوطني 2022 — 2 باك ع.ف', description_fr: 'Examen national 2022, filière Sciences Physiques.', description_ar: 'الامتحان الوطني 2022.', duree: 180, ex: 4 },
-      { id: 'e4', niveau: '2bacpc', matiere: 'pc', type: 'regional', annee: 2024, session_fr: 'Session normale', session_ar: 'الدورة العادية', titre_fr: 'Examen régional 2024 — Casablanca-Settat', titre_ar: 'الامتحان الجهوي 2024 — الدار البيضاء', description_fr: 'Examen régional 2024, Académie de Casablanca-Settat.', description_ar: 'الامتحان الجهوي 2024، أكاديمية الدار البيضاء.', duree: 120, ex: 3 },
-      { id: 'e5', niveau: '2bacpc', matiere: 'pc', type: 'regional', annee: 2023, session_fr: 'Session normale', session_ar: 'الدورة العادية', titre_fr: 'Examen régional 2023 — Rabat-Salé-Kénitra', titre_ar: 'الامتحان الجهوي 2023 — الرباط', description_fr: 'Examen régional 2023, Académie de Rabat-Salé-Kénitra.', description_ar: 'الامتحان الجهوي 2023، أكاديمية الرباط.', duree: 120, ex: 3 },
-      { id: 'e6', niveau: '2bacpc', matiere: 'pc', type: 'controle', annee: 2024, session_fr: 'Semestre 1', session_ar: 'الدورة الأولى', titre_fr: 'Contrôle continu n°1 — Semestre 1', titre_ar: 'الفرض المحروس رقم 1', description_fr: 'Premier contrôle continu du semestre 1.', description_ar: 'الفرض المحروس الأول للدورة الأولى.', duree: 90, ex: 2 },
-      { id: 'e7', niveau: '2bacpc', matiere: 'pc', type: 'controle', annee: 2024, session_fr: 'Semestre 1', session_ar: 'الدورة الأولى', titre_fr: 'Contrôle continu n°2 — Semestre 1', titre_ar: 'الفرض المحروس رقم 2', description_fr: 'Deuxième contrôle continu.', description_ar: 'الفرض المحروس الثاني.', duree: 90, ex: 2 },
-      { id: 'e8', niveau: '2bacsvt', matiere: 'pc', type: 'national', annee: 2024, session_fr: 'Session normale', session_ar: 'الدورة العادية', titre_fr: 'Examen national 2024 — 2ème Bac SVT', titre_ar: 'الامتحان الوطني 2024 — 2 باك ع.ح.أ', description_fr: 'Examen national 2024, filière SVT.', description_ar: 'الامتحان الوطني 2024، مسلك ع.ح.أ.', duree: 120, ex: 3 },
-      { id: 'e9', niveau: '2bacsvt', matiere: 'pc', type: 'national', annee: 2023, session_fr: 'Session normale', session_ar: 'الدورة العادية', titre_fr: 'Examen national 2023 — 2ème Bac SVT', titre_ar: 'الامتحان الوطني 2023 — 2 باك ع.ح.أ', description_fr: 'Examen national 2023, filière SVT.', description_ar: 'الامتحان الوطني 2023.', duree: 120, ex: 3 },
-      { id: 'e10', niveau: '2bacsvt', matiere: 'pc', type: 'regional', annee: 2024, session_fr: 'Session normale', session_ar: 'الدورة العادية', titre_fr: 'Examen régional 2024 — Fès-Meknès', titre_ar: 'الامتحان الجهوي 2024 — فاس', description_fr: 'Examen régional 2024, filière SVT.', description_ar: 'الامتحان الجهوي 2024.', duree: 120, ex: 3 },
-      { id: 'e11', niveau: '1bac', matiere: 'pc', type: 'regional', annee: 2024, session_fr: 'Session normale', session_ar: 'الدورة العادية', titre_fr: 'Examen régional 2024 — 1ère Bac SE', titre_ar: 'الامتحان الجهوي 2024 — 1 باك ع.ت', description_fr: 'Examen régional de Physique-Chimie, 1ère Bac SE.', description_ar: 'الامتحان الجهوي للأولى باك علوم تجريبية.', duree: 120, ex: 3 },
-      { id: 'e12', niveau: '1bac', matiere: 'pc', type: 'regional', annee: 2023, session_fr: 'Session normale', session_ar: 'الدورة العادية', titre_fr: 'Examen régional 2023 — 1ère Bac SE', titre_ar: 'الامتحان الجهوي 2023 — 1 باك ع.ت', description_fr: 'Examen régional 2023, 1ère Bac Sciences Expérimentales.', description_ar: 'الامتحان الجهوي 2023.', duree: 120, ex: 3 },
-      { id: 'e13', niveau: 'tronc', matiere: 'pc', type: 'controle', annee: 2024, session_fr: 'Semestre 1', session_ar: 'الدورة الأولى', titre_fr: 'Contrôle continu n°1 — Tronc Commun', titre_ar: 'الفرض المحروس رقم 1 — ج.م', description_fr: 'Premier contrôle continu de Tronc Commun.', description_ar: 'الفرض المحروس الأول للجذع المشترك.', duree: 60, ex: 2 }
-    ];
+    let currentLang = localStorage.getItem('asaliki-lang') || 'fr';
+    let tousLesExamens = [];
+    let filtres = { niveau: 'all', type: 'all', annee: 'all', recherche: '' };
+    let timerInterval = null;
+    let timerSecondes = 0;
+    let timerSecondesInitial = 0;
 
     const trad = {
       fr: {
@@ -893,15 +845,14 @@
         'nav.examens': 'Examens', 'nav.simulations': 'Simulations', 'nav.qcm': 'QCM',
         'nav.ressources': 'Ressources', 'nav.admin': 'Admin',
         'exam.titre1': 'Préparez vos', 'exam.titre2': 'examens',
-        'exam.desc': 'Retrouvez les contrôles, examens régionaux et nationaux organisés par niveau et par année. Mode examen chronométré disponible.',
+        'exam.desc': 'Retrouvez les contrôles, examens régionaux et nationaux organisés par niveau et par année.',
         'exam.searchPlaceholder': 'Rechercher un examen, une année...',
         'exam.resultats': 'examens trouvés',
         'exam.aucunTitre': 'Aucun examen trouvé',
         'exam.aucunDesc': 'Essayez de modifier vos filtres.',
-        'exam.voirPlus': "Voir plus d'examens",
         'exam.statTotal': 'Examens disponibles',
-        'exam.statConsultes': 'Examens consultés',
         'exam.statAnnees': 'Années couvertes',
+        'exam.statNationaux': 'Examens nationaux',
         'filtre.niveau': 'Niveau', 'filtre.type': 'Type', 'filtre.annee': 'Année',
         'filtre.tousNiveaux': 'Tous les niveaux', 'filtre.tousTypes': 'Tous les types',
         'filtre.toutesAnnees': 'Toutes les années', 'filtre.reset': 'Réinitialiser',
@@ -916,15 +867,16 @@
         'panneau.session': 'Session',
         'panneau.annee': 'Année',
         'panneau.type': 'Type',
-        'panneau.structure': "Structure de l'examen",
         'panneau.pdf': 'Télécharger le PDF',
+        'panneau.pdfIndispo': 'PDF bientôt disponible',
         'panneau.minuterie': 'Mode examen blanc (chronométré)',
         'minuterie.titre': 'Mode examen blanc',
         'minuterie.restant': 'Temps restant',
         'minuterie.play': 'Démarrer', 'minuterie.pause': 'Pause',
         'minuterie.reset': 'Reset', 'minuterie.fermer': 'Fermer',
         'minuterie.fini': 'Temps écoulé !',
-        'panneau.exercice': 'Exercice'
+        'session.normale': 'Session normale',
+        'session.rattrapage': 'Session de rattrapage'
       },
       ar: {
         'nav.home': 'الرئيسية', 'nav.cours': 'الدروس', 'nav.exercices': 'التمارين',
@@ -936,10 +888,9 @@
         'exam.resultats': 'امتحان تم إيجاده',
         'exam.aucunTitre': 'لا يوجد أي امتحان',
         'exam.aucunDesc': 'حاول تغيير الفلاتر.',
-        'exam.voirPlus': 'عرض المزيد',
         'exam.statTotal': 'الامتحانات المتاحة',
-        'exam.statConsultes': 'الامتحانات المستشارة',
         'exam.statAnnees': 'السنوات المغطاة',
+        'exam.statNationaux': 'الامتحانات الوطنية',
         'filtre.niveau': 'المستوى', 'filtre.type': 'النوع', 'filtre.annee': 'السنة',
         'filtre.tousNiveaux': 'جميع المستويات', 'filtre.tousTypes': 'جميع الأنواع',
         'filtre.toutesAnnees': 'جميع السنوات', 'filtre.reset': 'إعادة',
@@ -954,33 +905,24 @@
         'panneau.session': 'الدورة',
         'panneau.annee': 'السنة',
         'panneau.type': 'النوع',
-        'panneau.structure': 'بنية الامتحان',
         'panneau.pdf': 'تحميل PDF',
+        'panneau.pdfIndispo': 'PDF قريباً',
         'panneau.minuterie': 'وضع الامتحان الموقوت',
         'minuterie.titre': 'وضع الامتحان',
         'minuterie.restant': 'الوقت المتبقي',
         'minuterie.play': 'تشغيل', 'minuterie.pause': 'إيقاف',
         'minuterie.reset': 'إعادة', 'minuterie.fermer': 'إغلاق',
         'minuterie.fini': 'انتهى الوقت!',
-        'panneau.exercice': 'تمرين'
+        'session.normale': 'الدورة العادية',
+        'session.rattrapage': 'الدورة الاستدراكية'
       }
     };
 
-    let currentLang = localStorage.getItem('asaliki-lang') || 'fr';
-    let filtres = { niveau: 'all', type: 'all', annee: 'all', recherche: '' };
-    let exAffiches = 6;
-    let consultes = JSON.parse(localStorage.getItem('asaliki-consultes') || '[]');
-    let timerInterval = null;
-    let timerSecondes = 0;
-    let timerSecondesInitial = 0;
-
-    document.addEventListener('DOMContentLoaded', () => {
+    document.addEventListener('DOMContentLoaded', async () => {
       appliquerTheme();
-      remplirFiltresAnnees();
-      afficherExamens();
-      mettreAJourStats();
-      bindEvents();
       appliquerLangue(currentLang);
+      bindEvents();
+      await chargerDonnees();
     });
 
     function appliquerTheme() {
@@ -1004,36 +946,25 @@
         btn.classList.toggle('actif', btn.getAttribute('data-lang') === lang);
       });
       localStorage.setItem('asaliki-lang', lang);
-      remplirFiltresAnnees();
-      afficherExamens();
-    }
-
-    function remplirFiltresAnnees() {
-      const select = document.getElementById('filtreAnnee');
-      const valActuelle = select.value;
-      const annees = [...new Set(examens.map(e => e.annee))].sort((a, b) => b - a);
-      select.innerHTML = `<option value="all">${trad[currentLang]['filtre.toutesAnnees']}</option>`;
-      annees.forEach(a => {
-        const opt = document.createElement('option');
-        opt.value = a;
-        opt.textContent = a;
-        select.appendChild(opt);
-      });
-      if (annees.includes(parseInt(valActuelle))) select.value = valActuelle;
+      if (tousLesExamens.length > 0) afficherExamens();
     }
 
     function bindEvents() {
       document.getElementById('searchInput').addEventListener('input', (e) => {
         filtres.recherche = e.target.value.toLowerCase().trim();
-        exAffiches = 6;
         afficherExamens();
       });
-      ['Niveau', 'Type', 'Annee'].forEach(f => {
-        document.getElementById('filtre' + f).addEventListener('change', (e) => {
-          filtres[f.toLowerCase()] = e.target.value;
-          exAffiches = 6;
-          afficherExamens();
-        });
+      document.getElementById('filtreNiveau').addEventListener('change', (e) => {
+        filtres.niveau = e.target.value;
+        afficherExamens();
+      });
+      document.getElementById('filtreType').addEventListener('change', (e) => {
+        filtres.type = e.target.value;
+        afficherExamens();
+      });
+      document.getElementById('filtreAnnee').addEventListener('change', (e) => {
+        filtres.annee = e.target.value;
+        afficherExamens();
       });
       document.getElementById('btnReset').addEventListener('click', () => {
         filtres = { niveau: 'all', type: 'all', annee: 'all', recherche: '' };
@@ -1041,11 +972,6 @@
         document.getElementById('filtreNiveau').value = 'all';
         document.getElementById('filtreType').value = 'all';
         document.getElementById('filtreAnnee').value = 'all';
-        exAffiches = 6;
-        afficherExamens();
-      });
-      document.getElementById('btnVoirPlus').addEventListener('click', () => {
-        exAffiches += 6;
         afficherExamens();
       });
       document.querySelectorAll('.lang-btn').forEach(btn => {
@@ -1068,14 +994,53 @@
       document.getElementById('btnTimerClose').addEventListener('click', fermerMinuterie);
     }
 
+    async function chargerDonnees() {
+      try {
+        tousLesExamens = await lireTable('examens', {
+          filtres: { publie: true },
+          ordre: { col: 'annee', asc: false }
+        });
+        remplirFiltresAnnees();
+        mettreAJourStats();
+        document.getElementById('loadingZone').style.display = 'none';
+        document.getElementById('exGrid').style.display = 'grid';
+        afficherExamens();
+      } catch (err) {
+        document.getElementById('loadingZone').innerHTML = `
+          <i class="fas fa-exclamation-triangle" style="color:#ef4444;"></i>
+          <p>Erreur : ${err.message}</p>
+        `;
+      }
+    }
+
+    function remplirFiltresAnnees() {
+      const select = document.getElementById('filtreAnnee');
+      const valActuelle = select.value;
+      const annees = [...new Set(tousLesExamens.map(e => e.annee))].sort((a, b) => b - a);
+      select.innerHTML = `<option value="all">${trad[currentLang]['filtre.toutesAnnees']}</option>`;
+      annees.forEach(a => {
+        const opt = document.createElement('option');
+        opt.value = a;
+        opt.textContent = a;
+        select.appendChild(opt);
+      });
+      if (annees.includes(parseInt(valActuelle))) select.value = valActuelle;
+    }
+
+    function mettreAJourStats() {
+      document.getElementById('statTotal').textContent = tousLesExamens.length;
+      document.getElementById('statAnnees').textContent = [...new Set(tousLesExamens.map(e => e.annee))].length;
+      document.getElementById('statNationaux').textContent = tousLesExamens.filter(e => e.type === 'national').length;
+    }
+
     function filtrerExamens() {
-      return examens.filter(e => {
+      return tousLesExamens.filter(e => {
         if (filtres.niveau !== 'all' && e.niveau !== filtres.niveau) return false;
         if (filtres.type !== 'all' && e.type !== filtres.type) return false;
         if (filtres.annee !== 'all' && e.annee !== parseInt(filtres.annee)) return false;
         if (filtres.recherche) {
           const titre = currentLang === 'fr' ? e.titre_fr : e.titre_ar;
-          const texte = (titre + ' ' + e.annee).toLowerCase();
+          const texte = ((titre || '') + ' ' + e.annee).toLowerCase();
           if (!texte.includes(filtres.recherche)) return false;
         }
         return true;
@@ -1085,40 +1050,35 @@
     function afficherExamens() {
       const grid = document.getElementById('exGrid');
       const aucun = document.getElementById('aucunResultat');
-      const voirPlusWrap = document.getElementById('voirPlusWrap');
-      const filtered = filtrerExamens().sort((a, b) => b.annee - a.annee);
-      const displayed = filtered.slice(0, exAffiches);
+      const filtered = filtrerExamens();
 
       document.getElementById('countResultats').textContent = filtered.length;
 
       if (filtered.length === 0) {
-        grid.innerHTML = '';
         grid.style.display = 'none';
         aucun.style.display = 'block';
-        voirPlusWrap.style.display = 'none';
         return;
       }
 
       grid.style.display = 'grid';
       aucun.style.display = 'none';
       grid.innerHTML = '';
-      displayed.forEach(e => grid.appendChild(creerCarte(e)));
-      voirPlusWrap.style.display = filtered.length > exAffiches ? 'block' : 'none';
+      filtered.forEach(e => grid.appendChild(creerCarte(e)));
     }
 
     function creerCarte(e) {
       const card = document.createElement('div');
       card.className = 'ex-card';
       const icones = { controle: 'fa-pencil-alt', regional: 'fa-map-marked-alt', national: 'fa-trophy' };
-      const niveauLabel = trad[currentLang]['niveau.' + e.niveau];
-      const typeLabel = trad[currentLang]['type.' + e.type];
+      const niveauLabel = trad[currentLang]['niveau.' + e.niveau] || e.niveau;
+      const typeLabel = trad[currentLang]['type.' + e.type] || e.type;
       const titre = currentLang === 'fr' ? e.titre_fr : e.titre_ar;
-      const desc = currentLang === 'fr' ? e.description_fr : e.description_ar;
-      const session = currentLang === 'fr' ? e.session_fr : e.session_ar;
+      const desc = currentLang === 'fr' ? (e.description_fr || '') : (e.description_ar || '');
+      const session = e.session_fr || trad[currentLang]['session.normale'];
 
       card.innerHTML = `
         <div class="ex-banner ${e.type}">
-          <div class="icon-type ${e.type}"><i class="fas ${icones[e.type]}"></i></div>
+          <div class="icon-type ${e.type}"><i class="fas ${icones[e.type] || 'fa-file'}"></i></div>
           <div class="annee-badge">${e.annee}</div>
         </div>
         <div class="contenu">
@@ -1126,8 +1086,7 @@
           <h3>${titre}</h3>
           <div class="meta">
             <span><i class="fas fa-layer-group"></i> ${niveauLabel}</span>
-            <span><i class="fas fa-clock"></i> ${e.duree} min</span>
-            <span><i class="fas fa-list-ol"></i> ${e.ex} ${currentLang === 'fr' ? 'ex.' : 'تمرين'}</span>
+            <span><i class="fas fa-clock"></i> ${e.duree || 120} min</span>
           </div>
           <div class="ex-desc">${desc.substring(0, 110)}${desc.length > 110 ? '...' : ''}</div>
           <button class="btn-voir">
@@ -1150,19 +1109,11 @@
       const overlay = document.getElementById('panneauOverlay');
       const corps = document.getElementById('panneauCorps');
 
-      const niveauLabel = trad[currentLang]['niveau.' + e.niveau];
-      const typeLabel = trad[currentLang]['type.' + e.type];
+      const niveauLabel = trad[currentLang]['niveau.' + e.niveau] || e.niveau;
+      const typeLabel = trad[currentLang]['type.' + e.type] || e.type;
       const titre = currentLang === 'fr' ? e.titre_fr : e.titre_ar;
-      const desc = currentLang === 'fr' ? e.description_fr : e.description_ar;
-      const session = currentLang === 'fr' ? e.session_fr : e.session_ar;
-
-      const structureHTML = Array.from({ length: e.ex }, (_, i) => `
-        <div class="structure-item">
-          <div class="num-ex">${i + 1}</div>
-          <div class="info"><h4>${trad[currentLang]['panneau.exercice']} ${i + 1}</h4></div>
-          <div class="bareme">${Math.round(20 / e.ex)} pts</div>
-        </div>
-      `).join('');
+      const desc = currentLang === 'fr' ? (e.description_fr || '—') : (e.description_ar || '—');
+      const session = e.session_fr || trad[currentLang]['session.normale'];
 
       corps.innerHTML = `
         <div class="ex-hero">
@@ -1183,38 +1134,29 @@
         <div class="panneau-section">
           <h3><i class="fas fa-clipboard-list"></i> ${trad[currentLang]['panneau.infos']}</h3>
           <div class="info-grid">
-            <div class="info-item"><div class="lbl">${trad[currentLang]['panneau.duree']}</div><div class="val">${e.duree} min</div></div>
+            <div class="info-item"><div class="lbl">${trad[currentLang]['panneau.duree']}</div><div class="val">${e.duree || 120} min</div></div>
             <div class="info-item"><div class="lbl">${trad[currentLang]['panneau.session']}</div><div class="val">${session}</div></div>
             <div class="info-item"><div class="lbl">${trad[currentLang]['panneau.annee']}</div><div class="val">${e.annee}</div></div>
             <div class="info-item"><div class="lbl">${trad[currentLang]['panneau.type']}</div><div class="val">${typeLabel}</div></div>
           </div>
         </div>
 
-        <div class="panneau-section">
-          <h3><i class="fas fa-list-ol"></i> ${trad[currentLang]['panneau.structure']}</h3>
-          <div class="structure-liste">${structureHTML}</div>
-        </div>
-
         <div class="actions-examen">
-          <button class="btn-action pdf" id="btnPdf">
-            <i class="fas fa-file-pdf"></i> ${trad[currentLang]['panneau.pdf']}
-          </button>
+          ${e.fichier_url
+            ? `<a class="btn-action pdf" href="${e.fichier_url}" target="_blank" rel="noopener">
+                <i class="fas fa-file-pdf"></i> ${trad[currentLang]['panneau.pdf']}
+              </a>`
+            : `<button class="btn-action pdf" style="opacity:0.5;cursor:not-allowed;" disabled>
+                <i class="fas fa-file-pdf"></i> ${trad[currentLang]['panneau.pdfIndispo']}
+              </button>`
+          }
           <button class="btn-action minuterie" id="btnMinuterie">
             <i class="fas fa-hourglass-half"></i> ${trad[currentLang]['panneau.minuterie']}
           </button>
         </div>
       `;
 
-      document.getElementById('btnPdf').addEventListener('click', () => {
-        alert(currentLang === 'fr' ? 'PDF bientôt disponible.' : 'PDF قريباً.');
-      });
       document.getElementById('btnMinuterie').addEventListener('click', () => ouvrirMinuterie(e));
-
-      if (!consultes.includes(e.id)) {
-        consultes.push(e.id);
-        localStorage.setItem('asaliki-consultes', JSON.stringify(consultes));
-        mettreAJourStats();
-      }
 
       panneau.classList.add('ouvert');
       overlay.classList.add('ouvert');
@@ -1232,7 +1174,7 @@
       overlay.classList.add('ouvert');
       const titre = currentLang === 'fr' ? e.titre_fr : e.titre_ar;
       document.getElementById('minuterieExNom').textContent = titre;
-      timerSecondesInitial = e.duree * 60;
+      timerSecondesInitial = (e.duree || 120) * 60;
       resetTimer();
     }
 
@@ -1294,15 +1236,6 @@
       document.getElementById('btnTimerPause').style.display = 'none';
       document.getElementById('alerteFin').classList.remove('visible');
       mettreAJourTimer();
-    }
-
-    function mettreAJourStats() {
-      const total = examens.length;
-      const nbConsultes = consultes.length;
-      const annees = [...new Set(examens.map(e => e.annee))].length;
-      document.getElementById('statTotal').textContent = total;
-      document.getElementById('statConsultes').textContent = nbConsultes;
-      document.getElementById('statAnnees').textContent = annees;
     }
   </script>
 </body>
