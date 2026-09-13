@@ -226,6 +226,7 @@
       border-color: var(--vert-neon);
       box-shadow: 0 0 20px -5px rgba(74, 222, 128, 0.5);
     }
+    .search-input::placeholder { color: var(--texte-secondaire); }
     .search-icon {
       position: absolute;
       top: 50%; left: 1.2rem;
@@ -262,11 +263,7 @@
       background-clip: text;
       line-height: 1;
     }
-    .stat-box .lbl {
-      font-size: 0.78rem;
-      color: var(--texte-secondaire);
-      margin-top: 0.3rem;
-    }
+    .stat-box .lbl { font-size: 0.78rem; color: var(--texte-secondaire); margin-top: 0.3rem; }
 
     .filtres-panel {
       background: var(--fond-carte);
@@ -357,24 +354,6 @@
       border-color: rgba(74, 222, 128, 0.4);
       box-shadow: var(--ombre-vert);
     }
-    .ex-card.resolu { border-color: rgba(74, 222, 128, 0.5); }
-    .ex-card.resolu::before {
-      content: '\f00c';
-      font-family: 'Font Awesome 6 Free';
-      font-weight: 900;
-      position: absolute;
-      top: 12px; right: 12px;
-      width: 30px; height: 30px;
-      border-radius: 50%;
-      background: var(--vert-neon);
-      color: #050b14;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.85rem;
-      box-shadow: 0 0 15px rgba(74, 222, 128, 0.6);
-    }
-    [dir="rtl"] .ex-card.resolu::before { right: auto; left: 12px; }
 
     .ex-card .ex-header {
       display: flex;
@@ -450,12 +429,20 @@
       color: var(--cyan-neon);
     }
     .ex-card .btn-ex.voir:hover { background: var(--cyan-neon); color: #050b14; }
-    .ex-card .btn-ex.corrige {
+    .ex-card .btn-ex.pdf {
       background: rgba(74, 222, 128, 0.08);
       border-color: rgba(74, 222, 128, 0.3);
       color: var(--vert-neon);
+      text-decoration: none;
     }
-    .ex-card .btn-ex.corrige:hover { background: var(--vert-neon); color: #050b14; }
+    .ex-card .btn-ex.pdf:hover { background: var(--vert-neon); color: #050b14; }
+    .ex-card .btn-ex.pdf.indispo {
+      background: rgba(148, 163, 184, 0.08);
+      border-color: var(--bordure);
+      color: var(--texte-secondaire);
+      cursor: not-allowed;
+      opacity: 0.6;
+    }
 
     .aucun-resultat {
       text-align: center;
@@ -465,23 +452,19 @@
     .aucun-resultat i { font-size: 4rem; color: var(--bordure); margin-bottom: 1rem; }
     .aucun-resultat h3 { color: var(--texte-principal); font-size: 1.3rem; margin-bottom: 0.5rem; }
 
-    .voir-plus-wrap { text-align: center; margin-bottom: 3rem; }
-    .btn-voir-plus {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.6rem;
-      padding: 0.85rem 2rem;
-      background: rgba(74, 222, 128, 0.08);
-      border: 1.5px solid var(--vert-neon);
-      color: var(--vert-neon);
-      border-radius: 0.5rem;
-      font-family: inherit;
-      font-size: 0.95rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: var(--transition);
+    .loading-zone {
+      text-align: center;
+      padding: 4rem;
+      color: var(--texte-secondaire);
     }
-    .btn-voir-plus:hover { background: var(--vert-neon); color: #050b14; }
+    .loading-zone i {
+      font-size: 2.5rem;
+      color: var(--vert-neon);
+      animation: spin 1s linear infinite;
+      display: block;
+      margin-bottom: 1rem;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
 
     .panneau-detail {
       position: fixed;
@@ -592,62 +575,8 @@
     [dir="rtl"] .enonce-box { border-left: none; border-right: 4px solid var(--cyan-neon); }
     .enonce-box p { margin-bottom: 0.8rem; }
     .enonce-box p:last-child { margin-bottom: 0; }
-    .enonce-box ul { margin-left: 1.3rem; margin-bottom: 0.8rem; }
-    [dir="rtl"] .enonce-box ul { margin-left: 0; margin-right: 1.3rem; }
     .enonce-box .katex { color: var(--cyan-neon); }
 
-    .btn-reveler {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.6rem;
-      width: 100%;
-      padding: 1rem;
-      background: linear-gradient(135deg, rgba(74, 222, 128, 0.1), rgba(34, 211, 238, 0.1));
-      border: 1.5px dashed rgba(74, 222, 128, 0.4);
-      color: var(--vert-neon);
-      border-radius: 0.6rem;
-      font-family: inherit;
-      font-size: 0.95rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: var(--transition);
-      margin-bottom: 1.5rem;
-    }
-    .btn-reveler:hover { border-style: solid; background: linear-gradient(135deg, rgba(74, 222, 128, 0.2), rgba(34, 211, 238, 0.15)); }
-
-    .corrige-wrap { display: none; }
-    .corrige-wrap.visible { display: block; animation: slideIn 0.4s ease; }
-    @keyframes slideIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    .etape-correction {
-      background: var(--fond-principal);
-      border: 1px solid var(--bordure);
-      border-radius: 0.6rem;
-      padding: 1.2rem 1.4rem;
-      margin-bottom: 1rem;
-      position: relative;
-      border-left: 4px solid var(--vert-neon);
-    }
-    [dir="rtl"] .etape-correction { border-left: none; border-right: 4px solid var(--vert-neon); }
-    .etape-correction .etape-num {
-      position: absolute;
-      top: -10px; left: 15px;
-      background: var(--vert-neon);
-      color: #050b14;
-      font-family: 'Space Grotesk', sans-serif;
-      font-weight: 700;
-      font-size: 0.72rem;
-      padding: 0.2rem 0.7rem;
-      border-radius: 2rem;
-      text-transform: uppercase;
-    }
-    [dir="rtl"] .etape-correction .etape-num { left: auto; right: 15px; }
-    .etape-correction h4 { font-size: 0.9rem; color: var(--vert-neon); margin-bottom: 0.6rem; font-weight: 700; margin-top: 0.3rem; }
-    .etape-correction .contenu-etape { color: var(--texte-tertiaire); font-size: 0.92rem; line-height: 1.7; }
-    .etape-correction .contenu-etape .katex { color: var(--cyan-neon); font-size: 1.05rem; }
     .resultat-final {
       background: linear-gradient(135deg, rgba(74, 222, 128, 0.15), rgba(34, 211, 238, 0.1));
       border: 1.5px solid var(--vert-neon);
@@ -664,8 +593,40 @@
       letter-spacing: 0.1em;
       margin-bottom: 0.5rem;
     }
-    .resultat-final .valeur-res { color: var(--texte-principal); font-size: 1.15rem; font-weight: 600; font-family: 'Space Grotesk', sans-serif; }
-    .resultat-final .valeur-res .katex { color: var(--vert-neon); }
+    .resultat-final .valeur-res {
+      color: var(--texte-principal);
+      font-size: 1.15rem;
+      font-weight: 600;
+      font-family: 'Space Grotesk', sans-serif;
+    }
+
+    .btn-telecharger {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      padding: 0.95rem 1.5rem;
+      border-radius: 0.6rem;
+      font-family: inherit;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      border: 1px solid;
+      text-decoration: none;
+      margin-top: 1rem;
+      background: linear-gradient(135deg, rgba(74, 222, 128, 0.15), rgba(34, 211, 238, 0.1));
+      border-color: var(--vert-neon);
+      color: var(--vert-neon);
+    }
+    .btn-telecharger:hover { background: var(--vert-neon); color: #050b14; }
+    .btn-telecharger.indispo {
+      background: rgba(148, 163, 184, 0.08);
+      border-color: var(--bordure);
+      color: var(--texte-secondaire);
+      cursor: not-allowed;
+      opacity: 0.6;
+    }
 
     .theme-toggle {
       position: fixed;
@@ -734,7 +695,7 @@
   <section class="hero-ex">
     <div class="container">
       <h1><span data-i18n="ex.titre1">Tous les</span> <span class="accent" data-i18n="ex.titre2">exercices</span></h1>
-      <p data-i18n="ex.desc">Entraînez-vous avec des exercices progressifs. Consultez les corrigés détaillés étape par étape.</p>
+      <p data-i18n="ex.desc">Entraînez-vous avec des exercices progressifs. Consultez les énoncés et téléchargez les PDF.</p>
     </div>
   </section>
 
@@ -750,12 +711,12 @@
         <div class="lbl" data-i18n="ex.statTotal">Exercices disponibles</div>
       </div>
       <div class="stat-box">
-        <div class="num" id="statResolus">0</div>
-        <div class="lbl" data-i18n="ex.statResolus">Exercices résolus</div>
+        <div class="num" id="statFaciles">0</div>
+        <div class="lbl" data-i18n="ex.statFaciles">Exercices faciles</div>
       </div>
       <div class="stat-box">
-        <div class="num" id="statProgression">0%</div>
-        <div class="lbl" data-i18n="ex.statProgression">Progression</div>
+        <div class="num" id="statDifficiles">0</div>
+        <div class="lbl" data-i18n="ex.statDifficiles">Exercices difficiles</div>
       </div>
     </div>
 
@@ -796,18 +757,17 @@
       <span class="count"><strong id="countResultats">0</strong> <span data-i18n="ex.resultats">exercices trouvés</span></span>
     </div>
 
-    <div class="ex-grid" id="exGrid"></div>
+    <div class="loading-zone" id="loadingZone">
+      <i class="fas fa-spinner"></i>
+      <p>Chargement des exercices...</p>
+    </div>
+
+    <div class="ex-grid" id="exGrid" style="display:none;"></div>
 
     <div class="aucun-resultat" id="aucunResultat" style="display: none;">
       <i class="fas fa-search"></i>
       <h3 data-i18n="ex.aucunTitre">Aucun exercice trouvé</h3>
       <p data-i18n="ex.aucunDesc">Essayez de modifier vos filtres.</p>
-    </div>
-
-    <div class="voir-plus-wrap" id="voirPlusWrap" style="display: none;">
-      <button class="btn-voir-plus" id="btnVoirPlus">
-        <i class="fas fa-plus-circle"></i> <span data-i18n="ex.voirPlus">Voir plus d'exercices</span>
-      </button>
     </div>
   </div>
 
@@ -825,21 +785,11 @@
     <i class="fas fa-sun icon-sun"></i>
   </button>
 
+  <script src="admin/supabase-config.js"></script>
   <script>
-    const exercices = [
-      { id: 'ex1', niveau: '2bacpc', matiere: 'physique', chapitre_fr: 'Ondes mécaniques', chapitre_ar: 'الموجات الميكانيكية', difficulte: 1, titre_fr: 'Calcul de la célérité', titre_ar: 'حساب السرعة', enonce_court_fr: 'Une onde parcourt 3,4 m en 0,02 s. Calculer sa célérité.', enonce_court_ar: 'موجة تقطع 3,4 m في 0,02 s.', enonce_fr: 'Une onde parcourt 3,4 m en 0,02 s. Calculer sa célérité.', enonce_ar: 'موجة تقطع 3,4 m في 0,02 s. احسب سرعتها.', resultat_fr: '$v = 170 \\text{ m/s}$', resultat_ar: '$v = 170 \\text{ m/s}$' },
-      { id: 'ex2', niveau: '2bacpc', matiere: 'physique', chapitre_fr: 'Électricité', chapitre_ar: 'الكهرباء', difficulte: 2, titre_fr: 'Dipôle RC', titre_ar: 'ثنائي القطب RC', enonce_court_fr: 'Calculer la constante de temps τ avec R=1kΩ et C=10µF.', enonce_court_ar: 'احسب الثابت الزمني τ.', enonce_fr: 'Calculer τ pour R=1kΩ et C=10µF.', enonce_ar: 'احسب τ لـ R=1kΩ و C=10µF.', resultat_fr: '$\\tau = 10 \\text{ ms}$', resultat_ar: '$\\tau = 10 \\text{ ms}$' },
-      { id: 'ex3', niveau: '2bacpc', matiere: 'physique', chapitre_fr: 'Nucléaire', chapitre_ar: 'النووي', difficulte: 2, titre_fr: 'Demi-vie radioactive', titre_ar: 'نصف العمر', enonce_court_fr: 'T₁/₂ = 5 jours. Combien reste-t-il de noyaux après 15 jours ?', enonce_court_ar: 'نصف العمر 5 أيام. كم يتبقى بعد 15 يوماً؟', enonce_fr: 'N₀ = 8×10²⁰ noyaux, T₁/₂ = 5 jours. Combien reste-t-il après 15 jours ?', enonce_ar: 'N₀ = 8×10²⁰ نواة، نصف العمر 5 أيام. كم يتبقى بعد 15 يوماً؟', resultat_fr: '$N = 10^{20}$ noyaux', resultat_ar: '$N = 10^{20}$ نواة' },
-      { id: 'ex4', niveau: '2bacpc', matiere: 'physique', chapitre_fr: 'Mécanique', chapitre_ar: 'الميكانيك', difficulte: 1, titre_fr: 'Chute libre', titre_ar: 'السقوط الحر', enonce_court_fr: 'Un objet tombe de 45 m. Calculer le temps de chute.', enonce_court_ar: 'يسقط جسم من 45 m. احسب المدة.', enonce_fr: 'h = 45 m, g = 10 m/s². Calculer le temps de chute.', enonce_ar: 'h = 45 m، g = 10 m/s². احسب مدة السقوط.', resultat_fr: '$t = 3 \\text{ s}$', resultat_ar: '$t = 3 \\text{ s}$' },
-      { id: 'ex5', niveau: '2bacpc', matiere: 'physique', chapitre_fr: 'Oscillations', chapitre_ar: 'التذبذبات', difficulte: 2, titre_fr: 'Période propre LC', titre_ar: 'الدور الخاص LC', enonce_court_fr: 'Calculer T₀ pour L=0,2 H et C=10 µF.', enonce_court_ar: 'احسب T₀ لـ L=0,2 H و C=10 µF.', enonce_fr: 'L=0,2 H, C=10 µF. Calculer la période propre T₀.', enonce_ar: 'L=0,2 H، C=10 µF. احسب الدور الخاص T₀.', resultat_fr: '$T_0 \\approx 8,9 \\text{ ms}$', resultat_ar: '$T_0 \\approx 8,9 \\text{ ms}$' },
-      { id: 'ex6', niveau: '2bacpc', matiere: 'chimie', chapitre_fr: 'Cinétique', chapitre_ar: 'الحركية', difficulte: 2, titre_fr: 'Vitesse moyenne', titre_ar: 'السرعة المتوسطة', enonce_court_fr: 'C passe de 0,80 à 0,20 mol/L en 120 s. Calculer v.', enonce_court_ar: 'التركيز ينخفض من 0,80 إلى 0,20 mol/L في 120 s.', enonce_fr: 'C₁=0,80, C₂=0,20 mol/L, Δt=120s. Calculer la vitesse moyenne.', enonce_ar: 'C₁=0,80، C₂=0,20 mol/L، Δt=120s. احسب السرعة.', resultat_fr: '$v = 5 \\times 10^{-3} \\text{ mol/(L·s)}$', resultat_ar: '$v = 5 \\times 10^{-3} \\text{ mol/(L·s)}$' },
-      { id: 'ex7', niveau: '2bacpc', matiere: 'chimie', chapitre_fr: 'Acide-base', chapitre_ar: 'الحموض والقواعد', difficulte: 2, titre_fr: 'Calcul du pH', titre_ar: 'حساب pH', enonce_court_fr: 'Calculer le pH d\'une solution HCl à 10⁻² mol/L.', enonce_court_ar: 'احسب pH محلول HCl عند 10⁻² mol/L.', enonce_fr: 'Solution HCl à C = 10⁻² mol/L. Calculer le pH.', enonce_ar: 'محلول HCl بتركيز 10⁻² mol/L. احسب pH.', resultat_fr: '$\\text{pH} = 2$', resultat_ar: '$\\text{pH} = 2$' },
-      { id: 'ex8', niveau: '2bacpc', matiere: 'chimie', chapitre_fr: 'Oxydoréduction', chapitre_ar: 'الأكسدة والإرجاع', difficulte: 2, titre_fr: 'Pile électrochimique', titre_ar: 'عمود كهروكيميائي', enonce_court_fr: 'Identifier l\'anode et la cathode dans une pile Daniell.', enonce_court_ar: 'حدد المصعد والمهبط في عمود دانيال.', enonce_fr: 'Dans une pile Daniell, identifier où se produit l\'oxydation.', enonce_ar: 'في عمود دانيال، حدد مكان الأكسدة.', resultat_fr: 'Oxydation à l\'anode (Zn)', resultat_ar: 'الأكسدة عند المصعد (Zn)' },
-      { id: 'ex9', niveau: '1bac', matiere: 'physique', chapitre_fr: 'Électricité', chapitre_ar: 'الكهرباء', difficulte: 1, titre_fr: 'Loi d\'Ohm', titre_ar: 'قانون أوم', enonce_court_fr: 'R₁=100Ω, R₂=200Ω en série, U=6V. Calculer I.', enonce_court_ar: 'R₁=100Ω، R₂=200Ω على التوالي، U=6V. احسب I.', enonce_fr: 'Deux résistances en série (100Ω, 200Ω), U=6V. Calculer I.', enonce_ar: 'مقاومتان على التوالي (100Ω، 200Ω)، U=6V. احسب I.', resultat_fr: '$I = 20 \\text{ mA}$', resultat_ar: '$I = 20 \\text{ mA}$' },
-      { id: 'ex10', niveau: '1bac', matiere: 'chimie', chapitre_fr: 'Mole', chapitre_ar: 'المول', difficulte: 1, titre_fr: 'Quantité de matière', titre_ar: 'كمية المادة', enonce_court_fr: 'Calculer n dans 36 g d\'eau (M=18 g/mol).', enonce_court_ar: 'احسب n في 36 g من الماء (M=18 g/mol).', enonce_fr: 'm = 36 g d\'eau, M = 18 g/mol. Calculer n.', enonce_ar: 'm = 36 g من الماء، M = 18 g/mol. احسب n.', resultat_fr: '$n = 2 \\text{ mol}$', resultat_ar: '$n = 2 \\text{ mol}$' },
-      { id: 'ex11', niveau: 'tronc', matiere: 'physique', chapitre_fr: 'Mécanique', chapitre_ar: 'الميكانيك', difficulte: 1, titre_fr: 'Vitesse moyenne', titre_ar: 'السرعة المتوسطة', enonce_court_fr: 'Un cycliste parcourt 30 km en 1h30. Calculer v.', enonce_court_ar: 'راكب دراجة يقطع 30 km في 1h30. احسب v.', enonce_fr: 'd=30 km, Δt=1h30. Calculer la vitesse moyenne.', enonce_ar: 'd=30 km، Δt=1h30. احسب السرعة المتوسطة.', resultat_fr: '$v = 20 \\text{ km/h}$', resultat_ar: '$v = 20 \\text{ km/h}$' },
-      { id: 'ex12', niveau: '2bacsvt', matiere: 'physique', chapitre_fr: 'Nucléaire', chapitre_ar: 'النووي', difficulte: 3, titre_fr: 'Énergie de liaison', titre_ar: 'طاقة الربط', enonce_court_fr: 'Calculer l\'énergie de liaison du noyau ⁴He.', enonce_court_ar: 'احسب طاقة الربط لنواة ⁴He.', enonce_fr: 'Calculer l\'énergie de liaison du noyau d\'hélium ⁴He.', enonce_ar: 'احسب طاقة الربط لنواة الهيليوم ⁴He.', resultat_fr: '$E_l = 28,3 \\text{ MeV}$', resultat_ar: '$E_l = 28,3 \\text{ MeV}$' }
-    ];
+    let currentLang = localStorage.getItem('asaliki-lang') || 'fr';
+    let tousLesExercices = [];
+    let filtres = { niveau: 'all', matiere: 'all', difficulte: 'all', recherche: '' };
 
     const trad = {
       fr: {
@@ -847,68 +797,60 @@
         'nav.examens': 'Examens', 'nav.simulations': 'Simulations', 'nav.qcm': 'QCM',
         'nav.ressources': 'Ressources', 'nav.admin': 'Admin',
         'ex.titre1': 'Tous les', 'ex.titre2': 'exercices',
-        'ex.desc': 'Entraînez-vous avec des exercices progressifs. Consultez les corrigés détaillés étape par étape.',
+        'ex.desc': 'Entraînez-vous avec des exercices progressifs. Consultez les énoncés et téléchargez les PDF.',
         'ex.searchPlaceholder': 'Rechercher un exercice...',
         'ex.resultats': 'exercices trouvés',
         'ex.aucunTitre': 'Aucun exercice trouvé',
         'ex.aucunDesc': 'Essayez de modifier vos filtres.',
-        'ex.voirPlus': "Voir plus d'exercices",
         'ex.statTotal': 'Exercices disponibles',
-        'ex.statResolus': 'Exercices résolus',
-        'ex.statProgression': 'Progression',
+        'ex.statFaciles': 'Exercices faciles',
+        'ex.statDifficiles': 'Exercices difficiles',
         'filtre.niveau': 'Niveau', 'filtre.matiere': 'Matière', 'filtre.difficulte': 'Difficulté',
         'filtre.tousNiveaux': 'Tous les niveaux', 'filtre.toutesMatieres': 'Toutes les matières',
         'filtre.toutesDifficultes': 'Toutes', 'filtre.reset': 'Réinitialiser',
         'niveau.tronc': 'Tronc Commun', 'niveau.1bac': '1ère Bac',
         'niveau.2bacpc': '2ème Bac PC', 'niveau.2bacsvt': '2ème Bac SVT',
         'matiere.physique': 'Physique', 'matiere.chimie': 'Chimie',
-        'btn.voir': 'Voir', 'btn.corrige': 'Corrigé',
+        'btn.voir': 'Voir l\'énoncé',
+        'btn.pdf': 'Télécharger PDF',
+        'btn.pdfIndispo': 'PDF indisponible',
         'panneau.titre': "Détail de l'exercice",
-        'panneau.enonce': 'Énoncé',
-        'panneau.reveler': 'Révéler le corrigé',
-        'panneau.resultat': 'Résultat final',
-        'panneau.etape': 'Étape'
+        'panneau.enonce': 'Énoncé complet',
+        'panneau.resultat': 'Résultat final'
       },
       ar: {
         'nav.home': 'الرئيسية', 'nav.cours': 'الدروس', 'nav.exercices': 'التمارين',
         'nav.examens': 'الامتحانات', 'nav.simulations': 'المحاكاة', 'nav.qcm': 'اختبار',
         'nav.ressources': 'الموارد', 'nav.admin': 'الإدارة',
         'ex.titre1': 'جميع', 'ex.titre2': 'التمارين',
-        'ex.desc': 'تدرب مع تمارين متدرجة. اطلع على الحلول المفصلة خطوة بخطوة.',
+        'ex.desc': 'تدرب مع تمارين متدرجة. اطلع على النصوص وقم بتحميل ملفات PDF.',
         'ex.searchPlaceholder': 'ابحث عن تمرين...',
         'ex.resultats': 'تمرين تم إيجاده',
         'ex.aucunTitre': 'لا يوجد أي تمرين',
         'ex.aucunDesc': 'حاول تغيير الفلاتر.',
-        'ex.voirPlus': 'عرض المزيد',
         'ex.statTotal': 'التمارين المتاحة',
-        'ex.statResolus': 'التمارين المحلولة',
-        'ex.statProgression': 'التقدم',
+        'ex.statFaciles': 'تمارين سهلة',
+        'ex.statDifficiles': 'تمارين صعبة',
         'filtre.niveau': 'المستوى', 'filtre.matiere': 'المادة', 'filtre.difficulte': 'الصعوبة',
         'filtre.tousNiveaux': 'جميع المستويات', 'filtre.toutesMatieres': 'جميع المواد',
         'filtre.toutesDifficultes': 'الكل', 'filtre.reset': 'إعادة',
         'niveau.tronc': 'الجذع المشترك', 'niveau.1bac': 'الأولى باك',
         'niveau.2bacpc': 'الثانية باك ع.ف', 'niveau.2bacsvt': 'الثانية باك ع.ح.أ',
         'matiere.physique': 'الفيزياء', 'matiere.chimie': 'الكيمياء',
-        'btn.voir': 'عرض', 'btn.corrige': 'الحل',
+        'btn.voir': 'عرض النص',
+        'btn.pdf': 'تحميل PDF',
+        'btn.pdfIndispo': 'PDF غير متوفر',
         'panneau.titre': 'تفاصيل التمرين',
-        'panneau.enonce': 'النص',
-        'panneau.reveler': 'اكشف الحل',
-        'panneau.resultat': 'النتيجة النهائية',
-        'panneau.etape': 'الخطوة'
+        'panneau.enonce': 'النص الكامل',
+        'panneau.resultat': 'النتيجة النهائية'
       }
     };
 
-    let currentLang = localStorage.getItem('asaliki-lang') || 'fr';
-    let filtres = { niveau: 'all', matiere: 'all', difficulte: 'all', recherche: '' };
-    let exAffiches = 8;
-    let resolus = JSON.parse(localStorage.getItem('asaliki-resolus') || '[]');
-
-    document.addEventListener('DOMContentLoaded', () => {
+    document.addEventListener('DOMContentLoaded', async () => {
       appliquerTheme();
-      afficherExercices();
-      mettreAJourStats();
-      bindEvents();
       appliquerLangue(currentLang);
+      bindEvents();
+      await chargerDonnees();
     });
 
     function appliquerTheme() {
@@ -932,21 +874,25 @@
         btn.classList.toggle('actif', btn.getAttribute('data-lang') === lang);
       });
       localStorage.setItem('asaliki-lang', lang);
-      afficherExercices();
+      if (tousLesExercices.length > 0) afficherExercices();
     }
 
     function bindEvents() {
       document.getElementById('searchInput').addEventListener('input', (e) => {
         filtres.recherche = e.target.value.toLowerCase().trim();
-        exAffiches = 8;
         afficherExercices();
       });
-      ['Niveau', 'Matiere', 'Difficulte'].forEach(f => {
-        document.getElementById('filtre' + f).addEventListener('change', (e) => {
-          filtres[f.toLowerCase()] = e.target.value;
-          exAffiches = 8;
-          afficherExercices();
-        });
+      document.getElementById('filtreNiveau').addEventListener('change', (e) => {
+        filtres.niveau = e.target.value;
+        afficherExercices();
+      });
+      document.getElementById('filtreMatiere').addEventListener('change', (e) => {
+        filtres.matiere = e.target.value;
+        afficherExercices();
+      });
+      document.getElementById('filtreDifficulte').addEventListener('change', (e) => {
+        filtres.difficulte = e.target.value;
+        afficherExercices();
       });
       document.getElementById('btnReset').addEventListener('click', () => {
         filtres = { niveau: 'all', matiere: 'all', difficulte: 'all', recherche: '' };
@@ -954,11 +900,6 @@
         document.getElementById('filtreNiveau').value = 'all';
         document.getElementById('filtreMatiere').value = 'all';
         document.getElementById('filtreDifficulte').value = 'all';
-        exAffiches = 8;
-        afficherExercices();
-      });
-      document.getElementById('btnVoirPlus').addEventListener('click', () => {
-        exAffiches += 8;
         afficherExercices();
       });
       document.querySelectorAll('.lang-btn').forEach(btn => {
@@ -977,15 +918,39 @@
       });
     }
 
+    async function chargerDonnees() {
+      try {
+        tousLesExercices = await lireTable('exercices', {
+          filtres: { publie: true },
+          ordre: { col: 'created_at', asc: false }
+        });
+        mettreAJourStats();
+        document.getElementById('loadingZone').style.display = 'none';
+        document.getElementById('exGrid').style.display = 'grid';
+        afficherExercices();
+      } catch (err) {
+        document.getElementById('loadingZone').innerHTML = `
+          <i class="fas fa-exclamation-triangle" style="color:#ef4444;"></i>
+          <p>Erreur : ${err.message}</p>
+        `;
+      }
+    }
+
+    function mettreAJourStats() {
+      document.getElementById('statTotal').textContent = tousLesExercices.length;
+      document.getElementById('statFaciles').textContent = tousLesExercices.filter(e => e.difficulte === 1).length;
+      document.getElementById('statDifficiles').textContent = tousLesExercices.filter(e => e.difficulte === 3).length;
+    }
+
     function filtrerExercices() {
-      return exercices.filter(e => {
+      return tousLesExercices.filter(e => {
         if (filtres.niveau !== 'all' && e.niveau !== filtres.niveau) return false;
         if (filtres.matiere !== 'all' && e.matiere !== filtres.matiere) return false;
         if (filtres.difficulte !== 'all' && e.difficulte !== parseInt(filtres.difficulte)) return false;
         if (filtres.recherche) {
           const titre = currentLang === 'fr' ? e.titre_fr : e.titre_ar;
           const chap = currentLang === 'fr' ? e.chapitre_fr : e.chapitre_ar;
-          const texte = (titre + ' ' + chap).toLowerCase();
+          const texte = ((titre || '') + ' ' + (chap || '')).toLowerCase();
           if (!texte.includes(filtres.recherche)) return false;
         }
         return true;
@@ -995,38 +960,34 @@
     function afficherExercices() {
       const grid = document.getElementById('exGrid');
       const aucun = document.getElementById('aucunResultat');
-      const voirPlusWrap = document.getElementById('voirPlusWrap');
       const filtered = filtrerExercices();
-      const displayed = filtered.slice(0, exAffiches);
 
       document.getElementById('countResultats').textContent = filtered.length;
 
       if (filtered.length === 0) {
-        grid.innerHTML = '';
         grid.style.display = 'none';
         aucun.style.display = 'block';
-        voirPlusWrap.style.display = 'none';
         return;
       }
 
       grid.style.display = 'grid';
       aucun.style.display = 'none';
       grid.innerHTML = '';
-      displayed.forEach(e => grid.appendChild(creerCarte(e)));
-      voirPlusWrap.style.display = filtered.length > exAffiches ? 'block' : 'none';
+      filtered.forEach(e => grid.appendChild(creerCarte(e)));
     }
 
     function creerCarte(e) {
       const card = document.createElement('div');
-      card.className = 'ex-card' + (resolus.includes(e.id) ? ' resolu' : '');
-      const niveauLabel = trad[currentLang]['niveau.' + e.niveau];
-      const matiereLabel = trad[currentLang]['matiere.' + e.matiere];
+      card.className = 'ex-card';
+      const niveauLabel = trad[currentLang]['niveau.' + e.niveau] || e.niveau;
+      const matiereLabel = trad[currentLang]['matiere.' + e.matiere] || e.matiere;
       const titre = currentLang === 'fr' ? e.titre_fr : e.titre_ar;
       const chap = currentLang === 'fr' ? e.chapitre_fr : e.chapitre_ar;
       const enonce = currentLang === 'fr' ? e.enonce_court_fr : e.enonce_court_ar;
+      const difficulte = e.difficulte || 1;
 
       const etoiles = [1, 2, 3].map(i =>
-        `<span class="star ${i <= e.difficulte ? '' : 'vide'}">★</span>`
+        `<span class="star ${i <= difficulte ? '' : 'vide'}">★</span>`
       ).join('');
 
       card.innerHTML = `
@@ -1038,48 +999,46 @@
           <div class="difficulte">${etoiles}</div>
         </div>
         <h3>${titre}</h3>
-        <div class="chapitre"><i class="fas fa-bookmark"></i> ${chap}</div>
-        <div class="enonce-court">${enonce}</div>
+        <div class="chapitre"><i class="fas fa-bookmark"></i> ${chap || ''}</div>
+        <div class="enonce-court">${enonce || ''}</div>
         <div class="ex-meta">
           <span><i class="fas fa-user"></i> A. Saliki</span>
-          <span><i class="fas fa-list-ol"></i> ${currentLang === 'fr' ? 'Corrigé détaillé' : 'حل مفصل'}</span>
+          <span><i class="fas fa-file-alt"></i> ${currentLang === 'fr' ? 'Énoncé complet' : 'النص الكامل'}</span>
         </div>
         <div class="ex-actions">
-          <button class="btn-ex voir" data-action="voir">
+          <button class="btn-ex voir">
             <i class="fas fa-eye"></i> ${trad[currentLang]['btn.voir']}
           </button>
-          <button class="btn-ex corrige" data-action="corrige">
-            <i class="fas fa-lightbulb"></i> ${trad[currentLang]['btn.corrige']}
-          </button>
+          ${e.fichier_url
+            ? `<a class="btn-ex pdf" href="${e.fichier_url}" target="_blank" rel="noopener">
+                <i class="fas fa-download"></i> ${trad[currentLang]['btn.pdf']}
+              </a>`
+            : `<button class="btn-ex pdf indispo" disabled>
+                <i class="fas fa-download"></i> ${trad[currentLang]['btn.pdfIndispo']}
+              </button>`
+          }
         </div>
       `;
 
-      card.querySelector('[data-action="voir"]').addEventListener('click', (ev) => {
-        ev.stopPropagation();
-        ouvrirPanneau(e, false);
-      });
-      card.querySelector('[data-action="corrige"]').addEventListener('click', (ev) => {
-        ev.stopPropagation();
-        ouvrirPanneau(e, true);
-      });
-
+      card.querySelector('.btn-ex.voir').addEventListener('click', () => ouvrirPanneau(e));
       return card;
     }
 
-    function ouvrirPanneau(e, ouvrirCorrige) {
+    function ouvrirPanneau(e) {
       const panneau = document.getElementById('panneauDetail');
       const overlay = document.getElementById('panneauOverlay');
       const corps = document.getElementById('panneauCorps');
 
-      const niveauLabel = trad[currentLang]['niveau.' + e.niveau];
-      const matiereLabel = trad[currentLang]['matiere.' + e.matiere];
+      const niveauLabel = trad[currentLang]['niveau.' + e.niveau] || e.niveau;
+      const matiereLabel = trad[currentLang]['matiere.' + e.matiere] || e.matiere;
       const titre = currentLang === 'fr' ? e.titre_fr : e.titre_ar;
       const chap = currentLang === 'fr' ? e.chapitre_fr : e.chapitre_ar;
       const enonce = currentLang === 'fr' ? e.enonce_fr : e.enonce_ar;
       const resultat = currentLang === 'fr' ? e.resultat_fr : e.resultat_ar;
 
+      const difficulte = e.difficulte || 1;
       const etoiles = [1, 2, 3].map(i =>
-        `<span class="star ${i <= e.difficulte ? '' : 'vide'}">★</span>`
+        `<span class="star ${i <= difficulte ? '' : 'vide'}">★</span>`
       ).join('');
 
       corps.innerHTML = `
@@ -1088,52 +1047,34 @@
           <div class="badges">
             <span>${niveauLabel}</span>
             <span>${matiereLabel}</span>
-            <span>${chap}</span>
+            <span>${chap || ''}</span>
           </div>
         </div>
 
         <div class="panneau-section">
           <h3><i class="fas fa-file-alt"></i> ${trad[currentLang]['panneau.enonce']}</h3>
           <div class="enonce-box">
-            <p>${enonce}</p>
+            <p>${enonce || '—'}</p>
           </div>
         </div>
 
-        <button class="btn-reveler" id="btnReveler">
-          <i class="fas fa-lightbulb"></i>
-          ${trad[currentLang]['panneau.reveler']}
-        </button>
-
-        <div class="corrige-wrap ${ouvrirCorrige ? 'visible' : ''}" id="corrigeWrap">
+        ${resultat ? `
           <div class="panneau-section">
-            <h3><i class="fas fa-check-circle"></i> ${trad[currentLang]['panneau.reveler']}</h3>
-            <div class="etape-correction">
-              <span class="etape-num">${trad[currentLang]['panneau.etape']} 1</span>
-              <h4>${currentLang === 'fr' ? 'Identifier les données' : 'تحديد المعطيات'}</h4>
-              <div class="contenu-etape">
-                <p>${currentLang === 'fr' ? 'Lire l\'énoncé et repérer les valeurs données.' : 'اقرأ النص وحدد القيم المعطاة.'}</p>
-              </div>
-            </div>
-            <div class="etape-correction">
-              <span class="etape-num">${trad[currentLang]['panneau.etape']} 2</span>
-              <h4>${currentLang === 'fr' ? 'Appliquer la formule' : 'تطبيق الصيغة'}</h4>
-              <div class="contenu-etape">
-                <p>${currentLang === 'fr' ? 'Utiliser la formule adaptée au problème.' : 'استعمل الصيغة المناسبة.'}</p>
-              </div>
-            </div>
-            <div class="etape-correction">
-              <span class="etape-num">${trad[currentLang]['panneau.etape']} 3</span>
-              <h4>${currentLang === 'fr' ? 'Calcul final' : 'الحساب النهائي'}</h4>
-              <div class="contenu-etape">
-                <p>${currentLang === 'fr' ? 'Effectuer le calcul et vérifier l\'unité.' : 'أجرِ الحساب وتحقق من الوحدة.'}</p>
-              </div>
-            </div>
+            <h3><i class="fas fa-check-circle"></i> ${trad[currentLang]['panneau.resultat']}</h3>
             <div class="resultat-final">
-              <div class="titre-res">${trad[currentLang]['panneau.resultat']}</div>
               <div class="valeur-res">${resultat}</div>
             </div>
           </div>
-        </div>
+        ` : ''}
+
+        ${e.fichier_url
+          ? `<a class="btn-telecharger" href="${e.fichier_url}" target="_blank" rel="noopener">
+              <i class="fas fa-download"></i> ${trad[currentLang]['btn.pdf']}
+            </a>`
+          : `<button class="btn-telecharger indispo" disabled>
+              <i class="fas fa-download"></i> ${trad[currentLang]['btn.pdfIndispo']}
+            </button>`
+        }
       `;
 
       if (window.renderMathInElement) {
@@ -1146,26 +1087,6 @@
         });
       }
 
-      document.getElementById('btnReveler').addEventListener('click', () => {
-        document.getElementById('corrigeWrap').classList.add('visible');
-        document.getElementById('btnReveler').style.display = 'none';
-        if (!resolus.includes(e.id)) {
-          resolus.push(e.id);
-          localStorage.setItem('asaliki-resolus', JSON.stringify(resolus));
-          mettreAJourStats();
-          afficherExercices();
-        }
-      });
-
-      if (ouvrirCorrige) {
-        document.getElementById('btnReveler').style.display = 'none';
-        if (!resolus.includes(e.id)) {
-          resolus.push(e.id);
-          localStorage.setItem('asaliki-resolus', JSON.stringify(resolus));
-          mettreAJourStats();
-        }
-      }
-
       panneau.classList.add('ouvert');
       overlay.classList.add('ouvert');
       document.body.style.overflow = 'hidden';
@@ -1175,15 +1096,6 @@
       document.getElementById('panneauDetail').classList.remove('ouvert');
       document.getElementById('panneauOverlay').classList.remove('ouvert');
       document.body.style.overflow = '';
-    }
-
-    function mettreAJourStats() {
-      const total = exercices.length;
-      const nbResolus = resolus.length;
-      const progression = total > 0 ? Math.round((nbResolus / total) * 100) : 0;
-      document.getElementById('statTotal').textContent = total;
-      document.getElementById('statResolus').textContent = nbResolus;
-      document.getElementById('statProgression').textContent = progression + '%';
     }
   </script>
 </body>
