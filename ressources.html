@@ -1,1420 +1,1833 @@
 <!DOCTYPE html>
-<html lang="fr" id="htmlRoot">
+<html lang="fr" dir="ltr" id="htmlRoot">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ressources — A SALIKI PC</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
-  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
-  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
-  <style>
-    :root {
-      --noir-profond: #050b14;
-      --bleu-nuit: #0a1428;
-      --bleu-carte: #0f1e38;
-      --bleu-bordure: #1a2f52;
-      --cyan-neon: #22d3ee;
-      --cyan-clair: #67e8f9;
-      --vert-neon: #4ade80;
-      --vert-fluo: #22c55e;
-      --violet-tech: #8b5cf6;
-      --violet-clair: #a78bfa;
-      --or: #fbbf24;
-      --rose: #f472b6;
-      --rouge: #ef4444;
-      --texte-principal: #ffffff;
-      --texte-secondaire: #94a3b8;
-      --texte-tertiaire: #cbd5e1;
-      --fond-principal: #050b14;
-      --fond-secondaire: #0a1428;
-      --fond-carte: #0f1e38;
-      --bordure: #1a2f52;
-      --ombre-violet: 0 0 40px -10px rgba(139, 92, 246, 0.4);
-      --ombre-or: 0 0 40px -10px rgba(251, 191, 36, 0.4);
-      --ombre-vert: 0 0 40px -10px rgba(74, 222, 128, 0.35);
-      --rayon: 1rem;
-      --rayon-petit: 0.6rem;
-      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      --grille-couleur: rgba(139, 92, 246, 0.03);
-    }
-    [data-theme="light"] {
-      --noir-profond: #f8fafc;
-      --bleu-nuit: #ffffff;
-      --bleu-carte: #ffffff;
-      --bleu-bordure: #e2e8f0;
-      --cyan-neon: #0891b2;
-      --cyan-clair: #06b6d4;
-      --vert-neon: #16a34a;
-      --vert-fluo: #22c55e;
-      --violet-tech: #7c3aed;
-      --violet-clair: #8b5cf6;
-      --or: #d97706;
-      --rose: #db2777;
-      --rouge: #dc2626;
-      --texte-principal: #0a1428;
-      --texte-secondaire: #475569;
-      --texte-tertiaire: #334155;
-      --fond-principal: #f8fafc;
-      --fond-secondaire: #ffffff;
-      --fond-carte: #ffffff;
-      --bordure: #e2e8f0;
-      --ombre-violet: 0 10px 30px -10px rgba(124, 58, 237, 0.25);
-      --ombre-or: 0 10px 30px -10px rgba(217, 119, 6, 0.25);
-      --ombre-vert: 0 10px 30px -10px rgba(22, 163, 74, 0.25);
-      --grille-couleur: rgba(124, 58, 237, 0.05);
-    }
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body {
-      font-family: 'Inter', sans-serif;
-      background-color: var(--fond-principal);
-      color: var(--texte-tertiaire);
-      line-height: 1.6;
-      overflow-x: hidden;
-      transition: background-color 0.4s ease, color 0.4s ease;
-    }
-    [dir="rtl"] body { font-family: 'Cairo', 'Inter', sans-serif; }
-    h1, h2, h3, h4, .logo { font-family: 'Space Grotesk', sans-serif; letter-spacing: -0.02em; }
-    [dir="rtl"] h1, [dir="rtl"] h2, [dir="rtl"] h3, [dir="rtl"] h4 { font-family: 'Cairo', sans-serif; letter-spacing: 0; }
-    a { text-decoration: none; color: inherit; }
-    .container { max-width: 1400px; margin: 0 auto; padding: 0 1.5rem; }
-    body::before {
-      content: '';
-      position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
-      background-image:
-        linear-gradient(var(--grille-couleur) 1px, transparent 1px),
-        linear-gradient(90deg, var(--grille-couleur) 1px, transparent 1px);
-      background-size: 50px 50px;
-      pointer-events: none;
-      z-index: 0;
-    }
-    section, header { position: relative; z-index: 1; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ressources — DARRSSY | Physique & Chimie</title>
 
-    .header {
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      background: rgba(5, 11, 20, 0.9);
-      backdrop-filter: blur(20px);
-      border-bottom: 1px solid var(--bordure);
-    }
-    [data-theme="light"] .header { background: rgba(255, 255, 255, 0.9); }
-    .header-inner {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0.9rem 0;
-      gap: 1rem;
-    }
-    .logo {
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: var(--texte-principal);
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      white-space: nowrap;
-    }
-    .logo-icon {
-      width: 38px; height: 38px;
-      border-radius: 0.5rem;
-      background: linear-gradient(135deg, var(--cyan-neon), var(--vert-neon));
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #050b14;
-      font-size: 1.1rem;
-      box-shadow: 0 0 20px -5px rgba(34, 211, 238, 0.7);
-    }
-    .logo span {
-      background: linear-gradient(135deg, var(--cyan-neon), var(--vert-neon));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-    .nav-desktop { display: flex; align-items: center; gap: 0.1rem; }
-    .nav-desktop a {
-      padding: 0.5rem 0.85rem;
-      font-size: 0.88rem;
-      font-weight: 500;
-      color: var(--texte-secondaire);
-      border-radius: 0.4rem;
-      transition: var(--transition);
-      white-space: nowrap;
-    }
-    .nav-desktop a:hover { color: var(--violet-tech); background: rgba(139, 92, 246, 0.08); }
-    .nav-desktop a.actif { color: var(--violet-tech); background: rgba(139, 92, 246, 0.12); }
-    .nav-desktop a.admin-link { color: var(--rose); }
-    .header-actions { display: flex; align-items: center; gap: 0.5rem; }
-    .lang-switcher {
-      display: flex;
-      background: rgba(139, 92, 246, 0.08);
-      border: 1px solid var(--bordure);
-      border-radius: 0.4rem;
-      overflow: hidden;
-    }
-    .lang-btn {
-      background: transparent;
-      border: none;
-      color: var(--texte-secondaire);
-      font-family: inherit;
-      font-size: 0.8rem;
-      font-weight: 600;
-      padding: 0.55rem 0.85rem;
-      cursor: pointer;
-      transition: var(--transition);
-    }
-    .lang-btn.actif {
-      background: linear-gradient(135deg, var(--violet-tech), var(--rose));
-      color: white;
-    }
+<meta name="description" content="Fiches, formulaire, calculateur, tableau périodique et convertisseur — DARRSSY.">
+<meta property="og:title" content="Ressources | DARRSSY">
+<meta property="og:image" content="https://darrssy.com/assets/logo-darrssy.png">
 
-    .hero-res {
-      padding: 3.5rem 0 2rem;
-      text-align: center;
-      position: relative;
-    }
-    .hero-res::before {
-      content: '';
-      position: absolute;
-      top: -50%; left: 50%;
-      transform: translateX(-50%);
-      width: 700px; height: 500px;
-      background: radial-gradient(ellipse, rgba(139, 92, 246, 0.12), transparent 70%);
-      border-radius: 50%;
-      pointer-events: none;
-    }
-    .hero-res h1 {
-      font-size: 2.6rem;
-      font-weight: 700;
-      color: var(--texte-principal);
-      margin-bottom: 0.6rem;
-      position: relative;
-    }
-    .hero-res h1 .accent {
-      background: linear-gradient(135deg, var(--violet-tech), var(--rose));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-    .hero-res p {
-      color: var(--texte-secondaire);
-      font-size: 1.05rem;
-      max-width: 700px;
-      margin: 0 auto;
-      position: relative;
-    }
+<link rel="icon" type="image/png" href="assets/logo-darrssy.png">
+<link rel="apple-touch-icon" href="assets/logo-darrssy.png">
 
-    .tabs-bar {
-      display: flex;
-      justify-content: center;
-      gap: 0.5rem;
-      flex-wrap: wrap;
-      margin: 2.5rem 0 2rem;
-      padding: 0.5rem;
-    }
-    .tab-btn {
-      background: rgba(139, 92, 246, 0.05);
-      border: 1px solid var(--bordure);
-      color: var(--texte-secondaire);
-      padding: 0.7rem 1.4rem;
-      border-radius: 2rem;
-      font-family: inherit;
-      font-size: 0.88rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: var(--transition);
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-    .tab-btn:hover { color: var(--violet-tech); border-color: var(--violet-tech); }
-    .tab-btn.actif {
-      background: linear-gradient(135deg, var(--violet-tech), var(--rose));
-      color: white;
-      border-color: transparent;
-      box-shadow: 0 0 25px -5px rgba(139, 92, 246, 0.7);
-    }
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
 
-    .tab-panel { display: none; animation: fadeIn 0.4s ease; }
-    .tab-panel.actif { display: block; }
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(15px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+<style>
+:root {
+  --primary: #1e3a8a;
+  --primary-light: #3b82f6;
+  --accent: #f59e0b;
+  --success: #10b981;
+  --danger: #ef4444;
+  --violet: #8b5cf6;
+  --dark: #0f172a;
+  --gray: #64748b;
+  --border: #e2e8f0;
+  --light: #f8fafc;
+  --white: #ffffff;
+  --gradient: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 50%, #06b6d4 100%);
+  --gradient-accent: linear-gradient(135deg, #f59e0b 0%, #ef4444 100%);
+  --gradient-violet: linear-gradient(135deg, #8b5cf6 0%, #db2777 100%);
+  --shadow-sm: 0 2px 10px rgba(30, 58, 138, 0.06);
+  --shadow: 0 10px 30px rgba(30, 58, 138, 0.15);
+  --shadow-lg: 0 20px 50px rgba(30, 58, 138, 0.25);
+  --radius: 20px;
+  --radius-sm: 14px;
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
 
-    .section-titre { text-align: center; margin-bottom: 2.5rem; }
-    .section-titre h2 { font-size: 1.8rem; font-weight: 700; color: var(--texte-principal); margin-bottom: 0.5rem; }
-    .section-titre p { color: var(--texte-secondaire); font-size: 0.98rem; max-width: 600px; margin: 0 auto; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
 
-    /* Fiches */
-    .fiches-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 1.5rem;
-      margin-bottom: 3rem;
-    }
-    .fiche-card {
-      background: linear-gradient(160deg, var(--fond-carte), var(--fond-secondaire));
-      border: 1px solid var(--bordure);
-      border-radius: var(--rayon);
-      padding: 1.5rem;
-      transition: var(--transition);
-      display: flex;
-      flex-direction: column;
-      gap: 0.8rem;
-    }
-    .fiche-card:hover {
-      transform: translateY(-6px);
-      border-color: rgba(139, 92, 246, 0.4);
-      box-shadow: var(--ombre-violet);
-    }
-    .fiche-card .fiche-icon {
-      width: 50px; height: 50px;
-      border-radius: 0.7rem;
-      background: rgba(139, 92, 246, 0.1);
-      border: 1px solid rgba(139, 92, 246, 0.25);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.4rem;
-      color: var(--violet-tech);
-      transition: var(--transition);
-    }
-    .fiche-card:hover .fiche-icon {
-      background: var(--violet-tech);
-      color: white;
-      transform: scale(1.1) rotate(-8deg);
-    }
-    .fiche-card .fiche-tag {
-      font-size: 0.72rem;
-      font-weight: 600;
-      color: var(--violet-clair);
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-    }
-    .fiche-card h3 { font-size: 1.05rem; font-weight: 600; color: var(--texte-principal); line-height: 1.3; }
-    .fiche-card .fiche-desc { font-size: 0.85rem; color: var(--texte-secondaire); line-height: 1.5; flex: 1; }
-    .fiche-card .fiche-meta {
-      display: flex;
-      gap: 0.9rem;
-      font-size: 0.75rem;
-      color: var(--texte-secondaire);
-      padding-top: 0.7rem;
-      border-top: 1px solid var(--bordure);
-    }
-    .fiche-card .fiche-meta span { display: flex; align-items: center; gap: 0.3rem; }
-    .fiche-card .fiche-meta i { color: var(--violet-tech); }
-    .btn-fiche {
-      display: inline-flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 0.5rem;
-      padding: 0.7rem 1.1rem;
-      background: rgba(139, 92, 246, 0.08);
-      border: 1px solid rgba(139, 92, 246, 0.3);
-      color: var(--violet-tech);
-      border-radius: 0.5rem;
-      font-family: inherit;
-      font-weight: 600;
-      font-size: 0.85rem;
-      transition: var(--transition);
-      cursor: pointer;
-    }
-    .btn-fiche:hover { background: var(--violet-tech); color: white; }
+body {
+  font-family: 'Poppins', 'Tajawal', sans-serif;
+  background: var(--light);
+  color: var(--dark);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
 
-    /* Formulaire */
-    .formulaire-search {
-      max-width: 600px;
-      margin: 0 auto 2rem;
-      position: relative;
-    }
-    .formulaire-search input {
-      width: 100%;
-      padding: 0.9rem 1.2rem 0.9rem 3rem;
-      background: var(--fond-carte);
-      border: 1.5px solid var(--bordure);
-      border-radius: 0.7rem;
-      color: var(--texte-principal);
-      font-family: inherit;
-      font-size: 0.95rem;
-      transition: var(--transition);
-    }
-    [dir="rtl"] .formulaire-search input { padding: 0.9rem 3rem 0.9rem 1.2rem; }
-    .formulaire-search input:focus { outline: none; border-color: var(--violet-tech); box-shadow: 0 0 20px -5px rgba(139, 92, 246, 0.5); }
-    .formulaire-search i {
-      position: absolute;
-      top: 50%; left: 1.2rem;
-      transform: translateY(-50%);
-      color: var(--violet-tech);
-      font-size: 1rem;
-    }
-    [dir="rtl"] .formulaire-search i { left: auto; right: 1.2rem; }
+[dir="rtl"] body { font-family: 'Tajawal', 'Poppins', sans-serif; }
+a { text-decoration: none; color: inherit; }
+img { max-width: 100%; display: block; }
 
-    .formules-categories {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 1.2rem;
-      margin-bottom: 3rem;
-    }
-    .formule-cat {
-      background: linear-gradient(160deg, var(--fond-carte), var(--fond-secondaire));
-      border: 1px solid var(--bordure);
-      border-radius: var(--rayon);
-      padding: 1.4rem;
-      transition: var(--transition);
-    }
-    .formule-cat:hover { border-color: rgba(139, 92, 246, 0.4); box-shadow: var(--ombre-violet); }
-    .formule-cat h3 {
-      font-size: 1rem;
-      font-weight: 700;
-      color: var(--violet-tech);
-      margin-bottom: 1rem;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-    .formule-item { padding: 0.7rem 0; border-bottom: 1px dashed var(--bordure); }
-    .formule-item:last-child { border-bottom: none; }
-    .formule-item .f-nom { font-size: 0.78rem; color: var(--texte-secondaire); margin-bottom: 0.3rem; }
-    .formule-item .f-eq { color: var(--texte-principal); font-size: 0.95rem; }
-    .formule-item .f-eq .katex { color: var(--violet-clair); }
+/* ===== NAVBAR ===== */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  background: rgba(255,255,255,0.96);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 2px 20px rgba(0,0,0,0.06);
+  z-index: 1000;
+  padding: 10px 5%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
-    /* Calculateur */
-    .calculateur-wrap { max-width: 800px; margin: 0 auto 3rem; }
-    .calc-tabs { display: flex; gap: 0.5rem; flex-wrap: wrap; justify-content: center; margin-bottom: 2rem; }
-    .calc-tab {
-      background: rgba(139, 92, 246, 0.05);
-      border: 1px solid var(--bordure);
-      color: var(--texte-secondaire);
-      padding: 0.55rem 1.1rem;
-      border-radius: 2rem;
-      font-family: inherit;
-      font-size: 0.82rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: var(--transition);
-    }
-    .calc-tab:hover { color: var(--violet-tech); border-color: var(--violet-tech); }
-    .calc-tab.actif { background: var(--violet-tech); color: white; border-color: transparent; }
-    .calc-panel {
-      display: none;
-      background: linear-gradient(160deg, var(--fond-carte), var(--fond-secondaire));
-      border: 1px solid var(--bordure);
-      border-radius: var(--rayon);
-      padding: 2rem;
-    }
-    .calc-panel.actif { display: block; animation: fadeIn 0.4s ease; }
-    .calc-panel h3 { font-size: 1.15rem; font-weight: 700; color: var(--texte-principal); margin-bottom: 0.5rem; }
-    .calc-panel .calc-formule {
-      background: var(--fond-principal);
-      border: 1px solid var(--bordure);
-      border-radius: 0.5rem;
-      padding: 0.8rem 1.2rem;
-      margin-bottom: 1.5rem;
-      text-align: center;
-      font-size: 1.05rem;
-    }
-    .calc-panel .calc-formule .katex { color: var(--violet-tech); }
-    .calc-inputs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; margin-bottom: 1.5rem; }
-    .calc-input-group label {
-      display: block;
-      font-size: 0.78rem;
-      font-weight: 600;
-      color: var(--texte-secondaire);
-      margin-bottom: 0.4rem;
-      text-transform: uppercase;
-    }
-    .calc-input-group input {
-      width: 100%;
-      padding: 0.7rem 1rem;
-      background: var(--fond-principal);
-      border: 1.5px solid var(--bordure);
-      border-radius: 0.5rem;
-      color: var(--texte-principal);
-      font-family: inherit;
-      font-size: 0.95rem;
-    }
-    .calc-input-group input:focus { outline: none; border-color: var(--violet-tech); box-shadow: 0 0 15px -5px rgba(139, 92, 246, 0.5); }
-    .btn-calc {
-      width: 100%;
-      padding: 0.9rem;
-      background: linear-gradient(135deg, var(--violet-tech), var(--rose));
-      color: white;
-      border: none;
-      border-radius: 0.5rem;
-      font-family: inherit;
-      font-size: 0.95rem;
-      font-weight: 700;
-      cursor: pointer;
-      transition: var(--transition);
-    }
-    .btn-calc:hover { transform: translateY(-2px); box-shadow: 0 0 30px -5px rgba(139, 92, 246, 0.8); }
-    .calc-resultat {
-      background: linear-gradient(135deg, rgba(139, 92, 246, 0.15), rgba(244, 114, 182, 0.1));
-      border: 1.5px solid var(--violet-tech);
-      border-radius: 0.6rem;
-      padding: 1.2rem;
-      text-align: center;
-      margin-top: 1.2rem;
-      display: none;
-    }
-    .calc-resultat.visible { display: block; animation: fadeIn 0.3s ease; }
-    .calc-resultat .lbl { font-size: 0.75rem; color: var(--texte-secondaire); text-transform: uppercase; margin-bottom: 0.4rem; }
-    .calc-resultat .val { font-family: 'Space Grotesk', monospace; font-size: 1.6rem; font-weight: 700; color: var(--violet-tech); }
+.logo { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
 
-    /* Tableau périodique */
-    .periodique-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
-      gap: 0.7rem;
-      margin-bottom: 3rem;
-    }
-    .element-card {
-      background: linear-gradient(160deg, var(--fond-carte), var(--fond-secondaire));
-      border: 1.5px solid var(--bordure);
-      border-radius: 0.5rem;
-      padding: 0.8rem 0.5rem;
-      text-align: center;
-      cursor: pointer;
-      transition: var(--transition);
-      position: relative;
-    }
-    .element-card:hover { transform: translateY(-4px) scale(1.05); border-color: var(--violet-tech); box-shadow: var(--ombre-violet); z-index: 2; }
-    .element-card .num-atomique { position: absolute; top: 4px; left: 6px; font-size: 0.6rem; color: var(--texte-secondaire); font-weight: 600; }
-    [dir="rtl"] .element-card .num-atomique { left: auto; right: 6px; }
-    .element-card .symbole { font-family: 'Space Grotesk', sans-serif; font-size: 1.5rem; font-weight: 700; color: var(--violet-tech); line-height: 1; margin-top: 0.3rem; }
-    .element-card .nom-elem { font-size: 0.68rem; color: var(--texte-secondaire); margin-top: 0.3rem; font-weight: 500; }
-    .element-card .masse { font-size: 0.6rem; color: var(--texte-secondaire); margin-top: 0.15rem; }
-    .element-card.fam-alcalin { border-color: rgba(244, 114, 182, 0.4); }
-    .element-card.fam-alcalin .symbole { color: var(--rose); }
-    .element-card.fam-alcalino { border-color: rgba(251, 191, 36, 0.4); }
-    .element-card.fam-alcalino .symbole { color: var(--or); }
-    .element-card.fam-halogene { border-color: rgba(74, 222, 128, 0.4); }
-    .element-card.fam-halogene .symbole { color: var(--vert-neon); }
-    .element-card.fam-gaz { border-color: rgba(34, 211, 238, 0.4); }
-    .element-card.fam-gaz .symbole { color: var(--cyan-neon); }
-    .element-card.fam-metalloide { border-color: rgba(139, 92, 246, 0.4); }
+.logo-img-wrap {
+  position: relative;
+  width: 52px; height: 52px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #1e3a8a 0%, #06b6d4 50%, #10b981 100%);
+  padding: 2.5px;
+  box-shadow: 0 4px 15px rgba(6, 182, 212, 0.35), 0 0 0 3px rgba(255, 255, 255, 0.9);
+  flex-shrink: 0;
+}
 
-    .element-modal {
-      position: fixed;
-      inset: 0;
-      background: rgba(5, 11, 20, 0.85);
-      backdrop-filter: blur(8px);
-      z-index: 5000;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      padding: 1rem;
-    }
-    .element-modal.ouvert { display: flex; }
-    .element-modal-box {
-      background: var(--fond-secondaire);
-      border: 2px solid var(--violet-tech);
-      border-radius: var(--rayon);
-      padding: 2rem;
-      max-width: 450px;
-      width: 100%;
-      position: relative;
-      box-shadow: 0 0 80px -10px rgba(139, 92, 246, 0.6);
-    }
-    .element-modal-box .close-el {
-      position: absolute;
-      top: 1rem; right: 1rem;
-      background: rgba(239, 68, 68, 0.1);
-      border: 1px solid rgba(239, 68, 68, 0.3);
-      color: var(--rouge);
-      width: 34px; height: 34px;
-      border-radius: 0.5rem;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    [dir="rtl"] .element-modal-box .close-el { right: auto; left: 1rem; }
-    .element-modal-box .close-el:hover { background: var(--rouge); color: white; }
-    .element-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; }
-    .element-header .big-sym {
-      width: 80px; height: 80px;
-      background: linear-gradient(135deg, var(--violet-tech), var(--rose));
-      border-radius: 1rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 2.2rem;
-      font-weight: 700;
-      color: white;
-    }
-    .element-header .el-info h3 { font-size: 1.4rem; color: var(--texte-principal); margin-bottom: 0.2rem; }
-    .element-header .el-info span { color: var(--texte-secondaire); font-size: 0.9rem; }
-    .element-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; }
-    .element-stat { background: var(--fond-principal); border: 1px solid var(--bordure); border-radius: 0.5rem; padding: 0.7rem 1rem; }
-    .element-stat .lbl { font-size: 0.68rem; color: var(--texte-secondaire); text-transform: uppercase; margin-bottom: 0.2rem; }
-    .element-stat .val { font-size: 0.95rem; font-weight: 600; color: var(--violet-tech); font-family: 'Space Grotesk', sans-serif; }
+.logo-img-wrap::before {
+  content: '';
+  position: absolute;
+  inset: 2.5px;
+  border-radius: 50%;
+  background: white;
+  z-index: 0;
+}
 
-    /* Convertisseur */
-    .conv-wrap { max-width: 700px; margin: 0 auto 3rem; }
-    .conv-types { display: flex; gap: 0.5rem; flex-wrap: wrap; justify-content: center; margin-bottom: 2rem; }
-    .conv-type-btn {
-      background: rgba(251, 191, 36, 0.05);
-      border: 1px solid var(--bordure);
-      color: var(--texte-secondaire);
-      padding: 0.55rem 1.1rem;
-      border-radius: 2rem;
-      font-family: inherit;
-      font-size: 0.82rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: var(--transition);
-    }
-    .conv-type-btn:hover { color: var(--or); border-color: var(--or); }
-    .conv-type-btn.actif { background: var(--or); color: #050b14; border-color: transparent; }
-    .conv-panel {
-      display: none;
-      background: linear-gradient(160deg, var(--fond-carte), var(--fond-secondaire));
-      border: 1px solid var(--bordure);
-      border-radius: var(--rayon);
-      padding: 2rem;
-    }
-    .conv-panel.actif { display: block; animation: fadeIn 0.4s ease; }
-    .conv-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; align-items: end; margin-bottom: 1rem; }
-    .conv-row .conv-input-group label {
-      display: block;
-      font-size: 0.75rem;
-      font-weight: 600;
-      color: var(--or);
-      text-transform: uppercase;
-      margin-bottom: 0.4rem;
-    }
-    .conv-row input, .conv-row select {
-      width: 100%;
-      padding: 0.8rem 1rem;
-      background: var(--fond-principal);
-      border: 1.5px solid var(--bordure);
-      border-radius: 0.5rem;
-      color: var(--texte-principal);
-      font-family: inherit;
-      font-size: 1rem;
-    }
-    .conv-row input:focus, .conv-row select:focus { outline: none; border-color: var(--or); }
-    .conv-resultat {
-      grid-column: 1 / -1;
-      background: linear-gradient(135deg, rgba(251, 191, 36, 0.15), rgba(244, 114, 182, 0.1));
-      border: 1.5px solid var(--or);
-      border-radius: 0.6rem;
-      padding: 1.2rem;
-      text-align: center;
-      margin-top: 1rem;
-    }
-    .conv-resultat .lbl { font-size: 0.75rem; color: var(--texte-secondaire); text-transform: uppercase; margin-bottom: 0.4rem; }
-    .conv-resultat .val { font-family: 'Space Grotesk', monospace; font-size: 1.6rem; font-weight: 700; color: var(--or); }
+.logo-img-wrap img {
+  position: relative; z-index: 1;
+  width: 100%; height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
 
-    /* Constantes */
-    .constantes-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 1.2rem;
-      margin-bottom: 3rem;
-    }
-    .constante-card {
-      background: linear-gradient(160deg, var(--fond-carte), var(--fond-secondaire));
-      border: 1px solid var(--bordure);
-      border-left: 4px solid var(--vert-neon);
-      border-radius: var(--rayon-petit);
-      padding: 1.2rem 1.4rem;
-      transition: var(--transition);
-    }
-    [dir="rtl"] .constante-card { border-left: none; border-right: 4px solid var(--vert-neon); }
-    .constante-card:hover { transform: translateX(4px); box-shadow: var(--ombre-vert); }
-    [dir="rtl"] .constante-card:hover { transform: translateX(-4px); }
-    .constante-card .c-nom { font-size: 0.85rem; color: var(--texte-secondaire); margin-bottom: 0.4rem; display: flex; align-items: center; gap: 0.4rem; }
-    .constante-card .c-nom i { color: var(--vert-neon); font-size: 0.8rem; }
-    .constante-card .c-valeur { font-family: 'Space Grotesk', monospace; font-size: 1.1rem; font-weight: 700; color: var(--vert-neon); }
-    .constante-card .c-symbole { font-size: 0.9rem; color: var(--texte-principal); font-weight: 600; margin-top: 0.3rem; }
+.logo-texte { display: flex; flex-direction: column; line-height: 1; }
 
-    .theme-toggle {
-      position: fixed;
-      bottom: 2rem; right: 2rem;
-      width: 58px; height: 58px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, var(--cyan-neon), var(--vert-neon));
-      border: none;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.4rem;
-      color: #050b14;
-      box-shadow: 0 8px 30px -5px rgba(34, 211, 238, 0.7);
-      transition: var(--transition);
-      z-index: 9999;
-    }
-    [dir="rtl"] .theme-toggle { right: auto; left: 2rem; }
-    .theme-toggle:hover { transform: translateY(-4px) rotate(15deg) scale(1.05); }
-    .theme-toggle .icon-sun { display: none; }
-    [data-theme="light"] .theme-toggle .icon-sun { display: block; }
-    [data-theme="light"] .theme-toggle .icon-moon { display: none; }
+.logo-texte .titre {
+  font-size: 1.4rem; font-weight: 900;
+  background: linear-gradient(135deg, #1e3a8a 0%, #06b6d4 50%, #10b981 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
 
-    @media (max-width: 768px) {
-      .nav-desktop { display: none; }
-      .hero-res h1 { font-size: 1.9rem; }
-      .fiches-grid { grid-template-columns: 1fr; }
-      .formules-categories { grid-template-columns: 1fr; }
-      .periodique-grid { grid-template-columns: repeat(auto-fill, minmax(75px, 1fr)); }
-      .conv-row { grid-template-columns: 1fr; }
-      .section-titre h2 { font-size: 1.4rem; }
-    }
-    @media (max-width: 480px) {
-      .container { padding: 0 1rem; }
-      .calc-panel { padding: 1.3rem; }
-    }
-  </style>
+.logo-texte .arabe {
+  font-size: 0.72rem; font-weight: 700;
+  color: var(--gray);
+  font-family: 'Tajawal', sans-serif;
+  margin-top: 1px;
+}
+
+.nav-links {
+  display: flex;
+  gap: 26px;
+  list-style: none;
+  align-items: center;
+}
+
+.nav-links a {
+  color: var(--dark);
+  font-weight: 500;
+  font-size: 0.93rem;
+  transition: color 0.3s;
+  position: relative;
+}
+
+.nav-links a:hover { color: var(--violet); }
+.nav-links a.actif { color: var(--violet); font-weight: 600; }
+
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: -5px; left: 0;
+  width: 0; height: 2px;
+  background: var(--gradient-violet);
+  transition: width 0.3s;
+}
+
+.nav-links a:hover::after { width: 100%; }
+.nav-links a.actif::after { width: 100%; }
+
+.btn-nav {
+  background: var(--gradient);
+  color: white !important;
+  padding: 10px 22px;
+  border-radius: 50px;
+  font-weight: 600;
+}
+
+.btn-nav:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
+.btn-nav::after { display: none; }
+
+.lang-switcher {
+  display: flex;
+  background: rgba(139,92,246,0.08);
+  border: 1px solid var(--border);
+  border-radius: 50px;
+  overflow: hidden;
+}
+
+.lang-btn {
+  background: transparent;
+  border: none;
+  color: var(--gray);
+  font-family: inherit;
+  font-size: 0.82rem;
+  font-weight: 700;
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.lang-btn.actif { background: var(--gradient); color: white; }
+
+.menu-toggle {
+  display: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: var(--primary);
+  background: none;
+  border: none;
+}
+
+/* ===== HERO ===== */
+.hero-page {
+  padding: 130px 5% 50px;
+  background: var(--gradient-violet);
+  color: white;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-page::before {
+  content: '';
+  position: absolute;
+  top: -50%; right: -20%;
+  width: 600px; height: 600px;
+  background: radial-gradient(circle, rgba(245,158,11,0.28) 0%, transparent 70%);
+  border-radius: 50%;
+}
+
+.hero-page::after {
+  content: '';
+  position: absolute;
+  bottom: -40%; left: -10%;
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, rgba(59,130,246,0.35) 0%, transparent 70%);
+  border-radius: 50%;
+}
+
+.hero-page-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+  text-align: center;
+}
+
+.hero-page h1 {
+  font-size: 2.8rem;
+  font-weight: 900;
+  margin-bottom: 15px;
+  line-height: 1.15;
+}
+
+.hero-page h1 span {
+  background: linear-gradient(135deg, #fbbf24 0%, #fde68a 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-page p {
+  font-size: 1.05rem;
+  max-width: 700px;
+  margin: 0 auto;
+  opacity: 0.95;
+}
+
+/* ===== TABS BAR ===== */
+.conteneur {
+  max-width: 1200px;
+  margin: -30px auto 0;
+  padding: 0 5% 60px;
+  position: relative;
+  z-index: 3;
+}
+
+.tabs-bar {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 35px;
+  padding: 15px;
+  background: white;
+  border-radius: 60px;
+  box-shadow: var(--shadow);
+  max-width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.tab-btn {
+  background: transparent;
+  border: none;
+  color: var(--gray);
+  padding: 10px 20px;
+  border-radius: 50px;
+  font-family: inherit;
+  font-size: 0.86rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  white-space: nowrap;
+}
+
+.tab-btn:hover { color: var(--violet); background: rgba(139,92,246,0.05); }
+
+.tab-btn.actif {
+  background: var(--gradient-violet);
+  color: white;
+  box-shadow: 0 8px 20px rgba(139,92,246,0.35);
+}
+
+.tab-panel { display: none; animation: fadeIn 0.4s ease; }
+.tab-panel.actif { display: block; }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(15px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.section-titre { text-align: center; margin-bottom: 35px; }
+.section-titre h2 { font-size: 1.8rem; font-weight: 800; color: var(--primary); margin-bottom: 8px; }
+.section-titre p { color: var(--gray); font-size: 0.98rem; max-width: 600px; margin: 0 auto; }
+
+/* ===== FICHES ===== */
+.fiches-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 22px;
+}
+
+.fiche-card {
+  background: white;
+  border-radius: var(--radius-sm);
+  padding: 25px;
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  border: 2px solid transparent;
+}
+
+.fiche-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-lg);
+  border-color: rgba(139,92,246,0.3);
+}
+
+.fiche-icon {
+  width: 55px; height: 55px;
+  border-radius: 14px;
+  background: var(--gradient-violet);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  color: white;
+  transition: var(--transition);
+}
+
+.fiche-card:hover .fiche-icon { transform: scale(1.1) rotate(-8deg); }
+
+.fiche-tag {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--violet);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.fiche-card h3 {
+  font-size: 1.05rem;
+  color: var(--primary);
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.fiche-desc {
+  font-size: 0.86rem;
+  color: var(--gray);
+  line-height: 1.5;
+  flex: 1;
+}
+
+.btn-fiche {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 12px 18px;
+  background: rgba(139,92,246,0.08);
+  border: 1.5px solid rgba(139,92,246,0.3);
+  color: var(--violet);
+  border-radius: 12px;
+  font-family: inherit;
+  font-weight: 700;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.btn-fiche:hover { background: var(--violet); color: white; border-color: var(--violet); }
+
+/* ===== FORMULAIRE ===== */
+.formulaire-search {
+  max-width: 600px;
+  margin: 0 auto 30px;
+  position: relative;
+}
+
+.formulaire-search input {
+  width: 100%;
+  padding: 15px 20px 15px 50px;
+  background: white;
+  border: 2px solid var(--border);
+  border-radius: 50px;
+  font-family: inherit;
+  font-size: 0.95rem;
+  color: var(--dark);
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition);
+}
+
+[dir="rtl"] .formulaire-search input { padding: 15px 50px 15px 20px; }
+
+.formulaire-search input:focus {
+  outline: none;
+  border-color: var(--violet);
+  box-shadow: 0 10px 30px rgba(139,92,246,0.2);
+}
+
+.formulaire-search i {
+  position: absolute;
+  top: 50%; left: 20px;
+  transform: translateY(-50%);
+  color: var(--violet);
+  font-size: 1rem;
+}
+
+[dir="rtl"] .formulaire-search i { left: auto; right: 20px; }
+
+.formules-categories {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 20px;
+}
+
+.formule-cat {
+  background: white;
+  border-radius: var(--radius-sm);
+  padding: 22px;
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition);
+}
+
+.formule-cat:hover { box-shadow: var(--shadow); }
+
+.formule-cat h3 {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--violet);
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.formule-item { padding: 12px 0; border-bottom: 1px dashed var(--border); }
+.formule-item:last-child { border-bottom: none; }
+
+.formule-item .f-nom {
+  font-size: 0.8rem;
+  color: var(--gray);
+  margin-bottom: 5px;
+  font-weight: 500;
+}
+
+.formule-item .f-eq {
+  color: var(--primary);
+  font-size: 0.95rem;
+}
+
+/* ===== CALCULATEUR ===== */
+.calculateur-wrap { max-width: 800px; margin: 0 auto; }
+
+.calc-tabs {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 25px;
+}
+
+.calc-tab {
+  background: white;
+  border: 2px solid var(--border);
+  color: var(--gray);
+  padding: 10px 18px;
+  border-radius: 50px;
+  font-family: inherit;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.calc-tab:hover { color: var(--violet); border-color: var(--violet); }
+.calc-tab.actif {
+  background: var(--gradient-violet);
+  color: white;
+  border-color: transparent;
+  box-shadow: 0 8px 20px rgba(139,92,246,0.35);
+}
+
+.calc-panel {
+  display: none;
+  background: white;
+  border-radius: var(--radius);
+  padding: 30px;
+  box-shadow: var(--shadow);
+}
+
+.calc-panel.actif { display: block; animation: fadeIn 0.4s ease; }
+
+.calc-panel h3 {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--primary);
+  margin-bottom: 8px;
+}
+
+.calc-panel .calc-formule {
+  background: var(--light);
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  padding: 15px;
+  margin-bottom: 22px;
+  text-align: center;
+  font-size: 1.05rem;
+}
+
+.calc-inputs {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.calc-input-group label {
+  display: block;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--gray);
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.calc-input-group input {
+  width: 100%;
+  padding: 12px 15px;
+  background: var(--light);
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  color: var(--dark);
+  font-family: inherit;
+  font-size: 0.95rem;
+  transition: var(--transition);
+}
+
+.calc-input-group input:focus {
+  outline: none;
+  border-color: var(--violet);
+  box-shadow: 0 0 0 3px rgba(139,92,246,0.1);
+}
+
+.btn-calc {
+  width: 100%;
+  padding: 15px;
+  background: var(--gradient-violet);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-family: inherit;
+  font-size: 0.98rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.btn-calc:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 15px 30px rgba(139,92,246,0.4);
+}
+
+.calc-resultat {
+  background: linear-gradient(135deg, rgba(139,92,246,0.1), rgba(219,39,119,0.08));
+  border: 2px solid var(--violet);
+  border-radius: 12px;
+  padding: 18px;
+  text-align: center;
+  margin-top: 18px;
+  display: none;
+}
+
+.calc-resultat.visible { display: block; animation: fadeIn 0.3s ease; }
+
+.calc-resultat .lbl {
+  font-size: 0.75rem;
+  color: var(--gray);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 6px;
+}
+
+.calc-resultat .val {
+  font-family: 'Poppins', monospace;
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: var(--violet);
+}
+
+/* ===== TABLEAU PÉRIODIQUE ===== */
+.periodique-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+  gap: 10px;
+}
+
+.element-card {
+  background: white;
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  padding: 12px 8px;
+  text-align: center;
+  cursor: pointer;
+  transition: var(--transition);
+  position: relative;
+}
+
+.element-card:hover {
+  transform: translateY(-4px) scale(1.05);
+  border-color: var(--violet);
+  box-shadow: 0 10px 25px rgba(139,92,246,0.25);
+  z-index: 2;
+}
+
+.element-card .num-atomique {
+  position: absolute;
+  top: 5px; left: 7px;
+  font-size: 0.62rem;
+  color: var(--gray);
+  font-weight: 700;
+}
+
+[dir="rtl"] .element-card .num-atomique { left: auto; right: 7px; }
+
+.element-card .symbole {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--violet);
+  line-height: 1;
+  margin-top: 8px;
+  font-family: 'Poppins', sans-serif;
+}
+
+.element-card .nom-elem {
+  font-size: 0.68rem;
+  color: var(--gray);
+  margin-top: 5px;
+  font-weight: 500;
+}
+
+.element-card .masse {
+  font-size: 0.6rem;
+  color: var(--gray);
+  margin-top: 3px;
+}
+
+.element-card.fam-alcalin { border-color: rgba(219,39,119,0.4); }
+.element-card.fam-alcalin .symbole { color: #db2777; }
+
+.element-card.fam-alcalino { border-color: rgba(245,158,11,0.4); }
+.element-card.fam-alcalino .symbole { color: var(--accent); }
+
+.element-card.fam-halogene { border-color: rgba(16,185,129,0.4); }
+.element-card.fam-halogene .symbole { color: var(--success); }
+
+.element-card.fam-gaz { border-color: rgba(59,130,246,0.4); }
+.element-card.fam-gaz .symbole { color: var(--primary-light); }
+
+/* Element modal */
+.element-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(15,23,42,0.85);
+  backdrop-filter: blur(8px);
+  z-index: 5000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 15px;
+}
+
+.element-modal.ouvert { display: flex; }
+
+.element-modal-box {
+  background: white;
+  border: 2px solid var(--violet);
+  border-radius: 20px;
+  padding: 30px;
+  max-width: 450px;
+  width: 100%;
+  position: relative;
+  box-shadow: 0 30px 80px rgba(139,92,246,0.4);
+  animation: slideUp 0.3s;
+}
+
+@keyframes slideUp {
+  from { transform: scale(0.9) translateY(20px); opacity: 0; }
+  to { transform: scale(1) translateY(0); opacity: 1; }
+}
+
+.element-modal-box .close-el {
+  position: absolute;
+  top: 15px; right: 15px;
+  background: rgba(239,68,68,0.1);
+  border: 1.5px solid rgba(239,68,68,0.3);
+  color: var(--danger);
+  width: 36px; height: 36px;
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition);
+}
+
+[dir="rtl"] .element-modal-box .close-el { right: auto; left: 15px; }
+.element-modal-box .close-el:hover { background: var(--danger); color: white; }
+
+.element-header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.big-sym {
+  width: 80px; height: 80px;
+  background: var(--gradient-violet);
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: white;
+  font-family: 'Poppins', sans-serif;
+}
+
+.el-info h3 { font-size: 1.4rem; color: var(--primary); margin-bottom: 4px; font-weight: 800; }
+.el-info span { color: var(--gray); font-size: 0.9rem; }
+
+.element-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.element-stat {
+  background: var(--light);
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  padding: 12px 14px;
+}
+
+.element-stat .lbl {
+  font-size: 0.68rem;
+  color: var(--gray);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+}
+
+.element-stat .val {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--violet);
+  font-family: 'Poppins', sans-serif;
+}
+
+/* ===== CONVERTISSEUR ===== */
+.conv-wrap { max-width: 700px; margin: 0 auto; }
+
+.conv-types {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 25px;
+}
+
+.conv-type-btn {
+  background: white;
+  border: 2px solid var(--border);
+  color: var(--gray);
+  padding: 10px 18px;
+  border-radius: 50px;
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.conv-type-btn:hover { color: var(--accent); border-color: var(--accent); }
+.conv-type-btn.actif {
+  background: var(--gradient-accent);
+  color: white;
+  border-color: transparent;
+  box-shadow: 0 8px 20px rgba(245,158,11,0.35);
+}
+
+.conv-panel {
+  display: none;
+  background: white;
+  border-radius: var(--radius);
+  padding: 30px;
+  box-shadow: var(--shadow);
+}
+
+.conv-panel.actif { display: block; animation: fadeIn 0.4s ease; }
+
+.conv-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.conv-input-group label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+}
+
+.conv-input-group input,
+.conv-input-group select {
+  width: 100%;
+  padding: 12px 15px;
+  background: var(--light);
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  color: var(--dark);
+  font-family: inherit;
+  font-size: 0.95rem;
+  transition: var(--transition);
+}
+
+.conv-input-group input:focus,
+.conv-input-group select:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.conv-resultat {
+  background: linear-gradient(135deg, rgba(245,158,11,0.1), rgba(239,68,68,0.08));
+  border: 2px solid var(--accent);
+  border-radius: 14px;
+  padding: 20px;
+  text-align: center;
+  margin-top: 15px;
+}
+
+.conv-resultat .lbl {
+  font-size: 0.75rem;
+  color: var(--gray);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 6px;
+}
+
+.conv-resultat .val {
+  font-family: 'Poppins', monospace;
+  font-size: 1.7rem;
+  font-weight: 800;
+  color: var(--accent);
+  word-break: break-all;
+}
+
+/* ===== CONSTANTES ===== */
+.constantes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 18px;
+}
+
+.constante-card {
+  background: white;
+  border-radius: var(--radius-sm);
+  padding: 20px;
+  box-shadow: var(--shadow-sm);
+  border-left: 5px solid var(--success);
+  transition: var(--transition);
+}
+
+[dir="rtl"] .constante-card { border-left: none; border-right: 5px solid var(--success); }
+
+.constante-card:hover {
+  transform: translateX(5px);
+  box-shadow: var(--shadow);
+}
+
+[dir="rtl"] .constante-card:hover { transform: translateX(-5px); }
+
+.constante-card .c-nom {
+  font-size: 0.85rem;
+  color: var(--gray);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.constante-card .c-nom i { color: var(--success); font-size: 0.8rem; }
+
+.constante-card .c-valeur {
+  font-family: 'Poppins', monospace;
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--success);
+}
+
+.constante-card .c-symbole {
+  font-size: 0.9rem;
+  color: var(--primary);
+  font-weight: 700;
+  margin-top: 5px;
+  font-style: italic;
+}
+
+/* ===== FOOTER ===== */
+footer {
+  background: var(--dark);
+  color: white;
+  padding: 50px 5% 25px;
+  margin-top: 60px;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 40px;
+  max-width: 1200px;
+  margin: 0 auto 30px;
+}
+
+.footer-logo { display: flex; align-items: center; gap: 12px; margin-bottom: 15px; }
+
+.footer-logo-wrap {
+  position: relative;
+  width: 58px; height: 58px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #1e3a8a 0%, #06b6d4 50%, #10b981 100%);
+  padding: 3px;
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1);
+}
+
+.footer-logo-wrap::before {
+  content: '';
+  position: absolute;
+  inset: 3px;
+  border-radius: 50%;
+  background: white;
+  z-index: 0;
+}
+
+.footer-logo-wrap img {
+  position: relative; z-index: 1;
+  width: 100%; height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.footer-nom {
+  font-size: 1.5rem;
+  font-weight: 900;
+  background: linear-gradient(135deg, #60a5fa 0%, #22d3ee 50%, #4ade80 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1;
+}
+
+.footer-arabe {
+  font-size: 0.75rem;
+  color: #94a3b8;
+  font-family: 'Tajawal', sans-serif;
+  font-weight: 700;
+  margin-top: 2px;
+}
+
+.footer-brand p { color: #94a3b8; font-size: 0.92rem; margin: 15px 0; }
+.footer-social { display: flex; gap: 12px; }
+
+.footer-social a {
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.08);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition);
+}
+
+.footer-social a:hover { background: var(--gradient-violet); transform: translateY(-3px); }
+.footer-col h4 { font-size: 1.05rem; margin-bottom: 18px; color: white; font-weight: 700; }
+.footer-col ul { list-style: none; }
+.footer-col ul li { margin-bottom: 10px; }
+.footer-col ul a { color: #94a3b8; font-size: 0.9rem; transition: color 0.3s; }
+.footer-col ul a:hover { color: var(--accent); }
+.footer-col ul a i { margin-right: 6px; color: var(--accent); }
+
+.footer-bottom {
+  border-top: 1px solid rgba(255,255,255,0.1);
+  padding-top: 25px;
+  text-align: center;
+  color: #94a3b8;
+  font-size: 0.88rem;
+}
+
+.footer-bottom span { color: var(--accent); font-weight: 600; }
+
+/* Responsive */
+@media (max-width: 900px) {
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+  .hero-page h1 { font-size: 2.2rem; }
+}
+
+@media (max-width: 768px) {
+  nav { padding: 10px 4%; }
+  .logo-img-wrap { width: 44px; height: 44px; }
+  .logo-texte .titre { font-size: 1.15rem; }
+  .logo-texte .arabe { font-size: 0.65rem; }
+
+  .nav-links {
+    position: fixed;
+    top: 64px;
+    left: 0; right: 0;
+    background: white;
+    flex-direction: column;
+    padding: 25px;
+    gap: 18px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    transform: translateY(-150%);
+    transition: transform 0.4s;
+    max-height: calc(100vh - 64px);
+    overflow-y: auto;
+  }
+  .nav-links.active { transform: translateY(0); }
+  .menu-toggle { display: block; }
+  .nav-links .lang-switcher { width: 100%; justify-content: center; }
+  .nav-links .btn-nav { width: 100%; text-align: center; justify-content: center; }
+
+  .hero-page { padding: 100px 4% 50px; }
+  .hero-page h1 { font-size: 1.8rem; }
+  .tabs-bar { border-radius: 20px; padding: 12px; }
+  .fiches-grid, .formules-categories, .constantes-grid { grid-template-columns: 1fr; }
+  .conv-row { grid-template-columns: 1fr; }
+  .periodique-grid { grid-template-columns: repeat(auto-fill, minmax(75px, 1fr)); }
+  .footer-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 480px) {
+  .hero-page h1 { font-size: 1.5rem; }
+  .logo-texte { display: none; }
+  .logo-img-wrap { width: 42px; height: 42px; }
+  .calc-panel, .conv-panel { padding: 20px; }
+}
+
+.fade-in { opacity: 0; transform: translateY(30px); transition: opacity 0.7s, transform 0.7s; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+</style>
 </head>
 <body>
 
-  <header class="header">
-    <div class="container header-inner">
-      <a href="index.html" class="logo">
-        <span class="logo-icon"><i class="fas fa-atom"></i></span>
-        A SALIKI <span>PC</span>
-      </a>
-      <nav class="nav-desktop">
-        <a href="index.html" data-i18n="nav.home">Accueil</a>
-        <a href="cours.html" data-i18n="nav.cours">Cours</a>
-        <a href="exercices.html" data-i18n="nav.exercices">Exercices</a>
-        <a href="examens.html" data-i18n="nav.examens">Examens</a>
-        <a href="simulations.html" data-i18n="nav.simulations">Simulations</a>
-        <a href="qcm.html" data-i18n="nav.qcm">QCM</a>
-        <a href="ressources.html" class="actif" data-i18n="nav.ressources">Ressources</a>
-        <a href="admin/login.html" class="admin-link" data-i18n="nav.admin">Admin</a>
-      </nav>
-      <div class="header-actions">
-        <div class="lang-switcher">
-          <button class="lang-btn actif" data-lang="fr">FR</button>
-          <button class="lang-btn" data-lang="ar">AR</button>
-        </div>
-      </div>
+<!-- ===== NAVBAR ===== -->
+<nav>
+  <a href="index.html" class="logo">
+    <div class="logo-img-wrap">
+      <img src="assets/logo-darrssy.png" alt="DARRSSY">
     </div>
-  </header>
-
-  <section class="hero-res">
-    <div class="container">
-      <h1><span data-i18n="res.titre1">Outils &</span> <span class="accent" data-i18n="res.titre2">Ressources</span></h1>
-      <p data-i18n="res.desc">Fiches de révision, formulaire complet, calculateur interactif, tableau périodique et convertisseur d'unités : tout pour réussir en Physique-Chimie.</p>
+    <div class="logo-texte">
+      <span class="titre">DARRSSY</span>
+      <span class="arabe">دَرْسِي</span>
     </div>
-  </section>
-
-  <div class="container">
-
-    <div class="tabs-bar">
-      <button class="tab-btn actif" data-tab="fiches"><i class="fas fa-file-alt"></i> <span data-i18n="tab.fiches">Fiches de révision</span></button>
-      <button class="tab-btn" data-tab="formulaire"><i class="fas fa-square-root-alt"></i> <span data-i18n="tab.formulaire">Formulaire</span></button>
-      <button class="tab-btn" data-tab="calculateur"><i class="fas fa-calculator"></i> <span data-i18n="tab.calculateur">Calculateur</span></button>
-      <button class="tab-btn" data-tab="periodique"><i class="fas fa-atom"></i> <span data-i18n="tab.periodique">Tableau périodique</span></button>
-      <button class="tab-btn" data-tab="convertisseur"><i class="fas fa-exchange-alt"></i> <span data-i18n="tab.convertisseur">Convertisseur</span></button>
-      <button class="tab-btn" data-tab="constantes"><i class="fas fa-superscript"></i> <span data-i18n="tab.constantes">Constantes</span></button>
-    </div>
-
-    <!-- TAB 1 : FICHES -->
-    <div class="tab-panel actif" id="panel-fiches">
-      <div class="section-titre">
-        <h2 data-i18n="fiches.titre">Fiches de révision</h2>
-        <p data-i18n="fiches.desc">Résumés synthétiques pour réviser efficacement chaque chapitre.</p>
+  </a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="index.html" data-i18n="nav.home">Accueil</a></li>
+    <li><a href="cours.html" data-i18n="nav.cours">Cours</a></li>
+    <li><a href="exercices.html" data-i18n="nav.exercices">Exercices</a></li>
+    <li><a href="examens.html" data-i18n="nav.examens">Examens</a></li>
+    <li><a href="simulations.html" data-i18n="nav.simulations">Simulations</a></li>
+    <li><a href="ressources.html" class="actif" data-i18n="nav.ressources">Ressources</a></li>
+    <li>
+      <div class="lang-switcher">
+        <button class="lang-btn actif" data-lang="fr">FR</button>
+        <button class="lang-btn" data-lang="ar">AR</button>
       </div>
-      <div class="fiches-grid" id="fichesGrid"></div>
-    </div>
+    </li>
+    <li><a href="admin/login.html" class="btn-nav"><i class="fas fa-sign-in-alt"></i> <span data-i18n="nav.connexion">Connexion</span></a></li>
+  </ul>
+  <button class="menu-toggle" id="menuToggle" aria-label="Menu"><i class="fas fa-bars"></i></button>
+</nav>
 
-    <!-- TAB 2 : FORMULAIRE -->
-    <div class="tab-panel" id="panel-formulaire">
-      <div class="section-titre">
-        <h2 data-i18n="formulaire.titre">Formulaire complet</h2>
-        <p data-i18n="formulaire.desc">Toutes les formules de Physique-Chimie en un seul endroit.</p>
-      </div>
-      <div class="formulaire-search">
-        <i class="fas fa-search"></i>
-        <input type="text" id="formulaireSearch" placeholder="Rechercher une formule...">
-      </div>
-      <div class="formules-categories" id="formulesCategories"></div>
-    </div>
+<!-- ===== HERO ===== -->
+<section class="hero-page">
+  <div class="hero-page-content">
+    <h1>
+      <span data-i18n="res.titre1">Outils &</span>
+      <span data-i18n="res.titre2">Ressources</span>
+    </h1>
+    <p data-i18n="res.desc">Fiches de révision, formulaire complet, calculateur interactif, tableau périodique et convertisseur d'unités.</p>
+  </div>
+</section>
 
-    <!-- TAB 3 : CALCULATEUR -->
-    <div class="tab-panel" id="panel-calculateur">
-      <div class="section-titre">
-        <h2 data-i18n="calc.titre">Calculateur interactif</h2>
-        <p data-i18n="calc.desc">Entrez vos valeurs et obtenez le résultat instantanément.</p>
-      </div>
-      <div class="calculateur-wrap">
-        <div class="calc-tabs">
-          <button class="calc-tab actif" data-calc="ph">pH</button>
-          <button class="calc-tab" data-calc="cinetique">Cinétique</button>
-          <button class="calc-tab" data-calc="energie">E = mc²</button>
-          <button class="calc-tab" data-calc="chute">Chute libre</button>
-          <button class="calc-tab" data-calc="rc">τ = RC</button>
-          <button class="calc-tab" data-calc="rlc">T₀ = 2π√LC</button>
-        </div>
-
-        <div class="calc-panel actif" id="calc-ph">
-          <h3>Calcul du pH</h3>
-          <div class="calc-formule">$\\text{pH} = -\\log[\\text{H}_3\\text{O}^+]$</div>
-          <div class="calc-inputs">
-            <div class="calc-input-group">
-              <label>Concentration [H₃O⁺] (mol/L)</label>
-              <input type="number" id="ph-conc" value="0.01" step="0.001" min="0">
-            </div>
-          </div>
-          <button class="btn-calc" onclick="calculerPH()"><i class="fas fa-calculator"></i> Calculer</button>
-          <div class="calc-resultat" id="res-ph">
-            <div class="lbl">pH =</div>
-            <div class="val" id="res-ph-val">—</div>
-          </div>
-        </div>
-
-        <div class="calc-panel" id="calc-cinetique">
-          <h3>Constante de vitesse (Arrhenius)</h3>
-          <div class="calc-formule">$k = k_0 \\cdot e^{-E_a/(RT)}$</div>
-          <div class="calc-inputs">
-            <div class="calc-input-group"><label>k₀ (s⁻¹)</label><input type="number" id="cin-k0" value="1e10" step="any"></div>
-            <div class="calc-input-group"><label>Ea (J/mol)</label><input type="number" id="cin-ea" value="50000" step="any"></div>
-            <div class="calc-input-group"><label>T (K)</label><input type="number" id="cin-t" value="298" step="any"></div>
-          </div>
-          <button class="btn-calc" onclick="calculerCinetique()"><i class="fas fa-calculator"></i> Calculer</button>
-          <div class="calc-resultat" id="res-cinetique">
-            <div class="lbl">k =</div>
-            <div class="val" id="res-cinetique-val">—</div>
-          </div>
-        </div>
-
-        <div class="calc-panel" id="calc-energie">
-          <h3>Énergie de masse (Einstein)</h3>
-          <div class="calc-formule">$E = \\Delta m \\cdot c^2$</div>
-          <div class="calc-inputs">
-            <div class="calc-input-group"><label>Δm (kg)</label><input type="number" id="en-dm" value="1e-3" step="any"></div>
-          </div>
-          <button class="btn-calc" onclick="calculerEnergie()"><i class="fas fa-calculator"></i> Calculer</button>
-          <div class="calc-resultat" id="res-energie">
-            <div class="lbl">E =</div>
-            <div class="val" id="res-energie-val">—</div>
-          </div>
-        </div>
-
-        <div class="calc-panel" id="calc-chute">
-          <h3>Chute libre</h3>
-          <div class="calc-formule">$h = \\frac{1}{2} g t^2$</div>
-          <div class="calc-inputs">
-            <div class="calc-input-group"><label>h (m)</label><input type="number" id="ch-h" value="45" step="any"></div>
-          </div>
-          <button class="btn-calc" onclick="calculerChute()"><i class="fas fa-calculator"></i> Calculer</button>
-          <div class="calc-resultat" id="res-chute">
-            <div class="lbl">t =</div>
-            <div class="val" id="res-chute-val">—</div>
-          </div>
-        </div>
-
-        <div class="calc-panel" id="calc-rc">
-          <h3>Constante de temps RC</h3>
-          <div class="calc-formule">$\\tau = R \\cdot C$</div>
-          <div class="calc-inputs">
-            <div class="calc-input-group"><label>R (Ω)</label><input type="number" id="rc-r" value="1000" step="any"></div>
-            <div class="calc-input-group"><label>C (µF)</label><input type="number" id="rc-c" value="10" step="any"></div>
-          </div>
-          <button class="btn-calc" onclick="calculerRC()"><i class="fas fa-calculator"></i> Calculer</button>
-          <div class="calc-resultat" id="res-rc">
-            <div class="lbl">τ =</div>
-            <div class="val" id="res-rc-val">—</div>
-          </div>
-        </div>
-
-        <div class="calc-panel" id="calc-rlc">
-          <h3>Période propre LC (Thomson)</h3>
-          <div class="calc-formule">$T_0 = 2\\pi\\sqrt{LC}$</div>
-          <div class="calc-inputs">
-            <div class="calc-input-group"><label>L (H)</label><input type="number" id="rlc-l" value="0.2" step="any"></div>
-            <div class="calc-input-group"><label>C (µF)</label><input type="number" id="rlc-c" value="10" step="any"></div>
-          </div>
-          <button class="btn-calc" onclick="calculerRLC()"><i class="fas fa-calculator"></i> Calculer</button>
-          <div class="calc-resultat" id="res-rlc">
-            <div class="lbl">T₀ =</div>
-            <div class="val" id="res-rlc-val">—</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- TAB 4 : TABLEAU PÉRIODIQUE -->
-    <div class="tab-panel" id="panel-periodique">
-      <div class="section-titre">
-        <h2 data-i18n="perio.titre">Tableau périodique simplifié</h2>
-        <p data-i18n="perio.desc">Les 20 premiers éléments. Cliquez pour voir les détails.</p>
-      </div>
-      <div class="periodique-grid" id="periodiqueGrid"></div>
-    </div>
-
-    <!-- TAB 5 : CONVERTISSEUR -->
-    <div class="tab-panel" id="panel-convertisseur">
-      <div class="section-titre">
-        <h2 data-i18n="conv.titre">Convertisseur d'unités</h2>
-        <p data-i18n="conv.desc">Convertissez rapidement entre les unités courantes.</p>
-      </div>
-      <div class="conv-wrap">
-        <div class="conv-types">
-          <button class="conv-type-btn actif" data-conv="longueur">Longueur</button>
-          <button class="conv-type-btn" data-conv="masse">Masse</button>
-          <button class="conv-type-btn" data-conv="temps">Temps</button>
-          <button class="conv-type-btn" data-conv="energie">Énergie</button>
-          <button class="conv-type-btn" data-conv="temperature">Température</button>
-        </div>
-
-        <div class="conv-panel actif" id="conv-longueur">
-          <div class="conv-row">
-            <div class="conv-input-group"><label>Valeur</label><input type="number" id="conv-l-val" value="1" oninput="convertir('longueur')"></div>
-            <div class="conv-input-group"><label>De</label>
-              <select id="conv-l-from" onchange="convertir('longueur')">
-                <option value="1">m (mètre)</option>
-                <option value="0.01">cm</option>
-                <option value="0.001">mm</option>
-                <option value="1000">km</option>
-                <option value="1e-9">nm</option>
-                <option value="1e-6">µm</option>
-              </select>
-            </div>
-          </div>
-          <div class="conv-row">
-            <div class="conv-input-group"><label>Vers</label>
-              <select id="conv-l-to" onchange="convertir('longueur')">
-                <option value="1">m</option>
-                <option value="0.01" selected>cm</option>
-                <option value="0.001">mm</option>
-                <option value="1000">km</option>
-                <option value="1e-9">nm</option>
-                <option value="1e-6">µm</option>
-              </select>
-            </div>
-          </div>
-          <div class="conv-resultat"><div class="lbl">Résultat</div><div class="val" id="conv-l-res">—</div></div>
-        </div>
-
-        <div class="conv-panel" id="conv-masse">
-          <div class="conv-row">
-            <div class="conv-input-group"><label>Valeur</label><input type="number" id="conv-m-val" value="1" oninput="convertir('masse')"></div>
-            <div class="conv-input-group"><label>De</label>
-              <select id="conv-m-from" onchange="convertir('masse')">
-                <option value="1">kg</option>
-                <option value="0.001">g</option>
-                <option value="1e-6">mg</option>
-                <option value="1000">t</option>
-              </select>
-            </div>
-          </div>
-          <div class="conv-row">
-            <div class="conv-input-group"><label>Vers</label>
-              <select id="conv-m-to" onchange="convertir('masse')">
-                <option value="1">kg</option>
-                <option value="0.001" selected>g</option>
-                <option value="1e-6">mg</option>
-                <option value="1000">t</option>
-              </select>
-            </div>
-          </div>
-          <div class="conv-resultat"><div class="lbl">Résultat</div><div class="val" id="conv-m-res">—</div></div>
-        </div>
-
-        <div class="conv-panel" id="conv-temps">
-          <div class="conv-row">
-            <div class="conv-input-group"><label>Valeur</label><input type="number" id="conv-t-val" value="1" oninput="convertir('temps')"></div>
-            <div class="conv-input-group"><label>De</label>
-              <select id="conv-t-from" onchange="convertir('temps')">
-                <option value="1">s</option>
-                <option value="60">min</option>
-                <option value="3600">h</option>
-                <option value="0.001">ms</option>
-              </select>
-            </div>
-          </div>
-          <div class="conv-row">
-            <div class="conv-input-group"><label>Vers</label>
-              <select id="conv-t-to" onchange="convertir('temps')">
-                <option value="1">s</option>
-                <option value="60" selected>min</option>
-                <option value="3600">h</option>
-                <option value="0.001">ms</option>
-              </select>
-            </div>
-          </div>
-          <div class="conv-resultat"><div class="lbl">Résultat</div><div class="val" id="conv-t-res">—</div></div>
-        </div>
-
-        <div class="conv-panel" id="conv-energie">
-          <div class="conv-row">
-            <div class="conv-input-group"><label>Valeur</label><input type="number" id="conv-e-val" value="1" oninput="convertir('energie')"></div>
-            <div class="conv-input-group"><label>De</label>
-              <select id="conv-e-from" onchange="convertir('energie')">
-                <option value="1">J</option>
-                <option value="1000">kJ</option>
-                <option value="1.602e-19">eV</option>
-                <option value="3600">Wh</option>
-                <option value="3.6e6">kWh</option>
-              </select>
-            </div>
-          </div>
-          <div class="conv-row">
-            <div class="conv-input-group"><label>Vers</label>
-              <select id="conv-e-to" onchange="convertir('energie')">
-                <option value="1">J</option>
-                <option value="1000">kJ</option>
-                <option value="1.602e-19" selected>eV</option>
-                <option value="3600">Wh</option>
-                <option value="3.6e6">kWh</option>
-              </select>
-            </div>
-          </div>
-          <div class="conv-resultat"><div class="lbl">Résultat</div><div class="val" id="conv-e-res">—</div></div>
-        </div>
-
-        <div class="conv-panel" id="conv-temperature">
-          <div class="conv-row">
-            <div class="conv-input-group"><label>Valeur</label><input type="number" id="conv-tp-val" value="25" oninput="convertir('temperature')"></div>
-            <div class="conv-input-group"><label>De</label>
-              <select id="conv-tp-from" onchange="convertir('temperature')">
-                <option value="C">°C</option>
-                <option value="K">K</option>
-                <option value="F">°F</option>
-              </select>
-            </div>
-          </div>
-          <div class="conv-row">
-            <div class="conv-input-group"><label>Vers</label>
-              <select id="conv-tp-to" onchange="convertir('temperature')">
-                <option value="C">°C</option>
-                <option value="K" selected>K</option>
-                <option value="F">°F</option>
-              </select>
-            </div>
-          </div>
-          <div class="conv-resultat"><div class="lbl">Résultat</div><div class="val" id="conv-tp-res">—</div></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- TAB 6 : CONSTANTES -->
-    <div class="tab-panel" id="panel-constantes">
-      <div class="section-titre">
-        <h2 data-i18n="const.titre">Constantes physiques</h2>
-        <p data-i18n="const.desc">Les constantes fondamentales à connaître.</p>
-      </div>
-      <div class="constantes-grid" id="constantesGrid"></div>
-    </div>
-
+<!-- ===== CONTENU ===== -->
+<div class="conteneur">
+  <div class="tabs-bar">
+    <button class="tab-btn actif" data-tab="fiches"><i class="fas fa-file-alt"></i> <span data-i18n="tab.fiches">Fiches</span></button>
+    <button class="tab-btn" data-tab="formulaire"><i class="fas fa-square-root-alt"></i> <span data-i18n="tab.formulaire">Formulaire</span></button>
+    <button class="tab-btn" data-tab="calculateur"><i class="fas fa-calculator"></i> <span data-i18n="tab.calculateur">Calculateur</span></button>
+    <button class="tab-btn" data-tab="periodique"><i class="fas fa-atom"></i> <span data-i18n="tab.periodique">Tableau périodique</span></button>
+    <button class="tab-btn" data-tab="convertisseur"><i class="fas fa-exchange-alt"></i> <span data-i18n="tab.convertisseur">Convertisseur</span></button>
+    <button class="tab-btn" data-tab="constantes"><i class="fas fa-superscript"></i> <span data-i18n="tab.constantes">Constantes</span></button>
   </div>
 
-  <div class="element-modal" id="elementModal">
-    <div class="element-modal-box">
-      <button class="close-el" id="closeElementModal"><i class="fas fa-times"></i></button>
-      <div class="element-header">
-        <div class="big-sym" id="modalSym">H</div>
-        <div class="el-info">
-          <h3 id="modalNom">Hydrogène</h3>
-          <span id="modalCat">Non-métal</span>
-        </div>
+  <!-- TAB 1 : FICHES -->
+  <div class="tab-panel actif" id="panel-fiches">
+    <div class="section-titre">
+      <h2 data-i18n="fiches.titre">Fiches de révision</h2>
+      <p data-i18n="fiches.desc">Résumés synthétiques pour réviser efficacement chaque chapitre.</p>
+    </div>
+    <div class="fiches-grid" id="fichesGrid"></div>
+  </div>
+
+  <!-- TAB 2 : FORMULAIRE -->
+  <div class="tab-panel" id="panel-formulaire">
+    <div class="section-titre">
+      <h2 data-i18n="formulaire.titre">Formulaire complet</h2>
+      <p data-i18n="formulaire.desc">Toutes les formules de Physique-Chimie en un seul endroit.</p>
+    </div>
+    <div class="formulaire-search">
+      <i class="fas fa-search"></i>
+      <input type="text" id="formulaireSearch" placeholder="Rechercher une formule...">
+    </div>
+    <div class="formules-categories" id="formulesCategories"></div>
+  </div>
+
+  <!-- TAB 3 : CALCULATEUR -->
+  <div class="tab-panel" id="panel-calculateur">
+    <div class="section-titre">
+      <h2 data-i18n="calc.titre">Calculateur interactif</h2>
+      <p data-i18n="calc.desc">Entrez vos valeurs et obtenez le résultat instantanément.</p>
+    </div>
+    <div class="calculateur-wrap">
+      <div class="calc-tabs">
+        <button class="calc-tab actif" data-calc="ph">pH</button>
+        <button class="calc-tab" data-calc="cinetique">Arrhenius</button>
+        <button class="calc-tab" data-calc="energie">E = mc²</button>
+        <button class="calc-tab" data-calc="chute">Chute libre</button>
+        <button class="calc-tab" data-calc="rc">τ = RC</button>
+        <button class="calc-tab" data-calc="rlc">T₀ = 2π√LC</button>
       </div>
-      <div class="element-stats" id="modalStats"></div>
+
+      <div class="calc-panel actif" id="calc-ph">
+        <h3>Calcul du pH</h3>
+        <div class="calc-formule">$$\text{pH} = -\log[\text{H}_3\text{O}^+]$$</div>
+        <div class="calc-inputs">
+          <div class="calc-input-group">
+            <label>Concentration [H₃O⁺] (mol/L)</label>
+            <input type="number" id="ph-conc" value="0.01" step="0.001" min="0">
+          </div>
+        </div>
+        <button class="btn-calc" onclick="calculerPH()"><i class="fas fa-calculator"></i> Calculer</button>
+        <div class="calc-resultat" id="res-ph"><div class="lbl">pH =</div><div class="val" id="res-ph-val">—</div></div>
+      </div>
+
+      <div class="calc-panel" id="calc-cinetique">
+        <h3>Loi d'Arrhenius</h3>
+        <div class="calc-formule">$$k = k_0 \cdot e^{-E_a/(RT)}$$</div>
+        <div class="calc-inputs">
+          <div class="calc-input-group"><label>k₀ (s⁻¹)</label><input type="number" id="cin-k0" value="1e10" step="any"></div>
+          <div class="calc-input-group"><label>Ea (J/mol)</label><input type="number" id="cin-ea" value="50000" step="any"></div>
+          <div class="calc-input-group"><label>T (K)</label><input type="number" id="cin-t" value="298" step="any"></div>
+        </div>
+        <button class="btn-calc" onclick="calculerCinetique()"><i class="fas fa-calculator"></i> Calculer</button>
+        <div class="calc-resultat" id="res-cinetique"><div class="lbl">k =</div><div class="val" id="res-cinetique-val">—</div></div>
+      </div>
+
+      <div class="calc-panel" id="calc-energie">
+        <h3>Énergie de masse (Einstein)</h3>
+        <div class="calc-formule">$$E = \Delta m \cdot c^2$$</div>
+        <div class="calc-inputs">
+          <div class="calc-input-group"><label>Δm (kg)</label><input type="number" id="en-dm" value="1e-3" step="any"></div>
+        </div>
+        <button class="btn-calc" onclick="calculerEnergie()"><i class="fas fa-calculator"></i> Calculer</button>
+        <div class="calc-resultat" id="res-energie"><div class="lbl">E =</div><div class="val" id="res-energie-val">—</div></div>
+      </div>
+
+      <div class="calc-panel" id="calc-chute">
+        <h3>Chute libre</h3>
+        <div class="calc-formule">$$h = \frac{1}{2} g t^2$$</div>
+        <div class="calc-inputs">
+          <div class="calc-input-group"><label>h (m)</label><input type="number" id="ch-h" value="45" step="any"></div>
+        </div>
+        <button class="btn-calc" onclick="calculerChute()"><i class="fas fa-calculator"></i> Calculer</button>
+        <div class="calc-resultat" id="res-chute"><div class="lbl">t =</div><div class="val" id="res-chute-val">—</div></div>
+      </div>
+
+      <div class="calc-panel" id="calc-rc">
+        <h3>Constante de temps RC</h3>
+        <div class="calc-formule">$$\tau = R \cdot C$$</div>
+        <div class="calc-inputs">
+          <div class="calc-input-group"><label>R (Ω)</label><input type="number" id="rc-r" value="1000" step="any"></div>
+          <div class="calc-input-group"><label>C (µF)</label><input type="number" id="rc-c" value="10" step="any"></div>
+        </div>
+        <button class="btn-calc" onclick="calculerRC()"><i class="fas fa-calculator"></i> Calculer</button>
+        <div class="calc-resultat" id="res-rc"><div class="lbl">τ =</div><div class="val" id="res-rc-val">—</div></div>
+      </div>
+
+      <div class="calc-panel" id="calc-rlc">
+        <h3>Période propre LC (Thomson)</h3>
+        <div class="calc-formule">$$T_0 = 2\pi\sqrt{LC}$$</div>
+        <div class="calc-inputs">
+          <div class="calc-input-group"><label>L (H)</label><input type="number" id="rlc-l" value="0.2" step="any"></div>
+          <div class="calc-input-group"><label>C (µF)</label><input type="number" id="rlc-c" value="10" step="any"></div>
+        </div>
+        <button class="btn-calc" onclick="calculerRLC()"><i class="fas fa-calculator"></i> Calculer</button>
+        <div class="calc-resultat" id="res-rlc"><div class="lbl">T₀ =</div><div class="val" id="res-rlc-val">—</div></div>
+      </div>
     </div>
   </div>
 
-  <button class="theme-toggle" id="themeToggle">
-    <i class="fas fa-moon icon-moon"></i>
-    <i class="fas fa-sun icon-sun"></i>
-  </button>
+  <!-- TAB 4 : TABLEAU PÉRIODIQUE -->
+  <div class="tab-panel" id="panel-periodique">
+    <div class="section-titre">
+      <h2 data-i18n="perio.titre">Tableau périodique simplifié</h2>
+      <p data-i18n="perio.desc">Les 20 premiers éléments. Cliquez pour voir les détails.</p>
+    </div>
+    <div class="periodique-grid" id="periodiqueGrid"></div>
+  </div>
 
-  <script>
-    const fiches = [
-      { id: 'f1', niveau: '2bacpc', matiere: 'physique', icon: 'fa-water', titre_fr: 'Ondes mécaniques', titre_ar: 'الموجات الميكانيكية', desc_fr: 'Définition, célérité, périodicité, ondes progressives.', desc_ar: 'التعريف، السرعة، الدورية.' },
-      { id: 'f2', niveau: '2bacpc', matiere: 'physique', icon: 'fa-bolt', titre_fr: 'Dipôle RC', titre_ar: 'ثنائي القطب RC', desc_fr: 'Charge, décharge, constante de temps.', desc_ar: 'الشحن، التفريغ، الثابت الزمني.' },
-      { id: 'f3', niveau: '2bacpc', matiere: 'physique', icon: 'fa-wave-square', titre_fr: 'Circuit RLC', titre_ar: 'دارة RLC', desc_fr: 'Oscillations libres, amorties, résonance.', desc_ar: 'التذبذبات الحرة والمخمدة.' },
-      { id: 'f4', niveau: '2bacpc', matiere: 'physique', icon: 'fa-radiation', titre_fr: 'Radioactivité', titre_ar: 'النشاط الإشعاعي', desc_fr: 'Loi de décroissance, demi-vie, fission.', desc_ar: 'قانون التحلل، نصف العمر.' },
-      { id: 'f5', niveau: '2bacpc', matiere: 'physique', icon: 'fa-rocket', titre_fr: 'Mécanique de Newton', titre_ar: 'ميكانيك نيوتن', desc_fr: 'Les 3 lois de Newton, chute libre.', desc_ar: 'قوانين نيوتن الثلاثة.' },
-      { id: 'f6', niveau: '2bacpc', matiere: 'chimie', icon: 'fa-hourglass-half', titre_fr: 'Cinétique chimique', titre_ar: 'الحركية الكيميائية', desc_fr: 'Vitesse de réaction, catalyse.', desc_ar: 'سرعة التفاعل، الحفز.' },
-      { id: 'f7', niveau: '2bacpc', matiere: 'chimie', icon: 'fa-flask', titre_fr: 'Acide-base', titre_ar: 'الحموض والقواعد', desc_fr: 'pH, couples, titrage.', desc_ar: 'pH، الثنائيات، المعايرة.' },
-      { id: 'f8', niveau: '2bacpc', matiere: 'chimie', icon: 'fa-battery-full', titre_fr: 'Oxydoréduction', titre_ar: 'الأكسدة والإرجاع', desc_fr: 'Piles, électrolyse.', desc_ar: 'الأعمدة، التحليل الكهربائي.' }
-    ];
+  <!-- TAB 5 : CONVERTISSEUR -->
+  <div class="tab-panel" id="panel-convertisseur">
+    <div class="section-titre">
+      <h2 data-i18n="conv.titre">Convertisseur d'unités</h2>
+      <p data-i18n="conv.desc">Convertissez rapidement entre les unités courantes.</p>
+    </div>
+    <div class="conv-wrap">
+      <div class="conv-types">
+        <button class="conv-type-btn actif" data-conv="longueur">Longueur</button>
+        <button class="conv-type-btn" data-conv="masse">Masse</button>
+        <button class="conv-type-btn" data-conv="temps">Temps</button>
+        <button class="conv-type-btn" data-conv="energie">Énergie</button>
+        <button class="conv-type-btn" data-conv="temperature">Température</button>
+      </div>
 
-    const formules = [
-      { cat_fr: 'Ondes', cat_ar: 'الموجات', items: [
-        { nom_fr: 'Célérité', nom_ar: 'السرعة', eq: 'v = \\frac{d}{\\Delta t}' },
-        { nom_fr: 'Période', nom_ar: 'الدور', eq: 'T = \\frac{1}{f}' },
-        { nom_fr: 'Longueur d\'onde', nom_ar: 'الطول الموجي', eq: '\\lambda = v \\cdot T' },
-        { nom_fr: 'Diffraction', nom_ar: 'الانعراج', eq: '\\theta = \\frac{\\lambda}{a}' }
-      ]},
-      { cat_fr: 'Électricité', cat_ar: 'الكهرباء', items: [
-        { nom_fr: 'Loi d\'Ohm', nom_ar: 'قانون أوم', eq: 'U = R \\cdot I' },
-        { nom_fr: 'Constante RC', nom_ar: 'ثابت RC', eq: '\\tau = R \\cdot C' },
-        { nom_fr: 'Charge condensateur', nom_ar: 'شحن المكثف', eq: 'u_C(t) = E(1 - e^{-t/\\tau})' },
-        { nom_fr: 'Période LC', nom_ar: 'دور LC', eq: 'T_0 = 2\\pi\\sqrt{LC}' }
-      ]},
-      { cat_fr: 'Mécanique', cat_ar: 'الميكانيك', items: [
-        { nom_fr: '2ème loi de Newton', nom_ar: 'قانون نيوتن الثاني', eq: '\\sum \\vec{F} = m \\vec{a}' },
-        { nom_fr: 'Chute libre', nom_ar: 'السقوط الحر', eq: 'y(t) = \\frac{1}{2} g t^2' },
-        { nom_fr: 'Énergie cinétique', nom_ar: 'الطاقة الحركية', eq: 'E_c = \\frac{1}{2} m v^2' },
-        { nom_fr: 'Énergie potentielle', nom_ar: 'الطاقة الكامنة', eq: 'E_p = m g h' }
-      ]},
-      { cat_fr: 'Nucléaire', cat_ar: 'النووي', items: [
-        { nom_fr: 'Décroissance', nom_ar: 'التحلل', eq: 'N(t) = N_0 e^{-\\lambda t}' },
-        { nom_fr: 'Demi-vie', nom_ar: 'نصف العمر', eq: 'T_{1/2} = \\frac{\\ln 2}{\\lambda}' },
-        { nom_fr: 'Énergie de masse', nom_ar: 'طاقة الكتلة', eq: 'E = \\Delta m \\cdot c^2' }
-      ]},
-      { cat_fr: 'Chimie', cat_ar: 'الكيمياء', items: [
-        { nom_fr: 'pH', nom_ar: 'pH', eq: '\\text{pH} = -\\log[\\text{H}_3\\text{O}^+]' },
-        { nom_fr: 'Produit ionique', nom_ar: 'الجداء الأيوني', eq: 'K_e = [H_3O^+][OH^-] = 10^{-14}' },
-        { nom_fr: 'Vitesse', nom_ar: 'السرعة', eq: 'v = -\\frac{d[C]}{dt}' },
-        { nom_fr: 'Arrhenius', nom_ar: 'أرينيوس', eq: 'k = k_0 e^{-E_a/(RT)}' }
-      ]}
-    ];
+      <div class="conv-panel actif" id="conv-longueur">
+        <div class="conv-row">
+          <div class="conv-input-group"><label>Valeur</label><input type="number" id="conv-l-val" value="1" oninput="convertir('longueur')"></div>
+          <div class="conv-input-group"><label>De</label>
+            <select id="conv-l-from" onchange="convertir('longueur')">
+              <option value="1">m</option><option value="0.01">cm</option><option value="0.001">mm</option>
+              <option value="1000">km</option><option value="1e-9">nm</option><option value="1e-6">µm</option>
+            </select>
+          </div>
+        </div>
+        <div class="conv-row">
+          <div class="conv-input-group"><label>Vers</label>
+            <select id="conv-l-to" onchange="convertir('longueur')">
+              <option value="1">m</option><option value="0.01" selected>cm</option><option value="0.001">mm</option>
+              <option value="1000">km</option><option value="1e-9">nm</option><option value="1e-6">µm</option>
+            </select>
+          </div>
+        </div>
+        <div class="conv-resultat"><div class="lbl">Résultat</div><div class="val" id="conv-l-res">—</div></div>
+      </div>
 
-    const elements = [
-      { z: 1, sym: 'H', nom_fr: 'Hydrogène', nom_ar: 'الهيدروجين', masse: 1.008, cat: 'gaz', famille_fr: 'Non-métal', famille_ar: 'لا فلز' },
-      { z: 2, sym: 'He', nom_fr: 'Hélium', nom_ar: 'الهيليوم', masse: 4.003, cat: 'gaz', famille_fr: 'Gaz noble', famille_ar: 'غاز نبيل' },
-      { z: 3, sym: 'Li', nom_fr: 'Lithium', nom_ar: 'الليثيوم', masse: 6.941, cat: 'alcalin', famille_fr: 'Métal alcalin', famille_ar: 'فلز قلوي' },
-      { z: 4, sym: 'Be', nom_fr: 'Béryllium', nom_ar: 'البيريليوم', masse: 9.012, cat: 'alcalino', famille_fr: 'Alcalino-terreux', famille_ar: 'فلز قلوي ترابي' },
-      { z: 5, sym: 'B', nom_fr: 'Bore', nom_ar: 'البورون', masse: 10.81, cat: 'metalloide', famille_fr: 'Métalloïde', famille_ar: 'شبه فلز' },
-      { z: 6, sym: 'C', nom_fr: 'Carbone', nom_ar: 'الكربون', masse: 12.011, cat: 'gaz', famille_fr: 'Non-métal', famille_ar: 'لا فلز' },
-      { z: 7, sym: 'N', nom_fr: 'Azote', nom_ar: 'الآزوت', masse: 14.007, cat: 'gaz', famille_fr: 'Non-métal', famille_ar: 'لا فلز' },
-      { z: 8, sym: 'O', nom_fr: 'Oxygène', nom_ar: 'الأكسجين', masse: 15.999, cat: 'gaz', famille_fr: 'Non-métal', famille_ar: 'لا فلز' },
-      { z: 9, sym: 'F', nom_fr: 'Fluor', nom_ar: 'الفلور', masse: 18.998, cat: 'halogene', famille_fr: 'Halogène', famille_ar: 'هالوجين' },
-      { z: 10, sym: 'Ne', nom_fr: 'Néon', nom_ar: 'النيون', masse: 20.180, cat: 'gaz', famille_fr: 'Gaz noble', famille_ar: 'غاز نبيل' },
-      { z: 11, sym: 'Na', nom_fr: 'Sodium', nom_ar: 'الصوديوم', masse: 22.990, cat: 'alcalin', famille_fr: 'Métal alcalin', famille_ar: 'فلز قلوي' },
-      { z: 12, sym: 'Mg', nom_fr: 'Magnésium', nom_ar: 'المغنيزيوم', masse: 24.305, cat: 'alcalino', famille_fr: 'Alcalino-terreux', famille_ar: 'فلز قلوي ترابي' },
-      { z: 13, sym: 'Al', nom_fr: 'Aluminium', nom_ar: 'الألمنيوم', masse: 26.982, cat: 'metalloide', famille_fr: 'Métal pauvre', famille_ar: 'فلز فقير' },
-      { z: 14, sym: 'Si', nom_fr: 'Silicium', nom_ar: 'السيليسيوم', masse: 28.086, cat: 'metalloide', famille_fr: 'Métalloïde', famille_ar: 'شبه فلز' },
-      { z: 15, sym: 'P', nom_fr: 'Phosphore', nom_ar: 'الفوسفور', masse: 30.974, cat: 'gaz', famille_fr: 'Non-métal', famille_ar: 'لا فلز' },
-      { z: 16, sym: 'S', nom_fr: 'Soufre', nom_ar: 'الكبريت', masse: 32.065, cat: 'gaz', famille_fr: 'Non-métal', famille_ar: 'لا فلز' },
-      { z: 17, sym: 'Cl', nom_fr: 'Chlore', nom_ar: 'الكلور', masse: 35.453, cat: 'halogene', famille_fr: 'Halogène', famille_ar: 'هالوجين' },
-      { z: 18, sym: 'Ar', nom_fr: 'Argon', nom_ar: 'الأرغون', masse: 39.948, cat: 'gaz', famille_fr: 'Gaz noble', famille_ar: 'غاز نبيل' },
-      { z: 19, sym: 'K', nom_fr: 'Potassium', nom_ar: 'البوتاسيوم', masse: 39.098, cat: 'alcalin', famille_fr: 'Métal alcalin', famille_ar: 'فلز قلوي' },
-      { z: 20, sym: 'Ca', nom_fr: 'Calcium', nom_ar: 'الكالسيوم', masse: 40.078, cat: 'alcalino', famille_fr: 'Alcalino-terreux', famille_ar: 'فلز قلوي ترابي' }
-    ];
+      <div class="conv-panel" id="conv-masse">
+        <div class="conv-row">
+          <div class="conv-input-group"><label>Valeur</label><input type="number" id="conv-m-val" value="1" oninput="convertir('masse')"></div>
+          <div class="conv-input-group"><label>De</label>
+            <select id="conv-m-from" onchange="convertir('masse')">
+              <option value="1">kg</option><option value="0.001">g</option>
+              <option value="1e-6">mg</option><option value="1000">t</option>
+            </select>
+          </div>
+        </div>
+        <div class="conv-row">
+          <div class="conv-input-group"><label>Vers</label>
+            <select id="conv-m-to" onchange="convertir('masse')">
+              <option value="1">kg</option><option value="0.001" selected>g</option>
+              <option value="1e-6">mg</option><option value="1000">t</option>
+            </select>
+          </div>
+        </div>
+        <div class="conv-resultat"><div class="lbl">Résultat</div><div class="val" id="conv-m-res">—</div></div>
+      </div>
 
-    const constantes = [
-      { nom_fr: 'Vitesse de la lumière', nom_ar: 'سرعة الضوء', sym: 'c', val: '2,998 × 10⁸ m/s' },
-      { nom_fr: 'Constante de Planck', nom_ar: 'ثابت بلانك', sym: 'h', val: '6,626 × 10⁻³⁴ J·s' },
-      { nom_fr: 'Nombre d\'Avogadro', nom_ar: 'عدد أفوجادرو', sym: 'Nₐ', val: '6,022 × 10²³ mol⁻¹' },
-      { nom_fr: 'Charge élémentaire', nom_ar: 'الشحنة الأولية', sym: 'e', val: '1,602 × 10⁻¹⁹ C' },
-      { nom_fr: 'Constante de gravitation', nom_ar: 'ثابت الجذب العام', sym: 'G', val: '6,674 × 10⁻¹¹ N·m²/kg²' },
-      { nom_fr: 'Pesanteur terrestre', nom_ar: 'تسارع الجذب', sym: 'g', val: '9,81 m/s²' },
-      { nom_fr: 'Masse de l\'électron', nom_ar: 'كتلة الإلكترون', sym: 'mₑ', val: '9,109 × 10⁻³¹ kg' },
-      { nom_fr: 'Masse du proton', nom_ar: 'كتلة البروتون', sym: 'mₚ', val: '1,673 × 10⁻²⁷ kg' },
-      { nom_fr: 'Constante de Boltzmann', nom_ar: 'ثابت بولتزمان', sym: 'k_B', val: '1,381 × 10⁻²³ J/K' },
-      { nom_fr: 'Constante des gaz parfaits', nom_ar: 'ثابت الغازات', sym: 'R', val: '8,314 J/(mol·K)' },
-      { nom_fr: 'Permittivité du vide', nom_ar: 'سماحية الفراغ', sym: 'ε₀', val: '8,854 × 10⁻¹² F/m' },
-      { nom_fr: 'Perméabilité du vide', nom_ar: 'نفاذية الفراغ', sym: 'μ₀', val: '4π × 10⁻⁷ H/m' }
-    ];
+      <div class="conv-panel" id="conv-temps">
+        <div class="conv-row">
+          <div class="conv-input-group"><label>Valeur</label><input type="number" id="conv-t-val" value="1" oninput="convertir('temps')"></div>
+          <div class="conv-input-group"><label>De</label>
+            <select id="conv-t-from" onchange="convertir('temps')">
+              <option value="1">s</option><option value="60">min</option>
+              <option value="3600">h</option><option value="0.001">ms</option>
+            </select>
+          </div>
+        </div>
+        <div class="conv-row">
+          <div class="conv-input-group"><label>Vers</label>
+            <select id="conv-t-to" onchange="convertir('temps')">
+              <option value="1">s</option><option value="60" selected>min</option>
+              <option value="3600">h</option><option value="0.001">ms</option>
+            </select>
+          </div>
+        </div>
+        <div class="conv-resultat"><div class="lbl">Résultat</div><div class="val" id="conv-t-res">—</div></div>
+      </div>
 
-    const trad = {
-      fr: {
-        'nav.home': 'Accueil', 'nav.cours': 'Cours', 'nav.exercices': 'Exercices',
-        'nav.examens': 'Examens', 'nav.simulations': 'Simulations', 'nav.qcm': 'QCM',
-        'nav.ressources': 'Ressources', 'nav.admin': 'Admin',
-        'res.titre1': 'Outils &', 'res.titre2': 'Ressources',
-        'res.desc': "Fiches, formulaire, calculateur, tableau périodique et convertisseur : tout pour réussir.",
-        'tab.fiches': 'Fiches de révision', 'tab.formulaire': 'Formulaire',
-        'tab.calculateur': 'Calculateur', 'tab.periodique': 'Tableau périodique',
-        'tab.convertisseur': 'Convertisseur', 'tab.constantes': 'Constantes',
-        'fiches.titre': 'Fiches de révision', 'fiches.desc': 'Résumés synthétiques pour réviser efficacement.',
-        'formulaire.titre': 'Formulaire complet', 'formulaire.desc': 'Toutes les formules en un endroit.',
-        'calc.titre': 'Calculateur interactif', 'calc.desc': 'Entrez vos valeurs et obtenez le résultat.',
-        'perio.titre': 'Tableau périodique simplifié', 'perio.desc': 'Les 20 premiers éléments.',
-        'conv.titre': 'Convertisseur d\'unités', 'conv.desc': 'Convertissez entre unités.',
-        'const.titre': 'Constantes physiques', 'const.desc': 'Les constantes fondamentales.',
-        'niveau.tronc': 'Tronc Commun', 'niveau.1bac': '1ère Bac',
-        'niveau.2bacpc': '2ème Bac PC', 'niveau.2bacsvt': '2ème Bac SVT',
-        'matiere.physique': 'Physique', 'matiere.chimie': 'Chimie',
-        'btn.consulter': 'Consulter'
-      },
-      ar: {
-        'nav.home': 'الرئيسية', 'nav.cours': 'الدروس', 'nav.exercices': 'التمارين',
-        'nav.examens': 'الامتحانات', 'nav.simulations': 'المحاكاة', 'nav.qcm': 'اختبار',
-        'nav.ressources': 'الموارد', 'nav.admin': 'الإدارة',
-        'res.titre1': 'أدوات و', 'res.titre2': 'موارد',
-        'res.desc': 'بطاقات المراجعة، الصيغ، الحاسبة، الجدول الدوري ومحول الوحدات.',
-        'tab.fiches': 'بطاقات المراجعة', 'tab.formulaire': 'الصيغ',
-        'tab.calculateur': 'الحاسبة', 'tab.periodique': 'الجدول الدوري',
-        'tab.convertisseur': 'المحول', 'tab.constantes': 'الثوابت',
-        'fiches.titre': 'بطاقات المراجعة', 'fiches.desc': 'ملخصات موجزة.',
-        'formulaire.titre': 'الصيغ الكاملة', 'formulaire.desc': 'جميع الصيغ في مكان واحد.',
-        'calc.titre': 'حاسبة تفاعلية', 'calc.desc': 'أدخل قيمك واحصل على النتيجة.',
-        'perio.titre': 'الجدول الدوري المبسط', 'perio.desc': 'العناصر العشرون الأولى.',
-        'conv.titre': 'محول الوحدات', 'conv.desc': 'حول بين الوحدات.',
-        'const.titre': 'الثوابت الفيزيائية', 'const.desc': 'الثوابت الأساسية.',
-        'niveau.tronc': 'الجذع المشترك', 'niveau.1bac': 'الأولى باك',
-        'niveau.2bacpc': 'الثانية باك ع.ف', 'niveau.2bacsvt': 'الثانية باك ع.ح.أ',
-        'matiere.physique': 'الفيزياء', 'matiere.chimie': 'الكيمياء',
-        'btn.consulter': 'اطلع'
-      }
-    };
+      <div class="conv-panel" id="conv-energie">
+        <div class="conv-row">
+          <div class="conv-input-group"><label>Valeur</label><input type="number" id="conv-e-val" value="1" oninput="convertir('energie')"></div>
+          <div class="conv-input-group"><label>De</label>
+            <select id="conv-e-from" onchange="convertir('energie')">
+              <option value="1">J</option><option value="1000">kJ</option>
+              <option value="1.602e-19">eV</option><option value="3600">Wh</option><option value="3.6e6">kWh</option>
+            </select>
+          </div>
+        </div>
+        <div class="conv-row">
+          <div class="conv-input-group"><label>Vers</label>
+            <select id="conv-e-to" onchange="convertir('energie')">
+              <option value="1">J</option><option value="1000">kJ</option>
+              <option value="1.602e-19" selected>eV</option><option value="3600">Wh</option><option value="3.6e6">kWh</option>
+            </select>
+          </div>
+        </div>
+        <div class="conv-resultat"><div class="lbl">Résultat</div><div class="val" id="conv-e-res">—</div></div>
+      </div>
 
-    let currentLang = localStorage.getItem('asaliki-lang') || 'fr';
+      <div class="conv-panel" id="conv-temperature">
+        <div class="conv-row">
+          <div class="conv-input-group"><label>Valeur</label><input type="number" id="conv-tp-val" value="25" oninput="convertir('temperature')"></div>
+          <div class="conv-input-group"><label>De</label>
+            <select id="conv-tp-from" onchange="convertir('temperature')">
+              <option value="C">°C</option><option value="K">K</option><option value="F">°F</option>
+            </select>
+          </div>
+        </div>
+        <div class="conv-row">
+          <div class="conv-input-group"><label>Vers</label>
+            <select id="conv-tp-to" onchange="convertir('temperature')">
+              <option value="C">°C</option><option value="K" selected>K</option><option value="F">°F</option>
+            </select>
+          </div>
+        </div>
+        <div class="conv-resultat"><div class="lbl">Résultat</div><div class="val" id="conv-tp-res">—</div></div>
+      </div>
+    </div>
+  </div>
 
-    document.addEventListener('DOMContentLoaded', () => {
-      appliquerTheme();
-      afficherFiches();
-      afficherFormules();
-      afficherPeriodique();
-      afficherConstantes();
-      bindEvents();
-      appliquerLangue(currentLang);
+  <!-- TAB 6 : CONSTANTES -->
+  <div class="tab-panel" id="panel-constantes">
+    <div class="section-titre">
+      <h2 data-i18n="const.titre">Constantes physiques</h2>
+      <p data-i18n="const.desc">Les constantes fondamentales à connaître.</p>
+    </div>
+    <div class="constantes-grid" id="constantesGrid"></div>
+  </div>
+</div>
+
+<!-- Element modal -->
+<div class="element-modal" id="elementModal">
+  <div class="element-modal-box">
+    <button class="close-el" id="closeElementModal"><i class="fas fa-times"></i></button>
+    <div class="element-header">
+      <div class="big-sym" id="modalSym">H</div>
+      <div class="el-info">
+        <h3 id="modalNom">Hydrogène</h3>
+        <span id="modalCat">Non-métal</span>
+      </div>
+    </div>
+    <div class="element-stats" id="modalStats"></div>
+  </div>
+</div>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="footer-logo">
+        <div class="footer-logo-wrap">
+          <img src="assets/logo-darrssy.png" alt="DARRSSY">
+        </div>
+        <div>
+          <div class="footer-nom">DARRSSY</div>
+          <div class="footer-arabe">دَرْسِي</div>
+        </div>
+      </div>
+      <p data-i18n="footer.desc">La plateforme éducative marocaine dédiée à la réussite des lycéens en Physique & Chimie.</p>
+      <div class="footer-social">
+        <a href="#"><i class="fab fa-facebook-f"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-youtube"></i></a>
+        <a href="#"><i class="fab fa-tiktok"></i></a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4 data-i18n="footer.navigation">Navigation</h4>
+      <ul>
+        <li><a href="index.html" data-i18n="nav.home">Accueil</a></li>
+        <li><a href="cours.html" data-i18n="nav.cours">Cours</a></li>
+        <li><a href="exercices.html" data-i18n="nav.exercices">Exercices</a></li>
+        <li><a href="examens.html" data-i18n="nav.examens">Examens</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4 data-i18n="footer.ressources">Ressources</h4>
+      <ul>
+        <li><a href="simulations.html" data-i18n="nav.simulations">Simulations</a></li>
+        <li><a href="ressources.html" data-i18n="nav.ressources">Ressources</a></li>
+        <li><a href="admin/login.html" data-i18n="nav.admin">Administration</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4 data-i18n="footer.contact">Contact</h4>
+      <ul>
+        <li><a href="mailto:contact@darrssy.com"><i class="fas fa-envelope"></i> contact@darrssy.com</a></li>
+        <li><a href="#"><i class="fas fa-map-marker-alt"></i> <span data-i18n="footer.maroc">Maroc</span></a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    © 2026 <span>DARRSSY</span> — <span data-i18n="footer.droits">Tous droits réservés.</span>
+  </div>
+</footer>
+
+<script>
+let currentLang = localStorage.getItem('darrssy-lang') || 'fr';
+
+const fiches = [
+  { id: 'f1', niveau: '2bacpc', matiere: 'physique', icon: 'fa-water', titre_fr: 'Ondes mécaniques', titre_ar: 'الموجات الميكانيكية', desc_fr: 'Définition, célérité, périodicité.', desc_ar: 'التعريف، السرعة، الدورية.' },
+  { id: 'f2', niveau: '2bacpc', matiere: 'physique', icon: 'fa-bolt', titre_fr: 'Dipôle RC', titre_ar: 'ثنائي القطب RC', desc_fr: 'Charge, décharge, constante de temps.', desc_ar: 'الشحن، التفريغ، الثابت الزمني.' },
+  { id: 'f3', niveau: '2bacpc', matiere: 'physique', icon: 'fa-wave-square', titre_fr: 'Circuit RLC', titre_ar: 'دارة RLC', desc_fr: 'Oscillations libres, amorties.', desc_ar: 'التذبذبات الحرة والمخمدة.' },
+  { id: 'f4', niveau: '2bacpc', matiere: 'physique', icon: 'fa-radiation', titre_fr: 'Radioactivité', titre_ar: 'النشاط الإشعاعي', desc_fr: 'Décroissance, demi-vie.', desc_ar: 'التحلل، نصف العمر.' },
+  { id: 'f5', niveau: '2bacpc', matiere: 'physique', icon: 'fa-rocket', titre_fr: 'Mécanique de Newton', titre_ar: 'ميكانيك نيوتن', desc_fr: 'Les 3 lois de Newton.', desc_ar: 'قوانين نيوتن الثلاثة.' },
+  { id: 'f6', niveau: '2bacpc', matiere: 'chimie', icon: 'fa-hourglass-half', titre_fr: 'Cinétique chimique', titre_ar: 'الحركية الكيميائية', desc_fr: 'Vitesse de réaction, catalyse.', desc_ar: 'سرعة التفاعل، الحفز.' },
+  { id: 'f7', niveau: '2bacpc', matiere: 'chimie', icon: 'fa-flask', titre_fr: 'Acide-base', titre_ar: 'الحموض والقواعد', desc_fr: 'pH, couples, titrage.', desc_ar: 'pH، الثنائيات، المعايرة.' },
+  { id: 'f8', niveau: '2bacpc', matiere: 'chimie', icon: 'fa-battery-full', titre_fr: 'Oxydoréduction', titre_ar: 'الأكسدة والإرجاع', desc_fr: 'Piles, électrolyse.', desc_ar: 'الأعمدة، التحليل الكهربائي.' }
+];
+
+const formules = [
+  { cat_fr: 'Ondes', cat_ar: 'الموجات', items: [
+    { nom_fr: 'Célérité', eq: 'v = \\frac{d}{\\Delta t}' },
+    { nom_fr: 'Période', eq: 'T = \\frac{1}{f}' },
+    { nom_fr: 'Longueur d\'onde', eq: '\\lambda = v \\cdot T' },
+    { nom_fr: 'Diffraction', eq: '\\theta = \\frac{\\lambda}{a}' }
+  ]},
+  { cat_fr: 'Électricité', cat_ar: 'الكهرباء', items: [
+    { nom_fr: 'Loi d\'Ohm', eq: 'U = R \\cdot I' },
+    { nom_fr: 'Constante RC', eq: '\\tau = R \\cdot C' },
+    { nom_fr: 'Charge condensateur', eq: 'u_C(t) = E(1 - e^{-t/\\tau})' },
+    { nom_fr: 'Période LC', eq: 'T_0 = 2\\pi\\sqrt{LC}' }
+  ]},
+  { cat_fr: 'Mécanique', cat_ar: 'الميكانيك', items: [
+    { nom_fr: '2ème loi de Newton', eq: '\\sum \\vec{F} = m \\vec{a}' },
+    { nom_fr: 'Chute libre', eq: 'y(t) = \\frac{1}{2} g t^2' },
+    { nom_fr: 'Énergie cinétique', eq: 'E_c = \\frac{1}{2} m v^2' },
+    { nom_fr: 'Énergie potentielle', eq: 'E_p = m g h' }
+  ]},
+  { cat_fr: 'Nucléaire', cat_ar: 'النووي', items: [
+    { nom_fr: 'Décroissance', eq: 'N(t) = N_0 e^{-\\lambda t}' },
+    { nom_fr: 'Demi-vie', eq: 'T_{1/2} = \\frac{\\ln 2}{\\lambda}' },
+    { nom_fr: 'Énergie de masse', eq: 'E = \\Delta m \\cdot c^2' }
+  ]},
+  { cat_fr: 'Chimie', cat_ar: 'الكيمياء', items: [
+    { nom_fr: 'pH', eq: '\\text{pH} = -\\log[\\text{H}_3\\text{O}^+]' },
+    { nom_fr: 'Produit ionique', eq: 'K_e = [H_3O^+][OH^-] = 10^{-14}' },
+    { nom_fr: 'Vitesse', eq: 'v = -\\frac{d[C]}{dt}' },
+    { nom_fr: 'Arrhenius', eq: 'k = k_0 e^{-E_a/(RT)}' }
+  ]}
+];
+
+const elements = [
+  { z: 1, sym: 'H', nom_fr: 'Hydrogène', masse: 1.008, cat: 'gaz', famille_fr: 'Non-métal' },
+  { z: 2, sym: 'He', nom_fr: 'Hélium', masse: 4.003, cat: 'gaz', famille_fr: 'Gaz noble' },
+  { z: 3, sym: 'Li', nom_fr: 'Lithium', masse: 6.941, cat: 'alcalin', famille_fr: 'Métal alcalin' },
+  { z: 4, sym: 'Be', nom_fr: 'Béryllium', masse: 9.012, cat: 'alcalino', famille_fr: 'Alcalino-terreux' },
+  { z: 5, sym: 'B', nom_fr: 'Bore', masse: 10.81, cat: 'gaz', famille_fr: 'Métalloïde' },
+  { z: 6, sym: 'C', nom_fr: 'Carbone', masse: 12.011, cat: 'gaz', famille_fr: 'Non-métal' },
+  { z: 7, sym: 'N', nom_fr: 'Azote', masse: 14.007, cat: 'gaz', famille_fr: 'Non-métal' },
+  { z: 8, sym: 'O', nom_fr: 'Oxygène', masse: 15.999, cat: 'gaz', famille_fr: 'Non-métal' },
+  { z: 9, sym: 'F', nom_fr: 'Fluor', masse: 18.998, cat: 'halogene', famille_fr: 'Halogène' },
+  { z: 10, sym: 'Ne', nom_fr: 'Néon', masse: 20.180, cat: 'gaz', famille_fr: 'Gaz noble' },
+  { z: 11, sym: 'Na', nom_fr: 'Sodium', masse: 22.990, cat: 'alcalin', famille_fr: 'Métal alcalin' },
+  { z: 12, sym: 'Mg', nom_fr: 'Magnésium', masse: 24.305, cat: 'alcalino', famille_fr: 'Alcalino-terreux' },
+  { z: 13, sym: 'Al', nom_fr: 'Aluminium', masse: 26.982, cat: 'gaz', famille_fr: 'Métal pauvre' },
+  { z: 14, sym: 'Si', nom_fr: 'Silicium', masse: 28.086, cat: 'gaz', famille_fr: 'Métalloïde' },
+  { z: 15, sym: 'P', nom_fr: 'Phosphore', masse: 30.974, cat: 'gaz', famille_fr: 'Non-métal' },
+  { z: 16, sym: 'S', nom_fr: 'Soufre', masse: 32.065, cat: 'gaz', famille_fr: 'Non-métal' },
+  { z: 17, sym: 'Cl', nom_fr: 'Chlore', masse: 35.453, cat: 'halogene', famille_fr: 'Halogène' },
+  { z: 18, sym: 'Ar', nom_fr: 'Argon', masse: 39.948, cat: 'gaz', famille_fr: 'Gaz noble' },
+  { z: 19, sym: 'K', nom_fr: 'Potassium', masse: 39.098, cat: 'alcalin', famille_fr: 'Métal alcalin' },
+  { z: 20, sym: 'Ca', nom_fr: 'Calcium', masse: 40.078, cat: 'alcalino', famille_fr: 'Alcalino-terreux' }
+];
+
+const constantes = [
+  { nom_fr: 'Vitesse de la lumière', sym: 'c', val: '2,998 × 10⁸ m/s' },
+  { nom_fr: 'Constante de Planck', sym: 'h', val: '6,626 × 10⁻³⁴ J·s' },
+  { nom_fr: 'Nombre d\'Avogadro', sym: 'Nₐ', val: '6,022 × 10²³ mol⁻¹' },
+  { nom_fr: 'Charge élémentaire', sym: 'e', val: '1,602 × 10⁻¹⁹ C' },
+  { nom_fr: 'Constante de gravitation', sym: 'G', val: '6,674 × 10⁻¹¹ N·m²/kg²' },
+  { nom_fr: 'Pesanteur terrestre', sym: 'g', val: '9,81 m/s²' },
+  { nom_fr: 'Masse de l\'électron', sym: 'mₑ', val: '9,109 × 10⁻³¹ kg' },
+  { nom_fr: 'Masse du proton', sym: 'mₚ', val: '1,673 × 10⁻²⁷ kg' },
+  { nom_fr: 'Constante de Boltzmann', sym: 'k_B', val: '1,381 × 10⁻²³ J/K' },
+  { nom_fr: 'Constante des gaz parfaits', sym: 'R', val: '8,314 J/(mol·K)' },
+  { nom_fr: 'Permittivité du vide', sym: 'ε₀', val: '8,854 × 10⁻¹² F/m' },
+  { nom_fr: 'Perméabilité du vide', sym: 'μ₀', val: '4π × 10⁻⁷ H/m' }
+];
+
+const trad = {
+  fr: {
+    'nav.home': 'Accueil', 'nav.cours': 'Cours', 'nav.exercices': 'Exercices',
+    'nav.examens': 'Examens', 'nav.simulations': 'Simulations', 'nav.ressources': 'Ressources',
+    'nav.admin': 'Administration', 'nav.connexion': 'Connexion',
+    'res.titre1': 'Outils &', 'res.titre2': 'Ressources',
+    'res.desc': "Fiches de révision, formulaire complet, calculateur interactif, tableau périodique et convertisseur d'unités.",
+    'tab.fiches': 'Fiches', 'tab.formulaire': 'Formulaire', 'tab.calculateur': 'Calculateur',
+    'tab.periodique': 'Tableau périodique', 'tab.convertisseur': 'Convertisseur', 'tab.constantes': 'Constantes',
+    'fiches.titre': 'Fiches de révision', 'fiches.desc': 'Résumés synthétiques pour réviser efficacement.',
+    'formulaire.titre': 'Formulaire complet', 'formulaire.desc': 'Toutes les formules en un endroit.',
+    'calc.titre': 'Calculateur interactif', 'calc.desc': 'Entrez vos valeurs et obtenez le résultat.',
+    'perio.titre': 'Tableau périodique simplifié', 'perio.desc': 'Les 20 premiers éléments.',
+    'conv.titre': 'Convertisseur d\'unités', 'conv.desc': 'Convertissez entre unités.',
+    'const.titre': 'Constantes physiques', 'const.desc': 'Les constantes fondamentales.',
+    'niveau.tronc': 'Tronc Commun', 'niveau.1bac': '1ère Bac',
+    'niveau.2bacpc': '2ème Bac PC', 'niveau.2bacsvt': '2ème Bac SVT',
+    'matiere.physique': 'Physique', 'matiere.chimie': 'Chimie',
+    'btn.consulter': 'Consulter',
+    'footer.desc': 'La plateforme éducative marocaine dédiée à la réussite des lycéens en Physique & Chimie.',
+    'footer.navigation': 'Navigation', 'footer.ressources': 'Ressources',
+    'footer.contact': 'Contact', 'footer.maroc': 'Maroc', 'footer.droits': 'Tous droits réservés.'
+  },
+  ar: {
+    'nav.home': 'الرئيسية', 'nav.cours': 'الدروس', 'nav.exercices': 'التمارين',
+    'nav.examens': 'الامتحانات', 'nav.simulations': 'المحاكاة', 'nav.ressources': 'الموارد',
+    'nav.admin': 'الإدارة', 'nav.connexion': 'تسجيل الدخول',
+    'res.titre1': 'أدوات و', 'res.titre2': 'موارد',
+    'res.desc': 'بطاقات المراجعة، الصيغ، الحاسبة، الجدول الدوري ومحول الوحدات.',
+    'tab.fiches': 'بطاقات', 'tab.formulaire': 'الصيغ', 'tab.calculateur': 'الحاسبة',
+    'tab.periodique': 'الجدول الدوري', 'tab.convertisseur': 'المحول', 'tab.constantes': 'الثوابت',
+    'fiches.titre': 'بطاقات المراجعة', 'fiches.desc': 'ملخصات موجزة.',
+    'formulaire.titre': 'الصيغ الكاملة', 'formulaire.desc': 'جميع الصيغ.',
+    'calc.titre': 'حاسبة تفاعلية', 'calc.desc': 'أدخل قيمك.',
+    'perio.titre': 'الجدول الدوري', 'perio.desc': 'العناصر العشرون الأولى.',
+    'conv.titre': 'محول الوحدات', 'conv.desc': 'حول بين الوحدات.',
+    'const.titre': 'الثوابت الفيزيائية', 'const.desc': 'الثوابت الأساسية.',
+    'niveau.tronc': 'الجذع المشترك', 'niveau.1bac': 'الأولى باك',
+    'niveau.2bacpc': 'الثانية باك ع.ف', 'niveau.2bacsvt': 'الثانية باك ع.ح.أ',
+    'matiere.physique': 'الفيزياء', 'matiere.chimie': 'الكيمياء',
+    'btn.consulter': 'اطلع',
+    'footer.desc': 'المنصة التعليمية المغربية.',
+    'footer.navigation': 'التنقل', 'footer.ressources': 'الموارد',
+    'footer.contact': 'اتصل بنا', 'footer.maroc': 'المغرب', 'footer.droits': 'جميع الحقوق محفوظة.'
+  }
+};
+
+document.addEventListener('DOMContentLoaded', () => {
+  appliquerLangue(currentLang);
+  afficherFiches();
+  afficherFormules();
+  afficherPeriodique();
+  afficherConstantes();
+  bindEvents();
+  convertir('longueur'); convertir('masse'); convertir('temps'); convertir('energie'); convertir('temperature');
+  if (window.renderMathInElement) {
+    setTimeout(() => {
+      renderMathInElement(document.body, {
+        delimiters: [
+          { left: '$$', right: '$$', display: false },
+          { left: '$', right: '$', display: false }
+        ],
+        throwOnError: false
+      });
+    }, 500);
+  }
+});
+
+function appliquerLangue(lang) {
+  currentLang = lang;
+  document.getElementById('htmlRoot').setAttribute('lang', lang);
+  document.getElementById('htmlRoot').setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (trad[lang] && trad[lang][key]) el.textContent = trad[lang][key];
+  });
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.classList.toggle('actif', btn.getAttribute('data-lang') === lang);
+  });
+  localStorage.setItem('darrssy-lang', lang);
+}
+
+function bindEvents() {
+  document.getElementById('menuToggle').addEventListener('click', () => {
+    document.getElementById('navLinks').classList.toggle('active');
+  });
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      appliquerLangue(btn.getAttribute('data-lang'));
+      afficherFiches(); afficherFormules(); afficherPeriodique(); afficherConstantes();
     });
+  });
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('actif'));
+      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('actif'));
+      btn.classList.add('actif');
+      document.getElementById('panel-' + btn.getAttribute('data-tab')).classList.add('actif');
+    });
+  });
+  document.querySelectorAll('.calc-tab').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.calc-tab').forEach(b => b.classList.remove('actif'));
+      document.querySelectorAll('.calc-panel').forEach(p => p.classList.remove('actif'));
+      btn.classList.add('actif');
+      document.getElementById('calc-' + btn.getAttribute('data-calc')).classList.add('actif');
+    });
+  });
+  document.querySelectorAll('.conv-type-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.conv-type-btn').forEach(b => b.classList.remove('actif'));
+      document.querySelectorAll('.conv-panel').forEach(p => p.classList.remove('actif'));
+      btn.classList.add('actif');
+      document.getElementById('conv-' + btn.getAttribute('data-conv')).classList.add('actif');
+    });
+  });
+  document.getElementById('formulaireSearch').addEventListener('input', afficherFormules);
+  document.getElementById('closeElementModal').addEventListener('click', () => {
+    document.getElementById('elementModal').classList.remove('ouvert');
+  });
+  document.getElementById('elementModal').addEventListener('click', (e) => {
+    if (e.target.id === 'elementModal') document.getElementById('elementModal').classList.remove('ouvert');
+  });
+}
 
-    function appliquerTheme() {
-      const savedTheme = localStorage.getItem('asaliki-theme') || 'dark';
-      document.getElementById('htmlRoot').setAttribute('data-theme', savedTheme);
-    }
+function afficherFiches() {
+  const grid = document.getElementById('fichesGrid');
+  grid.innerHTML = '';
+  fiches.forEach(f => {
+    const niveauLabel = trad[currentLang]['niveau.' + f.niveau];
+    const titre = currentLang === 'fr' ? f.titre_fr : f.titre_ar;
+    const desc = currentLang === 'fr' ? f.desc_fr : f.desc_ar;
+    const card = document.createElement('div');
+    card.className = 'fiche-card';
+    card.innerHTML = `
+      <div class="fiche-icon"><i class="fas ${f.icon}"></i></div>
+      <div class="fiche-tag">${niveauLabel} · ${trad[currentLang]['matiere.' + f.matiere]}</div>
+      <h3>${titre}</h3>
+      <div class="fiche-desc">${desc}</div>
+      <button class="btn-fiche">
+        <span>${trad[currentLang]['btn.consulter']}</span>
+        <i class="fas fa-arrow-right"></i>
+      </button>
+    `;
+    card.querySelector('.btn-fiche').addEventListener('click', () => {
+      alert(currentLang === 'fr' ? 'Fiche bientôt disponible.' : 'البطاقة قريباً.');
+    });
+    grid.appendChild(card);
+  });
+}
 
-    function appliquerLangue(lang) {
-      currentLang = lang;
-      document.getElementById('htmlRoot').setAttribute('lang', lang);
-      document.getElementById('htmlRoot').setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
-      document.querySelectorAll('[data-i18n]').forEach(el => {
-        const key = el.getAttribute('data-i18n');
-        if (trad[lang] && trad[lang][key]) el.textContent = trad[lang][key];
-      });
-      document.querySelectorAll('.lang-btn').forEach(btn => {
-        btn.classList.toggle('actif', btn.getAttribute('data-lang') === lang);
-      });
-      localStorage.setItem('asaliki-lang', lang);
-      afficherFiches();
-      afficherFormules();
-      afficherPeriodique();
-      afficherConstantes();
-    }
+function afficherFormules() {
+  const search = (document.getElementById('formulaireSearch').value || '').toLowerCase();
+  const container = document.getElementById('formulesCategories');
+  container.innerHTML = '';
+  formules.forEach(cat => {
+    const itemsFiltres = cat.items.filter(item => {
+      const nom = item.nom_fr;
+      return nom.toLowerCase().includes(search) || item.eq.toLowerCase().includes(search);
+    });
+    if (itemsFiltres.length === 0) return;
+    const catNom = currentLang === 'fr' ? cat.cat_fr : cat.cat_ar;
+    const div = document.createElement('div');
+    div.className = 'formule-cat';
+    div.innerHTML = `
+      <h3><i class="fas fa-square-root-alt"></i> ${catNom}</h3>
+      ${itemsFiltres.map(item => `
+        <div class="formule-item">
+          <div class="f-nom">${item.nom_fr}</div>
+          <div class="f-eq">$$${item.eq}$$</div>
+        </div>
+      `).join('')}
+    `;
+    container.appendChild(div);
+  });
+  if (window.renderMathInElement) {
+    renderMathInElement(container, {
+      delimiters: [
+        { left: '$$', right: '$$', display: false },
+        { left: '$', right: '$', display: false }
+      ],
+      throwOnError: false
+    });
+  }
+}
 
-    function bindEvents() {
-      document.querySelectorAll('.tab-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-          document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('actif'));
-          document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('actif'));
-          btn.classList.add('actif');
-          document.getElementById('panel-' + btn.getAttribute('data-tab')).classList.add('actif');
-        });
-      });
-      document.querySelectorAll('.calc-tab').forEach(btn => {
-        btn.addEventListener('click', () => {
-          document.querySelectorAll('.calc-tab').forEach(b => b.classList.remove('actif'));
-          document.querySelectorAll('.calc-panel').forEach(p => p.classList.remove('actif'));
-          btn.classList.add('actif');
-          document.getElementById('calc-' + btn.getAttribute('data-calc')).classList.add('actif');
-        });
-      });
-      document.querySelectorAll('.conv-type-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-          document.querySelectorAll('.conv-type-btn').forEach(b => b.classList.remove('actif'));
-          document.querySelectorAll('.conv-panel').forEach(p => p.classList.remove('actif'));
-          btn.classList.add('actif');
-          document.getElementById('conv-' + btn.getAttribute('data-conv')).classList.add('actif');
-        });
-      });
-      document.getElementById('formulaireSearch').addEventListener('input', afficherFormules);
-      document.querySelectorAll('.lang-btn').forEach(btn => {
-        btn.addEventListener('click', () => appliquerLangue(btn.getAttribute('data-lang')));
-      });
-      document.getElementById('themeToggle').addEventListener('click', () => {
-        const current = document.getElementById('htmlRoot').getAttribute('data-theme');
-        const next = current === 'dark' ? 'light' : 'dark';
-        document.getElementById('htmlRoot').setAttribute('data-theme', next);
-        localStorage.setItem('asaliki-theme', next);
-      });
-      document.getElementById('closeElementModal').addEventListener('click', () => {
-        document.getElementById('elementModal').classList.remove('ouvert');
-      });
-      document.getElementById('elementModal').addEventListener('click', (e) => {
-        if (e.target.id === 'elementModal') document.getElementById('elementModal').classList.remove('ouvert');
-      });
-      convertir('longueur');
-      convertir('masse');
-      convertir('temps');
-      convertir('energie');
-      convertir('temperature');
-    }
+function afficherResultat(id, val, unite) {
+  document.getElementById('res-' + id).classList.add('visible');
+  document.getElementById('res-' + id + '-val').textContent = val + (unite ? ' ' + unite : '');
+}
 
-    function afficherFiches() {
-      const grid = document.getElementById('fichesGrid');
-      grid.innerHTML = '';
-      fiches.forEach(f => {
-        const niveauLabel = trad[currentLang]['niveau.' + f.niveau];
-        const titre = currentLang === 'fr' ? f.titre_fr : f.titre_ar;
-        const desc = currentLang === 'fr' ? f.desc_fr : f.desc_ar;
-        const card = document.createElement('div');
-        card.className = 'fiche-card';
-        card.innerHTML = `
-          <div class="fiche-icon"><i class="fas ${f.icon}"></i></div>
-          <div class="fiche-tag">${niveauLabel} · ${trad[currentLang]['matiere.' + f.matiere]}</div>
-          <h3>${titre}</h3>
-          <div class="fiche-desc">${desc}</div>
-          <button class="btn-fiche">
-            <span>${trad[currentLang]['btn.consulter']}</span>
-            <i class="fas fa-arrow-right"></i>
-          </button>
-        `;
-        card.querySelector('.btn-fiche').addEventListener('click', () => {
-          alert(currentLang === 'fr' ? 'Fiche bientôt disponible.' : 'البطاقة قريباً.');
-        });
-        grid.appendChild(card);
-      });
-    }
+function calculerPH() {
+  const c = parseFloat(document.getElementById('ph-conc').value);
+  if (!c || c <= 0) { alert('Valeur invalide'); return; }
+  afficherResultat('ph', (-Math.log10(c)).toFixed(2), '');
+}
+function calculerCinetique() {
+  const k0 = parseFloat(document.getElementById('cin-k0').value);
+  const ea = parseFloat(document.getElementById('cin-ea').value);
+  const T = parseFloat(document.getElementById('cin-t').value);
+  if (!k0 || !ea || !T) return;
+  afficherResultat('cinetique', (k0 * Math.exp(-ea / (8.314 * T))).toExponential(3), 's⁻¹');
+}
+function calculerEnergie() {
+  const dm = parseFloat(document.getElementById('en-dm').value);
+  if (!dm) return;
+  afficherResultat('energie', (dm * 2.998e8 * 2.998e8).toExponential(3), 'J');
+}
+function calculerChute() {
+  const h = parseFloat(document.getElementById('ch-h').value);
+  if (!h || h <= 0) return;
+  afficherResultat('chute', Math.sqrt(2 * h / 9.81).toFixed(3), 's');
+}
+function calculerRC() {
+  const R = parseFloat(document.getElementById('rc-r').value);
+  const C = parseFloat(document.getElementById('rc-c').value) * 1e-6;
+  if (!R || !C) return;
+  afficherResultat('rc', (R * C * 1000).toFixed(3), 'ms');
+}
+function calculerRLC() {
+  const L = parseFloat(document.getElementById('rlc-l').value);
+  const C = parseFloat(document.getElementById('rlc-c').value) * 1e-6;
+  if (!L || !C) return;
+  afficherResultat('rlc', (2 * Math.PI * Math.sqrt(L * C) * 1000).toFixed(3), 'ms');
+}
 
-    function afficherFormules() {
-      const search = (document.getElementById('formulaireSearch').value || '').toLowerCase();
-      const container = document.getElementById('formulesCategories');
-      container.innerHTML = '';
-      formules.forEach(cat => {
-        const itemsFiltres = cat.items.filter(item => {
-          const nom = currentLang === 'fr' ? item.nom_fr : item.nom_ar;
-          return nom.toLowerCase().includes(search) || item.eq.toLowerCase().includes(search);
-        });
-        if (itemsFiltres.length === 0) return;
-        const catNom = currentLang === 'fr' ? cat.cat_fr : cat.cat_ar;
-        const div = document.createElement('div');
-        div.className = 'formule-cat';
-        div.innerHTML = `
-          <h3><i class="fas fa-square-root-alt"></i> ${catNom}</h3>
-          ${itemsFiltres.map(item => `
-            <div class="formule-item">
-              <div class="f-nom">${currentLang === 'fr' ? item.nom_fr : item.nom_ar}</div>
-              <div class="f-eq">$$${item.eq}$$</div>
-            </div>
-          `).join('')}
-        `;
-        container.appendChild(div);
-      });
-      if (window.renderMathInElement) {
-        renderMathInElement(container, {
-          delimiters: [
-            { left: '$$', right: '$$', display: false },
-            { left: '$', right: '$', display: false }
-          ],
-          throwOnError: false
-        });
-      }
-    }
+function afficherPeriodique() {
+  const grid = document.getElementById('periodiqueGrid');
+  grid.innerHTML = '';
+  const classesCat = { alcalin: 'fam-alcalin', alcalino: 'fam-alcalino', halogene: 'fam-halogene', gaz: 'fam-gaz' };
+  elements.forEach(el => {
+    const card = document.createElement('div');
+    card.className = 'element-card ' + (classesCat[el.cat] || '');
+    card.innerHTML = `
+      <span class="num-atomique">${el.z}</span>
+      <div class="symbole">${el.sym}</div>
+      <div class="nom-elem">${el.nom_fr}</div>
+      <div class="masse">${el.masse}</div>
+    `;
+    card.addEventListener('click', () => ouvrirElement(el));
+    grid.appendChild(card);
+  });
+}
 
-    function afficherResultat(id, val, unite) {
-      document.getElementById('res-' + id).classList.add('visible');
-      document.getElementById('res-' + id + '-val').textContent = val + (unite ? ' ' + unite : '');
-    }
+function ouvrirElement(el) {
+  document.getElementById('modalSym').textContent = el.sym;
+  document.getElementById('modalNom').textContent = el.nom_fr;
+  document.getElementById('modalCat').textContent = el.famille_fr;
+  document.getElementById('modalStats').innerHTML = `
+    <div class="element-stat"><div class="lbl">Numéro atomique</div><div class="val">${el.z}</div></div>
+    <div class="element-stat"><div class="lbl">Masse atomique</div><div class="val">${el.masse} u</div></div>
+    <div class="element-stat"><div class="lbl">Symbole</div><div class="val">${el.sym}</div></div>
+    <div class="element-stat"><div class="lbl">Famille</div><div class="val" style="font-size:0.8rem;">${el.famille_fr}</div></div>
+  `;
+  document.getElementById('elementModal').classList.add('ouvert');
+}
 
-    function calculerPH() {
-      const c = parseFloat(document.getElementById('ph-conc').value);
-      if (!c || c <= 0) { alert('Valeur invalide'); return; }
-      afficherResultat('ph', (-Math.log10(c)).toFixed(2), '');
-    }
-    function calculerCinetique() {
-      const k0 = parseFloat(document.getElementById('cin-k0').value);
-      const ea = parseFloat(document.getElementById('cin-ea').value);
-      const T = parseFloat(document.getElementById('cin-t').value);
-      if (!k0 || !ea || !T) return;
-      afficherResultat('cinetique', (k0 * Math.exp(-ea / (8.314 * T))).toExponential(3), 's⁻¹');
-    }
-    function calculerEnergie() {
-      const dm = parseFloat(document.getElementById('en-dm').value);
-      if (!dm) return;
-      afficherResultat('energie', (dm * 2.998e8 * 2.998e8).toExponential(3), 'J');
-    }
-    function calculerChute() {
-      const h = parseFloat(document.getElementById('ch-h').value);
-      if (!h || h <= 0) return;
-      afficherResultat('chute', Math.sqrt(2 * h / 9.81).toFixed(3), 's');
-    }
-    function calculerRC() {
-      const R = parseFloat(document.getElementById('rc-r').value);
-      const C = parseFloat(document.getElementById('rc-c').value) * 1e-6;
-      if (!R || !C) return;
-      afficherResultat('rc', (R * C * 1000).toFixed(3), 'ms');
-    }
-    function calculerRLC() {
-      const L = parseFloat(document.getElementById('rlc-l').value);
-      const C = parseFloat(document.getElementById('rlc-c').value) * 1e-6;
-      if (!L || !C) return;
-      afficherResultat('rlc', (2 * Math.PI * Math.sqrt(L * C) * 1000).toFixed(3), 'ms');
-    }
+function convertir(type) {
+  const map = {
+    longueur: { v: 'conv-l-val', from: 'conv-l-from', to: 'conv-l-to', res: 'conv-l-res', suffix: 'm' },
+    masse: { v: 'conv-m-val', from: 'conv-m-from', to: 'conv-m-to', res: 'conv-m-res', suffix: 'kg' },
+    temps: { v: 'conv-t-val', from: 'conv-t-from', to: 'conv-t-to', res: 'conv-t-res', suffix: 's' },
+    energie: { v: 'conv-e-val', from: 'conv-e-from', to: 'conv-e-to', res: 'conv-e-res', suffix: 'J' }
+  };
+  if (type === 'temperature') {
+    const v = parseFloat(document.getElementById('conv-tp-val').value);
+    const from = document.getElementById('conv-tp-from').value;
+    const to = document.getElementById('conv-tp-to').value;
+    if (isNaN(v)) return;
+    let celsius;
+    if (from === 'C') celsius = v;
+    else if (from === 'K') celsius = v - 273.15;
+    else celsius = (v - 32) * 5 / 9;
+    let result;
+    if (to === 'C') result = celsius;
+    else if (to === 'K') result = celsius + 273.15;
+    else result = celsius * 9 / 5 + 32;
+    document.getElementById('conv-tp-res').textContent = result.toFixed(3) + ' ' + (to === 'C' ? '°C' : to === 'K' ? 'K' : '°F');
+    return;
+  }
+  const m = map[type];
+  const v = parseFloat(document.getElementById(m.v).value);
+  const from = parseFloat(document.getElementById(m.from).value);
+  const to = parseFloat(document.getElementById(m.to).value);
+  if (isNaN(v)) return;
+  const result = (v * from) / to;
+  document.getElementById(m.res).textContent = result.toExponential(4).replace('e', ' × 10^') + ' ' + m.suffix;
+}
 
-    function afficherPeriodique() {
-      const grid = document.getElementById('periodiqueGrid');
-      grid.innerHTML = '';
-      const classesCat = { alcalin: 'fam-alcalin', alcalino: 'fam-alcalino', halogene: 'fam-halogene', gaz: 'fam-gaz', metalloide: 'fam-metalloide' };
-      elements.forEach(el => {
-        const card = document.createElement('div');
-        card.className = 'element-card ' + (classesCat[el.cat] || '');
-        card.innerHTML = `
-          <span class="num-atomique">${el.z}</span>
-          <div class="symbole">${el.sym}</div>
-          <div class="nom-elem">${currentLang === 'fr' ? el.nom_fr : el.nom_ar}</div>
-          <div class="masse">${el.masse}</div>
-        `;
-        card.addEventListener('click', () => ouvrirElement(el));
-        grid.appendChild(card);
-      });
-    }
-
-    function ouvrirElement(el) {
-      document.getElementById('modalSym').textContent = el.sym;
-      document.getElementById('modalNom').textContent = currentLang === 'fr' ? el.nom_fr : el.nom_ar;
-      document.getElementById('modalCat').textContent = currentLang === 'fr' ? el.famille_fr : el.famille_ar;
-      document.getElementById('modalStats').innerHTML = `
-        <div class="element-stat"><div class="lbl">Numéro atomique</div><div class="val">${el.z}</div></div>
-        <div class="element-stat"><div class="lbl">Masse atomique</div><div class="val">${el.masse} u</div></div>
-        <div class="element-stat"><div class="lbl">Symbole</div><div class="val">${el.sym}</div></div>
-        <div class="element-stat"><div class="lbl">Famille</div><div class="val" style="font-size:0.8rem;">${currentLang === 'fr' ? el.famille_fr : el.famille_ar}</div></div>
-      `;
-      document.getElementById('elementModal').classList.add('ouvert');
-    }
-
-    function convertir(type) {
-      const map = {
-        longueur: { v: 'conv-l-val', from: 'conv-l-from', to: 'conv-l-to', res: 'conv-l-res', suffix: 'm' },
-        masse: { v: 'conv-m-val', from: 'conv-m-from', to: 'conv-m-to', res: 'conv-m-res', suffix: 'kg' },
-        temps: { v: 'conv-t-val', from: 'conv-t-from', to: 'conv-t-to', res: 'conv-t-res', suffix: 's' },
-        energie: { v: 'conv-e-val', from: 'conv-e-from', to: 'conv-e-to', res: 'conv-e-res', suffix: 'J' }
-      };
-      if (type === 'temperature') {
-        const v = parseFloat(document.getElementById('conv-tp-val').value);
-        const from = document.getElementById('conv-tp-from').value;
-        const to = document.getElementById('conv-tp-to').value;
-        if (isNaN(v)) return;
-        let celsius;
-        if (from === 'C') celsius = v;
-        else if (from === 'K') celsius = v - 273.15;
-        else celsius = (v - 32) * 5 / 9;
-        let result;
-        if (to === 'C') result = celsius;
-        else if (to === 'K') result = celsius + 273.15;
-        else result = celsius * 9 / 5 + 32;
-        document.getElementById('conv-tp-res').textContent = result.toFixed(3) + ' ' + (to === 'C' ? '°C' : to === 'K' ? 'K' : '°F');
-        return;
-      }
-      const m = map[type];
-      const v = parseFloat(document.getElementById(m.v).value);
-      const from = parseFloat(document.getElementById(m.from).value);
-      const to = parseFloat(document.getElementById(m.to).value);
-      if (isNaN(v)) return;
-      const result = (v * from) / to;
-      document.getElementById(m.res).textContent = result.toExponential(4).replace('e', ' × 10^') + ' ' + m.suffix;
-    }
-
-    function afficherConstantes() {
-      const grid = document.getElementById('constantesGrid');
-      grid.innerHTML = '';
-      constantes.forEach(c => {
-        const card = document.createElement('div');
-        card.className = 'constante-card';
-        card.innerHTML = `
-          <div class="c-nom"><i class="fas fa-superscript"></i> ${currentLang === 'fr' ? c.nom_fr : c.nom_ar}</div>
-          <div class="c-valeur">${c.val}</div>
-          <div class="c-symbole">${c.sym}</div>
-        `;
-        grid.appendChild(card);
-      });
-    }
-  </script>
+function afficherConstantes() {
+  const grid = document.getElementById('constantesGrid');
+  grid.innerHTML = '';
+  constantes.forEach(c => {
+    const card = document.createElement('div');
+    card.className = 'constante-card';
+    card.innerHTML = `
+      <div class="c-nom"><i class="fas fa-superscript"></i> ${c.nom_fr}</div>
+      <div class="c-valeur">${c.val}</div>
+      <div class="c-symbole">${c.sym}</div>
+    `;
+    grid.appendChild(card);
+  });
+}
+</script>
 </body>
 </html>
