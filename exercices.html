@@ -1,991 +1,1143 @@
 <!DOCTYPE html>
-<html lang="fr" id="htmlRoot">
+<html lang="fr" dir="ltr" id="htmlRoot">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Exercices — A SALIKI PC</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --noir-profond: #050b14;
-      --bleu-nuit: #0a1428;
-      --bleu-carte: #0f1e38;
-      --bleu-bordure: #1a2f52;
-      --cyan-neon: #22d3ee;
-      --cyan-clair: #67e8f9;
-      --vert-neon: #4ade80;
-      --vert-fluo: #22c55e;
-      --violet-tech: #8b5cf6;
-      --or: #fbbf24;
-      --rose: #f472b6;
-      --rouge: #ef4444;
-      --texte-principal: #ffffff;
-      --texte-secondaire: #94a3b8;
-      --texte-tertiaire: #cbd5e1;
-      --fond-principal: #050b14;
-      --fond-secondaire: #0a1428;
-      --fond-carte: #0f1e38;
-      --bordure: #1a2f52;
-      --ombre-neon: 0 0 40px -10px rgba(34, 211, 238, 0.4);
-      --ombre-vert: 0 0 40px -10px rgba(74, 222, 128, 0.35);
-      --rayon: 1rem;
-      --rayon-petit: 0.6rem;
-      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      --grille-couleur: rgba(34, 211, 238, 0.03);
-    }
-    [data-theme="light"] {
-      --noir-profond: #f8fafc;
-      --bleu-nuit: #ffffff;
-      --bleu-carte: #ffffff;
-      --bleu-bordure: #e2e8f0;
-      --cyan-neon: #0891b2;
-      --cyan-clair: #06b6d4;
-      --vert-neon: #16a34a;
-      --vert-fluo: #22c55e;
-      --violet-tech: #7c3aed;
-      --or: #d97706;
-      --rose: #db2777;
-      --rouge: #dc2626;
-      --texte-principal: #0a1428;
-      --texte-secondaire: #475569;
-      --texte-tertiaire: #334155;
-      --fond-principal: #f8fafc;
-      --fond-secondaire: #ffffff;
-      --fond-carte: #ffffff;
-      --bordure: #e2e8f0;
-      --ombre-neon: 0 10px 30px -10px rgba(8, 145, 178, 0.25);
-      --ombre-vert: 0 10px 30px -10px rgba(22, 163, 74, 0.25);
-      --grille-couleur: rgba(8, 145, 178, 0.05);
-    }
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body {
-      font-family: 'Inter', sans-serif;
-      background-color: var(--fond-principal);
-      color: var(--texte-tertiaire);
-      line-height: 1.6;
-      overflow-x: hidden;
-      transition: background-color 0.4s ease, color 0.4s ease;
-    }
-    [dir="rtl"] body { font-family: 'Cairo', 'Inter', sans-serif; }
-    h1, h2, h3, h4, .logo { font-family: 'Space Grotesk', sans-serif; letter-spacing: -0.02em; }
-    [dir="rtl"] h1, [dir="rtl"] h2, [dir="rtl"] h3, [dir="rtl"] h4 { font-family: 'Cairo', sans-serif; letter-spacing: 0; }
-    a { text-decoration: none; color: inherit; }
-    .container { max-width: 1400px; margin: 0 auto; padding: 0 1.5rem; }
-    body::before {
-      content: '';
-      position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
-      background-image:
-        linear-gradient(var(--grille-couleur) 1px, transparent 1px),
-        linear-gradient(90deg, var(--grille-couleur) 1px, transparent 1px);
-      background-size: 50px 50px;
-      pointer-events: none;
-      z-index: 0;
-    }
-    section, header { position: relative; z-index: 1; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Exercices — DARRSSY | Physique & Chimie</title>
 
-    .header {
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      background: rgba(5, 11, 20, 0.9);
-      backdrop-filter: blur(20px);
-      border-bottom: 1px solid var(--bordure);
-    }
-    [data-theme="light"] .header { background: rgba(255, 255, 255, 0.9); }
-    .header-inner {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0.9rem 0;
-      gap: 1rem;
-    }
-    .logo {
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: var(--texte-principal);
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      white-space: nowrap;
-    }
-    .logo-icon {
-      width: 38px; height: 38px;
-      border-radius: 0.5rem;
-      background: linear-gradient(135deg, var(--cyan-neon), var(--vert-neon));
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #050b14;
-      font-size: 1.1rem;
-      box-shadow: 0 0 20px -5px rgba(34, 211, 238, 0.7);
-    }
-    .logo span {
-      background: linear-gradient(135deg, var(--cyan-neon), var(--vert-neon));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-    .nav-desktop { display: flex; align-items: center; gap: 0.1rem; }
-    .nav-desktop a {
-      padding: 0.5rem 0.85rem;
-      font-size: 0.88rem;
-      font-weight: 500;
-      color: var(--texte-secondaire);
-      border-radius: 0.4rem;
-      transition: var(--transition);
-      white-space: nowrap;
-    }
-    .nav-desktop a:hover { color: var(--vert-neon); background: rgba(74, 222, 128, 0.08); }
-    .nav-desktop a.actif { color: var(--vert-neon); background: rgba(74, 222, 128, 0.12); }
-    .nav-desktop a.admin-link { color: var(--rose); }
-    .header-actions { display: flex; align-items: center; gap: 0.5rem; }
-    .lang-switcher {
-      display: flex;
-      background: rgba(74, 222, 128, 0.08);
-      border: 1px solid var(--bordure);
-      border-radius: 0.4rem;
-      overflow: hidden;
-    }
-    .lang-btn {
-      background: transparent;
-      border: none;
-      color: var(--texte-secondaire);
-      font-family: inherit;
-      font-size: 0.8rem;
-      font-weight: 600;
-      padding: 0.55rem 0.85rem;
-      cursor: pointer;
-      transition: var(--transition);
-    }
-    .lang-btn.actif {
-      background: linear-gradient(135deg, var(--vert-neon), var(--cyan-neon));
-      color: #050b14;
-    }
+<meta name="description" content="Exercices corrigés de Physique-Chimie pour les lycéens marocains — DARRSSY.">
+<meta property="og:title" content="Exercices | DARRSSY">
+<meta property="og:image" content="https://darrssy.com/assets/logo-darrssy.png">
 
-    .hero-ex {
-      padding: 3.5rem 0 2rem;
-      text-align: center;
-      position: relative;
-    }
-    .hero-ex::before {
-      content: '';
-      position: absolute;
-      top: -50%; left: 50%;
-      transform: translateX(-50%);
-      width: 700px; height: 500px;
-      background: radial-gradient(ellipse, rgba(74, 222, 128, 0.12), transparent 70%);
-      border-radius: 50%;
-      pointer-events: none;
-    }
-    .hero-ex h1 {
-      font-size: 2.6rem;
-      font-weight: 700;
-      color: var(--texte-principal);
-      margin-bottom: 0.6rem;
-      position: relative;
-    }
-    .hero-ex h1 .accent {
-      background: linear-gradient(135deg, var(--vert-neon), var(--cyan-neon));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-    .hero-ex p {
-      color: var(--texte-secondaire);
-      font-size: 1.05rem;
-      max-width: 700px;
-      margin: 0 auto;
-      position: relative;
-    }
+<link rel="icon" type="image/png" href="assets/logo-darrssy.png">
+<link rel="apple-touch-icon" href="assets/logo-darrssy.png">
 
-    .search-wrap {
-      max-width: 700px;
-      margin: 2rem auto 1.5rem;
-      position: relative;
-    }
-    .search-input {
-      width: 100%;
-      padding: 1rem 1.2rem 1rem 3.2rem;
-      background: var(--fond-carte);
-      border: 1.5px solid var(--bordure);
-      border-radius: 0.8rem;
-      color: var(--texte-principal);
-      font-family: inherit;
-      font-size: 1rem;
-      transition: var(--transition);
-    }
-    [dir="rtl"] .search-input { padding: 1rem 3.2rem 1rem 1.2rem; }
-    .search-input:focus {
-      outline: none;
-      border-color: var(--vert-neon);
-      box-shadow: 0 0 20px -5px rgba(74, 222, 128, 0.5);
-    }
-    .search-input::placeholder { color: var(--texte-secondaire); }
-    .search-icon {
-      position: absolute;
-      top: 50%; left: 1.2rem;
-      transform: translateY(-50%);
-      color: var(--vert-neon);
-      font-size: 1.1rem;
-      pointer-events: none;
-    }
-    [dir="rtl"] .search-icon { left: auto; right: 1.2rem; }
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    .stats-bar {
-      max-width: 900px;
-      margin: 0 auto 2rem;
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1rem;
-    }
-    .stat-box {
-      background: var(--fond-carte);
-      border: 1px solid var(--bordure);
-      border-radius: var(--rayon-petit);
-      padding: 1rem 1.2rem;
-      text-align: center;
-      transition: var(--transition);
-    }
-    .stat-box:hover { border-color: var(--vert-neon); transform: translateY(-3px); }
-    .stat-box .num {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 1.8rem;
-      font-weight: 700;
-      background: linear-gradient(135deg, var(--vert-neon), var(--cyan-neon));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      line-height: 1;
-    }
-    .stat-box .lbl { font-size: 0.78rem; color: var(--texte-secondaire); margin-top: 0.3rem; }
+<style>
+:root {
+  --primary: #1e3a8a;
+  --primary-light: #3b82f6;
+  --accent: #f59e0b;
+  --success: #10b981;
+  --danger: #ef4444;
+  --violet: #8b5cf6;
+  --dark: #0f172a;
+  --gray: #64748b;
+  --border: #e2e8f0;
+  --light: #f8fafc;
+  --white: #ffffff;
+  --gradient: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 50%, #06b6d4 100%);
+  --gradient-accent: linear-gradient(135deg, #f59e0b 0%, #ef4444 100%);
+  --gradient-success: linear-gradient(135deg, #10b981 0%, #06b6d4 100%);
+  --shadow-sm: 0 2px 10px rgba(30, 58, 138, 0.06);
+  --shadow: 0 10px 30px rgba(30, 58, 138, 0.15);
+  --shadow-lg: 0 20px 50px rgba(30, 58, 138, 0.25);
+  --radius: 20px;
+  --radius-sm: 14px;
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
 
-    .filtres-panel {
-      background: var(--fond-carte);
-      border: 1px solid var(--bordure);
-      border-radius: var(--rayon);
-      padding: 1.3rem 1.5rem;
-      margin-bottom: 2rem;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
-      gap: 1rem;
-      align-items: end;
-    }
-    .filtre-group label {
-      display: block;
-      font-size: 0.72rem;
-      font-weight: 600;
-      color: var(--vert-neon);
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      margin-bottom: 0.5rem;
-    }
-    .filtre-select {
-      width: 100%;
-      padding: 0.65rem 0.9rem;
-      background: var(--fond-principal);
-      border: 1px solid var(--bordure);
-      border-radius: 0.5rem;
-      color: var(--texte-principal);
-      font-family: inherit;
-      font-size: 0.9rem;
-      cursor: pointer;
-      transition: var(--transition);
-    }
-    .filtre-select:focus { outline: none; border-color: var(--vert-neon); }
-    .btn-reset {
-      background: rgba(239, 68, 68, 0.08);
-      border: 1px solid rgba(239, 68, 68, 0.3);
-      color: var(--rouge);
-      padding: 0.65rem 1.2rem;
-      border-radius: 0.5rem;
-      font-family: inherit;
-      font-size: 0.9rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: var(--transition);
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      justify-content: center;
-    }
-    .btn-reset:hover { background: var(--rouge); color: white; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
 
-    .resultats-bar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 1.5rem;
-      padding: 0.8rem 1rem;
-      background: rgba(74, 222, 128, 0.05);
-      border: 1px solid rgba(74, 222, 128, 0.15);
-      border-radius: 0.6rem;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-    }
-    .resultats-bar .count { font-size: 0.9rem; color: var(--texte-secondaire); }
-    .resultats-bar .count strong { color: var(--vert-neon); font-weight: 700; font-size: 1.1rem; }
+body {
+  font-family: 'Poppins', 'Tajawal', sans-serif;
+  background: var(--light);
+  color: var(--dark);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
 
-    .ex-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-      gap: 1.5rem;
-      margin-bottom: 3rem;
-    }
-    .ex-card {
-      background: linear-gradient(160deg, var(--fond-carte), var(--fond-secondaire));
-      border: 1px solid var(--bordure);
-      border-radius: var(--rayon);
-      padding: 1.4rem;
-      transition: var(--transition);
-      display: flex;
-      flex-direction: column;
-      gap: 0.8rem;
-      position: relative;
-      overflow: hidden;
-    }
-    .ex-card:hover {
-      transform: translateY(-6px);
-      border-color: rgba(74, 222, 128, 0.4);
-      box-shadow: var(--ombre-vert);
-    }
-    .ex-card .ex-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 0.5rem;
-    }
-    .ex-card .ex-tags { display: flex; gap: 0.4rem; flex-wrap: wrap; }
-    .ex-card .ex-tag {
-      font-size: 0.68rem;
-      font-weight: 600;
-      padding: 0.22rem 0.7rem;
-      border-radius: 2rem;
-      text-transform: uppercase;
-    }
-    .ex-card .ex-tag.niveau {
-      background: rgba(34, 211, 238, 0.1);
-      border: 1px solid rgba(34, 211, 238, 0.3);
-      color: var(--cyan-neon);
-    }
-    .ex-card .ex-tag.matiere {
-      background: rgba(139, 92, 246, 0.1);
-      border: 1px solid rgba(139, 92, 246, 0.3);
-      color: var(--violet-tech);
-    }
-    .ex-card .difficulte { display: flex; gap: 0.15rem; align-items: center; font-size: 0.9rem; }
-    .ex-card .difficulte .star { color: var(--or); filter: drop-shadow(0 0 3px rgba(251, 191, 36, 0.6)); }
-    .ex-card .difficulte .star.vide { color: rgba(251, 191, 36, 0.25); filter: none; }
-    .ex-card h3 { font-size: 1.05rem; font-weight: 600; color: var(--texte-principal); line-height: 1.35; }
-    .ex-card .chapitre {
-      font-size: 0.78rem;
-      color: var(--vert-neon);
-      font-weight: 500;
-      display: flex;
-      align-items: center;
-      gap: 0.3rem;
-    }
-    .ex-card .ex-meta {
-      display: flex;
-      gap: 0.9rem;
-      font-size: 0.75rem;
-      color: var(--texte-secondaire);
-      padding-top: 0.5rem;
-      border-top: 1px solid var(--bordure);
-      margin-top: auto;
-    }
-    .ex-card .ex-meta span { display: flex; align-items: center; gap: 0.3rem; }
-    .ex-card .ex-meta i { color: var(--cyan-neon); }
-    .ex-card .ex-actions { display: flex; gap: 0.5rem; flex-wrap: wrap; }
-    .ex-card .btn-ex {
-      flex: 1;
-      min-width: 100px;
-      padding: 0.65rem 1rem;
-      border-radius: 0.5rem;
-      font-family: inherit;
-      font-size: 0.83rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: var(--transition);
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.4rem;
-      border: 1px solid;
-      text-decoration: none;
-    }
-    .ex-card .btn-ex.enonce {
-      background: rgba(34, 211, 238, 0.08);
-      border-color: rgba(34, 211, 238, 0.3);
-      color: var(--cyan-neon);
-    }
-    .ex-card .btn-ex.enonce:hover { background: var(--cyan-neon); color: #050b14; }
-    .ex-card .btn-ex.corrige {
-      background: rgba(74, 222, 128, 0.08);
-      border-color: rgba(74, 222, 128, 0.3);
-      color: var(--vert-neon);
-    }
-    .ex-card .btn-ex.corrige:hover { background: var(--vert-neon); color: #050b14; }
-    .ex-card .btn-ex.indispo {
-      background: rgba(148, 163, 184, 0.08);
-      border-color: var(--bordure);
-      color: var(--texte-secondaire);
-      cursor: not-allowed;
-      opacity: 0.5;
-    }
+[dir="rtl"] body { font-family: 'Tajawal', 'Poppins', sans-serif; }
+a { text-decoration: none; color: inherit; }
+img { max-width: 100%; display: block; }
 
-    .aucun-resultat {
-      text-align: center;
-      padding: 4rem 2rem;
-      color: var(--texte-secondaire);
-    }
-    .aucun-resultat i { font-size: 4rem; color: var(--bordure); margin-bottom: 1rem; }
-    .aucun-resultat h3 { color: var(--texte-principal); font-size: 1.3rem; margin-bottom: 0.5rem; }
+/* ===== NAVBAR ===== */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  background: rgba(255,255,255,0.96);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 2px 20px rgba(0,0,0,0.06);
+  z-index: 1000;
+  padding: 10px 5%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
-    .loading-zone {
-      text-align: center;
-      padding: 4rem;
-      color: var(--texte-secondaire);
-    }
-    .loading-zone i {
-      font-size: 2.5rem;
-      color: var(--vert-neon);
-      animation: spin 1s linear infinite;
-      display: block;
-      margin-bottom: 1rem;
-    }
-    @keyframes spin { to { transform: rotate(360deg); } }
+.logo { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
 
-    .panneau-detail {
-      position: fixed;
-      top: 0; right: 0;
-      width: 100%;
-      max-width: 700px;
-      height: 100vh;
-      background: var(--fond-secondaire);
-      border-left: 1px solid var(--bordure);
-      z-index: 2000;
-      transform: translateX(100%);
-      transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      overflow-y: auto;
-      box-shadow: -20px 0 60px rgba(0, 0, 0, 0.5);
-    }
-    [dir="rtl"] .panneau-detail {
-      right: auto; left: 0;
-      border-left: none;
-      border-right: 1px solid var(--bordure);
-      transform: translateX(-100%);
-    }
-    .panneau-detail.ouvert { transform: translateX(0); }
-    .panneau-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(5, 11, 20, 0.7);
-      backdrop-filter: blur(4px);
-      z-index: 1999;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.3s;
-    }
-    .panneau-overlay.ouvert { opacity: 1; pointer-events: all; }
-    .panneau-header {
-      position: sticky;
-      top: 0;
-      background: var(--fond-secondaire);
-      border-bottom: 1px solid var(--bordure);
-      padding: 1.2rem 1.5rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      z-index: 10;
-    }
-    .panneau-header h2 {
-      font-size: 1.15rem;
-      color: var(--texte-principal);
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
-    }
-    .panneau-header h2 i { color: var(--vert-neon); }
-    .btn-fermer {
-      background: rgba(239, 68, 68, 0.1);
-      border: 1px solid rgba(239, 68, 68, 0.3);
-      color: var(--rouge);
-      width: 38px; height: 38px;
-      border-radius: 0.5rem;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1rem;
-      transition: var(--transition);
-    }
-    .btn-fermer:hover { background: var(--rouge); color: white; }
-    .panneau-corps { padding: 1.5rem; }
-    .ex-hero {
-      background: linear-gradient(135deg, rgba(74, 222, 128, 0.12), rgba(34, 211, 238, 0.08));
-      border: 1px solid rgba(74, 222, 128, 0.25);
-      border-radius: var(--rayon);
-      padding: 2rem 1.5rem;
-      margin-bottom: 1.5rem;
-      text-align: center;
-    }
-    .ex-hero .icon-grand {
-      font-size: 3rem;
-      color: var(--vert-neon);
-      margin-bottom: 0.8rem;
-    }
-    .ex-hero h1 { font-size: 1.4rem; color: var(--texte-principal); margin-bottom: 0.6rem; line-height: 1.35; }
-    .ex-hero .badges { display: flex; gap: 0.5rem; flex-wrap: wrap; justify-content: center; margin-top: 0.8rem; }
-    .ex-hero .badges span {
-      background: rgba(5, 11, 20, 0.5);
-      border: 1px solid rgba(74, 222, 128, 0.3);
-      color: var(--vert-neon);
-      padding: 0.3rem 0.8rem;
-      border-radius: 2rem;
-      font-size: 0.72rem;
-      font-weight: 600;
-      text-transform: uppercase;
-    }
+.logo-img-wrap {
+  position: relative;
+  width: 52px; height: 52px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #1e3a8a 0%, #06b6d4 50%, #10b981 100%);
+  padding: 2.5px;
+  box-shadow: 0 4px 15px rgba(6, 182, 212, 0.35), 0 0 0 3px rgba(255, 255, 255, 0.9);
+  flex-shrink: 0;
+  transition: var(--transition);
+}
 
-    .actions-exercice { display: flex; flex-direction: column; gap: 0.7rem; margin-top: 1.5rem; }
-    .btn-telecharger {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.6rem;
-      padding: 1rem 1.5rem;
-      border-radius: 0.6rem;
-      font-family: inherit;
-      font-size: 0.95rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: var(--transition);
-      border: 1px solid;
-      text-decoration: none;
-    }
-    .btn-telecharger.enonce {
-      background: linear-gradient(135deg, rgba(34, 211, 238, 0.15), rgba(74, 222, 128, 0.1));
-      border-color: var(--cyan-neon);
-      color: var(--cyan-neon);
-    }
-    .btn-telecharger.enonce:hover { background: var(--cyan-neon); color: #050b14; }
-    .btn-telecharger.corrige {
-      background: linear-gradient(135deg, rgba(74, 222, 128, 0.15), rgba(34, 211, 238, 0.1));
-      border-color: var(--vert-neon);
-      color: var(--vert-neon);
-    }
-    .btn-telecharger.corrige:hover { background: var(--vert-neon); color: #050b14; }
-    .btn-telecharger.indispo {
-      background: rgba(148, 163, 184, 0.08);
-      border-color: var(--bordure);
-      color: var(--texte-secondaire);
-      cursor: not-allowed;
-      opacity: 0.6;
-    }
+.logo-img-wrap::before {
+  content: '';
+  position: absolute;
+  inset: 2.5px;
+  border-radius: 50%;
+  background: white;
+  z-index: 0;
+}
 
-    .theme-toggle {
-      position: fixed;
-      bottom: 2rem; right: 2rem;
-      width: 58px; height: 58px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, var(--cyan-neon), var(--vert-neon));
-      border: none;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.4rem;
-      color: #050b14;
-      box-shadow: 0 8px 30px -5px rgba(34, 211, 238, 0.7);
-      transition: var(--transition);
-      z-index: 9999;
-    }
-    [dir="rtl"] .theme-toggle { right: auto; left: 2rem; }
-    .theme-toggle:hover { transform: translateY(-4px) rotate(15deg) scale(1.05); }
-    .theme-toggle .icon-sun { display: none; }
-    [data-theme="light"] .theme-toggle .icon-sun { display: block; }
-    [data-theme="light"] .theme-toggle .icon-moon { display: none; }
+.logo-img-wrap img {
+  position: relative; z-index: 1;
+  width: 100%; height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
 
-    @media (max-width: 768px) {
-      .nav-desktop { display: none; }
-      .hero-ex h1 { font-size: 1.9rem; }
-      .ex-grid { grid-template-columns: 1fr; }
-      .filtres-panel { grid-template-columns: 1fr; }
-      .panneau-detail { max-width: 100%; }
-      .stats-bar { grid-template-columns: 1fr; }
-      .ex-card .ex-actions { flex-direction: column; }
-    }
-    @media (max-width: 480px) {
-      .container { padding: 0 1rem; }
-    }
-  </style>
+.logo:hover .logo-img-wrap { transform: rotate(-8deg) scale(1.05); }
+
+.logo-texte { display: flex; flex-direction: column; line-height: 1; }
+
+.logo-texte .titre {
+  font-size: 1.4rem; font-weight: 900;
+  background: linear-gradient(135deg, #1e3a8a 0%, #06b6d4 50%, #10b981 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.logo-texte .arabe {
+  font-size: 0.72rem; font-weight: 700;
+  color: var(--gray);
+  font-family: 'Tajawal', sans-serif;
+  margin-top: 1px;
+}
+
+.nav-links {
+  display: flex;
+  gap: 26px;
+  list-style: none;
+  align-items: center;
+}
+
+.nav-links a {
+  color: var(--dark);
+  font-weight: 500;
+  font-size: 0.93rem;
+  transition: color 0.3s;
+  position: relative;
+}
+
+.nav-links a:hover { color: var(--primary-light); }
+.nav-links a.actif { color: var(--primary-light); font-weight: 600; }
+
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: -5px; left: 0;
+  width: 0; height: 2px;
+  background: var(--gradient-accent);
+  transition: width 0.3s;
+}
+
+.nav-links a:hover::after { width: 100%; }
+.nav-links a.actif::after { width: 100%; }
+
+.btn-nav {
+  background: var(--gradient);
+  color: white !important;
+  padding: 10px 22px;
+  border-radius: 50px;
+  font-weight: 600;
+}
+
+.btn-nav:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
+.btn-nav::after { display: none; }
+
+.lang-switcher {
+  display: flex;
+  background: rgba(59,130,246,0.08);
+  border: 1px solid var(--border);
+  border-radius: 50px;
+  overflow: hidden;
+}
+
+.lang-btn {
+  background: transparent;
+  border: none;
+  color: var(--gray);
+  font-family: inherit;
+  font-size: 0.82rem;
+  font-weight: 700;
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.lang-btn.actif { background: var(--gradient); color: white; }
+
+.menu-toggle {
+  display: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: var(--primary);
+  background: none;
+  border: none;
+}
+
+/* ===== HERO PAGE ===== */
+.hero-page {
+  padding: 130px 5% 50px;
+  background: var(--gradient);
+  color: white;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-page::before {
+  content: '';
+  position: absolute;
+  top: -50%; right: -20%;
+  width: 600px; height: 600px;
+  background: radial-gradient(circle, rgba(245,158,11,0.28) 0%, transparent 70%);
+  border-radius: 50%;
+}
+
+.hero-page::after {
+  content: '';
+  position: absolute;
+  bottom: -40%; left: -10%;
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, rgba(6,182,212,0.35) 0%, transparent 70%);
+  border-radius: 50%;
+}
+
+.hero-page-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+  text-align: center;
+}
+
+.hero-page h1 {
+  font-size: 2.8rem;
+  font-weight: 900;
+  margin-bottom: 15px;
+  line-height: 1.15;
+}
+
+.hero-page h1 span {
+  background: var(--gradient-accent);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-page p {
+  font-size: 1.05rem;
+  max-width: 650px;
+  margin: 0 auto;
+  opacity: 0.95;
+}
+
+/* ===== CONTENU ===== */
+.conteneur {
+  max-width: 1200px;
+  margin: -30px auto 0;
+  padding: 0 5% 60px;
+  position: relative;
+  z-index: 3;
+}
+
+.search-wrap {
+  max-width: 700px;
+  margin: 0 auto 25px;
+  position: relative;
+}
+
+.search-wrap input {
+  width: 100%;
+  padding: 16px 22px 16px 54px;
+  background: white;
+  border: 2px solid var(--border);
+  border-radius: 50px;
+  color: var(--dark);
+  font-family: inherit;
+  font-size: 1rem;
+  box-shadow: var(--shadow);
+  transition: var(--transition);
+}
+
+[dir="rtl"] .search-wrap input { padding: 16px 54px 16px 22px; }
+
+.search-wrap input:focus {
+  outline: none;
+  border-color: var(--primary-light);
+  box-shadow: 0 15px 40px rgba(59,130,246,0.25);
+}
+
+.search-wrap i {
+  position: absolute;
+  top: 50%; left: 22px;
+  transform: translateY(-50%);
+  color: var(--primary-light);
+  font-size: 1.1rem;
+}
+
+[dir="rtl"] .search-wrap i { left: auto; right: 22px; }
+
+/* Stats */
+.stats-bar {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+  max-width: 700px;
+  margin: 0 auto 30px;
+}
+
+.stat-box {
+  background: white;
+  border-radius: var(--radius-sm);
+  padding: 18px 15px;
+  text-align: center;
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition);
+}
+
+.stat-box:hover { transform: translateY(-4px); box-shadow: var(--shadow); border-bottom: 3px solid var(--primary-light); }
+
+.stat-box .num {
+  font-size: 1.6rem;
+  font-weight: 800;
+  background: var(--gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1;
+}
+
+.stat-box .lbl { font-size: 0.75rem; color: var(--gray); margin-top: 5px; }
+
+/* Filtres */
+.filtres-panel {
+  background: white;
+  border-radius: var(--radius);
+  padding: 20px 25px;
+  box-shadow: var(--shadow-sm);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)) auto;
+  gap: 15px;
+  align-items: end;
+  margin-bottom: 30px;
+}
+
+.filtre-group label {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--primary-light);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+}
+
+.filtre-select {
+  width: 100%;
+  padding: 10px 14px;
+  background: var(--light);
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  color: var(--dark);
+  font-family: inherit;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.filtre-select:focus { outline: none; border-color: var(--primary-light); }
+
+.btn-reset {
+  background: rgba(239,68,68,0.08);
+  border: 2px solid rgba(239,68,68,0.3);
+  color: var(--danger);
+  padding: 10px 18px;
+  border-radius: 12px;
+  font-family: inherit;
+  font-weight: 600;
+  font-size: 0.88rem;
+  cursor: pointer;
+  transition: var(--transition);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn-reset:hover { background: var(--danger); color: white; border-color: var(--danger); }
+
+.resultats-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+  padding: 14px 20px;
+  background: rgba(16,185,129,0.06);
+  border: 1.5px solid rgba(16,185,129,0.15);
+  border-radius: 14px;
+}
+
+.resultats-bar .count {
+  font-size: 0.92rem;
+  color: var(--gray);
+}
+
+.resultats-bar .count strong {
+  color: var(--success);
+  font-weight: 800;
+  font-size: 1.15rem;
+}
+
+/* ===== CARTES EXERCICES ===== */
+.ex-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 25px;
+}
+
+.ex-card {
+  background: white;
+  border-radius: var(--radius-sm);
+  padding: 22px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+  transition: var(--transition);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ex-card:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-lg);
+}
+
+.ex-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.ex-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+
+.ex-tag {
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 50px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.ex-tag.niveau {
+  background: rgba(59,130,246,0.1);
+  color: var(--primary-light);
+  border: 1px solid rgba(59,130,246,0.3);
+}
+
+.ex-tag.matiere {
+  background: rgba(139,92,246,0.1);
+  color: var(--violet);
+  border: 1px solid rgba(139,92,246,0.3);
+}
+
+.difficulte {
+  display: flex;
+  gap: 2px;
+  font-size: 0.9rem;
+}
+
+.difficulte .star { color: var(--accent); filter: drop-shadow(0 0 3px rgba(245,158,11,0.5)); }
+.difficulte .star.vide { color: rgba(245,158,11,0.2); filter: none; }
+
+.ex-card h3 {
+  font-size: 1.05rem;
+  color: var(--primary);
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.chapitre-info {
+  font-size: 0.8rem;
+  color: var(--gray);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.chapitre-info i { color: var(--success); }
+
+.ex-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: auto;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+  flex-wrap: wrap;
+}
+
+.btn-ex {
+  flex: 1;
+  min-width: 110px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-family: inherit;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border: 1.5px solid;
+  text-decoration: none;
+}
+
+.btn-ex.enonce {
+  background: rgba(59,130,246,0.08);
+  border-color: rgba(59,130,246,0.3);
+  color: var(--primary-light);
+}
+
+.btn-ex.enonce:hover { background: var(--primary-light); color: white; }
+
+.btn-ex.corrige {
+  background: rgba(16,185,129,0.08);
+  border-color: rgba(16,185,129,0.3);
+  color: var(--success);
+}
+
+.btn-ex.corrige:hover { background: var(--success); color: white; }
+
+.btn-ex.indispo {
+  background: rgba(148,163,184,0.08);
+  border-color: var(--border);
+  color: var(--gray);
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+/* Partage */
+.share-bar {
+  display: flex;
+  gap: 6px;
+  padding-top: 10px;
+}
+
+.share-btn {
+  flex: 1;
+  height: 34px;
+  border-radius: 9px;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.82rem;
+  color: white;
+  transition: var(--transition);
+  font-family: inherit;
+}
+
+.share-btn.whatsapp { background: #25d366; }
+.share-btn.facebook { background: #1877f2; }
+.share-btn.telegram { background: #0088cc; }
+.share-btn.copy { background: var(--gray); }
+.share-btn:hover { transform: translateY(-2px); }
+
+/* Loading / Empty */
+.loading-zone, .aucun-resultat {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--gray);
+  grid-column: 1 / -1;
+}
+
+.loading-zone i {
+  font-size: 2.5rem;
+  color: var(--primary-light);
+  animation: spin 1s linear infinite;
+  display: block;
+  margin-bottom: 15px;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.aucun-resultat i { font-size: 4rem; color: var(--border); margin-bottom: 15px; display: block; }
+.aucun-resultat h3 { color: var(--primary); font-size: 1.3rem; margin-bottom: 8px; }
+
+/* ===== FOOTER ===== */
+footer {
+  background: var(--dark);
+  color: white;
+  padding: 50px 5% 25px;
+  margin-top: 60px;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 40px;
+  max-width: 1200px;
+  margin: 0 auto 30px;
+}
+
+.footer-logo { display: flex; align-items: center; gap: 12px; margin-bottom: 15px; }
+
+.footer-logo-wrap {
+  position: relative;
+  width: 58px; height: 58px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #1e3a8a 0%, #06b6d4 50%, #10b981 100%);
+  padding: 3px;
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1);
+}
+
+.footer-logo-wrap::before {
+  content: '';
+  position: absolute;
+  inset: 3px;
+  border-radius: 50%;
+  background: white;
+  z-index: 0;
+}
+
+.footer-logo-wrap img {
+  position: relative; z-index: 1;
+  width: 100%; height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.footer-nom {
+  font-size: 1.5rem;
+  font-weight: 900;
+  background: linear-gradient(135deg, #60a5fa 0%, #22d3ee 50%, #4ade80 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1;
+}
+
+.footer-arabe {
+  font-size: 0.75rem;
+  color: #94a3b8;
+  font-family: 'Tajawal', sans-serif;
+  font-weight: 700;
+  margin-top: 2px;
+}
+
+.footer-brand p { color: #94a3b8; font-size: 0.92rem; margin: 15px 0; }
+.footer-social { display: flex; gap: 12px; }
+
+.footer-social a {
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.08);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition);
+}
+
+.footer-social a:hover { background: var(--gradient-accent); transform: translateY(-3px); }
+.footer-col h4 { font-size: 1.05rem; margin-bottom: 18px; color: white; font-weight: 700; }
+.footer-col ul { list-style: none; }
+.footer-col ul li { margin-bottom: 10px; }
+.footer-col ul a { color: #94a3b8; font-size: 0.9rem; transition: color 0.3s; }
+.footer-col ul a:hover { color: var(--accent); }
+.footer-col ul a i { margin-right: 6px; color: var(--accent); }
+
+.footer-bottom {
+  border-top: 1px solid rgba(255,255,255,0.1);
+  padding-top: 25px;
+  text-align: center;
+  color: #94a3b8;
+  font-size: 0.88rem;
+}
+
+.footer-bottom span { color: var(--accent); font-weight: 600; }
+
+.toast {
+  position: fixed;
+  bottom: 25px; right: 25px;
+  background: var(--dark);
+  color: white;
+  padding: 14px 22px;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  font-size: 0.92rem;
+  box-shadow: var(--shadow-lg);
+  z-index: 9999;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: var(--transition);
+  pointer-events: none;
+}
+
+[dir="rtl"] .toast { right: auto; left: 25px; }
+.toast.show { opacity: 1; transform: translateY(0); }
+.toast.success { background: var(--success); }
+
+/* Responsive */
+@media (max-width: 900px) {
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+  .hero-page h1 { font-size: 2.2rem; }
+}
+
+@media (max-width: 768px) {
+  nav { padding: 10px 4%; }
+  .logo-img-wrap { width: 44px; height: 44px; }
+  .logo-texte .titre { font-size: 1.15rem; }
+  .logo-texte .arabe { font-size: 0.65rem; }
+
+  .nav-links {
+    position: fixed;
+    top: 64px;
+    left: 0; right: 0;
+    background: white;
+    flex-direction: column;
+    padding: 25px;
+    gap: 18px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    transform: translateY(-150%);
+    transition: transform 0.4s;
+    max-height: calc(100vh - 64px);
+    overflow-y: auto;
+  }
+  .nav-links.active { transform: translateY(0); }
+  .menu-toggle { display: block; }
+  .nav-links .lang-switcher { width: 100%; justify-content: center; }
+  .nav-links .btn-nav { width: 100%; text-align: center; justify-content: center; }
+
+  .hero-page { padding: 100px 4% 50px; }
+  .hero-page h1 { font-size: 1.8rem; }
+  .filtres-panel { grid-template-columns: 1fr; }
+  .ex-grid { grid-template-columns: 1fr; }
+  .stats-bar { grid-template-columns: 1fr; }
+  .footer-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 480px) {
+  .hero-page h1 { font-size: 1.5rem; }
+  .logo-texte { display: none; }
+  .logo-img-wrap { width: 42px; height: 42px; }
+  .ex-actions { flex-direction: column; }
+  .btn-ex { min-width: 100%; }
+}
+
+.fade-in { opacity: 0; transform: translateY(30px); transition: opacity 0.7s, transform 0.7s; }
+.fade-in.visible { opacity: 1; transform: translateY(0); }
+</style>
 </head>
 <body>
 
-  <header class="header">
-    <div class="container header-inner">
-      <a href="index.html" class="logo">
-        <span class="logo-icon"><i class="fas fa-atom"></i></span>
-        A SALIKI <span>PC</span>
-      </a>
-      <nav class="nav-desktop">
-        <a href="index.html" data-i18n="nav.home">Accueil</a>
-        <a href="cours.html" data-i18n="nav.cours">Cours</a>
-        <a href="exercices.html" class="actif" data-i18n="nav.exercices">Exercices</a>
-        <a href="examens.html" data-i18n="nav.examens">Examens</a>
-        <a href="simulations.html" data-i18n="nav.simulations">Simulations</a>
-        <a href="qcm.html" data-i18n="nav.qcm">QCM</a>
-        <a href="ressources.html" data-i18n="nav.ressources">Ressources</a>
-        <a href="admin/login.html" class="admin-link" data-i18n="nav.admin">Admin</a>
-      </nav>
-      <div class="header-actions">
-        <div class="lang-switcher">
-          <button class="lang-btn actif" data-lang="fr">FR</button>
-          <button class="lang-btn" data-lang="ar">AR</button>
+<!-- ===== NAVBAR ===== -->
+<nav>
+  <a href="index.html" class="logo">
+    <div class="logo-img-wrap">
+      <img src="assets/logo-darrssy.png" alt="DARRSSY">
+    </div>
+    <div class="logo-texte">
+      <span class="titre">DARRSSY</span>
+      <span class="arabe">دَرْسِي</span>
+    </div>
+  </a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="index.html" data-i18n="nav.home">Accueil</a></li>
+    <li><a href="cours.html" data-i18n="nav.cours">Cours</a></li>
+    <li><a href="exercices.html" class="actif" data-i18n="nav.exercices">Exercices</a></li>
+    <li><a href="examens.html" data-i18n="nav.examens">Examens</a></li>
+    <li><a href="simulations.html" data-i18n="nav.simulations">Simulations</a></li>
+    <li><a href="ressources.html" data-i18n="nav.ressources">Ressources</a></li>
+    <li>
+      <div class="lang-switcher">
+        <button class="lang-btn actif" data-lang="fr">FR</button>
+        <button class="lang-btn" data-lang="ar">AR</button>
+      </div>
+    </li>
+    <li><a href="admin/login.html" class="btn-nav"><i class="fas fa-sign-in-alt"></i> <span data-i18n="nav.connexion">Connexion</span></a></li>
+  </ul>
+  <button class="menu-toggle" id="menuToggle" aria-label="Menu"><i class="fas fa-bars"></i></button>
+</nav>
+
+<!-- ===== HERO ===== -->
+<section class="hero-page">
+  <div class="hero-page-content">
+    <h1>
+      <span data-i18n="ex.titre1">Tous les</span>
+      <span data-i18n="ex.titre2">exercices</span>
+    </h1>
+    <p data-i18n="ex.desc">Téléchargez les énoncés et les corrigés des exercices de Physique-Chimie.</p>
+  </div>
+</section>
+
+<!-- ===== CONTENU ===== -->
+<div class="conteneur">
+  <div class="search-wrap">
+    <i class="fas fa-search"></i>
+    <input type="text" id="searchInput" placeholder="Rechercher un exercice..." data-i18n-placeholder="ex.searchPlaceholder">
+  </div>
+
+  <div class="stats-bar">
+    <div class="stat-box">
+      <div class="num" id="statTotal">0</div>
+      <div class="lbl" data-i18n="ex.statTotal">Exercices</div>
+    </div>
+    <div class="stat-box">
+      <div class="num" id="statFaciles">0</div>
+      <div class="lbl" data-i18n="ex.statFaciles">Faciles</div>
+    </div>
+    <div class="stat-box">
+      <div class="num" id="statDifficiles">0</div>
+      <div class="lbl" data-i18n="ex.statDifficiles">Difficiles</div>
+    </div>
+  </div>
+
+  <div class="filtres-panel">
+    <div class="filtre-group">
+      <label data-i18n="filtre.niveau">Niveau</label>
+      <select class="filtre-select" id="filtreNiveau">
+        <option value="all" data-i18n="filtre.tousNiveaux">Tous les niveaux</option>
+        <option value="tronc" data-i18n="niveau.tronc">Tronc Commun</option>
+        <option value="1bac" data-i18n="niveau.1bac">1ère Bac</option>
+        <option value="2bacpc" data-i18n="niveau.2bacpc">2ème Bac PC</option>
+        <option value="2bacsvt" data-i18n="niveau.2bacsvt">2ème Bac SVT</option>
+      </select>
+    </div>
+    <div class="filtre-group">
+      <label data-i18n="filtre.matiere">Matière</label>
+      <select class="filtre-select" id="filtreMatiere">
+        <option value="all" data-i18n="filtre.toutesMatieres">Toutes les matières</option>
+        <option value="physique" data-i18n="matiere.physique">Physique</option>
+        <option value="chimie" data-i18n="matiere.chimie">Chimie</option>
+      </select>
+    </div>
+    <div class="filtre-group">
+      <label data-i18n="filtre.difficulte">Difficulté</label>
+      <select class="filtre-select" id="filtreDifficulte">
+        <option value="all" data-i18n="filtre.toutesDifficultes">Toutes</option>
+        <option value="1">⭐ Facile</option>
+        <option value="2">⭐⭐ Moyen</option>
+        <option value="3">⭐⭐⭐ Difficile</option>
+      </select>
+    </div>
+    <button class="btn-reset" id="btnReset">
+      <i class="fas fa-redo"></i> <span data-i18n="filtre.reset">Réinitialiser</span>
+    </button>
+  </div>
+
+  <div class="resultats-bar">
+    <span class="count"><strong id="countResultats">0</strong> <span data-i18n="ex.resultats">exercices trouvés</span></span>
+  </div>
+
+  <div class="ex-grid" id="exGrid">
+    <div class="loading-zone">
+      <i class="fas fa-spinner"></i>
+      <p data-i18n="loading">Chargement...</p>
+    </div>
+  </div>
+</div>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="footer-logo">
+        <div class="footer-logo-wrap">
+          <img src="assets/logo-darrssy.png" alt="DARRSSY">
+        </div>
+        <div>
+          <div class="footer-nom">DARRSSY</div>
+          <div class="footer-arabe">دَرْسِي</div>
         </div>
       </div>
-    </div>
-  </header>
-
-  <section class="hero-ex">
-    <div class="container">
-      <h1><span data-i18n="ex.titre1">Tous les</span> <span class="accent" data-i18n="ex.titre2">exercices</span></h1>
-      <p data-i18n="ex.desc">Téléchargez les énoncés et les corrigés des exercices de Physique-Chimie.</p>
-    </div>
-  </section>
-
-  <div class="container">
-    <div class="search-wrap">
-      <i class="fas fa-search search-icon"></i>
-      <input type="text" class="search-input" id="searchInput" placeholder="Rechercher un exercice..." data-i18n-placeholder="ex.searchPlaceholder">
-    </div>
-
-    <div class="stats-bar">
-      <div class="stat-box">
-        <div class="num" id="statTotal">0</div>
-        <div class="lbl" data-i18n="ex.statTotal">Exercices disponibles</div>
-      </div>
-      <div class="stat-box">
-        <div class="num" id="statFaciles">0</div>
-        <div class="lbl" data-i18n="ex.statFaciles">Exercices faciles</div>
-      </div>
-      <div class="stat-box">
-        <div class="num" id="statDifficiles">0</div>
-        <div class="lbl" data-i18n="ex.statDifficiles">Exercices difficiles</div>
+      <p data-i18n="footer.desc">La plateforme éducative marocaine dédiée à la réussite des lycéens en Physique & Chimie.</p>
+      <div class="footer-social">
+        <a href="#"><i class="fab fa-facebook-f"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-youtube"></i></a>
+        <a href="#"><i class="fab fa-tiktok"></i></a>
       </div>
     </div>
-
-    <div class="filtres-panel">
-      <div class="filtre-group">
-        <label data-i18n="filtre.niveau">Niveau</label>
-        <select class="filtre-select" id="filtreNiveau">
-          <option value="all" data-i18n="filtre.tousNiveaux">Tous les niveaux</option>
-          <option value="tronc" data-i18n="niveau.tronc">Tronc Commun</option>
-          <option value="1bac" data-i18n="niveau.1bac">1ère Bac</option>
-          <option value="2bacpc" data-i18n="niveau.2bacpc">2ème Bac PC</option>
-          <option value="2bacsvt" data-i18n="niveau.2bacsvt">2ème Bac SVT</option>
-        </select>
-      </div>
-      <div class="filtre-group">
-        <label data-i18n="filtre.matiere">Matière</label>
-        <select class="filtre-select" id="filtreMatiere">
-          <option value="all" data-i18n="filtre.toutesMatieres">Toutes les matières</option>
-          <option value="physique" data-i18n="matiere.physique">Physique</option>
-          <option value="chimie" data-i18n="matiere.chimie">Chimie</option>
-        </select>
-      </div>
-      <div class="filtre-group">
-        <label data-i18n="filtre.difficulte">Difficulté</label>
-        <select class="filtre-select" id="filtreDifficulte">
-          <option value="all" data-i18n="filtre.toutesDifficultes">Toutes</option>
-          <option value="1">⭐ Facile</option>
-          <option value="2">⭐⭐ Moyen</option>
-          <option value="3">⭐⭐⭐ Difficile</option>
-        </select>
-      </div>
-      <button class="btn-reset" id="btnReset">
-        <i class="fas fa-redo"></i> <span data-i18n="filtre.reset">Réinitialiser</span>
-      </button>
+    <div class="footer-col">
+      <h4 data-i18n="footer.navigation">Navigation</h4>
+      <ul>
+        <li><a href="index.html" data-i18n="nav.home">Accueil</a></li>
+        <li><a href="cours.html" data-i18n="nav.cours">Cours</a></li>
+        <li><a href="exercices.html" data-i18n="nav.exercices">Exercices</a></li>
+        <li><a href="examens.html" data-i18n="nav.examens">Examens</a></li>
+      </ul>
     </div>
-
-    <div class="resultats-bar">
-      <span class="count"><strong id="countResultats">0</strong> <span data-i18n="ex.resultats">exercices trouvés</span></span>
+    <div class="footer-col">
+      <h4 data-i18n="footer.ressources">Ressources</h4>
+      <ul>
+        <li><a href="simulations.html" data-i18n="nav.simulations">Simulations</a></li>
+        <li><a href="ressources.html" data-i18n="nav.ressources">Ressources</a></li>
+        <li><a href="admin/login.html" data-i18n="nav.admin">Administration</a></li>
+      </ul>
     </div>
-
-    <div class="loading-zone" id="loadingZone">
-      <i class="fas fa-spinner"></i>
-      <p>Chargement des exercices...</p>
-    </div>
-
-    <div class="ex-grid" id="exGrid" style="display:none;"></div>
-
-    <div class="aucun-resultat" id="aucunResultat" style="display: none;">
-      <i class="fas fa-search"></i>
-      <h3 data-i18n="ex.aucunTitre">Aucun exercice trouvé</h3>
-      <p data-i18n="ex.aucunDesc">Essayez de modifier vos filtres.</p>
+    <div class="footer-col">
+      <h4 data-i18n="footer.contact">Contact</h4>
+      <ul>
+        <li><a href="mailto:contact@darrssy.com"><i class="fas fa-envelope"></i> contact@darrssy.com</a></li>
+        <li><a href="#"><i class="fas fa-map-marker-alt"></i> <span data-i18n="footer.maroc">Maroc</span></a></li>
+      </ul>
     </div>
   </div>
-
-  <div class="panneau-overlay" id="panneauOverlay"></div>
-  <div class="panneau-detail" id="panneauDetail">
-    <div class="panneau-header">
-      <h2><i class="fas fa-pencil-alt"></i> <span data-i18n="panneau.titre">Détail de l'exercice</span></h2>
-      <button class="btn-fermer" id="btnFermerPanneau"><i class="fas fa-times"></i></button>
-    </div>
-    <div class="panneau-corps" id="panneauCorps"></div>
+  <div class="footer-bottom">
+    © 2026 <span>DARRSSY</span> — <span data-i18n="footer.droits">Tous droits réservés.</span>
   </div>
+</footer>
 
-  <button class="theme-toggle" id="themeToggle">
-    <i class="fas fa-moon icon-moon"></i>
-    <i class="fas fa-sun icon-sun"></i>
-  </button>
+<div class="toast" id="toast"></div>
 
-  <script src="admin/supabase-config.js"></script>
-  <script>
-    let currentLang = localStorage.getItem('asaliki-lang') || 'fr';
-    let tousLesExercices = [];
-    let filtres = { niveau: 'all', matiere: 'all', difficulte: 'all', recherche: '' };
+<script src="admin/supabase-config.js"></script>
+<script>
+let currentLang = localStorage.getItem('darrssy-lang') || 'fr';
+let tousLesExercices = [];
+let filtres = { niveau: 'all', matiere: 'all', difficulte: 'all', recherche: '' };
 
-    const trad = {
-      fr: {
-        'nav.home': 'Accueil', 'nav.cours': 'Cours', 'nav.exercices': 'Exercices',
-        'nav.examens': 'Examens', 'nav.simulations': 'Simulations', 'nav.qcm': 'QCM',
-        'nav.ressources': 'Ressources', 'nav.admin': 'Admin',
-        'ex.titre1': 'Tous les', 'ex.titre2': 'exercices',
-        'ex.desc': 'Téléchargez les énoncés et les corrigés des exercices de Physique-Chimie.',
-        'ex.searchPlaceholder': 'Rechercher un exercice...',
-        'ex.resultats': 'exercices trouvés',
-        'ex.aucunTitre': 'Aucun exercice trouvé',
-        'ex.aucunDesc': 'Essayez de modifier vos filtres.',
-        'ex.statTotal': 'Exercices disponibles',
-        'ex.statFaciles': 'Exercices faciles',
-        'ex.statDifficiles': 'Exercices difficiles',
-        'filtre.niveau': 'Niveau', 'filtre.matiere': 'Matière', 'filtre.difficulte': 'Difficulté',
-        'filtre.tousNiveaux': 'Tous les niveaux', 'filtre.toutesMatieres': 'Toutes les matières',
-        'filtre.toutesDifficultes': 'Toutes', 'filtre.reset': 'Réinitialiser',
-        'niveau.tronc': 'Tronc Commun', 'niveau.1bac': '1ère Bac',
-        'niveau.2bacpc': '2ème Bac PC', 'niveau.2bacsvt': '2ème Bac SVT',
-        'matiere.physique': 'Physique', 'matiere.chimie': 'Chimie',
-        'btn.voir': 'Détails',
-        'btn.enonce': 'Télécharger l\'énoncé',
-        'btn.corrige': 'Télécharger le corrigé',
-        'btn.indispo': 'PDF indisponible',
-        'panneau.titre': "Détail de l'exercice"
-      },
-      ar: {
-        'nav.home': 'الرئيسية', 'nav.cours': 'الدروس', 'nav.exercices': 'التمارين',
-        'nav.examens': 'الامتحانات', 'nav.simulations': 'المحاكاة', 'nav.qcm': 'اختبار',
-        'nav.ressources': 'الموارد', 'nav.admin': 'الإدارة',
-        'ex.titre1': 'جميع', 'ex.titre2': 'التمارين',
-        'ex.desc': 'قم بتحميل نصوص وحلول تمارين الفيزياء والكيمياء.',
-        'ex.searchPlaceholder': 'ابحث عن تمرين...',
-        'ex.resultats': 'تمرين تم إيجاده',
-        'ex.aucunTitre': 'لا يوجد أي تمرين',
-        'ex.aucunDesc': 'حاول تغيير الفلاتر.',
-        'ex.statTotal': 'التمارين المتاحة',
-        'ex.statFaciles': 'تمارين سهلة',
-        'ex.statDifficiles': 'تمارين صعبة',
-        'filtre.niveau': 'المستوى', 'filtre.matiere': 'المادة', 'filtre.difficulte': 'الصعوبة',
-        'filtre.tousNiveaux': 'جميع المستويات', 'filtre.toutesMatieres': 'جميع المواد',
-        'filtre.toutesDifficultes': 'الكل', 'filtre.reset': 'إعادة',
-        'niveau.tronc': 'الجذع المشترك', 'niveau.1bac': 'الأولى باك',
-        'niveau.2bacpc': 'الثانية باك ع.ف', 'niveau.2bacsvt': 'الثانية باك ع.ح.أ',
-        'matiere.physique': 'الفيزياء', 'matiere.chimie': 'الكيمياء',
-        'btn.voir': 'التفاصيل',
-        'btn.enonce': 'تحميل النص',
-        'btn.corrige': 'تحميل الحل',
-        'btn.indispo': 'PDF غير متوفر',
-        'panneau.titre': 'تفاصيل التمرين'
-      }
-    };
+const trad = {
+  fr: {
+    'nav.home': 'Accueil', 'nav.cours': 'Cours', 'nav.exercices': 'Exercices',
+    'nav.examens': 'Examens', 'nav.simulations': 'Simulations', 'nav.ressources': 'Ressources',
+    'nav.admin': 'Administration', 'nav.connexion': 'Connexion',
+    'ex.titre1': 'Tous les', 'ex.titre2': 'exercices',
+    'ex.desc': 'Téléchargez les énoncés et les corrigés des exercices de Physique-Chimie.',
+    'ex.searchPlaceholder': 'Rechercher un exercice...',
+    'ex.resultats': 'exercices trouvés',
+    'ex.statTotal': 'Exercices', 'ex.statFaciles': 'Faciles', 'ex.statDifficiles': 'Difficiles',
+    'filtre.niveau': 'Niveau', 'filtre.matiere': 'Matière', 'filtre.difficulte': 'Difficulté',
+    'filtre.tousNiveaux': 'Tous les niveaux', 'filtre.toutesMatieres': 'Toutes les matières',
+    'filtre.toutesDifficultes': 'Toutes', 'filtre.reset': 'Réinitialiser',
+    'niveau.tronc': 'Tronc Commun', 'niveau.1bac': '1ère Bac',
+    'niveau.2bacpc': '2ème Bac PC', 'niveau.2bacsvt': '2ème Bac SVT',
+    'matiere.physique': 'Physique', 'matiere.chimie': 'Chimie',
+    'btn.enonce': 'Énoncé PDF', 'btn.corrige': 'Corrigé PDF', 'btn.indispo': 'PDF indispo',
+    'loading': 'Chargement...', 'share.copied': 'Lien copié !',
+    'footer.desc': 'La plateforme éducative marocaine dédiée à la réussite des lycéens en Physique & Chimie.',
+    'footer.navigation': 'Navigation', 'footer.ressources': 'Ressources',
+    'footer.contact': 'Contact', 'footer.maroc': 'Maroc', 'footer.droits': 'Tous droits réservés.'
+  },
+  ar: {
+    'nav.home': 'الرئيسية', 'nav.cours': 'الدروس', 'nav.exercices': 'التمارين',
+    'nav.examens': 'الامتحانات', 'nav.simulations': 'المحاكاة', 'nav.ressources': 'الموارد',
+    'nav.admin': 'الإدارة', 'nav.connexion': 'تسجيل الدخول',
+    'ex.titre1': 'جميع', 'ex.titre2': 'التمارين',
+    'ex.desc': 'قم بتحميل نصوص وحلول تمارين الفيزياء والكيمياء.',
+    'ex.searchPlaceholder': 'ابحث عن تمرين...',
+    'ex.resultats': 'تمرين تم إيجاده',
+    'ex.statTotal': 'التمارين', 'ex.statFaciles': 'سهلة', 'ex.statDifficiles': 'صعبة',
+    'filtre.niveau': 'المستوى', 'filtre.matiere': 'المادة', 'filtre.difficulte': 'الصعوبة',
+    'filtre.tousNiveaux': 'جميع المستويات', 'filtre.toutesMatieres': 'جميع المواد',
+    'filtre.toutesDifficultes': 'الكل', 'filtre.reset': 'إعادة',
+    'niveau.tronc': 'الجذع المشترك', 'niveau.1bac': 'الأولى باك',
+    'niveau.2bacpc': 'الثانية باك ع.ف', 'niveau.2bacsvt': 'الثانية باك ع.ح.أ',
+    'matiere.physique': 'الفيزياء', 'matiere.chimie': 'الكيمياء',
+    'btn.enonce': 'نص PDF', 'btn.corrige': 'حل PDF', 'btn.indispo': 'PDF غير متوفر',
+    'loading': 'جارٍ التحميل...', 'share.copied': 'تم نسخ الرابط!',
+    'footer.desc': 'المنصة التعليمية المغربية المخصصة لنجاح تلاميذ الثانوية.',
+    'footer.navigation': 'التنقل', 'footer.ressources': 'الموارد',
+    'footer.contact': 'اتصل بنا', 'footer.maroc': 'المغرب', 'footer.droits': 'جميع الحقوق محفوظة.'
+  }
+};
 
-    document.addEventListener('DOMContentLoaded', async () => {
-      appliquerTheme();
-      appliquerLangue(currentLang);
-      bindEvents();
-      await chargerDonnees();
-    });
+document.addEventListener('DOMContentLoaded', async () => {
+  appliquerLangue(currentLang);
+  bindEvents();
+  await chargerDonnees();
+});
 
-    function appliquerTheme() {
-      const savedTheme = localStorage.getItem('asaliki-theme') || 'dark';
-      document.getElementById('htmlRoot').setAttribute('data-theme', savedTheme);
-    }
+function appliquerLangue(lang) {
+  currentLang = lang;
+  document.getElementById('htmlRoot').setAttribute('lang', lang);
+  document.getElementById('htmlRoot').setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (trad[lang] && trad[lang][key]) el.textContent = trad[lang][key];
+  });
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+    const key = el.getAttribute('data-i18n-placeholder');
+    if (trad[lang] && trad[lang][key]) el.placeholder = trad[lang][key];
+  });
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.classList.toggle('actif', btn.getAttribute('data-lang') === lang);
+  });
+  localStorage.setItem('darrssy-lang', lang);
+  if (tousLesExercices.length > 0) afficherExercices();
+}
 
-    function appliquerLangue(lang) {
-      currentLang = lang;
-      document.getElementById('htmlRoot').setAttribute('lang', lang);
-      document.getElementById('htmlRoot').setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
-      document.querySelectorAll('[data-i18n]').forEach(el => {
-        const key = el.getAttribute('data-i18n');
-        if (trad[lang] && trad[lang][key]) el.textContent = trad[lang][key];
-      });
-      document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
-        const key = el.getAttribute('data-i18n-placeholder');
-        if (trad[lang] && trad[lang][key]) el.placeholder = trad[lang][key];
-      });
-      document.querySelectorAll('.lang-btn').forEach(btn => {
-        btn.classList.toggle('actif', btn.getAttribute('data-lang') === lang);
-      });
-      localStorage.setItem('asaliki-lang', lang);
-      if (tousLesExercices.length > 0) afficherExercices();
-    }
+function bindEvents() {
+  document.getElementById('menuToggle').addEventListener('click', () => {
+    document.getElementById('navLinks').classList.toggle('active');
+  });
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.addEventListener('click', () => appliquerLangue(btn.getAttribute('data-lang')));
+  });
+  document.getElementById('searchInput').addEventListener('input', (e) => {
+    filtres.recherche = e.target.value.toLowerCase().trim();
+    afficherExercices();
+  });
+  document.getElementById('filtreNiveau').addEventListener('change', (e) => {
+    filtres.niveau = e.target.value;
+    afficherExercices();
+  });
+  document.getElementById('filtreMatiere').addEventListener('change', (e) => {
+    filtres.matiere = e.target.value;
+    afficherExercices();
+  });
+  document.getElementById('filtreDifficulte').addEventListener('change', (e) => {
+    filtres.difficulte = e.target.value;
+    afficherExercices();
+  });
+  document.getElementById('btnReset').addEventListener('click', () => {
+    filtres = { niveau: 'all', matiere: 'all', difficulte: 'all', recherche: '' };
+    document.getElementById('searchInput').value = '';
+    document.getElementById('filtreNiveau').value = 'all';
+    document.getElementById('filtreMatiere').value = 'all';
+    document.getElementById('filtreDifficulte').value = 'all';
+    afficherExercices();
+  });
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
+}
 
-    function bindEvents() {
-      document.getElementById('searchInput').addEventListener('input', (e) => {
-        filtres.recherche = e.target.value.toLowerCase().trim();
-        afficherExercices();
-      });
-      document.getElementById('filtreNiveau').addEventListener('change', (e) => {
-        filtres.niveau = e.target.value;
-        afficherExercices();
-      });
-      document.getElementById('filtreMatiere').addEventListener('change', (e) => {
-        filtres.matiere = e.target.value;
-        afficherExercices();
-      });
-      document.getElementById('filtreDifficulte').addEventListener('change', (e) => {
-        filtres.difficulte = e.target.value;
-        afficherExercices();
-      });
-      document.getElementById('btnReset').addEventListener('click', () => {
-        filtres = { niveau: 'all', matiere: 'all', difficulte: 'all', recherche: '' };
-        document.getElementById('searchInput').value = '';
-        document.getElementById('filtreNiveau').value = 'all';
-        document.getElementById('filtreMatiere').value = 'all';
-        document.getElementById('filtreDifficulte').value = 'all';
-        afficherExercices();
-      });
-      document.querySelectorAll('.lang-btn').forEach(btn => {
-        btn.addEventListener('click', () => appliquerLangue(btn.getAttribute('data-lang')));
-      });
-      document.getElementById('themeToggle').addEventListener('click', () => {
-        const current = document.getElementById('htmlRoot').getAttribute('data-theme');
-        const next = current === 'dark' ? 'light' : 'dark';
-        document.getElementById('htmlRoot').setAttribute('data-theme', next);
-        localStorage.setItem('asaliki-theme', next);
-      });
-      document.getElementById('btnFermerPanneau').addEventListener('click', fermerPanneau);
-      document.getElementById('panneauOverlay').addEventListener('click', fermerPanneau);
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') fermerPanneau();
-      });
-    }
+async function chargerDonnees() {
+  try {
+    if (typeof lireTable !== 'function') throw new Error('lireTable non chargé');
+    tousLesExercices = await lireTable('exercices', { filtres: { publie: true }, ordre: { col: 'created_at', asc: false } });
+    mettreAJourStats();
+    afficherExercices();
+  } catch (err) {
+    document.getElementById('exGrid').innerHTML = `
+      <div class="loading-zone">
+        <i class="fas fa-exclamation-triangle" style="color:#ef4444;animation:none;"></i>
+        <p>Erreur : ${err.message}</p>
+      </div>`;
+  }
+}
 
-    async function chargerDonnees() {
-      try {
-        tousLesExercices = await lireTable('exercices', {
-          filtres: { publie: true },
-          ordre: { col: 'created_at', asc: false }
-        });
-        mettreAJourStats();
-        document.getElementById('loadingZone').style.display = 'none';
-        document.getElementById('exGrid').style.display = 'grid';
-        afficherExercices();
-      } catch (err) {
-        document.getElementById('loadingZone').innerHTML = `
-          <i class="fas fa-exclamation-triangle" style="color:#ef4444;"></i>
-          <p>Erreur : ${err.message}</p>
-        `;
-      }
-    }
+function mettreAJourStats() {
+  document.getElementById('statTotal').textContent = tousLesExercices.length;
+  document.getElementById('statFaciles').textContent = tousLesExercices.filter(e => e.difficulte === 1).length;
+  document.getElementById('statDifficiles').textContent = tousLesExercices.filter(e => e.difficulte === 3).length;
+}
 
-    function mettreAJourStats() {
-      document.getElementById('statTotal').textContent = tousLesExercices.length;
-      document.getElementById('statFaciles').textContent = tousLesExercices.filter(e => e.difficulte === 1).length;
-      document.getElementById('statDifficiles').textContent = tousLesExercices.filter(e => e.difficulte === 3).length;
-    }
-
-    function filtrerExercices() {
-      return tousLesExercices.filter(e => {
-        if (filtres.niveau !== 'all' && e.niveau !== filtres.niveau) return false;
-        if (filtres.matiere !== 'all' && e.matiere !== filtres.matiere) return false;
-        if (filtres.difficulte !== 'all' && e.difficulte !== parseInt(filtres.difficulte)) return false;
-        if (filtres.recherche) {
-          const titre = currentLang === 'fr' ? e.titre_fr : e.titre_ar;
-          const chap = currentLang === 'fr' ? e.chapitre_fr : e.chapitre_ar;
-          const texte = ((titre || '') + ' ' + (chap || '')).toLowerCase();
-          if (!texte.includes(filtres.recherche)) return false;
-        }
-        return true;
-      });
-    }
-
-    function afficherExercices() {
-      const grid = document.getElementById('exGrid');
-      const aucun = document.getElementById('aucunResultat');
-      const filtered = filtrerExercices();
-
-      document.getElementById('countResultats').textContent = filtered.length;
-
-      if (filtered.length === 0) {
-        grid.style.display = 'none';
-        aucun.style.display = 'block';
-        return;
-      }
-
-      grid.style.display = 'grid';
-      aucun.style.display = 'none';
-      grid.innerHTML = '';
-      filtered.forEach(e => grid.appendChild(creerCarte(e)));
-    }
-
-    function creerCarte(e) {
-      const card = document.createElement('div');
-      card.className = 'ex-card';
-      const niveauLabel = trad[currentLang]['niveau.' + e.niveau] || e.niveau;
-      const matiereLabel = trad[currentLang]['matiere.' + e.matiere] || e.matiere;
+function filtrerExercices() {
+  return tousLesExercices.filter(e => {
+    if (filtres.niveau !== 'all' && e.niveau !== filtres.niveau) return false;
+    if (filtres.matiere !== 'all' && e.matiere !== filtres.matiere) return false;
+    if (filtres.difficulte !== 'all' && e.difficulte !== parseInt(filtres.difficulte)) return false;
+    if (filtres.recherche) {
       const titre = currentLang === 'fr' ? e.titre_fr : e.titre_ar;
       const chap = currentLang === 'fr' ? e.chapitre_fr : e.chapitre_ar;
-      const difficulte = e.difficulte || 1;
-
-      const etoiles = [1, 2, 3].map(i =>
-        `<span class="star ${i <= difficulte ? '' : 'vide'}">★</span>`
-      ).join('');
-
-      card.innerHTML = `
-        <div class="ex-header">
-          <div class="ex-tags">
-            <span class="ex-tag niveau">${niveauLabel}</span>
-            <span class="ex-tag matiere">${matiereLabel}</span>
-          </div>
-          <div class="difficulte">${etoiles}</div>
-        </div>
-        <h3>${titre}</h3>
-        <div class="chapitre"><i class="fas fa-bookmark"></i> ${chap || ''}</div>
-        <div class="ex-meta">
-          <span><i class="fas fa-user"></i> A. Saliki</span>
-        </div>
-        <div class="ex-actions">
-          ${e.fichier_url
-            ? `<a class="btn-ex enonce" href="${e.fichier_url}" target="_blank" rel="noopener">
-                <i class="fas fa-file-pdf"></i> ${trad[currentLang]['btn.enonce']}
-              </a>`
-            : `<button class="btn-ex indispo" disabled>
-                <i class="fas fa-file-pdf"></i> ${trad[currentLang]['btn.indispo']}
-              </button>`
-          }
-          ${e.fichier_corrige_url
-            ? `<a class="btn-ex corrige" href="${e.fichier_corrige_url}" target="_blank" rel="noopener">
-                <i class="fas fa-check-circle"></i> ${trad[currentLang]['btn.corrige']}
-              </a>`
-            : `<button class="btn-ex indispo" disabled>
-                <i class="fas fa-check-circle"></i> ${trad[currentLang]['btn.indispo']}
-              </button>`
-          }
-        </div>
-      `;
-
-      return card;
+      const texte = ((titre || '') + ' ' + (chap || '')).toLowerCase();
+      if (!texte.includes(filtres.recherche)) return false;
     }
+    return true;
+  });
+}
 
-    function fermerPanneau() {
-      document.getElementById('panneauDetail').classList.remove('ouvert');
-      document.getElementById('panneauOverlay').classList.remove('ouvert');
-      document.body.style.overflow = '';
-    }
-  </script>
+function afficherExercices() {
+  const grid = document.getElementById('exGrid');
+  const filtered = filtrerExercices();
+  document.getElementById('countResultats').textContent = filtered.length;
+  if (filtered.length === 0) {
+    grid.innerHTML = `<div class="aucun-resultat"><i class="fas fa-search"></i><h3>Aucun exercice trouvé</h3><p>Essayez de modifier vos filtres.</p></div>`;
+    return;
+  }
+  grid.innerHTML = '';
+  filtered.forEach(e => grid.appendChild(creerCarte(e)));
+}
+
+function creerCarte(e) {
+  const card = document.createElement('div');
+  card.className = 'ex-card fade-in visible';
+  const niveauLabel = trad[currentLang]['niveau.' + e.niveau] || e.niveau;
+  const matiereLabel = trad[currentLang]['matiere.' + e.matiere] || e.matiere;
+  const titre = currentLang === 'fr' ? e.titre_fr : (e.titre_ar || e.titre_fr);
+  const chap = currentLang === 'fr' ? e.chapitre_fr : e.chapitre_ar;
+  const difficulte = e.difficulte || 1;
+  const etoiles = [1,2,3].map(i => `<span class="star ${i <= difficulte ? '' : 'vide'}">★</span>`).join('');
+  const lien = `exercices.html?id=${e.id}`;
+
+  card.innerHTML = `
+    <div class="ex-header">
+      <div class="ex-tags">
+        <span class="ex-tag niveau">${niveauLabel}</span>
+        <span class="ex-tag matiere">${matiereLabel}</span>
+      </div>
+      <div class="difficulte">${etoiles}</div>
+    </div>
+    <h3>${titre}</h3>
+    <div class="chapitre-info"><i class="fas fa-bookmark"></i> ${chap || ''}</div>
+    <div class="ex-actions">
+      ${e.fichier_url
+        ? `<a class="btn-ex enonce" href="${e.fichier_url}" target="_blank" rel="noopener"><i class="fas fa-file-pdf"></i> ${trad[currentLang]['btn.enonce']}</a>`
+        : `<button class="btn-ex indispo" disabled><i class="fas fa-file-pdf"></i> ${trad[currentLang]['btn.indispo']}</button>`
+      }
+      ${e.fichier_corrige_url
+        ? `<a class="btn-ex corrige" href="${e.fichier_corrige_url}" target="_blank" rel="noopener"><i class="fas fa-check-circle"></i> ${trad[currentLang]['btn.corrige']}</a>`
+        : `<button class="btn-ex indispo" disabled><i class="fas fa-check-circle"></i> ${trad[currentLang]['btn.indispo']}</button>`
+      }
+    </div>
+    <div class="share-bar">
+      <button class="share-btn whatsapp" data-url="${lien}" data-title="${titre}"><i class="fab fa-whatsapp"></i></button>
+      <button class="share-btn facebook" data-url="${lien}" data-title="${titre}"><i class="fab fa-facebook-f"></i></button>
+      <button class="share-btn telegram" data-url="${lien}" data-title="${titre}"><i class="fab fa-telegram-plane"></i></button>
+      <button class="share-btn copy" data-url="${lien}"><i class="fas fa-link"></i></button>
+    </div>
+  `;
+
+  card.querySelectorAll('.share-btn').forEach(btn => {
+    btn.addEventListener('click', (ev) => {
+      ev.stopPropagation();
+      const reseau = btn.classList.contains('whatsapp') ? 'whatsapp' :
+                     btn.classList.contains('facebook') ? 'facebook' :
+                     btn.classList.contains('telegram') ? 'telegram' : 'copy';
+      partager(reseau, btn.dataset.url, btn.dataset.title);
+    });
+  });
+  return card;
+}
+
+function partager(reseau, urlRelatif, titre = '') {
+  const url = new URL(urlRelatif, window.location.origin).href;
+  const text = encodeURIComponent((titre || 'DARRSSY') + ' — Découvre cet exercice sur DARRSSY !');
+  let lien = '';
+  if (reseau === 'whatsapp') lien = `https://wa.me/?text=${text}%20${encodeURIComponent(url)}`;
+  else if (reseau === 'facebook') lien = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
+  else if (reseau === 'telegram') lien = `https://t.me/share/url?url=${encodeURIComponent(url)}&text=${text}`;
+  else if (reseau === 'copy') {
+    navigator.clipboard.writeText(url).then(() => toast(trad[currentLang]['share.copied'], 'success'));
+    return;
+  }
+  window.open(lien, '_blank', 'noopener,noreferrer');
+}
+
+function toast(msg, type = '') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast show ' + type;
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+</script>
 </body>
 </html>
