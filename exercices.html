@@ -31,7 +31,7 @@ nav{position:fixed;top:0;left:0;right:0;background:rgba(255,255,255,.96);backdro
 .logo-texte .arabe{font-size:.72rem;font-weight:700;color:var(--gray);font-family:'Tajawal',sans-serif;margin-top:1px}
 .nav-links{display:flex;gap:26px;list-style:none;align-items:center}
 .nav-links a{color:var(--dark);font-weight:500;font-size:.93rem;transition:color .3s;position:relative}
-.nav-links a:hover{color:var(--primary-light)}.nav-links a.actif{color:var(--success);font-weight:600}
+.nav-links a:hover{color:var(--success)}.nav-links a.actif{color:var(--success);font-weight:600}
 .nav-links a::after{content:'';position:absolute;bottom:-5px;left:0;width:0;height:2px;background:var(--gradient-success);transition:width .3s}
 .nav-links a:hover::after{width:100%}.nav-links a.actif::after{width:100%}
 .btn-nav{background:var(--gradient);color:#fff!important;padding:10px 22px;border-radius:50px;font-weight:600}
@@ -59,7 +59,7 @@ nav{position:fixed;top:0;left:0;right:0;background:rgba(255,255,255,.96);backdro
 .stat-box:hover{transform:translateY(-4px);box-shadow:var(--shadow);border-bottom:3px solid var(--success)}
 .stat-box .num{font-size:1.6rem;font-weight:800;background:var(--gradient-success);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1}
 .stat-box .lbl{font-size:.75rem;color:var(--gray);margin-top:5px}
-.filtres-panel{background:#fff;border-radius:var(--radius);padding:20px 25px;box-shadow:var(--shadow-sm);display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr)) auto;gap:15px;align-items:end;margin-bottom:30px}
+.filtres-panel{background:#fff;border-radius:var(--radius);padding:20px 25px;box-shadow:var(--shadow-sm);display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr)) auto;gap:15px;align-items:end;margin-bottom:30px}
 .filtre-group label{display:block;font-size:.72rem;font-weight:700;color:var(--success);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
 .filtre-select{width:100%;padding:10px 14px;background:var(--light);border:2px solid var(--border);border-radius:12px;color:var(--dark);font-family:inherit;font-size:.9rem;cursor:pointer;transition:var(--transition)}
 .filtre-select:focus{outline:none;border-color:var(--success)}
@@ -82,6 +82,8 @@ nav{position:fixed;top:0;left:0;right:0;background:rgba(255,255,255,.96);backdro
 .ex-card h3{font-size:1.05rem;color:var(--primary);font-weight:700;line-height:1.35}
 .chapitre-info{font-size:.8rem;color:var(--gray);display:flex;align-items:center;gap:5px}
 .chapitre-info i{color:var(--success)}
+.lecon-tag{display:inline-flex;align-items:center;gap:6px;background:linear-gradient(135deg,rgba(16,185,129,.1),rgba(6,182,212,.08));border:1.5px solid rgba(16,185,129,.3);color:var(--success);padding:5px 12px;border-radius:50px;font-size:.75rem;font-weight:700;margin-top:5px;align-self:flex-start}
+.lecon-tag i{font-size:.7rem}
 .ex-actions{display:flex;gap:8px;margin-top:auto;padding-top:14px;border-top:1px solid var(--border);flex-wrap:wrap}
 .btn-ex{flex:1;min-width:130px;padding:11px 14px;border-radius:10px;font-family:inherit;font-size:.83rem;font-weight:600;cursor:pointer;transition:var(--transition);display:inline-flex;align-items:center;justify-content:center;gap:6px;border:1.5px solid;text-decoration:none}
 .btn-ex.enonce{background:rgba(59,130,246,.08);border-color:rgba(59,130,246,.3);color:var(--primary-light)}
@@ -148,95 +150,98 @@ nav{padding:10px 4%}.logo-img-wrap{width:44px;height:44px}.logo-texte .titre{fon
     </div>
   </a>
   <ul class="nav-links" id="navLinks">
-    <li><a href="index.html" data-i18n="nav.home">Accueil</a></li>
-    <li><a href="cours.html" data-i18n="nav.cours">Cours</a></li>
-    <li><a href="exercices.html" class="actif" data-i18n="nav.exercices">Exercices</a></li>
-    <li><a href="examens.html" data-i18n="nav.examens">Examens</a></li>
-    <li><a href="simulations.html" data-i18n="nav.simulations">Simulations</a></li>
-    <li><a href="ressources.html" data-i18n="nav.ressources">Ressources</a></li>
+    <li><a href="index.html">Accueil</a></li>
+    <li><a href="cours.html">Cours</a></li>
+    <li><a href="exercices.html" class="actif">Exercices</a></li>
+    <li><a href="examens.html">Examens</a></li>
+    <li><a href="simulations.html">Simulations</a></li>
+    <li><a href="ressources.html">Ressources</a></li>
     <li>
       <div class="lang-switcher">
         <button class="lang-btn actif" data-lang="fr">FR</button>
         <button class="lang-btn" data-lang="ar">AR</button>
       </div>
     </li>
-    <li><a href="admin/login.html" class="btn-nav"><i class="fas fa-sign-in-alt"></i> <span data-i18n="nav.connexion">Connexion</span></a></li>
+    <li><a href="admin/login.html" class="btn-nav"><i class="fas fa-sign-in-alt"></i> Connexion</a></li>
   </ul>
   <button class="menu-toggle" id="menuToggle" aria-label="Menu"><i class="fas fa-bars"></i></button>
 </nav>
 
 <section class="hero-page">
   <div class="hero-page-content">
-    <h1>
-      <span data-i18n="ex.titre1">Tous les</span>
-      <span data-i18n="ex.titre2">exercices</span>
-    </h1>
-    <p data-i18n="ex.desc">Téléchargez les énoncés et les corrigés des exercices de Physique-Chimie.</p>
+    <h1><span>Tous les</span> exercices</h1>
+    <p>Téléchargez les énoncés et les corrigés des exercices de Physique-Chimie.</p>
   </div>
 </section>
 
 <div class="conteneur">
   <div class="search-wrap">
     <i class="fas fa-search"></i>
-    <input type="text" id="searchInput" placeholder="Rechercher un exercice..." data-i18n-placeholder="ex.searchPlaceholder">
+    <input type="text" id="searchInput" placeholder="Rechercher un exercice...">
   </div>
 
   <div class="stats-bar">
     <div class="stat-box">
       <div class="num" id="statTotal">0</div>
-      <div class="lbl" data-i18n="ex.statTotal">Exercices</div>
+      <div class="lbl">Exercices</div>
     </div>
     <div class="stat-box">
       <div class="num" id="statFaciles">0</div>
-      <div class="lbl" data-i18n="ex.statFaciles">Faciles</div>
+      <div class="lbl">Faciles</div>
     </div>
     <div class="stat-box">
       <div class="num" id="statDifficiles">0</div>
-      <div class="lbl" data-i18n="ex.statDifficiles">Difficiles</div>
+      <div class="lbl">Difficiles</div>
     </div>
   </div>
 
   <div class="filtres-panel">
     <div class="filtre-group">
-      <label data-i18n="filtre.niveau">Niveau</label>
+      <label>Niveau</label>
       <select class="filtre-select" id="filtreNiveau">
-        <option value="all" data-i18n="filtre.tousNiveaux">Tous les niveaux</option>
-        <option value="tronc" data-i18n="niveau.tronc">Tronc Commun</option>
-        <option value="1bac" data-i18n="niveau.1bac">1ère Bac</option>
-        <option value="2bacpc" data-i18n="niveau.2bacpc">2ème Bac PC</option>
-        <option value="2bacsvt" data-i18n="niveau.2bacsvt">2ème Bac SVT</option>
+        <option value="all">Tous les niveaux</option>
+        <option value="tronc">Tronc Commun</option>
+        <option value="1bac">1ère Bac</option>
+        <option value="2bacpc">2ème Bac PC</option>
+        <option value="2bacsvt">2ème Bac SVT</option>
       </select>
     </div>
     <div class="filtre-group">
-      <label data-i18n="filtre.matiere">Matière</label>
+      <label>Matière</label>
       <select class="filtre-select" id="filtreMatiere">
-        <option value="all" data-i18n="filtre.toutesMatieres">Toutes les matières</option>
-        <option value="physique" data-i18n="matiere.physique">Physique</option>
-        <option value="chimie" data-i18n="matiere.chimie">Chimie</option>
+        <option value="all">Toutes les matières</option>
+        <option value="physique">Physique</option>
+        <option value="chimie">Chimie</option>
       </select>
     </div>
     <div class="filtre-group">
-      <label data-i18n="filtre.difficulte">Difficulté</label>
+      <label>Difficulté</label>
       <select class="filtre-select" id="filtreDifficulte">
-        <option value="all" data-i18n="filtre.toutesDifficultes">Toutes</option>
+        <option value="all">Toutes</option>
         <option value="1">⭐ Facile</option>
         <option value="2">⭐⭐ Moyen</option>
         <option value="3">⭐⭐⭐ Difficile</option>
       </select>
     </div>
+    <div class="filtre-group">
+      <label>Leçon</label>
+      <select class="filtre-select" id="filtreLecon">
+        <option value="all">Toutes les leçons</option>
+      </select>
+    </div>
     <button class="btn-reset" id="btnReset">
-      <i class="fas fa-redo"></i> <span data-i18n="filtre.reset">Réinitialiser</span>
+      <i class="fas fa-redo"></i> Réinitialiser
     </button>
   </div>
 
   <div class="resultats-bar">
-    <span class="count"><strong id="countResultats">0</strong> <span data-i18n="ex.resultats">exercices trouvés</span></span>
+    <span class="count"><strong id="countResultats">0</strong> exercices trouvés</span>
   </div>
 
   <div class="ex-grid" id="exGrid">
     <div class="loading-zone">
       <i class="fas fa-spinner"></i>
-      <p data-i18n="loading">Chargement...</p>
+      <p>Chargement...</p>
     </div>
   </div>
 </div>
@@ -251,7 +256,7 @@ nav{padding:10px 4%}.logo-img-wrap{width:44px;height:44px}.logo-texte .titre{fon
           <div class="footer-arabe">دَرْسِي</div>
         </div>
       </div>
-      <p data-i18n="footer.desc">La plateforme éducative marocaine dédiée à la réussite des lycéens en Physique & Chimie.</p>
+      <p>La plateforme éducative marocaine dédiée à la réussite des lycéens en Physique & Chimie.</p>
       <div class="footer-social">
         <a href="#"><i class="fab fa-facebook-f"></i></a>
         <a href="#"><i class="fab fa-instagram"></i></a>
@@ -260,33 +265,31 @@ nav{padding:10px 4%}.logo-img-wrap{width:44px;height:44px}.logo-texte .titre{fon
       </div>
     </div>
     <div class="footer-col">
-      <h4 data-i18n="footer.navigation">Navigation</h4>
+      <h4>Navigation</h4>
       <ul>
-        <li><a href="index.html" data-i18n="nav.home">Accueil</a></li>
-        <li><a href="cours.html" data-i18n="nav.cours">Cours</a></li>
-        <li><a href="exercices.html" data-i18n="nav.exercices">Exercices</a></li>
-        <li><a href="examens.html" data-i18n="nav.examens">Examens</a></li>
+        <li><a href="index.html">Accueil</a></li>
+        <li><a href="cours.html">Cours</a></li>
+        <li><a href="exercices.html">Exercices</a></li>
+        <li><a href="examens.html">Examens</a></li>
       </ul>
     </div>
     <div class="footer-col">
-      <h4 data-i18n="footer.ressources">Ressources</h4>
+      <h4>Ressources</h4>
       <ul>
-        <li><a href="simulations.html" data-i18n="nav.simulations">Simulations</a></li>
-        <li><a href="ressources.html" data-i18n="nav.ressources">Ressources</a></li>
-        <li><a href="admin/login.html" data-i18n="nav.admin">Administration</a></li>
+        <li><a href="simulations.html">Simulations</a></li>
+        <li><a href="ressources.html">Ressources</a></li>
+        <li><a href="admin/login.html">Administration</a></li>
       </ul>
     </div>
     <div class="footer-col">
-      <h4 data-i18n="footer.contact">Contact</h4>
+      <h4>Contact</h4>
       <ul>
         <li><a href="mailto:contact@darrssy.com"><i class="fas fa-envelope"></i> contact@darrssy.com</a></li>
-        <li><a href="#"><i class="fas fa-map-marker-alt"></i> <span data-i18n="footer.maroc">Maroc</span></a></li>
+        <li><a href="#"><i class="fas fa-map-marker-alt"></i> Maroc</a></li>
       </ul>
     </div>
   </div>
-  <div class="footer-bottom">
-    © 2026 <span>DARRSSY</span> — <span data-i18n="footer.droits">Tous droits réservés.</span>
-  </div>
+  <div class="footer-bottom">© 2026 <span>DARRSSY</span> — Tous droits réservés.</div>
 </footer>
 
 <div class="toast" id="toast"></div>
@@ -297,84 +300,40 @@ nav{padding:10px 4%}.logo-img-wrap{width:44px;height:44px}.logo-texte .titre{fon
 <script>
 let currentLang = localStorage.getItem('darrssy-lang') || 'fr';
 let tousLesExercices = [];
-let filtres = { niveau: 'all', matiere: 'all', difficulte: 'all', recherche: '' };
+let filtres = { niveau: 'all', matiere: 'all', difficulte: 'all', lecon: 'all', recherche: '' };
 
-const trad = {
-  fr: {
-    'nav.home': 'Accueil', 'nav.cours': 'Cours', 'nav.exercices': 'Exercices',
-    'nav.examens': 'Examens', 'nav.simulations': 'Simulations', 'nav.ressources': 'Ressources',
-    'nav.admin': 'Administration', 'nav.connexion': 'Connexion',
-    'ex.titre1': 'Tous les', 'ex.titre2': 'exercices',
-    'ex.desc': 'Téléchargez les énoncés et les corrigés des exercices de Physique-Chimie.',
-    'ex.searchPlaceholder': 'Rechercher un exercice...',
-    'ex.resultats': 'exercices trouvés',
-    'ex.statTotal': 'Exercices', 'ex.statFaciles': 'Faciles', 'ex.statDifficiles': 'Difficiles',
-    'filtre.niveau': 'Niveau', 'filtre.matiere': 'Matière', 'filtre.difficulte': 'Difficulté',
-    'filtre.tousNiveaux': 'Tous les niveaux', 'filtre.toutesMatieres': 'Toutes les matières',
-    'filtre.toutesDifficultes': 'Toutes', 'filtre.reset': 'Réinitialiser',
-    'niveau.tronc': 'Tronc Commun', 'niveau.1bac': '1ère Bac',
-    'niveau.2bacpc': '2ème Bac PC', 'niveau.2bacsvt': '2ème Bac SVT',
-    'matiere.physique': 'Physique', 'matiere.chimie': 'Chimie',
-    'btn.enonce': 'Télécharger l\'énoncé', 'btn.corrige': 'Télécharger le corrigé', 'btn.indispo': 'Indisponible',
-    'loading': 'Chargement...', 'share.copied': 'Lien copié !',
-    'footer.desc': 'La plateforme éducative marocaine dédiée à la réussite des lycéens en Physique & Chimie.',
-    'footer.navigation': 'Navigation', 'footer.ressources': 'Ressources',
-    'footer.contact': 'Contact', 'footer.maroc': 'Maroc', 'footer.droits': 'Tous droits réservés.'
-  },
-  ar: {
-    'nav.home': 'الرئيسية', 'nav.cours': 'الدروس', 'nav.exercices': 'التمارين',
-    'nav.examens': 'الامتحانات', 'nav.simulations': 'المحاكاة', 'nav.ressources': 'الموارد',
-    'nav.admin': 'الإدارة', 'nav.connexion': 'تسجيل الدخول',
-    'ex.titre1': 'جميع', 'ex.titre2': 'التمارين',
-    'ex.desc': 'قم بتحميل نصوص وحلول تمارين الفيزياء والكيمياء.',
-    'ex.searchPlaceholder': 'ابحث عن تمرين...',
-    'ex.resultats': 'تمرين تم إيجاده',
-    'ex.statTotal': 'التمارين', 'ex.statFaciles': 'سهلة', 'ex.statDifficiles': 'صعبة',
-    'filtre.niveau': 'المستوى', 'filtre.matiere': 'المادة', 'filtre.difficulte': 'الصعوبة',
-    'filtre.tousNiveaux': 'جميع المستويات', 'filtre.toutesMatieres': 'جميع المواد',
-    'filtre.toutesDifficultes': 'الكل', 'filtre.reset': 'إعادة',
-    'niveau.tronc': 'الجذع المشترك', 'niveau.1bac': 'الأولى باك',
-    'niveau.2bacpc': 'الثانية باك ع.ف', 'niveau.2bacsvt': 'الثانية باك ع.ح.أ',
-    'matiere.physique': 'الفيزياء', 'matiere.chimie': 'الكيمياء',
-    'btn.enonce': 'تحميل النص', 'btn.corrige': 'تحميل الحل', 'btn.indispo': 'غير متوفر',
-    'loading': 'جارٍ التحميل...', 'share.copied': 'تم نسخ الرابط!',
-    'footer.desc': 'المنصة التعليمية المغربية المخصصة لنجاح تلاميذ الثانوية.',
-    'footer.navigation': 'التنقل', 'footer.ressources': 'الموارد',
-    'footer.contact': 'اتصل بنا', 'footer.maroc': 'المغرب', 'footer.droits': 'جميع الحقوق محفوظة.'
+/* 🎯 Fonction qui extrait la LEÇON depuis le titre
+   Exemple: "Ondes mécaniques progressives – Série 1" → "Ondes mécaniques progressives"
+   Elle gère plusieurs séparateurs : – — - : et | */
+function extraireLecon(titre) {
+  if (!titre) return '';
+  // Essaie plusieurs séparateurs dans l'ordre
+  const separateurs = [' – ', ' — ', ' - ', ' : ', ' | '];
+  for (const sep of separateurs) {
+    const index = titre.indexOf(sep);
+    if (index > 0) {
+      return titre.substring(0, index).trim();
+    }
   }
-};
+  // Sinon, retourne le titre tel quel
+  return titre.trim();
+}
 
 document.addEventListener('DOMContentLoaded', async () => {
-  appliquerLangue(currentLang);
   bindEvents();
   await chargerDonnees();
 });
-
-function appliquerLangue(lang) {
-  currentLang = lang;
-  document.getElementById('htmlRoot').setAttribute('lang', lang);
-  document.getElementById('htmlRoot').setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
-  document.querySelectorAll('[data-i18n]').forEach(el => {
-    const key = el.getAttribute('data-i18n');
-    if (trad[lang] && trad[lang][key]) el.textContent = trad[lang][key];
-  });
-  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
-    const key = el.getAttribute('data-i18n-placeholder');
-    if (trad[lang] && trad[lang][key]) el.placeholder = trad[lang][key];
-  });
-  document.querySelectorAll('.lang-btn').forEach(btn => {
-    btn.classList.toggle('actif', btn.getAttribute('data-lang') === lang);
-  });
-  localStorage.setItem('darrssy-lang', lang);
-  if (tousLesExercices.length > 0) afficherExercices();
-}
 
 function bindEvents() {
   document.getElementById('menuToggle').addEventListener('click', () => {
     document.getElementById('navLinks').classList.toggle('active');
   });
   document.querySelectorAll('.lang-btn').forEach(btn => {
-    btn.addEventListener('click', () => appliquerLangue(btn.getAttribute('data-lang')));
+    btn.addEventListener('click', () => {
+      const lang = btn.getAttribute('data-lang');
+      document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('actif', b.getAttribute('data-lang') === lang));
+      localStorage.setItem('darrssy-lang', lang);
+    });
   });
   document.getElementById('searchInput').addEventListener('input', (e) => {
     filtres.recherche = e.target.value.toLowerCase().trim();
@@ -383,12 +342,14 @@ function bindEvents() {
   document.getElementById('filtreNiveau').addEventListener('change', (e) => { filtres.niveau = e.target.value; afficherExercices(); });
   document.getElementById('filtreMatiere').addEventListener('change', (e) => { filtres.matiere = e.target.value; afficherExercices(); });
   document.getElementById('filtreDifficulte').addEventListener('change', (e) => { filtres.difficulte = e.target.value; afficherExercices(); });
+  document.getElementById('filtreLecon').addEventListener('change', (e) => { filtres.lecon = e.target.value; afficherExercices(); });
   document.getElementById('btnReset').addEventListener('click', () => {
-    filtres = { niveau: 'all', matiere: 'all', difficulte: 'all', recherche: '' };
+    filtres = { niveau: 'all', matiere: 'all', difficulte: 'all', lecon: 'all', recherche: '' };
     document.getElementById('searchInput').value = '';
     document.getElementById('filtreNiveau').value = 'all';
     document.getElementById('filtreMatiere').value = 'all';
     document.getElementById('filtreDifficulte').value = 'all';
+    document.getElementById('filtreLecon').value = 'all';
     afficherExercices();
   });
 }
@@ -397,6 +358,7 @@ async function chargerDonnees() {
   try {
     if (typeof lireTable !== 'function') throw new Error('lireTable non chargé - vérifiez admin/darrssy-config.js');
     tousLesExercices = await lireTable('exercices', { filtres: { publie: true }, ordre: { col: 'created_at', asc: false } });
+    remplirFiltresLecons();
     mettreAJourStats();
     afficherExercices();
   } catch (err) {
@@ -406,6 +368,23 @@ async function chargerDonnees() {
         <p>Erreur : ${err.message}</p>
       </div>`;
   }
+}
+
+/* 🎯 Remplit le filtre "Leçon" avec les leçons uniques extraites des titres */
+function remplirFiltresLecons() {
+  const select = document.getElementById('filtreLecon');
+  const lecons = [...new Set(
+    tousLesExercices
+      .map(e => extraireLecon(currentLang === 'fr' ? e.titre_fr : (e.titre_ar || e.titre_fr)))
+      .filter(Boolean)
+  )].sort();
+  select.innerHTML = '<option value="all">Toutes les leçons</option>';
+  lecons.forEach(l => {
+    const opt = document.createElement('option');
+    opt.value = l;
+    opt.textContent = l;
+    select.appendChild(opt);
+  });
 }
 
 function mettreAJourStats() {
@@ -419,6 +398,11 @@ function filtrerExercices() {
     if (filtres.niveau !== 'all' && e.niveau !== filtres.niveau) return false;
     if (filtres.matiere !== 'all' && e.matiere !== filtres.matiere) return false;
     if (filtres.difficulte !== 'all' && e.difficulte !== parseInt(filtres.difficulte)) return false;
+    if (filtres.lecon !== 'all') {
+      const titre = currentLang === 'fr' ? e.titre_fr : (e.titre_ar || e.titre_fr);
+      const lecon = extraireLecon(titre);
+      if (lecon !== filtres.lecon) return false;
+    }
     if (filtres.recherche) {
       const titre = currentLang === 'fr' ? e.titre_fr : e.titre_ar;
       const chap = currentLang === 'fr' ? e.chapitre_fr : e.chapitre_ar;
@@ -444,10 +428,13 @@ function afficherExercices() {
 function creerCarte(e) {
   const card = document.createElement('div');
   card.className = 'ex-card fade-in visible';
-  const niveauLabel = trad[currentLang]['niveau.' + e.niveau] || e.niveau;
-  const matiereLabel = trad[currentLang]['matiere.' + e.matiere] || e.matiere;
+
+  const niveaux = { tronc: 'Tronc Commun', '1bac': '1ère Bac', '2bacpc': '2ème Bac PC', '2bacsvt': '2ème Bac SVT' };
+  const matieres = { physique: 'Physique', chimie: 'Chimie' };
+  const niveauLabel = niveaux[e.niveau] || e.niveau;
+  const matiereLabel = matieres[e.matiere] || e.matiere;
   const titre = currentLang === 'fr' ? e.titre_fr : (e.titre_ar || e.titre_fr);
-  const chap = currentLang === 'fr' ? e.chapitre_fr : e.chapitre_ar;
+  const lecon = extraireLecon(titre);
   const difficulte = e.difficulte || 1;
   const etoiles = [1,2,3].map(i => `<span class="star ${i <= difficulte ? '' : 'vide'}">★</span>`).join('');
   const lien = `exercices.html?id=${e.id}`;
@@ -461,15 +448,15 @@ function creerCarte(e) {
       <div class="difficulte">${etoiles}</div>
     </div>
     <h3>${titre}</h3>
-    <div class="chapitre-info"><i class="fas fa-bookmark"></i> ${chap || ''}</div>
+    ${lecon ? `<div class="lecon-tag"><i class="fas fa-bookmark"></i> ${lecon}</div>` : ''}
     <div class="ex-actions">
       ${e.fichier_url
-        ? `<a class="btn-ex enonce" href="${e.fichier_url}" target="_blank" rel="noopener"><i class="fas fa-file-pdf"></i> ${trad[currentLang]['btn.enonce']}</a>`
-        : `<button class="btn-ex indispo" disabled><i class="fas fa-file-pdf"></i> ${trad[currentLang]['btn.indispo']}</button>`
+        ? `<a class="btn-ex enonce" href="${e.fichier_url}" target="_blank" rel="noopener"><i class="fas fa-file-pdf"></i> Énoncé PDF</a>`
+        : `<button class="btn-ex indispo" disabled><i class="fas fa-file-pdf"></i> Indisponible</button>`
       }
       ${e.fichier_corrige_url
-        ? `<a class="btn-ex corrige" href="${e.fichier_corrige_url}" target="_blank" rel="noopener"><i class="fas fa-check-circle"></i> ${trad[currentLang]['btn.corrige']}</a>`
-        : `<button class="btn-ex indispo" disabled><i class="fas fa-check-circle"></i> ${trad[currentLang]['btn.indispo']}</button>`
+        ? `<a class="btn-ex corrige" href="${e.fichier_corrige_url}" target="_blank" rel="noopener"><i class="fas fa-check-circle"></i> Corrigé PDF</a>`
+        : `<button class="btn-ex indispo" disabled><i class="fas fa-check-circle"></i> Indisponible</button>`
       }
     </div>
     <div class="share-bar">
@@ -500,7 +487,7 @@ function partager(reseau, urlRelatif, titre = '') {
   else if (reseau === 'facebook') lien = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
   else if (reseau === 'telegram') lien = `https://t.me/share/url?url=${encodeURIComponent(url)}&text=${text}`;
   else if (reseau === 'copy') {
-    navigator.clipboard.writeText(url).then(() => toast(trad[currentLang]['share.copied'], 'success'));
+    navigator.clipboard.writeText(url).then(() => toast('Lien copié !', 'success'));
     return;
   }
   window.open(lien, '_blank', 'noopener,noreferrer');
