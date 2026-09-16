@@ -19,1121 +19,233 @@
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
 
 <style>
-:root {
-  --primary: #1e3a8a;
-  --primary-light: #3b82f6;
-  --accent: #f59e0b;
-  --success: #10b981;
-  --danger: #ef4444;
-  --violet: #8b5cf6;
-  --dark: #0f172a;
-  --gray: #64748b;
-  --border: #e2e8f0;
-  --light: #f8fafc;
-  --white: #ffffff;
-  --gradient: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 50%, #06b6d4 100%);
-  --gradient-accent: linear-gradient(135deg, #f59e0b 0%, #ef4444 100%);
-  --gradient-violet: linear-gradient(135deg, #8b5cf6 0%, #db2777 100%);
-  --shadow-sm: 0 2px 10px rgba(30, 58, 138, 0.06);
-  --shadow: 0 10px 30px rgba(30, 58, 138, 0.15);
-  --shadow-lg: 0 20px 50px rgba(30, 58, 138, 0.25);
-  --radius: 20px;
-  --radius-sm: 14px;
-  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-* { margin: 0; padding: 0; box-sizing: border-box; }
-html { scroll-behavior: smooth; }
-
-body {
-  font-family: 'Poppins', 'Tajawal', sans-serif;
-  background: var(--light);
-  color: var(--dark);
-  line-height: 1.6;
-  overflow-x: hidden;
-}
-
-[dir="rtl"] body { font-family: 'Tajawal', 'Poppins', sans-serif; }
-a { text-decoration: none; color: inherit; }
-img { max-width: 100%; display: block; }
-
-/* ===== NAVBAR ===== */
-nav {
-  position: fixed;
-  top: 0; left: 0; right: 0;
-  background: rgba(255,255,255,0.96);
-  backdrop-filter: blur(12px);
-  box-shadow: 0 2px 20px rgba(0,0,0,0.06);
-  z-index: 1000;
-  padding: 10px 5%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.logo { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
-
-.logo-img-wrap {
-  position: relative;
-  width: 52px; height: 52px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #1e3a8a 0%, #06b6d4 50%, #10b981 100%);
-  padding: 2.5px;
-  box-shadow: 0 4px 15px rgba(6, 182, 212, 0.35), 0 0 0 3px rgba(255, 255, 255, 0.9);
-  flex-shrink: 0;
-}
-
-.logo-img-wrap::before {
-  content: '';
-  position: absolute;
-  inset: 2.5px;
-  border-radius: 50%;
-  background: white;
-  z-index: 0;
-}
-
-.logo-img-wrap img {
-  position: relative; z-index: 1;
-  width: 100%; height: 100%;
-  border-radius: 50%;
-  object-fit: cover;
-}
-
-.logo-texte { display: flex; flex-direction: column; line-height: 1; }
-
-.logo-texte .titre {
-  font-size: 1.4rem; font-weight: 900;
-  background: linear-gradient(135deg, #1e3a8a 0%, #06b6d4 50%, #10b981 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.logo-texte .arabe {
-  font-size: 0.72rem; font-weight: 700;
-  color: var(--gray);
-  font-family: 'Tajawal', sans-serif;
-  margin-top: 1px;
-}
-
-.nav-links {
-  display: flex;
-  gap: 26px;
-  list-style: none;
-  align-items: center;
-}
-
-.nav-links a {
-  color: var(--dark);
-  font-weight: 500;
-  font-size: 0.93rem;
-  transition: color 0.3s;
-  position: relative;
-}
-
-.nav-links a:hover { color: var(--violet); }
-.nav-links a.actif { color: var(--violet); font-weight: 600; }
-
-.nav-links a::after {
-  content: '';
-  position: absolute;
-  bottom: -5px; left: 0;
-  width: 0; height: 2px;
-  background: var(--gradient-violet);
-  transition: width 0.3s;
-}
-
-.nav-links a:hover::after { width: 100%; }
-.nav-links a.actif::after { width: 100%; }
-
-.btn-nav {
-  background: var(--gradient);
-  color: white !important;
-  padding: 10px 22px;
-  border-radius: 50px;
-  font-weight: 600;
-}
-
-.btn-nav:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
-.btn-nav::after { display: none; }
-
-.lang-switcher {
-  display: flex;
-  background: rgba(139,92,246,0.08);
-  border: 1px solid var(--border);
-  border-radius: 50px;
-  overflow: hidden;
-}
-
-.lang-btn {
-  background: transparent;
-  border: none;
-  color: var(--gray);
-  font-family: inherit;
-  font-size: 0.82rem;
-  font-weight: 700;
-  padding: 8px 16px;
-  cursor: pointer;
-  transition: var(--transition);
-}
-
-.lang-btn.actif { background: var(--gradient); color: white; }
-
-.menu-toggle {
-  display: none;
-  font-size: 1.5rem;
-  cursor: pointer;
-  color: var(--primary);
-  background: none;
-  border: none;
-}
-
-/* ===== HERO ===== */
-.hero-page {
-  padding: 130px 5% 50px;
-  background: var(--gradient-violet);
-  color: white;
-  position: relative;
-  overflow: hidden;
-}
-
-.hero-page::before {
-  content: '';
-  position: absolute;
-  top: -50%; right: -20%;
-  width: 600px; height: 600px;
-  background: radial-gradient(circle, rgba(245,158,11,0.28) 0%, transparent 70%);
-  border-radius: 50%;
-}
-
-.hero-page::after {
-  content: '';
-  position: absolute;
-  bottom: -40%; left: -10%;
-  width: 500px; height: 500px;
-  background: radial-gradient(circle, rgba(59,130,246,0.35) 0%, transparent 70%);
-  border-radius: 50%;
-}
-
-.hero-page-content {
-  max-width: 1200px;
-  margin: 0 auto;
-  position: relative;
-  z-index: 2;
-  text-align: center;
-}
-
-.hero-page h1 {
-  font-size: 2.8rem;
-  font-weight: 900;
-  margin-bottom: 15px;
-  line-height: 1.15;
-}
-
-.hero-page h1 span {
-  background: linear-gradient(135deg, #fbbf24 0%, #fde68a 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.hero-page p {
-  font-size: 1.05rem;
-  max-width: 700px;
-  margin: 0 auto;
-  opacity: 0.95;
-}
-
-/* ===== TABS BAR ===== */
-.conteneur {
-  max-width: 1200px;
-  margin: -30px auto 0;
-  padding: 0 5% 60px;
-  position: relative;
-  z-index: 3;
-}
-
-.tabs-bar {
-  display: flex;
-  gap: 8px;
-  justify-content: center;
-  flex-wrap: wrap;
-  margin-bottom: 35px;
-  padding: 15px;
-  background: white;
-  border-radius: 60px;
-  box-shadow: var(--shadow);
-  max-width: fit-content;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.tab-btn {
-  background: transparent;
-  border: none;
-  color: var(--gray);
-  padding: 10px 20px;
-  border-radius: 50px;
-  font-family: inherit;
-  font-size: 0.86rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: var(--transition);
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  white-space: nowrap;
-}
-
-.tab-btn:hover { color: var(--violet); background: rgba(139,92,246,0.05); }
-
-.tab-btn.actif {
-  background: var(--gradient-violet);
-  color: white;
-  box-shadow: 0 8px 20px rgba(139,92,246,0.35);
-}
-
-.tab-panel { display: none; animation: fadeIn 0.4s ease; }
-.tab-panel.actif { display: block; }
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(15px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.section-titre { text-align: center; margin-bottom: 35px; }
-.section-titre h2 { font-size: 1.8rem; font-weight: 800; color: var(--primary); margin-bottom: 8px; }
-.section-titre p { color: var(--gray); font-size: 0.98rem; max-width: 600px; margin: 0 auto; }
-
-/* ===== FICHES ===== */
-.fiches-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 22px;
-}
-
-.fiche-card {
-  background: white;
-  border-radius: var(--radius-sm);
-  padding: 25px;
-  box-shadow: var(--shadow-sm);
-  transition: var(--transition);
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  border: 2px solid transparent;
-}
-
-.fiche-card:hover {
-  transform: translateY(-6px);
-  box-shadow: var(--shadow-lg);
-  border-color: rgba(139,92,246,0.3);
-}
-
-.fiche-icon {
-  width: 55px; height: 55px;
-  border-radius: 14px;
-  background: var(--gradient-violet);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.5rem;
-  color: white;
-  transition: var(--transition);
-}
-
-.fiche-card:hover .fiche-icon { transform: scale(1.1) rotate(-8deg); }
-
-.fiche-tag {
-  font-size: 0.72rem;
-  font-weight: 700;
-  color: var(--violet);
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
-.fiche-card h3 {
-  font-size: 1.05rem;
-  color: var(--primary);
-  font-weight: 700;
-  line-height: 1.35;
-}
-
-.fiche-desc {
-  font-size: 0.86rem;
-  color: var(--gray);
-  line-height: 1.5;
-  flex: 1;
-}
-
-.btn-fiche {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-  padding: 12px 18px;
-  background: rgba(139,92,246,0.08);
-  border: 1.5px solid rgba(139,92,246,0.3);
-  color: var(--violet);
-  border-radius: 12px;
-  font-family: inherit;
-  font-weight: 700;
-  font-size: 0.85rem;
-  cursor: pointer;
-  transition: var(--transition);
-}
-
-.btn-fiche:hover { background: var(--violet); color: white; border-color: var(--violet); }
-
-/* ===== FORMULAIRE ===== */
-.formulaire-search {
-  max-width: 600px;
-  margin: 0 auto 30px;
-  position: relative;
-}
-
-.formulaire-search input {
-  width: 100%;
-  padding: 15px 20px 15px 50px;
-  background: white;
-  border: 2px solid var(--border);
-  border-radius: 50px;
-  font-family: inherit;
-  font-size: 0.95rem;
-  color: var(--dark);
-  box-shadow: var(--shadow-sm);
-  transition: var(--transition);
-}
-
-[dir="rtl"] .formulaire-search input { padding: 15px 50px 15px 20px; }
-
-.formulaire-search input:focus {
-  outline: none;
-  border-color: var(--violet);
-  box-shadow: 0 10px 30px rgba(139,92,246,0.2);
-}
-
-.formulaire-search i {
-  position: absolute;
-  top: 50%; left: 20px;
-  transform: translateY(-50%);
-  color: var(--violet);
-  font-size: 1rem;
-}
-
-[dir="rtl"] .formulaire-search i { left: auto; right: 20px; }
-
-.formules-categories {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 20px;
-}
-
-.formule-cat {
-  background: white;
-  border-radius: var(--radius-sm);
-  padding: 22px;
-  box-shadow: var(--shadow-sm);
-  transition: var(--transition);
-}
-
-.formule-cat:hover { box-shadow: var(--shadow); }
-
-.formule-cat h3 {
-  font-size: 1.05rem;
-  font-weight: 800;
-  color: var(--violet);
-  margin-bottom: 15px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.formule-item { padding: 12px 0; border-bottom: 1px dashed var(--border); }
-.formule-item:last-child { border-bottom: none; }
-
-.formule-item .f-nom {
-  font-size: 0.8rem;
-  color: var(--gray);
-  margin-bottom: 5px;
-  font-weight: 500;
-}
-
-.formule-item .f-eq {
-  color: var(--primary);
-  font-size: 0.95rem;
-}
-
-/* ===== CALCULATEUR ===== */
-.calculateur-wrap { max-width: 800px; margin: 0 auto; }
-
-.calc-tabs {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-  justify-content: center;
-  margin-bottom: 25px;
-}
-
-.calc-tab {
-  background: white;
-  border: 2px solid var(--border);
-  color: var(--gray);
-  padding: 10px 18px;
-  border-radius: 50px;
-  font-family: inherit;
-  font-size: 0.82rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: var(--transition);
-}
-
-.calc-tab:hover { color: var(--violet); border-color: var(--violet); }
-.calc-tab.actif {
-  background: var(--gradient-violet);
-  color: white;
-  border-color: transparent;
-  box-shadow: 0 8px 20px rgba(139,92,246,0.35);
-}
-
-.calc-panel {
-  display: none;
-  background: white;
-  border-radius: var(--radius);
-  padding: 30px;
-  box-shadow: var(--shadow);
-}
-
-.calc-panel.actif { display: block; animation: fadeIn 0.4s ease; }
-
-.calc-panel h3 {
-  font-size: 1.15rem;
-  font-weight: 800;
-  color: var(--primary);
-  margin-bottom: 8px;
-}
-
-.calc-panel .calc-formule {
-  background: var(--light);
-  border: 1.5px solid var(--border);
-  border-radius: 12px;
-  padding: 15px;
-  margin-bottom: 22px;
-  text-align: center;
-  font-size: 1.05rem;
-}
-
-.calc-inputs {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 15px;
-  margin-bottom: 20px;
-}
-
-.calc-input-group label {
-  display: block;
-  font-size: 0.78rem;
-  font-weight: 700;
-  color: var(--gray);
-  margin-bottom: 8px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.calc-input-group input {
-  width: 100%;
-  padding: 12px 15px;
-  background: var(--light);
-  border: 2px solid var(--border);
-  border-radius: 12px;
-  color: var(--dark);
-  font-family: inherit;
-  font-size: 0.95rem;
-  transition: var(--transition);
-}
-
-.calc-input-group input:focus {
-  outline: none;
-  border-color: var(--violet);
-  box-shadow: 0 0 0 3px rgba(139,92,246,0.1);
-}
-
-.btn-calc {
-  width: 100%;
-  padding: 15px;
-  background: var(--gradient-violet);
-  color: white;
-  border: none;
-  border-radius: 12px;
-  font-family: inherit;
-  font-size: 0.98rem;
-  font-weight: 700;
-  cursor: pointer;
-  transition: var(--transition);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-}
-
-.btn-calc:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 15px 30px rgba(139,92,246,0.4);
-}
-
-.calc-resultat {
-  background: linear-gradient(135deg, rgba(139,92,246,0.1), rgba(219,39,119,0.08));
-  border: 2px solid var(--violet);
-  border-radius: 12px;
-  padding: 18px;
-  text-align: center;
-  margin-top: 18px;
-  display: none;
-}
-
-.calc-resultat.visible { display: block; animation: fadeIn 0.3s ease; }
-
-.calc-resultat .lbl {
-  font-size: 0.75rem;
-  color: var(--gray);
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  margin-bottom: 6px;
-}
-
-.calc-resultat .val {
-  font-family: 'Poppins', monospace;
-  font-size: 1.8rem;
-  font-weight: 800;
-  color: var(--violet);
-}
-
-/* ===== TABLEAU PÉRIODIQUE ===== */
-.periodique-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
-  gap: 10px;
-}
-
-.element-card {
-  background: white;
-  border: 2px solid var(--border);
-  border-radius: 12px;
-  padding: 12px 8px;
-  text-align: center;
-  cursor: pointer;
-  transition: var(--transition);
-  position: relative;
-}
-
-.element-card:hover {
-  transform: translateY(-4px) scale(1.05);
-  border-color: var(--violet);
-  box-shadow: 0 10px 25px rgba(139,92,246,0.25);
-  z-index: 2;
-}
-
-.element-card .num-atomique {
-  position: absolute;
-  top: 5px; left: 7px;
-  font-size: 0.62rem;
-  color: var(--gray);
-  font-weight: 700;
-}
-
-[dir="rtl"] .element-card .num-atomique { left: auto; right: 7px; }
-
-.element-card .symbole {
-  font-size: 1.5rem;
-  font-weight: 800;
-  color: var(--violet);
-  line-height: 1;
-  margin-top: 8px;
-  font-family: 'Poppins', sans-serif;
-}
-
-.element-card .nom-elem {
-  font-size: 0.68rem;
-  color: var(--gray);
-  margin-top: 5px;
-  font-weight: 500;
-}
-
-.element-card .masse {
-  font-size: 0.6rem;
-  color: var(--gray);
-  margin-top: 3px;
-}
-
-.element-card.fam-alcalin { border-color: rgba(219,39,119,0.4); }
-.element-card.fam-alcalin .symbole { color: #db2777; }
-
-.element-card.fam-alcalino { border-color: rgba(245,158,11,0.4); }
-.element-card.fam-alcalino .symbole { color: var(--accent); }
-
-.element-card.fam-halogene { border-color: rgba(16,185,129,0.4); }
-.element-card.fam-halogene .symbole { color: var(--success); }
-
-.element-card.fam-gaz { border-color: rgba(59,130,246,0.4); }
-.element-card.fam-gaz .symbole { color: var(--primary-light); }
-
-/* Element modal */
-.element-modal {
-  position: fixed;
-  inset: 0;
-  background: rgba(15,23,42,0.85);
-  backdrop-filter: blur(8px);
-  z-index: 5000;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  padding: 15px;
-}
-
-.element-modal.ouvert { display: flex; }
-
-.element-modal-box {
-  background: white;
-  border: 2px solid var(--violet);
-  border-radius: 20px;
-  padding: 30px;
-  max-width: 450px;
-  width: 100%;
-  position: relative;
-  box-shadow: 0 30px 80px rgba(139,92,246,0.4);
-  animation: slideUp 0.3s;
-}
-
-@keyframes slideUp {
-  from { transform: scale(0.9) translateY(20px); opacity: 0; }
-  to { transform: scale(1) translateY(0); opacity: 1; }
-}
-
-.element-modal-box .close-el {
-  position: absolute;
-  top: 15px; right: 15px;
-  background: rgba(239,68,68,0.1);
-  border: 1.5px solid rgba(239,68,68,0.3);
-  color: var(--danger);
-  width: 36px; height: 36px;
-  border-radius: 10px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: var(--transition);
-}
-
-[dir="rtl"] .element-modal-box .close-el { right: auto; left: 15px; }
-.element-modal-box .close-el:hover { background: var(--danger); color: white; }
-
-.element-header {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  margin-bottom: 20px;
-}
-
-.big-sym {
-  width: 80px; height: 80px;
-  background: var(--gradient-violet);
-  border-radius: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 2.2rem;
-  font-weight: 800;
-  color: white;
-  font-family: 'Poppins', sans-serif;
-}
-
-.el-info h3 { font-size: 1.4rem; color: var(--primary); margin-bottom: 4px; font-weight: 800; }
-.el-info span { color: var(--gray); font-size: 0.9rem; }
-
-.element-stats {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-}
-
-.element-stat {
-  background: var(--light);
-  border: 1.5px solid var(--border);
-  border-radius: 12px;
-  padding: 12px 14px;
-}
-
-.element-stat .lbl {
-  font-size: 0.68rem;
-  color: var(--gray);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  margin-bottom: 4px;
-}
-
-.element-stat .val {
-  font-size: 1rem;
-  font-weight: 700;
-  color: var(--violet);
-  font-family: 'Poppins', sans-serif;
-}
-
-/* ===== CONVERTISSEUR ===== */
-.conv-wrap { max-width: 700px; margin: 0 auto; }
-
-.conv-types {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-  justify-content: center;
-  margin-bottom: 25px;
-}
-
-.conv-type-btn {
-  background: white;
-  border: 2px solid var(--border);
-  color: var(--gray);
-  padding: 10px 18px;
-  border-radius: 50px;
-  font-family: inherit;
-  font-size: 0.85rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: var(--transition);
-}
-
-.conv-type-btn:hover { color: var(--accent); border-color: var(--accent); }
-.conv-type-btn.actif {
-  background: var(--gradient-accent);
-  color: white;
-  border-color: transparent;
-  box-shadow: 0 8px 20px rgba(245,158,11,0.35);
-}
-
-.conv-panel {
-  display: none;
-  background: white;
-  border-radius: var(--radius);
-  padding: 30px;
-  box-shadow: var(--shadow);
-}
-
-.conv-panel.actif { display: block; animation: fadeIn 0.4s ease; }
-
-.conv-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 15px;
-  margin-bottom: 15px;
-}
-
-.conv-input-group label {
-  display: block;
-  font-size: 0.75rem;
-  font-weight: 700;
-  color: var(--accent);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  margin-bottom: 8px;
-}
-
-.conv-input-group input,
-.conv-input-group select {
-  width: 100%;
-  padding: 12px 15px;
-  background: var(--light);
-  border: 2px solid var(--border);
-  border-radius: 12px;
-  color: var(--dark);
-  font-family: inherit;
-  font-size: 0.95rem;
-  transition: var(--transition);
-}
-
-.conv-input-group input:focus,
-.conv-input-group select:focus {
-  outline: none;
-  border-color: var(--accent);
-}
-
-.conv-resultat {
-  background: linear-gradient(135deg, rgba(245,158,11,0.1), rgba(239,68,68,0.08));
-  border: 2px solid var(--accent);
-  border-radius: 14px;
-  padding: 20px;
-  text-align: center;
-  margin-top: 15px;
-}
-
-.conv-resultat .lbl {
-  font-size: 0.75rem;
-  color: var(--gray);
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  margin-bottom: 6px;
-}
-
-.conv-resultat .val {
-  font-family: 'Poppins', monospace;
-  font-size: 1.7rem;
-  font-weight: 800;
-  color: var(--accent);
-  word-break: break-all;
-}
-
-/* ===== CONSTANTES ===== */
-.constantes-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 18px;
-}
-
-.constante-card {
-  background: white;
-  border-radius: var(--radius-sm);
-  padding: 20px;
-  box-shadow: var(--shadow-sm);
-  border-left: 5px solid var(--success);
-  transition: var(--transition);
-}
-
-[dir="rtl"] .constante-card { border-left: none; border-right: 5px solid var(--success); }
-
-.constante-card:hover {
-  transform: translateX(5px);
-  box-shadow: var(--shadow);
-}
-
-[dir="rtl"] .constante-card:hover { transform: translateX(-5px); }
-
-.constante-card .c-nom {
-  font-size: 0.85rem;
-  color: var(--gray);
-  margin-bottom: 8px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.constante-card .c-nom i { color: var(--success); font-size: 0.8rem; }
-
-.constante-card .c-valeur {
-  font-family: 'Poppins', monospace;
-  font-size: 1.05rem;
-  font-weight: 800;
-  color: var(--success);
-}
-
-.constante-card .c-symbole {
-  font-size: 0.9rem;
-  color: var(--primary);
-  font-weight: 700;
-  margin-top: 5px;
-  font-style: italic;
-}
-
-/* ===== FOOTER ===== */
-footer {
-  background: var(--dark);
-  color: white;
-  padding: 50px 5% 25px;
-  margin-top: 60px;
-}
-
-.footer-grid {
-  display: grid;
-  grid-template-columns: 2fr 1fr 1fr 1fr;
-  gap: 40px;
-  max-width: 1200px;
-  margin: 0 auto 30px;
-}
-
-.footer-logo { display: flex; align-items: center; gap: 12px; margin-bottom: 15px; }
-
-.footer-logo-wrap {
-  position: relative;
-  width: 58px; height: 58px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #1e3a8a 0%, #06b6d4 50%, #10b981 100%);
-  padding: 3px;
-  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1);
-}
-
-.footer-logo-wrap::before {
-  content: '';
-  position: absolute;
-  inset: 3px;
-  border-radius: 50%;
-  background: white;
-  z-index: 0;
-}
-
-.footer-logo-wrap img {
-  position: relative; z-index: 1;
-  width: 100%; height: 100%;
-  border-radius: 50%;
-  object-fit: cover;
-}
-
-.footer-nom {
-  font-size: 1.5rem;
-  font-weight: 900;
-  background: linear-gradient(135deg, #60a5fa 0%, #22d3ee 50%, #4ade80 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  line-height: 1;
-}
-
-.footer-arabe {
-  font-size: 0.75rem;
-  color: #94a3b8;
-  font-family: 'Tajawal', sans-serif;
-  font-weight: 700;
-  margin-top: 2px;
-}
-
-.footer-brand p { color: #94a3b8; font-size: 0.92rem; margin: 15px 0; }
-.footer-social { display: flex; gap: 12px; }
-
-.footer-social a {
-  width: 40px; height: 40px;
-  border-radius: 50%;
-  background: rgba(255,255,255,0.08);
-  color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: var(--transition);
-}
-
-.footer-social a:hover { background: var(--gradient-violet); transform: translateY(-3px); }
-.footer-col h4 { font-size: 1.05rem; margin-bottom: 18px; color: white; font-weight: 700; }
-.footer-col ul { list-style: none; }
-.footer-col ul li { margin-bottom: 10px; }
-.footer-col ul a { color: #94a3b8; font-size: 0.9rem; transition: color 0.3s; }
-.footer-col ul a:hover { color: var(--accent); }
-.footer-col ul a i { margin-right: 6px; color: var(--accent); }
-
-.footer-bottom {
-  border-top: 1px solid rgba(255,255,255,0.1);
-  padding-top: 25px;
-  text-align: center;
-  color: #94a3b8;
-  font-size: 0.88rem;
-}
-
-.footer-bottom span { color: var(--accent); font-weight: 600; }
-
-/* Responsive */
-@media (max-width: 900px) {
-  .footer-grid { grid-template-columns: 1fr 1fr; }
-  .hero-page h1 { font-size: 2.2rem; }
-}
-
-@media (max-width: 768px) {
-  nav { padding: 10px 4%; }
-  .logo-img-wrap { width: 44px; height: 44px; }
-  .logo-texte .titre { font-size: 1.15rem; }
-  .logo-texte .arabe { font-size: 0.65rem; }
-
-  .nav-links {
-    position: fixed;
-    top: 64px;
-    left: 0; right: 0;
-    background: white;
-    flex-direction: column;
-    padding: 25px;
-    gap: 18px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-    transform: translateY(-150%);
-    transition: transform 0.4s;
-    max-height: calc(100vh - 64px);
-    overflow-y: auto;
-  }
-  .nav-links.active { transform: translateY(0); }
-  .menu-toggle { display: block; }
-  .nav-links .lang-switcher { width: 100%; justify-content: center; }
-  .nav-links .btn-nav { width: 100%; text-align: center; justify-content: center; }
-
-  .hero-page { padding: 100px 4% 50px; }
-  .hero-page h1 { font-size: 1.8rem; }
-  .tabs-bar { border-radius: 20px; padding: 12px; }
-  .fiches-grid, .formules-categories, .constantes-grid { grid-template-columns: 1fr; }
-  .conv-row { grid-template-columns: 1fr; }
-  .periodique-grid { grid-template-columns: repeat(auto-fill, minmax(75px, 1fr)); }
-  .footer-grid { grid-template-columns: 1fr; }
-}
-
-@media (max-width: 480px) {
-  .hero-page h1 { font-size: 1.5rem; }
-  .logo-texte { display: none; }
-  .logo-img-wrap { width: 42px; height: 42px; }
-  .calc-panel, .conv-panel { padding: 20px; }
-}
-
-.fade-in { opacity: 0; transform: translateY(30px); transition: opacity 0.7s, transform 0.7s; }
-.fade-in.visible { opacity: 1; transform: translateY(0); }
+:root{--primary:#1e3a8a;--primary-light:#3b82f6;--accent:#f59e0b;--success:#10b981;--danger:#ef4444;--violet:#8b5cf6;--dark:#0f172a;--gray:#64748b;--border:#e2e8f0;--light:#f8fafc;--white:#fff;--gradient:linear-gradient(135deg,#1e3a8a 0%,#3b82f6 50%,#06b6d4 100%);--gradient-accent:linear-gradient(135deg,#f59e0b 0%,#ef4444 100%);--gradient-violet:linear-gradient(135deg,#8b5cf6 0%,#db2777 100%);--shadow-sm:0 2px 10px rgba(30,58,138,.06);--shadow:0 10px 30px rgba(30,58,138,.15);--shadow-lg:0 20px 50px rgba(30,58,138,.25);--radius:20px;--radius-sm:14px;--transition:all .3s cubic-bezier(.4,0,.2,1)}
+*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
+body{font-family:'Poppins','Tajawal',sans-serif;background:var(--light);color:var(--dark);line-height:1.6;overflow-x:hidden}
+[dir="rtl"] body{font-family:'Tajawal','Poppins',sans-serif}
+a{text-decoration:none;color:inherit}img{max-width:100%;display:block}
+nav{position:fixed;top:0;left:0;right:0;background:rgba(255,255,255,.96);backdrop-filter:blur(12px);box-shadow:0 2px 20px rgba(0,0,0,.06);z-index:1000;padding:10px 5%;display:flex;justify-content:space-between;align-items:center}
+.logo{display:flex;align-items:center;gap:12px;flex-shrink:0}
+.logo-img-wrap{position:relative;width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#1e3a8a 0%,#06b6d4 50%,#10b981 100%);padding:2.5px;box-shadow:0 4px 15px rgba(6,182,212,.35),0 0 0 3px rgba(255,255,255,.9);flex-shrink:0}
+.logo-img-wrap::before{content:'';position:absolute;inset:2.5px;border-radius:50%;background:#fff;z-index:0}
+.logo-img-wrap img{position:relative;z-index:1;width:100%;height:100%;border-radius:50%;object-fit:cover}
+.logo-texte{display:flex;flex-direction:column;line-height:1}
+.logo-texte .titre{font-size:1.4rem;font-weight:900;background:linear-gradient(135deg,#1e3a8a 0%,#06b6d4 50%,#10b981 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:-.5px}
+.logo-texte .arabe{font-size:.72rem;font-weight:700;color:var(--gray);font-family:'Tajawal',sans-serif;margin-top:1px}
+.nav-links{display:flex;gap:26px;list-style:none;align-items:center}
+.nav-links a{color:var(--dark);font-weight:500;font-size:.93rem;transition:color .3s;position:relative}
+.nav-links a:hover{color:var(--violet)}.nav-links a.actif{color:var(--violet);font-weight:600}
+.nav-links a::after{content:'';position:absolute;bottom:-5px;left:0;width:0;height:2px;background:var(--gradient-violet);transition:width .3s}
+.nav-links a:hover::after{width:100%}.nav-links a.actif::after{width:100%}
+.btn-nav{background:var(--gradient);color:#fff!important;padding:10px 22px;border-radius:50px;font-weight:600}
+.btn-nav:hover{transform:translateY(-2px);box-shadow:var(--shadow)}.btn-nav::after{display:none}
+.lang-switcher{display:flex;background:rgba(139,92,246,.08);border:1px solid var(--border);border-radius:50px;overflow:hidden}
+.lang-btn{background:transparent;border:none;color:var(--gray);font-family:inherit;font-size:.82rem;font-weight:700;padding:8px 16px;cursor:pointer;transition:var(--transition)}
+.lang-btn.actif{background:var(--gradient);color:#fff}
+.menu-toggle{display:none;font-size:1.5rem;cursor:pointer;color:var(--primary);background:none;border:none}
+.hero-page{padding:130px 5% 50px;background:var(--gradient-violet);color:#fff;position:relative;overflow:hidden}
+.hero-page::before{content:'';position:absolute;top:-50%;right:-20%;width:600px;height:600px;background:radial-gradient(circle,rgba(245,158,11,.28) 0%,transparent 70%);border-radius:50%}
+.hero-page::after{content:'';position:absolute;bottom:-40%;left:-10%;width:500px;height:500px;background:radial-gradient(circle,rgba(59,130,246,.35) 0%,transparent 70%);border-radius:50%}
+.hero-page-content{max-width:1200px;margin:0 auto;position:relative;z-index:2;text-align:center}
+.hero-page h1{font-size:2.8rem;font-weight:900;margin-bottom:15px;line-height:1.15}
+.hero-page h1 span{background:linear-gradient(135deg,#fbbf24 0%,#fde68a 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-page p{font-size:1.05rem;max-width:700px;margin:0 auto;opacity:.95}
+.conteneur{max-width:1200px;margin:-30px auto 0;padding:0 5% 60px;position:relative;z-index:3}
+.tabs-bar{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:35px;padding:15px;background:#fff;border-radius:60px;box-shadow:var(--shadow);max-width:fit-content;margin-left:auto;margin-right:auto}
+.tab-btn{background:transparent;border:none;color:var(--gray);padding:10px 20px;border-radius:50px;font-family:inherit;font-size:.86rem;font-weight:600;cursor:pointer;transition:var(--transition);display:inline-flex;align-items:center;gap:7px;white-space:nowrap}
+.tab-btn:hover{color:var(--violet);background:rgba(139,92,246,.05)}
+.tab-btn.actif{background:var(--gradient-violet);color:#fff;box-shadow:0 8px 20px rgba(139,92,246,.35)}
+.tab-panel{display:none;animation:fadeIn .4s ease}
+.tab-panel.actif{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(15px)}to{opacity:1;transform:translateY(0)}}
+.section-titre{text-align:center;margin-bottom:35px}
+.section-titre h2{font-size:1.8rem;font-weight:800;color:var(--primary);margin-bottom:8px}
+.section-titre p{color:var(--gray);font-size:.98rem;max-width:600px;margin:0 auto}
+/* Fiches */
+.fiches-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:22px}
+.fiche-card{background:#fff;border-radius:var(--radius-sm);padding:25px;box-shadow:var(--shadow-sm);transition:var(--transition);display:flex;flex-direction:column;gap:12px;border:2px solid transparent}
+.fiche-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-lg);border-color:rgba(139,92,246,.3)}
+.fiche-icon{width:55px;height:55px;border-radius:14px;background:var(--gradient-violet);display:flex;align-items:center;justify-content:center;font-size:1.5rem;color:#fff;transition:var(--transition)}
+.fiche-card:hover .fiche-icon{transform:scale(1.1) rotate(-8deg)}
+.fiche-tag{font-size:.72rem;font-weight:700;color:var(--violet);text-transform:uppercase;letter-spacing:1px}
+.fiche-card h3{font-size:1.05rem;color:var(--primary);font-weight:700;line-height:1.35}
+.fiche-desc{font-size:.86rem;color:var(--gray);line-height:1.5;flex:1}
+.btn-fiche{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:12px 18px;background:rgba(139,92,246,.08);border:1.5px solid rgba(139,92,246,.3);color:var(--violet);border-radius:12px;font-family:inherit;font-weight:700;font-size:.85rem;cursor:pointer;transition:var(--transition)}
+.btn-fiche:hover{background:var(--violet);color:#fff;border-color:var(--violet)}
+/* Formulaire */
+.formulaire-search{max-width:600px;margin:0 auto 30px;position:relative}
+.formulaire-search input{width:100%;padding:15px 20px 15px 50px;background:#fff;border:2px solid var(--border);border-radius:50px;font-family:inherit;font-size:.95rem;color:var(--dark);box-shadow:var(--shadow-sm);transition:var(--transition)}
+[dir="rtl"] .formulaire-search input{padding:15px 50px 15px 20px}
+.formulaire-search input:focus{outline:none;border-color:var(--violet);box-shadow:0 10px 30px rgba(139,92,246,.2)}
+.formulaire-search i{position:absolute;top:50%;left:20px;transform:translateY(-50%);color:var(--violet);font-size:1rem}
+[dir="rtl"] .formulaire-search i{left:auto;right:20px}
+.formules-categories{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:20px}
+.formule-cat{background:#fff;border-radius:var(--radius-sm);padding:22px;box-shadow:var(--shadow-sm);transition:var(--transition)}
+.formule-cat:hover{box-shadow:var(--shadow)}
+.formule-cat h3{font-size:1.05rem;font-weight:800;color:var(--violet);margin-bottom:15px;display:flex;align-items:center;gap:8px}
+.formule-item{padding:12px 0;border-bottom:1px dashed var(--border)}
+.formule-item:last-child{border-bottom:none}
+.formule-item .f-nom{font-size:.8rem;color:var(--gray);margin-bottom:5px;font-weight:500}
+.formule-item .f-eq{color:var(--primary);font-size:.95rem}
+/* Calculateur */
+.calculateur-wrap{max-width:800px;margin:0 auto}
+.calc-tabs{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:25px}
+.calc-tab{background:#fff;border:2px solid var(--border);color:var(--gray);padding:10px 18px;border-radius:50px;font-family:inherit;font-size:.82rem;font-weight:600;cursor:pointer;transition:var(--transition)}
+.calc-tab:hover{color:var(--violet);border-color:var(--violet)}
+.calc-tab.actif{background:var(--gradient-violet);color:#fff;border-color:transparent;box-shadow:0 8px 20px rgba(139,92,246,.35)}
+.calc-panel{display:none;background:#fff;border-radius:var(--radius);padding:30px;box-shadow:var(--shadow)}
+.calc-panel.actif{display:block;animation:fadeIn .4s ease}
+.calc-panel h3{font-size:1.15rem;font-weight:800;color:var(--primary);margin-bottom:8px}
+.calc-panel .calc-formule{background:var(--light);border:1.5px solid var(--border);border-radius:12px;padding:15px;margin-bottom:22px;text-align:center;font-size:1.05rem}
+.calc-inputs{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:15px;margin-bottom:20px}
+.calc-input-group label{display:block;font-size:.78rem;font-weight:700;color:var(--gray);margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px}
+.calc-input-group input{width:100%;padding:12px 15px;background:var(--light);border:2px solid var(--border);border-radius:12px;color:var(--dark);font-family:inherit;font-size:.95rem;transition:var(--transition)}
+.calc-input-group input:focus{outline:none;border-color:var(--violet);box-shadow:0 0 0 3px rgba(139,92,246,.1)}
+.btn-calc{width:100%;padding:15px;background:var(--gradient-violet);color:#fff;border:none;border-radius:12px;font-family:inherit;font-size:.98rem;font-weight:700;cursor:pointer;transition:var(--transition);display:flex;align-items:center;justify-content:center;gap:8px}
+.btn-calc:hover{transform:translateY(-2px);box-shadow:0 15px 30px rgba(139,92,246,.4)}
+.calc-resultat{background:linear-gradient(135deg,rgba(139,92,246,.1),rgba(219,39,119,.08));border:2px solid var(--violet);border-radius:12px;padding:18px;text-align:center;margin-top:18px;display:none}
+.calc-resultat.visible{display:block;animation:fadeIn .3s ease}
+.calc-resultat .lbl{font-size:.75rem;color:var(--gray);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
+.calc-resultat .val{font-family:'Poppins',monospace;font-size:1.8rem;font-weight:800;color:var(--violet)}
+/* Tableau périodique */
+.periodique-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:10px}
+.element-card{background:#fff;border:2px solid var(--border);border-radius:12px;padding:12px 8px;text-align:center;cursor:pointer;transition:var(--transition);position:relative}
+.element-card:hover{transform:translateY(-4px) scale(1.05);border-color:var(--violet);box-shadow:0 10px 25px rgba(139,92,246,.25);z-index:2}
+.element-card .num-atomique{position:absolute;top:5px;left:7px;font-size:.62rem;color:var(--gray);font-weight:700}
+[dir="rtl"] .element-card .num-atomique{left:auto;right:7px}
+.element-card .symbole{font-size:1.5rem;font-weight:800;color:var(--violet);line-height:1;margin-top:8px;font-family:'Poppins',sans-serif}
+.element-card .nom-elem{font-size:.68rem;color:var(--gray);margin-top:5px;font-weight:500}
+.element-card .masse{font-size:.6rem;color:var(--gray);margin-top:3px}
+.element-card.fam-alcalin{border-color:rgba(219,39,119,.4)}.element-card.fam-alcalin .symbole{color:#db2777}
+.element-card.fam-alcalino{border-color:rgba(245,158,11,.4)}.element-card.fam-alcalino .symbole{color:var(--accent)}
+.element-card.fam-halogene{border-color:rgba(16,185,129,.4)}.element-card.fam-halogene .symbole{color:var(--success)}
+.element-card.fam-gaz{border-color:rgba(59,130,246,.4)}.element-card.fam-gaz .symbole{color:var(--primary-light)}
+.element-modal{position:fixed;inset:0;background:rgba(15,23,42,.85);backdrop-filter:blur(8px);z-index:5000;display:none;align-items:center;justify-content:center;padding:15px}
+.element-modal.ouvert{display:flex}
+.element-modal-box{background:#fff;border:2px solid var(--violet);border-radius:20px;padding:30px;max-width:450px;width:100%;position:relative;box-shadow:0 30px 80px rgba(139,92,246,.4);animation:slideUp .3s}
+@keyframes slideUp{from{transform:scale(.9) translateY(20px);opacity:0}to{transform:scale(1) translateY(0);opacity:1}}
+.element-modal-box .close-el{position:absolute;top:15px;right:15px;background:rgba(239,68,68,.1);border:1.5px solid rgba(239,68,68,.3);color:var(--danger);width:36px;height:36px;border-radius:10px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:var(--transition)}
+[dir="rtl"] .element-modal-box .close-el{right:auto;left:15px}
+.element-modal-box .close-el:hover{background:var(--danger);color:#fff}
+.element-header{display:flex;align-items:center;gap:15px;margin-bottom:20px}
+.big-sym{width:80px;height:80px;background:var(--gradient-violet);border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:2.2rem;font-weight:800;color:#fff;font-family:'Poppins',sans-serif}
+.el-info h3{font-size:1.4rem;color:var(--primary);margin-bottom:4px;font-weight:800}
+.el-info span{color:var(--gray);font-size:.9rem}
+.element-stats{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.element-stat{background:var(--light);border:1.5px solid var(--border);border-radius:12px;padding:12px 14px}
+.element-stat .lbl{font-size:.68rem;color:var(--gray);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
+.element-stat .val{font-size:1rem;font-weight:700;color:var(--violet);font-family:'Poppins',sans-serif}
+/* Convertisseur */
+.conv-wrap{max-width:700px;margin:0 auto}
+.conv-types{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:25px}
+.conv-type-btn{background:#fff;border:2px solid var(--border);color:var(--gray);padding:10px 18px;border-radius:50px;font-family:inherit;font-size:.85rem;font-weight:600;cursor:pointer;transition:var(--transition)}
+.conv-type-btn:hover{color:var(--accent);border-color:var(--accent)}
+.conv-type-btn.actif{background:var(--gradient-accent);color:#fff;border-color:transparent;box-shadow:0 8px 20px rgba(245,158,11,.35)}
+.conv-panel{display:none;background:#fff;border-radius:var(--radius);padding:30px;box-shadow:var(--shadow)}
+.conv-panel.actif{display:block;animation:fadeIn .4s ease}
+.conv-row{display:grid;grid-template-columns:1fr 1fr;gap:15px;margin-bottom:15px}
+.conv-input-group label{display:block;font-size:.75rem;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px}
+.conv-input-group input,.conv-input-group select{width:100%;padding:12px 15px;background:var(--light);border:2px solid var(--border);border-radius:12px;color:var(--dark);font-family:inherit;font-size:.95rem;transition:var(--transition)}
+.conv-input-group input:focus,.conv-input-group select:focus{outline:none;border-color:var(--accent)}
+.conv-resultat{background:linear-gradient(135deg,rgba(245,158,11,.1),rgba(239,68,68,.08));border:2px solid var(--accent);border-radius:14px;padding:20px;text-align:center;margin-top:15px}
+.conv-resultat .lbl{font-size:.75rem;color:var(--gray);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
+.conv-resultat .val{font-family:'Poppins',monospace;font-size:1.7rem;font-weight:800;color:var(--accent);word-break:break-all}
+/* Constantes */
+.constantes-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px}
+.constante-card{background:#fff;border-radius:var(--radius-sm);padding:20px;box-shadow:var(--shadow-sm);border-left:5px solid var(--success);transition:var(--transition)}
+[dir="rtl"] .constante-card{border-left:none;border-right:5px solid var(--success)}
+.constante-card:hover{transform:translateX(5px);box-shadow:var(--shadow)}
+[dir="rtl"] .constante-card:hover{transform:translateX(-5px)}
+.constante-card .c-nom{font-size:.85rem;color:var(--gray);margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.constante-card .c-nom i{color:var(--success);font-size:.8rem}
+.constante-card .c-valeur{font-family:'Poppins',monospace;font-size:1.05rem;font-weight:800;color:var(--success)}
+.constante-card .c-symbole{font-size:.9rem;color:var(--primary);font-weight:700;margin-top:5px;font-style:italic}
+footer{background:var(--dark);color:#fff;padding:50px 5% 25px;margin-top:60px}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;max-width:1200px;margin:0 auto 30px}
+.footer-logo{display:flex;align-items:center;gap:12px;margin-bottom:15px}
+.footer-logo-wrap{position:relative;width:58px;height:58px;border-radius:50%;background:linear-gradient(135deg,#1e3a8a 0%,#06b6d4 50%,#10b981 100%);padding:3px;box-shadow:0 0 0 3px rgba(255,255,255,.1)}
+.footer-logo-wrap::before{content:'';position:absolute;inset:3px;border-radius:50%;background:#fff;z-index:0}
+.footer-logo-wrap img{position:relative;z-index:1;width:100%;height:100%;border-radius:50%;object-fit:cover}
+.footer-nom{font-size:1.5rem;font-weight:900;background:linear-gradient(135deg,#60a5fa 0%,#22d3ee 50%,#4ade80 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1}
+.footer-arabe{font-size:.75rem;color:#94a3b8;font-family:'Tajawal',sans-serif;font-weight:700;margin-top:2px}
+.footer-brand p{color:#94a3b8;font-size:.92rem;margin:15px 0}
+.footer-social{display:flex;gap:12px}
+.footer-social a{width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.08);color:#fff;display:flex;align-items:center;justify-content:center;transition:var(--transition)}
+.footer-social a:hover{background:var(--gradient-violet);transform:translateY(-3px)}
+.footer-col h4{font-size:1.05rem;margin-bottom:18px;color:#fff;font-weight:700}
+.footer-col ul{list-style:none}
+.footer-col ul li{margin-bottom:10px}
+.footer-col ul a{color:#94a3b8;font-size:.9rem;transition:color .3s}
+.footer-col ul a:hover{color:var(--accent)}
+.footer-col ul a i{margin-right:6px;color:var(--accent)}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.1);padding-top:25px;text-align:center;color:#94a3b8;font-size:.88rem}
+.footer-bottom span{color:var(--accent);font-weight:600}
+@media (max-width:900px){.footer-grid{grid-template-columns:1fr 1fr}.hero-page h1{font-size:2.2rem}}
+@media (max-width:768px){
+nav{padding:10px 4%}.logo-img-wrap{width:44px;height:44px}.logo-texte .titre{font-size:1.15rem}.logo-texte .arabe{font-size:.65rem}
+.nav-links{position:fixed;top:64px;left:0;right:0;background:#fff;flex-direction:column;padding:25px;gap:18px;box-shadow:0 10px 30px rgba(0,0,0,.1);transform:translateY(-150%);transition:transform .4s;max-height:calc(100vh - 64px);overflow-y:auto}
+.nav-links.active{transform:translateY(0)}.menu-toggle{display:block}
+.nav-links .lang-switcher{width:100%;justify-content:center}.nav-links .btn-nav{width:100%;text-align:center;justify-content:center}
+.hero-page{padding:100px 4% 50px}.hero-page h1{font-size:1.8rem}
+.tabs-bar{border-radius:20px;padding:12px}
+.fiches-grid,.formules-categories,.constantes-grid{grid-template-columns:1fr}
+.conv-row{grid-template-columns:1fr}
+.periodique-grid{grid-template-columns:repeat(auto-fill,minmax(75px,1fr))}
+.footer-grid{grid-template-columns:1fr}
+}
+@media (max-width:480px){.hero-page h1{font-size:1.5rem}.logo-texte{display:none}.logo-img-wrap{width:42px;height:42px}.calc-panel,.conv-panel{padding:20px}}
 </style>
 </head>
 <body>
 
-<!-- ===== NAVBAR ===== -->
 <nav>
   <a href="index.html" class="logo">
-    <div class="logo-img-wrap">
-      <img src="assets/logo-darrssy.png" alt="DARRSSY">
-    </div>
+    <div class="logo-img-wrap"><img src="assets/logo-darrssy.png" alt="DARRSSY"></div>
     <div class="logo-texte">
       <span class="titre">DARRSSY</span>
       <span class="arabe">دَرْسِي</span>
     </div>
   </a>
   <ul class="nav-links" id="navLinks">
-    <li><a href="index.html" data-i18n="nav.home">Accueil</a></li>
-    <li><a href="cours.html" data-i18n="nav.cours">Cours</a></li>
-    <li><a href="exercices.html" data-i18n="nav.exercices">Exercices</a></li>
-    <li><a href="examens.html" data-i18n="nav.examens">Examens</a></li>
-    <li><a href="simulations.html" data-i18n="nav.simulations">Simulations</a></li>
-    <li><a href="ressources.html" class="actif" data-i18n="nav.ressources">Ressources</a></li>
+    <li><a href="index.html">Accueil</a></li>
+    <li><a href="cours.html">Cours</a></li>
+    <li><a href="exercices.html">Exercices</a></li>
+    <li><a href="examens.html">Examens</a></li>
+    <li><a href="simulations.html">Simulations</a></li>
+    <li><a href="ressources.html" class="actif">Ressources</a></li>
     <li>
       <div class="lang-switcher">
         <button class="lang-btn actif" data-lang="fr">FR</button>
         <button class="lang-btn" data-lang="ar">AR</button>
       </div>
     </li>
-    <li><a href="admin/login.html" class="btn-nav"><i class="fas fa-sign-in-alt"></i> <span data-i18n="nav.connexion">Connexion</span></a></li>
+    <li><a href="admin/login.html" class="btn-nav"><i class="fas fa-sign-in-alt"></i> Connexion</a></li>
   </ul>
   <button class="menu-toggle" id="menuToggle" aria-label="Menu"><i class="fas fa-bars"></i></button>
 </nav>
 
-<!-- ===== HERO ===== -->
 <section class="hero-page">
   <div class="hero-page-content">
-    <h1>
-      <span data-i18n="res.titre1">Outils &</span>
-      <span data-i18n="res.titre2">Ressources</span>
-    </h1>
-    <p data-i18n="res.desc">Fiches de révision, formulaire complet, calculateur interactif, tableau périodique et convertisseur d'unités.</p>
+    <h1><span>Outils &</span> Ressources</h1>
+    <p>Fiches de révision, formulaire complet, calculateur interactif, tableau périodique et convertisseur d'unités.</p>
   </div>
 </section>
 
-<!-- ===== CONTENU ===== -->
 <div class="conteneur">
   <div class="tabs-bar">
-    <button class="tab-btn actif" data-tab="fiches"><i class="fas fa-file-alt"></i> <span data-i18n="tab.fiches">Fiches</span></button>
-    <button class="tab-btn" data-tab="formulaire"><i class="fas fa-square-root-alt"></i> <span data-i18n="tab.formulaire">Formulaire</span></button>
-    <button class="tab-btn" data-tab="calculateur"><i class="fas fa-calculator"></i> <span data-i18n="tab.calculateur">Calculateur</span></button>
-    <button class="tab-btn" data-tab="periodique"><i class="fas fa-atom"></i> <span data-i18n="tab.periodique">Tableau périodique</span></button>
-    <button class="tab-btn" data-tab="convertisseur"><i class="fas fa-exchange-alt"></i> <span data-i18n="tab.convertisseur">Convertisseur</span></button>
-    <button class="tab-btn" data-tab="constantes"><i class="fas fa-superscript"></i> <span data-i18n="tab.constantes">Constantes</span></button>
+    <button class="tab-btn actif" data-tab="fiches"><i class="fas fa-file-alt"></i> Fiches</button>
+    <button class="tab-btn" data-tab="formulaire"><i class="fas fa-square-root-alt"></i> Formulaire</button>
+    <button class="tab-btn" data-tab="calculateur"><i class="fas fa-calculator"></i> Calculateur</button>
+    <button class="tab-btn" data-tab="periodique"><i class="fas fa-atom"></i> Tableau périodique</button>
+    <button class="tab-btn" data-tab="convertisseur"><i class="fas fa-exchange-alt"></i> Convertisseur</button>
+    <button class="tab-btn" data-tab="constantes"><i class="fas fa-superscript"></i> Constantes</button>
   </div>
 
   <!-- TAB 1 : FICHES -->
   <div class="tab-panel actif" id="panel-fiches">
     <div class="section-titre">
-      <h2 data-i18n="fiches.titre">Fiches de révision</h2>
-      <p data-i18n="fiches.desc">Résumés synthétiques pour réviser efficacement chaque chapitre.</p>
+      <h2>Fiches de révision</h2>
+      <p>Résumés synthétiques pour réviser efficacement chaque chapitre.</p>
     </div>
     <div class="fiches-grid" id="fichesGrid"></div>
   </div>
@@ -1141,8 +253,8 @@ footer {
   <!-- TAB 2 : FORMULAIRE -->
   <div class="tab-panel" id="panel-formulaire">
     <div class="section-titre">
-      <h2 data-i18n="formulaire.titre">Formulaire complet</h2>
-      <p data-i18n="formulaire.desc">Toutes les formules de Physique-Chimie en un seul endroit.</p>
+      <h2>Formulaire complet</h2>
+      <p>Toutes les formules de Physique-Chimie en un seul endroit.</p>
     </div>
     <div class="formulaire-search">
       <i class="fas fa-search"></i>
@@ -1154,8 +266,8 @@ footer {
   <!-- TAB 3 : CALCULATEUR -->
   <div class="tab-panel" id="panel-calculateur">
     <div class="section-titre">
-      <h2 data-i18n="calc.titre">Calculateur interactif</h2>
-      <p data-i18n="calc.desc">Entrez vos valeurs et obtenez le résultat instantanément.</p>
+      <h2>Calculateur interactif</h2>
+      <p>Entrez vos valeurs et obtenez le résultat instantanément.</p>
     </div>
     <div class="calculateur-wrap">
       <div class="calc-tabs">
@@ -1166,20 +278,15 @@ footer {
         <button class="calc-tab" data-calc="rc">τ = RC</button>
         <button class="calc-tab" data-calc="rlc">T₀ = 2π√LC</button>
       </div>
-
       <div class="calc-panel actif" id="calc-ph">
         <h3>Calcul du pH</h3>
         <div class="calc-formule">$$\text{pH} = -\log[\text{H}_3\text{O}^+]$$</div>
         <div class="calc-inputs">
-          <div class="calc-input-group">
-            <label>Concentration [H₃O⁺] (mol/L)</label>
-            <input type="number" id="ph-conc" value="0.01" step="0.001" min="0">
-          </div>
+          <div class="calc-input-group"><label>Concentration [H₃O⁺] (mol/L)</label><input type="number" id="ph-conc" value="0.01" step="0.001" min="0"></div>
         </div>
         <button class="btn-calc" onclick="calculerPH()"><i class="fas fa-calculator"></i> Calculer</button>
         <div class="calc-resultat" id="res-ph"><div class="lbl">pH =</div><div class="val" id="res-ph-val">—</div></div>
       </div>
-
       <div class="calc-panel" id="calc-cinetique">
         <h3>Loi d'Arrhenius</h3>
         <div class="calc-formule">$$k = k_0 \cdot e^{-E_a/(RT)}$$</div>
@@ -1191,7 +298,6 @@ footer {
         <button class="btn-calc" onclick="calculerCinetique()"><i class="fas fa-calculator"></i> Calculer</button>
         <div class="calc-resultat" id="res-cinetique"><div class="lbl">k =</div><div class="val" id="res-cinetique-val">—</div></div>
       </div>
-
       <div class="calc-panel" id="calc-energie">
         <h3>Énergie de masse (Einstein)</h3>
         <div class="calc-formule">$$E = \Delta m \cdot c^2$$</div>
@@ -1201,7 +307,6 @@ footer {
         <button class="btn-calc" onclick="calculerEnergie()"><i class="fas fa-calculator"></i> Calculer</button>
         <div class="calc-resultat" id="res-energie"><div class="lbl">E =</div><div class="val" id="res-energie-val">—</div></div>
       </div>
-
       <div class="calc-panel" id="calc-chute">
         <h3>Chute libre</h3>
         <div class="calc-formule">$$h = \frac{1}{2} g t^2$$</div>
@@ -1211,7 +316,6 @@ footer {
         <button class="btn-calc" onclick="calculerChute()"><i class="fas fa-calculator"></i> Calculer</button>
         <div class="calc-resultat" id="res-chute"><div class="lbl">t =</div><div class="val" id="res-chute-val">—</div></div>
       </div>
-
       <div class="calc-panel" id="calc-rc">
         <h3>Constante de temps RC</h3>
         <div class="calc-formule">$$\tau = R \cdot C$$</div>
@@ -1222,7 +326,6 @@ footer {
         <button class="btn-calc" onclick="calculerRC()"><i class="fas fa-calculator"></i> Calculer</button>
         <div class="calc-resultat" id="res-rc"><div class="lbl">τ =</div><div class="val" id="res-rc-val">—</div></div>
       </div>
-
       <div class="calc-panel" id="calc-rlc">
         <h3>Période propre LC (Thomson)</h3>
         <div class="calc-formule">$$T_0 = 2\pi\sqrt{LC}$$</div>
@@ -1239,8 +342,8 @@ footer {
   <!-- TAB 4 : TABLEAU PÉRIODIQUE -->
   <div class="tab-panel" id="panel-periodique">
     <div class="section-titre">
-      <h2 data-i18n="perio.titre">Tableau périodique simplifié</h2>
-      <p data-i18n="perio.desc">Les 20 premiers éléments. Cliquez pour voir les détails.</p>
+      <h2>Tableau périodique simplifié</h2>
+      <p>Les 20 premiers éléments. Cliquez pour voir les détails.</p>
     </div>
     <div class="periodique-grid" id="periodiqueGrid"></div>
   </div>
@@ -1248,8 +351,8 @@ footer {
   <!-- TAB 5 : CONVERTISSEUR -->
   <div class="tab-panel" id="panel-convertisseur">
     <div class="section-titre">
-      <h2 data-i18n="conv.titre">Convertisseur d'unités</h2>
-      <p data-i18n="conv.desc">Convertissez rapidement entre les unités courantes.</p>
+      <h2>Convertisseur d'unités</h2>
+      <p>Convertissez rapidement entre les unités courantes.</p>
     </div>
     <div class="conv-wrap">
       <div class="conv-types">
@@ -1259,106 +362,53 @@ footer {
         <button class="conv-type-btn" data-conv="energie">Énergie</button>
         <button class="conv-type-btn" data-conv="temperature">Température</button>
       </div>
-
       <div class="conv-panel actif" id="conv-longueur">
         <div class="conv-row">
           <div class="conv-input-group"><label>Valeur</label><input type="number" id="conv-l-val" value="1" oninput="convertir('longueur')"></div>
-          <div class="conv-input-group"><label>De</label>
-            <select id="conv-l-from" onchange="convertir('longueur')">
-              <option value="1">m</option><option value="0.01">cm</option><option value="0.001">mm</option>
-              <option value="1000">km</option><option value="1e-9">nm</option><option value="1e-6">µm</option>
-            </select>
-          </div>
+          <div class="conv-input-group"><label>De</label><select id="conv-l-from" onchange="convertir('longueur')"><option value="1">m</option><option value="0.01">cm</option><option value="0.001">mm</option><option value="1000">km</option><option value="1e-9">nm</option><option value="1e-6">µm</option></select></div>
         </div>
         <div class="conv-row">
-          <div class="conv-input-group"><label>Vers</label>
-            <select id="conv-l-to" onchange="convertir('longueur')">
-              <option value="1">m</option><option value="0.01" selected>cm</option><option value="0.001">mm</option>
-              <option value="1000">km</option><option value="1e-9">nm</option><option value="1e-6">µm</option>
-            </select>
-          </div>
+          <div class="conv-input-group"><label>Vers</label><select id="conv-l-to" onchange="convertir('longueur')"><option value="1">m</option><option value="0.01" selected>cm</option><option value="0.001">mm</option><option value="1000">km</option><option value="1e-9">nm</option><option value="1e-6">µm</option></select></div>
         </div>
         <div class="conv-resultat"><div class="lbl">Résultat</div><div class="val" id="conv-l-res">—</div></div>
       </div>
-
       <div class="conv-panel" id="conv-masse">
         <div class="conv-row">
           <div class="conv-input-group"><label>Valeur</label><input type="number" id="conv-m-val" value="1" oninput="convertir('masse')"></div>
-          <div class="conv-input-group"><label>De</label>
-            <select id="conv-m-from" onchange="convertir('masse')">
-              <option value="1">kg</option><option value="0.001">g</option>
-              <option value="1e-6">mg</option><option value="1000">t</option>
-            </select>
-          </div>
+          <div class="conv-input-group"><label>De</label><select id="conv-m-from" onchange="convertir('masse')"><option value="1">kg</option><option value="0.001">g</option><option value="1e-6">mg</option><option value="1000">t</option></select></div>
         </div>
         <div class="conv-row">
-          <div class="conv-input-group"><label>Vers</label>
-            <select id="conv-m-to" onchange="convertir('masse')">
-              <option value="1">kg</option><option value="0.001" selected>g</option>
-              <option value="1e-6">mg</option><option value="1000">t</option>
-            </select>
-          </div>
+          <div class="conv-input-group"><label>Vers</label><select id="conv-m-to" onchange="convertir('masse')"><option value="1">kg</option><option value="0.001" selected>g</option><option value="1e-6">mg</option><option value="1000">t</option></select></div>
         </div>
         <div class="conv-resultat"><div class="lbl">Résultat</div><div class="val" id="conv-m-res">—</div></div>
       </div>
-
       <div class="conv-panel" id="conv-temps">
         <div class="conv-row">
           <div class="conv-input-group"><label>Valeur</label><input type="number" id="conv-t-val" value="1" oninput="convertir('temps')"></div>
-          <div class="conv-input-group"><label>De</label>
-            <select id="conv-t-from" onchange="convertir('temps')">
-              <option value="1">s</option><option value="60">min</option>
-              <option value="3600">h</option><option value="0.001">ms</option>
-            </select>
-          </div>
+          <div class="conv-input-group"><label>De</label><select id="conv-t-from" onchange="convertir('temps')"><option value="1">s</option><option value="60">min</option><option value="3600">h</option><option value="0.001">ms</option></select></div>
         </div>
         <div class="conv-row">
-          <div class="conv-input-group"><label>Vers</label>
-            <select id="conv-t-to" onchange="convertir('temps')">
-              <option value="1">s</option><option value="60" selected>min</option>
-              <option value="3600">h</option><option value="0.001">ms</option>
-            </select>
-          </div>
+          <div class="conv-input-group"><label>Vers</label><select id="conv-t-to" onchange="convertir('temps')"><option value="1">s</option><option value="60" selected>min</option><option value="3600">h</option><option value="0.001">ms</option></select></div>
         </div>
         <div class="conv-resultat"><div class="lbl">Résultat</div><div class="val" id="conv-t-res">—</div></div>
       </div>
-
       <div class="conv-panel" id="conv-energie">
         <div class="conv-row">
           <div class="conv-input-group"><label>Valeur</label><input type="number" id="conv-e-val" value="1" oninput="convertir('energie')"></div>
-          <div class="conv-input-group"><label>De</label>
-            <select id="conv-e-from" onchange="convertir('energie')">
-              <option value="1">J</option><option value="1000">kJ</option>
-              <option value="1.602e-19">eV</option><option value="3600">Wh</option><option value="3.6e6">kWh</option>
-            </select>
-          </div>
+          <div class="conv-input-group"><label>De</label><select id="conv-e-from" onchange="convertir('energie')"><option value="1">J</option><option value="1000">kJ</option><option value="1.602e-19">eV</option><option value="3600">Wh</option><option value="3.6e6">kWh</option></select></div>
         </div>
         <div class="conv-row">
-          <div class="conv-input-group"><label>Vers</label>
-            <select id="conv-e-to" onchange="convertir('energie')">
-              <option value="1">J</option><option value="1000">kJ</option>
-              <option value="1.602e-19" selected>eV</option><option value="3600">Wh</option><option value="3.6e6">kWh</option>
-            </select>
-          </div>
+          <div class="conv-input-group"><label>Vers</label><select id="conv-e-to" onchange="convertir('energie')"><option value="1">J</option><option value="1000">kJ</option><option value="1.602e-19" selected>eV</option><option value="3600">Wh</option><option value="3.6e6">kWh</option></select></div>
         </div>
         <div class="conv-resultat"><div class="lbl">Résultat</div><div class="val" id="conv-e-res">—</div></div>
       </div>
-
       <div class="conv-panel" id="conv-temperature">
         <div class="conv-row">
           <div class="conv-input-group"><label>Valeur</label><input type="number" id="conv-tp-val" value="25" oninput="convertir('temperature')"></div>
-          <div class="conv-input-group"><label>De</label>
-            <select id="conv-tp-from" onchange="convertir('temperature')">
-              <option value="C">°C</option><option value="K">K</option><option value="F">°F</option>
-            </select>
-          </div>
+          <div class="conv-input-group"><label>De</label><select id="conv-tp-from" onchange="convertir('temperature')"><option value="C">°C</option><option value="K">K</option><option value="F">°F</option></select></div>
         </div>
         <div class="conv-row">
-          <div class="conv-input-group"><label>Vers</label>
-            <select id="conv-tp-to" onchange="convertir('temperature')">
-              <option value="C">°C</option><option value="K" selected>K</option><option value="F">°F</option>
-            </select>
-          </div>
+          <div class="conv-input-group"><label>Vers</label><select id="conv-tp-to" onchange="convertir('temperature')"><option value="C">°C</option><option value="K" selected>K</option><option value="F">°F</option></select></div>
         </div>
         <div class="conv-resultat"><div class="lbl">Résultat</div><div class="val" id="conv-tp-res">—</div></div>
       </div>
@@ -1368,14 +418,13 @@ footer {
   <!-- TAB 6 : CONSTANTES -->
   <div class="tab-panel" id="panel-constantes">
     <div class="section-titre">
-      <h2 data-i18n="const.titre">Constantes physiques</h2>
-      <p data-i18n="const.desc">Les constantes fondamentales à connaître.</p>
+      <h2>Constantes physiques</h2>
+      <p>Les constantes fondamentales à connaître.</p>
     </div>
     <div class="constantes-grid" id="constantesGrid"></div>
   </div>
 </div>
 
-<!-- Element modal -->
 <div class="element-modal" id="elementModal">
   <div class="element-modal-box">
     <button class="close-el" id="closeElementModal"><i class="fas fa-times"></i></button>
@@ -1390,20 +439,17 @@ footer {
   </div>
 </div>
 
-<!-- ===== FOOTER ===== -->
 <footer>
   <div class="footer-grid">
     <div class="footer-brand">
       <div class="footer-logo">
-        <div class="footer-logo-wrap">
-          <img src="assets/logo-darrssy.png" alt="DARRSSY">
-        </div>
+        <div class="footer-logo-wrap"><img src="assets/logo-darrssy.png" alt="DARRSSY"></div>
         <div>
           <div class="footer-nom">DARRSSY</div>
           <div class="footer-arabe">دَرْسِي</div>
         </div>
       </div>
-      <p data-i18n="footer.desc">La plateforme éducative marocaine dédiée à la réussite des lycéens en Physique & Chimie.</p>
+      <p>La plateforme éducative marocaine dédiée à la réussite des lycéens en Physique & Chimie.</p>
       <div class="footer-social">
         <a href="#"><i class="fab fa-facebook-f"></i></a>
         <a href="#"><i class="fab fa-instagram"></i></a>
@@ -1412,33 +458,31 @@ footer {
       </div>
     </div>
     <div class="footer-col">
-      <h4 data-i18n="footer.navigation">Navigation</h4>
+      <h4>Navigation</h4>
       <ul>
-        <li><a href="index.html" data-i18n="nav.home">Accueil</a></li>
-        <li><a href="cours.html" data-i18n="nav.cours">Cours</a></li>
-        <li><a href="exercices.html" data-i18n="nav.exercices">Exercices</a></li>
-        <li><a href="examens.html" data-i18n="nav.examens">Examens</a></li>
+        <li><a href="index.html">Accueil</a></li>
+        <li><a href="cours.html">Cours</a></li>
+        <li><a href="exercices.html">Exercices</a></li>
+        <li><a href="examens.html">Examens</a></li>
       </ul>
     </div>
     <div class="footer-col">
-      <h4 data-i18n="footer.ressources">Ressources</h4>
+      <h4>Ressources</h4>
       <ul>
-        <li><a href="simulations.html" data-i18n="nav.simulations">Simulations</a></li>
-        <li><a href="ressources.html" data-i18n="nav.ressources">Ressources</a></li>
-        <li><a href="admin/login.html" data-i18n="nav.admin">Administration</a></li>
+        <li><a href="simulations.html">Simulations</a></li>
+        <li><a href="ressources.html">Ressources</a></li>
+        <li><a href="admin/login.html">Administration</a></li>
       </ul>
     </div>
     <div class="footer-col">
-      <h4 data-i18n="footer.contact">Contact</h4>
+      <h4>Contact</h4>
       <ul>
         <li><a href="mailto:contact@darrssy.com"><i class="fas fa-envelope"></i> contact@darrssy.com</a></li>
-        <li><a href="#"><i class="fas fa-map-marker-alt"></i> <span data-i18n="footer.maroc">Maroc</span></a></li>
+        <li><a href="#"><i class="fas fa-map-marker-alt"></i> Maroc</a></li>
       </ul>
     </div>
   </div>
-  <div class="footer-bottom">
-    © 2026 <span>DARRSSY</span> — <span data-i18n="footer.droits">Tous droits réservés.</span>
-  </div>
+  <div class="footer-bottom">© 2026 <span>DARRSSY</span> — Tous droits réservés.</div>
 </footer>
 
 <script>
@@ -1525,53 +569,6 @@ const constantes = [
   { nom_fr: 'Perméabilité du vide', sym: 'μ₀', val: '4π × 10⁻⁷ H/m' }
 ];
 
-const trad = {
-  fr: {
-    'nav.home': 'Accueil', 'nav.cours': 'Cours', 'nav.exercices': 'Exercices',
-    'nav.examens': 'Examens', 'nav.simulations': 'Simulations', 'nav.ressources': 'Ressources',
-    'nav.admin': 'Administration', 'nav.connexion': 'Connexion',
-    'res.titre1': 'Outils &', 'res.titre2': 'Ressources',
-    'res.desc': "Fiches de révision, formulaire complet, calculateur interactif, tableau périodique et convertisseur d'unités.",
-    'tab.fiches': 'Fiches', 'tab.formulaire': 'Formulaire', 'tab.calculateur': 'Calculateur',
-    'tab.periodique': 'Tableau périodique', 'tab.convertisseur': 'Convertisseur', 'tab.constantes': 'Constantes',
-    'fiches.titre': 'Fiches de révision', 'fiches.desc': 'Résumés synthétiques pour réviser efficacement.',
-    'formulaire.titre': 'Formulaire complet', 'formulaire.desc': 'Toutes les formules en un endroit.',
-    'calc.titre': 'Calculateur interactif', 'calc.desc': 'Entrez vos valeurs et obtenez le résultat.',
-    'perio.titre': 'Tableau périodique simplifié', 'perio.desc': 'Les 20 premiers éléments.',
-    'conv.titre': 'Convertisseur d\'unités', 'conv.desc': 'Convertissez entre unités.',
-    'const.titre': 'Constantes physiques', 'const.desc': 'Les constantes fondamentales.',
-    'niveau.tronc': 'Tronc Commun', 'niveau.1bac': '1ère Bac',
-    'niveau.2bacpc': '2ème Bac PC', 'niveau.2bacsvt': '2ème Bac SVT',
-    'matiere.physique': 'Physique', 'matiere.chimie': 'Chimie',
-    'btn.consulter': 'Consulter',
-    'footer.desc': 'La plateforme éducative marocaine dédiée à la réussite des lycéens en Physique & Chimie.',
-    'footer.navigation': 'Navigation', 'footer.ressources': 'Ressources',
-    'footer.contact': 'Contact', 'footer.maroc': 'Maroc', 'footer.droits': 'Tous droits réservés.'
-  },
-  ar: {
-    'nav.home': 'الرئيسية', 'nav.cours': 'الدروس', 'nav.exercices': 'التمارين',
-    'nav.examens': 'الامتحانات', 'nav.simulations': 'المحاكاة', 'nav.ressources': 'الموارد',
-    'nav.admin': 'الإدارة', 'nav.connexion': 'تسجيل الدخول',
-    'res.titre1': 'أدوات و', 'res.titre2': 'موارد',
-    'res.desc': 'بطاقات المراجعة، الصيغ، الحاسبة، الجدول الدوري ومحول الوحدات.',
-    'tab.fiches': 'بطاقات', 'tab.formulaire': 'الصيغ', 'tab.calculateur': 'الحاسبة',
-    'tab.periodique': 'الجدول الدوري', 'tab.convertisseur': 'المحول', 'tab.constantes': 'الثوابت',
-    'fiches.titre': 'بطاقات المراجعة', 'fiches.desc': 'ملخصات موجزة.',
-    'formulaire.titre': 'الصيغ الكاملة', 'formulaire.desc': 'جميع الصيغ.',
-    'calc.titre': 'حاسبة تفاعلية', 'calc.desc': 'أدخل قيمك.',
-    'perio.titre': 'الجدول الدوري', 'perio.desc': 'العناصر العشرون الأولى.',
-    'conv.titre': 'محول الوحدات', 'conv.desc': 'حول بين الوحدات.',
-    'const.titre': 'الثوابت الفيزيائية', 'const.desc': 'الثوابت الأساسية.',
-    'niveau.tronc': 'الجذع المشترك', 'niveau.1bac': 'الأولى باك',
-    'niveau.2bacpc': 'الثانية باك ع.ف', 'niveau.2bacsvt': 'الثانية باك ع.ح.أ',
-    'matiere.physique': 'الفيزياء', 'matiere.chimie': 'الكيمياء',
-    'btn.consulter': 'اطلع',
-    'footer.desc': 'المنصة التعليمية المغربية.',
-    'footer.navigation': 'التنقل', 'footer.ressources': 'الموارد',
-    'footer.contact': 'اتصل بنا', 'footer.maroc': 'المغرب', 'footer.droits': 'جميع الحقوق محفوظة.'
-  }
-};
-
 document.addEventListener('DOMContentLoaded', () => {
   appliquerLangue(currentLang);
   afficherFiches();
@@ -1583,10 +580,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (window.renderMathInElement) {
     setTimeout(() => {
       renderMathInElement(document.body, {
-        delimiters: [
-          { left: '$$', right: '$$', display: false },
-          { left: '$', right: '$', display: false }
-        ],
+        delimiters: [{ left: '$$', right: '$$', display: false }, { left: '$', right: '$', display: false }],
         throwOnError: false
       });
     }, 500);
@@ -1597,13 +591,6 @@ function appliquerLangue(lang) {
   currentLang = lang;
   document.getElementById('htmlRoot').setAttribute('lang', lang);
   document.getElementById('htmlRoot').setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
-  document.querySelectorAll('[data-i18n]').forEach(el => {
-    const key = el.getAttribute('data-i18n');
-    if (trad[lang] && trad[lang][key]) el.textContent = trad[lang][key];
-  });
-  document.querySelectorAll('.lang-btn').forEach(btn => {
-    btn.classList.toggle('actif', btn.getAttribute('data-lang') === lang);
-  });
   localStorage.setItem('darrssy-lang', lang);
 }
 
@@ -1614,7 +601,7 @@ function bindEvents() {
   document.querySelectorAll('.lang-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       appliquerLangue(btn.getAttribute('data-lang'));
-      afficherFiches(); afficherFormules(); afficherPeriodique(); afficherConstantes();
+      document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('actif', b.getAttribute('data-lang') === btn.getAttribute('data-lang')));
     });
   });
   document.querySelectorAll('.tab-btn').forEach(btn => {
@@ -1654,23 +641,17 @@ function afficherFiches() {
   const grid = document.getElementById('fichesGrid');
   grid.innerHTML = '';
   fiches.forEach(f => {
-    const niveauLabel = trad[currentLang]['niveau.' + f.niveau];
-    const titre = currentLang === 'fr' ? f.titre_fr : f.titre_ar;
-    const desc = currentLang === 'fr' ? f.desc_fr : f.desc_ar;
     const card = document.createElement('div');
     card.className = 'fiche-card';
     card.innerHTML = `
       <div class="fiche-icon"><i class="fas ${f.icon}"></i></div>
-      <div class="fiche-tag">${niveauLabel} · ${trad[currentLang]['matiere.' + f.matiere]}</div>
-      <h3>${titre}</h3>
-      <div class="fiche-desc">${desc}</div>
-      <button class="btn-fiche">
-        <span>${trad[currentLang]['btn.consulter']}</span>
-        <i class="fas fa-arrow-right"></i>
-      </button>
+      <div class="fiche-tag">2ème Bac PC · ${f.matiere === 'physique' ? 'Physique' : 'Chimie'}</div>
+      <h3>${f.titre_fr}</h3>
+      <div class="fiche-desc">${f.desc_fr}</div>
+      <button class="btn-fiche"><span>Consulter</span><i class="fas fa-arrow-right"></i></button>
     `;
     card.querySelector('.btn-fiche').addEventListener('click', () => {
-      alert(currentLang === 'fr' ? 'Fiche bientôt disponible.' : 'البطاقة قريباً.');
+      alert('Fiche bientôt disponible.');
     });
     grid.appendChild(card);
   });
@@ -1682,15 +663,13 @@ function afficherFormules() {
   container.innerHTML = '';
   formules.forEach(cat => {
     const itemsFiltres = cat.items.filter(item => {
-      const nom = item.nom_fr;
-      return nom.toLowerCase().includes(search) || item.eq.toLowerCase().includes(search);
+      return item.nom_fr.toLowerCase().includes(search) || item.eq.toLowerCase().includes(search);
     });
     if (itemsFiltres.length === 0) return;
-    const catNom = currentLang === 'fr' ? cat.cat_fr : cat.cat_ar;
     const div = document.createElement('div');
     div.className = 'formule-cat';
     div.innerHTML = `
-      <h3><i class="fas fa-square-root-alt"></i> ${catNom}</h3>
+      <h3><i class="fas fa-square-root-alt"></i> ${cat.cat_fr}</h3>
       ${itemsFiltres.map(item => `
         <div class="formule-item">
           <div class="f-nom">${item.nom_fr}</div>
@@ -1702,10 +681,7 @@ function afficherFormules() {
   });
   if (window.renderMathInElement) {
     renderMathInElement(container, {
-      delimiters: [
-        { left: '$$', right: '$$', display: false },
-        { left: '$', right: '$', display: false }
-      ],
+      delimiters: [{ left: '$$', right: '$$', display: false }, { left: '$', right: '$', display: false }],
       throwOnError: false
     });
   }
