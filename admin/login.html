@@ -3,766 +3,130 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tableau de bord — DARRSSY Admin</title>
+<title>Connexion Admin — DARRSSY</title>
+<meta name="description" content="Espace administration DARRSSY.">
 <link rel="icon" type="image/png" href="../assets/logo-darrssy.png">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
-:root{--primary:#1e3a8a;--primary-light:#3b82f6;--accent:#f59e0b;--success:#10b981;--danger:#ef4444;--violet:#8b5cf6;--rose:#db2777;--dark:#0f172a;--gray:#64748b;--border:#e2e8f0;--light:#f8fafc;--white:#fff;--sidebar-bg:linear-gradient(180deg,#1e3a8a 0%,#0f172a 100%);--gradient:linear-gradient(135deg,#1e3a8a 0%,#3b82f6 50%,#06b6d4 100%);--gradient-accent:linear-gradient(135deg,#f59e0b 0%,#ef4444 100%);--gradient-violet:linear-gradient(135deg,#8b5cf6 0%,#06b6d4 100%);--shadow-sm:0 2px 10px rgba(30,58,138,.06);--shadow:0 10px 30px rgba(30,58,138,.15);--shadow-lg:0 20px 50px rgba(30,58,138,.25);--radius:16px;--radius-sm:12px;--transition:all .3s cubic-bezier(.4,0,.2,1)}
-*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
-body{font-family:'Poppins','Tajawal',sans-serif;background:var(--light);color:var(--dark);line-height:1.6;min-height:100vh}
-[dir="rtl"] body{font-family:'Tajawal','Poppins',sans-serif}a{text-decoration:none;color:inherit}
-.sidebar{position:fixed;top:0;left:0;width:270px;height:100vh;background:var(--sidebar-bg);padding:25px 15px;overflow-y:auto;z-index:100;transition:transform .3s;color:#fff}
-[dir="rtl"] .sidebar{left:auto;right:0}
-.sb-logo{display:flex;align-items:center;gap:12px;padding:0 12px 25px;border-bottom:1px solid rgba(255,255,255,.1);margin-bottom:20px}
-.sb-logo-img{position:relative;width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#06b6d4,#10b981);padding:2.5px;box-shadow:0 0 0 3px rgba(255,255,255,.15);flex-shrink:0}
-.sb-logo-img::before{content:'';position:absolute;inset:2.5px;border-radius:50%;background:#fff;z-index:0}
-.sb-logo-img img{position:relative;z-index:1;width:100%;height:100%;border-radius:50%;object-fit:cover}
-.sb-logo-texte{display:flex;flex-direction:column;line-height:1}
-.sb-logo-texte .titre{font-size:1.3rem;font-weight:900;letter-spacing:-.5px}
-.sb-logo-texte .arabe{font-size:.7rem;color:#94a3b8;font-family:'Tajawal',sans-serif;font-weight:700;margin-top:3px}
-.sb-nav{list-style:none}.sb-nav li{margin-bottom:4px}
-.sb-nav a{display:flex;align-items:center;gap:12px;padding:11px 14px;border-radius:10px;color:#cbd5e1;font-size:.9rem;font-weight:500;cursor:pointer;transition:var(--transition)}
-.sb-nav a:hover{background:rgba(255,255,255,.1);color:#fff}
-.sb-nav a.actif{background:linear-gradient(135deg,rgba(139,92,246,.4),rgba(6,182,212,.3));color:#fff;border-left:3px solid var(--violet)}
-[dir="rtl"] .sb-nav a.actif{border-left:none;border-right:3px solid var(--violet)}
-.sb-nav a i{width:20px;text-align:center;font-size:1rem}
-.sb-section-label{font-size:.68rem;font-weight:800;color:#64748b;text-transform:uppercase;letter-spacing:1.5px;padding:20px 14px 8px}
-.sb-footer{margin-top:25px;padding:15px;border-top:1px solid rgba(255,255,255,.1)}
-.sb-user{display:flex;align-items:center;gap:10px;margin-bottom:12px;font-size:.85rem}
-.sb-user .avatar{width:38px;height:38px;border-radius:50%;background:var(--gradient-violet);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:.9rem;flex-shrink:0}
-.sb-user .info{flex:1;overflow:hidden}
-.sb-user .info .name{font-weight:700;color:#fff;font-size:.88rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.sb-user .info .email{color:#94a3b8;font-size:.72rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.btn-deconnexion{width:100%;padding:11px;background:rgba(239,68,68,.15);border:1.5px solid rgba(239,68,68,.3);color:#fca5a5;border-radius:10px;font-family:inherit;font-size:.85rem;font-weight:700;cursor:pointer;transition:var(--transition);display:flex;align-items:center;justify-content:center;gap:8px}
-.btn-deconnexion:hover{background:var(--danger);color:#fff;border-color:var(--danger)}
-.main{margin-left:270px;padding:25px 30px;min-height:100vh}
-[dir="rtl"] .main{margin-left:0;margin-right:270px}
-.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:30px;flex-wrap:wrap;gap:15px}
-.topbar h1{font-size:1.7rem;font-weight:800;color:var(--primary)}
-.topbar .actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-.btn-action{display:inline-flex;align-items:center;gap:8px;padding:11px 20px;border-radius:10px;font-family:inherit;font-size:.88rem;font-weight:700;cursor:pointer;transition:var(--transition);border:none}
-.btn-action.primary{background:var(--gradient-violet);color:#fff;box-shadow:0 8px 20px rgba(139,92,246,.35)}
-.btn-action.primary:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(139,92,246,.5)}
-.btn-action.ghost{background:#fff;border:2px solid var(--border);color:var(--gray)}
-.btn-action.ghost:hover{border-color:var(--violet);color:var(--violet)}
-.panel{display:none}.panel.actif{display:block;animation:fadeIn .3s ease}
-@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:18px;margin-bottom:30px}
-.stat-card{background:#fff;border-radius:var(--radius);padding:22px;display:flex;align-items:center;gap:15px;box-shadow:var(--shadow-sm);transition:var(--transition);border:2px solid transparent}
-.stat-card:hover{transform:translateY(-4px);box-shadow:var(--shadow);border-color:rgba(139,92,246,.2)}
-.stat-icon{width:55px;height:55px;border-radius:14px;background:var(--gradient-violet);color:#fff;display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0}
-.stat-icon.blue{background:var(--gradient)}.stat-icon.orange{background:var(--gradient-accent)}.stat-icon.green{background:linear-gradient(135deg,#10b981,#06b6d4)}.stat-icon.rose{background:linear-gradient(135deg,#db2777,#8b5cf6)}
-.stat-info .nb{font-size:1.7rem;font-weight:800;color:var(--primary);line-height:1}
-.stat-info .lbl{font-size:.8rem;color:var(--gray);margin-top:4px;font-weight:500}
-.table-card{background:#fff;border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow-sm);margin-bottom:20px}
-.table-header{padding:20px 25px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
-.table-header h2{font-size:1.15rem;font-weight:800;color:var(--primary);display:flex;align-items:center;gap:10px}
-.table-header h2 i{color:var(--violet)}
-.table-scroll{overflow-x:auto}
-table{width:100%;border-collapse:collapse;min-width:700px}
-thead{background:var(--light)}
-th{padding:14px 16px;text-align:left;font-size:.75rem;font-weight:800;color:var(--primary);text-transform:uppercase;letter-spacing:.5px;border-bottom:2px solid var(--border)}
-[dir="rtl"] th{text-align:right}
-td{padding:14px 16px;font-size:.88rem;color:var(--gray);border-bottom:1px solid var(--border)}
-tbody tr{transition:var(--transition)}tbody tr:hover{background:rgba(139,92,246,.03)}tbody tr:last-child td{border-bottom:none}
-.badge{display:inline-block;padding:4px 10px;border-radius:50px;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px}
-.badge.vert{background:rgba(16,185,129,.1);color:var(--success);border:1px solid rgba(16,185,129,.3)}
-.badge.or{background:rgba(245,158,11,.1);color:var(--accent);border:1px solid rgba(245,158,11,.3)}
-.badge.rouge{background:rgba(239,68,68,.1);color:var(--danger);border:1px solid rgba(239,68,68,.3)}
-.badge.violet{background:rgba(139,92,246,.1);color:var(--violet);border:1px solid rgba(139,92,246,.3)}
-.badge.rose{background:rgba(219,39,119,.1);color:var(--rose);border:1px solid rgba(219,39,119,.3)}
-.btn-icon{width:34px;height:34px;border-radius:9px;border:1.5px solid;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;font-size:.82rem;transition:var(--transition);margin-right:4px;background:transparent}
-.btn-icon.edit{border-color:rgba(139,92,246,.4);color:var(--violet)}.btn-icon.edit:hover{background:var(--violet);color:#fff}
-.btn-icon.delete{border-color:rgba(239,68,68,.4);color:var(--danger)}.btn-icon.delete:hover{background:var(--danger);color:#fff}
-.btn-icon.eye{border-color:rgba(16,185,129,.4);color:var(--success)}.btn-icon.eye:hover{background:var(--success);color:#fff}
-.modal-overlay{position:fixed;inset:0;background:rgba(15,23,42,.75);backdrop-filter:blur(8px);z-index:5000;display:none;align-items:center;justify-content:center;padding:15px;overflow-y:auto}
-.modal-overlay.ouvert{display:flex}
-.modal-box{background:#fff;border-radius:var(--radius);width:100%;max-width:720px;max-height:92vh;overflow-y:auto;box-shadow:0 30px 80px rgba(0,0,0,.4);animation:slideUp .3s}
-@keyframes slideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-.modal-header{padding:20px 25px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;background:#fff;z-index:10;border-radius:var(--radius) var(--radius) 0 0}
-.modal-header h2{font-size:1.1rem;font-weight:800;color:var(--primary);display:flex;align-items:center;gap:10px}
-.modal-header h2 i{color:var(--violet)}
-.modal-close{background:rgba(239,68,68,.1);border:1.5px solid rgba(239,68,68,.3);color:var(--danger);width:38px;height:38px;border-radius:10px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:var(--transition)}
-.modal-close:hover{background:var(--danger);color:#fff}
-.modal-body{padding:25px}
-.form-group{margin-bottom:16px}
-.form-group label{display:block;font-size:.78rem;font-weight:700;color:var(--primary);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px}
-.form-group input,.form-group select,.form-group textarea{width:100%;padding:12px 15px;background:var(--light);border:2px solid var(--border);border-radius:10px;color:var(--dark);font-family:inherit;font-size:.92rem;transition:var(--transition)}
-.form-group input:focus,.form-group select:focus,.form-group textarea:focus{outline:none;border-color:var(--violet);background:#fff;box-shadow:0 0 0 3px rgba(139,92,246,.1)}
-.form-group textarea{resize:vertical;min-height:90px}
-.form-row{display:grid;grid-template-columns:1fr 1fr;gap:15px}
-@media (max-width:600px){.form-row{grid-template-columns:1fr}}
-.form-checkbox{display:flex;align-items:center;gap:10px;padding:12px 15px;background:var(--light);border:2px solid var(--border);border-radius:10px;cursor:pointer;font-size:.9rem;font-weight:600;color:var(--primary)}
-.form-checkbox input{width:auto;cursor:pointer}
-.form-actions{display:flex;justify-content:flex-end;gap:10px;padding-top:20px;border-top:1px solid var(--border);margin-top:20px}
-.btn-submit{padding:12px 24px;border-radius:10px;font-family:inherit;font-size:.9rem;font-weight:700;cursor:pointer;transition:var(--transition);border:none;background:var(--gradient-violet);color:#fff;display:inline-flex;align-items:center;gap:8px}
-.btn-submit:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(139,92,246,.4)}
-.btn-submit:disabled{opacity:.5;cursor:not-allowed}
-.btn-cancel{padding:12px 24px;border-radius:10px;font-family:inherit;font-size:.9rem;font-weight:600;cursor:pointer;background:transparent;border:2px solid var(--border);color:var(--gray);transition:var(--transition)}
-.btn-cancel:hover{border-color:var(--danger);color:var(--danger)}
-.file-upload{border:2px dashed var(--border);border-radius:12px;padding:25px;text-align:center;cursor:pointer;transition:var(--transition);background:var(--light)}
-.file-upload:hover{border-color:var(--violet);background:rgba(139,92,246,.03)}
-.file-upload.dragover{border-color:var(--violet);background:rgba(139,92,246,.08)}
-.file-upload i{font-size:2rem;color:var(--violet);margin-bottom:8px;display:block}
-.file-upload p{font-size:.88rem;color:var(--gray)}
-.file-upload .file-info{margin-top:8px;font-size:.82rem;color:var(--success);font-weight:700}
-.loading{text-align:center;padding:40px;color:var(--gray)}
-.loading i{font-size:2.2rem;color:var(--violet);animation:spin 1s linear infinite;display:block;margin-bottom:12px}
-@keyframes spin{to{transform:rotate(360deg)}}
-.empty{text-align:center;padding:50px 20px;color:var(--gray)}
-.empty i{font-size:3rem;color:var(--border);margin-bottom:12px;display:block}
-.empty h3{color:var(--primary);font-size:1.1rem;margin-bottom:6px}
-.stars{color:var(--accent);font-size:.9rem}.stars .vide{color:rgba(245,158,11,.25)}
-.btn-menu{display:none;background:rgba(139,92,246,.1);border:1.5px solid rgba(139,92,246,.3);color:var(--violet);width:42px;height:42px;border-radius:10px;cursor:pointer;font-size:1rem}
-.toast{position:fixed;bottom:25px;right:25px;background:var(--dark);color:#fff;padding:14px 22px;border-radius:10px;font-weight:600;font-size:.9rem;box-shadow:var(--shadow-lg);z-index:9999;opacity:0;transform:translateY(20px);transition:var(--transition);pointer-events:none}
-[dir="rtl"] .toast{right:auto;left:25px}
-.toast.show{opacity:1;transform:translateY(0)}.toast.success{background:var(--success)}.toast.error{background:var(--danger)}
-@media (max-width:900px){
-.sidebar{transform:translateX(-100%)}.sidebar.ouvert{transform:translateX(0)}
-[dir="rtl"] .sidebar{transform:translateX(100%)}[dir="rtl"] .sidebar.ouvert{transform:translateX(0)}
-.main{margin-left:0;padding:15px}[dir="rtl"] .main{margin-right:0}
-.btn-menu{display:flex;align-items:center;justify-content:center}
-.topbar h1{font-size:1.3rem}
-}
-@media (max-width:480px){.stats-grid{grid-template-columns:1fr}.topbar h1{font-size:1.1rem}}
+:root{--primary:#1e3a8a;--primary-light:#3b82f6;--accent:#f59e0b;--success:#10b981;--danger:#ef4444;--violet:#8b5cf6;--dark:#0f172a;--gray:#64748b;--border:#e2e8f0;--light:#f8fafc;--white:#fff;--gradient:linear-gradient(135deg,#1e3a8a 0%,#3b82f6 50%,#06b6d4 100%);--gradient-violet:linear-gradient(135deg,#8b5cf6 0%,#06b6d4 100%);--shadow-lg:0 30px 80px rgba(30,58,138,.25);--transition:all .3s cubic-bezier(.4,0,.2,1)}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Poppins','Tajawal',sans-serif;background:var(--gradient);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;position:relative;overflow:hidden}
+[dir="rtl"] body{font-family:'Tajawal','Poppins',sans-serif}
+body::before{content:'';position:fixed;top:-50%;right:-20%;width:800px;height:800px;background:radial-gradient(circle,rgba(245,158,11,.35) 0%,transparent 70%);border-radius:50%;animation:float 10s ease-in-out infinite;pointer-events:none}
+body::after{content:'';position:fixed;bottom:-40%;left:-15%;width:700px;height:700px;background:radial-gradient(circle,rgba(6,182,212,.4) 0%,transparent 70%);border-radius:50%;animation:float 12s ease-in-out infinite reverse;pointer-events:none}
+@keyframes float{0%,100%{transform:translate(0,0)}50%{transform:translate(40px,-40px)}}
+.login-container{position:relative;z-index:2;width:100%;max-width:450px}
+.login-box{background:#fff;border-radius:30px;padding:45px 40px;box-shadow:var(--shadow-lg);animation:slideIn .6s ease}
+@keyframes slideIn{from{opacity:0;transform:translateY(40px) scale(.95)}to{opacity:1;transform:translateY(0) scale(1)}}
+.login-logo{display:flex;flex-direction:column;align-items:center;gap:15px;margin-bottom:10px}
+.login-logo-wrap{position:relative;width:100px;height:100px;border-radius:50%;background:linear-gradient(135deg,#1e3a8a 0%,#06b6d4 50%,#10b981 100%);padding:4px;box-shadow:0 15px 40px rgba(6,182,212,.4)}
+.login-logo-wrap::before{content:'';position:absolute;inset:4px;border-radius:50%;background:#fff;z-index:0}
+.login-logo-wrap img{position:relative;z-index:1;width:100%;height:100%;border-radius:50%;object-fit:cover}
+.login-nom{font-size:1.8rem;font-weight:900;background:linear-gradient(135deg,#1e3a8a 0%,#06b6d4 50%,#10b981 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:-.5px;line-height:1}
+.login-arabe{font-size:.9rem;font-weight:700;color:var(--gray);font-family:'Tajawal',sans-serif;margin-top:3px}
+.login-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(139,92,246,.1);border:1.5px solid rgba(139,92,246,.3);color:var(--violet);padding:6px 16px;border-radius:50px;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;margin-top:15px}
+.login-titre{text-align:center;color:var(--gray);font-size:.95rem;margin-bottom:30px;margin-top:15px}
+.form-group{margin-bottom:20px}
+.form-group label{display:flex;align-items:center;gap:8px;font-size:.78rem;font-weight:700;color:var(--primary);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px}
+.form-group label i{color:var(--violet)}
+.form-group input{width:100%;padding:15px 20px;background:var(--light);border:2px solid var(--border);border-radius:14px;color:var(--dark);font-family:inherit;font-size:1rem;transition:var(--transition)}
+.form-group input:focus{outline:none;border-color:var(--violet);background:#fff;box-shadow:0 0 0 4px rgba(139,92,246,.1)}
+.form-group input::placeholder{color:#cbd5e1}
+.btn-login{width:100%;padding:17px;background:var(--gradient-violet);color:#fff;border:none;border-radius:14px;font-family:inherit;font-size:1rem;font-weight:700;cursor:pointer;transition:var(--transition);display:flex;align-items:center;justify-content:center;gap:10px;margin-top:10px;box-shadow:0 10px 30px rgba(139,92,246,.35)}
+.btn-login:hover:not(:disabled){transform:translateY(-3px);box-shadow:0 15px 40px rgba(139,92,246,.5)}
+.btn-login:disabled{opacity:.6;cursor:not-allowed}
+.message{padding:15px 18px;border-radius:12px;font-size:.9rem;font-weight:600;margin-top:20px;display:none;align-items:center;gap:10px}
+.message.erreur{display:flex;background:rgba(239,68,68,.1);border:1.5px solid rgba(239,68,68,.3);color:var(--danger)}
+.message.succes{display:flex;background:rgba(16,185,129,.1);border:1.5px solid rgba(16,185,129,.3);color:var(--success)}
+.retour-lien{text-align:center;margin-top:25px;padding-top:25px;border-top:1px solid var(--border);font-size:.9rem;color:var(--gray)}
+.retour-lien a{color:var(--violet);font-weight:700;display:inline-flex;align-items:center;gap:6px;transition:var(--transition)}
+.retour-lien a:hover{color:var(--primary)}
+@media (max-width:480px){.login-box{padding:35px 25px;border-radius:25px}.login-logo-wrap{width:85px;height:85px}.login-nom{font-size:1.5rem}}
 </style>
 </head>
 <body>
 
-<aside class="sidebar" id="sidebar">
-  <div class="sb-logo">
-    <div class="sb-logo-img"><img src="../assets/logo-darrssy.png" alt="DARRSSY"></div>
-    <div class="sb-logo-texte">
-      <div class="titre">DARRSSY</div>
-      <div class="arabe">دَرْسِي</div>
-    </div>
-  </div>
-  <ul class="sb-nav">
-    <li><a data-panel="overview" class="actif"><i class="fas fa-chart-line"></i> Vue d'ensemble</a></li>
-    <li class="sb-section-label">Contenu</li>
-    <li><a data-panel="cours"><i class="fas fa-book"></i> Cours</a></li>
-    <li><a data-panel="ressources"><i class="fas fa-file-pdf"></i> Ressources PDF</a></li>
-    <li><a data-panel="examens"><i class="fas fa-file-signature"></i> Examens</a></li>
-    <li><a data-panel="exercices"><i class="fas fa-pencil-alt"></i> Exercices</a></li>
-    <li><a data-panel="simulations"><i class="fas fa-flask"></i> Simulations</a></li>
-    <li class="sb-section-label">Site</li>
-    <li><a data-panel="stats"><i class="fas fa-chart-bar"></i> Statistiques</a></li>
-    <li><a data-panel="temoignages"><i class="fas fa-comment"></i> Témoignages</a></li>
-    <li class="sb-section-label">Système</li>
-    <li><a href="../index.html" target="_blank"><i class="fas fa-external-link-alt"></i> Voir le site</a></li>
-  </ul>
-  <div class="sb-footer">
-    <div class="sb-user">
-      <div class="avatar" id="userAvatar">A</div>
-      <div class="info">
-        <div class="name" id="userName">Admin</div>
-        <div class="email" id="userEmail">—</div>
+<div class="login-container">
+  <div class="login-box">
+    <div class="login-logo">
+      <div class="login-logo-wrap">
+        <img src="../assets/logo-darrssy.png" alt="DARRSSY">
       </div>
-    </div>
-    <button class="btn-deconnexion" id="btnDeconnexion"><i class="fas fa-sign-out-alt"></i> Déconnexion</button>
-  </div>
-</aside>
-
-<main class="main">
-  <div class="topbar">
-    <div style="display:flex;align-items:center;gap:15px;">
-      <button class="btn-menu" id="btnMenu"><i class="fas fa-bars"></i></button>
-      <h1 id="pageTitle">Vue d'ensemble</h1>
-    </div>
-    <div class="actions">
-      <button class="btn-action ghost" id="btnRafraichir"><i class="fas fa-sync-alt"></i> Rafraîchir</button>
-    </div>
-  </div>
-
-  <section class="panel actif" id="panel-overview">
-    <div class="stats-grid">
-      <div class="stat-card"><div class="stat-icon blue"><i class="fas fa-book"></i></div><div class="stat-info"><div class="nb" id="nbCours">—</div><div class="lbl">Cours</div></div></div>
-      <div class="stat-card"><div class="stat-icon orange"><i class="fas fa-file-pdf"></i></div><div class="stat-info"><div class="nb" id="nbRessources">—</div><div class="lbl">Ressources</div></div></div>
-      <div class="stat-card"><div class="stat-icon rose"><i class="fas fa-file-signature"></i></div><div class="stat-info"><div class="nb" id="nbExamens">—</div><div class="lbl">Examens</div></div></div>
-      <div class="stat-card"><div class="stat-icon green"><i class="fas fa-pencil-alt"></i></div><div class="stat-info"><div class="nb" id="nbExercices">—</div><div class="lbl">Exercices</div></div></div>
-      <div class="stat-card"><div class="stat-icon"><i class="fas fa-flask"></i></div><div class="stat-info"><div class="nb" id="nbSimulations">—</div><div class="lbl">Simulations</div></div></div>
-    </div>
-    <div class="table-card">
-      <div class="table-header"><h2><i class="fas fa-clock"></i> Dernières ressources</h2></div>
-      <div id="apercuRecent"><div class="loading"><i class="fas fa-spinner"></i><p>Chargement...</p></div></div>
-    </div>
-  </section>
-
-  <section class="panel" id="panel-cours">
-    <div class="table-card">
-      <div class="table-header">
-        <h2><i class="fas fa-book"></i> Gestion des cours</h2>
-        <button class="btn-action primary" onclick="ouvrirModalCours()"><i class="fas fa-plus"></i> Ajouter un cours</button>
+      <div style="text-align:center;">
+        <div class="login-nom">DARRSSY</div>
+        <div class="login-arabe">دَرْسِي</div>
       </div>
-      <div id="listeCours"><div class="loading"><i class="fas fa-spinner"></i><p>Chargement...</p></div></div>
+      <div class="login-badge"><i class="fas fa-lock"></i> Administration</div>
     </div>
-  </section>
-
-  <section class="panel" id="panel-ressources">
-    <div class="table-card">
-      <div class="table-header">
-        <h2><i class="fas fa-file-pdf"></i> Gestion des ressources</h2>
-        <button class="btn-action primary" onclick="ouvrirModalRessource()"><i class="fas fa-upload"></i> Ajouter</button>
+    <p class="login-titre">Connectez-vous pour accéder au tableau de bord</p>
+    <form id="loginForm">
+      <div class="form-group">
+        <label><i class="fas fa-envelope"></i> Adresse email</label>
+        <input type="email" id="email" placeholder="vous@example.com" required autocomplete="email">
       </div>
-      <div id="listeRessources"><div class="loading"><i class="fas fa-spinner"></i><p>Chargement...</p></div></div>
-    </div>
-  </section>
-
-  <section class="panel" id="panel-examens">
-    <div class="table-card">
-      <div class="table-header">
-        <h2><i class="fas fa-file-signature"></i> Gestion des examens</h2>
-        <button class="btn-action primary" onclick="ouvrirModalExamen()"><i class="fas fa-plus"></i> Ajouter</button>
+      <div class="form-group">
+        <label><i class="fas fa-key"></i> Mot de passe</label>
+        <input type="password" id="password" placeholder="••••••••" required autocomplete="current-password">
       </div>
-      <div id="listeExamens"><div class="loading"><i class="fas fa-spinner"></i><p>Chargement...</p></div></div>
+      <button type="submit" class="btn-login" id="btnLogin">
+        <i class="fas fa-sign-in-alt"></i> <span>Se connecter</span>
+      </button>
+      <div class="message" id="message"></div>
+    </form>
+    <div class="retour-lien">
+      <a href="../index.html"><i class="fas fa-arrow-left"></i> <span>Retour au site</span></a>
     </div>
-  </section>
-
-  <section class="panel" id="panel-exercices">
-    <div class="table-card">
-      <div class="table-header">
-        <h2><i class="fas fa-pencil-alt"></i> Gestion des exercices</h2>
-        <button class="btn-action primary" onclick="ouvrirModalExercice()"><i class="fas fa-plus"></i> Ajouter</button>
-      </div>
-      <div id="listeExercices"><div class="loading"><i class="fas fa-spinner"></i><p>Chargement...</p></div></div>
-    </div>
-  </section>
-
-  <section class="panel" id="panel-simulations">
-    <div class="table-card">
-      <div class="table-header">
-        <h2><i class="fas fa-flask"></i> Gestion des simulations</h2>
-        <button class="btn-action primary" onclick="ouvrirModalSimulation()"><i class="fas fa-plus"></i> Ajouter</button>
-      </div>
-      <div id="listeSimulations"><div class="loading"><i class="fas fa-spinner"></i><p>Chargement...</p></div></div>
-    </div>
-  </section>
-
-  <section class="panel" id="panel-stats">
-    <div class="table-card">
-      <div class="table-header"><h2><i class="fas fa-chart-bar"></i> Statistiques accueil</h2></div>
-      <div id="listeStats"><div class="loading"><i class="fas fa-spinner"></i><p>Chargement...</p></div></div>
-    </div>
-  </section>
-
-  <section class="panel" id="panel-temoignages">
-    <div class="table-card">
-      <div class="table-header">
-        <h2><i class="fas fa-comment"></i> Gestion des témoignages</h2>
-        <button class="btn-action primary" onclick="ouvrirModalTemoignage()"><i class="fas fa-plus"></i> Ajouter</button>
-      </div>
-      <div id="listeTemoignages"><div class="loading"><i class="fas fa-spinner"></i><p>Chargement...</p></div></div>
-    </div>
-  </section>
-</main>
-
-<div class="modal-overlay" id="modalOverlay">
-  <div class="modal-box">
-    <div class="modal-header">
-      <h2 id="modalTitle"><i class="fas fa-edit"></i> Formulaire</h2>
-      <button class="modal-close" onclick="fermerModal()"><i class="fas fa-times"></i></button>
-    </div>
-    <div class="modal-body" id="modalBody"></div>
   </div>
 </div>
-
-<div class="toast" id="toast"></div>
 
 <!-- ✅ SCRIPT CONFIG - CHEMIN CORRECT -->
 <script src="darrssy-config.js"></script>
 
 <script>
-let currentUser=null;let currentPanel='overview';
+const form = document.getElementById('loginForm');
+const btn = document.getElementById('btnLogin');
+const msg = document.getElementById('message');
 
-document.addEventListener('DOMContentLoaded',async()=>{
-  try{
-    if(typeof protegerPage!=='function')throw new Error('protegerPage non définie - vérifiez darrssy-config.js');
-    const session=await protegerPage();
-    if(!session)return;
-    currentUser=session.user;
-    const email=currentUser.email||'';
-    document.getElementById('userName').textContent=email.split('@')[0]||'Admin';
-    document.getElementById('userEmail').textContent=email;
-    document.getElementById('userAvatar').textContent=(email[0]||'A').toUpperCase();
-    bindEvents();
-    chargerOverview();
-  }catch(err){
-    afficherMessage('Erreur : '+err.message,'erreur');
-    setTimeout(()=>{window.location.href='login.html';},3000);
+(async () => {
+  try {
+    if (typeof verifierAuth === 'function') {
+      const session = await verifierAuth();
+      if (session) window.location.href = 'dashboard.html';
+    }
+  } catch (e) { console.log('Non connecté'); }
+})();
+
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i><span>Connexion...</span>';
+  msg.className = 'message';
+
+  try {
+    if (typeof initSupabase !== 'function') {
+      throw new Error('Fichier darrssy-config.js non chargé. Vérifiez le chemin.');
+    }
+    const sb = await initSupabase();
+    const email = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value;
+
+    const { data, error } = await sb.auth.signInWithPassword({ email, password });
+    if (error) throw error;
+
+    msg.className = 'message succes';
+    msg.innerHTML = '<i class="fas fa-check-circle"></i><span>Connexion réussie !</span>';
+    setTimeout(() => { window.location.href = 'dashboard.html'; }, 800);
+  } catch (error) {
+    msg.className = 'message erreur';
+    let texte = error.message;
+    if (texte.includes('Invalid login credentials')) texte = 'Email ou mot de passe incorrect.';
+    else if (texte.includes('Email not confirmed')) texte = 'Email non confirmé. Vérifiez votre boîte mail.';
+    msg.innerHTML = '<i class="fas fa-exclamation-circle"></i><span>' + texte + '</span>';
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fas fa-sign-in-alt"></i><span>Se connecter</span>';
   }
 });
-
-function bindEvents(){
-  document.querySelectorAll('.sb-nav a[data-panel]').forEach(a=>{
-    a.addEventListener('click',()=>{
-      const panel=a.getAttribute('data-panel');
-      changerPanel(panel);
-      document.querySelectorAll('.sb-nav a').forEach(x=>x.classList.remove('actif'));
-      a.classList.add('actif');
-      document.getElementById('sidebar').classList.remove('ouvert');
-    });
-  });
-  document.getElementById('btnDeconnexion').addEventListener('click',async()=>{
-    if(confirm('Se déconnecter ?'))await deconnexion();
-  });
-  document.getElementById('btnRafraichir').addEventListener('click',()=>{
-    chargerPanel(currentPanel);
-    afficherMessage('Données rafraîchies','succes');
-  });
-  document.getElementById('btnMenu').addEventListener('click',()=>{
-    document.getElementById('sidebar').classList.toggle('ouvert');
-  });
-  document.getElementById('modalOverlay').addEventListener('click',(e)=>{
-    if(e.target.id==='modalOverlay')fermerModal();
-  });
-  document.addEventListener('keydown',(e)=>{if(e.key==='Escape')fermerModal();});
-}
-
-const titresPanel={overview:"Vue d'ensemble",cours:'Gestion des cours',ressources:'Ressources PDF',examens:'Gestion des examens',exercices:'Gestion des exercices',simulations:'Simulations',stats:'Statistiques',temoignages:'Témoignages'};
-
-function changerPanel(panel){
-  currentPanel=panel;
-  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('actif'));
-  document.getElementById('panel-'+panel).classList.add('actif');
-  document.getElementById('pageTitle').textContent=titresPanel[panel]||panel;
-  chargerPanel(panel);
-}
-
-function chargerPanel(panel){
-  switch(panel){
-    case 'overview':chargerOverview();break;
-    case 'cours':chargerCours();break;
-    case 'ressources':chargerRessources();break;
-    case 'examens':chargerExamens();break;
-    case 'exercices':chargerExercices();break;
-    case 'simulations':chargerSimulations();break;
-    case 'stats':chargerStats();break;
-    case 'temoignages':chargerTemoignages();break;
-  }
-}
-
-async function chargerOverview(){
-  try{
-    const[c,r,e,ex,s]=await Promise.all([lireTable('cours'),lireTable('ressources'),lireTable('examens'),lireTable('exercices'),lireTable('simulations')]);
-    document.getElementById('nbCours').textContent=c.length;
-    document.getElementById('nbRessources').textContent=r.length;
-    document.getElementById('nbExamens').textContent=e.length;
-    document.getElementById('nbExercices').textContent=ex.length;
-    document.getElementById('nbSimulations').textContent=s.length;
-    const recent=r.slice(0,5);
-    const container=document.getElementById('apercuRecent');
-    if(recent.length===0){
-      container.innerHTML='<div class="empty"><i class="fas fa-inbox"></i><h3>Aucune ressource</h3><p>Ajoutez votre première ressource PDF.</p></div>';
-    }else{
-      container.innerHTML=`<div class="table-scroll"><table><thead><tr><th>Titre</th><th>Type</th><th>Date</th></tr></thead><tbody>${recent.map(x=>`<tr><td><strong style="color:#1e3a8a">${x.titre_fr||'—'}</strong></td><td><span class="badge violet">${x.type||'—'}</span></td><td>${formaterDate(x.created_at)}</td></tr>`).join('')}</tbody></table></div>`;
-    }
-  }catch(err){afficherMessage('Erreur : '+err.message,'erreur');}
-}
-
-async function chargerCours(){
-  const container=document.getElementById('listeCours');
-  try{
-    const data=await lireTable('cours',{ordre:{col:'created_at',asc:false}});
-    if(data.length===0){container.innerHTML='<div class="empty"><i class="fas fa-inbox"></i><h3>Aucun cours</h3><p>Ajoutez votre premier cours.</p></div>';return;}
-    container.innerHTML=`<div class="table-scroll"><table><thead><tr><th>Titre</th><th>Niveau</th><th>Matière</th><th>Statut</th><th>Publié</th><th>Actions</th></tr></thead><tbody>${data.map(c=>`<tr><td><strong style="color:#1e3a8a">${c.titre_fr}</strong></td><td><span class="badge violet">${c.niveau}</span></td><td>${c.matiere}</td><td><span class="badge ${c.statut==='gratuit'?'vert':'or'}">${c.statut}</span></td><td><span class="badge ${c.publie?'vert':'rouge'}">${c.publie?'Oui':'Non'}</span></td><td><button class="btn-icon edit" onclick='editerCours(${JSON.stringify(c).replace(/'/g,"&#39;")})'><i class="fas fa-edit"></i></button><button class="btn-icon delete" onclick="supprimerCours('${c.id}')"><i class="fas fa-trash"></i></button></td></tr>`).join('')}</tbody></table></div>`;
-  }catch(err){container.innerHTML=`<div class="empty"><i class="fas fa-exclamation-triangle"></i><h3>Erreur</h3><p>${err.message}</p></div>`;}
-}
-
-async function chargerRessources(){
-  const container=document.getElementById('listeRessources');
-  try{
-    const data=await lireTable('ressources',{ordre:{col:'created_at',asc:false}});
-    if(data.length===0){container.innerHTML='<div class="empty"><i class="fas fa-inbox"></i><h3>Aucune ressource</h3></div>';return;}
-    container.innerHTML=`<div class="table-scroll"><table><thead><tr><th>Titre</th><th>Type</th><th>Taille</th><th>Publié</th><th>Actions</th></tr></thead><tbody>${data.map(r=>`<tr><td><strong style="color:#1e3a8a">${r.titre_fr}</strong></td><td><span class="badge violet">${r.type}</span></td><td>${r.taille||'—'}</td><td><span class="badge ${r.publie?'vert':'rouge'}">${r.publie?'Oui':'Non'}</span></td><td>${r.fichier_url?`<a class="btn-icon eye" href="${r.fichier_url}" target="_blank"><i class="fas fa-eye"></i></a>`:''}<button class="btn-icon delete" onclick="supprimerRessource('${r.id}','${r.fichier_url||''}')"><i class="fas fa-trash"></i></button></td></tr>`).join('')}</tbody></table></div>`;
-  }catch(err){container.innerHTML=`<div class="empty"><i class="fas fa-exclamation-triangle"></i><h3>Erreur</h3><p>${err.message}</p></div>`;}
-}
-
-async function chargerExamens(){
-  const container=document.getElementById('listeExamens');
-  try{
-    const data=await lireTable('examens',{ordre:{col:'annee',asc:false}});
-    if(data.length===0){container.innerHTML='<div class="empty"><i class="fas fa-inbox"></i><h3>Aucun examen</h3></div>';return;}
-    container.innerHTML=`<div class="table-scroll"><table><thead><tr><th>Titre</th><th>Niveau</th><th>Type</th><th>Année</th><th>Sujet</th><th>Corrigé</th><th>Publié</th><th>Actions</th></tr></thead><tbody>${data.map(e=>`<tr><td><strong style="color:#1e3a8a">${e.titre_fr}</strong></td><td><span class="badge violet">${e.niveau}</span></td><td><span class="badge rose">${e.type}</span></td><td>${e.annee}</td><td>${e.fichier_url?'✅':'❌'}</td><td>${e.fichier_corrige_url?'✅':'❌'}</td><td><span class="badge ${e.publie?'vert':'rouge'}">${e.publie?'Oui':'Non'}</span></td><td><button class="btn-icon edit" onclick='editerExamen(${JSON.stringify(e).replace(/'/g,"&#39;")})'><i class="fas fa-edit"></i></button><button class="btn-icon delete" onclick="supprimerExamen('${e.id}')"><i class="fas fa-trash"></i></button></td></tr>`).join('')}</tbody></table></div>`;
-  }catch(err){container.innerHTML=`<div class="empty"><i class="fas fa-exclamation-triangle"></i><h3>Erreur</h3><p>${err.message}</p></div>`;}
-}
-
-async function chargerExercices(){
-  const container=document.getElementById('listeExercices');
-  try{
-    const data=await lireTable('exercices',{ordre:{col:'created_at',asc:false}});
-    if(data.length===0){container.innerHTML='<div class="empty"><i class="fas fa-inbox"></i><h3>Aucun exercice</h3></div>';return;}
-    container.innerHTML=`<div class="table-scroll"><table><thead><tr><th>Titre</th><th>Niveau</th><th>Matière</th><th>Difficulté</th><th>Énoncé</th><th>Corrigé</th><th>Publié</th><th>Actions</th></tr></thead><tbody>${data.map(ex=>{const etoiles=[1,2,3].map(i=>`<span class="${i<=(ex.difficulte||1)?'':'vide'}">★</span>`).join('');return `<tr><td><strong style="color:#1e3a8a">${ex.titre_fr}</strong></td><td><span class="badge violet">${ex.niveau}</span></td><td>${ex.matiere}</td><td><span class="stars">${etoiles}</span></td><td>${ex.fichier_url?'✅':'❌'}</td><td>${ex.fichier_corrige_url?'✅':'❌'}</td><td><span class="badge ${ex.publie?'vert':'rouge'}">${ex.publie?'Oui':'Non'}</span></td><td><button class="btn-icon edit" onclick='editerExercice(${JSON.stringify(ex).replace(/'/g,"&#39;")})'><i class="fas fa-edit"></i></button><button class="btn-icon delete" onclick="supprimerExercice('${ex.id}')"><i class="fas fa-trash"></i></button></td></tr>`;}).join('')}</tbody></table></div>`;
-  }catch(err){container.innerHTML=`<div class="empty"><i class="fas fa-exclamation-triangle"></i><h3>Erreur</h3><p>${err.message}</p></div>`;}
-}
-
-async function chargerSimulations(){
-  const container=document.getElementById('listeSimulations');
-  try{
-    const data=await lireTable('simulations',{ordre:{col:'ordre',asc:true}});
-    if(data.length===0){container.innerHTML='<div class="empty"><i class="fas fa-inbox"></i><h3>Aucune simulation</h3></div>';return;}
-    container.innerHTML=`<div class="table-scroll"><table><thead><tr><th>Titre</th><th>Catégorie</th><th>Publié</th><th>Actions</th></tr></thead><tbody>${data.map(s=>`<tr><td><strong style="color:#1e3a8a">${s.titre_fr}</strong></td><td><span class="badge violet">${s.categorie}</span></td><td><span class="badge ${s.publie?'vert':'rouge'}">${s.publie?'Oui':'Non'}</span></td><td><button class="btn-icon edit" onclick='editerSimulation(${JSON.stringify(s).replace(/'/g,"&#39;")})'><i class="fas fa-edit"></i></button><button class="btn-icon delete" onclick="supprimerSimulation('${s.id}')"><i class="fas fa-trash"></i></button></td></tr>`).join('')}</tbody></table></div>`;
-  }catch(err){container.innerHTML=`<div class="empty"><i class="fas fa-exclamation-triangle"></i><h3>Erreur</h3><p>${err.message}</p></div>`;}
-}
-
-async function chargerStats(){
-  const container=document.getElementById('listeStats');
-  try{
-    const data=await lireTable('stats',{ordre:{col:'ordre',asc:true}});
-    if(data.length===0){container.innerHTML='<div class="empty"><i class="fas fa-inbox"></i><h3>Aucune statistique</h3></div>';return;}
-    container.innerHTML=`<div class="table-scroll"><table><thead><tr><th>Clé</th><th>Valeur</th><th>Libellé FR</th><th>Libellé AR</th><th>Actions</th></tr></thead><tbody>${data.map(s=>`<tr><td><span class="badge violet">${s.cle}</span></td><td><strong style="color:#1e3a8a">${s.valeur}</strong></td><td>${s.libelle_fr}</td><td>${s.libelle_ar}</td><td><button class="btn-icon edit" onclick='editerStat(${JSON.stringify(s).replace(/'/g,"&#39;")})'><i class="fas fa-edit"></i></button></td></tr>`).join('')}</tbody></table></div>`;
-  }catch(err){container.innerHTML=`<div class="empty"><i class="fas fa-exclamation-triangle"></i><h3>Erreur</h3><p>${err.message}</p></div>`;}
-}
-
-async function chargerTemoignages(){
-  const container=document.getElementById('listeTemoignages');
-  try{
-    const data=await lireTable('temoignages',{ordre:{col:'ordre',asc:true}});
-    if(data.length===0){container.innerHTML='<div class="empty"><i class="fas fa-inbox"></i><h3>Aucun témoignage</h3></div>';return;}
-    container.innerHTML=`<div class="table-scroll"><table><thead><tr><th>Prénom</th><th>Niveau</th><th>Commentaire</th><th>Publié</th><th>Actions</th></tr></thead><tbody>${data.map(t=>`<tr><td><strong style="color:#1e3a8a">${t.prenom}</strong></td><td>${t.niveau_fr||'—'}</td><td>${(t.commentaire_fr||'').substring(0,50)}...</td><td><span class="badge ${t.publie?'vert':'rouge'}">${t.publie?'Oui':'Non'}</span></td><td><button class="btn-icon edit" onclick='editerTemoignage(${JSON.stringify(t).replace(/'/g,"&#39;")})'><i class="fas fa-edit"></i></button><button class="btn-icon delete" onclick="supprimerTemoignage('${t.id}')"><i class="fas fa-trash"></i></button></td></tr>`).join('')}</tbody></table></div>`;
-  }catch(err){container.innerHTML=`<div class="empty"><i class="fas fa-exclamation-triangle"></i><h3>Erreur</h3><p>${err.message}</p></div>`;}
-}
-
-function ouvrirModal(titre,contenu){
-  document.getElementById('modalTitle').innerHTML='<i class="fas fa-edit"></i> '+titre;
-  document.getElementById('modalBody').innerHTML=contenu;
-  document.getElementById('modalOverlay').classList.add('ouvert');
-}
-function fermerModal(){document.getElementById('modalOverlay').classList.remove('ouvert');}
-
-/* ===== COURS ===== */
-function ouvrirModalCours(data=null){
-  const d=data||{};const editing=!!data;
-  const contenu=`
-    <div class="form-row">
-      <div class="form-group"><label>Titre (FR)</label><input type="text" id="c_titre_fr" value="${d.titre_fr||''}"></div>
-      <div class="form-group"><label>Titre (AR)</label><input type="text" id="c_titre_ar" value="${d.titre_ar||''}"></div>
-    </div>
-    <div class="form-row">
-      <div class="form-group"><label>Niveau</label><select id="c_niveau">
-        <option value="tronc" ${d.niveau==='tronc'?'selected':''}>Tronc Commun</option>
-        <option value="1bac" ${d.niveau==='1bac'?'selected':''}>1ère Bac</option>
-        <option value="2bacpc" ${d.niveau==='2bacpc'?'selected':''}>2ème Bac PC</option>
-        <option value="2bacsvt" ${d.niveau==='2bacsvt'?'selected':''}>2ème Bac SVT</option>
-      </select></div>
-      <div class="form-group"><label>Matière</label><select id="c_matiere">
-        <option value="physique" ${d.matiere==='physique'?'selected':''}>Physique</option>
-        <option value="chimie" ${d.matiere==='chimie'?'selected':''}>Chimie</option>
-      </select></div>
-    </div>
-    <div class="form-row">
-      <div class="form-group"><label>Chapitre (FR)</label><input type="text" id="c_chapitre_fr" value="${d.chapitre_fr||''}"></div>
-      <div class="form-group"><label>Chapitre (AR)</label><input type="text" id="c_chapitre_ar" value="${d.chapitre_ar||''}"></div>
-    </div>
-    <div class="form-group"><label>Description (FR)</label><textarea id="c_desc_fr">${d.description_fr||''}</textarea></div>
-    <div class="form-group"><label>Description (AR)</label><textarea id="c_desc_ar">${d.description_ar||''}</textarea></div>
-    <div class="form-row">
-      <div class="form-group"><label>Icône FontAwesome</label><input type="text" id="c_icone" value="${d.icone||'fa-book'}" placeholder="fa-book"></div>
-      <div class="form-group"><label>Statut</label><select id="c_statut">
-        <option value="gratuit" ${d.statut==='gratuit'?'selected':''}>Gratuit</option>
-        <option value="premium" ${d.statut==='premium'?'selected':''}>Premium</option>
-      </select></div>
-    </div>
-    <label class="form-checkbox"><input type="checkbox" id="c_publie" ${d.publie!==false?'checked':''}> Publier ce cours</label>
-    <div class="form-actions">
-      <button class="btn-cancel" onclick="fermerModal()">Annuler</button>
-      <button class="btn-submit" onclick="sauvegarderCours(${editing?`'${d.id}'`:'null'})"><i class="fas fa-save"></i> Enregistrer</button>
-    </div>`;
-  ouvrirModal(editing?'Modifier le cours':'Ajouter un cours',contenu);
-}
-
-async function sauvegarderCours(id){
-  const data={titre_fr:document.getElementById('c_titre_fr').value,titre_ar:document.getElementById('c_titre_ar').value,niveau:document.getElementById('c_niveau').value,matiere:document.getElementById('c_matiere').value,chapitre_fr:document.getElementById('c_chapitre_fr').value,chapitre_ar:document.getElementById('c_chapitre_ar').value,description_fr:document.getElementById('c_desc_fr').value,description_ar:document.getElementById('c_desc_ar').value,icone:document.getElementById('c_icone').value,statut:document.getElementById('c_statut').value,publie:document.getElementById('c_publie').checked};
-  try{if(id)await modifierLigne('cours',id,data);else await insererLigne('cours',data);afficherMessage('Cours enregistré !','succes');fermerModal();chargerCours();}catch(err){afficherMessage('Erreur : '+err.message,'erreur');}
-}
-function editerCours(c){ouvrirModalCours(c);}
-async function supprimerCours(id){if(!confirm('Supprimer ce cours ?'))return;try{await supprimerLigne('cours',id);afficherMessage('Cours supprimé','succes');chargerCours();}catch(err){afficherMessage('Erreur : '+err.message,'erreur');}}
-
-/* ===== RESSOURCES ===== */
-async function ouvrirModalRessource(){
-  let coursListe=[];
-  try{coursListe=await lireTable('cours',{filtres:{publie:true},ordre:{col:'created_at',asc:false}});}catch(err){console.error(err);}
-  const optionsCours=coursListe.map(c=>`<option value="${c.id}">${c.titre_fr}</option>`).join('');
-  const contenu=`
-    <div class="form-group"><label>Fichier PDF</label>
-      <div class="file-upload" id="fileUpload"><i class="fas fa-cloud-upload-alt"></i><p>Cliquez ou glissez-déposez votre PDF</p><input type="file" id="fileInput" accept="application/pdf" hidden><div class="file-info" id="fileInfo"></div></div>
-    </div>
-    <div class="form-row">
-      <div class="form-group"><label>Titre (FR)</label><input type="text" id="r_titre_fr"></div>
-      <div class="form-group"><label>Titre (AR)</label><input type="text" id="r_titre_ar"></div>
-    </div>
-    <div class="form-row">
-      <div class="form-group"><label>Type</label><select id="r_type">
-        <option value="cours">Cours</option><option value="exercice">Exercice</option><option value="corrige">Corrigé</option><option value="examen">Examen</option><option value="fiche">Fiche</option>
-      </select></div>
-      <div class="form-group"><label>Taille</label><input type="text" id="r_taille" placeholder="ex: 2.4 Mo"></div>
-    </div>
-    <div class="form-group"><label>Cours associé (optionnel)</label><select id="r_cours_id"><option value="">— Aucun —</option>${optionsCours}</select></div>
-    <label class="form-checkbox"><input type="checkbox" id="r_publie" checked> Publier</label>
-    <div class="form-actions">
-      <button class="btn-cancel" onclick="fermerModal()">Annuler</button>
-      <button class="btn-submit" id="btnSaveRessource"><i class="fas fa-upload"></i> Uploader</button>
-    </div>`;
-  ouvrirModal('Ajouter une ressource',contenu);
-  const fu=document.getElementById('fileUpload');const fi=document.getElementById('fileInput');const finfo=document.getElementById('fileInfo');let fichier=null;
-  fu.addEventListener('click',()=>fi.click());
-  fu.addEventListener('dragover',e=>{e.preventDefault();fu.classList.add('dragover');});
-  fu.addEventListener('dragleave',()=>fu.classList.remove('dragover'));
-  fu.addEventListener('drop',e=>{e.preventDefault();fu.classList.remove('dragover');if(e.dataTransfer.files.length){fichier=e.dataTransfer.files[0];finfo.textContent=fichier.name;}});
-  fi.addEventListener('change',e=>{if(e.target.files.length){fichier=e.target.files[0];finfo.textContent=fichier.name;}});
-  document.getElementById('btnSaveRessource').addEventListener('click',async()=>{
-    const titre_fr=document.getElementById('r_titre_fr').value;const titre_ar=document.getElementById('r_titre_ar').value;const type=document.getElementById('r_type').value;const taille=document.getElementById('r_taille').value;const publie=document.getElementById('r_publie').checked;const cours_id=document.getElementById('r_cours_id').value||null;
-    if(!titre_fr){afficherMessage('Le titre FR est obligatoire','erreur');return;}
-    if(!fichier){afficherMessage('Sélectionnez un PDF','erreur');return;}
-    const btn=document.getElementById('btnSaveRessource');btn.disabled=true;btn.innerHTML='<i class="fas fa-spinner fa-spin"></i> Upload...';
-    try{
-      const nomSecurise=fichier.name.normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-zA-Z0-9._-]/g,'_').replace(/_+/g,'_');
-      const chemin=`${type}/${Date.now()}_${nomSecurise}`;
-      const url=await uploaderFichier(fichier,chemin);
-      await insererLigne('ressources',{titre_fr,titre_ar,type,taille,publie,fichier_url:url,cours_id,description_fr:'',description_ar:''});
-      afficherMessage('Ressource uploadée !','succes');fermerModal();chargerRessources();
-    }catch(err){afficherMessage('Erreur : '+err.message,'erreur');btn.disabled=false;btn.innerHTML='<i class="fas fa-upload"></i> Uploader';}
-  });
-}
-async function supprimerRessource(id,url){
-  if(!confirm('Supprimer cette ressource ?'))return;
-  try{
-    if(url&&url.includes('ressources-pdf')){const chemin=url.split('/ressources-pdf/')[1];if(chemin)await supprimerFichier(chemin);}
-    await supprimerLigne('ressources',id);afficherMessage('Ressource supprimée','succes');chargerRessources();
-  }catch(err){afficherMessage('Erreur : '+err.message,'erreur');}
-}
-
-/* ===== EXAMENS ===== */
-function ouvrirModalExamen(data=null){
-  const d=data||{};const editing=!!data;
-  const contenu=`
-    <div class="form-row">
-      <div class="form-group"><label>Titre (FR)</label><input type="text" id="e_titre_fr" value="${d.titre_fr||''}"></div>
-      <div class="form-group"><label>Titre (AR)</label><input type="text" id="e_titre_ar" value="${d.titre_ar||''}"></div>
-    </div>
-    <div class="form-row">
-      <div class="form-group"><label>Niveau</label><select id="e_niveau">
-        <option value="2bacpc" ${d.niveau==='2bacpc'?'selected':''}>2ème Bac PC</option>
-        <option value="2bacsvt" ${d.niveau==='2bacsvt'?'selected':''}>2ème Bac SVT</option>
-        <option value="1bac" ${d.niveau==='1bac'?'selected':''}>1ère Bac</option>
-        <option value="tronc" ${d.niveau==='tronc'?'selected':''}>Tronc Commun</option>
-      </select></div>
-      <div class="form-group"><label>Type</label><select id="e_type">
-        <option value="controle" ${d.type==='controle'?'selected':''}>Contrôle</option>
-        <option value="regional" ${d.type==='regional'?'selected':''}>Régional</option>
-        <option value="national" ${d.type==='national'?'selected':''}>National</option>
-      </select></div>
-    </div>
-    <div class="form-row">
-      <div class="form-group"><label>Année</label><input type="number" id="e_annee" value="${d.annee||2024}"></div>
-      <div class="form-group"><label>Durée (min)</label><input type="number" id="e_duree" value="${d.duree||120}"></div>
-    </div>
-    <div class="form-group"><label>Description (FR)</label><textarea id="e_desc_fr">${d.description_fr||''}</textarea></div>
-    <div class="form-group"><label>PDF du sujet</label>
-      <div class="file-upload" id="fileUploadSujet"><i class="fas fa-file-pdf"></i><p>${d.fichier_url?'Cliquez pour remplacer':'Cliquez ou glissez-déposez'}</p><input type="file" id="fileInputSujet" accept="application/pdf" hidden><div class="file-info" id="fileInfoSujet">${d.fichier_url?'Fichier actuel':' '}</div></div>
-    </div>
-    <div class="form-group"><label>PDF du corrigé</label>
-      <div class="file-upload" id="fileUploadCorrige"><i class="fas fa-check-circle"></i><p>${d.fichier_corrige_url?'Cliquez pour remplacer':'Cliquez ou glissez-déposez'}</p><input type="file" id="fileInputCorrige" accept="application/pdf" hidden><div class="file-info" id="fileInfoCorrige">${d.fichier_corrige_url?'Fichier actuel':' '}</div></div>
-    </div>
-    <label class="form-checkbox"><input type="checkbox" id="e_publie" ${d.publie!==false?'checked':''}> Publier cet examen</label>
-    <div class="form-actions">
-      <button class="btn-cancel" onclick="fermerModal()">Annuler</button>
-      <button class="btn-submit" id="btnSaveExamen"><i class="fas fa-save"></i> Enregistrer</button>
-    </div>`;
-  ouvrirModal(editing?"Modifier l'examen":'Ajouter un examen',contenu);
-  let fichierSujet=null;let fichierCorrige=null;
-  const fuSujet=document.getElementById('fileUploadSujet');const fiSujet=document.getElementById('fileInputSujet');const finfoSujet=document.getElementById('fileInfoSujet');
-  fuSujet.addEventListener('click',()=>fiSujet.click());
-  fuSujet.addEventListener('dragover',e=>{e.preventDefault();fuSujet.classList.add('dragover');});
-  fuSujet.addEventListener('dragleave',()=>fuSujet.classList.remove('dragover'));
-  fuSujet.addEventListener('drop',e=>{e.preventDefault();fuSujet.classList.remove('dragover');if(e.dataTransfer.files.length){fichierSujet=e.dataTransfer.files[0];finfoSujet.textContent=fichierSujet.name;}});
-  fiSujet.addEventListener('change',e=>{if(e.target.files.length){fichierSujet=e.target.files[0];finfoSujet.textContent=fichierSujet.name;}});
-  const fuCorr=document.getElementById('fileUploadCorrige');const fiCorr=document.getElementById('fileInputCorrige');const finfoCorr=document.getElementById('fileInfoCorrige');
-  fuCorr.addEventListener('click',()=>fiCorr.click());
-  fuCorr.addEventListener('dragover',e=>{e.preventDefault();fuCorr.classList.add('dragover');});
-  fuCorr.addEventListener('dragleave',()=>fuCorr.classList.remove('dragover'));
-  fuCorr.addEventListener('drop',e=>{e.preventDefault();fuCorr.classList.remove('dragover');if(e.dataTransfer.files.length){fichierCorrige=e.dataTransfer.files[0];finfoCorr.textContent=fichierCorrige.name;}});
-  fiCorr.addEventListener('change',e=>{if(e.target.files.length){fichierCorrige=e.target.files[0];finfoCorr.textContent=fichierCorrige.name;}});
-  document.getElementById('btnSaveExamen').addEventListener('click',async()=>{
-    const titre_fr=document.getElementById('e_titre_fr').value;
-    if(!titre_fr){afficherMessage('Le titre FR est obligatoire','erreur');return;}
-    const btn=document.getElementById('btnSaveExamen');btn.disabled=true;btn.innerHTML='<i class="fas fa-spinner fa-spin"></i>';
-    try{
-      let fichier_url=d.fichier_url||null;let fichier_corrige_url=d.fichier_corrige_url||null;
-      if(fichierSujet){const n=fichierSujet.name.normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-zA-Z0-9._-]/g,'_').replace(/_+/g,'_');fichier_url=await uploaderFichier(fichierSujet,`examens/sujets/${Date.now()}_${n}`);}
-      if(fichierCorrige){const n=fichierCorrige.name.normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-zA-Z0-9._-]/g,'_').replace(/_+/g,'_');fichier_corrige_url=await uploaderFichier(fichierCorrige,`examens/corriges/${Date.now()}_${n}`);}
-      const dataEx={titre_fr,titre_ar:document.getElementById('e_titre_ar').value,niveau:document.getElementById('e_niveau').value,type:document.getElementById('e_type').value,annee:parseInt(document.getElementById('e_annee').value),duree:parseInt(document.getElementById('e_duree').value),description_fr:document.getElementById('e_desc_fr').value,publie:document.getElementById('e_publie').checked,matiere:'pc',fichier_url,fichier_corrige_url};
-      if(editing)await modifierLigne('examens',d.id,dataEx);else await insererLigne('examens',dataEx);
-      afficherMessage('Examen enregistré !','succes');fermerModal();chargerExamens();
-    }catch(err){afficherMessage('Erreur : '+err.message,'erreur');btn.disabled=false;btn.innerHTML='<i class="fas fa-save"></i> Enregistrer';}
-  });
-}
-function editerExamen(e){ouvrirModalExamen(e);}
-async function supprimerExamen(id){if(!confirm('Supprimer cet examen ?'))return;try{await supprimerLigne('examens',id);afficherMessage('Examen supprimé','succes');chargerExamens();}catch(err){afficherMessage('Erreur : '+err.message,'erreur');}}
-
-/* ===== EXERCICES ===== */
-function ouvrirModalExercice(data=null){
-  const d=data||{};const editing=!!data;
-  const contenu=`
-    <div class="form-row">
-      <div class="form-group"><label>Titre (FR)</label><input type="text" id="ex_titre_fr" value="${d.titre_fr||''}"></div>
-      <div class="form-group"><label>Titre (AR)</label><input type="text" id="ex_titre_ar" value="${d.titre_ar||''}"></div>
-    </div>
-    <div class="form-row">
-      <div class="form-group"><label>Niveau</label><select id="ex_niveau">
-        <option value="tronc" ${d.niveau==='tronc'?'selected':''}>Tronc Commun</option>
-        <option value="1bac" ${d.niveau==='1bac'?'selected':''}>1ère Bac</option>
-        <option value="2bacpc" ${d.niveau==='2bacpc'?'selected':''}>2ème Bac PC</option>
-        <option value="2bacsvt" ${d.niveau==='2bacsvt'?'selected':''}>2ème Bac SVT</option>
-      </select></div>
-      <div class="form-group"><label>Matière</label><select id="ex_matiere">
-        <option value="physique" ${d.matiere==='physique'?'selected':''}>Physique</option>
-        <option value="chimie" ${d.matiere==='chimie'?'selected':''}>Chimie</option>
-      </select></div>
-    </div>
-    <div class="form-row">
-      <div class="form-group"><label>Chapitre (FR)</label><input type="text" id="ex_chapitre_fr" value="${d.chapitre_fr||''}"></div>
-      <div class="form-group"><label>Chapitre (AR)</label><input type="text" id="ex_chapitre_ar" value="${d.chapitre_ar||''}"></div>
-    </div>
-    <div class="form-row">
-      <div class="form-group"><label>Difficulté</label><select id="ex_difficulte">
-        <option value="1" ${d.difficulte===1?'selected':''}>Facile</option>
-        <option value="2" ${d.difficulte===2?'selected':''}>Moyen</option>
-        <option value="3" ${d.difficulte===3?'selected':''}>Difficile</option>
-      </select></div>
-      <div class="form-group"><label>Ordre</label><input type="number" id="ex_ordre" value="${d.ordre||0}"></div>
-    </div>
-    <div class="form-group"><label>PDF énoncé</label>
-      <div class="file-upload" id="fileUploadEx"><i class="fas fa-file-pdf"></i><p>${d.fichier_url?'Cliquez pour remplacer':'Cliquez ou glissez-déposez'}</p><input type="file" id="fileInputEx" accept="application/pdf" hidden><div class="file-info" id="fileInfoEx">${d.fichier_url?'Fichier actuel':' '}</div></div>
-    </div>
-    <div class="form-group"><label>PDF corrigé</label>
-      <div class="file-upload" id="fileUploadCorrigeEx"><i class="fas fa-check-circle"></i><p>${d.fichier_corrige_url?'Cliquez pour remplacer':'Cliquez ou glissez-déposez'}</p><input type="file" id="fileInputCorrigeEx" accept="application/pdf" hidden><div class="file-info" id="fileInfoCorrigeEx">${d.fichier_corrige_url?'Fichier actuel':' '}</div></div>
-    </div>
-    <label class="form-checkbox"><input type="checkbox" id="ex_publie" ${d.publie!==false?'checked':''}> Publier cet exercice</label>
-    <div class="form-actions">
-      <button class="btn-cancel" onclick="fermerModal()">Annuler</button>
-      <button class="btn-submit" id="btnSaveExercice"><i class="fas fa-save"></i> Enregistrer</button>
-    </div>`;
-  ouvrirModal(editing?"Modifier l'exercice":'Ajouter un exercice',contenu);
-  let fichierEx=null;let fichierCorrigeEx=null;
-  const fuEx=document.getElementById('fileUploadEx');const fiEx=document.getElementById('fileInputEx');const finfoEx=document.getElementById('fileInfoEx');
-  fuEx.addEventListener('click',()=>fiEx.click());
-  fuEx.addEventListener('dragover',e=>{e.preventDefault();fuEx.classList.add('dragover');});
-  fuEx.addEventListener('dragleave',()=>fuEx.classList.remove('dragover'));
-  fuEx.addEventListener('drop',e=>{e.preventDefault();fuEx.classList.remove('dragover');if(e.dataTransfer.files.length){fichierEx=e.dataTransfer.files[0];finfoEx.textContent=fichierEx.name;}});
-  fiEx.addEventListener('change',e=>{if(e.target.files.length){fichierEx=e.target.files[0];finfoEx.textContent=fichierEx.name;}});
-  const fuCorrEx=document.getElementById('fileUploadCorrigeEx');const fiCorrEx=document.getElementById('fileInputCorrigeEx');const finfoCorrEx=document.getElementById('fileInfoCorrigeEx');
-  fuCorrEx.addEventListener('click',()=>fiCorrEx.click());
-  fuCorrEx.addEventListener('dragover',e=>{e.preventDefault();fuCorrEx.classList.add('dragover');});
-  fuCorrEx.addEventListener('dragleave',()=>fuCorrEx.classList.remove('dragover'));
-  fuCorrEx.addEventListener('drop',e=>{e.preventDefault();fuCorrEx.classList.remove('dragover');if(e.dataTransfer.files.length){fichierCorrigeEx=e.dataTransfer.files[0];finfoCorrEx.textContent=fichierCorrigeEx.name;}});
-  fiCorrEx.addEventListener('change',e=>{if(e.target.files.length){fichierCorrigeEx=e.target.files[0];finfoCorrEx.textContent=fichierCorrigeEx.name;}});
-  document.getElementById('btnSaveExercice').addEventListener('click',async()=>{
-    const titre_fr=document.getElementById('ex_titre_fr').value;
-    if(!titre_fr){afficherMessage('Le titre FR est obligatoire','erreur');return;}
-    const btn=document.getElementById('btnSaveExercice');btn.disabled=true;btn.innerHTML='<i class="fas fa-spinner fa-spin"></i>';
-    try{
-      let fichier_url=d.fichier_url||null;let fichier_corrige_url=d.fichier_corrige_url||null;
-      if(fichierEx){const n=fichierEx.name.normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-zA-Z0-9._-]/g,'_').replace(/_+/g,'_');fichier_url=await uploaderFichier(fichierEx,`exercices/${Date.now()}_${n}`);}
-      if(fichierCorrigeEx){const n=fichierCorrigeEx.name.normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-zA-Z0-9._-]/g,'_').replace(/_+/g,'_');fichier_corrige_url=await uploaderFichier(fichierCorrigeEx,`exercices/corriges/${Date.now()}_${n}`);}
-      const dataEx={titre_fr,titre_ar:document.getElementById('ex_titre_ar').value,niveau:document.getElementById('ex_niveau').value,matiere:document.getElementById('ex_matiere').value,chapitre_fr:document.getElementById('ex_chapitre_fr').value,chapitre_ar:document.getElementById('ex_chapitre_ar').value,difficulte:parseInt(document.getElementById('ex_difficulte').value),ordre:parseInt(document.getElementById('ex_ordre').value),fichier_url,fichier_corrige_url,publie:document.getElementById('ex_publie').checked};
-      if(editing)await modifierLigne('exercices',d.id,dataEx);else await insererLigne('exercices',dataEx);
-      afficherMessage('Exercice enregistré !','succes');fermerModal();chargerExercices();
-    }catch(err){afficherMessage('Erreur : '+err.message,'erreur');btn.disabled=false;btn.innerHTML='<i class="fas fa-save"></i> Enregistrer';}
-  });
-}
-function editerExercice(ex){ouvrirModalExercice(ex);}
-async function supprimerExercice(id){if(!confirm('Supprimer cet exercice ?'))return;try{await supprimerLigne('exercices',id);afficherMessage('Exercice supprimé','succes');chargerExercices();}catch(err){afficherMessage('Erreur : '+err.message,'erreur');}}
-
-/* ===== SIMULATIONS ===== */
-function ouvrirModalSimulation(data=null){
-  const d=data||{};const editing=!!data;
-  const contenu=`
-    <div class="form-row">
-      <div class="form-group"><label>Titre (FR)</label><input type="text" id="s_titre_fr" value="${d.titre_fr||''}"></div>
-      <div class="form-group"><label>Titre (AR)</label><input type="text" id="s_titre_ar" value="${d.titre_ar||''}"></div>
-    </div>
-    <div class="form-group"><label>Catégorie</label><select id="s_categorie">
-      <option value="ondes" ${d.categorie==='ondes'?'selected':''}>Ondes</option>
-      <option value="cinetique" ${d.categorie==='cinetique'?'selected':''}>Cinétique</option>
-      <option value="nucleaire" ${d.categorie==='nucleaire'?'selected':''}>Nucléaire</option>
-      <option value="mecanique" ${d.categorie==='mecanique'?'selected':''}>Mécanique</option>
-      <option value="electricite" ${d.categorie==='electricite'?'selected':''}>Électricité</option>
-    </select></div>
-    <div class="form-group"><label>Description (FR)</label><textarea id="s_desc_fr">${d.description_fr||''}</textarea></div>
-    <div class="form-group"><label>Icône</label><input type="text" id="s_icone" value="${d.icone||'fa-flask'}"></div>
-    <div class="form-group"><label>Ordre</label><input type="number" id="s_ordre" value="${d.ordre||0}"></div>
-    <label class="form-checkbox"><input type="checkbox" id="s_publie" ${d.publie!==false?'checked':''}> Publier</label>
-    <div class="form-actions">
-      <button class="btn-cancel" onclick="fermerModal()">Annuler</button>
-      <button class="btn-submit" onclick="sauvegarderSimulation(${editing?`'${d.id}'`:'null'})"><i class="fas fa-save"></i> Enregistrer</button>
-    </div>`;
-  ouvrirModal(editing?'Modifier la simulation':'Ajouter une simulation',contenu);
-}
-async function sauvegarderSimulation(id){
-  const data={titre_fr:document.getElementById('s_titre_fr').value,titre_ar:document.getElementById('s_titre_ar').value,categorie:document.getElementById('s_categorie').value,description_fr:document.getElementById('s_desc_fr').value,icone:document.getElementById('s_icone').value,ordre:parseInt(document.getElementById('s_ordre').value),publie:document.getElementById('s_publie').checked};
-  try{if(id)await modifierLigne('simulations',id,data);else await insererLigne('simulations',data);afficherMessage('Simulation enregistrée !','succes');fermerModal();chargerSimulations();}catch(err){afficherMessage('Erreur : '+err.message,'erreur');}
-}
-function editerSimulation(s){ouvrirModalSimulation(s);}
-async function supprimerSimulation(id){if(!confirm('Supprimer ?'))return;try{await supprimerLigne('simulations',id);afficherMessage('Simulation supprimée','succes');chargerSimulations();}catch(err){afficherMessage('Erreur : '+err.message,'erreur');}}
-
-/* ===== STATS ===== */
-function ouvrirModalStat(data=null){
-  const d=data||{};
-  const contenu=`
-    <div class="form-group"><label>Clé</label><input type="text" id="st_cle" value="${d.cle||''}" readonly></div>
-    <div class="form-group"><label>Valeur</label><input type="text" id="st_valeur" value="${d.valeur||''}"></div>
-    <div class="form-row">
-      <div class="form-group"><label>Libellé FR</label><input type="text" id="st_lib_fr" value="${d.libelle_fr||''}"></div>
-      <div class="form-group"><label>Libellé AR</label><input type="text" id="st_lib_ar" value="${d.libelle_ar||''}"></div>
-    </div>
-    <div class="form-group"><label>Ordre</label><input type="number" id="st_ordre" value="${d.ordre||0}"></div>
-    <div class="form-actions">
-      <button class="btn-cancel" onclick="fermerModal()">Annuler</button>
-      <button class="btn-submit" onclick="sauvegarderStat('${d.id}')"><i class="fas fa-save"></i> Enregistrer</button>
-    </div>`;
-  ouvrirModal('Modifier la statistique',contenu);
-}
-async function sauvegarderStat(id){
-  const data={valeur:document.getElementById('st_valeur').value,libelle_fr:document.getElementById('st_lib_fr').value,libelle_ar:document.getElementById('st_lib_ar').value,ordre:parseInt(document.getElementById('st_ordre').value)};
-  try{await modifierLigne('stats',id,data);afficherMessage('Statistique enregistrée !','succes');fermerModal();chargerStats();}catch(err){afficherMessage('Erreur : '+err.message,'erreur');}
-}
-function editerStat(s){ouvrirModalStat(s);}
-
-/* ===== TÉMOIGNAGES ===== */
-function ouvrirModalTemoignage(data=null){
-  const d=data||{};const editing=!!data;
-  const contenu=`
-    <div class="form-group"><label>Prénom</label><input type="text" id="t_prenom" value="${d.prenom||''}"></div>
-    <div class="form-row">
-      <div class="form-group"><label>Niveau FR</label><input type="text" id="t_niv_fr" value="${d.niveau_fr||''}"></div>
-      <div class="form-group"><label>Niveau AR</label><input type="text" id="t_niv_ar" value="${d.niveau_ar||''}"></div>
-    </div>
-    <div class="form-group"><label>Commentaire FR</label><textarea id="t_com_fr">${d.commentaire_fr||''}</textarea></div>
-    <div class="form-group"><label>Commentaire AR</label><textarea id="t_com_ar">${d.commentaire_ar||''}</textarea></div>
-    <div class="form-group"><label>Ordre</label><input type="number" id="t_ordre" value="${d.ordre||0}"></div>
-    <label class="form-checkbox"><input type="checkbox" id="t_publie" ${d.publie!==false?'checked':''}> Publier</label>
-    <div class="form-actions">
-      <button class="btn-cancel" onclick="fermerModal()">Annuler</button>
-      <button class="btn-submit" onclick="sauvegarderTemoignage(${editing?`'${d.id}'`:'null'})"><i class="fas fa-save"></i> Enregistrer</button>
-    </div>`;
-  ouvrirModal(editing?'Modifier le témoignage':'Ajouter un témoignage',contenu);
-}
-async function sauvegarderTemoignage(id){
-  const data={prenom:document.getElementById('t_prenom').value,niveau_fr:document.getElementById('t_niv_fr').value,niveau_ar:document.getElementById('t_niv_ar').value,commentaire_fr:document.getElementById('t_com_fr').value,commentaire_ar:document.getElementById('t_com_ar').value,ordre:parseInt(document.getElementById('t_ordre').value),publie:document.getElementById('t_publie').checked};
-  try{if(id)await modifierLigne('temoignages',id,data);else await insererLigne('temoignages',data);afficherMessage('Témoignage enregistré !','succes');fermerModal();chargerTemoignages();}catch(err){afficherMessage('Erreur : '+err.message,'erreur');}
-}
-function editerTemoignage(t){ouvrirModalTemoignage(t);}
-async function supprimerTemoignage(id){if(!confirm('Supprimer ?'))return;try{await supprimerLigne('temoignages',id);afficherMessage('Témoignage supprimé','succes');chargerTemoignages();}catch(err){afficherMessage('Erreur : '+err.message,'erreur');}}
-
-/* ===== TOAST ===== */
-function afficherMessage(msg,type='info'){
-  const toast=document.getElementById('toast');
-  toast.textContent=msg;
-  toast.className='toast show '+(type==='succes'?'success':type==='erreur'?'error':'');
-  setTimeout(()=>toast.classList.remove('show'),3000);
-}
-function formaterDate(dateStr){if(!dateStr)return '—';const d=new Date(dateStr);return d.toLocaleDateString('fr-FR',{day:'2-digit',month:'short',year:'numeric'});}
 </script>
 </body>
 </html>
