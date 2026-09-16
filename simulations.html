@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Simulations — DARRSSY | Physique & Chimie</title>
 
-<meta name="description" content="Simulations interactives de Physique-Chimie pour les lycéens marocains — DARRSSY.">
+<meta name="description" content="Simulations interactives de Physique-Chimie — DARRSSY.">
 <meta property="og:title" content="Simulations | DARRSSY">
 <meta property="og:image" content="https://darrssy.com/assets/logo-darrssy.png">
 
@@ -16,792 +16,149 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
 <style>
-:root {
-  --primary: #1e3a8a;
-  --primary-light: #3b82f6;
-  --accent: #f59e0b;
-  --success: #10b981;
-  --danger: #ef4444;
-  --violet: #8b5cf6;
-  --dark: #0f172a;
-  --gray: #64748b;
-  --border: #e2e8f0;
-  --light: #f8fafc;
-  --white: #ffffff;
-  --gradient: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 50%, #06b6d4 100%);
-  --gradient-accent: linear-gradient(135deg, #f59e0b 0%, #ef4444 100%);
-  --gradient-violet: linear-gradient(135deg, #8b5cf6 0%, #06b6d4 100%);
-  --shadow-sm: 0 2px 10px rgba(30, 58, 138, 0.06);
-  --shadow: 0 10px 30px rgba(30, 58, 138, 0.15);
-  --shadow-lg: 0 20px 50px rgba(30, 58, 138, 0.25);
-  --radius: 20px;
-  --radius-sm: 14px;
-  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-* { margin: 0; padding: 0; box-sizing: border-box; }
-html { scroll-behavior: smooth; }
-
-body {
-  font-family: 'Poppins', 'Tajawal', sans-serif;
-  background: var(--light);
-  color: var(--dark);
-  line-height: 1.6;
-  overflow-x: hidden;
-}
-
-[dir="rtl"] body { font-family: 'Tajawal', 'Poppins', sans-serif; }
-a { text-decoration: none; color: inherit; }
-img { max-width: 100%; display: block; }
-
-/* ===== NAVBAR ===== */
-nav {
-  position: fixed;
-  top: 0; left: 0; right: 0;
-  background: rgba(255,255,255,0.96);
-  backdrop-filter: blur(12px);
-  box-shadow: 0 2px 20px rgba(0,0,0,0.06);
-  z-index: 1000;
-  padding: 10px 5%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.logo { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
-
-.logo-img-wrap {
-  position: relative;
-  width: 52px; height: 52px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #1e3a8a 0%, #06b6d4 50%, #10b981 100%);
-  padding: 2.5px;
-  box-shadow: 0 4px 15px rgba(6, 182, 212, 0.35), 0 0 0 3px rgba(255, 255, 255, 0.9);
-  flex-shrink: 0;
-  transition: var(--transition);
-}
-
-.logo-img-wrap::before {
-  content: '';
-  position: absolute;
-  inset: 2.5px;
-  border-radius: 50%;
-  background: white;
-  z-index: 0;
-}
-
-.logo-img-wrap img {
-  position: relative; z-index: 1;
-  width: 100%; height: 100%;
-  border-radius: 50%;
-  object-fit: cover;
-}
-
-.logo:hover .logo-img-wrap { transform: rotate(-8deg) scale(1.05); }
-
-.logo-texte { display: flex; flex-direction: column; line-height: 1; }
-
-.logo-texte .titre {
-  font-size: 1.4rem; font-weight: 900;
-  background: linear-gradient(135deg, #1e3a8a 0%, #06b6d4 50%, #10b981 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.logo-texte .arabe {
-  font-size: 0.72rem; font-weight: 700;
-  color: var(--gray);
-  font-family: 'Tajawal', sans-serif;
-  margin-top: 1px;
-}
-
-.nav-links {
-  display: flex;
-  gap: 26px;
-  list-style: none;
-  align-items: center;
-}
-
-.nav-links a {
-  color: var(--dark);
-  font-weight: 500;
-  font-size: 0.93rem;
-  transition: color 0.3s;
-  position: relative;
-}
-
-.nav-links a:hover { color: var(--primary-light); }
-.nav-links a.actif { color: var(--violet); font-weight: 600; }
-
-.nav-links a::after {
-  content: '';
-  position: absolute;
-  bottom: -5px; left: 0;
-  width: 0; height: 2px;
-  background: var(--gradient-violet);
-  transition: width 0.3s;
-}
-
-.nav-links a:hover::after { width: 100%; }
-.nav-links a.actif::after { width: 100%; }
-
-.btn-nav {
-  background: var(--gradient);
-  color: white !important;
-  padding: 10px 22px;
-  border-radius: 50px;
-  font-weight: 600;
-}
-
-.btn-nav:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
-.btn-nav::after { display: none; }
-
-.lang-switcher {
-  display: flex;
-  background: rgba(59,130,246,0.08);
-  border: 1px solid var(--border);
-  border-radius: 50px;
-  overflow: hidden;
-}
-
-.lang-btn {
-  background: transparent;
-  border: none;
-  color: var(--gray);
-  font-family: inherit;
-  font-size: 0.82rem;
-  font-weight: 700;
-  padding: 8px 16px;
-  cursor: pointer;
-  transition: var(--transition);
-}
-
-.lang-btn.actif { background: var(--gradient); color: white; }
-
-.menu-toggle {
-  display: none;
-  font-size: 1.5rem;
-  cursor: pointer;
-  color: var(--primary);
-  background: none;
-  border: none;
-}
-
-/* ===== HERO ===== */
-.hero-page {
-  padding: 130px 5% 50px;
-  background: var(--gradient-violet);
-  color: white;
-  position: relative;
-  overflow: hidden;
-}
-
-.hero-page::before {
-  content: '';
-  position: absolute;
-  top: -50%; right: -20%;
-  width: 600px; height: 600px;
-  background: radial-gradient(circle, rgba(245,158,11,0.28) 0%, transparent 70%);
-  border-radius: 50%;
-}
-
-.hero-page::after {
-  content: '';
-  position: absolute;
-  bottom: -40%; left: -10%;
-  width: 500px; height: 500px;
-  background: radial-gradient(circle, rgba(6,182,212,0.35) 0%, transparent 70%);
-  border-radius: 50%;
-}
-
-.hero-page-content {
-  max-width: 1200px;
-  margin: 0 auto;
-  position: relative;
-  z-index: 2;
-  text-align: center;
-}
-
-.hero-page h1 {
-  font-size: 2.8rem;
-  font-weight: 900;
-  margin-bottom: 15px;
-  line-height: 1.15;
-}
-
-.hero-page h1 span {
-  background: linear-gradient(135deg, #fbbf24 0%, #fde68a 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.hero-page p {
-  font-size: 1.05rem;
-  max-width: 650px;
-  margin: 0 auto;
-  opacity: 0.95;
-}
-
-/* ===== CONTENU ===== */
-.conteneur {
-  max-width: 1200px;
-  margin: -30px auto 0;
-  padding: 0 5% 60px;
-  position: relative;
-  z-index: 3;
-}
-
-.filtres-bar {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-  justify-content: center;
-  margin-bottom: 35px;
-}
-
-.filtre-btn {
-  background: white;
-  border: 2px solid var(--border);
-  color: var(--gray);
-  padding: 10px 22px;
-  border-radius: 50px;
-  font-family: inherit;
-  font-size: 0.88rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: var(--transition);
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  box-shadow: var(--shadow-sm);
-}
-
-.filtre-btn:hover { color: var(--violet); border-color: var(--violet); }
-.filtre-btn.actif {
-  background: var(--gradient-violet);
-  color: white;
-  border-color: transparent;
-  box-shadow: 0 10px 25px rgba(139,92,246,0.35);
-}
-
-/* ===== SIMULATIONS GRID ===== */
-.sims-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 25px;
-}
-
-.sim-card {
-  background: white;
-  border-radius: var(--radius-sm);
-  padding: 25px;
-  box-shadow: 0 5px 20px rgba(0,0,0,0.05);
-  transition: var(--transition);
-  cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  border: 2px solid transparent;
-}
-
-.sim-card:hover {
-  transform: translateY(-8px);
-  box-shadow: var(--shadow-lg);
-  border-color: rgba(139,92,246,0.3);
-}
-
-.sim-icon {
-  width: 60px; height: 60px;
-  border-radius: 16px;
-  background: var(--gradient-violet);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.6rem;
-  color: white;
-  transition: var(--transition);
-}
-
-.sim-card:hover .sim-icon {
-  transform: scale(1.1) rotate(-8deg);
-}
-
-.sim-chapitre {
-  font-size: 0.72rem;
-  font-weight: 700;
-  color: var(--violet);
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
-.sim-card h3 {
-  font-size: 1.05rem;
-  color: var(--primary);
-  font-weight: 700;
-  line-height: 1.35;
-}
-
-.sim-card p {
-  font-size: 0.86rem;
-  color: var(--gray);
-  line-height: 1.5;
-  flex: 1;
-}
-
-.sim-lancer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  padding: 12px 18px;
-  background: rgba(139,92,246,0.08);
-  border: 1.5px solid rgba(139,92,246,0.3);
-  color: var(--violet);
-  border-radius: 12px;
-  font-weight: 700;
-  font-size: 0.88rem;
-  transition: var(--transition);
-  margin-top: auto;
-}
-
-.sim-card:hover .sim-lancer {
-  background: var(--violet);
-  color: white;
-  border-color: var(--violet);
-}
-
-/* Loading / Empty */
-.loading-zone, .aucun-resultat {
-  text-align: center;
-  padding: 60px 20px;
-  color: var(--gray);
-  grid-column: 1 / -1;
-}
-
-.loading-zone i {
-  font-size: 2.5rem;
-  color: var(--violet);
-  animation: spin 1s linear infinite;
-  display: block;
-  margin-bottom: 15px;
-}
-
-@keyframes spin { to { transform: rotate(360deg); } }
-
-/* ===== MODAL SIMULATION ===== */
-.modal-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(15,23,42,0.9);
-  backdrop-filter: blur(10px);
-  z-index: 5000;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  padding: 15px;
-  overflow-y: auto;
-}
-
-.modal-overlay.ouvert { display: flex; }
-
-.modal-sim {
-  background: white;
-  border-radius: 25px;
-  width: 100%;
-  max-width: 1100px;
-  max-height: 95vh;
-  overflow-y: auto;
-  box-shadow: 0 30px 80px rgba(0,0,0,0.5);
-  animation: slideUp 0.4s;
-}
-
-@keyframes slideUp {
-  from { transform: scale(0.9) translateY(20px); opacity: 0; }
-  to { transform: scale(1) translateY(0); opacity: 1; }
-}
-
-.modal-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 22px 28px;
-  border-bottom: 1px solid var(--border);
-  position: sticky;
-  top: 0;
-  background: white;
-  z-index: 10;
-}
-
-.modal-header h2 {
-  font-size: 1.25rem;
-  color: var(--primary);
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  font-weight: 800;
-}
-
-.modal-header h2 i { color: var(--violet); }
-
-.modal-close {
-  background: rgba(239,68,68,0.1);
-  border: 1.5px solid rgba(239,68,68,0.3);
-  color: var(--danger);
-  width: 40px; height: 40px;
-  border-radius: 12px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1rem;
-  transition: var(--transition);
-}
-
-.modal-close:hover { background: var(--danger); color: white; }
-
-.modal-body {
-  padding: 25px;
-  display: grid;
-  grid-template-columns: 1.3fr 1fr;
-  gap: 25px;
-}
-
-@media (max-width: 900px) { .modal-body { grid-template-columns: 1fr; } }
-
-.sim-canvas-zone {
-  background: var(--light);
-  border: 1.5px solid var(--border);
-  border-radius: var(--radius-sm);
-  padding: 15px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.sim-canvas {
-  width: 100%;
-  height: 320px;
-  background: #0a1428;
-  border-radius: 12px;
-  display: block;
-  border: 1.5px solid var(--border);
-}
-
-.sim-controls {
-  display: flex;
-  gap: 10px;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-
-.sim-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 10px 20px;
-  border-radius: 50px;
-  border: 2px solid var(--border);
-  background: white;
-  color: var(--primary);
-  font-family: inherit;
-  font-size: 0.88rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: var(--transition);
-}
-
-.sim-btn:hover { border-color: var(--violet); color: var(--violet); }
-
-.sim-btn.primary {
-  background: var(--gradient-violet);
-  color: white;
-  border-color: transparent;
-}
-
-.sim-btn.primary:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
-
-.sim-btn.danger {
-  background: rgba(239,68,68,0.1);
-  border-color: rgba(239,68,68,0.3);
-  color: var(--danger);
-}
-
-.sim-btn.danger:hover { background: var(--danger); color: white; border-color: var(--danger); }
-
-.sim-sliders-zone {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
-
-.sim-slider-group {
-  background: var(--light);
-  border: 1.5px solid var(--border);
-  border-radius: var(--radius-sm);
-  padding: 15px 18px;
-}
-
-.sim-slider-group label {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: var(--primary);
-  margin-bottom: 10px;
-}
-
-.sim-slider-group label .value {
-  color: var(--violet);
-  background: rgba(139,92,246,0.1);
-  padding: 3px 10px;
-  border-radius: 6px;
-  font-family: 'Poppins', monospace;
-  font-size: 0.82rem;
-  font-weight: 700;
-}
-
-.sim-slider {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 100%;
-  height: 6px;
-  border-radius: 3px;
-  background: linear-gradient(90deg, #8b5cf6, #06b6d4);
-  outline: none;
-  cursor: pointer;
-}
-
-.sim-slider::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  width: 20px; height: 20px;
-  border-radius: 50%;
-  background: white;
-  border: 3px solid var(--violet);
-  cursor: pointer;
-  box-shadow: 0 0 10px rgba(139,92,246,0.5);
-}
-
-.sim-slider::-moz-range-thumb {
-  width: 20px; height: 20px;
-  border-radius: 50%;
-  background: white;
-  border: 3px solid var(--violet);
-  cursor: pointer;
-}
-
-.sim-resultats {
-  background: linear-gradient(135deg, rgba(139,92,246,0.08), rgba(6,182,212,0.08));
-  border: 1.5px solid rgba(139,92,246,0.3);
-  border-radius: var(--radius-sm);
-  padding: 15px 18px;
-}
-
-.sim-resultats h4 {
-  font-size: 0.75rem;
-  font-weight: 800;
-  color: var(--violet);
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
-  margin-bottom: 12px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.sim-resultat-item {
-  display: flex;
-  justify-content: space-between;
-  padding: 8px 0;
-  border-bottom: 1px dashed rgba(139,92,246,0.2);
-  font-size: 0.88rem;
-}
-
-.sim-resultat-item:last-child { border-bottom: none; }
-.sim-resultat-item .label { color: var(--gray); }
-.sim-resultat-item .value {
-  color: var(--violet);
-  font-family: 'Poppins', monospace;
-  font-weight: 700;
-}
-
-/* ===== FOOTER ===== */
-footer {
-  background: var(--dark);
-  color: white;
-  padding: 50px 5% 25px;
-  margin-top: 60px;
-}
-
-.footer-grid {
-  display: grid;
-  grid-template-columns: 2fr 1fr 1fr 1fr;
-  gap: 40px;
-  max-width: 1200px;
-  margin: 0 auto 30px;
-}
-
-.footer-logo { display: flex; align-items: center; gap: 12px; margin-bottom: 15px; }
-
-.footer-logo-wrap {
-  position: relative;
-  width: 58px; height: 58px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #1e3a8a 0%, #06b6d4 50%, #10b981 100%);
-  padding: 3px;
-  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1);
-}
-
-.footer-logo-wrap::before {
-  content: '';
-  position: absolute;
-  inset: 3px;
-  border-radius: 50%;
-  background: white;
-  z-index: 0;
-}
-
-.footer-logo-wrap img {
-  position: relative; z-index: 1;
-  width: 100%; height: 100%;
-  border-radius: 50%;
-  object-fit: cover;
-}
-
-.footer-nom {
-  font-size: 1.5rem;
-  font-weight: 900;
-  background: linear-gradient(135deg, #60a5fa 0%, #22d3ee 50%, #4ade80 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  line-height: 1;
-}
-
-.footer-arabe {
-  font-size: 0.75rem;
-  color: #94a3b8;
-  font-family: 'Tajawal', sans-serif;
-  font-weight: 700;
-  margin-top: 2px;
-}
-
-.footer-brand p { color: #94a3b8; font-size: 0.92rem; margin: 15px 0; }
-.footer-social { display: flex; gap: 12px; }
-
-.footer-social a {
-  width: 40px; height: 40px;
-  border-radius: 50%;
-  background: rgba(255,255,255,0.08);
-  color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: var(--transition);
-}
-
-.footer-social a:hover { background: var(--gradient-violet); transform: translateY(-3px); }
-.footer-col h4 { font-size: 1.05rem; margin-bottom: 18px; color: white; font-weight: 700; }
-.footer-col ul { list-style: none; }
-.footer-col ul li { margin-bottom: 10px; }
-.footer-col ul a { color: #94a3b8; font-size: 0.9rem; transition: color 0.3s; }
-.footer-col ul a:hover { color: var(--accent); }
-.footer-col ul a i { margin-right: 6px; color: var(--accent); }
-
-.footer-bottom {
-  border-top: 1px solid rgba(255,255,255,0.1);
-  padding-top: 25px;
-  text-align: center;
-  color: #94a3b8;
-  font-size: 0.88rem;
-}
-
-.footer-bottom span { color: var(--accent); font-weight: 600; }
-
-/* Responsive */
-@media (max-width: 900px) {
-  .footer-grid { grid-template-columns: 1fr 1fr; }
-  .hero-page h1 { font-size: 2.2rem; }
-}
-
-@media (max-width: 768px) {
-  nav { padding: 10px 4%; }
-  .logo-img-wrap { width: 44px; height: 44px; }
-  .logo-texte .titre { font-size: 1.15rem; }
-  .logo-texte .arabe { font-size: 0.65rem; }
-
-  .nav-links {
-    position: fixed;
-    top: 64px;
-    left: 0; right: 0;
-    background: white;
-    flex-direction: column;
-    padding: 25px;
-    gap: 18px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-    transform: translateY(-150%);
-    transition: transform 0.4s;
-    max-height: calc(100vh - 64px);
-    overflow-y: auto;
-  }
-  .nav-links.active { transform: translateY(0); }
-  .menu-toggle { display: block; }
-  .nav-links .lang-switcher { width: 100%; justify-content: center; }
-  .nav-links .btn-nav { width: 100%; text-align: center; justify-content: center; }
-
-  .hero-page { padding: 100px 4% 50px; }
-  .hero-page h1 { font-size: 1.8rem; }
-  .sims-grid { grid-template-columns: 1fr; }
-  .footer-grid { grid-template-columns: 1fr; }
-  .modal-header h2 { font-size: 1rem; }
-  .modal-body { padding: 15px; gap: 15px; }
-  .sim-canvas { height: 220px; }
-}
-
-@media (max-width: 480px) {
-  .hero-page h1 { font-size: 1.5rem; }
-  .logo-texte { display: none; }
-  .logo-img-wrap { width: 42px; height: 42px; }
-}
-
-.fade-in { opacity: 0; transform: translateY(30px); transition: opacity 0.7s, transform 0.7s; }
-.fade-in.visible { opacity: 1; transform: translateY(0); }
+:root{--primary:#1e3a8a;--primary-light:#3b82f6;--accent:#f59e0b;--success:#10b981;--danger:#ef4444;--violet:#8b5cf6;--dark:#0f172a;--gray:#64748b;--border:#e2e8f0;--light:#f8fafc;--white:#fff;--gradient:linear-gradient(135deg,#1e3a8a 0%,#3b82f6 50%,#06b6d4 100%);--gradient-accent:linear-gradient(135deg,#f59e0b 0%,#ef4444 100%);--gradient-violet:linear-gradient(135deg,#8b5cf6 0%,#06b6d4 100%);--shadow-sm:0 2px 10px rgba(30,58,138,.06);--shadow:0 10px 30px rgba(30,58,138,.15);--shadow-lg:0 20px 50px rgba(30,58,138,.25);--radius:20px;--radius-sm:14px;--transition:all .3s cubic-bezier(.4,0,.2,1)}
+*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
+body{font-family:'Poppins','Tajawal',sans-serif;background:var(--light);color:var(--dark);line-height:1.6;overflow-x:hidden}
+[dir="rtl"] body{font-family:'Tajawal','Poppins',sans-serif}
+a{text-decoration:none;color:inherit}img{max-width:100%;display:block}
+nav{position:fixed;top:0;left:0;right:0;background:rgba(255,255,255,.96);backdrop-filter:blur(12px);box-shadow:0 2px 20px rgba(0,0,0,.06);z-index:1000;padding:10px 5%;display:flex;justify-content:space-between;align-items:center}
+.logo{display:flex;align-items:center;gap:12px;flex-shrink:0}
+.logo-img-wrap{position:relative;width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#1e3a8a 0%,#06b6d4 50%,#10b981 100%);padding:2.5px;box-shadow:0 4px 15px rgba(6,182,212,.35),0 0 0 3px rgba(255,255,255,.9);flex-shrink:0}
+.logo-img-wrap::before{content:'';position:absolute;inset:2.5px;border-radius:50%;background:#fff;z-index:0}
+.logo-img-wrap img{position:relative;z-index:1;width:100%;height:100%;border-radius:50%;object-fit:cover}
+.logo-texte{display:flex;flex-direction:column;line-height:1}
+.logo-texte .titre{font-size:1.4rem;font-weight:900;background:linear-gradient(135deg,#1e3a8a 0%,#06b6d4 50%,#10b981 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:-.5px}
+.logo-texte .arabe{font-size:.72rem;font-weight:700;color:var(--gray);font-family:'Tajawal',sans-serif;margin-top:1px}
+.nav-links{display:flex;gap:26px;list-style:none;align-items:center}
+.nav-links a{color:var(--dark);font-weight:500;font-size:.93rem;transition:color .3s;position:relative}
+.nav-links a:hover{color:var(--violet)}.nav-links a.actif{color:var(--violet);font-weight:600}
+.nav-links a::after{content:'';position:absolute;bottom:-5px;left:0;width:0;height:2px;background:var(--gradient-violet);transition:width .3s}
+.nav-links a:hover::after{width:100%}.nav-links a.actif::after{width:100%}
+.btn-nav{background:var(--gradient);color:#fff!important;padding:10px 22px;border-radius:50px;font-weight:600}
+.btn-nav:hover{transform:translateY(-2px);box-shadow:var(--shadow)}.btn-nav::after{display:none}
+.lang-switcher{display:flex;background:rgba(59,130,246,.08);border:1px solid var(--border);border-radius:50px;overflow:hidden}
+.lang-btn{background:transparent;border:none;color:var(--gray);font-family:inherit;font-size:.82rem;font-weight:700;padding:8px 16px;cursor:pointer;transition:var(--transition)}
+.lang-btn.actif{background:var(--gradient);color:#fff}
+.menu-toggle{display:none;font-size:1.5rem;cursor:pointer;color:var(--primary);background:none;border:none}
+.hero-page{padding:130px 5% 50px;background:var(--gradient-violet);color:#fff;position:relative;overflow:hidden}
+.hero-page::before{content:'';position:absolute;top:-50%;right:-20%;width:600px;height:600px;background:radial-gradient(circle,rgba(245,158,11,.28) 0%,transparent 70%);border-radius:50%}
+.hero-page::after{content:'';position:absolute;bottom:-40%;left:-10%;width:500px;height:500px;background:radial-gradient(circle,rgba(6,182,212,.35) 0%,transparent 70%);border-radius:50%}
+.hero-page-content{max-width:1200px;margin:0 auto;position:relative;z-index:2;text-align:center}
+.hero-page h1{font-size:2.8rem;font-weight:900;margin-bottom:15px;line-height:1.15}
+.hero-page h1 span{background:linear-gradient(135deg,#fbbf24 0%,#fde68a 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-page p{font-size:1.05rem;max-width:650px;margin:0 auto;opacity:.95}
+.conteneur{max-width:1200px;margin:-30px auto 0;padding:0 5% 60px;position:relative;z-index:3}
+.filtres-bar{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-bottom:35px}
+.filtre-btn{background:#fff;border:2px solid var(--border);color:var(--gray);padding:10px 22px;border-radius:50px;font-family:inherit;font-size:.88rem;font-weight:600;cursor:pointer;transition:var(--transition);display:inline-flex;align-items:center;gap:8px;box-shadow:var(--shadow-sm)}
+.filtre-btn:hover{color:var(--violet);border-color:var(--violet)}
+.filtre-btn.actif{background:var(--gradient-violet);color:#fff;border-color:transparent;box-shadow:0 10px 25px rgba(139,92,246,.35)}
+.sims-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:25px}
+.sim-card{background:#fff;border-radius:var(--radius-sm);padding:25px;box-shadow:0 5px 20px rgba(0,0,0,.05);transition:var(--transition);cursor:pointer;display:flex;flex-direction:column;gap:14px;border:2px solid transparent}
+.sim-card:hover{transform:translateY(-8px);box-shadow:var(--shadow-lg);border-color:rgba(139,92,246,.3)}
+.sim-icon{width:60px;height:60px;border-radius:16px;background:var(--gradient-violet);display:flex;align-items:center;justify-content:center;font-size:1.6rem;color:#fff;transition:var(--transition)}
+.sim-card:hover .sim-icon{transform:scale(1.1) rotate(-8deg)}
+.sim-chapitre{font-size:.72rem;font-weight:700;color:var(--violet);text-transform:uppercase;letter-spacing:1px}
+.sim-card h3{font-size:1.05rem;color:var(--primary);font-weight:700;line-height:1.35}
+.sim-card p{font-size:.86rem;color:var(--gray);line-height:1.5;flex:1}
+.sim-lancer{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 18px;background:rgba(139,92,246,.08);border:1.5px solid rgba(139,92,246,.3);color:var(--violet);border-radius:12px;font-weight:700;font-size:.88rem;transition:var(--transition);margin-top:auto}
+.sim-card:hover .sim-lancer{background:var(--violet);color:#fff;border-color:var(--violet)}
+.loading-zone{text-align:center;padding:60px 20px;color:var(--gray);grid-column:1/-1}
+.loading-zone i{font-size:2.5rem;color:var(--violet);animation:spin 1s linear infinite;display:block;margin-bottom:15px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.modal-overlay{position:fixed;inset:0;background:rgba(15,23,42,.9);backdrop-filter:blur(10px);z-index:5000;display:none;align-items:center;justify-content:center;padding:15px;overflow-y:auto}
+.modal-overlay.ouvert{display:flex}
+.modal-sim{background:#fff;border-radius:25px;width:100%;max-width:1100px;max-height:95vh;overflow-y:auto;box-shadow:0 30px 80px rgba(0,0,0,.5);animation:slideUp .4s}
+@keyframes slideUp{from{transform:scale(.9) translateY(20px);opacity:0}to{transform:scale(1) translateY(0);opacity:1}}
+.modal-header{display:flex;justify-content:space-between;align-items:center;padding:22px 28px;border-bottom:1px solid var(--border);position:sticky;top:0;background:#fff;z-index:10}
+.modal-header h2{font-size:1.25rem;color:var(--primary);display:flex;align-items:center;gap:12px;font-weight:800}
+.modal-header h2 i{color:var(--violet)}
+.modal-close{background:rgba(239,68,68,.1);border:1.5px solid rgba(239,68,68,.3);color:var(--danger);width:40px;height:40px;border-radius:12px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1rem;transition:var(--transition)}
+.modal-close:hover{background:var(--danger);color:#fff}
+.modal-body{padding:25px;display:grid;grid-template-columns:1.3fr 1fr;gap:25px}
+@media (max-width:900px){.modal-body{grid-template-columns:1fr}}
+.sim-canvas-zone{background:var(--light);border:1.5px solid var(--border);border-radius:var(--radius-sm);padding:15px;display:flex;flex-direction:column;gap:12px}
+.sim-canvas{width:100%;height:320px;background:#0a1428;border-radius:12px;display:block;border:1.5px solid var(--border)}
+.sim-controls{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.sim-btn{display:inline-flex;align-items:center;gap:6px;padding:10px 20px;border-radius:50px;border:2px solid var(--border);background:#fff;color:var(--primary);font-family:inherit;font-size:.88rem;font-weight:600;cursor:pointer;transition:var(--transition)}
+.sim-btn:hover{border-color:var(--violet);color:var(--violet)}
+.sim-btn.primary{background:var(--gradient-violet);color:#fff;border-color:transparent}
+.sim-btn.primary:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
+.sim-btn.danger{background:rgba(239,68,68,.1);border-color:rgba(239,68,68,.3);color:var(--danger)}
+.sim-btn.danger:hover{background:var(--danger);color:#fff;border-color:var(--danger)}
+.sim-sliders-zone{display:flex;flex-direction:column;gap:14px}
+.sim-slider-group{background:var(--light);border:1.5px solid var(--border);border-radius:var(--radius-sm);padding:15px 18px}
+.sim-slider-group label{display:flex;justify-content:space-between;align-items:center;font-size:.85rem;font-weight:600;color:var(--primary);margin-bottom:10px}
+.sim-slider-group label .value{color:var(--violet);background:rgba(139,92,246,.1);padding:3px 10px;border-radius:6px;font-family:'Poppins',monospace;font-size:.82rem;font-weight:700}
+.sim-slider{-webkit-appearance:none;appearance:none;width:100%;height:6px;border-radius:3px;background:linear-gradient(90deg,#8b5cf6,#06b6d4);outline:none;cursor:pointer}
+.sim-slider::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:#fff;border:3px solid var(--violet);cursor:pointer;box-shadow:0 0 10px rgba(139,92,246,.5)}
+.sim-slider::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:#fff;border:3px solid var(--violet);cursor:pointer}
+.sim-resultats{background:linear-gradient(135deg,rgba(139,92,246,.08),rgba(6,182,212,.08));border:1.5px solid rgba(139,92,246,.3);border-radius:var(--radius-sm);padding:15px 18px}
+.sim-resultats h4{font-size:.75rem;font-weight:800;color:var(--violet);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:12px;display:flex;align-items:center;gap:6px}
+.sim-resultat-item{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px dashed rgba(139,92,246,.2);font-size:.88rem}
+.sim-resultat-item:last-child{border-bottom:none}
+.sim-resultat-item .label{color:var(--gray)}
+.sim-resultat-item .value{color:var(--violet);font-family:'Poppins',monospace;font-weight:700}
+footer{background:var(--dark);color:#fff;padding:50px 5% 25px;margin-top:60px}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;max-width:1200px;margin:0 auto 30px}
+.footer-logo{display:flex;align-items:center;gap:12px;margin-bottom:15px}
+.footer-logo-wrap{position:relative;width:58px;height:58px;border-radius:50%;background:linear-gradient(135deg,#1e3a8a 0%,#06b6d4 50%,#10b981 100%);padding:3px;box-shadow:0 0 0 3px rgba(255,255,255,.1)}
+.footer-logo-wrap::before{content:'';position:absolute;inset:3px;border-radius:50%;background:#fff;z-index:0}
+.footer-logo-wrap img{position:relative;z-index:1;width:100%;height:100%;border-radius:50%;object-fit:cover}
+.footer-nom{font-size:1.5rem;font-weight:900;background:linear-gradient(135deg,#60a5fa 0%,#22d3ee 50%,#4ade80 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1}
+.footer-arabe{font-size:.75rem;color:#94a3b8;font-family:'Tajawal',sans-serif;font-weight:700;margin-top:2px}
+.footer-brand p{color:#94a3b8;font-size:.92rem;margin:15px 0}
+.footer-social{display:flex;gap:12px}
+.footer-social a{width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.08);color:#fff;display:flex;align-items:center;justify-content:center;transition:var(--transition)}
+.footer-social a:hover{background:var(--gradient-violet);transform:translateY(-3px)}
+.footer-col h4{font-size:1.05rem;margin-bottom:18px;color:#fff;font-weight:700}
+.footer-col ul{list-style:none}
+.footer-col ul li{margin-bottom:10px}
+.footer-col ul a{color:#94a3b8;font-size:.9rem;transition:color .3s}
+.footer-col ul a:hover{color:var(--accent)}
+.footer-col ul a i{margin-right:6px;color:var(--accent)}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.1);padding-top:25px;text-align:center;color:#94a3b8;font-size:.88rem}
+.footer-bottom span{color:var(--accent);font-weight:600}
+@media (max-width:900px){.footer-grid{grid-template-columns:1fr 1fr}.hero-page h1{font-size:2.2rem}}
+@media (max-width:768px){
+nav{padding:10px 4%}.logo-img-wrap{width:44px;height:44px}.logo-texte .titre{font-size:1.15rem}.logo-texte .arabe{font-size:.65rem}
+.nav-links{position:fixed;top:64px;left:0;right:0;background:#fff;flex-direction:column;padding:25px;gap:18px;box-shadow:0 10px 30px rgba(0,0,0,.1);transform:translateY(-150%);transition:transform .4s;max-height:calc(100vh - 64px);overflow-y:auto}
+.nav-links.active{transform:translateY(0)}.menu-toggle{display:block}
+.nav-links .lang-switcher{width:100%;justify-content:center}.nav-links .btn-nav{width:100%;text-align:center;justify-content:center}
+.hero-page{padding:100px 4% 50px}.hero-page h1{font-size:1.8rem}
+.sims-grid{grid-template-columns:1fr}.footer-grid{grid-template-columns:1fr}
+.modal-header h2{font-size:1rem}.modal-body{padding:15px;gap:15px}.sim-canvas{height:220px}
+}
+@media (max-width:480px){.hero-page h1{font-size:1.5rem}.logo-texte{display:none}.logo-img-wrap{width:42px;height:42px}}
 </style>
 </head>
 <body>
 
-<!-- ===== NAVBAR ===== -->
 <nav>
   <a href="index.html" class="logo">
-    <div class="logo-img-wrap">
-      <img src="assets/logo-darrssy.png" alt="DARRSSY">
-    </div>
+    <div class="logo-img-wrap"><img src="assets/logo-darrssy.png" alt="DARRSSY"></div>
     <div class="logo-texte">
       <span class="titre">DARRSSY</span>
       <span class="arabe">دَرْسِي</span>
     </div>
   </a>
   <ul class="nav-links" id="navLinks">
-    <li><a href="index.html" data-i18n="nav.home">Accueil</a></li>
-    <li><a href="cours.html" data-i18n="nav.cours">Cours</a></li>
-    <li><a href="exercices.html" data-i18n="nav.exercices">Exercices</a></li>
-    <li><a href="examens.html" data-i18n="nav.examens">Examens</a></li>
-    <li><a href="simulations.html" class="actif" data-i18n="nav.simulations">Simulations</a></li>
-    <li><a href="ressources.html" data-i18n="nav.ressources">Ressources</a></li>
+    <li><a href="index.html">Accueil</a></li>
+    <li><a href="cours.html">Cours</a></li>
+    <li><a href="exercices.html">Exercices</a></li>
+    <li><a href="examens.html">Examens</a></li>
+    <li><a href="simulations.html" class="actif">Simulations</a></li>
+    <li><a href="ressources.html">Ressources</a></li>
     <li>
       <div class="lang-switcher">
         <button class="lang-btn actif" data-lang="fr">FR</button>
         <button class="lang-btn" data-lang="ar">AR</button>
       </div>
     </li>
-    <li><a href="admin/login.html" class="btn-nav"><i class="fas fa-sign-in-alt"></i> <span data-i18n="nav.connexion">Connexion</span></a></li>
+    <li><a href="admin/login.html" class="btn-nav"><i class="fas fa-sign-in-alt"></i> Connexion</a></li>
   </ul>
   <button class="menu-toggle" id="menuToggle" aria-label="Menu"><i class="fas fa-bars"></i></button>
 </nav>
 
-<!-- ===== HERO ===== -->
 <section class="hero-page">
   <div class="hero-page-content">
     <h1>
@@ -812,7 +169,6 @@ footer {
   </div>
 </section>
 
-<!-- ===== CONTENU ===== -->
 <div class="conteneur">
   <div class="filtres-bar" id="filtresBar">
     <button class="filtre-btn actif" data-cat="all"><i class="fas fa-th"></i> <span data-i18n="filtre.tous">Tous</span></button>
@@ -822,11 +178,9 @@ footer {
     <button class="filtre-btn" data-cat="mecanique"><i class="fas fa-rocket"></i> <span data-i18n="filtre.mecanique">Mécanique</span></button>
     <button class="filtre-btn" data-cat="electricite"><i class="fas fa-bolt"></i> <span data-i18n="filtre.electricite">Électricité</span></button>
   </div>
-
   <div class="sims-grid" id="simsGrid"></div>
 </div>
 
-<!-- ===== MODAL SIMULATION ===== -->
 <div class="modal-overlay" id="modalOverlay">
   <div class="modal-sim">
     <div class="modal-header">
@@ -853,20 +207,17 @@ footer {
   </div>
 </div>
 
-<!-- ===== FOOTER ===== -->
 <footer>
   <div class="footer-grid">
     <div class="footer-brand">
       <div class="footer-logo">
-        <div class="footer-logo-wrap">
-          <img src="assets/logo-darrssy.png" alt="DARRSSY">
-        </div>
+        <div class="footer-logo-wrap"><img src="assets/logo-darrssy.png" alt="DARRSSY"></div>
         <div>
           <div class="footer-nom">DARRSSY</div>
           <div class="footer-arabe">دَرْسِي</div>
         </div>
       </div>
-      <p data-i18n="footer.desc">La plateforme éducative marocaine dédiée à la réussite des lycéens en Physique & Chimie.</p>
+      <p>La plateforme éducative marocaine dédiée à la réussite des lycéens en Physique & Chimie.</p>
       <div class="footer-social">
         <a href="#"><i class="fab fa-facebook-f"></i></a>
         <a href="#"><i class="fab fa-instagram"></i></a>
@@ -875,32 +226,32 @@ footer {
       </div>
     </div>
     <div class="footer-col">
-      <h4 data-i18n="footer.navigation">Navigation</h4>
+      <h4>Navigation</h4>
       <ul>
-        <li><a href="index.html" data-i18n="nav.home">Accueil</a></li>
-        <li><a href="cours.html" data-i18n="nav.cours">Cours</a></li>
-        <li><a href="exercices.html" data-i18n="nav.exercices">Exercices</a></li>
-        <li><a href="examens.html" data-i18n="nav.examens">Examens</a></li>
+        <li><a href="index.html">Accueil</a></li>
+        <li><a href="cours.html">Cours</a></li>
+        <li><a href="exercices.html">Exercices</a></li>
+        <li><a href="examens.html">Examens</a></li>
       </ul>
     </div>
     <div class="footer-col">
-      <h4 data-i18n="footer.ressources">Ressources</h4>
+      <h4>Ressources</h4>
       <ul>
-        <li><a href="simulations.html" data-i18n="nav.simulations">Simulations</a></li>
-        <li><a href="ressources.html" data-i18n="nav.ressources">Ressources</a></li>
-        <li><a href="admin/login.html" data-i18n="nav.admin">Administration</a></li>
+        <li><a href="simulations.html">Simulations</a></li>
+        <li><a href="ressources.html">Ressources</a></li>
+        <li><a href="admin/login.html">Administration</a></li>
       </ul>
     </div>
     <div class="footer-col">
-      <h4 data-i18n="footer.contact">Contact</h4>
+      <h4>Contact</h4>
       <ul>
         <li><a href="mailto:contact@darrssy.com"><i class="fas fa-envelope"></i> contact@darrssy.com</a></li>
-        <li><a href="#"><i class="fas fa-map-marker-alt"></i> <span data-i18n="footer.maroc">Maroc</span></a></li>
+        <li><a href="#"><i class="fas fa-map-marker-alt"></i> Maroc</a></li>
       </ul>
     </div>
   </div>
   <div class="footer-bottom">
-    © 2026 <span>DARRSSY</span> — <span data-i18n="footer.droits">Tous droits réservés.</span>
+    © 2026 <span>DARRSSY</span> — Tous droits réservés.
   </div>
 </footer>
 
@@ -914,106 +265,75 @@ let simTime = 0;
 
 const simulations = [
   { id: 'ondes-corde', cat: 'ondes', icon: 'fa-water',
-    titre_fr: 'Ondes mécaniques sur une corde', titre_ar: 'الموجات الميكانيكية على حبل',
+    titre_fr: 'Ondes mécaniques sur une corde', titre_ar: 'الموجات الميكانيكية',
     desc_fr: "Visualisez la propagation d'une onde sinusoïdale.", desc_ar: 'شاهد انتشار موجة جيبية.',
     chapitre_fr: 'Ondes mécaniques', chapitre_ar: 'الموجات الميكانيكية',
     sliders: [
-      { id: 'freq', label_fr: 'Fréquence f', label_ar: 'التردد f', min: 0.5, max: 5, step: 0.1, value: 1, unit: 'Hz' },
-      { id: 'amp', label_fr: 'Amplitude A', label_ar: 'السعة A', min: 10, max: 60, step: 1, value: 40, unit: 'px' },
-      { id: 'vit', label_fr: 'Vitesse v', label_ar: 'السرعة v', min: 0.5, max: 5, step: 0.1, value: 2, unit: 'm/s' }
+      { id: 'freq', label_fr: 'Fréquence f', min: 0.5, max: 5, step: 0.1, value: 1, unit: 'Hz' },
+      { id: 'amp', label_fr: 'Amplitude A', min: 10, max: 60, step: 1, value: 40, unit: 'px' },
+      { id: 'vit', label_fr: 'Vitesse v', min: 0.5, max: 5, step: 0.1, value: 2, unit: 'm/s' }
     ], draw: drawOndesCorde },
   { id: 'diffraction', cat: 'ondes', icon: 'fa-circle-notch',
     titre_fr: 'Diffraction (fente simple)', titre_ar: 'الانعراج',
-    desc_fr: 'Observez le phénomène de diffraction à travers une fente.', desc_ar: 'لاحظ ظاهرة الانعراج.',
+    desc_fr: 'Observez le phénomène de diffraction.', desc_ar: 'لاحظ ظاهرة الانعراج.',
     chapitre_fr: 'Ondes lumineuses', chapitre_ar: 'الموجات الضوئية',
     sliders: [
-      { id: 'lambda', label_fr: "Longueur d'onde λ", label_ar: 'الطول الموجي λ', min: 400, max: 700, step: 10, value: 550, unit: 'nm' },
-      { id: 'largeur', label_fr: 'Largeur de fente a', label_ar: 'عرض الشق a', min: 20, max: 200, step: 5, value: 80, unit: 'µm' }
+      { id: 'lambda', label_fr: 'Longueur λ (nm)', min: 400, max: 700, step: 10, value: 550, unit: 'nm' },
+      { id: 'largeur', label_fr: 'Largeur a (µm)', min: 20, max: 200, step: 5, value: 80, unit: 'µm' }
     ], draw: drawDiffraction },
   { id: 'cinetique', cat: 'cinetique', icon: 'fa-hourglass-half',
     titre_fr: 'Cinétique chimique', titre_ar: 'الحركية الكيميائية',
     desc_fr: "Suivez l'évolution d'une concentration.", desc_ar: 'تابع تطور التركيز.',
     chapitre_fr: 'Cinétique', chapitre_ar: 'الحركية',
     sliders: [
-      { id: 'c0', label_fr: 'Concentration C₀', label_ar: 'التركيز C₀', min: 0.1, max: 1, step: 0.05, value: 0.5, unit: 'mol/L' },
-      { id: 'temp', label_fr: 'Température T', label_ar: 'الحرارة T', min: 280, max: 340, step: 5, value: 298, unit: 'K' }
+      { id: 'c0', label_fr: 'Concentration C₀', min: 0.1, max: 1, step: 0.05, value: 0.5, unit: 'mol/L' },
+      { id: 'temp', label_fr: 'Température T', min: 280, max: 340, step: 5, value: 298, unit: 'K' }
     ], draw: drawCinetique },
   { id: 'nucleaire', cat: 'nucleaire', icon: 'fa-radiation',
     titre_fr: 'Décroissance radioactive', titre_ar: 'التحلل الإشعاعي',
     desc_fr: "Observez la désintégration d'un échantillon.", desc_ar: 'لاحظ تحلل عينة مشعة.',
     chapitre_fr: 'Radioactivité', chapitre_ar: 'النشاط الإشعاعي',
     sliders: [
-      { id: 'lambda', label_fr: 'Constante λ', label_ar: 'الثابت λ', min: 0.01, max: 0.5, step: 0.01, value: 0.1, unit: 's⁻¹' },
-      { id: 'n0', label_fr: 'N₀ (noyaux)', label_ar: 'N₀ (أنوية)', min: 100, max: 5000, step: 100, value: 2000, unit: '' }
+      { id: 'lambda', label_fr: 'Constante λ', min: 0.01, max: 0.5, step: 0.01, value: 0.1, unit: 's⁻¹' },
+      { id: 'n0', label_fr: 'N₀ (noyaux)', min: 100, max: 5000, step: 100, value: 2000, unit: '' }
     ], draw: drawNucleaire },
   { id: 'chute-libre', cat: 'mecanique', icon: 'fa-rocket',
     titre_fr: 'Chute libre', titre_ar: 'السقوط الحر',
     desc_fr: "Étudiez la chute d'un objet.", desc_ar: 'ادرس سقوط جسم.',
     chapitre_fr: 'Mécanique', chapitre_ar: 'الميكانيك',
     sliders: [
-      { id: 'masse', label_fr: 'Masse m', label_ar: 'الكتلة m', min: 0.1, max: 10, step: 0.1, value: 1, unit: 'kg' },
-      { id: 'hauteur', label_fr: 'Hauteur h', label_ar: 'الارتفاع h', min: 5, max: 100, step: 5, value: 50, unit: 'm' },
-      { id: 'v0', label_fr: 'Vitesse v₀', label_ar: 'السرعة v₀', min: 0, max: 20, step: 1, value: 0, unit: 'm/s' }
+      { id: 'masse', label_fr: 'Masse m (kg)', min: 0.1, max: 10, step: 0.1, value: 1, unit: 'kg' },
+      { id: 'hauteur', label_fr: 'Hauteur h (m)', min: 5, max: 100, step: 5, value: 50, unit: 'm' },
+      { id: 'v0', label_fr: 'Vitesse v₀ (m/s)', min: 0, max: 20, step: 1, value: 0, unit: 'm/s' }
     ], draw: drawChuteLibre },
   { id: 'dipole-rc', cat: 'electricite', icon: 'fa-bolt',
     titre_fr: 'Charge du dipôle RC', titre_ar: 'شحن ثنائي القطب RC',
     desc_fr: "Observez la charge d'un condensateur.", desc_ar: 'لاحظ شحن مكثف.',
     chapitre_fr: 'Électricité', chapitre_ar: 'الكهرباء',
     sliders: [
-      { id: 'R', label_fr: 'Résistance R', label_ar: 'المقاومة R', min: 100, max: 5000, step: 100, value: 1000, unit: 'Ω' },
-      { id: 'C', label_fr: 'Capacité C', label_ar: 'السعة C', min: 1, max: 100, step: 1, value: 10, unit: 'µF' },
-      { id: 'E', label_fr: 'Tension E', label_ar: 'التوتر E', min: 1, max: 12, step: 0.5, value: 5, unit: 'V' }
+      { id: 'R', label_fr: 'Résistance R (Ω)', min: 100, max: 5000, step: 100, value: 1000, unit: 'Ω' },
+      { id: 'C', label_fr: 'Capacité C (µF)', min: 1, max: 100, step: 1, value: 10, unit: 'µF' },
+      { id: 'E', label_fr: 'Tension E (V)', min: 1, max: 12, step: 0.5, value: 5, unit: 'V' }
     ], draw: drawDipoleRC },
   { id: 'rlc', cat: 'electricite', icon: 'fa-wave-square',
     titre_fr: 'Circuit RLC', titre_ar: 'دارة RLC',
     desc_fr: 'Visualisez les oscillations amorties.', desc_ar: 'شاهد التذبذبات المخمدة.',
     chapitre_fr: 'Oscillations', chapitre_ar: 'التذبذبات',
     sliders: [
-      { id: 'R', label_fr: 'Résistance R', label_ar: 'المقاومة R', min: 1, max: 100, step: 1, value: 10, unit: 'Ω' },
-      { id: 'L', label_fr: 'Inductance L', label_ar: 'التحريض L', min: 0.05, max: 1, step: 0.05, value: 0.2, unit: 'H' },
-      { id: 'C', label_fr: 'Capacité C', label_ar: 'السعة C', min: 1, max: 50, step: 1, value: 10, unit: 'µF' }
+      { id: 'R', label_fr: 'Résistance R (Ω)', min: 1, max: 100, step: 1, value: 10, unit: 'Ω' },
+      { id: 'L', label_fr: 'Inductance L (H)', min: 0.05, max: 1, step: 0.05, value: 0.2, unit: 'H' },
+      { id: 'C', label_fr: 'Capacité C (µF)', min: 1, max: 50, step: 1, value: 10, unit: 'µF' }
     ], draw: drawRLC },
   { id: 'oscillateur', cat: 'mecanique', icon: 'fa-wave-square',
     titre_fr: 'Oscillateur mécanique', titre_ar: 'المتذبذب الميكانيكي',
     desc_fr: "Oscillations d'une masse sur un ressort.", desc_ar: 'تذبذبات كتلة على نابض.',
     chapitre_fr: 'Oscillations', chapitre_ar: 'التذبذبات',
     sliders: [
-      { id: 'masse', label_fr: 'Masse m', label_ar: 'الكتلة m', min: 0.1, max: 5, step: 0.1, value: 1, unit: 'kg' },
-      { id: 'k', label_fr: 'Raideur k', label_ar: 'الصلابة k', min: 5, max: 100, step: 5, value: 30, unit: 'N/m' },
-      { id: 'amp', label_fr: 'Amplitude A', label_ar: 'السعة A', min: 10, max: 80, step: 5, value: 40, unit: 'px' }
+      { id: 'masse', label_fr: 'Masse m (kg)', min: 0.1, max: 5, step: 0.1, value: 1, unit: 'kg' },
+      { id: 'k', label_fr: 'Raideur k (N/m)', min: 5, max: 100, step: 5, value: 30, unit: 'N/m' },
+      { id: 'amp', label_fr: 'Amplitude A', min: 10, max: 80, step: 5, value: 40, unit: 'px' }
     ], draw: drawOscillateur }
 ];
-
-const trad = {
-  fr: {
-    'nav.home': 'Accueil', 'nav.cours': 'Cours', 'nav.exercices': 'Exercices',
-    'nav.examens': 'Examens', 'nav.simulations': 'Simulations', 'nav.ressources': 'Ressources',
-    'nav.admin': 'Administration', 'nav.connexion': 'Connexion',
-    'sims.titre1': 'Simulations', 'sims.titre2': 'interactives',
-    'sims.desc': 'Explorez les phénomènes physiques et chimiques en modifiant les paramètres. Visualisez les effets en temps réel.',
-    'filtre.tous': 'Tous', 'filtre.ondes': 'Ondes', 'filtre.cinetique': 'Cinétique',
-    'filtre.nucleaire': 'Nucléaire', 'filtre.mecanique': 'Mécanique', 'filtre.electricite': 'Électricité',
-    'sim.play': 'Lancer', 'sim.pause': 'Pause', 'sim.reset': 'Reset',
-    'sim.resultats': 'Résultats', 'sim.lancer': 'Lancer la simulation',
-    'footer.desc': 'La plateforme éducative marocaine dédiée à la réussite des lycéens en Physique & Chimie.',
-    'footer.navigation': 'Navigation', 'footer.ressources': 'Ressources',
-    'footer.contact': 'Contact', 'footer.maroc': 'Maroc', 'footer.droits': 'Tous droits réservés.'
-  },
-  ar: {
-    'nav.home': 'الرئيسية', 'nav.cours': 'الدروس', 'nav.exercices': 'التمارين',
-    'nav.examens': 'الامتحانات', 'nav.simulations': 'المحاكاة', 'nav.ressources': 'الموارد',
-    'nav.admin': 'الإدارة', 'nav.connexion': 'تسجيل الدخول',
-    'sims.titre1': 'المحاكاة', 'sims.titre2': 'التفاعلية',
-    'sims.desc': 'استكشف الظواهر الفيزيائية والكيميائية.',
-    'filtre.tous': 'الكل', 'filtre.ondes': 'الموجات', 'filtre.cinetique': 'الحركية',
-    'filtre.nucleaire': 'النووي', 'filtre.mecanique': 'الميكانيك', 'filtre.electricite': 'الكهرباء',
-    'sim.play': 'تشغيل', 'sim.pause': 'إيقاف', 'sim.reset': 'إعادة',
-    'sim.resultats': 'النتائج', 'sim.lancer': 'تشغيل المحاكاة',
-    'footer.desc': 'المنصة التعليمية المغربية المخصصة لنجاح تلاميذ الثانوية.',
-    'footer.navigation': 'التنقل', 'footer.ressources': 'الموارد',
-    'footer.contact': 'اتصل بنا', 'footer.maroc': 'المغرب', 'footer.droits': 'جميع الحقوق محفوظة.'
-  }
-};
 
 document.addEventListener('DOMContentLoaded', () => {
   appliquerLangue(currentLang);
@@ -1025,10 +345,6 @@ function appliquerLangue(lang) {
   currentLang = lang;
   document.getElementById('htmlRoot').setAttribute('lang', lang);
   document.getElementById('htmlRoot').setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
-  document.querySelectorAll('[data-i18n]').forEach(el => {
-    const key = el.getAttribute('data-i18n');
-    if (trad[lang] && trad[lang][key]) el.textContent = trad[lang][key];
-  });
   document.querySelectorAll('.lang-btn').forEach(btn => {
     btn.classList.toggle('actif', btn.getAttribute('data-lang') === lang);
   });
@@ -1071,7 +387,7 @@ function afficherSims() {
   const filtered = currentCat === 'all' ? simulations : simulations.filter(s => s.cat === currentCat);
   filtered.forEach(sim => {
     const card = document.createElement('div');
-    card.className = 'sim-card fade-in visible';
+    card.className = 'sim-card';
     const titre = currentLang === 'fr' ? sim.titre_fr : sim.titre_ar;
     const desc = currentLang === 'fr' ? sim.desc_fr : sim.desc_ar;
     const chap = currentLang === 'fr' ? sim.chapitre_fr : sim.chapitre_ar;
@@ -1081,7 +397,7 @@ function afficherSims() {
       <h3>${titre}</h3>
       <p>${desc}</p>
       <div class="sim-lancer">
-        <span>${trad[currentLang]['sim.lancer']}</span>
+        <span>Lancer la simulation</span>
         <i class="fas fa-arrow-right"></i>
       </div>
     `;
@@ -1117,12 +433,8 @@ function construireSliders(sim) {
     group.className = 'sim-slider-group';
     const label = currentLang === 'fr' ? slider.label_fr : slider.label_ar;
     group.innerHTML = `
-      <label>
-        <span>${label}</span>
-        <span class="value" id="val-${slider.id}">${sim.params[slider.id] || slider.value} ${slider.unit}</span>
-      </label>
-      <input type="range" class="sim-slider" id="slider-${slider.id}"
-             min="${slider.min}" max="${slider.max}" step="${slider.step}" value="${sim.params[slider.id] || slider.value}">
+      <label><span>${label}</span><span class="value" id="val-${slider.id}">${sim.params[slider.id] || slider.value} ${slider.unit}</span></label>
+      <input type="range" class="sim-slider" id="slider-${slider.id}" min="${slider.min}" max="${slider.max}" step="${slider.step}" value="${sim.params[slider.id] || slider.value}">
     `;
     container.appendChild(group);
     const input = group.querySelector('input');
@@ -1209,28 +521,24 @@ function drawOndesCorde(ctx, w, h, p, t) {
   const cy = h/2;
   const lambda = p.vit / p.freq;
   const k = 2 * Math.PI / lambda;
-  ctx.strokeStyle = 'rgba(34, 211, 238, 0.2)';
+  ctx.strokeStyle = 'rgba(139, 92, 246, 0.2)';
   ctx.lineWidth = 1;
   ctx.beginPath(); ctx.moveTo(0, cy); ctx.lineTo(w, cy); ctx.stroke();
   ctx.strokeStyle = '#8b5cf6';
   ctx.lineWidth = 3;
-  ctx.shadowColor = '#8b5cf6';
-  ctx.shadowBlur = 15;
+  ctx.shadowColor = '#8b5cf6'; ctx.shadowBlur = 15;
   ctx.beginPath();
   for (let x = 0; x < w; x++) {
     const y = cy - p.amp * Math.sin(k * x / 40 - 2 * Math.PI * p.freq * t);
-    if (x === 0) ctx.moveTo(x, y);
-    else ctx.lineTo(x, y);
+    if (x === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
   }
-  ctx.stroke();
-  ctx.shadowBlur = 0;
+  ctx.stroke(); ctx.shadowBlur = 0;
 }
 
 function drawDiffraction(ctx, w, h, p, t) {
-  const cx = w/2;
-  const cy = h/2;
+  const cx = w/2, cy = h/2;
   const largeurPx = p.largeur / 3;
-  ctx.fillStyle = 'rgba(34, 211, 238, 0.15)';
+  ctx.fillStyle = 'rgba(139, 92, 246, 0.15)';
   ctx.fillRect(0, cy - 150, cx - largeurPx/2, 300);
   ctx.fillRect(cx + largeurPx/2, cy - 150, cx, 300);
   ctx.fillStyle = '#8b5cf6';
@@ -1260,8 +568,7 @@ function drawCinetique(ctx, w, h, p, t) {
   const maxT = 100;
   ctx.strokeStyle = '#10b981';
   ctx.lineWidth = 3;
-  ctx.shadowColor = '#10b981';
-  ctx.shadowBlur = 12;
+  ctx.shadowColor = '#10b981'; ctx.shadowBlur = 12;
   ctx.beginPath();
   for (let i = 0; i <= 100; i++) {
     const time = (i / 100) * maxT;
@@ -1270,8 +577,7 @@ function drawCinetique(ctx, w, h, p, t) {
     const y = h - padding - (c / p.c0) * graphH;
     if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
   }
-  ctx.stroke();
-  ctx.shadowBlur = 0;
+  ctx.stroke(); ctx.shadowBlur = 0;
 }
 
 function drawNucleaire(ctx, w, h, p, t) {
@@ -1285,8 +591,7 @@ function drawNucleaire(ctx, w, h, p, t) {
   const maxT = 20;
   ctx.strokeStyle = '#8b5cf6';
   ctx.lineWidth = 3;
-  ctx.shadowColor = '#8b5cf6';
-  ctx.shadowBlur = 12;
+  ctx.shadowColor = '#8b5cf6'; ctx.shadowBlur = 12;
   ctx.beginPath();
   for (let i = 0; i <= 100; i++) {
     const time = (i / 100) * maxT;
@@ -1295,8 +600,7 @@ function drawNucleaire(ctx, w, h, p, t) {
     const y = h - padding - (n / p.n0) * graphH;
     if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
   }
-  ctx.stroke();
-  ctx.shadowBlur = 0;
+  ctx.stroke(); ctx.shadowBlur = 0;
 }
 
 function drawChuteLibre(ctx, w, h, p, t) {
@@ -1313,12 +617,10 @@ function drawChuteLibre(ctx, w, h, p, t) {
   const ratio = Math.min(1, yPos / p.hauteur);
   const yPx = cy + ratio * (sol - cy);
   ctx.fillStyle = '#10b981';
-  ctx.shadowColor = '#10b981';
-  ctx.shadowBlur = 20;
+  ctx.shadowColor = '#10b981'; ctx.shadowBlur = 20;
   ctx.beginPath();
   ctx.arc(w/2, yPx, 15 + p.masse * 2, 0, 2 * Math.PI);
-  ctx.fill();
-  ctx.shadowBlur = 0;
+  ctx.fill(); ctx.shadowBlur = 0;
 }
 
 function drawDipoleRC(ctx, w, h, p, t) {
@@ -1333,8 +635,7 @@ function drawDipoleRC(ctx, w, h, p, t) {
   const maxT = 5 * tau;
   ctx.strokeStyle = '#06b6d4';
   ctx.lineWidth = 3;
-  ctx.shadowColor = '#06b6d4';
-  ctx.shadowBlur = 12;
+  ctx.shadowColor = '#06b6d4'; ctx.shadowBlur = 12;
   ctx.beginPath();
   for (let i = 0; i <= 100; i++) {
     const time = (i / 100) * maxT;
@@ -1343,8 +644,7 @@ function drawDipoleRC(ctx, w, h, p, t) {
     const y = h - padding - (uc / p.E) * graphH;
     if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
   }
-  ctx.stroke();
-  ctx.shadowBlur = 0;
+  ctx.stroke(); ctx.shadowBlur = 0;
 }
 
 function drawRLC(ctx, w, h, p, t) {
@@ -1361,8 +661,7 @@ function drawRLC(ctx, w, h, p, t) {
   const maxT = 0.05;
   ctx.strokeStyle = '#8b5cf6';
   ctx.lineWidth = 2.5;
-  ctx.shadowColor = '#8b5cf6';
-  ctx.shadowBlur = 15;
+  ctx.shadowColor = '#8b5cf6'; ctx.shadowBlur = 15;
   ctx.beginPath();
   for (let i = 0; i <= 200; i++) {
     const time = (i / 200) * maxT;
@@ -1371,8 +670,7 @@ function drawRLC(ctx, w, h, p, t) {
     const y = h/2 - q * (h/2 - padding) * 0.8;
     if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
   }
-  ctx.stroke();
-  ctx.shadowBlur = 0;
+  ctx.stroke(); ctx.shadowBlur = 0;
 }
 
 function drawOscillateur(ctx, w, h, p, t) {
@@ -1393,12 +691,10 @@ function drawOscillateur(ctx, w, h, p, t) {
   ctx.lineTo(w/2, y);
   ctx.stroke();
   ctx.fillStyle = '#10b981';
-  ctx.shadowColor = '#10b981';
-  ctx.shadowBlur = 20;
+  ctx.shadowColor = '#10b981'; ctx.shadowBlur = 20;
   ctx.beginPath();
   ctx.arc(w/2, y, 20 + p.masse * 3, 0, 2 * Math.PI);
-  ctx.fill();
-  ctx.shadowBlur = 0;
+  ctx.fill(); ctx.shadowBlur = 0;
 }
 </script>
 </body>
