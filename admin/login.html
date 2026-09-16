@@ -1,143 +1,324 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" dir="ltr" id="htmlRoot">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin — Connexion · A SALIKI PC</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      font-family: 'Inter', sans-serif;
-      background: #050b14;
-      color: #cbd5e1;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 1rem;
-      overflow: hidden;
-      position: relative;
-    }
-    body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background-image:
-        linear-gradient(rgba(34, 211, 238, 0.04) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(34, 211, 238, 0.04) 1px, transparent 1px);
-      background-size: 50px 50px;
-    }
-    body::after {
-      content: '';
-      position: fixed;
-      top: -20%; right: -10%;
-      width: 600px; height: 600px;
-      background: radial-gradient(circle, rgba(34, 211, 238, 0.15), transparent 70%);
-      border-radius: 50%;
-    }
-    .login-box {
-      position: relative; z-index: 1;
-      background: linear-gradient(160deg, #0f1e38, #0a1428);
-      border: 1px solid #1a2f52;
-      border-radius: 1.5rem;
-      padding: 3rem 2.5rem;
-      width: 100%; max-width: 450px;
-      box-shadow: 0 30px 80px -10px rgba(34, 211, 238, 0.3);
-      animation: slideIn 0.6s ease;
-    }
-    @keyframes slideIn { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-    .login-logo {
-      display: flex; align-items: center; justify-content: center;
-      gap: 0.7rem; margin-bottom: 0.5rem;
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 1.8rem; font-weight: 700; color: white;
-    }
-    .login-logo .icon {
-      width: 50px; height: 50px; border-radius: 0.8rem;
-      background: linear-gradient(135deg, #22d3ee, #4ade80);
-      display: flex; align-items: center; justify-content: center;
-      color: #050b14; font-size: 1.5rem;
-      box-shadow: 0 0 30px -5px rgba(34, 211, 238, 0.7);
-    }
-    .login-logo span {
-      background: linear-gradient(135deg, #22d3ee, #4ade80);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-    .login-sub { text-align: center; color: #94a3b8; font-size: 0.9rem; margin-bottom: 2.5rem; }
-    .login-sub .admin-badge {
-      display: inline-block; background: rgba(34, 211, 238, 0.1);
-      border: 1px solid rgba(34, 211, 238, 0.3);
-      color: #22d3ee; padding: 0.2rem 0.7rem;
-      border-radius: 2rem; font-size: 0.72rem; font-weight: 600;
-      text-transform: uppercase; letter-spacing: 0.1em;
-      margin-bottom: 1rem;
-    }
-    .form-group { margin-bottom: 1.3rem; }
-    .form-group label {
-      display: block; font-size: 0.78rem; font-weight: 600;
-      color: #22d3ee; text-transform: uppercase;
-      letter-spacing: 0.08em; margin-bottom: 0.5rem;
-    }
-    .form-group input {
-      width: 100%; padding: 0.9rem 1.2rem;
-      background: #050b14; border: 1.5px solid #1a2f52;
-      border-radius: 0.6rem; color: white;
-      font-family: inherit; font-size: 0.95rem;
-      transition: all 0.3s;
-    }
-    .form-group input:focus {
-      outline: none; border-color: #22d3ee;
-      box-shadow: 0 0 20px -5px rgba(34, 211, 238, 0.5);
-    }
-    .btn-login {
-      width: 100%; padding: 1rem;
-      background: linear-gradient(135deg, #22d3ee, #4ade80);
-      color: #050b14; border: none; border-radius: 0.6rem;
-      font-family: inherit; font-size: 1rem; font-weight: 700;
-      cursor: pointer; transition: all 0.3s;
-      display: flex; align-items: center; justify-content: center;
-      gap: 0.6rem; margin-top: 1rem;
-    }
-    .btn-login:hover:not(:disabled) {
-      box-shadow: 0 0 40px -5px rgba(34, 211, 238, 0.9);
-      transform: translateY(-2px);
-    }
-    .btn-login:disabled { opacity: 0.5; cursor: not-allowed; }
-    .message {
-      padding: 1rem; border-radius: 0.6rem;
-      font-size: 0.88rem; margin-top: 1rem;
-      display: none;
-    }
-    .message.erreur {
-      display: block; background: rgba(239, 68, 68, 0.1);
-      border: 1px solid rgba(239, 68, 68, 0.3);
-      color: #ef4444;
-    }
-    .message.succes {
-      display: block; background: rgba(74, 222, 128, 0.1);
-      border: 1px solid rgba(74, 222, 128, 0.3);
-      color: #4ade80;
-    }
-    .retour-lien { text-align: center; margin-top: 1.5rem; font-size: 0.85rem; color: #94a3b8; }
-    .retour-lien a { color: #22d3ee; text-decoration: none; font-weight: 600; }
-    .retour-lien a:hover { text-decoration: underline; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Connexion Admin — DARRSSY</title>
+
+<meta name="description" content="Espace administration DARRSSY.">
+<link rel="icon" type="image/png" href="../assets/logo-darrssy.png">
+<link rel="apple-touch-icon" href="../assets/logo-darrssy.png">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+:root {
+  --primary: #1e3a8a;
+  --primary-light: #3b82f6;
+  --accent: #f59e0b;
+  --success: #10b981;
+  --danger: #ef4444;
+  --violet: #8b5cf6;
+  --dark: #0f172a;
+  --gray: #64748b;
+  --border: #e2e8f0;
+  --light: #f8fafc;
+  --white: #ffffff;
+  --gradient: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 50%, #06b6d4 100%);
+  --gradient-accent: linear-gradient(135deg, #f59e0b 0%, #ef4444 100%);
+  --gradient-violet: linear-gradient(135deg, #8b5cf6 0%, #06b6d4 100%);
+  --shadow-sm: 0 2px 10px rgba(30, 58, 138, 0.06);
+  --shadow: 0 10px 30px rgba(30, 58, 138, 0.15);
+  --shadow-lg: 0 30px 80px rgba(30, 58, 138, 0.25);
+  --radius: 20px;
+  --radius-sm: 14px;
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Poppins', 'Tajawal', sans-serif;
+  background: var(--gradient);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+[dir="rtl"] body { font-family: 'Tajawal', 'Poppins', sans-serif; }
+
+body::before {
+  content: '';
+  position: fixed;
+  top: -50%; right: -20%;
+  width: 800px; height: 800px;
+  background: radial-gradient(circle, rgba(245,158,11,0.35) 0%, transparent 70%);
+  border-radius: 50%;
+  animation: float 10s ease-in-out infinite;
+  pointer-events: none;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  bottom: -40%; left: -15%;
+  width: 700px; height: 700px;
+  background: radial-gradient(circle, rgba(6,182,212,0.4) 0%, transparent 70%);
+  border-radius: 50%;
+  animation: float 12s ease-in-out infinite reverse;
+  pointer-events: none;
+}
+
+@keyframes float {
+  0%, 100% { transform: translate(0,0); }
+  50% { transform: translate(40px, -40px); }
+}
+
+/* ===== CARTE LOGIN ===== */
+.login-container {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 450px;
+}
+
+.login-box {
+  background: white;
+  border-radius: 30px;
+  padding: 45px 40px;
+  box-shadow: var(--shadow-lg);
+  animation: slideIn 0.6s ease;
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(40px) scale(0.95); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Logo */
+.login-logo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 10px;
+}
+
+.login-logo-wrap {
+  position: relative;
+  width: 100px; height: 100px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #1e3a8a 0%, #06b6d4 50%, #10b981 100%);
+  padding: 4px;
+  box-shadow: 0 15px 40px rgba(6, 182, 212, 0.4);
+}
+
+.login-logo-wrap::before {
+  content: '';
+  position: absolute;
+  inset: 4px;
+  border-radius: 50%;
+  background: white;
+  z-index: 0;
+}
+
+.login-logo-wrap img {
+  position: relative;
+  z-index: 1;
+  width: 100%; height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.login-nom {
+  font-size: 1.8rem;
+  font-weight: 900;
+  background: linear-gradient(135deg, #1e3a8a 0%, #06b6d4 50%, #10b981 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: -0.5px;
+  line-height: 1;
+}
+
+.login-arabe {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--gray);
+  font-family: 'Tajawal', sans-serif;
+  margin-top: 3px;
+}
+
+.login-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(139,92,246,0.1);
+  border: 1.5px solid rgba(139,92,246,0.3);
+  color: var(--violet);
+  padding: 6px 16px;
+  border-radius: 50px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin-top: 15px;
+}
+
+.login-titre {
+  text-align: center;
+  color: var(--gray);
+  font-size: 0.95rem;
+  margin-bottom: 30px;
+  margin-top: 15px;
+}
+
+/* Form */
+.form-group { margin-bottom: 20px; }
+
+.form-group label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--primary);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 10px;
+}
+
+.form-group label i { color: var(--violet); }
+
+.form-group input {
+  width: 100%;
+  padding: 15px 20px;
+  background: var(--light);
+  border: 2px solid var(--border);
+  border-radius: 14px;
+  color: var(--dark);
+  font-family: inherit;
+  font-size: 1rem;
+  transition: var(--transition);
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: var(--violet);
+  background: white;
+  box-shadow: 0 0 0 4px rgba(139,92,246,0.1);
+}
+
+.form-group input::placeholder { color: #cbd5e1; }
+
+.btn-login {
+  width: 100%;
+  padding: 17px;
+  background: var(--gradient-violet);
+  color: white;
+  border: none;
+  border-radius: 14px;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 10px;
+  box-shadow: 0 10px 30px rgba(139,92,246,0.35);
+}
+
+.btn-login:hover:not(:disabled) {
+  transform: translateY(-3px);
+  box-shadow: 0 15px 40px rgba(139,92,246,0.5);
+}
+
+.btn-login:disabled { opacity: 0.6; cursor: not-allowed; }
+
+/* Messages */
+.message {
+  padding: 15px 18px;
+  border-radius: 12px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-top: 20px;
+  display: none;
+  align-items: center;
+  gap: 10px;
+}
+
+.message.erreur {
+  display: flex;
+  background: rgba(239,68,68,0.1);
+  border: 1.5px solid rgba(239,68,68,0.3);
+  color: var(--danger);
+}
+
+.message.succes {
+  display: flex;
+  background: rgba(16,185,129,0.1);
+  border: 1.5px solid rgba(16,185,129,0.3);
+  color: var(--success);
+}
+
+/* Retour */
+.retour-lien {
+  text-align: center;
+  margin-top: 25px;
+  padding-top: 25px;
+  border-top: 1px solid var(--border);
+  font-size: 0.9rem;
+  color: var(--gray);
+}
+
+.retour-lien a {
+  color: var(--violet);
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: var(--transition);
+}
+
+.retour-lien a:hover { color: var(--primary); }
+
+/* Responsive */
+@media (max-width: 480px) {
+  .login-box { padding: 35px 25px; border-radius: 25px; }
+  .login-logo-wrap { width: 85px; height: 85px; }
+  .login-nom { font-size: 1.5rem; }
+  .form-group input { padding: 13px 16px; font-size: 0.95rem; }
+  .btn-login { padding: 15px; font-size: 0.95rem; }
+}
+</style>
 </head>
 <body>
 
+<div class="login-container">
   <div class="login-box">
     <div class="login-logo">
-      <div class="icon"><i class="fas fa-atom"></i></div>
-      A SALIKI <span>PC</span>
+      <div class="login-logo-wrap">
+        <img src="../assets/logo-darrssy.png" alt="DARRSSY">
+      </div>
+      <div style="text-align:center;">
+        <div class="login-nom">DARRSSY</div>
+        <div class="login-arabe">دَرْسِي</div>
+      </div>
+      <div class="login-badge">
+        <i class="fas fa-lock"></i>
+        <span>Administration</span>
+      </div>
     </div>
-    <div class="login-sub">
-      <div class="admin-badge"><i class="fas fa-lock"></i> Administration</div>
-      <div>Connectez-vous pour accéder au tableau de bord</div>
-    </div>
+
+    <p class="login-titre">Connectez-vous pour accéder au tableau de bord</p>
 
     <form id="loginForm">
       <div class="form-group">
@@ -149,60 +330,73 @@
         <input type="password" id="password" placeholder="••••••••" required autocomplete="current-password">
       </div>
       <button type="submit" class="btn-login" id="btnLogin">
-        <i class="fas fa-sign-in-alt"></i> Se connecter
+        <i class="fas fa-sign-in-alt"></i>
+        <span>Se connecter</span>
       </button>
       <div class="message" id="message"></div>
     </form>
 
     <div class="retour-lien">
-      <a href="../index.html"><i class="fas fa-arrow-left"></i> Retour au site</a>
+      <a href="../index.html">
+        <i class="fas fa-arrow-left"></i>
+        <span>Retour au site</span>
+      </a>
     </div>
   </div>
+</div>
 
-  <script src="supabase-config.js"></script>
-  <script>
-    const form = document.getElementById('loginForm');
-    const btn = document.getElementById('btnLogin');
-    const msg = document.getElementById('message');
+<script src="supabase-config.js"></script>
+<script>
+const form = document.getElementById('loginForm');
+const btn = document.getElementById('btnLogin');
+const msg = document.getElementById('message');
 
-    (async () => {
+// Vérifier si déjà connecté
+(async () => {
+  try {
+    if (typeof verifierAuth === 'function') {
       const session = await verifierAuth();
       if (session) window.location.href = 'dashboard.html';
-    })();
+    }
+  } catch (e) { console.log('Non connecté'); }
+})();
 
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      btn.disabled = true;
-      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Connexion...';
-      msg.className = 'message';
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i><span>Connexion...</span>';
+  msg.className = 'message';
 
-      try {
-        const sb = await initSupabase();
-        const email = document.getElementById('email').value.trim();
-        const password = document.getElementById('password').value;
+  try {
+    if (typeof initSupabase !== 'function') {
+      throw new Error('supabase-config.js non chargé. Vérifiez le chemin.');
+    }
+    const sb = await initSupabase();
+    const email = document.getElementById('email').value.trim();
+    const password = document.getElementById('password').value;
 
-        const { data, error } = await sb.auth.signInWithPassword({ email, password });
-        if (error) throw error;
+    const { data, error } = await sb.auth.signInWithPassword({ email, password });
+    if (error) throw error;
 
-        msg.className = 'message succes';
-        msg.innerHTML = '<i class="fas fa-check-circle"></i> Connexion réussie ! Redirection...';
+    msg.className = 'message succes';
+    msg.innerHTML = '<i class="fas fa-check-circle"></i><span>Connexion réussie ! Redirection...</span>';
 
-        setTimeout(() => { window.location.href = 'dashboard.html'; }, 800);
-      } catch (error) {
-        msg.className = 'message erreur';
-        let texte = 'Erreur de connexion.';
-        if (error.message.includes('Invalid login credentials')) {
-          texte = 'Email ou mot de passe incorrect.';
-        } else if (error.message.includes('Email not confirmed')) {
-          texte = 'Email non confirmé.';
-        } else {
-          texte = error.message;
-        }
-        msg.innerHTML = '<i class="fas fa-exclamation-circle"></i> ' + texte;
-        btn.disabled = false;
-        btn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Se connecter';
-      }
-    });
-  </script>
+    setTimeout(() => { window.location.href = 'dashboard.html'; }, 800);
+  } catch (error) {
+    msg.className = 'message erreur';
+    let texte = 'Erreur de connexion.';
+    if (error.message.includes('Invalid login credentials')) {
+      texte = 'Email ou mot de passe incorrect.';
+    } else if (error.message.includes('Email not confirmed')) {
+      texte = 'Email non confirmé. Vérifiez votre boîte mail.';
+    } else {
+      texte = error.message;
+    }
+    msg.innerHTML = '<i class="fas fa-exclamation-circle"></i><span>' + texte + '</span>';
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fas fa-sign-in-alt"></i><span>Se connecter</span>';
+  }
+});
+</script>
 </body>
 </html>
