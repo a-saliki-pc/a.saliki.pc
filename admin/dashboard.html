@@ -8,7 +8,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
-:root{--primary:#1e3a8a;--primary-light:#3b82f6;--accent:#f59e0b;--success:#10b981;--danger:#ef4444;--violet:#8b5cf6;--rose:#db2777;--dark:#0f172a;--gray:#64748b;--border:#e2e8f0;--light:#f8fafc;--white:#fff;--sidebar-bg:linear-gradient(180deg,#1e3a8a 0%,#0f172a 100%);--gradient:linear-gradient(135deg,#1e3a8a 0%,#3b82f6 50%,#06b6d4 100%);--gradient-accent:linear-gradient(135deg,#f59e0b 0%,#ef4444 100%);--gradient-violet:linear-gradient(135deg,#8b5cf6 0%,#06b6d4 100%);--shadow-sm:0 2px 10px rgba(30,58,138,.06);--shadow:0 10px 30px rgba(30,58,138,.15);--shadow-lg:0 20px 50px rgba(30,58,138,.25);--radius:16px;--radius-sm:12px;--transition:all .3s cubic-bezier(.4,0,.2,1);}
+:root{--primary:#1e3a8a;--primary-light:#3b82f6;--accent:#f59e0b;--success:#10b981;--danger:#ef4444;--violet:#8b5cf6;--rose:#db2777;--dark:#0f172a;--gray:#64748b;--border:#e2e8f0;--light:#f8fafc;--white:#fff;--sidebar-bg:linear-gradient(180deg,#1e3a8a 0%,#0f172a 100%);--gradient:linear-gradient(135deg,#1e3a8a 0%,#3b82f6 50%,#06b6d4 100%);--gradient-accent:linear-gradient(135deg,#f59e0b 0%,#ef4444 100%);--gradient-violet:linear-gradient(135deg,#8b5cf6 0%,#06b6d4 100%);--shadow-sm:0 2px 10px rgba(30,58,138,.06);--shadow:0 10px 30px rgba(30,58,138,.15);--shadow-lg:0 20px 50px rgba(30,58,138,.25);--radius:16px;--radius-sm:12px;--transition:all .3s cubic-bezier(.4,0,.2,1)}
 *{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
 body{font-family:'Poppins','Tajawal',sans-serif;background:var(--light);color:var(--dark);line-height:1.6;min-height:100vh}
 [dir="rtl"] body{font-family:'Tajawal','Poppins',sans-serif}a{text-decoration:none;color:inherit}
@@ -132,9 +132,7 @@ tbody tr{transition:var(--transition)}tbody tr:hover{background:rgba(139,92,246,
 
 <aside class="sidebar" id="sidebar">
   <div class="sb-logo">
-    <div class="sb-logo-img">
-      <img src="../assets/logo-darrssy.png" alt="DARRSSY">
-    </div>
+    <div class="sb-logo-img"><img src="../assets/logo-darrssy.png" alt="DARRSSY"></div>
     <div class="sb-logo-texte">
       <div class="titre">DARRSSY</div>
       <div class="arabe">دَرْسِي</div>
@@ -162,9 +160,7 @@ tbody tr{transition:var(--transition)}tbody tr:hover{background:rgba(139,92,246,
         <div class="email" id="userEmail">—</div>
       </div>
     </div>
-    <button class="btn-deconnexion" id="btnDeconnexion">
-      <i class="fas fa-sign-out-alt"></i> Déconnexion
-    </button>
+    <button class="btn-deconnexion" id="btnDeconnexion"><i class="fas fa-sign-out-alt"></i> Déconnexion</button>
   </div>
 </aside>
 
@@ -273,13 +269,15 @@ tbody tr{transition:var(--transition)}tbody tr:hover{background:rgba(139,92,246,
 
 <div class="toast" id="toast"></div>
 
-<script src="supabase-config.js"></script>
+<!-- ✅ SCRIPT CONFIG - CHEMIN CORRECT -->
+<script src="darrssy-config.js"></script>
+
 <script>
 let currentUser=null;let currentPanel='overview';
 
 document.addEventListener('DOMContentLoaded',async()=>{
   try{
-    if(typeof protegerPage!=='function')throw new Error('protegerPage non définie');
+    if(typeof protegerPage!=='function')throw new Error('protegerPage non définie - vérifiez darrssy-config.js');
     const session=await protegerPage();
     if(!session)return;
     currentUser=session.user;
@@ -291,7 +289,7 @@ document.addEventListener('DOMContentLoaded',async()=>{
     chargerOverview();
   }catch(err){
     afficherMessage('Erreur : '+err.message,'erreur');
-    setTimeout(()=>{window.location.href='login.html';},2000);
+    setTimeout(()=>{window.location.href='login.html';},3000);
   }
 });
 
@@ -430,7 +428,6 @@ function ouvrirModal(titre,contenu){
   document.getElementById('modalBody').innerHTML=contenu;
   document.getElementById('modalOverlay').classList.add('ouvert');
 }
-
 function fermerModal(){document.getElementById('modalOverlay').classList.remove('ouvert');}
 
 /* ===== COURS ===== */
@@ -460,7 +457,7 @@ function ouvrirModalCours(data=null){
     <div class="form-group"><label>Description (FR)</label><textarea id="c_desc_fr">${d.description_fr||''}</textarea></div>
     <div class="form-group"><label>Description (AR)</label><textarea id="c_desc_ar">${d.description_ar||''}</textarea></div>
     <div class="form-row">
-      <div class="form-group"><label>Icône (FontAwesome)</label><input type="text" id="c_icone" value="${d.icone||'fa-book'}" placeholder="fa-book"></div>
+      <div class="form-group"><label>Icône FontAwesome</label><input type="text" id="c_icone" value="${d.icone||'fa-book'}" placeholder="fa-book"></div>
       <div class="form-group"><label>Statut</label><select id="c_statut">
         <option value="gratuit" ${d.statut==='gratuit'?'selected':''}>Gratuit</option>
         <option value="premium" ${d.statut==='premium'?'selected':''}>Premium</option>
@@ -476,19 +473,10 @@ function ouvrirModalCours(data=null){
 
 async function sauvegarderCours(id){
   const data={titre_fr:document.getElementById('c_titre_fr').value,titre_ar:document.getElementById('c_titre_ar').value,niveau:document.getElementById('c_niveau').value,matiere:document.getElementById('c_matiere').value,chapitre_fr:document.getElementById('c_chapitre_fr').value,chapitre_ar:document.getElementById('c_chapitre_ar').value,description_fr:document.getElementById('c_desc_fr').value,description_ar:document.getElementById('c_desc_ar').value,icone:document.getElementById('c_icone').value,statut:document.getElementById('c_statut').value,publie:document.getElementById('c_publie').checked};
-  try{
-    if(id)await modifierLigne('cours',id,data);else await insererLigne('cours',data);
-    afficherMessage('Cours enregistré !','succes');
-    fermerModal();chargerCours();
-  }catch(err){afficherMessage('Erreur : '+err.message,'erreur');}
+  try{if(id)await modifierLigne('cours',id,data);else await insererLigne('cours',data);afficherMessage('Cours enregistré !','succes');fermerModal();chargerCours();}catch(err){afficherMessage('Erreur : '+err.message,'erreur');}
 }
-
 function editerCours(c){ouvrirModalCours(c);}
-
-async function supprimerCours(id){
-  if(!confirm('Supprimer ce cours ?'))return;
-  try{await supprimerLigne('cours',id);afficherMessage('Cours supprimé','succes');chargerCours();}catch(err){afficherMessage('Erreur : '+err.message,'erreur');}
-}
+async function supprimerCours(id){if(!confirm('Supprimer ce cours ?'))return;try{await supprimerLigne('cours',id);afficherMessage('Cours supprimé','succes');chargerCours();}catch(err){afficherMessage('Erreur : '+err.message,'erreur');}}
 
 /* ===== RESSOURCES ===== */
 async function ouvrirModalRessource(){
@@ -532,19 +520,15 @@ async function ouvrirModalRessource(){
       const chemin=`${type}/${Date.now()}_${nomSecurise}`;
       const url=await uploaderFichier(fichier,chemin);
       await insererLigne('ressources',{titre_fr,titre_ar,type,taille,publie,fichier_url:url,cours_id,description_fr:'',description_ar:''});
-      afficherMessage('Ressource uploadée !','succes');
-      fermerModal();chargerRessources();
+      afficherMessage('Ressource uploadée !','succes');fermerModal();chargerRessources();
     }catch(err){afficherMessage('Erreur : '+err.message,'erreur');btn.disabled=false;btn.innerHTML='<i class="fas fa-upload"></i> Uploader';}
   });
 }
-
 async function supprimerRessource(id,url){
   if(!confirm('Supprimer cette ressource ?'))return;
   try{
     if(url&&url.includes('ressources-pdf')){const chemin=url.split('/ressources-pdf/')[1];if(chemin)await supprimerFichier(chemin);}
-    await supprimerLigne('ressources',id);
-    afficherMessage('Ressource supprimée','succes');
-    chargerRessources();
+    await supprimerLigne('ressources',id);afficherMessage('Ressource supprimée','succes');chargerRessources();
   }catch(err){afficherMessage('Erreur : '+err.message,'erreur');}
 }
 
@@ -613,13 +597,8 @@ function ouvrirModalExamen(data=null){
     }catch(err){afficherMessage('Erreur : '+err.message,'erreur');btn.disabled=false;btn.innerHTML='<i class="fas fa-save"></i> Enregistrer';}
   });
 }
-
 function editerExamen(e){ouvrirModalExamen(e);}
-
-async function supprimerExamen(id){
-  if(!confirm('Supprimer cet examen ?'))return;
-  try{await supprimerLigne('examens',id);afficherMessage('Examen supprimé','succes');chargerExamens();}catch(err){afficherMessage('Erreur : '+err.message,'erreur');}
-}
+async function supprimerExamen(id){if(!confirm('Supprimer cet examen ?'))return;try{await supprimerLigne('examens',id);afficherMessage('Examen supprimé','succes');chargerExamens();}catch(err){afficherMessage('Erreur : '+err.message,'erreur');}}
 
 /* ===== EXERCICES ===== */
 function ouvrirModalExercice(data=null){
@@ -692,13 +671,8 @@ function ouvrirModalExercice(data=null){
     }catch(err){afficherMessage('Erreur : '+err.message,'erreur');btn.disabled=false;btn.innerHTML='<i class="fas fa-save"></i> Enregistrer';}
   });
 }
-
 function editerExercice(ex){ouvrirModalExercice(ex);}
-
-async function supprimerExercice(id){
-  if(!confirm('Supprimer cet exercice ?'))return;
-  try{await supprimerLigne('exercices',id);afficherMessage('Exercice supprimé','succes');chargerExercices();}catch(err){afficherMessage('Erreur : '+err.message,'erreur');}
-}
+async function supprimerExercice(id){if(!confirm('Supprimer cet exercice ?'))return;try{await supprimerLigne('exercices',id);afficherMessage('Exercice supprimé','succes');chargerExercices();}catch(err){afficherMessage('Erreur : '+err.message,'erreur');}}
 
 /* ===== SIMULATIONS ===== */
 function ouvrirModalSimulation(data=null){
@@ -725,21 +699,12 @@ function ouvrirModalSimulation(data=null){
     </div>`;
   ouvrirModal(editing?'Modifier la simulation':'Ajouter une simulation',contenu);
 }
-
 async function sauvegarderSimulation(id){
   const data={titre_fr:document.getElementById('s_titre_fr').value,titre_ar:document.getElementById('s_titre_ar').value,categorie:document.getElementById('s_categorie').value,description_fr:document.getElementById('s_desc_fr').value,icone:document.getElementById('s_icone').value,ordre:parseInt(document.getElementById('s_ordre').value),publie:document.getElementById('s_publie').checked};
-  try{
-    if(id)await modifierLigne('simulations',id,data);else await insererLigne('simulations',data);
-    afficherMessage('Simulation enregistrée !','succes');fermerModal();chargerSimulations();
-  }catch(err){afficherMessage('Erreur : '+err.message,'erreur');}
+  try{if(id)await modifierLigne('simulations',id,data);else await insererLigne('simulations',data);afficherMessage('Simulation enregistrée !','succes');fermerModal();chargerSimulations();}catch(err){afficherMessage('Erreur : '+err.message,'erreur');}
 }
-
 function editerSimulation(s){ouvrirModalSimulation(s);}
-
-async function supprimerSimulation(id){
-  if(!confirm('Supprimer ?'))return;
-  try{await supprimerLigne('simulations',id);afficherMessage('Simulation supprimée','succes');chargerSimulations();}catch(err){afficherMessage('Erreur : '+err.message,'erreur');}
-}
+async function supprimerSimulation(id){if(!confirm('Supprimer ?'))return;try{await supprimerLigne('simulations',id);afficherMessage('Simulation supprimée','succes');chargerSimulations();}catch(err){afficherMessage('Erreur : '+err.message,'erreur');}}
 
 /* ===== STATS ===== */
 function ouvrirModalStat(data=null){
@@ -758,12 +723,10 @@ function ouvrirModalStat(data=null){
     </div>`;
   ouvrirModal('Modifier la statistique',contenu);
 }
-
 async function sauvegarderStat(id){
   const data={valeur:document.getElementById('st_valeur').value,libelle_fr:document.getElementById('st_lib_fr').value,libelle_ar:document.getElementById('st_lib_ar').value,ordre:parseInt(document.getElementById('st_ordre').value)};
   try{await modifierLigne('stats',id,data);afficherMessage('Statistique enregistrée !','succes');fermerModal();chargerStats();}catch(err){afficherMessage('Erreur : '+err.message,'erreur');}
 }
-
 function editerStat(s){ouvrirModalStat(s);}
 
 /* ===== TÉMOIGNAGES ===== */
@@ -785,21 +748,12 @@ function ouvrirModalTemoignage(data=null){
     </div>`;
   ouvrirModal(editing?'Modifier le témoignage':'Ajouter un témoignage',contenu);
 }
-
 async function sauvegarderTemoignage(id){
   const data={prenom:document.getElementById('t_prenom').value,niveau_fr:document.getElementById('t_niv_fr').value,niveau_ar:document.getElementById('t_niv_ar').value,commentaire_fr:document.getElementById('t_com_fr').value,commentaire_ar:document.getElementById('t_com_ar').value,ordre:parseInt(document.getElementById('t_ordre').value),publie:document.getElementById('t_publie').checked};
-  try{
-    if(id)await modifierLigne('temoignages',id,data);else await insererLigne('temoignages',data);
-    afficherMessage('Témoignage enregistré !','succes');fermerModal();chargerTemoignages();
-  }catch(err){afficherMessage('Erreur : '+err.message,'erreur');}
+  try{if(id)await modifierLigne('temoignages',id,data);else await insererLigne('temoignages',data);afficherMessage('Témoignage enregistré !','succes');fermerModal();chargerTemoignages();}catch(err){afficherMessage('Erreur : '+err.message,'erreur');}
 }
-
 function editerTemoignage(t){ouvrirModalTemoignage(t);}
-
-async function supprimerTemoignage(id){
-  if(!confirm('Supprimer ?'))return;
-  try{await supprimerLigne('temoignages',id);afficherMessage('Témoignage supprimé','succes');chargerTemoignages();}catch(err){afficherMessage('Erreur : '+err.message,'erreur');}
-}
+async function supprimerTemoignage(id){if(!confirm('Supprimer ?'))return;try{await supprimerLigne('temoignages',id);afficherMessage('Témoignage supprimé','succes');chargerTemoignages();}catch(err){afficherMessage('Erreur : '+err.message,'erreur');}}
 
 /* ===== TOAST ===== */
 function afficherMessage(msg,type='info'){
@@ -808,12 +762,7 @@ function afficherMessage(msg,type='info'){
   toast.className='toast show '+(type==='succes'?'success':type==='erreur'?'error':'');
   setTimeout(()=>toast.classList.remove('show'),3000);
 }
-
-function formaterDate(dateStr){
-  if(!dateStr)return '—';
-  const d=new Date(dateStr);
-  return d.toLocaleDateString('fr-FR',{day:'2-digit',month:'short',year:'numeric'});
-}
+function formaterDate(dateStr){if(!dateStr)return '—';const d=new Date(dateStr);return d.toLocaleDateString('fr-FR',{day:'2-digit',month:'short',year:'numeric'});}
 </script>
 </body>
 </html>
