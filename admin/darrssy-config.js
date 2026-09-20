@@ -1,5 +1,5 @@
 /* ============================================================
-   CONFIGURATION SUPABASE — A SALIKI PC
+   CONFIGURATION SUPABASE — DARRSSY
    ============================================================ */
 
 const SUPABASE_URL = 'https://meidxvxamevtqhjrptmz.supabase.co';
@@ -45,6 +45,7 @@ async function deconnexion() {
   window.location.href = 'login.html';
 }
 
+/* ===== UPLOAD RESSOURCES PDF ===== */
 async function uploaderFichier(file, chemin) {
   const sb = await initSupabase();
   const { data, error } = await sb.storage
@@ -61,6 +62,28 @@ async function supprimerFichier(chemin) {
   if (error) throw error;
 }
 
+/* ===== UPLOAD SIMULATIONS HTML (NOUVEAU) ===== */
+async function uploaderFichierSimulation(file, chemin) {
+  const sb = await initSupabase();
+  const { data, error } = await sb.storage
+    .from('simulations-html')
+    .upload(chemin, file, {
+      cacheControl: '3600',
+      upsert: false,
+      contentType: 'text/html'
+    });
+  if (error) throw error;
+  const { data: urlData } = sb.storage.from('simulations-html').getPublicUrl(chemin);
+  return urlData.publicUrl;
+}
+
+async function supprimerFichierSimulation(chemin) {
+  const sb = await initSupabase();
+  const { error } = await sb.storage.from('simulations-html').remove([chemin]);
+  if (error) throw error;
+}
+
+/* ===== LECTURE / ÉCRITURE TABLES ===== */
 async function lireTable(table, options = {}) {
   const sb = await initSupabase();
   let query = sb.from(table).select(options.select || '*');
@@ -97,6 +120,7 @@ async function supprimerLigne(table, id) {
   if (error) throw error;
 }
 
+/* ===== UTILITAIRES ===== */
 function formaterDate(dateStr) {
   if (!dateStr) return '—';
   const d = new Date(dateStr);
