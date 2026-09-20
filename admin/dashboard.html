@@ -72,6 +72,7 @@ tbody tr{transition:var(--transition)}tbody tr:hover{background:rgba(139,92,246,
 .badge.rouge{background:rgba(239,68,68,.1);color:var(--danger);border:1px solid rgba(239,68,68,.3)}
 .badge.violet{background:rgba(139,92,246,.1);color:var(--violet);border:1px solid rgba(139,92,246,.3)}
 .badge.rose{background:rgba(219,39,119,.1);color:var(--rose);border:1px solid rgba(219,39,119,.3)}
+.badge.bleu{background:rgba(59,130,246,.1);color:var(--primary-light);border:1px solid rgba(59,130,246,.3)}
 .btn-icon{width:34px;height:34px;border-radius:9px;border:1.5px solid;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;font-size:.82rem;transition:var(--transition);margin-right:4px;background:transparent}
 .btn-icon.edit{border-color:rgba(139,92,246,.4);color:var(--violet)}.btn-icon.edit:hover{background:var(--violet);color:#fff}
 .btn-icon.delete{border-color:rgba(239,68,68,.4);color:var(--danger)}.btn-icon.delete:hover{background:var(--danger);color:#fff}
@@ -90,7 +91,7 @@ tbody tr{transition:var(--transition)}tbody tr:hover{background:rgba(139,92,246,
 .form-group label{display:block;font-size:.78rem;font-weight:700;color:var(--primary);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px}
 .form-group input,.form-group select,.form-group textarea{width:100%;padding:12px 15px;background:var(--light);border:2px solid var(--border);border-radius:10px;color:var(--dark);font-family:inherit;font-size:.92rem;transition:var(--transition)}
 .form-group input:focus,.form-group select:focus,.form-group textarea:focus{outline:none;border-color:var(--violet);background:#fff;box-shadow:0 0 0 3px rgba(139,92,246,.1)}
-.form-group textarea{resize:vertical;min-height:90px}
+.form-group textarea{resize:vertical;min-height:90px;font-family:'Courier New',monospace;font-size:.85rem}
 .form-row{display:grid;grid-template-columns:1fr 1fr;gap:15px}
 @media (max-width:600px){.form-row{grid-template-columns:1fr}}
 .form-checkbox{display:flex;align-items:center;gap:10px;padding:12px 15px;background:var(--light);border:2px solid var(--border);border-radius:10px;cursor:pointer;font-size:.9rem;font-weight:600;color:var(--primary)}
@@ -118,6 +119,7 @@ tbody tr{transition:var(--transition)}tbody tr:hover{background:rgba(139,92,246,
 .toast{position:fixed;bottom:25px;right:25px;background:var(--dark);color:#fff;padding:14px 22px;border-radius:10px;font-weight:600;font-size:.9rem;box-shadow:var(--shadow-lg);z-index:9999;opacity:0;transform:translateY(20px);transition:var(--transition);pointer-events:none}
 [dir="rtl"] .toast{right:auto;left:25px}
 .toast.show{opacity:1;transform:translateY(0)}.toast.success{background:var(--success)}.toast.error{background:var(--danger)}
+.helper-text{font-size:.75rem;color:var(--gray);margin-top:6px;font-style:italic}
 @media (max-width:900px){
 .sidebar{transform:translateX(-100%)}.sidebar.ouvert{transform:translateX(0)}
 [dir="rtl"] .sidebar{transform:translateX(100%)}[dir="rtl"] .sidebar.ouvert{transform:translateX(0)}
@@ -269,15 +271,35 @@ tbody tr{transition:var(--transition)}tbody tr:hover{background:rgba(139,92,246,
 
 <div class="toast" id="toast"></div>
 
-<!-- ✅ SCRIPT CONFIG - CHEMIN CORRECT -->
 <script src="darrssy-config.js"></script>
-
 <script>
+/* ===== LISTE FIXE DES LEÇONS ===== */
+const LECONS = {
+  physique: [
+    'Les ondes mécaniques',
+    'Les ondes lumineuses',
+    'Effet photoélectrique',
+    'Électricité (RC, RL)',
+    'Circuit RLC',
+    "Modulation et démodulation d'amplitude",
+    'Application des lois de Newton',
+    'Chute libre',
+    'Oscillations mécaniques',
+    'Radioactivité'
+  ],
+  chimie: [
+    'Oxydoréduction',
+    'Cinétique chimique',
+    'Acide-base',
+    'Chimie organique'
+  ]
+};
+
 let currentUser=null;let currentPanel='overview';
 
 document.addEventListener('DOMContentLoaded',async()=>{
   try{
-    if(typeof protegerPage!=='function')throw new Error('protegerPage non définie - vérifiez darrssy-config.js');
+    if(typeof protegerPage!=='function')throw new Error('protegerPage non définie');
     const session=await protegerPage();
     if(!session)return;
     currentUser=session.user;
@@ -289,7 +311,7 @@ document.addEventListener('DOMContentLoaded',async()=>{
     chargerOverview();
   }catch(err){
     afficherMessage('Erreur : '+err.message,'erreur');
-    setTimeout(()=>{window.location.href='login.html';},3000);
+    setTimeout(()=>{window.location.href='login.html';},2000);
   }
 });
 
@@ -401,7 +423,7 @@ async function chargerSimulations(){
   try{
     const data=await lireTable('simulations',{ordre:{col:'ordre',asc:true}});
     if(data.length===0){container.innerHTML='<div class="empty"><i class="fas fa-inbox"></i><h3>Aucune simulation</h3></div>';return;}
-    container.innerHTML=`<div class="table-scroll"><table><thead><tr><th>Titre</th><th>Catégorie</th><th>Publié</th><th>Actions</th></tr></thead><tbody>${data.map(s=>`<tr><td><strong style="color:#1e3a8a">${s.titre_fr}</strong></td><td><span class="badge violet">${s.categorie}</span></td><td><span class="badge ${s.publie?'vert':'rouge'}">${s.publie?'Oui':'Non'}</span></td><td><button class="btn-icon edit" onclick='editerSimulation(${JSON.stringify(s).replace(/'/g,"&#39;")})'><i class="fas fa-edit"></i></button><button class="btn-icon delete" onclick="supprimerSimulation('${s.id}')"><i class="fas fa-trash"></i></button></td></tr>`).join('')}</tbody></table></div>`;
+    container.innerHTML=`<div class="table-scroll"><table><thead><tr><th>Titre</th><th>Leçon</th><th>Catégorie</th><th>Type</th><th>Publié</th><th>Actions</th></tr></thead><tbody>${data.map(s=>`<tr><td><strong style="color:#1e3a8a">${s.titre_fr}</strong></td><td>${s.lecon_fr?`<span class="badge bleu">${s.lecon_fr}</span>`:'—'}</td><td><span class="badge violet">${s.categorie}</span></td><td><span class="badge ${s.type_source==='phet'?'rose':s.type_source==='html'?'or':'vert'}">${s.type_source||'canvas'}</span></td><td><span class="badge ${s.publie?'vert':'rouge'}">${s.publie?'Oui':'Non'}</span></td><td><button class="btn-icon edit" onclick='editerSimulation(${JSON.stringify(s).replace(/'/g,"&#39;")})'><i class="fas fa-edit"></i></button><button class="btn-icon delete" onclick="supprimerSimulation('${s.id}')"><i class="fas fa-trash"></i></button></td></tr>`).join('')}</tbody></table></div>`;
   }catch(err){container.innerHTML=`<div class="empty"><i class="fas fa-exclamation-triangle"></i><h3>Erreur</h3><p>${err.message}</p></div>`;}
 }
 
@@ -470,7 +492,6 @@ function ouvrirModalCours(data=null){
     </div>`;
   ouvrirModal(editing?'Modifier le cours':'Ajouter un cours',contenu);
 }
-
 async function sauvegarderCours(id){
   const data={titre_fr:document.getElementById('c_titre_fr').value,titre_ar:document.getElementById('c_titre_ar').value,niveau:document.getElementById('c_niveau').value,matiere:document.getElementById('c_matiere').value,chapitre_fr:document.getElementById('c_chapitre_fr').value,chapitre_ar:document.getElementById('c_chapitre_ar').value,description_fr:document.getElementById('c_desc_fr').value,description_ar:document.getElementById('c_desc_ar').value,icone:document.getElementById('c_icone').value,statut:document.getElementById('c_statut').value,publie:document.getElementById('c_publie').checked};
   try{if(id)await modifierLigne('cours',id,data);else await insererLigne('cours',data);afficherMessage('Cours enregistré !','succes');fermerModal();chargerCours();}catch(err){afficherMessage('Erreur : '+err.message,'erreur');}
@@ -674,7 +695,18 @@ function ouvrirModalExercice(data=null){
 function editerExercice(ex){ouvrirModalExercice(ex);}
 async function supprimerExercice(id){if(!confirm('Supprimer cet exercice ?'))return;try{await supprimerLigne('exercices',id);afficherMessage('Exercice supprimé','succes');chargerExercices();}catch(err){afficherMessage('Erreur : '+err.message,'erreur');}}
 
-/* ===== SIMULATIONS ===== */
+/* ===== SIMULATIONS (MODIFIÉ) ===== */
+function construireOptionsLecons(selected){
+  let html='<option value="">— Aucune leçon —</option>';
+  html+='<optgroup label="📘 PHYSIQUE">';
+  LECONS.physique.forEach(l=>{html+=`<option value="${l}" ${selected===l?'selected':''}>${l}</option>`;});
+  html+='</optgroup>';
+  html+='<optgroup label="🧪 CHIMIE">';
+  LECONS.chimie.forEach(l=>{html+=`<option value="${l}" ${selected===l?'selected':''}>${l}</option>`;});
+  html+='</optgroup>';
+  return html;
+}
+
 function ouvrirModalSimulation(data=null){
   const d=data||{};const editing=!!data;
   const contenu=`
@@ -682,16 +714,43 @@ function ouvrirModalSimulation(data=null){
       <div class="form-group"><label>Titre (FR)</label><input type="text" id="s_titre_fr" value="${d.titre_fr||''}"></div>
       <div class="form-group"><label>Titre (AR)</label><input type="text" id="s_titre_ar" value="${d.titre_ar||''}"></div>
     </div>
-    <div class="form-group"><label>Catégorie</label><select id="s_categorie">
-      <option value="ondes" ${d.categorie==='ondes'?'selected':''}>Ondes</option>
-      <option value="cinetique" ${d.categorie==='cinetique'?'selected':''}>Cinétique</option>
-      <option value="nucleaire" ${d.categorie==='nucleaire'?'selected':''}>Nucléaire</option>
-      <option value="mecanique" ${d.categorie==='mecanique'?'selected':''}>Mécanique</option>
-      <option value="electricite" ${d.categorie==='electricite'?'selected':''}>Électricité</option>
-    </select></div>
-    <div class="form-group"><label>Description (FR)</label><textarea id="s_desc_fr">${d.description_fr||''}</textarea></div>
-    <div class="form-group"><label>Icône</label><input type="text" id="s_icone" value="${d.icone||'fa-flask'}"></div>
-    <div class="form-group"><label>Ordre</label><input type="number" id="s_ordre" value="${d.ordre||0}"></div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Leçon (FR)</label>
+        <select id="s_lecon_fr">${construireOptionsLecons(d.lecon_fr)}</select>
+        <div class="helper-text">Choisissez la leçon dans laquelle classer cette simulation</div>
+      </div>
+      <div class="form-group">
+        <label>Leçon (AR)</label>
+        <select id="s_lecon_ar">${construireOptionsLecons(d.lecon_ar)}</select>
+        <div class="helper-text">Équivalent arabe (optionnel)</div>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Catégorie</label><select id="s_categorie">
+        <option value="ondes" ${d.categorie==='ondes'?'selected':''}>Ondes</option>
+        <option value="cinetique" ${d.categorie==='cinetique'?'selected':''}>Cinétique</option>
+        <option value="nucleaire" ${d.categorie==='nucleaire'?'selected':''}>Nucléaire</option>
+        <option value="mecanique" ${d.categorie==='mecanique'?'selected':''}>Mécanique</option>
+        <option value="electricite" ${d.categorie==='electricite'?'selected':''}>Électricité</option>
+        <option value="chimie" ${d.categorie==='chimie'?'selected':''}>Chimie</option>
+      </select></div>
+      <div class="form-group"><label>Type de source</label><select id="s_type_source" onchange="toggleTypeSource()">
+        <option value="canvas" ${d.type_source==='canvas'||!d.type_source?'selected':''}>Canvas (interne)</option>
+        <option value="phet" ${d.type_source==='phet'?'selected':''}>PhET (iframe)</option>
+        <option value="html" ${d.type_source==='html'?'selected':''}>HTML personnalisé</option>
+      </select></div>
+    </div>
+    <div class="form-group" id="groupeCodeEmbed" style="display:${d.type_source==='phet'||d.type_source==='html'?'block':'none'};">
+      <label>Code d'intégration (iframe ou HTML)</label>
+      <textarea id="s_code_embed" placeholder='<iframe src="https://phet.colorado.edu/sims/html/..." width="100%" height="600" allowfullscreen></iframe>'>${d.code_embed||''}</textarea>
+      <div class="helper-text">💡 Collez ici le code &lt;iframe&gt; de PhET (ou autre site)</div>
+    </div>
+    <div class="form-group"><label>Description (FR)</label><textarea id="s_desc_fr" style="font-family:'Poppins',sans-serif;font-size:.92rem;">${d.description_fr||''}</textarea></div>
+    <div class="form-row">
+      <div class="form-group"><label>Icône</label><input type="text" id="s_icone" value="${d.icone||'fa-flask'}"></div>
+      <div class="form-group"><label>Ordre</label><input type="number" id="s_ordre" value="${d.ordre||0}"></div>
+    </div>
     <label class="form-checkbox"><input type="checkbox" id="s_publie" ${d.publie!==false?'checked':''}> Publier</label>
     <div class="form-actions">
       <button class="btn-cancel" onclick="fermerModal()">Annuler</button>
@@ -699,10 +758,32 @@ function ouvrirModalSimulation(data=null){
     </div>`;
   ouvrirModal(editing?'Modifier la simulation':'Ajouter une simulation',contenu);
 }
-async function sauvegarderSimulation(id){
-  const data={titre_fr:document.getElementById('s_titre_fr').value,titre_ar:document.getElementById('s_titre_ar').value,categorie:document.getElementById('s_categorie').value,description_fr:document.getElementById('s_desc_fr').value,icone:document.getElementById('s_icone').value,ordre:parseInt(document.getElementById('s_ordre').value),publie:document.getElementById('s_publie').checked};
-  try{if(id)await modifierLigne('simulations',id,data);else await insererLigne('simulations',data);afficherMessage('Simulation enregistrée !','succes');fermerModal();chargerSimulations();}catch(err){afficherMessage('Erreur : '+err.message,'erreur');}
+
+function toggleTypeSource(){
+  const type=document.getElementById('s_type_source').value;
+  document.getElementById('groupeCodeEmbed').style.display=(type==='phet'||type==='html')?'block':'none';
 }
+
+async function sauvegarderSimulation(id){
+  const data={
+    titre_fr:document.getElementById('s_titre_fr').value,
+    titre_ar:document.getElementById('s_titre_ar').value,
+    lecon_fr:document.getElementById('s_lecon_fr').value||null,
+    lecon_ar:document.getElementById('s_lecon_ar').value||null,
+    categorie:document.getElementById('s_categorie').value,
+    type_source:document.getElementById('s_type_source').value,
+    code_embed:document.getElementById('s_code_embed')?.value||null,
+    description_fr:document.getElementById('s_desc_fr').value,
+    icone:document.getElementById('s_icone').value,
+    ordre:parseInt(document.getElementById('s_ordre').value),
+    publie:document.getElementById('s_publie').checked
+  };
+  try{
+    if(id)await modifierLigne('simulations',id,data);else await insererLigne('simulations',data);
+    afficherMessage('Simulation enregistrée !','succes');fermerModal();chargerSimulations();
+  }catch(err){afficherMessage('Erreur : '+err.message,'erreur');}
+}
+
 function editerSimulation(s){ouvrirModalSimulation(s);}
 async function supprimerSimulation(id){if(!confirm('Supprimer ?'))return;try{await supprimerLigne('simulations',id);afficherMessage('Simulation supprimée','succes');chargerSimulations();}catch(err){afficherMessage('Erreur : '+err.message,'erreur');}}
 
