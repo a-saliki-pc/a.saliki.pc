@@ -42,13 +42,24 @@ nav{position:fixed;top:0;left:0;right:0;background:rgba(255,255,255,.96);backdro
 .hero-page-content{max-width:1200px;margin:0 auto;position:relative;z-index:2;text-align:center}
 .hero-page h1{font-size:2.8rem;font-weight:900;margin-bottom:15px;line-height:1.15}
 .hero-page h1 span{background:linear-gradient(135deg,#fbbf24 0%,#fde68a 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.hero-page p{font-size:1.05rem;max-width:650px;margin:0 auto;opacity:.95}
+.hero-page p{font-size:1.05rem;max-width:700px;margin:0 auto;opacity:.95}
 .conteneur{max-width:1200px;margin:-30px auto 0;padding:0 5% 60px;position:relative;z-index:3}
+.search-wrap{max-width:700px;margin:0 auto 25px;position:relative}
+.search-wrap input{width:100%;padding:16px 22px 16px 54px;background:#fff;border:2px solid var(--border);border-radius:50px;color:var(--dark);font-family:inherit;font-size:1rem;box-shadow:var(--shadow);transition:var(--transition)}
+[dir="rtl"] .search-wrap input{padding:16px 54px 16px 22px}
+.search-wrap input:focus{outline:none;border-color:var(--violet);box-shadow:0 15px 40px rgba(139,92,246,.25)}
+.search-wrap i{position:absolute;top:50%;left:22px;transform:translateY(-50%);color:var(--violet);font-size:1.1rem}
+[dir="rtl"] .search-wrap i{left:auto;right:22px}
 .filtres-bar{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-bottom:35px}
 .filtre-btn{background:#fff;border:2px solid var(--border);color:var(--gray);padding:10px 22px;border-radius:50px;font-family:inherit;font-size:.88rem;font-weight:600;cursor:pointer;transition:var(--transition);display:inline-flex;align-items:center;gap:8px;box-shadow:var(--shadow-sm)}
 .filtre-btn:hover{color:var(--violet);border-color:var(--violet)}
 .filtre-btn.actif{background:var(--gradient-violet);color:#fff;border-color:transparent;box-shadow:0 10px 25px rgba(139,92,246,.35)}
-.sims-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:25px}
+.lecon-section{margin-bottom:45px}
+.lecon-titre{display:flex;align-items:center;gap:12px;margin-bottom:20px;padding-bottom:15px;border-bottom:3px solid;border-image:var(--gradient-violet) 1;font-size:1.4rem;font-weight:800;color:var(--primary)}
+.lecon-titre i{color:var(--violet);font-size:1.2rem}
+.lecon-titre .nb{font-size:.8rem;background:rgba(139,92,246,.1);color:var(--violet);padding:4px 12px;border-radius:50px;font-weight:700;margin-left:auto}
+[dir="rtl"] .lecon-titre .nb{margin-left:0;margin-right:auto}
+.sims-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:25px}
 .sim-card{background:#fff;border-radius:var(--radius-sm);padding:25px;box-shadow:0 5px 20px rgba(0,0,0,.05);transition:var(--transition);cursor:pointer;display:flex;flex-direction:column;gap:14px;border:2px solid transparent}
 .sim-card:hover{transform:translateY(-8px);box-shadow:var(--shadow-lg);border-color:rgba(139,92,246,.3)}
 .sim-icon{width:60px;height:60px;border-radius:16px;background:var(--gradient-violet);display:flex;align-items:center;justify-content:center;font-size:1.6rem;color:#fff;transition:var(--transition)}
@@ -56,19 +67,34 @@ nav{position:fixed;top:0;left:0;right:0;background:rgba(255,255,255,.96);backdro
 .sim-chapitre{font-size:.72rem;font-weight:700;color:var(--violet);text-transform:uppercase;letter-spacing:1px}
 .sim-card h3{font-size:1.05rem;color:var(--primary);font-weight:700;line-height:1.35}
 .sim-card p{font-size:.86rem;color:var(--gray);line-height:1.5;flex:1}
+.sim-badge{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:50px;font-size:.7rem;font-weight:700;text-transform:uppercase;align-self:flex-start}
+.sim-badge.phet{background:rgba(219,39,119,.1);color:#db2777;border:1px solid rgba(219,39,119,.3)}
+.sim-badge.html{background:rgba(245,158,11,.1);color:var(--accent);border:1px solid rgba(245,158,11,.3)}
+.sim-badge.canvas{background:rgba(16,185,129,.1);color:var(--success);border:1px solid rgba(16,185,129,.3)}
 .sim-lancer{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 18px;background:rgba(139,92,246,.08);border:1.5px solid rgba(139,92,246,.3);color:var(--violet);border-radius:12px;font-weight:700;font-size:.88rem;transition:var(--transition);margin-top:auto}
 .sim-card:hover .sim-lancer{background:var(--violet);color:#fff;border-color:var(--violet)}
+.loading-zone,.aucun-resultat{text-align:center;padding:60px 20px;color:var(--gray);grid-column:1/-1}
+.loading-zone i{font-size:2.5rem;color:var(--violet);animation:spin 1s linear infinite;display:block;margin-bottom:15px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.aucun-resultat i{font-size:4rem;color:var(--border);margin-bottom:15px;display:block}
+.aucun-resultat h3{color:var(--primary);font-size:1.3rem;margin-bottom:8px}
 .modal-overlay{position:fixed;inset:0;background:rgba(15,23,42,.9);backdrop-filter:blur(10px);z-index:5000;display:none;align-items:center;justify-content:center;padding:15px;overflow-y:auto}
 .modal-overlay.ouvert{display:flex}
-.modal-sim{background:#fff;border-radius:25px;width:100%;max-width:1100px;max-height:95vh;overflow-y:auto;box-shadow:0 30px 80px rgba(0,0,0,.5);animation:slideUp .4s}
+.modal-sim{background:#fff;border-radius:25px;width:100%;max-width:1200px;max-height:95vh;overflow-y:auto;box-shadow:0 30px 80px rgba(0,0,0,.5);animation:slideUp .4s}
+.modal-sim.modal-embed{max-width:1200px;padding:0}
 @keyframes slideUp{from{transform:scale(.9) translateY(20px);opacity:0}to{transform:scale(1) translateY(0);opacity:1}}
-.modal-header{display:flex;justify-content:space-between;align-items:center;padding:22px 28px;border-bottom:1px solid var(--border);position:sticky;top:0;background:#fff;z-index:10}
+.modal-header{display:flex;justify-content:space-between;align-items:center;padding:22px 28px;border-bottom:1px solid var(--border);position:sticky;top:0;background:#fff;z-index:10;border-radius:25px 25px 0 0}
 .modal-header h2{font-size:1.25rem;color:var(--primary);display:flex;align-items:center;gap:12px;font-weight:800}
 .modal-header h2 i{color:var(--violet)}
 .modal-close{background:rgba(239,68,68,.1);border:1.5px solid rgba(239,68,68,.3);color:var(--danger);width:40px;height:40px;border-radius:12px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1rem;transition:var(--transition)}
 .modal-close:hover{background:var(--danger);color:#fff}
 .modal-body{padding:25px;display:grid;grid-template-columns:1.3fr 1fr;gap:25px}
 @media (max-width:900px){.modal-body{grid-template-columns:1fr}}
+.embed-container{padding:20px}
+.embed-container iframe{width:100%;height:70vh;border:none;border-radius:12px;background:#000}
+.embed-container .embed-actions{display:flex;justify-content:center;gap:10px;margin-top:15px}
+.btn-embed{display:inline-flex;align-items:center;gap:8px;padding:11px 22px;border-radius:50px;font-family:inherit;font-size:.9rem;font-weight:700;cursor:pointer;transition:var(--transition);border:none;background:var(--gradient-violet);color:#fff;text-decoration:none}
+.btn-embed:hover{transform:translateY(-2px);box-shadow:var(--shadow)}
 .sim-canvas-zone{background:var(--light);border:1.5px solid var(--border);border-radius:var(--radius-sm);padding:15px;display:flex;flex-direction:column;gap:12px}
 .sim-canvas{width:100%;height:320px;background:#0a1428;border-radius:12px;display:block;border:1.5px solid var(--border)}
 .sim-controls{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
@@ -120,6 +146,8 @@ nav{padding:10px 4%}.logo-img-wrap{width:44px;height:44px}.logo-texte .titre{fon
 .hero-page{padding:100px 4% 50px}.hero-page h1{font-size:1.8rem}
 .sims-grid{grid-template-columns:1fr}.footer-grid{grid-template-columns:1fr}
 .modal-header h2{font-size:1rem}.modal-body{padding:15px;gap:15px}.sim-canvas{height:220px}
+.embed-container iframe{height:60vh}
+.lecon-titre{font-size:1.1rem}
 }
 @media (max-width:480px){.hero-page h1{font-size:1.5rem}.logo-texte{display:none}.logo-img-wrap{width:42px;height:42px}}
 </style>
@@ -158,11 +186,16 @@ nav{padding:10px 4%}.logo-img-wrap{width:44px;height:44px}.logo-texte .titre{fon
       <span data-i18n="sims.titre1">Simulations</span>
       <span data-i18n="sims.titre2">interactives</span>
     </h1>
-    <p data-i18n="sims.desc">Explorez les phénomènes physiques et chimiques en modifiant les paramètres.</p>
+    <p data-i18n="sims.desc">Explorez les phénomènes physiques et chimiques en modifiant les paramètres. Visualisez les effets en temps réel.</p>
   </div>
 </section>
 
 <div class="conteneur">
+  <div class="search-wrap">
+    <i class="fas fa-search"></i>
+    <input type="text" id="searchInput" placeholder="Rechercher une simulation..." data-i18n-placeholder="sims.searchPlaceholder">
+  </div>
+
   <div class="filtres-bar" id="filtresBar">
     <button class="filtre-btn actif" data-cat="all"><i class="fas fa-th"></i> <span data-i18n="filtre.tous">Tous</span></button>
     <button class="filtre-btn" data-cat="ondes"><i class="fas fa-water"></i> <span data-i18n="filtre.ondes">Ondes</span></button>
@@ -170,33 +203,24 @@ nav{padding:10px 4%}.logo-img-wrap{width:44px;height:44px}.logo-texte .titre{fon
     <button class="filtre-btn" data-cat="nucleaire"><i class="fas fa-radiation"></i> <span data-i18n="filtre.nucleaire">Nucléaire</span></button>
     <button class="filtre-btn" data-cat="mecanique"><i class="fas fa-rocket"></i> <span data-i18n="filtre.mecanique">Mécanique</span></button>
     <button class="filtre-btn" data-cat="electricite"><i class="fas fa-bolt"></i> <span data-i18n="filtre.electricite">Électricité</span></button>
+    <button class="filtre-btn" data-cat="chimie"><i class="fas fa-flask"></i> <span data-i18n="filtre.chimie">Chimie</span></button>
   </div>
-  <div class="sims-grid" id="simsGrid"></div>
+
+  <div id="simsSections">
+    <div class="loading-zone">
+      <i class="fas fa-spinner"></i>
+      <p data-i18n="loading">Chargement...</p>
+    </div>
+  </div>
 </div>
 
 <div class="modal-overlay" id="modalOverlay">
-  <div class="modal-sim">
+  <div class="modal-sim" id="modalSim">
     <div class="modal-header">
       <h2><i class="fas fa-play-circle"></i> <span id="modalTitre">Simulation</span></h2>
       <button class="modal-close" id="modalClose"><i class="fas fa-times"></i></button>
     </div>
-    <div class="modal-body">
-      <div class="sim-canvas-zone">
-        <canvas class="sim-canvas" id="simCanvas"></canvas>
-        <div class="sim-controls">
-          <button class="sim-btn primary" id="btnPlay"><i class="fas fa-play"></i> <span data-i18n="sim.play">Lancer</span></button>
-          <button class="sim-btn" id="btnPause"><i class="fas fa-pause"></i> <span data-i18n="sim.pause">Pause</span></button>
-          <button class="sim-btn danger" id="btnReset"><i class="fas fa-redo"></i> <span data-i18n="sim.reset">Reset</span></button>
-        </div>
-      </div>
-      <div class="sim-sliders-zone">
-        <div id="slidersContainer"></div>
-        <div class="sim-resultats">
-          <h4><i class="fas fa-chart-line"></i> <span data-i18n="sim.resultats">Résultats</span></h4>
-          <div id="resultatsContainer"></div>
-        </div>
-      </div>
-    </div>
+    <div id="modalContenu"></div>
   </div>
 </div>
 
@@ -246,10 +270,12 @@ nav{padding:10px 4%}.logo-img-wrap{width:44px;height:44px}.logo-texte .titre{fon
   <div class="footer-bottom">© 2026 <span>DARRSSY</span> — <span data-i18n="footer.droits">Tous droits réservés.</span></div>
 </footer>
 
+<script src="admin/darrssy-config.js"></script>
 <script>
 let currentLang = localStorage.getItem('darrssy-lang') || 'fr';
 let currentCat = 'all';
-let currentSim = null;
+let toutesLesSimulations = [];
+let simulationActive = null;
 let animationId = null;
 let isPaused = false;
 let simTime = 0;
@@ -260,11 +286,18 @@ const trad = {
     'nav.examens': 'Examens', 'nav.simulations': 'Simulations', 'nav.ressources': 'Ressources',
     'nav.admin': 'Administration', 'nav.connexion': 'Connexion',
     'sims.titre1': 'Simulations', 'sims.titre2': 'interactives',
-    'sims.desc': 'Explorez les phénomènes physiques et chimiques en modifiant les paramètres.',
+    'sims.desc': 'Explorez les phénomènes physiques et chimiques en modifiant les paramètres. Visualisez les effets en temps réel.',
+    'sims.searchPlaceholder': 'Rechercher une simulation...',
+    'sims.lecons': 'Leçons',
+    'sims.ressources': 'ressource(s)',
+    'sims.aucun': 'Aucune simulation trouvée',
+    'sims.aucunDesc': 'Essayez une autre recherche ou catégorie.',
     'filtre.tous': 'Tous', 'filtre.ondes': 'Ondes', 'filtre.cinetique': 'Cinétique',
-    'filtre.nucleaire': 'Nucléaire', 'filtre.mecanique': 'Mécanique', 'filtre.electricite': 'Électricité',
-    'sim.play': 'Lancer', 'sim.pause': 'Pause', 'sim.reset': 'Reset',
-    'sim.resultats': 'Résultats', 'sim.lancer': 'Lancer la simulation',
+    'filtre.nucleaire': 'Nucléaire', 'filtre.mecanique': 'Mécanique',
+    'filtre.electricite': 'Électricité', 'filtre.chimie': 'Chimie',
+    'sim.lancer': 'Lancer la simulation', 'sim.play': 'Lancer', 'sim.pause': 'Pause', 'sim.reset': 'Reset',
+    'sim.resultats': 'Résultats', 'sim.plein_ecran': 'Plein écran',
+    'loading': 'Chargement...',
     'footer.desc': 'La plateforme éducative marocaine dédiée à la réussite des lycéens en Physique & Chimie.',
     'footer.navigation': 'Navigation', 'footer.ressources': 'Ressources',
     'footer.contact': 'Contact', 'footer.maroc': 'Maroc', 'footer.droits': 'Tous droits réservés.'
@@ -275,92 +308,84 @@ const trad = {
     'nav.admin': 'الإدارة', 'nav.connexion': 'تسجيل الدخول',
     'sims.titre1': 'المحاكاة', 'sims.titre2': 'التفاعلية',
     'sims.desc': 'استكشف الظواهر الفيزيائية والكيميائية عن طريق تعديل المعاملات.',
+    'sims.searchPlaceholder': 'ابحث عن محاكاة...',
+    'sims.lecons': 'الدروس',
+    'sims.ressources': 'مورد',
+    'sims.aucun': 'لا توجد محاكاة',
+    'sims.aucunDesc': 'جرّب بحثاً أو فئة أخرى.',
     'filtre.tous': 'الكل', 'filtre.ondes': 'الموجات', 'filtre.cinetique': 'الحركية',
-    'filtre.nucleaire': 'النووي', 'filtre.mecanique': 'الميكانيك', 'filtre.electricite': 'الكهرباء',
-    'sim.play': 'تشغيل', 'sim.pause': 'إيقاف', 'sim.reset': 'إعادة',
-    'sim.resultats': 'النتائج', 'sim.lancer': 'تشغيل المحاكاة',
+    'filtre.nucleaire': 'النووي', 'filtre.mecanique': 'الميكانيك',
+    'filtre.electricite': 'الكهرباء', 'filtre.chimie': 'الكيمياء',
+    'sim.lancer': 'تشغيل المحاكاة', 'sim.play': 'تشغيل', 'sim.pause': 'إيقاف', 'sim.reset': 'إعادة',
+    'sim.resultats': 'النتائج', 'sim.plein_ecran': 'ملء الشاشة',
+    'loading': 'جارٍ التحميل...',
     'footer.desc': 'المنصة التعليمية المغربية المخصصة لنجاح تلاميذ الثانوية في الفيزياء والكيمياء.',
     'footer.navigation': 'التنقل', 'footer.ressources': 'الموارد',
     'footer.contact': 'اتصل بنا', 'footer.maroc': 'المغرب', 'footer.droits': 'جميع الحقوق محفوظة.'
   }
 };
 
-const simulations = [
-  { id: 'ondes-corde', cat: 'ondes', icon: 'fa-water',
-    titre_fr: 'Ondes mécaniques sur une corde', titre_ar: 'الموجات الميكانيكية',
-    desc_fr: "Visualisez la propagation d'une onde sinusoïdale.", desc_ar: 'شاهد انتشار موجة جيبية.',
-    chapitre_fr: 'Ondes mécaniques', chapitre_ar: 'الموجات الميكانيكية',
-    sliders: [
-      { id: 'freq', label_fr: 'Fréquence f', label_ar: 'التردد f', min: 0.5, max: 5, step: 0.1, value: 1, unit: 'Hz' },
-      { id: 'amp', label_fr: 'Amplitude A', label_ar: 'السعة A', min: 10, max: 60, step: 1, value: 40, unit: 'px' },
-      { id: 'vit', label_fr: 'Vitesse v', label_ar: 'السرعة v', min: 0.5, max: 5, step: 0.1, value: 2, unit: 'm/s' }
-    ], draw: drawOndesCorde },
-  { id: 'diffraction', cat: 'ondes', icon: 'fa-circle-notch',
-    titre_fr: 'Diffraction (fente simple)', titre_ar: 'الانعراج',
-    desc_fr: 'Observez le phénomène de diffraction.', desc_ar: 'لاحظ ظاهرة الانعراج.',
-    chapitre_fr: 'Ondes lumineuses', chapitre_ar: 'الموجات الضوئية',
-    sliders: [
-      { id: 'lambda', label_fr: 'Longueur λ (nm)', label_ar: 'الطول الموجي λ', min: 400, max: 700, step: 10, value: 550, unit: 'nm' },
-      { id: 'largeur', label_fr: 'Largeur a (µm)', label_ar: 'عرض الشق a', min: 20, max: 200, step: 5, value: 80, unit: 'µm' }
-    ], draw: drawDiffraction },
-  { id: 'cinetique', cat: 'cinetique', icon: 'fa-hourglass-half',
-    titre_fr: 'Cinétique chimique', titre_ar: 'الحركية الكيميائية',
-    desc_fr: "Suivez l'évolution d'une concentration.", desc_ar: 'تابع تطور التركيز.',
-    chapitre_fr: 'Cinétique', chapitre_ar: 'الحركية',
-    sliders: [
-      { id: 'c0', label_fr: 'Concentration C₀', label_ar: 'التركيز C₀', min: 0.1, max: 1, step: 0.05, value: 0.5, unit: 'mol/L' },
-      { id: 'temp', label_fr: 'Température T', label_ar: 'الحرارة T', min: 280, max: 340, step: 5, value: 298, unit: 'K' }
-    ], draw: drawCinetique },
-  { id: 'nucleaire', cat: 'nucleaire', icon: 'fa-radiation',
-    titre_fr: 'Décroissance radioactive', titre_ar: 'التحلل الإشعاعي',
-    desc_fr: "Observez la désintégration d'un échantillon.", desc_ar: 'لاحظ تحلل عينة مشعة.',
-    chapitre_fr: 'Radioactivité', chapitre_ar: 'النشاط الإشعاعي',
-    sliders: [
-      { id: 'lambda', label_fr: 'Constante λ', label_ar: 'الثابت λ', min: 0.01, max: 0.5, step: 0.01, value: 0.1, unit: 's⁻¹' },
-      { id: 'n0', label_fr: 'N₀ (noyaux)', label_ar: 'N₀ (أنوية)', min: 100, max: 5000, step: 100, value: 2000, unit: '' }
-    ], draw: drawNucleaire },
-  { id: 'chute-libre', cat: 'mecanique', icon: 'fa-rocket',
-    titre_fr: 'Chute libre', titre_ar: 'السقوط الحر',
-    desc_fr: "Étudiez la chute d'un objet.", desc_ar: 'ادرس سقوط جسم.',
-    chapitre_fr: 'Mécanique', chapitre_ar: 'الميكانيك',
-    sliders: [
-      { id: 'masse', label_fr: 'Masse m (kg)', label_ar: 'الكتلة m', min: 0.1, max: 10, step: 0.1, value: 1, unit: 'kg' },
-      { id: 'hauteur', label_fr: 'Hauteur h (m)', label_ar: 'الارتفاع h', min: 5, max: 100, step: 5, value: 50, unit: 'm' },
-      { id: 'v0', label_fr: 'Vitesse v₀ (m/s)', label_ar: 'السرعة v₀', min: 0, max: 20, step: 1, value: 0, unit: 'm/s' }
-    ], draw: drawChuteLibre },
-  { id: 'dipole-rc', cat: 'electricite', icon: 'fa-bolt',
-    titre_fr: 'Charge du dipôle RC', titre_ar: 'شحن ثنائي القطب RC',
-    desc_fr: "Observez la charge d'un condensateur.", desc_ar: 'لاحظ شحن مكثف.',
-    chapitre_fr: 'Électricité', chapitre_ar: 'الكهرباء',
-    sliders: [
-      { id: 'R', label_fr: 'Résistance R (Ω)', label_ar: 'المقاومة R', min: 100, max: 5000, step: 100, value: 1000, unit: 'Ω' },
-      { id: 'C', label_fr: 'Capacité C (µF)', label_ar: 'السعة C', min: 1, max: 100, step: 1, value: 10, unit: 'µF' },
-      { id: 'E', label_fr: 'Tension E (V)', label_ar: 'التوتر E', min: 1, max: 12, step: 0.5, value: 5, unit: 'V' }
-    ], draw: drawDipoleRC },
-  { id: 'rlc', cat: 'electricite', icon: 'fa-wave-square',
-    titre_fr: 'Circuit RLC', titre_ar: 'دارة RLC',
-    desc_fr: 'Visualisez les oscillations amorties.', desc_ar: 'شاهد التذبذبات المخمدة.',
-    chapitre_fr: 'Oscillations', chapitre_ar: 'التذبذبات',
-    sliders: [
-      { id: 'R', label_fr: 'Résistance R (Ω)', label_ar: 'المقاومة R', min: 1, max: 100, step: 1, value: 10, unit: 'Ω' },
-      { id: 'L', label_fr: 'Inductance L (H)', label_ar: 'التحريض L', min: 0.05, max: 1, step: 0.05, value: 0.2, unit: 'H' },
-      { id: 'C', label_fr: 'Capacité C (µF)', label_ar: 'السعة C', min: 1, max: 50, step: 1, value: 10, unit: 'µF' }
-    ], draw: drawRLC },
-  { id: 'oscillateur', cat: 'mecanique', icon: 'fa-wave-square',
-    titre_fr: 'Oscillateur mécanique', titre_ar: 'المتذبذب الميكانيكي',
-    desc_fr: "Oscillations d'une masse sur un ressort.", desc_ar: 'تذبذبات كتلة على نابض.',
-    chapitre_fr: 'Oscillations', chapitre_ar: 'التذبذبات',
-    sliders: [
-      { id: 'masse', label_fr: 'Masse m (kg)', label_ar: 'الكتلة m', min: 0.1, max: 5, step: 0.1, value: 1, unit: 'kg' },
-      { id: 'k', label_fr: 'Raideur k (N/m)', label_ar: 'الصلابة k', min: 5, max: 100, step: 5, value: 30, unit: 'N/m' },
-      { id: 'amp', label_fr: 'Amplitude A', label_ar: 'السعة A', min: 10, max: 80, step: 5, value: 40, unit: 'px' }
-    ], draw: drawOscillateur }
-];
+/* Simulations canvas internes (code JS) */
+const SIMS_CANVAS = {
+  'ondes-corde': { icon:'fa-water', titre_fr:'Ondes sur une corde', titre_ar:'الموجات على حبل',
+    desc_fr:"Visualisez la propagation d'une onde sinusoïdale.", desc_ar:'شاهد انتشار موجة جيبية.',
+    sliders:[
+      {id:'freq',label_fr:'Fréquence f',label_ar:'التردد f',min:.5,max:5,step:.1,value:1,unit:'Hz'},
+      {id:'amp',label_fr:'Amplitude A',label_ar:'السعة A',min:10,max:60,step:1,value:40,unit:'px'},
+      {id:'vit',label_fr:'Vitesse v',label_ar:'السرعة v',min:.5,max:5,step:.1,value:2,unit:'m/s'}
+    ],draw:drawOndesCorde },
+  'diffraction': { icon:'fa-circle-notch', titre_fr:'Diffraction', titre_ar:'الانعراج',
+    desc_fr:'Observez le phénomène de diffraction.', desc_ar:'لاحظ ظاهرة الانعراج.',
+    sliders:[
+      {id:'lambda',label_fr:'Longueur λ (nm)',label_ar:'الطول الموجي',min:400,max:700,step:10,value:550,unit:'nm'},
+      {id:'largeur',label_fr:'Largeur a (µm)',label_ar:'عرض الشق',min:20,max:200,step:5,value:80,unit:'µm'}
+    ],draw:drawDiffraction },
+  'cinetique': { icon:'fa-hourglass-half', titre_fr:'Cinétique chimique', titre_ar:'الحركية الكيميائية',
+    desc_fr:"Suivez l'évolution d'une concentration.", desc_ar:'تابع تطور التركيز.',
+    sliders:[
+      {id:'c0',label_fr:'Concentration C₀',label_ar:'التركيز',min:.1,max:1,step:.05,value:.5,unit:'mol/L'},
+      {id:'temp',label_fr:'Température T',label_ar:'الحرارة',min:280,max:340,step:5,value:298,unit:'K'}
+    ],draw:drawCinetique },
+  'nucleaire': { icon:'fa-radiation', titre_fr:'Décroissance radioactive', titre_ar:'التحلل الإشعاعي',
+    desc_fr:"Observez la désintégration d'un échantillon.", desc_ar:'لاحظ تحلل عينة مشعة.',
+    sliders:[
+      {id:'lambda',label_fr:'Constante λ',label_ar:'الثابت',min:.01,max:.5,step:.01,value:.1,unit:'s⁻¹'},
+      {id:'n0',label_fr:'N₀ (noyaux)',label_ar:'N₀',min:100,max:5000,step:100,value:2000,unit:''}
+    ],draw:drawNucleaire },
+  'chute-libre': { icon:'fa-rocket', titre_fr:'Chute libre', titre_ar:'السقوط الحر',
+    desc_fr:"Étudiez la chute d'un objet.", desc_ar:'ادرس سقوط جسم.',
+    sliders:[
+      {id:'masse',label_fr:'Masse m',label_ar:'الكتلة',min:.1,max:10,step:.1,value:1,unit:'kg'},
+      {id:'hauteur',label_fr:'Hauteur h',label_ar:'الارتفاع',min:5,max:100,step:5,value:50,unit:'m'},
+      {id:'v0',label_fr:'Vitesse v₀',label_ar:'السرعة',min:0,max:20,step:1,value:0,unit:'m/s'}
+    ],draw:drawChuteLibre },
+  'dipole-rc': { icon:'fa-bolt', titre_fr:'Charge du dipôle RC', titre_ar:'شحن ثنائي القطب RC',
+    desc_fr:"Observez la charge d'un condensateur.", desc_ar:'لاحظ شحن مكثف.',
+    sliders:[
+      {id:'R',label_fr:'Résistance R',label_ar:'المقاومة',min:100,max:5000,step:100,value:1000,unit:'Ω'},
+      {id:'C',label_fr:'Capacité C',label_ar:'السعة',min:1,max:100,step:1,value:10,unit:'µF'},
+      {id:'E',label_fr:'Tension E',label_ar:'التوتر',min:1,max:12,step:.5,value:5,unit:'V'}
+    ],draw:drawDipoleRC },
+  'rlc': { icon:'fa-wave-square', titre_fr:'Circuit RLC', titre_ar:'دارة RLC',
+    desc_fr:'Visualisez les oscillations amorties.', desc_ar:'شاهد التذبذبات المخمدة.',
+    sliders:[
+      {id:'R',label_fr:'Résistance R',label_ar:'المقاومة',min:1,max:100,step:1,value:10,unit:'Ω'},
+      {id:'L',label_fr:'Inductance L',label_ar:'التحريض',min:.05,max:1,step:.05,value:.2,unit:'H'},
+      {id:'C',label_fr:'Capacité C',label_ar:'السعة',min:1,max:50,step:1,value:10,unit:'µF'}
+    ],draw:drawRLC },
+  'oscillateur': { icon:'fa-wave-square', titre_fr:'Oscillateur mécanique', titre_ar:'المتذبذب الميكانيكي',
+    desc_fr:"Oscillations d'une masse sur un ressort.", desc_ar:'تذبذبات كتلة على نابض.',
+    sliders:[
+      {id:'masse',label_fr:'Masse m',label_ar:'الكتلة',min:.1,max:5,step:.1,value:1,unit:'kg'},
+      {id:'k',label_fr:'Raideur k',label_ar:'الصلابة',min:5,max:100,step:5,value:30,unit:'N/m'},
+      {id:'amp',label_fr:'Amplitude A',label_ar:'السعة',min:10,max:80,step:5,value:40,unit:'px'}
+    ],draw:drawOscillateur }
+};
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
   appliquerLangue(currentLang);
-  afficherSims();
   bindEvents();
+  await chargerDonnees();
 });
 
 function appliquerLangue(lang) {
@@ -371,80 +396,184 @@ function appliquerLangue(lang) {
     const key = el.getAttribute('data-i18n');
     if (trad[lang] && trad[lang][key]) el.textContent = trad[lang][key];
   });
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+    const key = el.getAttribute('data-i18n-placeholder');
+    if (trad[lang] && trad[lang][key]) el.placeholder = trad[lang][key];
+  });
   document.querySelectorAll('.lang-btn').forEach(btn => {
     btn.classList.toggle('actif', btn.getAttribute('data-lang') === lang);
   });
   localStorage.setItem('darrssy-lang', lang);
-  afficherSims();
+  if (toutesLesSimulations.length > 0) afficherSimulations();
 }
 
 function bindEvents() {
   document.getElementById('menuToggle').addEventListener('click', () => {
     document.getElementById('navLinks').classList.toggle('active');
   });
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.addEventListener('click', () => appliquerLangue(btn.getAttribute('data-lang')));
+  });
   document.querySelectorAll('.filtre-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       document.querySelectorAll('.filtre-btn').forEach(b => b.classList.remove('actif'));
       btn.classList.add('actif');
       currentCat = btn.getAttribute('data-cat');
-      afficherSims();
+      afficherSimulations();
     });
   });
-  document.querySelectorAll('.lang-btn').forEach(btn => {
-    btn.addEventListener('click', () => appliquerLangue(btn.getAttribute('data-lang')));
-  });
+  document.getElementById('searchInput').addEventListener('input', afficherSimulations);
   document.getElementById('modalClose').addEventListener('click', fermerModal);
   document.getElementById('modalOverlay').addEventListener('click', (e) => {
     if (e.target.id === 'modalOverlay') fermerModal();
   });
-  document.getElementById('btnPlay').addEventListener('click', () => { isPaused = false; });
-  document.getElementById('btnPause').addEventListener('click', () => { isPaused = true; });
-  document.getElementById('btnReset').addEventListener('click', () => {
-    simTime = 0;
-    isPaused = false;
-    if (currentSim) demarrerSimulation(currentSim);
-  });
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape') fermerModal(); });
 }
 
-function afficherSims() {
-  const grid = document.getElementById('simsGrid');
-  grid.innerHTML = '';
-  const filtered = currentCat === 'all' ? simulations : simulations.filter(s => s.cat === currentCat);
-  filtered.forEach(sim => {
-    const card = document.createElement('div');
-    card.className = 'sim-card';
-    const titre = currentLang === 'fr' ? sim.titre_fr : sim.titre_ar;
-    const desc = currentLang === 'fr' ? sim.desc_fr : sim.desc_ar;
-    const chap = currentLang === 'fr' ? sim.chapitre_fr : sim.chapitre_ar;
-    card.innerHTML = `
-      <div class="sim-icon"><i class="fas ${sim.icon}"></i></div>
-      <div class="sim-chapitre">${chap}</div>
-      <h3>${titre}</h3>
-      <p>${desc}</p>
-      <div class="sim-lancer"><span>${trad[currentLang]['sim.lancer']}</span><i class="fas fa-arrow-right"></i></div>
-    `;
-    card.addEventListener('click', () => ouvrirModal(sim));
-    grid.appendChild(card);
+async function chargerDonnees() {
+  try {
+    if (typeof lireTable !== 'function') throw new Error('lireTable non chargé');
+    toutesLesSimulations = await lireTable('simulations', { filtres: { publie: true }, ordre: { col: 'ordre', asc: true } });
+    afficherSimulations();
+  } catch (err) {
+    document.getElementById('simsSections').innerHTML = `<div class="loading-zone"><i class="fas fa-exclamation-triangle" style="color:#ef4444;animation:none;"></i><p>Erreur : ${err.message}</p></div>`;
+  }
+}
+
+function filtrerSimulations() {
+  const search = (document.getElementById('searchInput').value || '').toLowerCase();
+  return toutesLesSimulations.filter(s => {
+    if (currentCat !== 'all' && s.categorie !== currentCat) return false;
+    if (search) {
+      const t = ((s.titre_fr||'') + ' ' + (s.titre_ar||'') + ' ' + (s.description_fr||'')).toLowerCase();
+      if (!t.includes(search)) return false;
+    }
+    return true;
   });
 }
 
-function ouvrirModal(sim) {
-  currentSim = sim;
-  const titre = currentLang === 'fr' ? sim.titre_fr : sim.titre_ar;
-  document.getElementById('modalTitre').textContent = titre;
-  document.getElementById('modalOverlay').classList.add('ouvert');
-  construireSliders(sim);
-  simTime = 0;
-  isPaused = false;
-  setTimeout(() => demarrerSimulation(sim), 100);
+function afficherSimulations() {
+  const container = document.getElementById('simsSections');
+  const filtered = filtrerSimulations();
+
+  if (filtered.length === 0) {
+    container.innerHTML = `<div class="aucun-resultat"><i class="fas fa-search"></i><h3>${trad[currentLang]['sims.aucun']}</h3><p>${trad[currentLang]['sims.aucunDesc']}</p></div>`;
+    return;
+  }
+
+  // Regrouper par leçon
+  const parLecon = {};
+  filtered.forEach(s => {
+    const lecon = currentLang === 'fr' ? (s.lecon_fr || 'Autres') : (s.lecon_ar || s.lecon_fr || 'أخرى');
+    if (!parLecon[lecon]) parLecon[lecon] = [];
+    parLecon[lecon].push(s);
+  });
+
+  let html = '';
+  Object.keys(parLecon).sort().forEach(lecon => {
+    const sims = parLecon[lecon];
+    html += `<div class="lecon-section">
+      <h2 class="lecon-titre">
+        <i class="fas fa-bookmark"></i>
+        <span>${lecon}</span>
+        <span class="nb">${sims.length} ${trad[currentLang]['sims.ressources']}</span>
+      </h2>
+      <div class="sims-grid">`;
+
+    sims.forEach(s => {
+      const titre = currentLang === 'fr' ? s.titre_fr : (s.titre_ar || s.titre_fr);
+      const desc = currentLang === 'fr' ? (s.description_fr || '') : (s.description_ar || s.description_fr || '');
+      const chap = currentLang === 'fr' ? (s.lecon_fr || s.categorie) : (s.lecon_ar || s.lecon_fr || s.categorie);
+      const type = s.type_source || 'canvas';
+      html += `<div class="sim-card" onclick='ouvrirSimulation(${JSON.stringify(s).replace(/'/g, "&#39;")})'>
+        <div class="sim-icon"><i class="fas ${s.icone || 'fa-flask'}"></i></div>
+        <span class="sim-badge ${type}">${type === 'phet' ? '🌐 PhET' : type === 'html' ? '🎨 HTML' : '🔬 Canvas'}</span>
+        <div class="sim-chapitre">${chap}</div>
+        <h3>${titre}</h3>
+        <p>${desc}</p>
+        <div class="sim-lancer"><span>${trad[currentLang]['sim.lancer']}</span><i class="fas fa-arrow-right"></i></div>
+      </div>`;
+    });
+
+    html += `</div></div>`;
+  });
+
+  container.innerHTML = html;
 }
 
-function fermerModal() {
-  document.getElementById('modalOverlay').classList.remove('ouvert');
-  if (animationId) cancelAnimationFrame(animationId);
-  animationId = null;
-  currentSim = null;
+function ouvrirSimulation(s) {
+  simulationActive = s;
+  const type = s.type_source || 'canvas';
+  const titre = currentLang === 'fr' ? s.titre_fr : (s.titre_ar || s.titre_fr);
+  document.getElementById('modalTitre').textContent = titre;
+  document.getElementById('modalOverlay').classList.add('ouvert');
+
+  if (type === 'canvas') {
+    // Simulation interne Canvas
+    const key = detecterCleCanvas(s.titre_fr);
+    const def = SIMS_CANVAS[key];
+    if (def) {
+      afficherCanvas(def);
+    } else {
+      document.getElementById('modalContenu').innerHTML = `<div style="padding:40px;text-align:center;"><p>Aucune simulation Canvas trouvée pour "${s.titre_fr}"</p></div>`;
+    }
+  } else if (type === 'phet' || type === 'html') {
+    // Iframe PhET / HTML
+    document.getElementById('modalContenu').innerHTML = `
+      <div class="embed-container">
+        ${s.code_embed || '<p style="text-align:center;padding:40px;">Aucun code d\'intégration défini.</p>'}
+        <div class="embed-actions">
+          <a class="btn-embed" href="#" onclick="ouvrirPleinEcran();return false;">
+            <i class="fas fa-expand"></i> ${trad[currentLang]['sim.plein_ecran']}
+          </a>
+        </div>
+      </div>`;
+  }
+}
+
+function detecterCleCanvas(titre) {
+  const t = (titre || '').toLowerCase();
+  if (t.includes('corde')) return 'ondes-corde';
+  if (t.includes('diffraction')) return 'diffraction';
+  if (t.includes('cinétique') || t.includes('cinetique')) return 'cinetique';
+  if (t.includes('radioacti') || t.includes('décroissance')) return 'nucleaire';
+  if (t.includes('chute')) return 'chute-libre';
+  if (t.includes('rc') || t.includes('condensateur')) return 'dipole-rc';
+  if (t.includes('rlc')) return 'rlc';
+  if (t.includes('oscillateur') || t.includes('ressort')) return 'oscillateur';
+  return null;
+}
+
+function afficherCanvas(def) {
+  document.getElementById('modalContenu').innerHTML = `
+    <div class="modal-body">
+      <div class="sim-canvas-zone">
+        <canvas class="sim-canvas" id="simCanvas"></canvas>
+        <div class="sim-controls">
+          <button class="sim-btn primary" id="btnPlay"><i class="fas fa-play"></i> <span data-i18n="sim.play">Lancer</span></button>
+          <button class="sim-btn" id="btnPause"><i class="fas fa-pause"></i> <span data-i18n="sim.pause">Pause</span></button>
+          <button class="sim-btn danger" id="btnReset"><i class="fas fa-redo"></i> <span data-i18n="sim.reset">Reset</span></button>
+        </div>
+      </div>
+      <div class="sim-sliders-zone">
+        <div id="slidersContainer"></div>
+        <div class="sim-resultats">
+          <h4><i class="fas fa-chart-line"></i> <span data-i18n="sim.resultats">Résultats</span></h4>
+          <div id="resultatsContainer"></div>
+        </div>
+      </div>
+    </div>`;
+
+  construireSliders(def);
+  simTime = 0; isPaused = false;
+
+  document.getElementById('btnPlay').addEventListener('click', () => { isPaused = false; });
+  document.getElementById('btnPause').addEventListener('click', () => { isPaused = true; });
+  document.getElementById('btnReset').addEventListener('click', () => {
+    simTime = 0; isPaused = false;
+    if (def) demarrerSimulation(def);
+  });
+  setTimeout(() => demarrerSimulation(def), 100);
 }
 
 function construireSliders(sim) {
@@ -473,6 +602,7 @@ function construireSliders(sim) {
 
 function mettreAJourResultats(sim) {
   const container = document.getElementById('resultatsContainer');
+  if (!container) return;
   container.innerHTML = '';
   calculerResultats(sim).forEach(r => {
     const div = document.createElement('div');
@@ -484,43 +614,45 @@ function mettreAJourResultats(sim) {
 
 function calculerResultats(sim) {
   const p = sim.params || {};
-  const results = [];
-  if (sim.id === 'ondes-corde') {
-    results.push({ label: 'λ', value: (p.vit / p.freq).toFixed(3) + ' m' });
-    results.push({ label: 'T', value: (1/p.freq).toFixed(3) + ' s' });
-  } else if (sim.id === 'diffraction') {
+  const r = [];
+  // Détecter par sliders pour ne pas dépendre d'un id
+  if (p.freq !== undefined && p.vit !== undefined) {
+    r.push({ label: 'λ', value: (p.vit / p.freq).toFixed(3) + ' m' });
+    r.push({ label: 'T', value: (1/p.freq).toFixed(3) + ' s' });
+  } else if (p.lambda !== undefined && p.largeur !== undefined) {
     const theta = Math.asin(Math.min(1, (p.lambda*1e-9)/(p.largeur*1e-6)));
-    results.push({ label: 'θ', value: (theta * 180/Math.PI).toFixed(2) + ' °' });
-  } else if (sim.id === 'cinetique') {
+    r.push({ label: 'θ', value: (theta * 180/Math.PI).toFixed(2) + ' °' });
+  } else if (p.c0 !== undefined && p.temp !== undefined) {
     const k = 0.02 * Math.exp(50 * (1/298 - 1/p.temp));
-    results.push({ label: 'k', value: k.toExponential(3) + ' s⁻¹' });
-    results.push({ label: 't₁/₂', value: (Math.log(2)/k).toFixed(1) + ' s' });
-  } else if (sim.id === 'nucleaire') {
-    results.push({ label: 'T₁/₂', value: (Math.log(2)/p.lambda).toFixed(3) + ' s' });
-    results.push({ label: 'A₀', value: (p.lambda * p.n0).toFixed(2) + ' Bq' });
-  } else if (sim.id === 'chute-libre') {
+    r.push({ label: 'k', value: k.toExponential(3) + ' s⁻¹' });
+    r.push({ label: 't₁/₂', value: (Math.log(2)/k).toFixed(1) + ' s' });
+  } else if (p.lambda !== undefined && p.n0 !== undefined) {
+    r.push({ label: 'T₁/₂', value: (Math.log(2)/p.lambda).toFixed(3) + ' s' });
+    r.push({ label: 'A₀', value: (p.lambda * p.n0).toFixed(2) + ' Bq' });
+  } else if (p.masse !== undefined && p.hauteur !== undefined && p.v0 !== undefined) {
     const g = 9.81;
     const tf = (-p.v0 + Math.sqrt(p.v0*p.v0 + 2*g*p.hauteur)) / g;
-    results.push({ label: 't finale', value: tf.toFixed(3) + ' s' });
-    results.push({ label: 'v finale', value: (p.v0 + g*tf).toFixed(2) + ' m/s' });
-  } else if (sim.id === 'dipole-rc') {
+    r.push({ label: 't final', value: tf.toFixed(3) + ' s' });
+    r.push({ label: 'v final', value: (p.v0 + g*tf).toFixed(2) + ' m/s' });
+  } else if (p.R !== undefined && p.C !== undefined && p.E !== undefined) {
     const tau = p.R * p.C * 1e-6;
-    results.push({ label: 'τ', value: (tau*1000).toFixed(3) + ' ms' });
-  } else if (sim.id === 'rlc') {
+    r.push({ label: 'τ', value: (tau*1000).toFixed(3) + ' ms' });
+  } else if (p.R !== undefined && p.L !== undefined && p.C !== undefined) {
     const omega0 = 1/Math.sqrt(p.L * p.C * 1e-6);
-    results.push({ label: 'T₀', value: (2*Math.PI/omega0*1000).toFixed(2) + ' ms' });
-    results.push({ label: 'α', value: (p.R/(2*p.L)).toFixed(1) + ' s⁻¹' });
-  } else if (sim.id === 'oscillateur') {
+    r.push({ label: 'T₀', value: (2*Math.PI/omega0*1000).toFixed(2) + ' ms' });
+    r.push({ label: 'α', value: (p.R/(2*p.L)).toFixed(1) + ' s⁻¹' });
+  } else if (p.masse !== undefined && p.k !== undefined && p.amp !== undefined) {
     const T = 2*Math.PI*Math.sqrt(p.masse/p.k);
-    results.push({ label: 'T', value: T.toFixed(3) + ' s' });
-    results.push({ label: 'ω', value: Math.sqrt(p.k/p.masse).toFixed(3) + ' rad/s' });
+    r.push({ label: 'T', value: T.toFixed(3) + ' s' });
+    r.push({ label: 'ω', value: Math.sqrt(p.k/p.masse).toFixed(3) + ' rad/s' });
   }
-  return results;
+  return r;
 }
 
 function demarrerSimulation(sim) {
   if (animationId) cancelAnimationFrame(animationId);
   const canvas = document.getElementById('simCanvas');
+  if (!canvas) return;
   const ctx = canvas.getContext('2d');
   const rect = canvas.getBoundingClientRect();
   canvas.width = rect.width * window.devicePixelRatio;
@@ -536,6 +668,22 @@ function demarrerSimulation(sim) {
   mettreAJourResultats(sim);
 }
 
+function fermerModal() {
+  document.getElementById('modalOverlay').classList.remove('ouvert');
+  if (animationId) cancelAnimationFrame(animationId);
+  animationId = null;
+  simulationActive = null;
+}
+
+function ouvrirPleinEcran() {
+  const iframe = document.querySelector('.embed-container iframe');
+  if (iframe) {
+    if (iframe.requestFullscreen) iframe.requestFullscreen();
+    else if (iframe.webkitRequestFullscreen) iframe.webkitRequestFullscreen();
+  }
+}
+
+/* ===== FONCTIONS DE DESSIN CANVAS ===== */
 function drawOndesCorde(ctx, w, h, p, t) {
   const cy = h/2; const lambda = p.vit / p.freq; const k = 2 * Math.PI / lambda;
   ctx.strokeStyle = 'rgba(139, 92, 246, 0.2)'; ctx.lineWidth = 1;
@@ -545,20 +693,16 @@ function drawOndesCorde(ctx, w, h, p, t) {
   for (let x = 0; x < w; x++) { const y = cy - p.amp * Math.sin(k * x / 40 - 2 * Math.PI * p.freq * t); if (x === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y); }
   ctx.stroke(); ctx.shadowBlur = 0;
 }
-
 function drawDiffraction(ctx, w, h, p, t) {
   const cx = w/2, cy = h/2; const largeurPx = p.largeur / 3;
   ctx.fillStyle = 'rgba(139, 92, 246, 0.15)';
   ctx.fillRect(0, cy - 150, cx - largeurPx/2, 300); ctx.fillRect(cx + largeurPx/2, cy - 150, cx, 300);
   ctx.fillStyle = '#8b5cf6'; ctx.fillRect(cx - largeurPx/2 - 3, 0, 3, h); ctx.fillRect(cx + largeurPx/2, 0, 3, h);
   const lambdaNorm = p.lambda / 700;
-  for (let i = -8; i <= 8; i++) {
-    const angle = i * lambdaNorm * 0.15;
+  for (let i = -8; i <= 8; i++) { const angle = i * lambdaNorm * 0.15;
     ctx.strokeStyle = `rgba(6, 182, 212, ${0.6 - Math.abs(i) * 0.05})`; ctx.lineWidth = 1.5;
-    ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(cx + Math.sin(angle) * w * 1.5, cy + Math.cos(angle) * h * 1.5); ctx.stroke();
-  }
+    ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(cx + Math.sin(angle) * w * 1.5, cy + Math.cos(angle) * h * 1.5); ctx.stroke(); }
 }
-
 function drawCinetique(ctx, w, h, p, t) {
   const padding = 40; const graphW = w - padding * 2; const graphH = h - padding * 2;
   ctx.strokeStyle = 'rgba(139, 92, 246, 0.3)'; ctx.beginPath();
@@ -571,7 +715,6 @@ function drawCinetique(ctx, w, h, p, t) {
     if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y); }
   ctx.stroke(); ctx.shadowBlur = 0;
 }
-
 function drawNucleaire(ctx, w, h, p, t) {
   const padding = 40; const graphW = w - padding * 2; const graphH = h - padding * 2;
   ctx.strokeStyle = 'rgba(139, 92, 246, 0.3)'; ctx.beginPath();
@@ -584,7 +727,6 @@ function drawNucleaire(ctx, w, h, p, t) {
     if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y); }
   ctx.stroke(); ctx.shadowBlur = 0;
 }
-
 function drawChuteLibre(ctx, w, h, p, t) {
   const g = 9.81; const cy = 40; const sol = h - 40;
   ctx.fillStyle = 'rgba(139, 92, 246, 0.2)'; ctx.fillRect(0, sol, w, h - sol);
@@ -596,7 +738,6 @@ function drawChuteLibre(ctx, w, h, p, t) {
   ctx.fillStyle = '#10b981'; ctx.shadowColor = '#10b981'; ctx.shadowBlur = 20;
   ctx.beginPath(); ctx.arc(w/2, yPx, 15 + p.masse * 2, 0, 2 * Math.PI); ctx.fill(); ctx.shadowBlur = 0;
 }
-
 function drawDipoleRC(ctx, w, h, p, t) {
   const tau = p.R * p.C * 1e-6; const padding = 40;
   const graphW = w - padding * 2; const graphH = h - padding * 2;
@@ -610,7 +751,6 @@ function drawDipoleRC(ctx, w, h, p, t) {
     if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y); }
   ctx.stroke(); ctx.shadowBlur = 0;
 }
-
 function drawRLC(ctx, w, h, p, t) {
   const L = p.L; const C = p.C * 1e-6;
   const omega0 = 1 / Math.sqrt(L * C); const alpha = p.R / (2 * L);
@@ -625,7 +765,6 @@ function drawRLC(ctx, w, h, p, t) {
     if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y); }
   ctx.stroke(); ctx.shadowBlur = 0;
 }
-
 function drawOscillateur(ctx, w, h, p, t) {
   const omega = Math.sqrt(p.k / p.masse); const cy = h/2 + 30;
   ctx.fillStyle = 'rgba(139, 92, 246, 0.3)'; ctx.fillRect(w/2 - 80, 40, 160, 10);
