@@ -738,13 +738,18 @@ function ouvrirModalSimulation(data=null){
       <div class="form-group"><label>Type de source</label><select id="s_type_source" onchange="toggleTypeSource()">
         <option value="canvas" ${d.type_source==='canvas'||!d.type_source?'selected':''}>Canvas (interne)</option>
         <option value="phet" ${d.type_source==='phet'?'selected':''}>PhET (iframe)</option>
-        <option value="html" ${d.type_source==='html'?'selected':''}>HTML personnalisé</option>
+        <option value="html" ${d.type_source==='html'?'selected':''}>HTML uploadé</option>
       </select></div>
     </div>
-    <div class="form-group" id="groupeCodeEmbed" style="display:${d.type_source==='phet'||d.type_source==='html'?'block':'none'};">
-      <label>Code d'intégration (iframe ou HTML)</label>
-      <textarea id="s_code_embed" placeholder='<iframe src="https://phet.colorado.edu/sims/html/..." width="100%" height="600" allowfullscreen></iframe>'>${d.code_embed||''}</textarea>
-      <div class="helper-text">💡 Collez ici le code &lt;iframe&gt; de PhET (ou autre site)</div>
+    <div class="form-group" id="groupeCodeEmbed" style="display:${d.type_source==='phet'?'block':'none'};">
+      <label>Code d'intégration PhET (iframe)</label>
+      <textarea id="s_code_embed" placeholder='<iframe src="https://phet.colorado.edu/sims/html/..." width="100%" height="600"></iframe>'>${d.code_embed&&d.type_source==='phet'?d.code_embed:''}</textarea>
+      <div class="helper-text">💡 Collez ici le code &lt;iframe&gt; de PhET uniquement</div>
+    </div>
+    <div class="form-group" id="groupeUploadHtml" style="display:${d.type_source==='html'?'block':'none'};">
+      <label>📎 Fichier HTML de la simulation</label>
+      <div class="file-upload" id="fileUploadSimu"><i class="fas fa-file-code"></i><p>${d.code_embed&&d.type_source==='html'?'✅ Fichier déjà uploadé — Cliquez pour remplacer':'Cliquez ou glissez-déposez votre fichier .html'}</p><input type="file" id="fileInputSimu" accept=".html,.htm" hidden><div class="file-info" id="fileInfoSimu"></div></div>
+      <div class="helper-text">💡 Uploadez le fichier HTML de votre simulation (Qwen, GPT, etc.)</div>
     </div>
     <div class="form-group"><label>Description (FR)</label><textarea id="s_desc_fr" style="font-family:'Poppins',sans-serif;font-size:.92rem;">${d.description_fr||''}</textarea></div>
     <div class="form-row">
@@ -754,34 +759,73 @@ function ouvrirModalSimulation(data=null){
     <label class="form-checkbox"><input type="checkbox" id="s_publie" ${d.publie!==false?'checked':''}> Publier</label>
     <div class="form-actions">
       <button class="btn-cancel" onclick="fermerModal()">Annuler</button>
-      <button class="btn-submit" onclick="sauvegarderSimulation(${editing?`'${d.id}'`:'null'})"><i class="fas fa-save"></i> Enregistrer</button>
+      <button class="btn-submit" id="btnSaveSimu" onclick="sauvegarderSimulation(${editing?`'${d.id}'`:'null'})"><i class="fas fa-save"></i> Enregistrer</button>
     </div>`;
   ouvrirModal(editing?'Modifier la simulation':'Ajouter une simulation',contenu);
+
+  // Gestion du fichier HTML uploadé
+  const fuSimu=document.getElementById('fileUploadSimu');
+  const fiSimu=document.getElementById('fileInputSimu');
+  const finfoSimu=document.getElementById('fileInfoSimu');
+  let fichierHTML=null;
+  if(fuSimu){
+    fuSimu.addEventListener('click',()=>fiSimu.click());
+    fuSimu.addEventListener('dragover',e=>{e.preventDefault();fuSimu.classList.add('dragover');});
+    fuSimu.addEventListener('dragleave',()=>fuSimu.classList.remove('dragover'));
+    fuSimu.addEventListener('drop',e=>{e.preventDefault();fuSimu.classList.remove('dragover');if(e.dataTransfer.files.length){fichierHTML=e.dataTransfer.files[0];finfoSimu.textContent=fichierHTML.name;}});
+    fiSimu.addEventListener('change',e=>{if(e.target.files.length){fichierHTML=e.target.files[0];finfoSimu.textContent=fichierHTML.name;}});
+  }
+  window._fichierHTMLSimu=()=>fichierHTML;
 }
 
 function toggleTypeSource(){
   const type=document.getElementById('s_type_source').value;
-  document.getElementById('groupeCodeEmbed').style.display=(type==='phet'||type==='html')?'block':'none';
+  const gc=document.getElementById('groupeCodeEmbed');
+  const gu=document.getElementById('groupeUploadHtml');
+  if(gc)gc.style.display=(type==='phet')?'block':'none';
+  if(gu)gu.style.display=(type==='html')?'block':'none';
 }
 
 async function sauvegarderSimulation(id){
-  const data={
-    titre_fr:document.getElementById('s_titre_fr').value,
-    titre_ar:document.getElementById('s_titre_ar').value,
-    lecon_fr:document.getElementById('s_lecon_fr').value||null,
-    lecon_ar:document.getElementById('s_lecon_ar').value||null,
-    categorie:document.getElementById('s_categorie').value,
-    type_source:document.getElementById('s_type_source').value,
-    code_embed:document.getElementById('s_code_embed')?.value||null,
-    description_fr:document.getElementById('s_desc_fr').value,
-    icone:document.getElementById('s_icone').value,
-    ordre:parseInt(document.getElementById('s_ordre').value),
-    publie:document.getElementById('s_publie').checked
-  };
+  const type=document.getElementById('s_type_source').value;
+  let code_embed=null;
+  const btn=document.getElementById('btnSaveSimu');
+  const originalHTML=btn?btn.innerHTML:'';
   try{
+    if(type==='html'){
+      const file=window._fichierHTMLSimu?window._fichierHTMLSimu():null;
+      if(file){
+        if(btn){btn.disabled=true;btn.innerHTML='<i class="fas fa-spinner fa-spin"></i> Upload...';}
+        const nomSec=file.name.normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-zA-Z0-9._-]/g,'_').replace(/_+/g,'_');
+        const chemin=`${Date.now()}_${nomSec}`;
+        const url=await uploaderFichierSimulation(file,chemin);
+        code_embed=`<iframe src="${url}" width="100%" height="700" allowfullscreen></iframe>`;
+      } else {
+        code_embed=null;
+      }
+    } else if(type==='phet'){
+      code_embed=document.getElementById('s_code_embed')?.value||null;
+    }
+
+    const data={
+      titre_fr:document.getElementById('s_titre_fr').value,
+      titre_ar:document.getElementById('s_titre_ar').value,
+      lecon_fr:document.getElementById('s_lecon_fr').value||null,
+      lecon_ar:document.getElementById('s_lecon_ar').value||null,
+      categorie:document.getElementById('s_categorie').value,
+      type_source:type,
+      code_embed:code_embed,
+      description_fr:document.getElementById('s_desc_fr').value,
+      icone:document.getElementById('s_icone').value,
+      ordre:parseInt(document.getElementById('s_ordre').value),
+      publie:document.getElementById('s_publie').checked
+    };
     if(id)await modifierLigne('simulations',id,data);else await insererLigne('simulations',data);
     afficherMessage('Simulation enregistrée !','succes');fermerModal();chargerSimulations();
-  }catch(err){afficherMessage('Erreur : '+err.message,'erreur');}
+  }catch(err){
+    afficherMessage('Erreur : '+err.message,'erreur');
+    if(btn){btn.disabled=false;btn.innerHTML=originalHTML;}
+  }
 }
 
 function editerSimulation(s){ouvrirModalSimulation(s);}
