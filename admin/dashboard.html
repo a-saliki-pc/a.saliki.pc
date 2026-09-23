@@ -276,22 +276,21 @@ tbody tr{transition:var(--transition)}tbody tr:hover{background:rgba(139,92,246,
 /* ===== LISTE FIXE DES LEÇONS ===== */
 const LECONS = {
   physique: [
-    'Les ondes mécaniques',
-    'Les ondes lumineuses',
-    'Effet photoélectrique',
-    'Électricité (RC, RL)',
-    'Circuit RLC',
-    "Modulation et démodulation d'amplitude",
-    'Application des lois de Newton',
-    'Chute libre',
-    'Oscillations mécaniques',
-    'Radioactivité'
+    { fr: 'Les ondes mécaniques', ar: 'الموجات الميكانيكية' },
+    { fr: 'Les ondes lumineuses', ar: 'الموجات الضوئية' },
+    { fr: 'Électricité (RC, RL)', ar: 'الكهرباء (RC, RL)' },
+    { fr: 'Circuit RLC', ar: 'دارة RLC' },
+    { fr: "Modulation et démodulation d'amplitude", ar: 'التضمين وإزالة التضمين' },
+    { fr: 'Application des lois de Newton', ar: 'تطبيق قوانين نيوتن' },
+    { fr: 'Chute libre', ar: 'السقوط الحر' },
+    { fr: 'Oscillations mécaniques', ar: 'الاهتزازات الميكانيكية' },
+    { fr: 'Radioactivité', ar: 'النشاط الإشعاعي' }
   ],
   chimie: [
-    'Oxydoréduction',
-    'Cinétique chimique',
-    'Acide-base',
-    'Chimie organique'
+    { fr: 'Oxydoréduction', ar: 'الأكسدة والإرجاع' },
+    { fr: 'Cinétique chimique', ar: 'الحركية الكيميائية' },
+    { fr: 'Acide-base', ar: 'الحموض والقواعد' },
+    { fr: 'Chimie organique', ar: 'الكيمياء العضوية' }
   ]
 };
 
@@ -364,6 +363,27 @@ function chargerPanel(panel){
   }
 }
 
+/* ===== CONSTRUIRE MENU DÉROULANT LEÇONS ===== */
+function construireOptionsLecons(selectedFr, selectedAr, langue){
+  // langue : 'fr' ou 'ar'
+  let html='<option value="">— Aucune leçon —</option>';
+  html+='<optgroup label="📘 PHYSIQUE">';
+  LECONS.physique.forEach(l=>{
+    const val=langue==='fr'?l.fr:l.ar;
+    const sel=langue==='fr'?selectedFr:selectedAr;
+    html+=`<option value="${val}" ${sel===val?'selected':''}>${val}</option>`;
+  });
+  html+='</optgroup>';
+  html+='<optgroup label="🧪 CHIMIE">';
+  LECONS.chimie.forEach(l=>{
+    const val=langue==='fr'?l.fr:l.ar;
+    const sel=langue==='fr'?selectedFr:selectedAr;
+    html+=`<option value="${val}" ${sel===val?'selected':''}>${val}</option>`;
+  });
+  html+='</optgroup>';
+  return html;
+}
+
 async function chargerOverview(){
   try{
     const[c,r,e,ex,s]=await Promise.all([lireTable('cours'),lireTable('ressources'),lireTable('examens'),lireTable('exercices'),lireTable('simulations')]);
@@ -414,7 +434,7 @@ async function chargerExercices(){
   try{
     const data=await lireTable('exercices',{ordre:{col:'created_at',asc:false}});
     if(data.length===0){container.innerHTML='<div class="empty"><i class="fas fa-inbox"></i><h3>Aucun exercice</h3></div>';return;}
-    container.innerHTML=`<div class="table-scroll"><table><thead><tr><th>Titre</th><th>Niveau</th><th>Matière</th><th>Difficulté</th><th>Énoncé</th><th>Corrigé</th><th>Publié</th><th>Actions</th></tr></thead><tbody>${data.map(ex=>{const etoiles=[1,2,3].map(i=>`<span class="${i<=(ex.difficulte||1)?'':'vide'}">★</span>`).join('');return `<tr><td><strong style="color:#1e3a8a">${ex.titre_fr}</strong></td><td><span class="badge violet">${ex.niveau}</span></td><td>${ex.matiere}</td><td><span class="stars">${etoiles}</span></td><td>${ex.fichier_url?'✅':'❌'}</td><td>${ex.fichier_corrige_url?'✅':'❌'}</td><td><span class="badge ${ex.publie?'vert':'rouge'}">${ex.publie?'Oui':'Non'}</span></td><td><button class="btn-icon edit" onclick='editerExercice(${JSON.stringify(ex).replace(/'/g,"&#39;")})'><i class="fas fa-edit"></i></button><button class="btn-icon delete" onclick="supprimerExercice('${ex.id}')"><i class="fas fa-trash"></i></button></td></tr>`;}).join('')}</tbody></table></div>`;
+    container.innerHTML=`<div class="table-scroll"><table><thead><tr><th>Titre</th><th>Leçon</th><th>Niveau</th><th>Matière</th><th>Difficulté</th><th>Énoncé</th><th>Corrigé</th><th>Publié</th><th>Actions</th></tr></thead><tbody>${data.map(ex=>{const etoiles=[1,2,3].map(i=>`<span class="${i<=(ex.difficulte||1)?'':'vide'}">★</span>`).join('');return `<tr><td><strong style="color:#1e3a8a">${ex.titre_fr}</strong></td><td>${ex.chapitre_fr?`<span class="badge bleu">${ex.chapitre_fr}</span>`:'—'}</td><td><span class="badge violet">${ex.niveau}</span></td><td>${ex.matiere}</td><td><span class="stars">${etoiles}</span></td><td>${ex.fichier_url?'✅':'❌'}</td><td>${ex.fichier_corrige_url?'✅':'❌'}</td><td><span class="badge ${ex.publie?'vert':'rouge'}">${ex.publie?'Oui':'Non'}</span></td><td><button class="btn-icon edit" onclick='editerExercice(${JSON.stringify(ex).replace(/'/g,"&#39;")})'><i class="fas fa-edit"></i></button><button class="btn-icon delete" onclick="supprimerExercice('${ex.id}')"><i class="fas fa-trash"></i></button></td></tr>`;}).join('')}</tbody></table></div>`;
   }catch(err){container.innerHTML=`<div class="empty"><i class="fas fa-exclamation-triangle"></i><h3>Erreur</h3><p>${err.message}</p></div>`;}
 }
 
@@ -621,7 +641,7 @@ function ouvrirModalExamen(data=null){
 function editerExamen(e){ouvrirModalExamen(e);}
 async function supprimerExamen(id){if(!confirm('Supprimer cet examen ?'))return;try{await supprimerLigne('examens',id);afficherMessage('Examen supprimé','succes');chargerExamens();}catch(err){afficherMessage('Erreur : '+err.message,'erreur');}}
 
-/* ===== EXERCICES ===== */
+/* ===== EXERCICES (MODIFIÉ : Chapitre en menu déroulant) ===== */
 function ouvrirModalExercice(data=null){
   const d=data||{};const editing=!!data;
   const contenu=`
@@ -642,8 +662,16 @@ function ouvrirModalExercice(data=null){
       </select></div>
     </div>
     <div class="form-row">
-      <div class="form-group"><label>Chapitre (FR)</label><input type="text" id="ex_chapitre_fr" value="${d.chapitre_fr||''}"></div>
-      <div class="form-group"><label>Chapitre (AR)</label><input type="text" id="ex_chapitre_ar" value="${d.chapitre_ar||''}"></div>
+      <div class="form-group">
+        <label>Leçon (FR)</label>
+        <select id="ex_chapitre_fr">${construireOptionsLecons(d.chapitre_fr,d.chapitre_ar,'fr')}</select>
+        <div class="helper-text">Choisissez la leçon dans laquelle classer cet exercice</div>
+      </div>
+      <div class="form-group">
+        <label>Leçon (AR)</label>
+        <select id="ex_chapitre_ar">${construireOptionsLecons(d.chapitre_fr,d.chapitre_ar,'ar')}</select>
+        <div class="helper-text">Équivalent arabe</div>
+      </div>
     </div>
     <div class="form-row">
       <div class="form-group"><label>Difficulté</label><select id="ex_difficulte">
@@ -695,14 +723,14 @@ function ouvrirModalExercice(data=null){
 function editerExercice(ex){ouvrirModalExercice(ex);}
 async function supprimerExercice(id){if(!confirm('Supprimer cet exercice ?'))return;try{await supprimerLigne('exercices',id);afficherMessage('Exercice supprimé','succes');chargerExercices();}catch(err){afficherMessage('Erreur : '+err.message,'erreur');}}
 
-/* ===== SIMULATIONS (MODIFIÉ) ===== */
-function construireOptionsLecons(selected){
+/* ===== SIMULATIONS ===== */
+function construireOptionsLeconsSimu(selected){
   let html='<option value="">— Aucune leçon —</option>';
   html+='<optgroup label="📘 PHYSIQUE">';
-  LECONS.physique.forEach(l=>{html+=`<option value="${l}" ${selected===l?'selected':''}>${l}</option>`;});
+  LECONS.physique.forEach(l=>{html+=`<option value="${l.fr}" ${selected===l.fr?'selected':''}>${l.fr}</option>`;});
   html+='</optgroup>';
   html+='<optgroup label="🧪 CHIMIE">';
-  LECONS.chimie.forEach(l=>{html+=`<option value="${l}" ${selected===l?'selected':''}>${l}</option>`;});
+  LECONS.chimie.forEach(l=>{html+=`<option value="${l.fr}" ${selected===l.fr?'selected':''}>${l.fr}</option>`;});
   html+='</optgroup>';
   return html;
 }
@@ -717,13 +745,19 @@ function ouvrirModalSimulation(data=null){
     <div class="form-row">
       <div class="form-group">
         <label>Leçon (FR)</label>
-        <select id="s_lecon_fr">${construireOptionsLecons(d.lecon_fr)}</select>
-        <div class="helper-text">Choisissez la leçon dans laquelle classer cette simulation</div>
+        <select id="s_lecon_fr">${construireOptionsLeconsSimu(d.lecon_fr)}</select>
       </div>
       <div class="form-group">
         <label>Leçon (AR)</label>
-        <select id="s_lecon_ar">${construireOptionsLecons(d.lecon_ar)}</select>
-        <div class="helper-text">Équivalent arabe (optionnel)</div>
+        <select id="s_lecon_ar">
+          <option value="">— Aucune leçon —</option>
+          <optgroup label="📘 الفيزياء">
+            ${LECONS.physique.map(l=>`<option value="${l.ar}" ${d.lecon_ar===l.ar?'selected':''}>${l.ar}</option>`).join('')}
+          </optgroup>
+          <optgroup label="🧪 الكيمياء">
+            ${LECONS.chimie.map(l=>`<option value="${l.ar}" ${d.lecon_ar===l.ar?'selected':''}>${l.ar}</option>`).join('')}
+          </optgroup>
+        </select>
       </div>
     </div>
     <div class="form-row">
@@ -749,7 +783,7 @@ function ouvrirModalSimulation(data=null){
     <div class="form-group" id="groupeUploadHtml" style="display:${d.type_source==='html'?'block':'none'};">
       <label>📎 Fichier HTML de la simulation</label>
       <div class="file-upload" id="fileUploadSimu"><i class="fas fa-file-code"></i><p>${d.code_embed&&d.type_source==='html'?'✅ Fichier déjà uploadé — Cliquez pour remplacer':'Cliquez ou glissez-déposez votre fichier .html'}</p><input type="file" id="fileInputSimu" accept=".html,.htm" hidden><div class="file-info" id="fileInfoSimu"></div></div>
-      <div class="helper-text">💡 Uploadez le fichier HTML de votre simulation (Qwen, GPT, etc.)</div>
+      <div class="helper-text">💡 Uploadez le fichier HTML de votre simulation</div>
     </div>
     <div class="form-group"><label>Description (FR)</label><textarea id="s_desc_fr" style="font-family:'Poppins',sans-serif;font-size:.92rem;">${d.description_fr||''}</textarea></div>
     <div class="form-row">
@@ -763,7 +797,6 @@ function ouvrirModalSimulation(data=null){
     </div>`;
   ouvrirModal(editing?'Modifier la simulation':'Ajouter une simulation',contenu);
 
-  // Gestion du fichier HTML uploadé
   const fuSimu=document.getElementById('fileUploadSimu');
   const fiSimu=document.getElementById('fileInputSimu');
   const finfoSimu=document.getElementById('fileInfoSimu');
