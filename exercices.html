@@ -64,6 +64,11 @@ nav{position:fixed;top:0;left:0;right:0;background:rgba(255,255,255,.96);backdro
 .resultats-bar{display:flex;justify-content:space-between;align-items:center;margin-bottom:25px;padding:14px 20px;background:rgba(16,185,129,.06);border:1.5px solid rgba(16,185,129,.15);border-radius:14px}
 .resultats-bar .count{font-size:.92rem;color:var(--gray)}
 .resultats-bar .count strong{color:var(--success);font-weight:800;font-size:1.15rem}
+.lecon-section{margin-bottom:45px}
+.lecon-titre{display:flex;align-items:center;gap:12px;margin-bottom:20px;padding-bottom:15px;border-bottom:3px solid;border-image:var(--gradient-success) 1;font-size:1.4rem;font-weight:800;color:var(--primary)}
+.lecon-titre i{color:var(--success);font-size:1.2rem}
+.lecon-titre .nb{font-size:.8rem;background:rgba(16,185,129,.1);color:var(--success);padding:4px 12px;border-radius:50px;font-weight:700;margin-left:auto}
+[dir="rtl"] .lecon-titre .nb{margin-left:0;margin-right:auto}
 .ex-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:25px}
 .ex-card{background:#fff;border-radius:var(--radius-sm);padding:22px;box-shadow:0 5px 20px rgba(0,0,0,.05);transition:var(--transition);display:flex;flex-direction:column;gap:12px}
 .ex-card:hover{transform:translateY(-8px);box-shadow:var(--shadow-lg)}
@@ -76,8 +81,6 @@ nav{position:fixed;top:0;left:0;right:0;background:rgba(255,255,255,.96);backdro
 .difficulte .star{color:var(--accent);filter:drop-shadow(0 0 3px rgba(245,158,11,.5))}
 .difficulte .star.vide{color:rgba(245,158,11,.2);filter:none}
 .ex-card h3{font-size:1.05rem;color:var(--primary);font-weight:700;line-height:1.35}
-.lecon-tag{display:inline-flex;align-items:center;gap:6px;background:linear-gradient(135deg,rgba(16,185,129,.1),rgba(6,182,212,.08));border:1.5px solid rgba(16,185,129,.3);color:var(--success);padding:5px 12px;border-radius:50px;font-size:.75rem;font-weight:700;align-self:flex-start}
-.lecon-tag i{font-size:.7rem}
 .ex-actions{display:flex;gap:8px;margin-top:auto;padding-top:14px;border-top:1px solid var(--border);flex-wrap:wrap}
 .btn-ex{flex:1;min-width:130px;padding:11px 14px;border-radius:10px;font-family:inherit;font-size:.83rem;font-weight:600;cursor:pointer;transition:var(--transition);display:inline-flex;align-items:center;justify-content:center;gap:6px;border:1.5px solid;text-decoration:none}
 .btn-ex.enonce{background:rgba(59,130,246,.08);border-color:rgba(59,130,246,.3);color:var(--primary-light)}
@@ -127,6 +130,7 @@ nav{padding:10px 4%}.logo-img-wrap{width:44px;height:44px}.logo-texte .titre{fon
 .hero-page{padding:100px 4% 50px}.hero-page h1{font-size:1.8rem}
 .filtres-panel{grid-template-columns:1fr}.ex-grid{grid-template-columns:1fr}.stats-bar{grid-template-columns:1fr}.footer-grid{grid-template-columns:1fr}
 .ex-actions{flex-direction:column}.btn-ex{min-width:100%}
+.lecon-titre{font-size:1.1rem}
 }
 @media (max-width:480px){.hero-page h1{font-size:1.5rem}.logo-texte{display:none}.logo-img-wrap{width:42px;height:42px}}
 </style>
@@ -218,12 +222,6 @@ nav{padding:10px 4%}.logo-img-wrap{width:44px;height:44px}.logo-texte .titre{fon
         <option value="3" data-i18n="diff.difficile">⭐⭐⭐ Difficile</option>
       </select>
     </div>
-    <div class="filtre-group">
-      <label data-i18n="filtre.lecon">Leçon</label>
-      <select class="filtre-select" id="filtreLecon">
-        <option value="all" data-i18n="filtre.toutesLecons">Toutes les leçons</option>
-      </select>
-    </div>
     <button class="btn-reset" id="btnReset">
       <i class="fas fa-redo"></i> <span data-i18n="filtre.reset">Réinitialiser</span>
     </button>
@@ -233,7 +231,7 @@ nav{padding:10px 4%}.logo-img-wrap{width:44px;height:44px}.logo-texte .titre{fon
     <span class="count"><strong id="countResultats">0</strong> <span data-i18n="ex.resultats">exercices trouvés</span></span>
   </div>
 
-  <div class="ex-grid" id="exGrid">
+  <div id="exSections">
     <div class="loading-zone">
       <i class="fas fa-spinner"></i>
       <p data-i18n="loading">Chargement...</p>
@@ -290,11 +288,27 @@ nav{padding:10px 4%}.logo-img-wrap{width:44px;height:44px}.logo-texte .titre{fon
 <div class="toast" id="toast"></div>
 
 <script src="admin/darrssy-config.js"></script>
-
 <script>
 let currentLang = localStorage.getItem('darrssy-lang') || 'fr';
 let tousLesExercices = [];
-let filtres = { niveau: 'all', matiere: 'all', difficulte: 'all', lecon: 'all', recherche: '' };
+let filtres = { niveau: 'all', matiere: 'all', difficulte: 'all', recherche: '' };
+
+/* ===== ORDRE DU PROGRAMME (13 LEÇONS) ===== */
+const ORDRE_LECONS_FR = [
+  'Les ondes mécaniques',
+  'Les ondes lumineuses',
+  'Électricité (RC, RL)',
+  'Circuit RLC',
+  "Modulation et démodulation d'amplitude",
+  'Application des lois de Newton',
+  'Chute libre',
+  'Oscillations mécaniques',
+  'Radioactivité',
+  'Oxydoréduction',
+  'Cinétique chimique',
+  'Acide-base',
+  'Chimie organique'
+];
 
 const trad = {
   fr: {
@@ -306,10 +320,12 @@ const trad = {
     'ex.searchPlaceholder': 'Rechercher un exercice...',
     'ex.resultats': 'exercices trouvés',
     'ex.statTotal': 'Exercices', 'ex.statFaciles': 'Faciles', 'ex.statDifficiles': 'Difficiles',
-    'filtre.niveau': 'Niveau', 'filtre.matiere': 'Matière', 'filtre.difficulte': 'Difficulté', 'filtre.lecon': 'Leçon',
+    'ex.ressources': 'exercice(s)',
+    'ex.aucun': 'Aucun exercice trouvé',
+    'ex.aucunDesc': 'Essayez de modifier vos filtres.',
+    'filtre.niveau': 'Niveau', 'filtre.matiere': 'Matière', 'filtre.difficulte': 'Difficulté',
     'filtre.tousNiveaux': 'Tous les niveaux', 'filtre.toutesMatieres': 'Toutes les matières',
-    'filtre.toutesDifficultes': 'Toutes', 'filtre.toutesLecons': 'Toutes les leçons',
-    'filtre.reset': 'Réinitialiser',
+    'filtre.toutesDifficultes': 'Toutes', 'filtre.reset': 'Réinitialiser',
     'niveau.tronc': 'Tronc Commun', 'niveau.1bac': '1ère Bac',
     'niveau.2bacpc': '2ème Bac PC', 'niveau.2bacsvt': '2ème Bac SVT',
     'matiere.physique': 'Physique', 'matiere.chimie': 'Chimie',
@@ -329,10 +345,12 @@ const trad = {
     'ex.searchPlaceholder': 'ابحث عن تمرين...',
     'ex.resultats': 'تمرين تم إيجاده',
     'ex.statTotal': 'التمارين', 'ex.statFaciles': 'سهلة', 'ex.statDifficiles': 'صعبة',
-    'filtre.niveau': 'المستوى', 'filtre.matiere': 'المادة', 'filtre.difficulte': 'الصعوبة', 'filtre.lecon': 'الدرس',
+    'ex.ressources': 'تمرين',
+    'ex.aucun': 'لا يوجد أي تمرين',
+    'ex.aucunDesc': 'حاول تغيير الفلاتر.',
+    'filtre.niveau': 'المستوى', 'filtre.matiere': 'المادة', 'filtre.difficulte': 'الصعوبة',
     'filtre.tousNiveaux': 'جميع المستويات', 'filtre.toutesMatieres': 'جميع المواد',
-    'filtre.toutesDifficultes': 'الكل', 'filtre.toutesLecons': 'جميع الدروس',
-    'filtre.reset': 'إعادة',
+    'filtre.toutesDifficultes': 'الكل', 'filtre.reset': 'إعادة',
     'niveau.tronc': 'الجذع المشترك', 'niveau.1bac': 'الأولى باك',
     'niveau.2bacpc': 'الثانية باك ع.ف', 'niveau.2bacsvt': 'الثانية باك ع.ح.أ',
     'matiere.physique': 'الفيزياء', 'matiere.chimie': 'الكيمياء',
@@ -344,16 +362,6 @@ const trad = {
     'footer.contact': 'اتصل بنا', 'footer.maroc': 'المغرب', 'footer.droits': 'جميع الحقوق محفوظة.'
   }
 };
-
-function extraireLecon(titre) {
-  if (!titre) return '';
-  const separateurs = [' – ', ' — ', ' - ', ' : ', ' | '];
-  for (const sep of separateurs) {
-    const index = titre.indexOf(sep);
-    if (index > 0) return titre.substring(0, index).trim();
-  }
-  return titre.trim();
-}
 
 document.addEventListener('DOMContentLoaded', async () => {
   appliquerLangue(currentLang);
@@ -377,7 +385,7 @@ function appliquerLangue(lang) {
     btn.classList.toggle('actif', btn.getAttribute('data-lang') === lang);
   });
   localStorage.setItem('darrssy-lang', lang);
-  if (tousLesExercices.length > 0) { remplirFiltresLecons(); afficherExercices(); }
+  if (tousLesExercices.length > 0) afficherExercices();
 }
 
 function bindEvents() {
@@ -387,21 +395,16 @@ function bindEvents() {
   document.querySelectorAll('.lang-btn').forEach(btn => {
     btn.addEventListener('click', () => appliquerLangue(btn.getAttribute('data-lang')));
   });
-  document.getElementById('searchInput').addEventListener('input', (e) => {
-    filtres.recherche = e.target.value.toLowerCase().trim();
-    afficherExercices();
-  });
+  document.getElementById('searchInput').addEventListener('input', afficherExercices);
   document.getElementById('filtreNiveau').addEventListener('change', (e) => { filtres.niveau = e.target.value; afficherExercices(); });
   document.getElementById('filtreMatiere').addEventListener('change', (e) => { filtres.matiere = e.target.value; afficherExercices(); });
   document.getElementById('filtreDifficulte').addEventListener('change', (e) => { filtres.difficulte = e.target.value; afficherExercices(); });
-  document.getElementById('filtreLecon').addEventListener('change', (e) => { filtres.lecon = e.target.value; afficherExercices(); });
   document.getElementById('btnReset').addEventListener('click', () => {
-    filtres = { niveau: 'all', matiere: 'all', difficulte: 'all', lecon: 'all', recherche: '' };
+    filtres = { niveau: 'all', matiere: 'all', difficulte: 'all', recherche: '' };
     document.getElementById('searchInput').value = '';
     document.getElementById('filtreNiveau').value = 'all';
     document.getElementById('filtreMatiere').value = 'all';
     document.getElementById('filtreDifficulte').value = 'all';
-    document.getElementById('filtreLecon').value = 'all';
     afficherExercices();
   });
 }
@@ -409,29 +412,12 @@ function bindEvents() {
 async function chargerDonnees() {
   try {
     if (typeof lireTable !== 'function') throw new Error('lireTable non chargé');
-    tousLesExercices = await lireTable('exercices', { filtres: { publie: true }, ordre: { col: 'created_at', asc: false } });
-    remplirFiltresLecons();
+    tousLesExercices = await lireTable('exercices', { filtres: { publie: true }, ordre: { col: 'ordre', asc: true } });
     mettreAJourStats();
     afficherExercices();
   } catch (err) {
-    document.getElementById('exGrid').innerHTML = `<div class="loading-zone"><i class="fas fa-exclamation-triangle" style="color:#ef4444;animation:none;"></i><p>Erreur : ${err.message}</p></div>`;
+    document.getElementById('exSections').innerHTML = `<div class="loading-zone"><i class="fas fa-exclamation-triangle" style="color:#ef4444;animation:none;"></i><p>Erreur : ${err.message}</p></div>`;
   }
-}
-
-function remplirFiltresLecons() {
-  const select = document.getElementById('filtreLecon');
-  const value = select.value;
-  const lecons = [...new Set(
-    tousLesExercices.map(e => extraireLecon(currentLang === 'fr' ? e.titre_fr : (e.titre_ar || e.titre_fr))).filter(Boolean)
-  )].sort();
-  select.innerHTML = `<option value="all">${trad[currentLang]['filtre.toutesLecons']}</option>`;
-  lecons.forEach(l => {
-    const opt = document.createElement('option');
-    opt.value = l;
-    opt.textContent = l;
-    select.appendChild(opt);
-  });
-  if (value && value !== 'all') select.value = value;
 }
 
 function mettreAJourStats() {
@@ -441,76 +427,101 @@ function mettreAJourStats() {
 }
 
 function filtrerExercices() {
+  const search = (document.getElementById('searchInput').value || '').toLowerCase();
   return tousLesExercices.filter(e => {
     if (filtres.niveau !== 'all' && e.niveau !== filtres.niveau) return false;
     if (filtres.matiere !== 'all' && e.matiere !== filtres.matiere) return false;
     if (filtres.difficulte !== 'all' && e.difficulte !== parseInt(filtres.difficulte)) return false;
-    if (filtres.lecon !== 'all') {
-      const titre = currentLang === 'fr' ? e.titre_fr : (e.titre_ar || e.titre_fr);
-      if (extraireLecon(titre) !== filtres.lecon) return false;
-    }
-    if (filtres.recherche) {
-      const titre = currentLang === 'fr' ? e.titre_fr : e.titre_ar;
-      const texte = ((titre || '') + ' ' + (e.chapitre_fr || '')).toLowerCase();
-      if (!texte.includes(filtres.recherche)) return false;
+    if (search) {
+      const t = ((e.titre_fr || '') + ' ' + (e.chapitre_fr || '')).toLowerCase();
+      if (!t.includes(search)) return false;
     }
     return true;
   });
 }
 
 function afficherExercices() {
-  const grid = document.getElementById('exGrid');
+  const container = document.getElementById('exSections');
   const filtered = filtrerExercices();
   document.getElementById('countResultats').textContent = filtered.length;
+
   if (filtered.length === 0) {
-    grid.innerHTML = `<div class="aucun-resultat"><i class="fas fa-search"></i><h3>Aucun exercice trouvé</h3><p>Essayez de modifier vos filtres.</p></div>`;
+    container.innerHTML = `<div class="aucun-resultat"><i class="fas fa-search"></i><h3>${trad[currentLang]['ex.aucun']}</h3><p>${trad[currentLang]['ex.aucunDesc']}</p></div>`;
     return;
   }
-  grid.innerHTML = '';
-  filtered.forEach(e => grid.appendChild(creerCarte(e)));
-}
 
-function creerCarte(e) {
-  const card = document.createElement('div');
-  card.className = 'ex-card';
+  // Grouper par leçon
+  const parLecon = {};
+  filtered.forEach(e => {
+    const lecon = currentLang === 'fr'
+      ? (e.chapitre_fr || 'Autres')
+      : (e.chapitre_ar || e.chapitre_fr || 'أخرى');
+    if (!parLecon[lecon]) parLecon[lecon] = [];
+    parLecon[lecon].push(e);
+  });
 
-  const niveauLabel = trad[currentLang]['niveau.' + e.niveau] || e.niveau;
-  const matiereLabel = trad[currentLang]['matiere.' + e.matiere] || e.matiere;
-  const titre = currentLang === 'fr' ? e.titre_fr : (e.titre_ar || e.titre_fr);
-  const lecon = extraireLecon(titre);
-  const difficulte = e.difficulte || 1;
-  const etoiles = [1,2,3].map(i => `<span class="star ${i <= difficulte ? '' : 'vide'}">★</span>`).join('');
-  const lien = `exercices.html?id=${e.id}`;
+  // Trier par ordre du programme
+  const leconsTriees = Object.keys(parLecon).sort((a, b) => {
+    const ia = ORDRE_LECONS_FR.indexOf(a);
+    const ib = ORDRE_LECONS_FR.indexOf(b);
+    if (ia === -1 && ib === -1) return a.localeCompare(b);
+    if (ia === -1) return 1;
+    if (ib === -1) return -1;
+    return ia - ib;
+  });
 
-  card.innerHTML = `
-    <div class="ex-header">
-      <div class="ex-tags">
-        <span class="ex-tag niveau">${niveauLabel}</span>
-        <span class="ex-tag matiere">${matiereLabel}</span>
-      </div>
-      <div class="difficulte">${etoiles}</div>
-    </div>
-    <h3>${titre}</h3>
-    ${lecon ? `<div class="lecon-tag"><i class="fas fa-bookmark"></i> ${lecon}</div>` : ''}
-    <div class="ex-actions">
-      ${e.fichier_url
-        ? `<a class="btn-ex enonce" href="${e.fichier_url}" target="_blank" rel="noopener"><i class="fas fa-file-pdf"></i> ${trad[currentLang]['btn.enonce']}</a>`
-        : `<button class="btn-ex indispo" disabled><i class="fas fa-file-pdf"></i> ${trad[currentLang]['btn.indispo']}</button>`
-      }
-      ${e.fichier_corrige_url
-        ? `<a class="btn-ex corrige" href="${e.fichier_corrige_url}" target="_blank" rel="noopener"><i class="fas fa-check-circle"></i> ${trad[currentLang]['btn.corrige']}</a>`
-        : `<button class="btn-ex indispo" disabled><i class="fas fa-check-circle"></i> ${trad[currentLang]['btn.indispo']}</button>`
-      }
-    </div>
-    <div class="share-bar">
-      <button class="share-btn whatsapp" data-url="${lien}" data-title="${titre}"><i class="fab fa-whatsapp"></i></button>
-      <button class="share-btn facebook" data-url="${lien}" data-title="${titre}"><i class="fab fa-facebook-f"></i></button>
-      <button class="share-btn telegram" data-url="${lien}" data-title="${titre}"><i class="fab fa-telegram-plane"></i></button>
-      <button class="share-btn copy" data-url="${lien}"><i class="fas fa-link"></i></button>
-    </div>
-  `;
+  let html = '';
+  leconsTriees.forEach(lecon => {
+    const exs = parLecon[lecon];
+    html += `<div class="lecon-section">
+      <h2 class="lecon-titre">
+        <i class="fas fa-bookmark"></i>
+        <span>${lecon}</span>
+        <span class="nb">${exs.length} ${trad[currentLang]['ex.ressources']}</span>
+      </h2>
+      <div class="ex-grid">`;
 
-  card.querySelectorAll('.share-btn').forEach(btn => {
+    exs.forEach(e => {
+      const niveauLabel = trad[currentLang]['niveau.' + e.niveau] || e.niveau;
+      const matiereLabel = trad[currentLang]['matiere.' + e.matiere] || e.matiere;
+      const titre = currentLang === 'fr' ? e.titre_fr : (e.titre_ar || e.titre_fr);
+      const difficulte = e.difficulte || 1;
+      const etoiles = [1, 2, 3].map(i => `<span class="star ${i <= difficulte ? '' : 'vide'}">★</span>`).join('');
+      const lien = `exercices.html?id=${e.id}`;
+
+      html += `<div class="ex-card">
+        <div class="ex-header">
+          <div class="ex-tags">
+            <span class="ex-tag niveau">${niveauLabel}</span>
+            <span class="ex-tag matiere">${matiereLabel}</span>
+          </div>
+          <div class="difficulte">${etoiles}</div>
+        </div>
+        <h3>${titre}</h3>
+        <div class="ex-actions">
+          ${e.fichier_url
+            ? `<a class="btn-ex enonce" href="${e.fichier_url}" target="_blank" rel="noopener"><i class="fas fa-file-pdf"></i> ${trad[currentLang]['btn.enonce']}</a>`
+            : `<button class="btn-ex indispo" disabled><i class="fas fa-file-pdf"></i> ${trad[currentLang]['btn.indispo']}</button>`}
+          ${e.fichier_corrige_url
+            ? `<a class="btn-ex corrige" href="${e.fichier_corrige_url}" target="_blank" rel="noopener"><i class="fas fa-check-circle"></i> ${trad[currentLang]['btn.corrige']}</a>`
+            : `<button class="btn-ex indispo" disabled><i class="fas fa-check-circle"></i> ${trad[currentLang]['btn.indispo']}</button>`}
+        </div>
+        <div class="share-bar">
+          <button class="share-btn whatsapp" data-url="${lien}" data-title="${titre}"><i class="fab fa-whatsapp"></i></button>
+          <button class="share-btn facebook" data-url="${lien}" data-title="${titre}"><i class="fab fa-facebook-f"></i></button>
+          <button class="share-btn telegram" data-url="${lien}" data-title="${titre}"><i class="fab fa-telegram-plane"></i></button>
+          <button class="share-btn copy" data-url="${lien}"><i class="fas fa-link"></i></button>
+        </div>
+      </div>`;
+    });
+
+    html += `</div></div>`;
+  });
+
+  container.innerHTML = html;
+
+  // Attacher les events de partage
+  container.querySelectorAll('.share-btn').forEach(btn => {
     btn.addEventListener('click', (ev) => {
       ev.stopPropagation();
       const reseau = btn.classList.contains('whatsapp') ? 'whatsapp' :
@@ -519,7 +530,6 @@ function creerCarte(e) {
       partager(reseau, btn.dataset.url, btn.dataset.title);
     });
   });
-  return card;
 }
 
 function partager(reseau, urlRelatif, titre = '') {
