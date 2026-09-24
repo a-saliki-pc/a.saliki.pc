@@ -214,12 +214,26 @@ nav{padding:10px 4%}.logo-img-wrap{width:44px;height:44px}.logo-texte .titre{fon
       </select>
     </div>
     <div class="filtre-group">
-      <label data-i18n="filtre.difficulte">Difficulté</label>
-      <select class="filtre-select" id="filtreDifficulte">
-        <option value="all" data-i18n="filtre.toutesDifficultes">Toutes</option>
-        <option value="1" data-i18n="diff.facile">⭐ Facile</option>
-        <option value="2" data-i18n="diff.moyen">⭐⭐ Moyen</option>
-        <option value="3" data-i18n="diff.difficile">⭐⭐⭐ Difficile</option>
+      <label data-i18n="filtre.lecon">Leçon</label>
+      <select class="filtre-select" id="filtreLecon">
+        <option value="all" data-i18n="filtre.toutesLecons">Toutes les leçons</option>
+        <optgroup label="📘 PHYSIQUE" data-i18n-label="grp.physique">
+          <option value="Les ondes mécaniques" data-i18n-opt="lecon.ondesmeca">Les ondes mécaniques</option>
+          <option value="Les ondes lumineuses" data-i18n-opt="lecon.ondeslum">Les ondes lumineuses</option>
+          <option value="Électricité (RC, RL)" data-i18n-opt="lecon.elec">Électricité (RC, RL)</option>
+          <option value="Circuit RLC" data-i18n-opt="lecon.rlc">Circuit RLC</option>
+          <option value="Modulation et démodulation d'amplitude" data-i18n-opt="lecon.modulation">Modulation et démodulation d'amplitude</option>
+          <option value="Application des lois de Newton" data-i18n-opt="lecon.newton">Application des lois de Newton</option>
+          <option value="Chute libre" data-i18n-opt="lecon.chute">Chute libre</option>
+          <option value="Oscillations mécaniques" data-i18n-opt="lecon.oscill">Oscillations mécaniques</option>
+          <option value="Radioactivité" data-i18n-opt="lecon.radio">Radioactivité</option>
+        </optgroup>
+        <optgroup label="🧪 CHIMIE" data-i18n-label="grp.chimie">
+          <option value="Oxydoréduction" data-i18n-opt="lecon.oxydo">Oxydoréduction</option>
+          <option value="Cinétique chimique" data-i18n-opt="lecon.cinetique">Cinétique chimique</option>
+          <option value="Acide-base" data-i18n-opt="lecon.acidebase">Acide-base</option>
+          <option value="Chimie organique" data-i18n-opt="lecon.chimieorg">Chimie organique</option>
+        </optgroup>
       </select>
     </div>
     <button class="btn-reset" id="btnReset">
@@ -291,24 +305,32 @@ nav{padding:10px 4%}.logo-img-wrap{width:44px;height:44px}.logo-texte .titre{fon
 <script>
 let currentLang = localStorage.getItem('darrssy-lang') || 'fr';
 let tousLesExercices = [];
-let filtres = { niveau: 'all', matiere: 'all', difficulte: 'all', recherche: '' };
+let filtres = { niveau: 'all', matiere: 'all', lecon: 'all', recherche: '' };
 
-/* ===== ORDRE DU PROGRAMME (13 LEÇONS) ===== */
+/* ===== ORDRE DU PROGRAMME ===== */
 const ORDRE_LECONS_FR = [
-  'Les ondes mécaniques',
-  'Les ondes lumineuses',
-  'Électricité (RC, RL)',
-  'Circuit RLC',
-  "Modulation et démodulation d'amplitude",
-  'Application des lois de Newton',
-  'Chute libre',
-  'Oscillations mécaniques',
-  'Radioactivité',
-  'Oxydoréduction',
-  'Cinétique chimique',
-  'Acide-base',
-  'Chimie organique'
+  'Les ondes mécaniques', 'Les ondes lumineuses', 'Électricité (RC, RL)',
+  'Circuit RLC', "Modulation et démodulation d'amplitude", 'Application des lois de Newton',
+  'Chute libre', 'Oscillations mécaniques', 'Radioactivité',
+  'Oxydoréduction', 'Cinétique chimique', 'Acide-base', 'Chimie organique'
 ];
+
+/* ===== MAP leçon FR → AR ===== */
+const MAP_LECON_FR_AR = {
+  'Les ondes mécaniques': 'الموجات الميكانيكية',
+  'Les ondes lumineuses': 'الموجات الضوئية',
+  'Électricité (RC, RL)': 'الكهرباء (RC, RL)',
+  'Circuit RLC': 'دارة RLC',
+  "Modulation et démodulation d'amplitude": 'التضمين وإزالة التضمين',
+  'Application des lois de Newton': 'تطبيق قوانين نيوتن',
+  'Chute libre': 'السقوط الحر',
+  'Oscillations mécaniques': 'الاهتزازات الميكانيكية',
+  'Radioactivité': 'النشاط الإشعاعي',
+  'Oxydoréduction': 'الأكسدة والإرجاع',
+  'Cinétique chimique': 'الحركية الكيميائية',
+  'Acide-base': 'الحموض والقواعد',
+  'Chimie organique': 'الكيمياء العضوية'
+};
 
 const trad = {
   fr: {
@@ -323,13 +345,12 @@ const trad = {
     'ex.ressources': 'exercice(s)',
     'ex.aucun': 'Aucun exercice trouvé',
     'ex.aucunDesc': 'Essayez de modifier vos filtres.',
-    'filtre.niveau': 'Niveau', 'filtre.matiere': 'Matière', 'filtre.difficulte': 'Difficulté',
+    'filtre.niveau': 'Niveau', 'filtre.matiere': 'Matière', 'filtre.lecon': 'Leçon',
     'filtre.tousNiveaux': 'Tous les niveaux', 'filtre.toutesMatieres': 'Toutes les matières',
-    'filtre.toutesDifficultes': 'Toutes', 'filtre.reset': 'Réinitialiser',
+    'filtre.toutesLecons': 'Toutes les leçons', 'filtre.reset': 'Réinitialiser',
     'niveau.tronc': 'Tronc Commun', 'niveau.1bac': '1ère Bac',
     'niveau.2bacpc': '2ème Bac PC', 'niveau.2bacsvt': '2ème Bac SVT',
     'matiere.physique': 'Physique', 'matiere.chimie': 'Chimie',
-    'diff.facile': '⭐ Facile', 'diff.moyen': '⭐⭐ Moyen', 'diff.difficile': '⭐⭐⭐ Difficile',
     'btn.enonce': 'Énoncé PDF', 'btn.corrige': 'Corrigé PDF', 'btn.indispo': 'Indisponible',
     'loading': 'Chargement...', 'share.copied': 'Lien copié !',
     'footer.desc': 'La plateforme éducative marocaine dédiée à la réussite des lycéens en Physique & Chimie.',
@@ -348,13 +369,12 @@ const trad = {
     'ex.ressources': 'تمرين',
     'ex.aucun': 'لا يوجد أي تمرين',
     'ex.aucunDesc': 'حاول تغيير الفلاتر.',
-    'filtre.niveau': 'المستوى', 'filtre.matiere': 'المادة', 'filtre.difficulte': 'الصعوبة',
+    'filtre.niveau': 'المستوى', 'filtre.matiere': 'المادة', 'filtre.lecon': 'الدرس',
     'filtre.tousNiveaux': 'جميع المستويات', 'filtre.toutesMatieres': 'جميع المواد',
-    'filtre.toutesDifficultes': 'الكل', 'filtre.reset': 'إعادة',
+    'filtre.toutesLecons': 'جميع الدروس', 'filtre.reset': 'إعادة',
     'niveau.tronc': 'الجذع المشترك', 'niveau.1bac': 'الأولى باك',
     'niveau.2bacpc': 'الثانية باك ع.ف', 'niveau.2bacsvt': 'الثانية باك ع.ح.أ',
     'matiere.physique': 'الفيزياء', 'matiere.chimie': 'الكيمياء',
-    'diff.facile': '⭐ سهلة', 'diff.moyen': '⭐⭐ متوسطة', 'diff.difficile': '⭐⭐⭐ صعبة',
     'btn.enonce': 'نص PDF', 'btn.corrige': 'حل PDF', 'btn.indispo': 'غير متوفر',
     'loading': 'جارٍ التحميل...', 'share.copied': 'تم نسخ الرابط!',
     'footer.desc': 'المنصة التعليمية المغربية المخصصة لنجاح تلاميذ الثانوية في الفيزياء والكيمياء.',
@@ -398,13 +418,13 @@ function bindEvents() {
   document.getElementById('searchInput').addEventListener('input', afficherExercices);
   document.getElementById('filtreNiveau').addEventListener('change', (e) => { filtres.niveau = e.target.value; afficherExercices(); });
   document.getElementById('filtreMatiere').addEventListener('change', (e) => { filtres.matiere = e.target.value; afficherExercices(); });
-  document.getElementById('filtreDifficulte').addEventListener('change', (e) => { filtres.difficulte = e.target.value; afficherExercices(); });
+  document.getElementById('filtreLecon').addEventListener('change', (e) => { filtres.lecon = e.target.value; afficherExercices(); });
   document.getElementById('btnReset').addEventListener('click', () => {
-    filtres = { niveau: 'all', matiere: 'all', difficulte: 'all', recherche: '' };
+    filtres = { niveau: 'all', matiere: 'all', lecon: 'all', recherche: '' };
     document.getElementById('searchInput').value = '';
     document.getElementById('filtreNiveau').value = 'all';
     document.getElementById('filtreMatiere').value = 'all';
-    document.getElementById('filtreDifficulte').value = 'all';
+    document.getElementById('filtreLecon').value = 'all';
     afficherExercices();
   });
 }
@@ -431,9 +451,12 @@ function filtrerExercices() {
   return tousLesExercices.filter(e => {
     if (filtres.niveau !== 'all' && e.niveau !== filtres.niveau) return false;
     if (filtres.matiere !== 'all' && e.matiere !== filtres.matiere) return false;
-    if (filtres.difficulte !== 'all' && e.difficulte !== parseInt(filtres.difficulte)) return false;
+    if (filtres.lecon !== 'all') {
+      const leconEx = e.chapitre_fr || '';
+      if (leconEx !== filtres.lecon) return false;
+    }
     if (search) {
-      const t = ((e.titre_fr || '') + ' ' + (e.chapitre_fr || '')).toLowerCase();
+      const t = ((e.titre_fr || '') + ' ' + (e.titre_ar || '') + ' ' + (e.chapitre_fr || '')).toLowerCase();
       if (!t.includes(search)) return false;
     }
     return true;
@@ -450,12 +473,10 @@ function afficherExercices() {
     return;
   }
 
-  // Grouper par leçon
+  // Grouper par leçon (FR pour cohérence avec les filtres)
   const parLecon = {};
   filtered.forEach(e => {
-    const lecon = currentLang === 'fr'
-      ? (e.chapitre_fr || 'Autres')
-      : (e.chapitre_ar || e.chapitre_fr || 'أخرى');
+    const lecon = e.chapitre_fr || 'Autres';
     if (!parLecon[lecon]) parLecon[lecon] = [];
     parLecon[lecon].push(e);
   });
@@ -471,12 +492,24 @@ function afficherExercices() {
   });
 
   let html = '';
-  leconsTriees.forEach(lecon => {
-    const exs = parLecon[lecon];
+  leconsTriees.forEach(leconFR => {
+    const exs = parLecon[leconFR];
+    // Afficher la leçon dans la langue courante
+    let leconAffichee = leconFR;
+    if (currentLang === 'ar') {
+      // Essayer de récupérer le chapitre AR du premier exercice
+      const ex0 = exs[0];
+      if (ex0 && ex0.chapitre_ar) {
+        leconAffichee = ex0.chapitre_ar;
+      } else {
+        leconAffichee = MAP_LECON_FR_AR[leconFR] || leconFR;
+      }
+    }
+
     html += `<div class="lecon-section">
       <h2 class="lecon-titre">
         <i class="fas fa-bookmark"></i>
-        <span>${lecon}</span>
+        <span>${leconAffichee}</span>
         <span class="nb">${exs.length} ${trad[currentLang]['ex.ressources']}</span>
       </h2>
       <div class="ex-grid">`;
@@ -520,7 +553,6 @@ function afficherExercices() {
 
   container.innerHTML = html;
 
-  // Attacher les events de partage
   container.querySelectorAll('.share-btn').forEach(btn => {
     btn.addEventListener('click', (ev) => {
       ev.stopPropagation();
