@@ -365,7 +365,6 @@ function chargerPanel(panel){
 
 /* ===== CONSTRUIRE MENU DÉROULANT LEÇONS ===== */
 function construireOptionsLecons(selectedFr, selectedAr, langue){
-  // langue : 'fr' ou 'ar'
   let html='<option value="">— Aucune leçon —</option>';
   html+='<optgroup label="📘 PHYSIQUE">';
   LECONS.physique.forEach(l=>{
@@ -407,7 +406,7 @@ async function chargerCours(){
   try{
     const data=await lireTable('cours',{ordre:{col:'created_at',asc:false}});
     if(data.length===0){container.innerHTML='<div class="empty"><i class="fas fa-inbox"></i><h3>Aucun cours</h3><p>Ajoutez votre premier cours.</p></div>';return;}
-    container.innerHTML=`<div class="table-scroll"><table><thead><tr><th>Titre</th><th>Niveau</th><th>Matière</th><th>Statut</th><th>Publié</th><th>Actions</th></tr></thead><tbody>${data.map(c=>`<tr><td><strong style="color:#1e3a8a">${c.titre_fr}</strong></td><td><span class="badge violet">${c.niveau}</span></td><td>${c.matiere}</td><td><span class="badge ${c.statut==='gratuit'?'vert':'or'}">${c.statut}</span></td><td><span class="badge ${c.publie?'vert':'rouge'}">${c.publie?'Oui':'Non'}</span></td><td><button class="btn-icon edit" onclick='editerCours(${JSON.stringify(c).replace(/'/g,"&#39;")})'><i class="fas fa-edit"></i></button><button class="btn-icon delete" onclick="supprimerCours('${c.id}')"><i class="fas fa-trash"></i></button></td></tr>`).join('')}</tbody></table></div>`;
+    container.innerHTML=`<div class="table-scroll"><table><thead><tr><th>Titre</th><th>Leçon</th><th>Niveau</th><th>Matière</th><th>Statut</th><th>Publié</th><th>Actions</th></tr></thead><tbody>${data.map(c=>`<tr><td><strong style="color:#1e3a8a">${c.titre_fr}</strong></td><td>${c.chapitre_fr?`<span class="badge bleu">${c.chapitre_fr}</span>`:'—'}</td><td><span class="badge violet">${c.niveau}</span></td><td>${c.matiere}</td><td><span class="badge ${c.statut==='gratuit'?'vert':'or'}">${c.statut}</span></td><td><span class="badge ${c.publie?'vert':'rouge'}">${c.publie?'Oui':'Non'}</span></td><td><button class="btn-icon edit" onclick='editerCours(${JSON.stringify(c).replace(/'/g,"&#39;")})'><i class="fas fa-edit"></i></button><button class="btn-icon delete" onclick="supprimerCours('${c.id}')"><i class="fas fa-trash"></i></button></td></tr>`).join('')}</tbody></table></div>`;
   }catch(err){container.innerHTML=`<div class="empty"><i class="fas fa-exclamation-triangle"></i><h3>Erreur</h3><p>${err.message}</p></div>`;}
 }
 
@@ -472,7 +471,7 @@ function ouvrirModal(titre,contenu){
 }
 function fermerModal(){document.getElementById('modalOverlay').classList.remove('ouvert');}
 
-/* ===== COURS ===== */
+/* ===== COURS (MODIFIÉ : Leçon en menu déroulant) ===== */
 function ouvrirModalCours(data=null){
   const d=data||{};const editing=!!data;
   const contenu=`
@@ -493,11 +492,19 @@ function ouvrirModalCours(data=null){
       </select></div>
     </div>
     <div class="form-row">
-      <div class="form-group"><label>Chapitre (FR)</label><input type="text" id="c_chapitre_fr" value="${d.chapitre_fr||''}"></div>
-      <div class="form-group"><label>Chapitre (AR)</label><input type="text" id="c_chapitre_ar" value="${d.chapitre_ar||''}"></div>
+      <div class="form-group">
+        <label>Leçon (FR)</label>
+        <select id="c_chapitre_fr">${construireOptionsLecons(d.chapitre_fr,d.chapitre_ar,'fr')}</select>
+        <div class="helper-text">Choisissez la leçon de ce cours</div>
+      </div>
+      <div class="form-group">
+        <label>Leçon (AR)</label>
+        <select id="c_chapitre_ar">${construireOptionsLecons(d.chapitre_fr,d.chapitre_ar,'ar')}</select>
+        <div class="helper-text">Équivalent arabe</div>
+      </div>
     </div>
-    <div class="form-group"><label>Description (FR)</label><textarea id="c_desc_fr">${d.description_fr||''}</textarea></div>
-    <div class="form-group"><label>Description (AR)</label><textarea id="c_desc_ar">${d.description_ar||''}</textarea></div>
+    <div class="form-group"><label>Description (FR)</label><textarea id="c_desc_fr" style="font-family:'Poppins',sans-serif;font-size:.92rem;">${d.description_fr||''}</textarea></div>
+    <div class="form-group"><label>Description (AR)</label><textarea id="c_desc_ar" style="font-family:'Poppins',sans-serif;font-size:.92rem;">${d.description_ar||''}</textarea></div>
     <div class="form-row">
       <div class="form-group"><label>Icône FontAwesome</label><input type="text" id="c_icone" value="${d.icone||'fa-book'}" placeholder="fa-book"></div>
       <div class="form-group"><label>Statut</label><select id="c_statut">
@@ -598,7 +605,7 @@ function ouvrirModalExamen(data=null){
       <div class="form-group"><label>Année</label><input type="number" id="e_annee" value="${d.annee||2024}"></div>
       <div class="form-group"><label>Durée (min)</label><input type="number" id="e_duree" value="${d.duree||120}"></div>
     </div>
-    <div class="form-group"><label>Description (FR)</label><textarea id="e_desc_fr">${d.description_fr||''}</textarea></div>
+    <div class="form-group"><label>Description (FR)</label><textarea id="e_desc_fr" style="font-family:'Poppins',sans-serif;font-size:.92rem;">${d.description_fr||''}</textarea></div>
     <div class="form-group"><label>PDF du sujet</label>
       <div class="file-upload" id="fileUploadSujet"><i class="fas fa-file-pdf"></i><p>${d.fichier_url?'Cliquez pour remplacer':'Cliquez ou glissez-déposez'}</p><input type="file" id="fileInputSujet" accept="application/pdf" hidden><div class="file-info" id="fileInfoSujet">${d.fichier_url?'Fichier actuel':' '}</div></div>
     </div>
@@ -641,7 +648,7 @@ function ouvrirModalExamen(data=null){
 function editerExamen(e){ouvrirModalExamen(e);}
 async function supprimerExamen(id){if(!confirm('Supprimer cet examen ?'))return;try{await supprimerLigne('examens',id);afficherMessage('Examen supprimé','succes');chargerExamens();}catch(err){afficherMessage('Erreur : '+err.message,'erreur');}}
 
-/* ===== EXERCICES (MODIFIÉ : Chapitre en menu déroulant) ===== */
+/* ===== EXERCICES ===== */
 function ouvrirModalExercice(data=null){
   const d=data||{};const editing=!!data;
   const contenu=`
@@ -665,7 +672,7 @@ function ouvrirModalExercice(data=null){
       <div class="form-group">
         <label>Leçon (FR)</label>
         <select id="ex_chapitre_fr">${construireOptionsLecons(d.chapitre_fr,d.chapitre_ar,'fr')}</select>
-        <div class="helper-text">Choisissez la leçon dans laquelle classer cet exercice</div>
+        <div class="helper-text">Choisissez la leçon de cet exercice</div>
       </div>
       <div class="form-group">
         <label>Leçon (AR)</label>
@@ -896,8 +903,8 @@ function ouvrirModalTemoignage(data=null){
       <div class="form-group"><label>Niveau FR</label><input type="text" id="t_niv_fr" value="${d.niveau_fr||''}"></div>
       <div class="form-group"><label>Niveau AR</label><input type="text" id="t_niv_ar" value="${d.niveau_ar||''}"></div>
     </div>
-    <div class="form-group"><label>Commentaire FR</label><textarea id="t_com_fr">${d.commentaire_fr||''}</textarea></div>
-    <div class="form-group"><label>Commentaire AR</label><textarea id="t_com_ar">${d.commentaire_ar||''}</textarea></div>
+    <div class="form-group"><label>Commentaire FR</label><textarea id="t_com_fr" style="font-family:'Poppins',sans-serif;font-size:.92rem;">${d.commentaire_fr||''}</textarea></div>
+    <div class="form-group"><label>Commentaire AR</label><textarea id="t_com_ar" style="font-family:'Poppins',sans-serif;font-size:.92rem;">${d.commentaire_ar||''}</textarea></div>
     <div class="form-group"><label>Ordre</label><input type="number" id="t_ordre" value="${d.ordre||0}"></div>
     <label class="form-checkbox"><input type="checkbox" id="t_publie" ${d.publie!==false?'checked':''}> Publier</label>
     <div class="form-actions">
