@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title> Expérience Magique : Cu + Ag⁺</title>
+<style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+        font-family: 'Segoe UI', Tahoma, sans-serif;
+        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+        color: #fff;
+        min-height: 100vh;
+        padding: 20px;
+        overflow-x: hidden;
+    }
+
+    .container { max-width: 1400px; margin: 0 auto; }
+
+    .header {
+        text-align: center;
+        padding: 20px;
+        background: rgba(0,0,0,0.3);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        margin-bottom: 20px;
+        border: 1px solid rgba(255,255,255,0.1);
+    }
+    .header h1 {
+        font-size: 2.5em;
+        background: linear-gradient(90deg, #ffd700, #c0c0c0, #4fc3f7);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 10px;
+    }
+    .header .subtitle {
+        font-size: 1.2em;
+        color: #ffd700;
+        font-style: italic;
+    }
+
+    .main-grid {
+        display: grid;
+        grid-template-columns: 1fr 380px;
+        gap: 20px;
+    }
+
+    .stage {
+        background: rgba(0,0,0,0.4);
+        border-radius: 20px;
+        padding: 20px;
+        border: 2px solid rgba(255,215,0,0.3);
+        position: relative;
+        box-shadow: 0 0 40px rgba(255,215,0,0.1);
+    }
+
+    canvas {
+        width: 100%;
+        height: 600px;
+        background: radial-gradient(ellipse at center, #2a2a3e 0%, #1a1a2e 100%);
+        border-radius: 15px;
+        display: block;
+        cursor: pointer;
+    }
+
+    .controls {
+        background: rgba(0,0,0,0.4);
+        border-radius: 20px;
+        padding: 20px;
+        border: 1px solid rgba(255,255,255,0.1);
+        max-height: 640px;
+        overflow-y: auto;
+    }
+
+    .controls h2 {
+        color: #ffd700;
+        margin-bottom: 15px;
+        font-size: 1.3em;
+        border-bottom: 2px solid rgba(255,215,0,0.3);
+        padding-bottom: 8px;
+    }
+
+    .btn {
+        width: 100%;
+        padding: 14px;
+        border: none;
+        border-radius: 12px;
+        font-weight: bold;
+        cursor: pointer;
+        color: white;
+        font-size: 1em;
+        margin-bottom: 10px;
+        transition: all 0.3s;
+    }
+    .btn:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.4); }
+    .btn-dip { background: linear-gradient(135deg, #f59e0b, #d97706); }
+    .btn-auto { background: linear-gradient(135deg, #10b981, #059669); }
+    .btn-reset { background: linear-gradient(135deg, #ef4444, #dc2626); }
+    .btn-speed { background: linear-gradient(135deg, #8b5cf6, #6d28d9); }
+
+    .info-box {
+        background: rgba(255,215,0,0.1);
+        border-left: 4px solid #ffd700;
+        padding: 12px;
+        border-radius: 8px;
+        margin: 15px 0;
+        font-size: 0.9em;
+    }
+    .info-box strong { color: #ffd700; }
+
+    .observation {
+        background: rgba(79, 195, 247, 0.1);
+        border-left: 4px solid #4fc3f7;
+        padding: 12px;
+        border-radius: 8px;
+        margin: 10px 0;
+        font-size: 0.9em;
+        opacity: 0;
+        transition: opacity 0.5s;
+    }
+    .observation.visible { opacity: 1; }
+    .observation strong { color: #4fc3f7; }
+
+    .timer {
+        text-align: center;
+        font-size: 2em;
+        font-weight: bold;
+        color: #ffd700;
+        margin: 15px 0;
+        font-family: 'Courier New', monospace;
+    }
+
+    .legend {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 15px;
+        font-size: 0.85em;
+    }
+    .legend-item { display: flex; align-items: center; gap: 6px; }
+    .legend-color { width: 14px; height: 14px; border-radius: 3px; border: 1px solid white; }
+
+    .script-box {
+        background: rgba(0,0,0,0.5);
+        border: 1px solid rgba(255,215,0,0.3);
+        border-radius: 10px;
+        padding: 12px;
+        margin-top: 15px;
+        font-size: 0.85em;
+        font-style: italic;
+        color: #e0e0e0;
+    }
+    .script-box .prof { color: #ffd700; font-weight: bold; }
+
+    @media (max-width: 1000px) { .main-grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>🧪 L'Expérience Magique</h1>
+        <div class="subtitle">Cu + Ag⁺ → Une transformation spectaculaire !</div>
+    </div>
+
+    <div class="main-grid">
+        <div class="stage">
+            <canvas id="expCanvas"></canvas>
+            <div class="legend">
+                <div class="legend-item"><div class="legend-color" style="background:#d97706"></div>Fil de Cuivre Cu</div>
+                <div class="legend-item"><div class="legend-color" style="background:#c0c0c0"></div>Argent Ag (cristaux)</div>
+                <div class="legend-item"><div class="legend-color" style="background:rgba(79,195,247,0.3)"></div>Solution AgNO₃</div>
+                <div class="legend-item"><div class="legend-color" style="background:#4fc3f7"></div>Ions Cu²⁺ (bleu)</div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <h2> Contrôle de l'expérience</h2>
+
+            <div class="timer" id="timer">00:00</div>
+
+            <button class="btn btn-dip" onclick="dipWire()">🪄 Plonger le fil de cuivre</button>
+            <button class="btn btn-auto" onclick="toggleAuto()">▶️ Lancer la démo automatique</button>
+            <button class="btn btn-speed" onclick="toggleSpeed()">⚡ Vitesse : <span id="speedLabel">1x</span></button>
+            <button class="btn btn-reset" onclick="resetExp()">🔄 Recommencer l'expérience</button>
+
+            <div class="info-box">
+                <strong>💡 Mode d'emploi :</strong><br>
+                Cliquez sur "Plonger le fil" puis observez la transformation. Les cristaux d'argent apparaissent et la solution bleuit !
+            </div>
+
+            <h2 style="margin-top:20px;">👁️ Observations</h2>
+            <div class="observation" id="obs1">
+                <strong>1️</strong> Des cristaux gris/argentés apparaissent sur le fil de cuivre...
+            </div>
+            <div class="observation" id="obs2">
+                <strong>2️⃣</strong> Les cristaux forment des <strong>arborescences</strong> (comme un arbre) !
+            </div>
+            <div class="observation" id="obs3">
+                <strong>3️⃣</strong> La solution incolore devient progressivement <strong>BLEUE</strong> !
+            </div>
+            <div class="observation" id="obs4">
+                <strong>4️⃣</strong> Le fil de cuivre semble "rongé" par endroits...
+            </div>
+
+            <div class="script-box">
+                <span class="prof">👨‍ Prof :</span><br>
+                "Aujourd'hui, je vais faire de la magie. Regardez bien... Que voyez-vous ? Qui peut expliquer ce qui se passe ?"
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+const canvas = document.getElementById('expCanvas');
+const ctx = canvas.getContext('2d');
+
+function resize() {
+    canvas.width = canvas.offsetWidth;
+    canvas.height = canvas.offsetHeight;
+}
+resize();
+window.addEventListener('resize', resize);
+
+// État de l'expérience
+let state = {
+    wireDipped: false,
+    wireY: 0, // 0 = en haut, 1 = plongé
+    targetWireY: 0,
+    time: 0,
+    blueIntensity: 0,
+    crystals: [],
+    particles: [],
+    bubbles: [],
+    autoMode: false,
+    speed: 1,
+    started: false
+};
+
+// Classe pour les cristaux d'argent (arborescences)
+class SilverCrystal {
+    constructor(x, y, angle, depth, maxLength) {
+        this.x = x;
+        this.y = y;
+        this.angle = angle;
+        this.depth = depth;
+        this.maxLength = maxLength;
+        this.currentLength = 0;
+        this.growthRate = Math.random() * 0.3 + 0.2;
+        this.branches = [];
+        this.alive = true;
+    }
+
+    grow() {
+        if (this.currentLength < this.maxLength) {
+            this.currentLength += this.growthRate * state.speed;
+            if (this.currentLength > this.maxLength) this.currentLength = this.maxLength;
+            
+            // Créer des branches secondaires
+            if (this.depth < 4 && Math.random() < 0.02 * state.speed) {
+                const branchAngle = this.angle + (Math.random() - 0.5) * 1.2;
+                const branchLen = this.maxLength * (0.4 + Math.random() * 0.3);
+                const bx = this.x + Math.cos(this.angle) * this.currentLength;
+                const by = this.y + Math.sin(this.angle) * this.currentLength;
+                this.branches.push(new SilverCrystal(bx, by, branchAngle, this.depth + 1, branchLen));
+            }
+        }
+        this.branches.forEach(b => b.grow());
+    }
+
+    draw(ctx) {
+        const endX = this.x + Math.cos(this.angle) * this.currentLength;
+        const endY = this.y + Math.sin(this.angle) * this.currentLength;
+        
+        const width = Math.max(1, 4 - this.depth * 0.8);
+        
+        // Dégradé argenté
+        const grad = ctx.createLinearGradient(this.x, this.y, endX, endY);
+        grad.addColorStop(0, '#808080');
+        grad.addColorStop(0.5, '#e8e8e8');
+        grad.addColorStop(1, '#c0c0c0');
+        
+        ctx.strokeStyle = grad;
+        ctx.lineWidth = width;
+        ctx.lineCap = 'round';
+        ctx.beginPath();
+        ctx.moveTo(this.x, this.y);
+        ctx.lineTo(endX, endY);
+        ctx.stroke();
+        
+        // Reflet brillant
+        ctx.strokeStyle = 'rgba(255,255,255,0.6)';
+        ctx.lineWidth = width * 0.3;
+        ctx.beginPath();
+        ctx.moveTo(this.x, this.y);
+        ctx.lineTo(endX, endY);
+        ctx.stroke();
+        
+        this.branches.forEach(b => b.draw(ctx));
+    }
+}
+
+// Particules d'argent (étincelles)
+class Particle {
+    constructor(x, y) {
+        this.x = x; this.y = y;
+        this.vx = (Math.random() - 0.5) * 2;
+        this.vy = (Math.random() - 0.5) * 2 - 1;
+        this.life = 1;
+        this.size = Math.random() * 3 + 1;
+    }
+    update() {
+        this.x += this.vx;
+        this.y += this.vy;
+        this.vy += 0.05;
+        this.life -= 0.02;
+    }
+    draw(ctx) {
+        if (this.life <= 0) return;
+        ctx.globalAlpha = this.life;
+        ctx.fillStyle = '#e8e8e8';
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI*2);
+        ctx.fill();
+        ctx.globalAlpha = 1;
+    }
+}
+
+// Bulles dans la solution
+class Bubble {
+    constructor() {
+        this.x = Math.random() * canvas.width * 0.6 + canvas.width * 0.2;
+        this.y = canvas.height * 0.85;
+        this.size = Math.random() * 4 + 2;
+        this.speed = Math.random() * 0.5 + 0.3;
+        this.wobble = Math.random() * Math.PI * 2;
+    }
+    update() {
+        this.y -= this.speed * state.speed;
+        this.wobble += 0.05;
+        this.x += Math.sin(this.wobble) * 0.3;
+    }
+    draw(ctx, blueIntensity) {
+        const alpha = 0.3 + blueIntensity * 0.3;
+        ctx.strokeStyle = `rgba(255,255,255,${alpha})`;
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI*2);
+        ctx.stroke();
+    }
+}
+
+// Dessiner le bécher
+function drawBeaker() {
+    const cx = canvas.width / 2;
+    const topY = canvas.height * 0.25;
+    const bottomY = canvas.height * 0.85;
+    const width = canvas.width * 0.35;
+    const halfW = width / 2;
+
+    // Ombre du bécher
+    ctx.fillStyle = 'rgba(0,0,0,0.3)';
+    ctx.beginPath();
+    ctx.ellipse(cx, bottomY + 10, halfW + 10, 15, 0, 0, Math.PI*2);
+    ctx.fill();
+
+    // Solution (avec couleur qui change)
+    const blueR = Math.floor(79 * state.blueIntensity);
+    const blueG = Math.floor(195 * state.blueIntensity);
+    const blueB = Math.floor(247 * state.blueIntensity);
+    const solutionColor = `rgba(${blueR}, ${blueG}, ${blueB}, ${0.3 + state.blueIntensity * 0.4})`;
+    
+    const liquidTop = topY + 30;
+    ctx.fillStyle = solutionColor;
+    ctx.beginPath();
+    ctx.moveTo(cx - halfW + 10, liquidTop);
+    ctx.lineTo(cx + halfW - 10, liquidTop);
+    ctx.lineTo(cx + halfW - 5, bottomY - 10);
+    ctx.quadraticCurveTo(cx, bottomY + 5, cx - halfW + 5, bottomY - 10);
+    ctx.closePath();
+    ctx.fill();
+
+    // Reflets sur la solution
+    ctx.fillStyle = `rgba(255,255,255,${0.1 + state.blueIntensity * 0.1})`;
+    ctx.beginPath();
+    ctx.ellipse(cx - halfW * 0.5, liquidTop + 20, 20, 8, -0.3, 0, Math.PI*2);
+    ctx.fill();
+
+    // Corps du bécher (verre)
+    ctx.strokeStyle = 'rgba(200,220,240,0.6)';
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.moveTo(cx - halfW, topY);
+    ctx.lineTo(cx - halfW + 5, bottomY);
+    ctx.quadraticCurveTo(cx, bottomY + 15, cx + halfW - 5, bottomY);
+    ctx.lineTo(cx + halfW, topY);
+    ctx.stroke();
+
+    // Bord supérieur du bécher
+    ctx.strokeStyle = 'rgba(200,220,240,0.8)';
+    ctx.lineWidth = 4;
+    ctx.beginPath();
+    ctx.ellipse(cx, topY, halfW, 8, 0, 0, Math.PI*2);
+    ctx.stroke();
+
+    // Reflets sur le verre
+    ctx.strokeStyle = 'rgba(255,255,255,0.3)';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(cx - halfW + 8, topY + 20);
+    ctx.lineTo(cx - halfW + 12, bottomY - 20);
+    ctx.stroke();
+
+    // Graduations
+    ctx.fillStyle = 'rgba(255,255,255,0.5)';
+    ctx.font = '12px Arial';
+    ctx.textAlign = 'right';
+    for (let i = 1; i <= 4; i++) {
+        const y = liquidTop + (bottomY - liquidTop) * (i / 5);
+        ctx.strokeStyle = 'rgba(255,255,255,0.4)';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(cx + halfW - 20, y);
+        ctx.lineTo(cx + halfW - 5, y);
+        ctx.stroke();
+        ctx.fillText((i * 50) + ' mL', cx + halfW - 25, y + 4);
+    }
+}
+
+// Dessiner le fil de cuivre
+function drawWire() {
+    const cx = canvas.width / 2;
+    const topY = canvas.height * 0.25;
+    const bottomY = canvas.height * 0.85;
+    const wireTop = -50 + (1 - state.wireY) * (-100);
+    const wireBottom = topY + 30 + state.wireY * (bottomY - topY - 60);
+
+    // Fil de cuivre (courbe)
+    const grad = ctx.createLinearGradient(cx - 30, 0, cx + 30, 0);
+    grad.addColorStop(0, '#8b4513');
+    grad.addColorStop(0.3, '#d97706');
+    grad.addColorStop(0.7, '#f59e0b');
+    grad.addColorStop(1, '#8b4513');
+
+    ctx.strokeStyle = grad;
+    ctx.lineWidth = 6;
+    ctx.lineCap = 'round';
+    ctx.beginPath();
+    ctx.moveTo(cx - 20, wireTop);
+    ctx.quadraticCurveTo(cx + 10, (wireTop + wireBottom) / 2, cx - 10, wireBottom);
+    ctx.stroke();
+
+    // Reflet sur le fil
+    ctx.strokeStyle = 'rgba(255,200,100,0.5)';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(cx - 22, wireTop);
+    ctx.quadraticCurveTo(cx + 8, (wireTop + wireBottom) / 2, cx - 12, wireBottom);
+    ctx.stroke();
+
+    // Dessiner les cristaux d'argent sur le fil (dans la partie immergée)
+    if (state.wireY > 0.3) {
+        const immersionStart = topY + 30;
+        const immersionEnd = wireBottom;
+        
+        state.crystals.forEach(c => c.draw(ctx));
+    }
+}
+
+// Dessiner les étiquettes
+function drawLabels() {
+    const cx = canvas.width / 2;
+    const topY = canvas.height * 0.25;
+    
+    ctx.font = 'bold 16px Arial';
+    ctx.textAlign = 'left';
+    
+    // Étiquette "Fil de cuivre"
+    if (state.wireY < 0.5) {
+        ctx.fillStyle = '#f59e0b';
+        ctx.fillText('Fil de cuivre Cu', cx + 80, topY - 20);
+        ctx.strokeStyle = '#f59e0b';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(cx + 75, topY - 15);
+        ctx.lineTo(cx + 20, topY);
+        ctx.stroke();
+    }
+
+    // Étiquette "Argent Ag"
+    if (state.crystals.length > 5) {
+        ctx.fillStyle = '#c0c0c0';
+        ctx.fillText('Argent Ag (cristaux)', cx + 80, topY + 80);
+        ctx.strokeStyle = '#c0c0c0';
+        ctx.beginPath();
+        ctx.moveTo(cx + 75, topY + 85);
+        ctx.lineTo(cx + 10, topY + 100);
+        ctx.stroke();
+    }
+
+    // Étiquette "Solution"
+    ctx.fillStyle = state.blueIntensity > 0.3 ? '#4fc3f7' : 'rgba(255,255,255,0.7)';
+    ctx.fillText(state.blueIntensity > 0.3 ? 'Solution bleue (Cu²⁺)' : 'Solution AgNO₃ (incolore)', cx + 80, topY + 150);
+
+    // Équation qui apparaît à la fin
+    if (state.blueIntensity > 0.7) {
+        ctx.fillStyle = 'rgba(0,0,0,0.7)';
+        ctx.fillRect(cx - 200, canvas.height - 80, 400, 50);
+        ctx.fillStyle = '#ffd700';
+        ctx.font = 'bold 18px Courier New';
+        ctx.textAlign = 'center';
+        ctx.fillText('2Ag⁺ + Cu → 2Ag + Cu²⁺', cx, canvas.height - 50);
+    }
+}
+
+// Animation principale
+function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // Fond de la scène (table de labo)
+    const tableGrad = ctx.createLinearGradient(0, canvas.height * 0.85, 0, canvas.height);
+    tableGrad.addColorStop(0, '#2a1810');
+    tableGrad.addColorStop(1, '#1a0f0a');
+    ctx.fillStyle = tableGrad;
+    ctx.fillRect(0, canvas.height * 0.85, canvas.width, canvas.height * 0.15);
+
+    // Dessiner le bécher
+    drawBeaker();
+
+    // Animation du fil qui plonge
+    if (state.wireDipped && state.wireY < 1) {
+        state.wireY += 0.01 * state.speed;
+        if (state.wireY > 1) state.wireY = 1;
+    }
+
+    // Une fois le fil plongé, la réaction commence
+    if (state.wireY > 0.5) {
+        state.time += 0.016 * state.speed;
+        
+        // La solution bleuit progressivement
+        if (state.blueIntensity < 1) {
+            state.blueIntensity += 0.001 * state.speed;
+            if (state.blueIntensity > 1) state.blueIntensity = 1;
+        }
+
+        // Créer de nouveaux cristaux
+        if (Math.random() < 0.05 * state.speed && state.crystals.length < 30) {
+            const cx = canvas.width / 2;
+            const topY = canvas.height * 0.25;
+            const bottomY = canvas.height * 0.85;
+            const wireBottom = topY + 30 + state.wireY * (bottomY - topY - 60);
+            
+            const startX = cx - 10 + (Math.random() - 0.5) * 20;
+            const startY = topY + 50 + Math.random() * (wireBottom - topY - 80);
+            const angle = (Math.random() - 0.5) * Math.PI;
+            const maxLen = 20 + Math.random() * 40;
+            
+            state.crystals.push(new SilverCrystal(startX, startY, angle, 0, maxLen));
+        }
+
+        // Créer des particules
+        if (Math.random() < 0.1 * state.speed) {
+            const cx = canvas.width / 2;
+            const topY = canvas.height * 0.25;
+            const bottomY = canvas.height * 0.85;
+            const wireBottom = topY + 30 + state.wireY * (bottomY - topY - 60);
+            state.particles.push(new Particle(cx - 10 + (Math.random()-0.5)*30, wireBottom));
+        }
+
+        // Créer des bulles
+        if (Math.random() < 0.02 * state.speed && state.bubbles.length < 20) {
+            state.bubbles.push(new Bubble());
+        }
+    }
+
+    // Mettre à jour et dessiner les cristaux
+    state.crystals.forEach(c => c.grow());
+
+    // Mettre à jour et dessiner les particules
+    state.particles = state.particles.filter(p => p.life > 0);
+    state.particles.forEach(p => { p.update(); p.draw(ctx); });
+
+    // Mettre à jour et dessiner les bulles
+    state.bubbles = state.bubbles.filter(b => b.y > canvas.height * 0.3);
+    state.bubbles.forEach(b => { b.update(); b.draw(ctx, state.blueIntensity); });
+
+    // Dessiner le fil
+    drawWire();
+
+    // Dessiner les étiquettes
+    drawLabels();
+
+    // Mettre à jour le timer
+    const minutes = Math.floor(state.time / 60);
+    const seconds = Math.floor(state.time % 60);
+    document.getElementById('timer').textContent = 
+        `${minutes.toString().padStart(2,'0')}:${seconds.toString().padStart(2,'0')}`;
+
+    // Afficher les observations progressivement
+    if (state.time > 5) document.getElementById('obs1').classList.add('visible');
+    if (state.time > 15) document.getElementById('obs2').classList.add('visible');
+    if (state.time > 30) document.getElementById('obs3').classList.add('visible');
+    if (state.time > 45) document.getElementById('obs4').classList.add('visible');
+
+    requestAnimationFrame(animate);
+}
+
+// Contrôles
+function dipWire() {
+    state.wireDipped = true;
+    state.started = true;
+}
+
+function toggleAuto() {
+    state.autoMode = !state.autoMode;
+    if (state.autoMode) {
+        state.wireDipped = true;
+        state.started = true;
+        setTimeout(() => {
+            if (state.autoMode) resetExp();
+        }, 90000);
+    }
+}
+
+function toggleSpeed() {
+    const speeds = [1, 2, 5, 10];
+    const idx = speeds.indexOf(state.speed);
+    state.speed = speeds[(idx + 1) % speeds.length];
+    document.getElementById('speedLabel').textContent = state.speed + 'x';
+}
+
+function resetExp() {
+    state = {
+        wireDipped: false,
+        wireY: 0,
+        targetWireY: 0,
+        time: 0,
+        blueIntensity: 0,
+        crystals: [],
+        particles: [],
+        bubbles: [],
+        autoMode: false,
+        speed: state.speed,
+        started: false
+    };
+    document.querySelectorAll('.observation').forEach(o => o.classList.remove('visible'));
+    document.getElementById('timer').textContent = '00:00';
+}
+
+// Démarrer l'animation
+animate();
+</script>
+</body>
+</html>
