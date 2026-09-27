@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title> Réaction Rapide : I₂ + S₂O₃²⁻</title>
+<style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+        font-family: 'Segoe UI', Tahoma, sans-serif;
+        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+        color: #fff;
+        min-height: 100vh;
+        padding: 20px;
+    }
+    .container { max-width: 1500px; margin: 0 auto; }
+    
+    .header {
+        text-align: center;
+        padding: 20px;
+        background: rgba(0,0,0,0.4);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        margin-bottom: 20px;
+        border: 1px solid rgba(255,165,0,0.3);
+    }
+    .header h1 {
+        font-size: 2.3em;
+        background: linear-gradient(90deg, #ff6b35, #ffd700, #ff6b35);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 10px;
+    }
+    .equation-box {
+        background: rgba(255,165,0,0.1);
+        border: 2px solid rgba(255,165,0,0.4);
+        border-radius: 12px;
+        padding: 12px;
+        text-align: center;
+        font-size: 1.3em;
+        font-family: 'Courier New', monospace;
+        color: #ffd700;
+    }
+
+    .main-grid { display: grid; grid-template-columns: 1fr 400px; gap: 20px; }
+
+    .stage {
+        background: rgba(0,0,0,0.4);
+        border-radius: 20px;
+        padding: 20px;
+        border: 1px solid rgba(255,165,0,0.2);
+        position: relative;
+    }
+    canvas {
+        width: 100%;
+        height: 550px;
+        background: radial-gradient(ellipse at center, #2a2a3e 0%, #1a1a2e 100%);
+        border-radius: 15px;
+        display: block;
+    }
+
+    .panel {
+        background: rgba(0,0,0,0.4);
+        border-radius: 20px;
+        padding: 20px;
+        border: 1px solid rgba(255,165,0,0.2);
+        max-height: 600px;
+        overflow-y: auto;
+    }
+    .panel h2 {
+        color: #ffd700;
+        margin-bottom: 12px;
+        font-size: 1.2em;
+        border-bottom: 2px solid rgba(255,215,0,0.3);
+        padding-bottom: 8px;
+    }
+    .panel h3 {
+        color: #ff9a3c;
+        margin: 15px 0 8px 0;
+        font-size: 1em;
+    }
+
+    .control-group { margin-bottom: 12px; }
+    .control-group label { display: block; font-size: 0.85em; margin-bottom: 4px; color: #cbd5e1; font-weight: bold; }
+    .control-group input[type="range"] {
+        width: 100%; height: 6px; border-radius: 3px;
+        background: rgba(255,255,255,0.1); outline: none; -webkit-appearance: none;
+    }
+    .control-group input[type="range"]::-webkit-slider-thumb {
+        -webkit-appearance: none; width: 18px; height: 18px; border-radius: 50%;
+        background: #ff6b35; cursor: pointer; box-shadow: 0 0 8px rgba(255,107,53,0.6);
+    }
+    .val-display {
+        display: inline-block; background: rgba(255,107,53,0.2);
+        padding: 2px 10px; border-radius: 10px; font-size: 0.8em; color: #ff9a3c; margin-top: 3px;
+    }
+
+    .btn {
+        width: 100%;
+        padding: 12px;
+        border: none;
+        border-radius: 10px;
+        font-weight: bold;
+        cursor: pointer;
+        color: white;
+        font-size: 1em;
+        margin-bottom: 8px;
+        transition: all 0.3s;
+    }
+    .btn:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.4); }
+    .btn-pour { background: linear-gradient(135deg, #ff6b35, #d94f1f); }
+    .btn-compare { background: linear-gradient(135deg, #8b5cf6, #6d28d9); }
+    .btn-reset { background: linear-gradient(135deg, #ef4444, #dc2626); }
+
+    .timer-display {
+        text-align: center;
+        font-size: 2.5em;
+        font-weight: bold;
+        color: #ffd700;
+        font-family: 'Courier New', monospace;
+        margin: 15px 0;
+        background: rgba(0,0,0,0.5);
+        padding: 10px;
+        border-radius: 10px;
+        border: 2px solid rgba(255,215,0,0.3);
+    }
+
+    .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 12px; }
+    .stat-box { background: rgba(0,0,0,0.3); padding: 8px; border-radius: 8px; text-align: center; }
+    .stat-box .label { font-size: 0.7em; color: #94a3b8; }
+    .stat-box .value { font-size: 1em; font-weight: bold; color: #ffd700; }
+
+    .graph-container {
+        background: rgba(0,0,0,0.3);
+        border-radius: 10px;
+        padding: 10px;
+        margin-top: 15px;
+    }
+    .graph-container canvas {
+        height: 150px;
+        background: rgba(0,0,0,0.5);
+    }
+
+    .comparison-box {
+        background: linear-gradient(135deg, rgba(139,92,246,0.2), rgba(255,107,53,0.2));
+        border: 2px solid #8b5cf6;
+        border-radius: 12px;
+        padding: 12px;
+        margin-top: 15px;
+        font-size: 0.9em;
+    }
+    .comparison-box .fast { color: #ff6b35; font-weight: bold; }
+    .comparison-box .slow { color: #4fc3f7; font-weight: bold; }
+
+    .legend { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; font-size: 0.8em; }
+    .legend-item { display: flex; align-items: center; gap: 5px; }
+    .legend-color { width: 12px; height: 12px; border-radius: 2px; }
+
+    @media (max-width: 1100px) { .main-grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>⚡ Réaction Rapide : Diiode + Thiosulfate</h1>
+        <div class="equation-box">
+            I₂(aq) + 2S₂O₃²⁻(aq) → 2I⁻(aq) + S₄O₆²⁻(aq)
+        </div>
+    </div>
+
+    <div class="main-grid">
+        <div class="stage">
+            <canvas id="simCanvas"></canvas>
+            <div class="legend">
+                <div class="legend-item"><div class="legend-color" style="background:#ff6b35"></div>Diiode I₂ (brun)</div>
+                <div class="legend-item"><div class="legend-color" style="background:#e0e0e0"></div>Thiosulfate S₂O₃² (incolore)</div>
+                <div class="legend-item"><div class="legend-color" style="background:rgba(255,255,255,0.3)"></div>Produits (incolore)</div>
+                <div class="legend-item"><div class="legend-color" style="background:#4fc3f7"></div>Agitation</div>
+            </div>
+        </div>
+
+        <div class="panel">
+            <h2>️ Facteurs de Vitesse</h2>
+            
+            <h3>️ Température</h3>
+            <div class="control-group">
+                <input type="range" id="temperature" min="5" max="80" value="25">
+                <div class="val-display" id="tempVal">25°C</div>
+            </div>
+
+            <h3>🔬 Concentration I₂ (mol/L)</h3>
+            <div class="control-group">
+                <input type="range" id="concI2" min="0.01" max="0.1" value="0.05" step="0.005">
+                <div class="val-display" id="concI2Val">0.050 mol/L</div>
+            </div>
+
+            <h3> Concentration S₂O₃²⁻ (mol/L)</h3>
+            <div class="control-group">
+                <input type="range" id="concS2O3" min="0.05" max="0.5" value="0.2" step="0.01">
+                <div class="val-display" id="concS2O3Val">0.20 mol/L</div>
+            </div>
+
+            <h3>📏 Volume versé (mL)</h3>
+            <div class="control-group">
+                <input type="range" id="volume" min="10" max="100" value="50">
+                <div class="val-display" id="volVal">50 mL</div>
+            </div>
+
+            <h3>🌀 Agitation</h3>
+            <div class="control-group">
+                <input type="range" id="agitation" min="0" max="100" value="50">
+                <div class="val-display" id="agitVal">50%</div>
+            </div>
+
+            <div class="timer-display" id="timer">00.000 s</div>
+
+            <button class="btn btn-pour" onclick="startReaction()">🧪 Verser le thiosulfate</button>
+            <button class="btn btn-compare" onclick="showComparison()">⚖️ Comparer avec Cu+Ag⁺</button>
+            <button class="btn btn-reset" onclick="resetExp()">🔄 Recommencer</button>
+
+            <h2>📊 Résultats</h2>
+            <div class="stats-grid">
+                <div class="stat-box"><div class="label">Temps réaction</div><div class="value" id="statTime">-</div></div>
+                <div class="stat-box"><div class="label">Vitesse</div><div class="value" id="statSpeed">-</div></div>
+                <div class="stat-box"><div class="label">[I₂] restant</div><div class="value" id="statI2">-</div></div>
+                <div class="stat-box"><div class="label">Type</div><div class="value" id="statType">-</div></div>
+            </div>
+
+            <div class="graph-container">
+                <h3 style="margin:0 0 5px 0; color:#ffd700; font-size:0.9em;">📈 [I₂] en fonction du temps</h3>
+                <canvas id="graphCanvas"></canvas>
+            </div>
+
+            <div class="comparison-box" id="compBox" style="display:none;">
+                <strong>⚖️ Comparaison :</strong><br>
+                <span class="fast"> I₂ + S₂O₃²⁻</span> : <span id="fastTime">-</span><br>
+                <span class="slow">🐌 Cu + Ag⁺</span> : plusieurs heures/jours<br>
+                <em>→ Même type de réaction (redox), vitesses très différentes !</em>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+const canvas = document.getElementById('simCanvas');
+const ctx = canvas.getContext('2d');
+const graphCanvas = document.getElementById('graphCanvas');
+const graphCtx = graphCanvas.getContext('2d');
+
+function resize() {
+    canvas.width = canvas.offsetWidth;
+    canvas.height = canvas.offsetHeight;
+    graphCanvas.width = graphCanvas.offsetWidth;
+    graphCanvas.height = 150;
+}
+resize();
+window.addEventListener('resize', resize);
+
+// État de l'expérience
+let state = {
+    pouring: false,
+    pourProgress: 0,
+    reactionStarted: false,
+    reactionTime: 0,
+    i2Concentration: 1, // 1 = couleur max, 0 = décoloré
+    history: [],
+    finished: false,
+    finishTime: 0,
+    bubbles: [],
+    stirAngle: 0,
+    drops: []
+};
+
+// Classe pour les gouttes qui tombent
+class Drop {
+    constructor(x, y, targetY) {
+        this.x = x;
+        this.y = y;
+        this.targetY = targetY;
+        this.vy = 0;
+        this.size = Math.random() * 4 + 3;
+        this.alive = true;
+    }
+    update() {
+        this.vy += 0.5;
+        this.y += this.vy;
+        if (this.y >= this.targetY) {
+            this.alive = false;
+            // Créer des bulles à l'impact
+            for (let i = 0; i < 3; i++) {
+                state.bubbles.push({
+                    x: this.x + (Math.random()-0.5)*20,
+                    y: this.targetY,
+                    vy: -Math.random() * 2 - 1,
+                    size: Math.random() * 3 + 1,
+                    life: 1
+                });
+            }
+        }
+    }
+    draw(ctx) {
+        if (!this.alive) return;
+        ctx.fillStyle = 'rgba(224, 224, 224, 0.8)';
+        ctx.beginPath();
+        ctx.ellipse(this.x, this.y, this.size * 0.7, this.size, 0, 0, Math.PI*2);
+        ctx.fill();
+    }
+}
+
+// Dessiner l'éprouvette (en haut à droite)
+function drawFlask() {
+    const fx = canvas.width * 0.75;
+    const fy = canvas.height * 0.15;
+    const tilt = state.pouring ? -0.4 : 0;
+    
+    ctx.save();
+    ctx.translate(fx, fy);
+    ctx.rotate(tilt);
+    
+    // Corps de l'éprouvette
+    ctx.fillStyle = 'rgba(200, 220, 240, 0.3)';
+    ctx.strokeStyle = 'rgba(200, 220, 240, 0.8)';
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.moveTo(-25, -40);
+    ctx.lineTo(-20, 40);
+    ctx.quadraticCurveTo(0, 50, 20, 40);
+    ctx.lineTo(25, -40);
+    ctx.closePath();
+    ctx.fill();
+    ctx.stroke();
+    
+    // Solution de thiosulfate (incolore/transparente)
+    const fillLevel = 40 - state.pourProgress * 30;
+    ctx.fillStyle = 'rgba(224, 224, 224, 0.4)';
+    ctx.beginPath();
+    ctx.moveTo(-22, fillLevel);
+    ctx.lineTo(-20, 40);
+    ctx.quadraticCurveTo(0, 48, 20, 40);
+    ctx.lineTo(22, fillLevel);
+    ctx.closePath();
+    ctx.fill();
+    
+    // Étiquette
+    ctx.fillStyle = 'white';
+    ctx.font = 'bold 11px Arial';
+    ctx.textAlign = 'center';
+    ctx.fillText('S₂O²⁻', 0, 0);
+    
+    ctx.restore();
+}
+
+// Dessiner le bécher avec la solution
+function drawBeaker() {
+    const cx = canvas.width / 2;
+    const topY = canvas.height * 0.35;
+    const bottomY = canvas.height * 0.85;
+    const width = canvas.width * 0.4;
+    const halfW = width / 2;
+
+    // Ombre
+    ctx.fillStyle = 'rgba(0,0,0,0.4)';
+    ctx.beginPath();
+    ctx.ellipse(cx, bottomY + 10, halfW + 10, 15, 0, 0, Math.PI*2);
+    ctx.fill();
+
+    // Solution avec couleur qui change (brun → incolore)
+    const r = Math.floor(255 * state.i2Concentration);
+    const g = Math.floor(140 * state.i2Concentration + 200 * (1 - state.i2Concentration));
+    const b = Math.floor(50 * state.i2Concentration + 220 * (1 - state.i2Concentration));
+    const alpha = 0.3 + state.i2Concentration * 0.5;
+    
+    const liquidTop = topY + 20;
+    ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${alpha})`;
+    ctx.beginPath();
+    ctx.moveTo(cx - halfW + 10, liquidTop);
+    ctx.lineTo(cx + halfW - 10, liquidTop);
+    ctx.lineTo(cx + halfW - 5, bottomY - 10);
+    ctx.quadraticCurveTo(cx, bottomY + 5, cx - halfW + 5, bottomY - 10);
+    ctx.closePath();
+    ctx.fill();
+
+    // Effet de vague à la surface
+    ctx.strokeStyle = `rgba(${r}, ${g}, ${b}, 0.8)`;
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    for (let x = cx - halfW + 10; x <= cx + halfW - 10; x += 5) {
+        const waveY = liquidTop + Math.sin(x * 0.1 + state.reactionTime * 5) * 2;
+        if (x === cx - halfW + 10) ctx.moveTo(x, waveY);
+        else ctx.lineTo(x, waveY);
+    }
+    ctx.stroke();
+
+    // Corps du bécher
+    ctx.strokeStyle = 'rgba(200,220,240,0.7)';
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.moveTo(cx - halfW, topY);
+    ctx.lineTo(cx - halfW + 5, bottomY);
+    ctx.quadraticCurveTo(cx, bottomY + 15, cx + halfW - 5, bottomY);
+    ctx.lineTo(cx + halfW, topY);
+    ctx.stroke();
+
+    // Bord supérieur
+    ctx.beginPath();
+    ctx.ellipse(cx, topY, halfW, 8, 0, 0, Math.PI*2);
+    ctx.stroke();
+
+    // Reflets
+    ctx.strokeStyle = 'rgba(255,255,255,0.3)';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(cx - halfW + 8, topY + 20);
+    ctx.lineTo(cx - halfW + 12, bottomY - 20);
+    ctx.stroke();
+
+    // Étiquette du bécher
+    ctx.fillStyle = 'rgba(255,255,255,0.8)';
+    ctx.font = 'bold 14px Arial';
+    ctx.textAlign = 'center';
+    ctx.fillText('I₂ (diiode)', cx, topY - 15);
+    ctx.fillText(`[${state.i2Concentration.toFixed(3)}]`, cx, topY - 30);
+
+    // Agitation (tourbillon)
+    if (parseFloat(document.getElementById('agitation').value) > 0 && state.reactionStarted) {
+        const agit = parseFloat(document.getElementById('agitation').value) / 100;
+        state.stirAngle += 0.1 * agit;
+        ctx.strokeStyle = 'rgba(79, 195, 247, 0.5)';
+        ctx.lineWidth = 2;
+        for (let i = 0; i < 3; i++) {
+            const angle = state.stirAngle + (i * Math.PI * 2 / 3);
+            const radius = 30 + i * 15;
+            ctx.beginPath();
+            ctx.arc(cx, (liquidTop + bottomY) / 2, radius, angle, angle + Math.PI);
+            ctx.stroke();
+        }
+    }
+}
+
+// Dessiner les bulles
+function drawBubbles() {
+    state.bubbles = state.bubbles.filter(b => b.life > 0);
+    state.bubbles.forEach(b => {
+        b.y += b.vy;
+        b.life -= 0.02;
+        ctx.strokeStyle = `rgba(255,255,255,${b.life * 0.5})`;
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.arc(b.x, b.y, b.size, 0, Math.PI*2);
+        ctx.stroke();
+    });
+}
+
+// Dessiner les gouttes
+function drawDrops() {
+    const flaskX = canvas.width * 0.75;
+    const flaskY = canvas.height * 0.15;
+    const beakerTop = canvas.height * 0.35 + 20;
+    
+    state.drops = state.drops.filter(d => d.alive);
+    state.drops.forEach(d => {
+        d.update();
+        d.draw(ctx);
+    });
+}
+
+// Calcul de la vitesse de réaction
+function calculateReactionRate() {
+    const temp = parseFloat(document.getElementById('temperature').value);
+    const concI2 = parseFloat(document.getElementById('concI2').value);
+    const concS2O3 = parseFloat(document.getElementById('concS2O3').value);
+    const agit = parseFloat(document.getElementById('agitation').value) / 100;
+    
+    // Loi d'Arrhenius simplifiée : vitesse double tous les 10°C
+    const tempFactor = Math.pow(2, (temp - 25) / 10);
+    
+    // Loi de vitesse : v = k × [I₂] × [S₂O₃²⁻]
+    const concFactor = concI2 * concS2O3 * 100;
+    
+    // Facteur agitation (0 à 1.5)
+    const agitFactor = 1 + agit * 0.5;
+    
+    // Vitesse relative (plus c'est grand, plus c'est rapide)
+    return tempFactor * concFactor * agitFactor;
+}
+
+// Animation principale
+let lastTime = 0;
+function animate(timestamp) {
+    if (!lastTime) lastTime = timestamp;
+    const dt = (timestamp - lastTime) / 1000;
+    lastTime = timestamp;
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // Fond de la scène
+    const tableGrad = ctx.createLinearGradient(0, canvas.height * 0.85, 0, canvas.height);
+    tableGrad.addColorStop(0, '#2a1810');
+    tableGrad.addColorStop(1, '#1a0f0a');
+    ctx.fillStyle = tableGrad;
+    ctx.fillRect(0, canvas.height * 0.85, canvas.width, canvas.height * 0.15);
+
+    // Dessiner le bécher
+    drawBeaker();
+
+    // Animation du versement
+    if (state.pouring && state.pourProgress < 1) {
+        state.pourProgress += dt * 0.3;
+        if (state.pourProgress > 1) state.pourProgress = 1;
+        
+        // Créer des gouttes
+        if (Math.random() < 0.3) {
+            const flaskX = canvas.width * 0.72;
+            const flaskY = canvas.height * 0.2;
+            const beakerTop = canvas.height * 0.35 + 20;
+            state.drops.push(new Drop(flaskX, flaskY, beakerTop));
+        }
+    }
+
+    // La réaction commence quand on a versé assez
+    if (state.pourProgress > 0.5 && !state.reactionStarted) {
+        state.reactionStarted = true;
+    }
+
+    // Évolution de la réaction
+    if (state.reactionStarted && !state.finished) {
+        state.reactionTime += dt;
+        const rate = calculateReactionRate();
+        
+        // La concentration de I₂ diminue
+        const decay = rate * dt * 0.5;
+        state.i2Concentration -= decay;
+        
+        if (state.i2Concentration <= 0) {
+            state.i2Concentration = 0;
+            state.finished = true;
+            state.finishTime = state.reactionTime;
+        }
+        
+        // Enregistrer l'historique pour le graphique
+        state.history.push({
+            time: state.reactionTime,
+            conc: state.i2Concentration
+        });
+    }
+
+    // Dessiner l'éprouvette
+    drawFlask();
+    
+    // Dessiner les gouttes et bulles
+    drawDrops();
+    drawBubbles();
+
+    // Mettre à jour l'affichage
+    updateDisplay();
+    drawGraph();
+
+    requestAnimationFrame(animate);
+}
+
+function updateDisplay() {
+    // Timer
+    const timeStr = state.reactionTime.toFixed(3).padStart(6, '0');
+    document.getElementById('timer').textContent = timeStr + ' s';
+    
+    // Stats
+    if (state.finished) {
+        document.getElementById('statTime').textContent = state.finishTime.toFixed(3) + ' s';
+        document.getElementById('statSpeed').textContent = 'RAPIDE ⚡';
+        document.getElementById('statI2').textContent = '0 mol/L';
+        document.getElementById('statType').textContent = 'Instantanée';
+        document.getElementById('fastTime').textContent = state.finishTime.toFixed(3) + ' s';
+    } else if (state.reactionStarted) {
+        document.getElementById('statTime').textContent = state.reactionTime.toFixed(3) + ' s';
+        document.getElementById('statSpeed').textContent = 'En cours...';
+        document.getElementById('statI2').textContent = state.i2Concentration.toFixed(3) + ' mol/L';
+        document.getElementById('statType').textContent = 'Rapide';
+    } else {
+        document.getElementById('statTime').textContent = '-';
+        document.getElementById('statSpeed').textContent = '-';
+        document.getElementById('statI2').textContent = '-';
+        document.getElementById('statType').textContent = '-';
+    }
+}
+
+function drawGraph() {
+    const w = graphCanvas.width;
+    const h = graphCanvas.height;
+    graphCtx.clearRect(0, 0, w, h);
+    
+    // Axes
+    graphCtx.strokeStyle = 'rgba(255,255,255,0.3)';
+    graphCtx.lineWidth = 1;
+    graphCtx.beginPath();
+    graphCtx.moveTo(30, 10);
+    graphCtx.lineTo(30, h - 20);
+    graphCtx.lineTo(w - 10, h - 20);
+    graphCtx.stroke();
+    
+    // Labels
+    graphCtx.fillStyle = 'rgba(255,255,255,0.7)';
+    graphCtx.font = '10px Arial';
+    graphCtx.textAlign = 'center';
+    graphCtx.fillText('temps (s)', w/2, h - 5);
+    graphCtx.save();
+    graphCtx.translate(10, h/2);
+    graphCtx.rotate(-Math.PI/2);
+    graphCtx.fillText('[I₂]', 0, 0);
+    graphCtx.restore();
+    
+    // Courbe
+    if (state.history.length > 1) {
+        graphCtx.strokeStyle = '#ff6b35';
+        graphCtx.lineWidth = 2;
+        graphCtx.beginPath();
+        
+        const maxTime = Math.max(state.history[state.history.length-1].time, 1);
+        
+        state.history.forEach((point, i) => {
+            const x = 30 + (point.time / maxTime) * (w - 40);
+            const y = (h - 20) - point.conc * (h - 30);
+            if (i === 0) graphCtx.moveTo(x, y);
+            else graphCtx.lineTo(x, y);
+        });
+        graphCtx.stroke();
+    }
+}
+
+// Contrôles
+function startReaction() {
+    state.pouring = true;
+    state.reactionStarted = false;
+    state.reactionTime = 0;
+    state.i2Concentration = 1;
+    state.history = [];
+    state.finished = false;
+    state.finishTime = 0;
+    state.pourProgress = 0;
+    state.drops = [];
+    state.bubbles = [];
+}
+
+function showComparison() {
+    const box = document.getElementById('compBox');
+    box.style.display = box.style.display === 'none' ? 'block' : 'none';
+}
+
+function resetExp() {
+    state = {
+        pouring: false,
+        pourProgress: 0,
+        reactionStarted: false,
+        reactionTime: 0,
+        i2Concentration: 1,
+        history: [],
+        finished: false,
+        finishTime: 0,
+        bubbles: [],
+        stirAngle: 0,
+        drops: []
+    };
+    document.getElementById('compBox').style.display = 'none';
+}
+
+// Listeners pour les sliders
+['temperature', 'concI2', 'concS2O3', 'volume', 'agitation'].forEach(id => {
+    document.getElementById(id).addEventListener('input', function() {
+        const suffixes = {
+            temperature: '°C',
+            concI2: ' mol/L',
+            concS2O3: ' mol/L',
+            volume: ' mL',
+            agitation: '%'
+        };
+        const decimals = {
+            temperature: 0,
+            concI2: 3,
+            concS2O3: 2,
+            volume: 0,
+            agitation: 0
+        };
+        document.getElementById(id + 'Val').textContent = parseFloat(this.value).toFixed(decimals[id]) + suffixes[id];
+    });
+});
+
+// Démarrer l'animation
+requestAnimationFrame(animate);
+</script>
+</body>
+</html>
