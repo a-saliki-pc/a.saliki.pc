@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🧪 Influence de la Concentration - H₂O₂ + I⁻ (Mode Clair)</title>
+<style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+        font-family: 'Segoe UI', Tahoma, sans-serif;
+        background: linear-gradient(135deg, #f0f4f8 0%, #e2e8f0 50%, #cbd5e1 100%);
+        color: #1e293b;
+        min-height: 100vh;
+        padding: 20px;
+    }
+    .container { max-width: 1600px; margin: 0 auto; }
+    
+    .header {
+        text-align: center;
+        padding: 20px;
+        background: white;
+        border-radius: 20px;
+        margin-bottom: 20px;
+        border: 2px solid #3b82f6;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    .header h1 {
+        font-size: 2.3em;
+        background: linear-gradient(90deg, #dc143c, #ff8c00, #ffd700);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 10px;
+    }
+    .equation-box {
+        background: rgba(59, 130, 246, 0.1);
+        border: 2px solid #3b82f6;
+        border-radius: 12px;
+        padding: 12px;
+        text-align: center;
+        font-size: 1.2em;
+        font-family: 'Courier New', monospace;
+        color: #1e40af;
+        font-weight: bold;
+    }
+
+    .main-grid { display: grid; grid-template-columns: 1fr 350px; gap: 20px; }
+
+    .stage {
+        background: white;
+        border-radius: 20px;
+        padding: 20px;
+        border: 2px solid #3b82f6;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    canvas {
+        width: 100%;
+        height: 500px;
+        background: linear-gradient(to bottom, #ffffff 0%, #f8fafc 100%);
+        border-radius: 15px;
+        display: block;
+        border: 1px solid #e2e8f0;
+    }
+
+    .panel {
+        background: white;
+        border-radius: 20px;
+        padding: 20px;
+        border: 2px solid #3b82f6;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        max-height: 560px;
+        overflow-y: auto;
+    }
+    .panel h2 {
+        color: #1e40af;
+        margin-bottom: 12px;
+        font-size: 1.2em;
+        border-bottom: 2px solid #3b82f6;
+        padding-bottom: 8px;
+    }
+    .panel h3 {
+        color: #dc2626;
+        margin: 15px 0 8px 0;
+        font-size: 1em;
+    }
+
+    .beaker-control {
+        background: #f8fafc;
+        border-radius: 10px;
+        padding: 12px;
+        margin-bottom: 12px;
+        border-left: 4px solid;
+    }
+    .beaker-control.b1 { border-color: #ffd700; }
+    .beaker-control.b2 { border-color: #ff8c00; }
+    .beaker-control.b3 { border-color: #dc143c; }
+
+    .control-group { margin-bottom: 8px; }
+    .control-group label { display: block; font-size: 0.85em; margin-bottom: 3px; color: #475569; font-weight: bold; }
+    .control-group input[type="range"] {
+        width: 100%; height: 6px; border-radius: 3px;
+        background: #e2e8f0; outline: none; -webkit-appearance: none;
+    }
+    .control-group input[type="range"]::-webkit-slider-thumb {
+        -webkit-appearance: none; width: 16px; height: 16px; border-radius: 50%;
+        background: #3b82f6; cursor: pointer; box-shadow: 0 0 5px rgba(59,130,246,0.5);
+    }
+    .val-display {
+        display: inline-block; background: rgba(59, 130, 246, 0.1);
+        padding: 2px 8px; border-radius: 8px; font-size: 0.8em; color: #1e40af; margin-top: 2px;
+        font-weight: bold;
+    }
+
+    .btn {
+        width: 100%;
+        padding: 12px;
+        border: none;
+        border-radius: 10px;
+        font-weight: bold;
+        cursor: pointer;
+        color: white;
+        font-size: 1em;
+        margin-bottom: 8px;
+        transition: all 0.3s;
+    }
+    .btn:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+    .btn-start { background: linear-gradient(135deg, #10b981, #059669); }
+    .btn-reset { background: linear-gradient(135deg, #ef4444, #dc2626); }
+
+    .timer-display {
+        text-align: center;
+        font-size: 2.2em;
+        font-weight: bold;
+        color: #1e40af;
+        font-family: 'Courier New', monospace;
+        margin: 15px 0;
+        background: #f0f9ff;
+        padding: 10px;
+        border-radius: 10px;
+        border: 2px solid #3b82f6;
+    }
+
+    .stats-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-top: 12px; }
+    .stat-box { background: #f8fafc; padding: 8px; border-radius: 8px; text-align: center; }
+    .stat-box .label { font-size: 0.75em; color: #64748b; }
+    .stat-box .value { font-size: 0.95em; font-weight: bold; color: #1e40af; }
+    .stat-box.b1 { border-top: 3px solid #ffd700; }
+    .stat-box.b2 { border-top: 3px solid #ff8c00; }
+    .stat-box.b3 { border-top: 3px solid #dc143c; }
+
+    .graph-container {
+        background: #f8fafc;
+        border-radius: 10px;
+        padding: 10px;
+        margin-top: 15px;
+        border: 1px solid #e2e8f0;
+    }
+    .graph-container canvas {
+        height: 120px;
+        background: white;
+        border-radius: 8px;
+    }
+
+    .conclusion-box {
+        background: linear-gradient(135deg, rgba(16,185,129,0.1), rgba(5,150,105,0.1));
+        border: 2px solid #10b981;
+        border-radius: 12px;
+        padding: 12px;
+        margin-top: 15px;
+        font-size: 0.85em;
+        color: #065f46;
+    }
+    .conclusion-box strong { color: #047857; }
+
+    .legend { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; font-size: 0.85em; }
+    .legend-item { display: flex; align-items: center; gap: 5px; color: #475569; }
+    .legend-color { width: 14px; height: 14px; border-radius: 3px; border: 1px solid #94a3b8; }
+
+    @media (max-width: 1100px) { .main-grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>🧪 Influence de la Concentration sur la Vitesse</h1>
+        <div class="equation-box">
+            H₂O₂(aq) + 2I⁻(aq) + 2H⁺(aq) → 2H₂O(l) + I₂(aq)
+        </div>
+    </div>
+
+    <div class="main-grid">
+        <div class="stage">
+            <canvas id="simCanvas"></canvas>
+            <div class="legend">
+                <div class="legend-item"><div class="legend-color" style="background:#ffd700"></div>Bécher 1 : [I⁻] faible</div>
+                <div class="legend-item"><div class="legend-color" style="background:#ff8c00"></div>Bécher 2 : [I⁻] moyenne</div>
+                <div class="legend-item"><div class="legend-color" style="background:#dc143c"></div>Bécher 3 : [I⁻] élevée</div>
+            </div>
+        </div>
+
+        <div class="panel">
+            <h2>⚙️ Contrôles des 3 Béchers</h2>
+            
+            <div class="beaker-control b1">
+                <h3 style="color:#b8860b; margin:0 0 8px 0;">🥇 Bécher 1</h3>
+                <div class="control-group">
+                    <label>[H₂O₂] (mol/L)</label>
+                    <input type="range" id="h2o2_1" min="0.001" max="0.05" value="0.01" step="0.001">
+                    <div class="val-display" id="h2o2_1Val">0.010 mol/L</div>
+                </div>
+                <div class="control-group">
+                    <label>[I⁻] (mol/L)</label>
+                    <input type="range" id="i_1" min="0.01" max="1" value="0.1" step="0.01">
+                    <div class="val-display" id="i_1Val">0.10 mol/L</div>
+                </div>
+            </div>
+
+            <div class="beaker-control b2">
+                <h3 style="color:#d97706; margin:0 0 8px 0;">🥈 Bécher 2</h3>
+                <div class="control-group">
+                    <label>[H₂O₂] (mol/L)</label>
+                    <input type="range" id="h2o2_2" min="0.001" max="0.05" value="0.01" step="0.001">
+                    <div class="val-display" id="h2o2_2Val">0.010 mol/L</div>
+                </div>
+                <div class="control-group">
+                    <label>[I⁻] (mol/L)</label>
+                    <input type="range" id="i_2" min="0.01" max="1" value="0.4" step="0.01">
+                    <div class="val-display" id="i_2Val">0.40 mol/L</div>
+                </div>
+            </div>
+
+            <div class="beaker-control b3">
+                <h3 style="color:#dc143c; margin:0 0 8px 0;">🥉 Bécher 3</h3>
+                <div class="control-group">
+                    <label>[H₂O₂] (mol/L)</label>
+                    <input type="range" id="h2o2_3" min="0.001" max="0.05" value="0.01" step="0.001">
+                    <div class="val-display" id="h2o2_3Val">0.010 mol/L</div>
+                </div>
+                <div class="control-group">
+                    <label>[I⁻] (mol/L)</label>
+                    <input type="range" id="i_3" min="0.01" max="1" value="0.8" step="0.01">
+                    <div class="val-display" id="i_3Val">0.80 mol/L</div>
+                </div>
+            </div>
+
+            <div class="timer-display" id="timer">00.0 s</div>
+
+            <button class="btn btn-start" onclick="startAll()">▶️ Lancer les 3 expériences</button>
+            <button class="btn btn-reset" onclick="resetAll()">🔄 Recommencer</button>
+
+            <h2>📊 Vitesses de réaction</h2>
+            <div class="stats-grid">
+                <div class="stat-box b1"><div class="label">Bécher 1</div><div class="value" id="speed1">-</div></div>
+                <div class="stat-box b2"><div class="label">Bécher 2</div><div class="value" id="speed2">-</div></div>
+                <div class="stat-box b3"><div class="label">Bécher 3</div><div class="value" id="speed3">-</div></div>
+            </div>
+
+            <div class="graph-container">
+                <h3 style="margin:0 0 5px 0; color:#1e40af; font-size:0.9em;">📈 [I₂] formé en fonction du temps</h3>
+                <canvas id="graphCanvas"></canvas>
+            </div>
+
+            <div class="conclusion-box">
+                <strong>💡 Conclusion :</strong><br>
+                Plus la concentration en I⁻ est élevée, plus la réaction est <strong>rapide</strong> et plus la couleur de I₂ apparaît <strong>intensément</strong>.
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+const canvas = document.getElementById('simCanvas');
+const ctx = canvas.getContext('2d');
+const graphCanvas = document.getElementById('graphCanvas');
+const graphCtx = graphCanvas.getContext('2d');
+
+function resize() {
+    canvas.width = canvas.offsetWidth;
+    canvas.height = canvas.offsetHeight;
+    graphCanvas.width = graphCanvas.offsetWidth;
+    graphCanvas.height = 120;
+}
+resize();
+window.addEventListener('resize', resize);
+
+// État des 3 béchers
+let beakers = [
+    { i2Conc: 0, history: [], finished: false, finishTime: 0 },
+    { i2Conc: 0, history: [], finished: false, finishTime: 0 },
+    { i2Conc: 0, history: [], finished: false, finishTime: 0 }
+];
+
+let state = {
+    running: false,
+    time: 0,
+    pouring: [false, false, false],
+    pourProgress: [0, 0, 0]
+};
+
+// Dessiner un bécher sur fond blanc
+function drawBeaker(x, y, width, height, i2Concentration, label, borderColor) {
+    const halfW = width / 2;
+    const liquidTop = y + 30;
+    const liquidBottom = y + height - 10;
+
+    // Ombre douce
+    ctx.fillStyle = 'rgba(0,0,0,0.1)';
+    ctx.beginPath();
+    ctx.ellipse(x, liquidBottom + 8, halfW + 8, 12, 0, 0, Math.PI*2);
+    ctx.fill();
+
+    // Solution avec couleur I₂ (jaune → rouge foncé) - PLUS VISIBLE sur fond blanc
+    const r = Math.floor(255);
+    const g = Math.floor(215 * (1 - i2Concentration) + 50 * i2Concentration);
+    const b = Math.floor(200 * (1 - i2Concentration));
+    const alpha = 0.3 + i2Concentration * 0.6;
+    
+    ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${alpha})`;
+    ctx.beginPath();
+    ctx.moveTo(x - halfW + 8, liquidTop);
+    ctx.lineTo(x + halfW - 8, liquidTop);
+    ctx.lineTo(x + halfW - 5, liquidBottom);
+    ctx.quadraticCurveTo(x, liquidBottom + 10, x - halfW + 5, liquidBottom);
+    ctx.closePath();
+    ctx.fill();
+
+    // Contour de la solution
+    ctx.strokeStyle = `rgba(${r}, ${g}, ${b}, 0.9)`;
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    // Vagues à la surface
+    ctx.strokeStyle = `rgba(${r}, ${g}, ${b}, 0.7)`;
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    for (let px = x - halfW + 8; px <= x + halfW - 8; px += 3) {
+        const waveY = liquidTop + Math.sin(px * 0.1 + state.time * 3) * 2;
+        if (px === x - halfW + 8) ctx.moveTo(px, waveY);
+        else ctx.lineTo(px, waveY);
+    }
+    ctx.stroke();
+
+    // Corps du bécher (verre transparent)
+    ctx.strokeStyle = borderColor;
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.moveTo(x - halfW, y);
+    ctx.lineTo(x - halfW + 5, liquidBottom);
+    ctx.quadraticCurveTo(x, liquidBottom + 15, x + halfW - 5, liquidBottom);
+    ctx.lineTo(x + halfW, y);
+    ctx.stroke();
+
+    // Bord supérieur
+    ctx.beginPath();
+    ctx.ellipse(x, y, halfW, 6, 0, 0, Math.PI*2);
+    ctx.stroke();
+
+    // Reflets sur le verre
+    ctx.strokeStyle = 'rgba(255,255,255,0.6)';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(x - halfW + 6, y + 15);
+    ctx.lineTo(x - halfW + 10, liquidBottom - 15);
+    ctx.stroke();
+
+    // Étiquette
+    ctx.fillStyle = '#1e293b';
+    ctx.font = 'bold 14px Arial';
+    ctx.textAlign = 'center';
+    ctx.fillText(label, x, y - 15);
+    
+    // Concentration I₂
+    ctx.fillStyle = '#475569';
+    ctx.font = '12px Arial';
+    ctx.fillText(`[I₂] = ${i2Concentration.toFixed(3)}`, x, y - 30);
+
+    // Indicateur de couleur I₂
+    if (i2Concentration > 0.1) {
+        ctx.fillStyle = `rgba(${r}, ${g}, ${b}, 0.9)`;
+        ctx.beginPath();
+        ctx.arc(x + halfW + 15, liquidTop + 20, 8, 0, Math.PI*2);
+        ctx.fill();
+        ctx.fillStyle = '#1e293b';
+        ctx.font = '11px Arial';
+        ctx.fillText('I₂', x + halfW + 30, liquidTop + 24);
+    }
+}
+
+// Animation principale
+let lastTime = 0;
+function animate(timestamp) {
+    if (!lastTime) lastTime = timestamp;
+    const dt = (timestamp - lastTime) / 1000;
+    lastTime = timestamp;
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // Fond blanc avec table
+    const tableGrad = ctx.createLinearGradient(0, canvas.height * 0.85, 0, canvas.height);
+    tableGrad.addColorStop(0, '#f1f5f9');
+    tableGrad.addColorStop(1, '#e2e8f0');
+    ctx.fillStyle = tableGrad;
+    ctx.fillRect(0, canvas.height * 0.85, canvas.width, canvas.height * 0.15);
+
+    // Dessiner les 3 béchers
+    const beakerWidth = canvas.width * 0.22;
+    const beakerHeight = canvas.height * 0.5;
+    const spacing = canvas.width * 0.28;
+    const startX = canvas.width * 0.15;
+    const startY = canvas.height * 0.25;
+
+    const concentrations = [
+        parseFloat(document.getElementById('i_1').value),
+        parseFloat(document.getElementById('i_2').value),
+        parseFloat(document.getElementById('i_3').value)
+    ];
+
+    const h2o2Concs = [
+        parseFloat(document.getElementById('h2o2_1').value),
+        parseFloat(document.getElementById('h2o2_2').value),
+        parseFloat(document.getElementById('h2o2_3').value)
+    ];
+
+    const colors = ['#b8860b', '#d97706', '#dc143c'];
+    const labels = ['Bécher 1', 'Bécher 2', 'Bécher 3'];
+
+    for (let i = 0; i < 3; i++) {
+        const x = startX + i * spacing;
+        
+        // Animation du versement
+        if (state.pouring[i] && state.pourProgress[i] < 1) {
+            state.pourProgress[i] += dt * 0.5;
+            if (state.pourProgress[i] > 1) state.pourProgress[i] = 1;
+        }
+
+        // Réaction
+        if (state.pourProgress[i] > 0.5 && !beakers[i].finished) {
+            // Vitesse proportionnelle à [H₂O₂] × [I]
+            const rate = h2o2Concs[i] * concentrations[i] * 50;
+            beakers[i].i2Conc += rate * dt;
+            
+            if (beakers[i].i2Conc >= 1) {
+                beakers[i].i2Conc = 1;
+                beakers[i].finished = true;
+                beakers[i].finishTime = state.time;
+            }
+
+            // Historique
+            beakers[i].history.push({
+                time: state.time,
+                conc: beakers[i].i2Conc
+            });
+        }
+
+        drawBeaker(x, startY, beakerWidth, beakerHeight, beakers[i].i2Conc, labels[i], colors[i]);
+    }
+
+    // Timer
+    if (state.running) {
+        state.time += dt;
+        document.getElementById('timer').textContent = state.time.toFixed(1) + ' s';
+    }
+
+    // Stats
+    updateStats();
+    drawGraph();
+
+    requestAnimationFrame(animate);
+}
+
+function updateStats() {
+    for (let i = 0; i < 3; i++) {
+        const speedEl = document.getElementById('speed' + (i+1));
+        if (beakers[i].finished) {
+            speedEl.textContent = beakers[i].finishTime.toFixed(1) + ' s';
+            speedEl.style.color = '#059669';
+        } else if (state.running) {
+            speedEl.textContent = 'En cours...';
+            speedEl.style.color = '#1e40af';
+        } else {
+            speedEl.textContent = '-';
+            speedEl.style.color = '#64748b';
+        }
+    }
+}
+
+function drawGraph() {
+    const w = graphCanvas.width;
+    const h = graphCanvas.height;
+    graphCtx.clearRect(0, 0, w, h);
+    
+    // Axes
+    graphCtx.strokeStyle = '#94a3b8';
+    graphCtx.lineWidth = 1;
+    graphCtx.beginPath();
+    graphCtx.moveTo(30, 10);
+    graphCtx.lineTo(30, h - 20);
+    graphCtx.lineTo(w - 10, h - 20);
+    graphCtx.stroke();
+    
+    // Labels
+    graphCtx.fillStyle = '#475569';
+    graphCtx.font = '10px Arial';
+    graphCtx.textAlign = 'center';
+    graphCtx.fillText('temps (s)', w/2, h - 5);
+    graphCtx.save();
+    graphCtx.translate(10, h/2);
+    graphCtx.rotate(-Math.PI/2);
+    graphCtx.fillText('[I₂]', 0, 0);
+    graphCtx.restore();
+    
+    // Courbes
+    const colors = ['#b8860b', '#d97706', '#dc143c'];
+    const maxTime = Math.max(...beakers.map(b => b.history.length > 0 ? b.history[b.history.length-1].time : 1), 1);
+    
+    for (let i = 0; i < 3; i++) {
+        if (beakers[i].history.length > 1) {
+            graphCtx.strokeStyle = colors[i];
+            graphCtx.lineWidth = 2;
+            graphCtx.beginPath();
+            
+            beakers[i].history.forEach((point, j) => {
+                const x = 30 + (point.time / maxTime) * (w - 40);
+                const y = (h - 20) - point.conc * (h - 30);
+                if (j === 0) graphCtx.moveTo(x, y);
+                else graphCtx.lineTo(x, y);
+            });
+            graphCtx.stroke();
+        }
+    }
+}
+
+// Contrôles
+function startAll() {
+    state.running = true;
+    state.pouring = [true, true, true];
+    state.time = 0;
+    beakers.forEach(b => {
+        b.i2Conc = 0;
+        b.history = [];
+        b.finished = false;
+        b.finishTime = 0;
+    });
+}
+
+function resetAll() {
+    state.running = false;
+    state.time = 0;
+    state.pouring = [false, false, false];
+    state.pourProgress = [0, 0, 0];
+    beakers.forEach(b => {
+        b.i2Conc = 0;
+        b.history = [];
+        b.finished = false;
+        b.finishTime = 0;
+    });
+    document.getElementById('timer').textContent = '00.0 s';
+}
+
+// Listeners
+['h2o2_1', 'i_1', 'h2o2_2', 'i_2', 'h2o2_3', 'i_3'].forEach(id => {
+    document.getElementById(id).addEventListener('input', function() {
+        document.getElementById(id + 'Val').textContent = parseFloat(this.value).toFixed(3) + ' mol/L';
+    });
+});
+
+// Démarrer
+requestAnimationFrame(animate);
+</script>
+</body>
+</html>
