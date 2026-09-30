@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulation : Onde Mécanique sur une Corde</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        /* Customizing sliders for a better educational look */
+        input[type=range] {
+            -webkit-appearance: none;
+            width: 100%;
+            background: transparent;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 20px;
+            width: 20px;
+            border-radius: 50%;
+            background: #2563eb;
+            cursor: pointer;
+            margin-top: -8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+        }
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 6px;
+            cursor: pointer;
+            background: #cbd5e1;
+            border-radius: 3px;
+        }
+        .canvas-container {
+            background-image: 
+                linear-gradient(to right, #f1f5f9 1px, transparent 1px),
+                linear-gradient(to bottom, #f1f5f9 1px, transparent 1px);
+            background-size: 50px 50px;
+            background-position: center center;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 h-screen flex flex-col overflow-hidden">
+
+    <header class="bg-blue-700 text-white p-4 shadow-md z-10 flex justify-between items-center">
+        <div>
+            <h1 class="text-2xl font-bold">Onde Mécanique Progressive (2 Bac)</h1>
+            <p class="text-blue-200 text-sm mt-1">Propagation d'une perturbation le long d'une corde (Onde transversale)</p>
+        </div>
+        <div class="hidden md:block text-right text-sm">
+            Relations: <br/> 
+            <span class="font-mono bg-blue-800 px-2 py-1 rounded">v = λ × f</span>
+            <span class="font-mono bg-blue-800 px-2 py-1 rounded ml-1">T = 1 / f</span>
+        </div>
+    </header>
+
+    <main class="flex-1 flex flex-col md:flex-row overflow-hidden">
+        
+        <!-- Canvas Area -->
+        <section class="flex-1 relative bg-white flex flex-col">
+            <div class="absolute top-4 left-4 bg-white/90 p-3 rounded-lg shadow-sm border border-gray-200 z-10">
+                <h3 class="font-bold text-gray-700 border-b pb-1 mb-2">Mesures en temps réel</h3>
+                <div class="grid grid-cols-2 gap-x-6 gap-y-1 text-sm">
+                    <span class="text-gray-500">Période (T) :</span>
+                    <span id="display-t" class="font-bold text-blue-600">-- s</span>
+                    
+                    <span class="text-gray-500">Longueur d'onde (λ) :</span>
+                    <span id="display-lambda" class="font-bold text-green-600">-- m</span>
+                    
+                    <span class="text-gray-500">Célérité (v) :</span>
+                    <span id="display-v-calc" class="font-bold text-purple-600">2.0 m/s</span>
+                </div>
+                <div class="mt-3 text-xs text-gray-400">
+                    * 1 carreau = 1 mètre (approximatif)
+                </div>
+            </div>
+            
+            <div class="flex-1 w-full relative">
+                <canvas id="waveCanvas" class="absolute top-0 left-0 w-full h-full canvas-container"></canvas>
+            </div>
+        </section>
+
+        <aside class="w-full md:w-80 bg-gray-100 border-l border-gray-200 p-5 flex flex-col gap-6 overflow-y-auto shadow-inner">
+            
+            <!-- Actions -->
+            <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-200">
+                <h2 class="text-lg font-bold text-gray-800 mb-4">Générateur</h2>
+                <div class="flex flex-col gap-3">
+                    <button id="btn-pulse" class="w-full bg-blue-100 hover:bg-blue-200 text-blue-700 font-semibold py-2 px-4 rounded-lg transition-colors border border-blue-300">
+                        Ébranlement (Impulsion)
+                    </button>
+                    <button id="btn-continuous" class="w-full bg-green-100 hover:bg-green-200 text-green-800 font-semibold py-2 px-4 rounded-lg transition-colors border border-green-300">
+                        Onde Périodique Continue
+                    </button>
+                    <div class="flex gap-2 mt-2">
+                        <button id="btn-play-pause" class="flex-1 bg-gray-800 hover:bg-gray-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors">
+                            Pause
+                        </button>
+                        <button id="btn-reset" class="flex-1 bg-red-100 hover:bg-red-200 text-red-700 font-semibold py-2 px-4 rounded-lg transition-colors border border-red-300">
+                            Arrêter
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white p-4 rounded-xl shadow-sm border border-gray-200 flex flex-col gap-5">
+                <h2 class="text-lg font-bold text-gray-800 border-b pb-2">Paramètres de la Corde</h2>
+                
+                <!-- Amplitude -->
+                <div>
+                    <div class="flex justify-between mb-1">
+                        <label class="text-sm font-medium text-gray-700" for="slider-amplitude">Amplitude (A)</label>
+                        <span id="val-amplitude" class="text-sm font-bold text-blue-600">1.0 m</span>
+                    </div>
+                    <input type="range" id="slider-amplitude" min="0.2" max="2.0" step="0.1" value="1.0">
+                </div>
+
+                <!-- Frequency -->
+                <div>
+                    <div class="flex justify-between mb-1">
+                        <label class="text-sm font-medium text-gray-700" for="slider-frequency">Fréquence (f)</label>
+                        <span id="val-frequency" class="text-sm font-bold text-blue-600">1.0 Hz</span>
+                    </div>
+                    <input type="range" id="slider-frequency" min="0.2" max="3.0" step="0.1" value="1.0">
+                </div>
+
+                <!-- Celerity -->
+                <div>
+                    <div class="flex justify-between mb-1">
+                        <label class="text-sm font-medium text-gray-700" for="slider-celerity">Célérité (v)</label>
+                        <span id="val-celerity" class="text-sm font-bold text-blue-600">2.0 m/s</span>
+                    </div>
+                    <input type="range" id="slider-celerity" min="1.0" max="6.0" step="0.1" value="2.0">
+                </div>
+            </div>
+
+            <div class="bg-yellow-50 p-4 rounded-xl shadow-sm border border-yellow-200 text-sm text-yellow-800">
+                <strong>Observation :</strong> Observez les points rouges (points matériels de la corde). Ils se déplacent uniquement verticalement (mouvement transversal) et reprennent leur place, illustrant l'absence de transport de matière.
+            </div>
+
+        </aside>
+    </main>
+
+    <script>
+        // --- State Variables ---
+        const state = {
+            amplitude: 1.0,  // meters (logical)
+            frequency: 1.0,  // Hz
+            celerity: 2.0,   // m/s
+            isPlaying: true,
+            mode: 'none',    // 'none', 'pulse', 'continuous'
+            time: 0,         // seconds
+            waveFrontTime: 0,// tracks how long the wave has been active
+            pulseStartTime: 0
+        };
+
+        // Display Constants
+        const PIXELS_PER_METER = 50; // 50px = 1 logical meter
+        
+        // Canvas Setup
+        const canvas = document.getElementById('waveCanvas');
+        const ctx = canvas.getContext('2d');
+        
+        function resizeCanvas() {
+            // High DPI screen support for sharper rendering
+            const dpr = window.devicePixelRatio || 1;
+            const rect = canvas.parentElement.getBoundingClientRect();
+            
+            canvas.width = rect.width * dpr;
+            canvas.height = rect.height * dpr;
+            
+            ctx.scale(dpr, dpr);
+            canvas.style.width = `${rect.width}px`;
+            canvas.style.height = `${rect.height}px`;
+        }
+        
+        window.addEventListener('resize', resizeCanvas);
+        // Initial resize
+        setTimeout(resizeCanvas, 0);
+
+        // --- DOM Elements ---
+        const ui = {
+            amp: document.getElementById('slider-amplitude'),
+            freq: document.getElementById('slider-frequency'),
+            cel: document.getElementById('slider-celerity'),
+            valAmp: document.getElementById('val-amplitude'),
+            valFreq: document.getElementById('val-frequency'),
+            valCel: document.getElementById('val-celerity'),
+            dispT: document.getElementById('display-t'),
+            dispLambda: document.getElementById('display-lambda'),
+            dispV: document.getElementById('display-v-calc'),
+            btnPulse: document.getElementById('btn-pulse'),
+            btnCont: document.getElementById('btn-continuous'),
+            btnPlay: document.getElementById('btn-play-pause'),
+            btnReset: document.getElementById('btn-reset')
+        };
+
+        // --- Event Listeners ---
+        // Sliders
+        function updateCalculations() {
+            ui.valAmp.textContent = `${state.amplitude.toFixed(1)} m`;
+            ui.valFreq.textContent = `${state.frequency.toFixed(1)} Hz`;
+            ui.valCel.textContent = `${state.celerity.toFixed(1)} m/s`;
+            
+            if (state.mode === 'continuous') {
+                const T = 1 / state.frequency;
+                const lambda = state.celerity / state.frequency;
+                ui.dispT.textContent = `${T.toFixed(2)} s`;
+                ui.dispLambda.textContent = `${lambda.toFixed(2)} m`;
+            } else {
+                ui.dispT.textContent = `-- s`;
+                ui.dispLambda.textContent = `-- m`;
+            }
+            ui.dispV.textContent = `${state.celerity.toFixed(1)} m/s`;
+        }
+
+        ui.amp.addEventListener('input', (e) => { state.amplitude = parseFloat(e.target.value); updateCalculations(); });
+        ui.freq.addEventListener('input', (e) => { state.frequency = parseFloat(e.target.value); updateCalculations(); });
+        ui.cel.addEventListener('input', (e) => { state.celerity = parseFloat(e.target.value); updateCalculations(); });
+
+        ui.btnPulse.addEventListener('click', () => {
+            state.mode = 'pulse';
+            state.time = 0;
+            state.pulseStartTime = 0;
+            state.isPlaying = true;
+            ui.btnPlay.textContent = 'Pause';
+            updateCalculations();
+        });
+
+        ui.btnCont.addEventListener('click', () => {
+            state.mode = 'continuous';
+            state.time = 0;
+            state.waveFrontTime = 0;
+            state.isPlaying = true;
+            ui.btnPlay.textContent = 'Pause';
+            updateCalculations();
+        });
+
+        ui.btnPlay.addEventListener('click', () => {
+            state.isPlaying = !state.isPlaying;
+            ui.btnPlay.textContent = state.isPlaying ? 'Pause' : 'Reprendre';
+        });
+
+        ui.btnReset.addEventListener('click', () => {
+            state.mode = 'none';
+            state.time = 0;
+            updateCalculations();
+        });
+
+        // --- Drawing Logic ---
+        
+        let lastTimestamp = 0;
+
+        function drawAxes(width, height, centerY) {
+            ctx.beginPath();
+            ctx.strokeStyle = '#94a3b8'; // gray-400
+            ctx.lineWidth = 2;
+            
+            // X Axis (Equilibrium line)
+            ctx.moveTo(0, centerY);
+            ctx.lineTo(width, centerY);
+            
+            // Source line (Y axis at x=0)
+            ctx.moveTo(0, 0);
+            ctx.lineTo(0, height);
+            
+            ctx.stroke();
+
+            // Distance Markers (Meters)
+            ctx.fillStyle = '#64748b';
+            ctx.font = '12px Inter';
+            ctx.textAlign = 'center';
+            for(let x = 0; x < width / PIXELS_PER_METER; x++) {
+                if (x > 0) {
+                    let pxX = x * PIXELS_PER_METER;
+                    ctx.beginPath();
+                    ctx.moveTo(pxX, centerY - 5);
+                    ctx.lineTo(pxX, centerY + 5);
+                    ctx.stroke();
+                    ctx.fillText(x + 'm', pxX, centerY + 20);
+                }
+            }
+        }
+
+        function getDisplacement(x, t) {
+            // x is in logical meters, t is in seconds
+            
+            if (state.mode === 'none') return 0;
+            
+            // Time it takes for wave to reach position x
+            const delay = x / state.celerity; 
+            
+            if (state.mode === 'continuous') {
+                // Progressive periodic wave : y(x,t) = A * sin(2*pi*f * (t - x/v))
+                if (t >= delay) {
+                    // Only oscillate if the wavefront has reached this point
+                    const phase = 2 * Math.PI * state.frequency * (t - delay);
+                    return state.amplitude * Math.sin(phase);
+                }
+            } 
+            else if (state.mode === 'pulse') {
+                // Gaussian pulse traveling at speed v
+                // y(x,t) = A * exp( - ((x - v*t)^2) / (2*w^2) )
+                
+                // Let's create a single pulse localized in time and space
+                // t_center is when the pulse peaks at x=0
+                const t_center = 0.5; // Starts peaking at 0.5s
+                const width = 0.8; // spatial width of the pulse
+                
+                const position_of_peak = state.celerity * (t - t_center);
+                const distance = x - position_of_peak;
+                
+                // Only evaluate if it's a realistic forward moving pulse (roughly)
+                const exponent = -(distance * distance) / (2 * width * width);
+                
+                // Cutoff small values to keep string perfectly flat far from pulse
+                if (exponent < -10) return 0; 
+                
+                return state.amplitude * Math.exp(exponent);
+            }
+            
+            return 0;
+        }
+
+        function animate(timestamp) {
+            if (!lastTimestamp) lastTimestamp = timestamp;
+            const dt = (timestamp - lastTimestamp) / 1000; // delta time in seconds
+            lastTimestamp = timestamp;
+
+            if (state.isPlaying) {
+                state.time += dt;
+            }
+
+            // Get canvas logical width/height from CSS dimensions
+            const rect = canvas.getBoundingClientRect();
+            const width = rect.width;
+            const height = rect.height;
+            const centerY = height / 2;
+
+            // Clear canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Draw Axes
+            drawAxes(width, height, centerY);
+
+            // Draw String (Wave)
+            ctx.beginPath();
+            ctx.strokeStyle = '#2563eb'; // blue-600
+            ctx.lineWidth = 4;
+            ctx.lineJoin = 'round';
+            
+            const steps = width; // 1 pixel resolution for smoothness
+            
+            for (let px = 0; px <= steps; px++) {
+                const physicalX = px / PIXELS_PER_METER;
+                const physicalY = getDisplacement(physicalX, state.time);
+                
+                const py = centerY - (physicalY * PIXELS_PER_METER); // Invert Y axis for canvas drawing
+                
+                if (px === 0) {
+                    ctx.moveTo(px, py);
+                } else {
+                    ctx.lineTo(px, py);
+                }
+            }
+            ctx.stroke();
+
+            // Draw Points Matériels (Material points to show transverse movement)
+            // Points at x = 3m, 6m, 9m
+            const pointsM = [3, 6, 9]; 
+            ctx.fillStyle = '#ef4444'; // red-500
+            
+            pointsM.forEach((x, index) => {
+                const pxX = x * PIXELS_PER_METER;
+                if (pxX < width) {
+                    const physicalY = getDisplacement(x, state.time);
+                    const py = centerY - (physicalY * PIXELS_PER_METER);
+                    
+                    // Draw dot
+                    ctx.beginPath();
+                    ctx.arc(pxX, py, 6, 0, 2 * Math.PI);
+                    ctx.fill();
+                    
+                    // Label M1, M2...
+                    ctx.fillStyle = '#b91c1c';
+                    ctx.font = 'bold 14px Inter';
+                    ctx.fillText(`M${index+1}`, pxX - 10, py - 15);
+                    ctx.fillStyle = '#ef4444'; // reset for next dot
+                }
+            });
+            
+            // Draw Source (S)
+            const sourceY = getDisplacement(0, state.time);
+            const sourcePy = centerY - (sourceY * PIXELS_PER_METER);
+            ctx.fillStyle = '#16a34a'; // green-600
+            ctx.beginPath();
+            ctx.arc(0, sourcePy, 8, 0, 2 * Math.PI);
+            ctx.fill();
+            ctx.font = 'bold 16px Inter';
+            ctx.fillText(`S (Source)`, 15, sourcePy - 15);
+
+
+            requestAnimationFrame(animate);
+        }
+
+        // Initialize calculations and start loop
+        updateCalculations();
+        requestAnimationFrame(animate);
+
+    </script>
+</body>
+</html>
