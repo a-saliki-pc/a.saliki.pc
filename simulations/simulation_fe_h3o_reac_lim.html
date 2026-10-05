@@ -1,0 +1,1360 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulation : Fe + H₃O⁺ - Réactif Limitant</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+        }
+
+        body {
+            background: #f1f5f9;
+            color: #0f172a;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: #0284c7;
+            margin-bottom: 10px;
+            font-size: 1.8rem;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #475569;
+            margin-bottom: 25px;
+            font-size: 1rem;
+        }
+
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .card {
+            background: #fff;
+            border: 1px solid #cbd5e1;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .card h2 {
+            color: #0284c7;
+            font-size: 1.2rem;
+            border-bottom: 2px solid #e0f2fe;
+            padding-bottom: 8px;
+            margin-bottom: 15px;
+        }
+
+        .reaction {
+            background: #fef2f2;
+            border-left: 5px solid #dc2626;
+            padding: 12px;
+            border-radius: 0 8px 8px 0;
+            text-align: center;
+            font-size: 1.05rem;
+            margin-bottom: 15px;
+        }
+
+        .control-group {
+            margin-bottom: 15px;
+        }
+
+        .control-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+            color: #475569;
+        }
+
+        .control-group input[type="range"] {
+            width: 100%;
+            accent-color: #0284c7;
+        }
+
+        .control-group .value-display {
+            display: inline-block;
+            background: #e0f2fe;
+            color: #0284c7;
+            padding: 2px 10px;
+            border-radius: 12px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            margin-left: 8px;
+        }
+
+        .control-group .value-display.red {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        button {
+            flex: 1;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.9rem;
+        }
+
+        .btn-play {
+            background: #0284c7;
+            color: white;
+        }
+
+        .btn-play:hover {
+            background: #0369a1;
+        }
+
+        .btn-reset {
+            background: #e2e8f0;
+            color: #475569;
+        }
+
+        .btn-reset:hover {
+            background: #cbd5e1;
+        }
+
+        /* ====== BOUTONS DE VITESSE ====== */
+        .speed-buttons {
+            display: flex;
+            gap: 8px;
+            margin-top: 15px;
+            padding: 12px;
+            background: #f8fafc;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .speed-buttons .speed-label {
+            display: flex;
+            align-items: center;
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: #475569;
+            margin-right: 5px;
+            white-space: nowrap;
+        }
+
+        .speed-btn {
+            flex: 1;
+            padding: 8px 5px;
+            border: 2px solid #cbd5e1;
+            background: white;
+            color: #475569;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .speed-btn:hover {
+            background: #f1f5f9;
+            border-color: #94a3b8;
+        }
+
+        .speed-btn.active {
+            background: #0284c7;
+            color: white;
+            border-color: #0284c7;
+            box-shadow: 0 2px 6px rgba(2, 132, 199, 0.4);
+        }
+
+        .speed-btn.active.speed-fast {
+            background: #dc2626;
+            border-color: #dc2626;
+            box-shadow: 0 2px 6px rgba(220, 38, 38, 0.4);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .stat-box {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .stat-box .label {
+            font-size: 0.75rem;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .stat-box .value {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #0284c7;
+            margin-top: 3px;
+        }
+
+        .stat-box .value.green {
+            color: #16a34a;
+        }
+
+        .stat-box .value.red {
+            color: #dc2626;
+        }
+
+        .limitant-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-top: 8px;
+        }
+
+        .limitant-badge.fe {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .limitant-badge.h3o {
+            background: #dbeafe;
+            color: #2563eb;
+        }
+
+        .limitant-badge.stoechio {
+            background: #dcfce7;
+            color: #16a34a;
+        }
+
+        .canvas-container {
+            position: relative;
+            width: 100%;
+            height: 280px;
+        }
+
+        canvas {
+            width: 100%;
+            height: 100%;
+            border-radius: 8px;
+        }
+
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 10px;
+            font-size: 0.85rem;
+            color: #475569;
+            flex-wrap: wrap;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .legend-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .explanation {
+            background: #f0fdf4;
+            border-left: 5px solid #16a34a;
+            padding: 12px;
+            border-radius: 0 8px 8px 0;
+            margin-top: 15px;
+            font-size: 0.9rem;
+        }
+
+        .explanation strong {
+            color: #16a34a;
+        }
+
+        /* ====== SCHÉMA ====== */
+        .experiment-schema {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            background: #f8fafc;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .schema-row {
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .beaker-container {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .beaker {
+            position: relative;
+            width: 120px;
+            height: 140px;
+            border: 3px solid #475569;
+            border-top: none;
+            border-radius: 0 0 10px 10px;
+            overflow: hidden;
+            background: #f1f5f9;
+        }
+
+        .beaker::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -5px;
+            right: -5px;
+            height: 4px;
+            background: #475569;
+            border-radius: 2px;
+        }
+
+        .liquid {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 70%;
+            background: #bae6fd;
+            transition: background 0.3s;
+            overflow: hidden;
+        }
+
+        .fe-particle {
+            position: absolute;
+            background: #64748b;
+            border-radius: 2px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-5px) rotate(10deg); }
+        }
+
+        .bubble {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.9);
+            animation: rise 2s ease-in infinite;
+        }
+
+        @keyframes rise {
+            0% { bottom: 0; opacity: 0; }
+            20% { opacity: 1; }
+            100% { bottom: 100%; opacity: 0; }
+        }
+
+        .beaker-label {
+            font-size: 0.8rem;
+            color: #475569;
+            margin-top: 5px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .sensor {
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 8px;
+            height: 80px;
+            background: linear-gradient(to bottom, #94a3b8, #475569);
+            border-radius: 4px;
+            z-index: 10;
+        }
+
+        .sensor::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 16px;
+            height: 16px;
+            background: #f59e0b;
+            border-radius: 50%;
+            border: 2px solid #b45309;
+        }
+
+        .meter {
+            width: 110px;
+            height: 65px;
+            background: #1e293b;
+            border-radius: 8px;
+            color: #4ade80;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 5px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .meter-value {
+            font-size: 1.1rem;
+            font-weight: bold;
+        }
+
+        .meter-label {
+            font-size: 0.65rem;
+            color: #94a3b8;
+        }
+
+        .wire {
+            width: 40px;
+            height: 3px;
+            background: #475569;
+        }
+
+        .color-indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85rem;
+            color: #475569;
+        }
+
+        .color-swatch {
+            width: 30px;
+            height: 20px;
+            border-radius: 4px;
+            border: 1px solid #cbd5e1;
+            transition: background 0.3s;
+        }
+
+        .arrow-down {
+            font-size: 1.5rem;
+            color: #0284c7;
+            animation: bounce 1.5s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(5px); }
+        }
+
+        .info-limitant {
+            background: #fffbeb;
+            border: 2px solid #f59e0b;
+            border-radius: 8px;
+            padding: 12px;
+            margin-top: 15px;
+            text-align: center;
+        }
+
+        .info-limitant h4 {
+            color: #b45309;
+            margin-bottom: 8px;
+            font-size: 1rem;
+        }
+
+        .info-limitant p {
+            font-size: 0.9rem;
+            color: #475569;
+            margin: 3px 0;
+        }
+
+        .speed-indicator {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.85rem;
+            margin-left: 8px;
+        }
+
+        .speed-indicator.slow {
+            background: #dbeafe;
+            color: #2563eb;
+        }
+
+        .speed-indicator.normal {
+            background: #dcfce7;
+            color: #16a34a;
+        }
+
+        .speed-indicator.fast {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        @media (max-width: 900px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+            .speed-buttons {
+                flex-wrap: wrap;
+            }
+            .speed-btn {
+                min-width: 60px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>🧪 Simulation : Fe + H₃O⁺ — Influence des quantités de matière</h1>
+    <p class="subtitle">Réaction : Fe(s) + 2H₃O⁺(aq) → Fe²⁺(aq) + H₂(g) + 2H₂O(l)</p>
+
+    <!-- ====== SCHÉMA ====== -->
+    <div class="card" style="margin-bottom: 20px;">
+        <h2>🔬 Schéma de l'expérience</h2>
+        <div class="experiment-schema">
+            <div class="schema-row">
+                <div class="beaker-container">
+                    <div class="sensor"></div>
+                    <div class="beaker">
+                        <div class="liquid" id="beakerLiquid">
+                            <div class="fe-particle" style="width: 8px; height: 5px; bottom: 10%; left: 20%;"></div>
+                            <div class="fe-particle" style="width: 10px; height: 4px; bottom: 25%; left: 45%; animation-delay: 0.5s;"></div>
+                            <div class="fe-particle" style="width: 6px; height: 6px; bottom: 40%; left: 65%; animation-delay: 1s;"></div>
+                            <div class="fe-particle" style="width: 9px; height: 4px; bottom: 15%; left: 75%; animation-delay: 1.5s;"></div>
+                            <div class="fe-particle" style="width: 7px; height: 5px; bottom: 55%; left: 30%; animation-delay: 0.8s;"></div>
+                        </div>
+                    </div>
+                    <div class="beaker-label">Fe + H₃O⁺<br><span id="beakerInfo">Solution initiale</span></div>
+                </div>
+
+                <div style="display: flex; flex-direction: column; align-items: center; gap: 5px;">
+                    <div class="arrow-down">⬇</div>
+                    <div style="font-size: 0.75rem; color: #64748b; text-align: center;">Suivi<br>en continu</div>
+                </div>
+
+                <div class="beaker-container">
+                    <div class="wire" style="position: absolute; top: 20px; right: -20px;"></div>
+                    <div class="meter" style="position: absolute; top: -20px; right: -130px;">
+                        <div class="meter-label">[Fe²⁺]</div>
+                        <div class="meter-value" id="meterValue">0.000</div>
+                        <div class="meter-label">mol/L</div>
+                    </div>
+                    <div class="beaker">
+                        <div class="liquid" id="beakerLiquid2" style="background: #bae6fd;">
+                            <div class="bubble" style="width: 6px; height: 6px; left: 20%; animation-delay: 0s;"></div>
+                            <div class="bubble" style="width: 4px; height: 4px; left: 45%; animation-delay: 0.5s;"></div>
+                            <div class="bubble" style="width: 5px; height: 5px; left: 70%; animation-delay: 1s;"></div>
+                            <div class="bubble" style="width: 3px; height: 3px; left: 35%; animation-delay: 1.5s;"></div>
+                        </div>
+                    </div>
+                    <div class="beaker-label">Fe²⁺ + H₂<br><span id="beakerInfo2">Solution finale</span></div>
+                </div>
+            </div>
+
+            <div class="color-indicator">
+                <span>Couleur de la solution :</span>
+                <div class="color-swatch" id="colorSwatch" style="background: #bae6fd;"></div>
+                <span id="colorLabel">Incolore → Vert pâle</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-grid">
+        <!-- ====== CONTRÔLES ====== -->
+        <div class="card">
+            <h2>⚙️ Paramètres de la simulation</h2>
+
+            <div class="reaction">
+                Fe<sub>(s)</sub> + 2H₃O⁺<sub>(aq)</sub> → Fe²⁺<sub>(aq)</sub> + H₂<sub>(g)</sub> + 2H₂O<sub>(l)</sub>
+            </div>
+
+            <!-- ====== BOUTONS DE VITESSE ====== -->
+            <div style="background: #eff6ff; border: 2px solid #3b82f6; border-radius: 10px; padding: 12px; margin-bottom: 15px;">
+                <div style="font-weight: bold; color: #1e40af; margin-bottom: 8px; font-size: 0.95rem;">
+                    ⏩ Vitesse de la simulation : <span id="speedLabel" class="speed-indicator normal">×1 (Normal)</span>
+                </div>
+                <div class="speed-buttons" style="margin-top: 8px;">
+                    <button class="speed-btn" data-speed="0.5">🐢 ×0.5</button>
+                    <button class="speed-btn active" data-speed="1">▶ ×1</button>
+                    <button class="speed-btn" data-speed="2">⚡ ×2</button>
+                    <button class="speed-btn" data-speed="5">🚀 ×5</button>
+                    <button class="speed-btn" data-speed="10">💨 ×10</button>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label>Masse de fer (Fe) : <span class="value-display red" id="mFeDisplay">0.56 g</span></label>
+                <input type="range" id="mFeSlider" min="0.05" max="5.00" step="0.01" value="0.56">
+                <div style="font-size: 0.75rem; color: #64748b; margin-top: 3px;">
+                    n(Fe) = <span id="nFeDisplay">0.0100</span> mol
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label>Concentration H₃O⁺ : <span class="value-display" id="c0Display">0.10 mol/L</span></label>
+                <input type="range" id="c0Slider" min="0.02" max="0.50" step="0.01" value="0.10">
+            </div>
+
+            <div class="control-group">
+                <label>Volume de la solution : <span class="value-display" id="volDisplay">100 mL</span></label>
+                <input type="range" id="volSlider" min="50" max="500" step="10" value="100">
+                <div style="font-size: 0.75rem; color: #64748b; margin-top: 3px;">
+                    n(H₃O⁺) = <span id="nH3ODisplay">0.0100</span> mol
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label>Température : <span class="value-display" id="tempDisplay">25 °C</span></label>
+                <input type="range" id="tempSlider" min="5" max="60" step="1" value="25">
+            </div>
+
+            <div class="button-group">
+                <button class="btn-play" id="playBtn">▶ Lancer</button>
+                <button class="btn-reset" id="resetBtn">↺ Réinitialiser</button>
+            </div>
+
+            <div class="info-limitant" id="limitantInfo">
+                <h4>🔍 Réactif limitant</h4>
+                <p id="limitantText">Calcul en cours...</p>
+                <div id="limitantBadge"></div>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-box">
+                    <div class="label">Temps</div>
+                    <div class="value" id="timeDisplay">0.0 s</div>
+                </div>
+                <div class="stat-box">
+                    <div class="label">[Fe²⁺]</div>
+                    <div class="value" id="concDisplay">0.000 mol/L</div>
+                </div>
+                <div class="stat-box">
+                    <div class="label">Vitesse v</div>
+                    <div class="value" id="speedDisplay">0.000</div>
+                </div>
+                <div class="stat-box">
+                    <div class="label">Avancement x</div>
+                    <div class="value" id="xDisplay">0.00 mmol</div>
+                </div>
+                <div class="stat-box" style="grid-column: span 2;">
+                    <div class="label">Durée estimée de la réaction</div>
+                    <div class="value" id="durationDisplay">--</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ====== GRAPHE CONCENTRATION ====== -->
+        <div class="card">
+            <h2>📈 [Fe²⁺] en fonction du temps</h2>
+            <div class="canvas-container">
+                <canvas id="concChart"></canvas>
+            </div>
+            <div class="legend">
+                <div class="legend-item">
+                    <div class="legend-dot" style="background: #0284c7;"></div>
+                    <span>[Fe²⁺] (mol/L)</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-dot" style="background: #f59e0b;"></div>
+                    <span>Tangente</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-dot" style="background: #dc2626;"></div>
+                    <span>Point actuel</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-dot" style="background: #16a34a;"></div>
+                    <span>Fin de réaction</span>
+                </div>
+            </div>
+            <div class="explanation">
+                <strong>📌 Interprétation :</strong> L'axe des temps s'adapte automatiquement pour afficher <strong>toute la durée de la réaction</strong>. Utilisez les boutons de vitesse pour accélérer ou ralentir l'animation.
+            </div>
+        </div>
+    </div>
+
+    <!-- ====== GRAPHE VITESSE ====== -->
+    <div class="card" style="margin-bottom: 20px;">
+        <h2>⚡ Vitesse de réaction en fonction du temps</h2>
+        <div class="canvas-container" style="height: 220px;">
+            <canvas id="speedChart"></canvas>
+        </div>
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-dot" style="background: #dc2626;"></div>
+                <span>v = d[Fe²⁺]/dt (mol·L⁻¹·s⁻¹)</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-dot" style="background: #16a34a;"></div>
+                <span>Fin de réaction</span>
+            </div>
+        </div>
+        <div class="explanation">
+            <strong>📌 Interprétation :</strong> La vitesse diminue jusqu'à s'annuler à la fin de la réaction. Le bouton de vitesse permet d'observer la réaction à l'échelle de votre choix.
+        </div>
+    </div>
+</div>
+
+<script>
+    // ====== CONSTANTES ======
+    const M_Fe = 55.85; // g/mol
+    const DT = 0.02;
+
+    // ====== ÉTAT ======
+    const state = {
+        t: 0,
+        x: 0,
+        xMax: 0,
+        running: false,
+        mFe: 0.56,
+        C0: 0.10,
+        V: 0.1,
+        T: 25,
+        nFe: 0,
+        nH3O: 0,
+        limitant: 'H3O+',
+        concData: [],
+        speedData: [],
+        tangent: null,
+        animationId: null,
+        lastTimestamp: null,
+        finalConc: 0,
+        tMax: 30,
+        tEnd: null,
+        estimatedEnd: null,
+        speedMultiplier: 1  // <-- NOUVEAU : multiplicateur de vitesse
+    };
+
+    // ====== CONSTANTE DE VITESSE ======
+    function computeK(tempC) {
+        const k25 = 0.05;
+        return k25 * Math.pow(1.06, tempC - 25);
+    }
+
+    // ====== CALCUL DE LA VITESSE ======
+    function computeSpeed(x, state) {
+        const k = computeK(state.T);
+        const h3o = Math.max(0, state.C0 - 2 * x / state.V);
+        const nFeRestant = Math.max(0, state.nFe - x);
+        const surfaceFactor = state.nFe > 0 ? Math.pow(nFeRestant / state.nFe, 0.5) : 0;
+        return k * h3o * h3o * surfaceFactor;
+    }
+
+    // ====== DÉTERMINATION DU RÉACTIF LIMITANT ======
+    function determineLimitant() {
+        const nFe = state.nFe;
+        const nH3O = state.nH3O;
+        if (Math.abs(nFe - nH3O / 2) < 1e-6) {
+            return 'stœchiométrique';
+        }
+        return nFe < nH3O / 2 ? 'Fe' : 'H3O+';
+    }
+
+    // ====== CALCUL DE xMax ======
+    function computeXMax() {
+        return Math.min(state.nFe, state.nH3O / 2);
+    }
+
+    // ====== ESTIMATION DE LA DURÉE DE LA RÉACTION ======
+    function estimateReactionEnd() {
+        let xSim = 0;
+        let tSim = 0;
+        const maxIter = 100000;
+        const dtSim = 0.01;
+
+        while (xSim < state.xMax - 1e-9 && tSim < 500 && maxIter > 0) {
+            const v = computeSpeed(xSim, state);
+            if (v <= 1e-12) break;
+            xSim += v * state.V * dtSim;
+            tSim += dtSim;
+        }
+        return tSim;
+    }
+
+    // ====== INITIALISATION ======
+    function init() {
+        state.mFe = parseFloat(document.getElementById('mFeSlider').value);
+        state.C0 = parseFloat(document.getElementById('c0Slider').value);
+        state.T = parseFloat(document.getElementById('tempSlider').value);
+        state.V = parseFloat(document.getElementById('volSlider').value) / 1000;
+
+        state.nFe = state.mFe / M_Fe;
+        state.nH3O = state.C0 * state.V;
+
+        state.limitant = determineLimitant();
+        state.xMax = computeXMax();
+        state.finalConc = state.xMax / state.V;
+        state.t = 0;
+        state.x = 0;
+
+        state.estimatedEnd = estimateReactionEnd();
+        state.tMax = Math.max(2, state.estimatedEnd * 1.15);
+        state.tEnd = null;
+
+        state.concData = [{ t: 0, conc: 0 }];
+        state.speedData = [{ t: 0, v: computeSpeed(0, state) }];
+        state.tangent = null;
+        state.running = false;
+        state.lastTimestamp = null;
+
+        document.getElementById('playBtn').textContent = '▶ Lancer';
+        document.getElementById('playBtn').style.background = '#0284c7';
+
+        document.getElementById('durationDisplay').textContent = state.estimatedEnd.toFixed(1) + ' s';
+
+        updateDisplays();
+        updateLimitantInfo();
+        updateBeakerColors();
+        drawAll();
+    }
+
+    // ====== MISE À JOUR DES AFFICHAGES ======
+    function updateDisplays() {
+        const conc = state.x / state.V;
+        const v = computeSpeed(state.x, state);
+
+        document.getElementById('timeDisplay').textContent = state.t.toFixed(1) + ' s';
+        document.getElementById('concDisplay').textContent = conc.toFixed(4) + ' mol/L';
+        document.getElementById('speedDisplay').textContent = v.toFixed(4);
+        document.getElementById('xDisplay').textContent = (state.x * 1000).toFixed(2) + ' mmol';
+
+        document.getElementById('mFeDisplay').textContent = state.mFe.toFixed(2) + ' g';
+        document.getElementById('c0Display').textContent = state.C0.toFixed(2) + ' mol/L';
+        document.getElementById('tempDisplay').textContent = state.T + ' °C';
+        document.getElementById('volDisplay').textContent = (state.V * 1000).toFixed(0) + ' mL';
+
+        document.getElementById('nFeDisplay').textContent = state.nFe.toFixed(4);
+        document.getElementById('nH3ODisplay').textContent = state.nH3O.toFixed(4);
+
+        document.getElementById('meterValue').textContent = conc.toFixed(4);
+
+        const progress = state.xMax > 0 ? (state.x / state.xMax) * 100 : 0;
+        document.getElementById('beakerInfo').textContent = `Avancement : ${progress.toFixed(0)}%`;
+        document.getElementById('beakerInfo2').textContent = `[Fe²⁺] = ${conc.toFixed(4)} mol/L`;
+    }
+
+    // ====== INFO RÉACTIF LIMITANT ======
+    function updateLimitantInfo() {
+        const nFe = state.nFe;
+        const nH3O = state.nH3O;
+        const xMax = state.xMax;
+        const text = document.getElementById('limitantText');
+        const badge = document.getElementById('limitantBadge');
+
+        let message = `n(Fe) = ${nFe.toFixed(4)} mol | n(H₃O⁺) = ${nH3O.toFixed(4)} mol | n(H₃O⁺)/2 = ${(nH3O/2).toFixed(4)} mol<br>`;
+        message += `<strong>x<sub>max</sub> = ${(xMax*1000).toFixed(2)} mmol</strong>`;
+
+        if (state.limitant === 'Fe') {
+            message += `<br>Le fer est le <strong>réactif limitant</strong> car n(Fe) < n(H₃O⁺)/2.`;
+            badge.innerHTML = '<span class="limitant-badge fe">🔴 Fe limitant</span>';
+        } else if (state.limitant === 'H3O+') {
+            message += `<br>Les ions H₃O⁺ sont le <strong>réactif limitant</strong> car n(H₃O⁺)/2 < n(Fe).`;
+            badge.innerHTML = '<span class="limitant-badge h3o">🔵 H₃O⁺ limitant</span>';
+        } else {
+            message += `<br>Les réactifs sont dans les <strong>proportions stœchiométriques</strong>.`;
+            badge.innerHTML = '<span class="limitant-badge stoechio">🟢 Stœchiométrique</span>';
+        }
+        text.innerHTML = message;
+    }
+
+    // ====== COULEURS ======
+    function updateBeakerColors() {
+        const progress = state.xMax > 0 ? (state.x / state.xMax) : 0;
+        const r = Math.round(186 + (134 - 186) * progress);
+        const g = Math.round(230 + (239 - 230) * progress);
+        const b = Math.round(253 + (172 - 253) * progress);
+        const color = `rgb(${r}, ${g}, ${b})`;
+
+        document.getElementById('beakerLiquid').style.background = color;
+        document.getElementById('beakerLiquid2').style.background = color;
+        document.getElementById('colorSwatch').style.background = color;
+
+        if (progress < 0.1) {
+            document.getElementById('colorLabel').textContent = 'Incolore';
+        } else if (progress < 0.5) {
+            document.getElementById('colorLabel').textContent = 'Vert très pâle';
+        } else if (progress < 0.9) {
+            document.getElementById('colorLabel').textContent = 'Vert pâle';
+        } else {
+            document.getElementById('colorLabel').textContent = 'Vert clair (Fe²⁺)';
+        }
+
+        const bubbles = document.querySelectorAll('.bubble');
+        bubbles.forEach((b) => {
+            b.style.opacity = progress > 0.05 ? '1' : '0';
+            b.style.animationPlayState = state.running ? 'running' : 'paused';
+        });
+
+        const particles = document.querySelectorAll('.fe-particle');
+        particles.forEach((p) => {
+            p.style.opacity = Math.max(0, 1 - progress * 1.2);
+        });
+    }
+
+    // ====== BOUCLE ======
+    function step(timestamp) {
+        if (!state.running) return;
+
+        if (state.lastTimestamp === null) {
+            state.lastTimestamp = timestamp;
+            state.animationId = requestAnimationFrame(step);
+            return;
+        }
+
+        const elapsed = (timestamp - state.lastTimestamp) / 1000;
+        state.lastTimestamp = timestamp;
+
+        // ====== APPLICATION DU MULTIPLICATEUR DE VITESSE ======
+        const simElapsed = elapsed * 3 * state.speedMultiplier;
+        const steps = Math.max(1, Math.floor(simElapsed / DT));
+
+        for (let i = 0; i < steps; i++) {
+            const v = computeSpeed(state.x, state);
+            const dx = v * state.V * DT;
+            state.x = Math.min(state.x + dx, state.xMax);
+            state.t += DT;
+
+            const conc = state.x / state.V;
+            state.concData.push({ t: state.t, conc: conc });
+            state.speedData.push({ t: state.t, v: computeSpeed(state.x, state) });
+
+            if (state.x >= state.xMax - 1e-12) {
+                state.running = false;
+                state.tEnd = state.t;
+                document.getElementById('playBtn').textContent = '✓ Terminé';
+                document.getElementById('playBtn').style.background = '#16a34a';
+                break;
+            }
+        }
+
+        updateTangent();
+        updateDisplays();
+        updateBeakerColors();
+        drawAll();
+
+        if (state.running) {
+            state.animationId = requestAnimationFrame(step);
+        }
+    }
+
+    // ====== TANGENTE ======
+    function updateTangent() {
+        if (state.concData.length < 3) {
+            state.tangent = null;
+            return;
+        }
+        const targetT = state.t;
+        let idx = 0;
+        for (let i = 0; i < state.concData.length; i++) {
+            if (state.concData[i].t <= targetT) idx = i;
+            else break;
+        }
+        const i1 = Math.max(0, idx - 10);
+        const i2 = Math.min(state.concData.length - 1, idx + 10);
+        if (i2 > i1) {
+            const dt = state.concData[i2].t - state.concData[i1].t;
+            if (dt > 0) {
+                const slope = (state.concData[i2].conc - state.concData[i1].conc) / dt;
+                state.tangent = {
+                    t: state.concData[idx].t,
+                    conc: state.concData[idx].conc,
+                    slope: slope
+                };
+            }
+        }
+    }
+
+    // ====== DESSIN ======
+    function drawAll() {
+        drawConcChart();
+        drawSpeedChart();
+    }
+
+    function drawConcChart() {
+        const canvas = document.getElementById('concChart');
+        const ctx = canvas.getContext('2d');
+        const rect = canvas.getBoundingClientRect();
+        const dpr = window.devicePixelRatio || 1;
+
+        canvas.width = rect.width * dpr;
+        canvas.height = rect.height * dpr;
+        ctx.scale(dpr, dpr);
+
+        const W = rect.width;
+        const H = rect.height;
+        const padding = { top: 20, right: 20, bottom: 40, left: 65 };
+        const plotW = W - padding.left - padding.right;
+        const plotH = H - padding.top - padding.bottom;
+
+        ctx.fillStyle = '#fafafa';
+        ctx.fillRect(0, 0, W, H);
+
+        const maxT = state.tMax;
+        const maxConc = Math.max(0.005, state.finalConc) * 1.15;
+
+        function toX(t) { return padding.left + (t / maxT) * plotW; }
+        function toY(c) { return padding.top + plotH - (c / maxConc) * plotH; }
+
+        ctx.strokeStyle = '#e2e8f0';
+        ctx.lineWidth = 1;
+        for (let i = 0; i <= 5; i++) {
+            const y = padding.top + (i / 5) * plotH;
+            ctx.beginPath();
+            ctx.moveTo(padding.left, y);
+            ctx.lineTo(padding.left + plotW, y);
+            ctx.stroke();
+
+            const c = maxConc * (1 - i / 5);
+            ctx.fillStyle = '#64748b';
+            ctx.font = '11px sans-serif';
+            ctx.textAlign = 'right';
+            ctx.fillText(c.toFixed(4), padding.left - 8, y + 4);
+        }
+        for (let i = 0; i <= 6; i++) {
+            const x = padding.left + (i / 6) * plotW;
+            ctx.beginPath();
+            ctx.moveTo(x, padding.top);
+            ctx.lineTo(x, padding.top + plotH);
+            ctx.stroke();
+
+            const t = maxT * (i / 6);
+            ctx.fillStyle = '#64748b';
+            ctx.font = '11px sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText(t.toFixed(1), x, padding.top + plotH + 18);
+        }
+
+        ctx.strokeStyle = '#334155';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(padding.left, padding.top);
+        ctx.lineTo(padding.left, padding.top + plotH);
+        ctx.lineTo(padding.left + plotW, padding.top + plotH);
+        ctx.stroke();
+
+        ctx.fillStyle = '#334155';
+        ctx.font = 'bold 12px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('Temps (s)', padding.left + plotW / 2, H - 8);
+        ctx.save();
+        ctx.translate(15, padding.top + plotH / 2);
+        ctx.rotate(-Math.PI / 2);
+        ctx.fillText('[Fe²⁺] (mol/L)', 0, 0);
+        ctx.restore();
+
+        if (state.finalConc > 0) {
+            ctx.strokeStyle = 'rgba(22, 163, 74, 0.4)';
+            ctx.lineWidth = 1.5;
+            ctx.setLineDash([8, 4]);
+            ctx.beginPath();
+            ctx.moveTo(padding.left, toY(state.finalConc));
+            ctx.lineTo(padding.left + plotW, toY(state.finalConc));
+            ctx.stroke();
+            ctx.setLineDash([]);
+
+            ctx.fillStyle = '#16a34a';
+            ctx.font = 'bold 10px sans-serif';
+            ctx.textAlign = 'right';
+            ctx.fillText('C finale = ' + state.finalConc.toFixed(4), padding.left + plotW - 5, toY(state.finalConc) - 5);
+        }
+
+        const tEndToShow = state.tEnd !== null ? state.tEnd : state.estimatedEnd;
+        if (tEndToShow && tEndToShow > 0) {
+            ctx.strokeStyle = 'rgba(22, 163, 74, 0.6)';
+            ctx.lineWidth = 2;
+            ctx.setLineDash([5, 3]);
+            ctx.beginPath();
+            ctx.moveTo(toX(tEndToShow), padding.top);
+            ctx.lineTo(toX(tEndToShow), padding.top + plotH);
+            ctx.stroke();
+            ctx.setLineDash([]);
+
+            ctx.fillStyle = '#16a34a';
+            ctx.font = 'bold 10px sans-serif';
+            ctx.textAlign = 'center';
+            const label = state.tEnd !== null ? 'Fin (réelle)' : 'Fin (estimée)';
+            ctx.fillText(label, toX(tEndToShow), padding.top - 5);
+        }
+
+        if (state.concData.length > 1) {
+            ctx.fillStyle = 'rgba(2, 132, 199, 0.08)';
+            ctx.beginPath();
+            ctx.moveTo(toX(state.concData[0].t), toY(0));
+            for (let i = 0; i < state.concData.length; i++) {
+                ctx.lineTo(toX(state.concData[i].t), toY(state.concData[i].conc));
+            }
+            ctx.lineTo(toX(state.concData[state.concData.length - 1].t), toY(0));
+            ctx.closePath();
+            ctx.fill();
+        }
+
+        if (state.concData.length > 1) {
+            ctx.strokeStyle = '#0284c7';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.moveTo(toX(state.concData[0].t), toY(state.concData[0].conc));
+            for (let i = 1; i < state.concData.length; i++) {
+                ctx.lineTo(toX(state.concData[i].t), toY(state.concData[i].conc));
+            }
+            ctx.stroke();
+        }
+
+        if (state.tangent) {
+            const { t, conc, slope } = state.tangent;
+            const dt = maxT * 0.15;
+            const t1 = Math.max(0, t - dt);
+            const t2 = Math.min(maxT, t + dt);
+            const c1 = conc + slope * (t1 - t);
+            const c2 = conc + slope * (t2 - t);
+
+            ctx.strokeStyle = '#f59e0b';
+            ctx.lineWidth = 2;
+            ctx.setLineDash([6, 4]);
+            ctx.beginPath();
+            ctx.moveTo(toX(t1), toY(Math.max(0, c1)));
+            ctx.lineTo(toX(t2), toY(Math.min(maxConc, c2)));
+            ctx.stroke();
+            ctx.setLineDash([]);
+
+            ctx.fillStyle = '#f59e0b';
+            ctx.beginPath();
+            ctx.arc(toX(t), toY(conc), 5, 0, 2 * Math.PI);
+            ctx.fill();
+        }
+
+        if (state.concData.length > 0) {
+            const last = state.concData[state.concData.length - 1];
+            ctx.fillStyle = '#dc2626';
+            ctx.beginPath();
+            ctx.arc(toX(last.t), toY(last.conc), 7, 0, 2 * Math.PI);
+            ctx.fill();
+            ctx.strokeStyle = '#fff';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+        }
+    }
+
+    function drawSpeedChart() {
+        const canvas = document.getElementById('speedChart');
+        const ctx = canvas.getContext('2d');
+        const rect = canvas.getBoundingClientRect();
+        const dpr = window.devicePixelRatio || 1;
+
+        canvas.width = rect.width * dpr;
+        canvas.height = rect.height * dpr;
+        ctx.scale(dpr, dpr);
+
+        const W = rect.width;
+        const H = rect.height;
+        const padding = { top: 20, right: 20, bottom: 40, left: 70 };
+        const plotW = W - padding.left - padding.right;
+        const plotH = H - padding.top - padding.bottom;
+
+        ctx.fillStyle = '#fafafa';
+        ctx.fillRect(0, 0, W, H);
+
+        const maxT = state.tMax;
+        const maxV = Math.max(0.0001, ...state.speedData.map(d => d.v)) * 1.1;
+
+        function toX(t) { return padding.left + (t / maxT) * plotW; }
+        function toY(v) { return padding.top + plotH - (v / maxV) * plotH; }
+
+        ctx.strokeStyle = '#e2e8f0';
+        ctx.lineWidth = 1;
+        for (let i = 0; i <= 5; i++) {
+            const y = padding.top + (i / 5) * plotH;
+            ctx.beginPath();
+            ctx.moveTo(padding.left, y);
+            ctx.lineTo(padding.left + plotW, y);
+            ctx.stroke();
+
+            const v = maxV * (1 - i / 5);
+            ctx.fillStyle = '#64748b';
+            ctx.font = '11px sans-serif';
+            ctx.textAlign = 'right';
+            ctx.fillText(v.toFixed(4), padding.left - 8, y + 4);
+        }
+        for (let i = 0; i <= 6; i++) {
+            const x = padding.left + (i / 6) * plotW;
+            ctx.beginPath();
+            ctx.moveTo(x, padding.top);
+            ctx.lineTo(x, padding.top + plotH);
+            ctx.stroke();
+
+            const t = maxT * (i / 6);
+            ctx.fillStyle = '#64748b';
+            ctx.font = '11px sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText(t.toFixed(1), x, padding.top + plotH + 18);
+        }
+
+        ctx.strokeStyle = '#334155';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(padding.left, padding.top);
+        ctx.lineTo(padding.left, padding.top + plotH);
+        ctx.lineTo(padding.left + plotW, padding.top + plotH);
+        ctx.stroke();
+
+        ctx.fillStyle = '#334155';
+        ctx.font = 'bold 12px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('Temps (s)', padding.left + plotW / 2, H - 8);
+        ctx.save();
+        ctx.translate(15, padding.top + plotH / 2);
+        ctx.rotate(-Math.PI / 2);
+        ctx.fillText('v (mol·L⁻¹·s⁻¹)', 0, 0);
+        ctx.restore();
+
+        const tEndToShow = state.tEnd !== null ? state.tEnd : state.estimatedEnd;
+        if (tEndToShow && tEndToShow > 0) {
+            ctx.strokeStyle = 'rgba(22, 163, 74, 0.6)';
+            ctx.lineWidth = 2;
+            ctx.setLineDash([5, 3]);
+            ctx.beginPath();
+            ctx.moveTo(toX(tEndToShow), padding.top);
+            ctx.lineTo(toX(tEndToShow), padding.top + plotH);
+            ctx.stroke();
+            ctx.setLineDash([]);
+        }
+
+        if (state.speedData.length > 1) {
+            ctx.fillStyle = 'rgba(220, 38, 38, 0.1)';
+            ctx.beginPath();
+            ctx.moveTo(toX(state.speedData[0].t), toY(0));
+            for (let i = 0; i < state.speedData.length; i++) {
+                ctx.lineTo(toX(state.speedData[i].t), toY(state.speedData[i].v));
+            }
+            ctx.lineTo(toX(state.speedData[state.speedData.length - 1].t), toY(0));
+            ctx.closePath();
+            ctx.fill();
+        }
+
+        if (state.speedData.length > 1) {
+            ctx.strokeStyle = '#dc2626';
+            ctx.lineWidth = 2.5;
+            ctx.beginPath();
+            ctx.moveTo(toX(state.speedData[0].t), toY(state.speedData[0].v));
+            for (let i = 1; i < state.speedData.length; i++) {
+                ctx.lineTo(toX(state.speedData[i].t), toY(state.speedData[i].v));
+            }
+            ctx.stroke();
+        }
+
+        if (state.speedData.length > 0) {
+            const last = state.speedData[state.speedData.length - 1];
+            ctx.fillStyle = '#dc2626';
+            ctx.beginPath();
+            ctx.arc(toX(last.t), toY(last.v), 6, 0, 2 * Math.PI);
+            ctx.fill();
+        }
+    }
+
+    // ====== CONTRÔLES ======
+    document.getElementById('playBtn').addEventListener('click', () => {
+        if (state.x >= state.xMax - 1e-12) {
+            init();
+            return;
+        }
+        state.running = !state.running;
+        if (state.running) {
+            state.lastTimestamp = null;
+            document.getElementById('playBtn').textContent = '⏸ Pause';
+            state.animationId = requestAnimationFrame(step);
+        } else {
+            document.getElementById('playBtn').textContent = '▶ Reprendre';
+            if (state.animationId) cancelAnimationFrame(state.animationId);
+        }
+    });
+
+    document.getElementById('resetBtn').addEventListener('click', () => {
+        if (state.animationId) cancelAnimationFrame(state.animationId);
+        init();
+    });
+
+    ['mFeSlider', 'c0Slider', 'tempSlider', 'volSlider'].forEach(id => {
+        document.getElementById(id).addEventListener('input', () => {
+            if (state.animationId) cancelAnimationFrame(state.animationId);
+            init();
+        });
+    });
+
+    // ====== BOUTONS DE VITESSE ======
+    document.querySelectorAll('.speed-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            // Retirer la classe active de tous les boutons
+            document.querySelectorAll('.speed-btn').forEach(b => {
+                b.classList.remove('active');
+                b.classList.remove('speed-fast');
+            });
+
+            // Ajouter la classe active au bouton cliqué
+            btn.classList.add('active');
+
+            // Récupérer la vitesse choisie
+            const speed = parseFloat(btn.dataset.speed);
+            state.speedMultiplier = speed;
+
+            // Mettre à jour le label de vitesse
+            const label = document.getElementById('speedLabel');
+            let text, className;
+            if (speed < 1) {
+                text = `×${speed} (Lent)`;
+                className = 'slow';
+            } else if (speed === 1) {
+                text = '×1 (Normal)';
+                className = 'normal';
+            } else {
+                text = `×${speed} (Rapide)`;
+                className = 'fast';
+            }
+            label.textContent = text;
+            label.className = 'speed-indicator ' + className;
+
+            // Si vitesse ≥ 5, ajouter la classe spéciale au bouton
+            if (speed >= 5) {
+                btn.classList.add('speed-fast');
+            }
+        });
+    });
+
+    // ====== DÉMARRAGE ======
+    init();
+    window.addEventListener('resize', drawAll);
+</script>
+
+</body>
+</html>
