@@ -3,12 +3,46 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cours — DARRSSY | Physique & Chimie</title>
-<meta name="description" content="Tous les cours de Physique-Chimie pour les lycéens marocains — DARRSSY.">
-<meta property="og:title" content="Cours | DARRSSY">
+
+<!-- ===== SEO PRINCIPAL ===== -->
+<title>Cours Physique-Chimie — 2 Bac, 1 Bac, Tronc Commun | DARRSSY</title>
+<meta name="description" content="Tous les cours de Physique-Chimie pour les lycéens marocains : ondes, électricité, mécanique, radioactivité, oxydoréduction, cinétique chimique. Programme officiel 2 Bac PC/SVT, 1 Bac et Tronc Commun.">
+<meta name="keywords" content="cours physique chimie, cours 2 bac, cours ondes mécaniques, cours radioactivité, cours oxydoréduction, cinétique chimique, programme bac maroc, lycée marocain">
+<meta name="author" content="DARRSSY">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#1e3a8a">
+
+<!-- ===== CANONIQUE ===== -->
+<link rel="canonical" href="https://darrssy.com/cours.html" />
+
+<!-- ===== HREFLANG ===== -->
+<link rel="alternate" hreflang="fr" href="https://darrssy.com/cours.html" />
+<link rel="alternate" hreflang="ar" href="https://darrssy.com/cours.html" />
+<link rel="alternate" hreflang="x-default" href="https://darrssy.com/cours.html" />
+
+<!-- ===== OPEN GRAPH ===== -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="DARRSSY">
+<meta property="og:url" content="https://darrssy.com/cours.html">
+<meta property="og:title" content="Cours Physique-Chimie — 2 Bac, 1 Bac, Tronc Commun | DARRSSY">
+<meta property="og:description" content="Tous les cours de Physique-Chimie pour les lycéens marocains : ondes, électricité, mécanique, radioactivité, oxydoréduction, cinétique chimique.">
 <meta property="og:image" content="https://darrssy.com/assets/logo-darrssy.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:locale:alternate" content="ar_MA">
+
+<!-- ===== TWITTER CARD ===== -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Cours Physique-Chimie | DARRSSY">
+<meta name="twitter:description" content="Tous les cours de Physique-Chimie pour les lycéens marocains.">
+<meta name="twitter:image" content="https://darrssy.com/assets/logo-darrssy.png">
+
+<!-- ===== FAVICONS ===== -->
 <link rel="icon" type="image/png" href="assets/logo-darrssy.png">
 <link rel="apple-touch-icon" href="assets/logo-darrssy.png">
+
+<!-- ===== FONTS ===== -->
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
@@ -328,7 +362,6 @@ let tousLesCours = [];
 let toutesLesRessources = [];
 let filtres = { niveau: 'all', matiere: 'all', lecon: 'all', recherche: '' };
 
-/* ===== ORDRE DU PROGRAMME ===== */
 const ORDRE_LECONS_FR = [
   'Les ondes mécaniques', 'Les ondes lumineuses', 'Électricité (RC, RL)',
   'Circuit RLC', "Modulation et démodulation d'amplitude", 'Application des lois de Newton',
@@ -491,7 +524,6 @@ function afficherCours() {
     return;
   }
 
-  // Grouper par leçon
   const parLecon = {};
   filtered.forEach(c => {
     const lecon = c.chapitre_fr || 'Autres';
@@ -499,7 +531,6 @@ function afficherCours() {
     parLecon[lecon].push(c);
   });
 
-  // Trier par ordre du programme
   const leconsTriees = Object.keys(parLecon).sort((a, b) => {
     const ia = ORDRE_LECONS_FR.indexOf(a);
     const ib = ORDRE_LECONS_FR.indexOf(b);
