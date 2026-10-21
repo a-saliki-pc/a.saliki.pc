@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Le Courant Électrique Continu</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body, html {
+            margin: 0; padding: 0; width: 100%; height: 100%;
+            background-color: #f4f7f9; /* Gris très clair, fond doux */
+            color: #1e293b;
+            font-family: 'Inter', system-ui, sans-serif;
+            overflow-x: hidden;
+        }
+
+        .panel-box {
+            background-color: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Canvas avec grille de type papier millimétré */
+        #canvas-wrapper {
+            position: relative;
+            background-color: #ffffff;
+            background-image: 
+                linear-gradient(#f1f5f9 2px, transparent 2px),
+                linear-gradient(90deg, #f1f5f9 2px, transparent 2px);
+            background-size: 40px 40px;
+            border: 1px solid #cbd5e1;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        /* Garde le canvas proportionnel (4:3) et l'empêche d'être coupé */
+        canvas {
+            width: 100%;
+            height: 100%;
+            object-fit: contain; 
+            max-height: 80vh;
+        }
+
+        /* Sliders stylisés */
+        input[type=range] {
+            -webkit-appearance: none; width: 100%; background: transparent;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none; height: 20px; width: 20px;
+            border-radius: 50%; cursor: pointer;
+            margin-top: -8px; box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%; height: 6px; cursor: pointer;
+            background: #cbd5e1; border-radius: 3px;
+        }
+
+        #slider_u::-webkit-slider-thumb { background: #eab308; }
+        #slider_r1::-webkit-slider-thumb { background: #3b82f6; }
+        #slider_r2::-webkit-slider-thumb { background: #10b981; }
+
+        .math-symbol { font-family: 'Times New Roman', serif; font-style: italic; font-weight: bold; }
+    </style>
+</head>
+<body class="flex flex-col h-screen p-4 gap-4">
+
+    <!-- En-tête -->
+    <header class="pb-2 border-b-2 border-slate-200 shrink-0">
+        <h1 class="text-3xl font-extrabold text-slate-800 tracking-tight">Le Courant Électrique Continu</h1>
+        <p class="text-xs text-slate-500 font-bold uppercase tracking-wider mt-1">Loi des Nœuds • Circuit en Dérivation • Tronc Commun</p>
+    </header>
+
+    <!-- Zone principale : Grille stricte à 3 colonnes sur desktop -->
+    <main class="grid grid-cols-1 lg:grid-cols-12 gap-4 flex-1 min-h-0">
+        
+        <!-- COLONNE GAUCHE (Contrôles) -->
+        <div class="panel-box p-4 lg:col-span-3 flex flex-col overflow-y-auto">
+            
+            <h2 class="text-sm font-bold mb-3 text-slate-800">Interrupteur Principal</h2>
+            <button id="btnSwitch" class="w-full mb-6 py-3 bg-red-500 hover:bg-red-600 text-white rounded-lg font-bold transition-colors shadow flex justify-center items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18.36 6.64a9 9 0 1 1-12.73 0"></path><line x1="12" y1="2" x2="12" y2="12"></line></svg>
+                <span id="switchText">Circuit Ouvert (OFF)</span>
+            </button>
+
+            <h2 class="text-sm font-bold mb-3 text-slate-800">Affichage (Modélisation)</h2>
+            <div class="space-y-2 mb-6">
+                <label class="flex items-center gap-3 cursor-pointer p-2 rounded border border-slate-200 hover:bg-slate-50">
+                    <input type="checkbox" id="checkElectrons" checked class="w-4 h-4 accent-blue-600">
+                    <div class="text-sm">
+                        <span class="font-bold text-slate-800 block">Électrons (<span class="math-symbol">e⁻</span>)</span>
+                        <span class="text-[10px] text-slate-500">Du pôle ➖ vers le pôle ➕</span>
+                    </div>
+                </label>
+                <label class="flex items-center gap-3 cursor-pointer p-2 rounded border border-slate-200 hover:bg-slate-50">
+                    <input type="checkbox" id="checkCurrent" checked class="w-4 h-4 accent-red-600">
+                    <div class="text-sm">
+                        <span class="font-bold text-slate-800 block">Sens conventionnel (<span class="math-symbol">I</span>)</span>
+                        <span class="text-[10px] text-slate-500">Du pôle ➕ vers le pôle ➖</span>
+                    </div>
+                </label>
+            </div>
+
+            <h2 class="text-sm font-bold mb-3 text-slate-800">Paramètres des Composants</h2>
+            
+            <div class="mb-4 p-3 bg-yellow-50 border border-yellow-200 rounded">
+                <label class="flex justify-between text-xs font-bold text-slate-700 mb-2">
+                    <span>Tension Générateur (U)</span>
+                    <span id="val_u" class="text-yellow-700">8 V</span>
+                </label>
+                <input type="range" id="slider_u" min="0" max="24" step="1" value="8">
+            </div>
+
+            <div class="mb-4 p-3 bg-blue-50 border border-blue-200 rounded">
+                <label class="flex justify-between text-xs font-bold text-slate-700 mb-2">
+                    <span>Résistance R₁</span>
+                    <span id="val_r1" class="text-blue-700">30 Ω</span>
+                </label>
+                <input type="range" id="slider_r1" min="10" max="120" step="5" value="30">
+            </div>
+
+            <div class="mb-2 p-3 bg-green-50 border border-green-200 rounded">
+                <label class="flex justify-between text-xs font-bold text-slate-700 mb-2">
+                    <span>Résistance R₂</span>
+                    <span id="val_r2" class="text-green-700">60 Ω</span>
+                </label>
+                <input type="range" id="slider_r2" min="10" max="120" step="5" value="60">
+            </div>
+        </div>
+
+        <!-- COLONNE CENTRALE (Canvas Schéma) -->
+        <div id="canvas-wrapper" class="lg:col-span-6 w-full h-[400px] lg:h-full">
+            <!-- Canvas avec résolution interne fixe (800x600) mis à l'échelle via CSS -->
+            <canvas id="circuitCanvas" width="800" height="600"></canvas>
+            
+            <div class="absolute bottom-3 right-3 bg-white/90 border border-slate-200 p-2 rounded shadow-sm text-xs font-bold text-slate-700 space-y-1">
+                <div class="flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-blue-500"></span> Mouvement des électrons</div>
+                <div class="flex items-center gap-2"><span class="text-red-500 text-lg leading-none">→</span> Sens du courant (I)</div>
+            </div>
+        </div>
+
+        <!-- COLONNE DROITE (Analyse) -->
+        <div class="panel-box p-4 lg:col-span-3 flex flex-col overflow-y-auto">
+            
+            <h3 class="text-xs uppercase tracking-widest text-slate-500 font-extrabold mb-2">Loi d'Ohm (I = U / R)</h3>
+            <div class="space-y-2 mb-6">
+                <!-- R1 -->
+                <div class="bg-blue-50 p-3 rounded border border-blue-100 flex justify-between items-center">
+                    <div>
+                        <span class="font-bold text-blue-900 text-sm block">Branche R₁</span>
+                        <span class="text-[10px] text-blue-700"><span class="math-symbol">I₁</span> = U / R₁</span>
+                    </div>
+                    <span id="calc_i1" class="font-mono text-lg font-bold text-blue-700">0.00 A</span>
+                </div>
+                <!-- R2 -->
+                <div class="bg-green-50 p-3 rounded border border-green-100 flex justify-between items-center">
+                    <div>
+                        <span class="font-bold text-green-900 text-sm block">Branche R₂</span>
+                        <span class="text-[10px] text-green-700"><span class="math-symbol">I₂</span> = U / R₂</span>
+                    </div>
+                    <span id="calc_i2" class="font-mono text-lg font-bold text-green-700">0.00 A</span>
+                </div>
+            </div>
+
+            <h3 class="text-xs uppercase tracking-widest text-slate-500 font-extrabold mb-2">Loi des Nœuds</h3>
+            <div class="bg-slate-50 p-3 rounded border border-slate-200 mb-4">
+                <p class="text-[10px] text-slate-600 mb-3 font-medium">La somme des intensités des courants qui entrent par un nœud est égale à la somme des intensités qui en sortent.</p>
+                
+                <div class="flex justify-center items-center gap-2 mb-4 font-bold bg-white py-2 border border-slate-100">
+                    <span class="math-symbol text-red-600">I</span> = 
+                    <span class="math-symbol text-blue-600">I₁</span> + 
+                    <span class="math-symbol text-green-600">I₂</span>
+                </div>
+
+                <div class="flex justify-between items-center">
+                    <span class="font-bold text-slate-800 text-sm">Courant Principal (I)</span>
+                    <span id="calc_i_main" class="font-mono text-xl font-extrabold text-red-600">0.00 A</span>
+                </div>
+            </div>
+            
+            <div id="statusBox" class="mt-auto p-3 rounded border text-center font-bold text-[11px] bg-slate-100 border-slate-300 text-slate-500">
+                L'interrupteur est ouvert. Aucun courant ne circule.
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        const canvas = document.getElementById('circuitCanvas');
+        const ctx = canvas.getContext('2d');
+
+        // Inputs
+        const btnSwitch = document.getElementById('btnSwitch');
+        const switchText = document.getElementById('switchText');
+        const checkElectrons = document.getElementById('checkElectrons');
+        const checkCurrent = document.getElementById('checkCurrent');
+        
+        const sliderU = document.getElementById('slider_u');
+        const sliderR1 = document.getElementById('slider_r1');
+        const sliderR2 = document.getElementById('slider_r2');
+        
+        const valU = document.getElementById('val_u');
+        const valR1 = document.getElementById('val_r1');
+        const valR2 = document.getElementById('val_r2');
+        
+        const calcI1 = document.getElementById('calc_i1');
+        const calcI2 = document.getElementById('calc_i2');
+        const calcIMain = document.getElementById('calc_i_main');
+        const statusBox = document.getElementById('statusBox');
+
+        // État
+        let state = {
+            isClosed: false,
+            u: 8, r1: 30, r2: 60,
+            i1: 0, i2: 0, iMain: 0,
+            time: 0
+        };
+
+        // Coordonnées Logiques du Circuit (Canvas 800x600)
+        const C = {
+            xl: 200,   // Fil gauche
+            xr: 600,   // Fil droit
+            ytop: 200, // Branche Principale
+            ymid: 350, // Branche R1
+            ybot: 500, // Branche R2
+            yv: 80     // Boucle Voltmètre
+        };
+
+        // Chemins
+        const path_e_r1 = [
+            {x: 400, y: C.ytop}, {x: C.xl, y: C.ytop}, {x: C.xl, y: C.ymid}, 
+            {x: C.xr, y: C.ymid}, {x: C.xr, y: C.ytop}, {x: 400, y: C.ytop}
+        ];
+        const path_e_r2 = [
+            {x: 400, y: C.ytop}, {x: C.xl, y: C.ytop}, {x: C.xl, y: C.ybot}, 
+            {x: C.xr, y: C.ybot}, {x: C.xr, y: C.ytop}, {x: 400, y: C.ytop}
+        ];
+        const path_i_r1 = [
+            {x: 400, y: C.ytop}, {x: C.xr, y: C.ytop}, {x: C.xr, y: C.ymid}, 
+            {x: C.xl, y: C.ymid}, {x: C.xl, y: C.ytop}, {x: 400, y: C.ytop}
+        ];
+        const path_i_r2 = [
+            {x: 400, y: C.ytop}, {x: C.xr, y: C.ytop}, {x: C.xr, y: C.ybot}, 
+            {x: C.xl, y: C.ybot}, {x: C.xl, y: C.ytop}, {x: 400, y: C.ytop}
+        ];
+
+        function getPathLength(path) {
+            let len = 0;
+            for (let i = 0; i < path.length - 1; i++) {
+                let dx = path[i+1].x - path[i].x;
+                let dy = path[i+1].y - path[i].y;
+                len += Math.sqrt(dx*dx + dy*dy);
+            }
+            return len;
+        }
+
+        function getPointOnPath(path, distance) {
+            let currentDist = 0;
+            for (let i = 0; i < path.length - 1; i++) {
+                let dx = path[i+1].x - path[i].x;
+                let dy = path[i+1].y - path[i].y;
+                let segLen = Math.sqrt(dx*dx + dy*dy);
+                
+                if (currentDist + segLen >= distance) {
+                    let ratio = (distance - currentDist) / segLen;
+                    let angle = Math.atan2(dy, dx);
+                    return { x: path[i].x + dx * ratio, y: path[i].y + dy * ratio, angle: angle };
+                }
+                currentDist += segLen;
+            }
+            return {x: path[path.length-1].x, y: path[path.length-1].y, angle: 0};
+        }
+
+        const len1 = getPathLength(path_e_r1);
+        const len2 = getPathLength(path_e_r2);
+
+        // Physique
+        function updatePhysics() {
+            state.u = parseFloat(sliderU.value);
+            state.r1 = parseFloat(sliderR1.value);
+            state.r2 = parseFloat(sliderR2.value);
+
+            valU.innerText = state.u + " V";
+            valR1.innerText = state.r1 + " Ω";
+            valR2.innerText = state.r2 + " Ω";
+
+            if (state.isClosed && state.u > 0) {
+                state.i1 = state.u / state.r1;
+                state.i2 = state.u / state.r2;
+                state.iMain = state.i1 + state.i2;
+                
+                statusBox.className = "mt-auto p-3 rounded border text-center font-bold text-[11px] bg-green-100 border-green-300 text-green-800";
+                statusBox.innerText = "Courant établi. Loi des nœuds vérifiée.";
+            } else {
+                state.i1 = 0; state.i2 = 0; state.iMain = 0;
+                if(!state.isClosed) {
+                    statusBox.className = "mt-auto p-3 rounded border text-center font-bold text-[11px] bg-slate-100 border-slate-300 text-slate-500";
+                    statusBox.innerText = "L'interrupteur est ouvert. Aucun courant ne circule.";
+                } else {
+                    statusBox.className = "mt-auto p-3 rounded border text-center font-bold text-[11px] bg-yellow-100 border-yellow-300 text-yellow-800";
+                    statusBox.innerText = "Tension du générateur nulle.";
+                }
+            }
+
+            calcI1.innerText = state.i1.toFixed(2) + " A";
+            calcI2.innerText = state.i2.toFixed(2) + " A";
+            calcIMain.innerText = state.iMain.toFixed(2) + " A";
+        }
+
+        // Événements
+        btnSwitch.addEventListener('click', function() {
+            state.isClosed = !state.isClosed;
+            if (state.isClosed) {
+                btnSwitch.className = "w-full mb-6 py-3 bg-green-500 hover:bg-green-600 text-white rounded-lg font-bold transition-colors shadow flex justify-center items-center gap-2";
+                switchText.innerText = "Circuit Fermé (ON)";
+            } else {
+                btnSwitch.className = "w-full mb-6 py-3 bg-red-500 hover:bg-red-600 text-white rounded-lg font-bold transition-colors shadow flex justify-center items-center gap-2";
+                switchText.innerText = "Circuit Ouvert (OFF)";
+            }
+            updatePhysics();
+        });
+
+        const slidersArr = [sliderU, sliderR1, sliderR2];
+        for (let i = 0; i < slidersArr.length; i++) {
+            slidersArr[i].addEventListener('input', updatePhysics);
+        }
+
+        // Dessin Graphique
+        function drawResistor(x, y, label, valColor) {
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(x - 30, y - 15, 60, 30);
+            
+            ctx.strokeStyle = '#334155'; ctx.lineWidth = 3;
+            ctx.strokeRect(x - 30, y - 15, 60, 30);
+            
+            ctx.fillStyle = '#1e293b'; ctx.font = 'bold 18px sans-serif';
+            ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+            ctx.fillText(label, x, y);
+            ctx.textBaseline = 'alphabetic';
+        }
+
+        function drawMeter(x, y, label, valColor, valStr) {
+            ctx.fillStyle = '#ffffff';
+            ctx.beginPath(); ctx.arc(x, y, 22, 0, Math.PI * 2); ctx.fill();
+            ctx.strokeStyle = '#334155'; ctx.lineWidth = 3; ctx.stroke();
+            
+            ctx.fillStyle = '#1e293b'; ctx.font = 'bold 20px sans-serif';
+            ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+            ctx.fillText(label, x, y);
+            ctx.textBaseline = 'alphabetic';
+
+            if (valStr) {
+                ctx.fillStyle = valColor; ctx.font = 'bold 14px monospace';
+                ctx.fillText(valStr, x, y + 40);
+            }
+        }
+
+        function drawBattery(x, y) {
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(x - 15, y - 25, 30, 50);
+
+            // - (Gauche)
+            ctx.strokeStyle = '#0f172a'; ctx.lineCap = 'butt';
+            ctx.lineWidth = 8;
+            ctx.beginPath(); ctx.moveTo(x - 8, y - 12); ctx.lineTo(x - 8, y + 12); ctx.stroke();
+            
+            // + (Droite)
+            ctx.lineWidth = 4;
+            ctx.beginPath(); ctx.moveTo(x + 8, y - 22); ctx.lineTo(x + 8, y + 22); ctx.stroke();
+
+            ctx.fillStyle = '#dc2626'; ctx.font = 'bold 24px sans-serif'; ctx.fillText('+', x + 25, y - 12);
+            ctx.fillStyle = '#2563eb'; ctx.font = 'bold 28px sans-serif'; ctx.fillText('-', x - 25, y - 12);
+            ctx.fillStyle = '#1e293b'; ctx.font = 'bold 22px sans-serif'; ctx.fillText('G', x, y - 35);
+        }
+
+        function drawSwitch(x, y, closed) {
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(x - 20, y - 20, 40, 40);
+
+            ctx.fillStyle = '#1e293b';
+            ctx.beginPath(); ctx.arc(x - 15, y, 4, 0, Math.PI*2); ctx.fill();
+            ctx.beginPath(); ctx.arc(x + 15, y, 4, 0, Math.PI*2); ctx.fill();
+
+            ctx.strokeStyle = '#dc2626'; ctx.lineWidth = 4; ctx.lineCap = 'round';
+            ctx.beginPath(); ctx.moveTo(x - 15, y);
+            if (closed) { ctx.lineTo(x + 15, y); } else { ctx.lineTo(x + 12, y - 20); }
+            ctx.stroke();
+            
+            ctx.fillStyle = '#64748b'; ctx.font = 'bold 16px sans-serif'; ctx.fillText('K', x, y - 20);
+        }
+
+        function drawNode(x, y) {
+            ctx.fillStyle = '#0f172a';
+            ctx.beginPath(); ctx.arc(x, y, 6, 0, Math.PI*2); ctx.fill();
+        }
+
+        // Boucle de rendu
+        let lastTime = performance.now();
+
+        function render(time) {
+            let dt = (time - lastTime) / 1000;
+            lastTime = time;
+
+            if (state.isClosed) { state.time += dt; }
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // 1. FILS
+            ctx.strokeStyle = '#94a3b8';
+            ctx.lineWidth = 4;
+            ctx.lineCap = 'square';
+            ctx.beginPath();
+
+            // Horizontaux
+            ctx.moveTo(C.xl, C.ytop); ctx.lineTo(C.xr, C.ytop);
+            ctx.moveTo(C.xl, C.ymid); ctx.lineTo(C.xr, C.ymid);
+            ctx.moveTo(C.xl, C.ybot); ctx.lineTo(C.xr, C.ybot);
+
+            // Verticaux
+            ctx.moveTo(C.xl, C.ytop); ctx.lineTo(C.xl, C.ybot);
+            ctx.moveTo(C.xr, C.ytop); ctx.lineTo(C.xr, C.ybot);
+
+            // Voltmètre
+            ctx.moveTo(300, C.ytop); ctx.lineTo(300, C.yv); ctx.lineTo(500, C.yv); ctx.lineTo(500, C.ytop);
+
+            ctx.stroke();
+
+            // 2. ANIMATIONS
+            if (state.isClosed && state.u > 0) {
+                const speedMultiplier = 200; 
+                
+                const drawParticles = (path, len, current, isElectron) => {
+                    let speed = current * speedMultiplier;
+                    let numParticles = Math.max(2, Math.floor(len / 45)); 
+                    
+                    for (let i = 0; i < numParticles; i++) {
+                        let dist = (state.time * speed + i * (len / numParticles)) % len;
+                        let pt = getPointOnPath(path, dist);
+
+                        ctx.save();
+                        ctx.translate(pt.x, pt.y);
+                        ctx.rotate(pt.angle);
+
+                        if (isElectron) {
+                            ctx.fillStyle = '#3b82f6';
+                            ctx.beginPath(); ctx.arc(0, 0, 7, 0, Math.PI*2); ctx.fill();
+                        } else {
+                            ctx.fillStyle = '#ef4444';
+                            ctx.beginPath(); ctx.moveTo(10, 0); ctx.lineTo(-8, -8); ctx.lineTo(-3, 0); ctx.lineTo(-8, 8); ctx.fill();
+                        }
+                        ctx.restore();
+                    }
+                };
+
+                if (checkElectrons.checked) {
+                    drawParticles(path_e_r1, len1, state.i1, true);
+                    drawParticles(path_e_r2, len2, state.i2, true);
+                }
+                if (checkCurrent.checked) {
+                    drawParticles(path_i_r1, len1, state.i1, false);
+                    drawParticles(path_i_r2, len2, state.i2, false);
+                }
+            }
+
+            // 3. COMPOSANTS
+            drawBattery(400, C.ytop);
+            drawSwitch(260, C.ytop, state.isClosed);
+            
+            drawNode(C.xl, C.ymid); drawNode(C.xr, C.ymid);
+            drawNode(C.xl, C.ybot); drawNode(C.xr, C.ybot);
+            drawNode(300, C.ytop); drawNode(500, C.ytop);
+
+            let str_iMain = state.isClosed ? state.iMain.toFixed(2) + "A" : "0.00A";
+            let str_i1 = state.isClosed ? state.i1.toFixed(2) + "A" : "0.00A";
+            let str_i2 = state.isClosed ? state.i2.toFixed(2) + "A" : "0.00A";
+            let str_u = state.isClosed ? state.u.toFixed(1) + "V" : "0.0V";
+
+            drawMeter(530, C.ytop, 'A', '#dc2626', str_iMain);
+            drawMeter(530, C.ymid, 'A₁', '#1d4ed8', str_i1);
+            drawMeter(530, C.ybot, 'A₂', '#047857', str_i2);
+            drawMeter(400, C.yv, 'V', '#ca8a04', str_u);
+
+            drawResistor(400, C.ymid, 'R₁', '#1d4ed8');
+            drawResistor(400, C.ybot, 'R₂', '#047857');
+
+            requestAnimationFrame(render);
+        }
+
+        // Lancement
+        updatePhysics();
+        requestAnimationFrame(render);
+
+    </script>
+</body>
+</html>
