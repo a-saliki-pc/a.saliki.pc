@@ -3,9 +3,49 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>QCM interactifs — A SALIKI PC</title>
+
+  <!-- ===== SEO PRINCIPAL ===== -->
+  <title>QCM Physique-Chimie — Quiz Interactifs Bac | DARRSSY</title>
+  <meta name="description" content="Testez vos connaissances en Physique-Chimie avec des QCM interactifs corrigés instantanément. Quiz pour préparer le Bac (2 Bac PC, 2 Bac SVT, 1 Bac, Tronc Commun).">
+  <meta name="keywords" content="QCM physique chimie, quiz bac maroc, exercices interactifs, test connaissances physique, QCM 2 bac, quiz en ligne">
+  <meta name="author" content="DARRSSY">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <meta name="theme-color" content="#8b5cf6">
+
+  <!-- ===== CANONIQUE ===== -->
+  <link rel="canonical" href="https://darrssy.com/qcm.html" />
+
+  <!-- ===== HREFLANG ===== -->
+  <link rel="alternate" hreflang="fr" href="https://darrssy.com/qcm.html" />
+  <link rel="alternate" hreflang="ar" href="https://darrssy.com/qcm.html" />
+  <link rel="alternate" hreflang="x-default" href="https://darrssy.com/qcm.html" />
+
+  <!-- ===== OPEN GRAPH ===== -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="DARRSSY">
+  <meta property="og:url" content="https://darrssy.com/qcm.html">
+  <meta property="og:title" content="QCM Physique-Chimie — Quiz Interactifs | DARRSSY">
+  <meta property="og:description" content="Testez vos connaissances avec des QCM interactifs corrigés instantanément pour préparer le Bac.">
+  <meta property="og:image" content="https://darrssy.com/assets/logo-darrssy.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:locale" content="fr_FR">
+  <meta property="og:locale:alternate" content="ar_MA">
+
+  <!-- ===== TWITTER CARD ===== -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="QCM Physique-Chimie | DARRSSY">
+  <meta name="twitter:description" content="Quiz interactifs pour préparer le Bac en Physique-Chimie.">
+  <meta name="twitter:image" content="https://darrssy.com/assets/logo-darrssy.png">
+
+  <!-- ===== FAVICONS ===== -->
+  <link rel="icon" type="image/png" href="assets/logo-darrssy.png">
+  <link rel="apple-touch-icon" href="assets/logo-darrssy.png">
+
+  <!-- ===== FONTS & CSS ===== -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
   <style>
     :root {
       --noir-profond: #050b14;
@@ -113,16 +153,19 @@
       gap: 0.5rem;
       white-space: nowrap;
     }
-    .logo-icon {
+    .logo-img-wrap {
       width: 38px; height: 38px;
-      border-radius: 0.5rem;
-      background: linear-gradient(135deg, var(--cyan-neon), var(--vert-neon));
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #050b14;
-      font-size: 1.1rem;
-      box-shadow: 0 0 20px -5px rgba(34, 211, 238, 0.7);
+      border-radius: 50%;
+      background: linear-gradient(135deg, #1e3a8a 0%, #06b6d4 50%, #10b981 100%);
+      padding: 2px;
+      box-shadow: 0 4px 15px rgba(6, 182, 212, 0.35), 0 0 0 3px rgba(255, 255, 255, 0.1);
+      flex-shrink: 0;
+    }
+    .logo-img-wrap img {
+      width: 100%; height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      background: #fff;
     }
     .logo span {
       background: linear-gradient(135deg, var(--cyan-neon), var(--vert-neon));
@@ -553,8 +596,8 @@
   <header class="header">
     <div class="header-inner">
       <a href="index.html" class="logo">
-        <span class="logo-icon"><i class="fas fa-atom"></i></span>
-        A SALIKI <span>PC</span>
+        <div class="logo-img-wrap"><img src="assets/logo-darrssy.png" alt="DARRSSY"></div>
+        DARRSSY
       </a>
       <nav class="nav-desktop">
         <a href="index.html" data-i18n="nav.home">Accueil</a>
@@ -772,7 +815,7 @@
       }
     };
 
-    let currentLang = localStorage.getItem('asaliki-lang') || 'fr';
+    let currentLang = localStorage.getItem('darrssy-lang') || 'fr';
     let currentNiveau = 'all';
     let questionList = [];
     let questionIndex = 0;
@@ -787,7 +830,7 @@
     });
 
     function appliquerTheme() {
-      const savedTheme = localStorage.getItem('asaliki-theme') || 'dark';
+      const savedTheme = localStorage.getItem('darrssy-theme') || 'dark';
       document.getElementById('htmlRoot').setAttribute('data-theme', savedTheme);
     }
 
@@ -802,7 +845,7 @@
       document.querySelectorAll('.lang-btn').forEach(btn => {
         btn.classList.toggle('actif', btn.getAttribute('data-lang') === lang);
       });
-      localStorage.setItem('asaliki-lang', lang);
+      localStorage.setItem('darrssy-lang', lang);
       if (questionList.length > 0 && !repondu) afficherQuestion();
     }
 
@@ -822,7 +865,7 @@
         const current = document.getElementById('htmlRoot').getAttribute('data-theme');
         const next = current === 'dark' ? 'light' : 'dark';
         document.getElementById('htmlRoot').setAttribute('data-theme', next);
-        localStorage.setItem('asaliki-theme', next);
+        localStorage.setItem('darrssy-theme', next);
       });
       document.getElementById('btnSuivant').addEventListener('click', questionSuivante);
       document.getElementById('btnPasser').addEventListener('click', () => {
