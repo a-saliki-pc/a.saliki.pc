@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actions Mécaniques - Mode Projection</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body, html {
+            margin: 0; padding: 0; width: 100%; height: 100%;
+            background-color: #f8fafc; /* Fond très clair */
+            color: #0f172a; /* Texte très sombre */
+            font-family: 'Inter', system-ui, sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Panneaux avec ombre douce pour détacher du fond blanc */
+        .control-panel {
+            background-color: #ffffff;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+            border-radius: 12px;
+        }
+
+        /* Canvas au milieu */
+        #canvas-wrapper {
+            position: relative;
+            background-color: #ffffff;
+            background-image: 
+                linear-gradient(#f1f5f9 1px, transparent 1px),
+                linear-gradient(90deg, #f1f5f9 1px, transparent 1px);
+            background-size: 20px 20px;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.02);
+            overflow: hidden;
+        }
+
+        canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Sliders adaptés au thème clair */
+        input[type=range] {
+            -webkit-appearance: none; width: 100%; background: transparent;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none; height: 18px; width: 18px;
+            border-radius: 50%; background: #2563eb; cursor: pointer;
+            margin-top: -7px; box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+        }
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%; height: 5px; cursor: pointer;
+            background: #cbd5e1; border-radius: 3px;
+        }
+
+        /* Boutons d'onglets (Tabs) */
+        .tab-btn {
+            transition: all 0.2s;
+            background: #f8fafc;
+            border: 1px solid #cbd5e1;
+            color: #475569;
+        }
+        .tab-btn:hover { background: #f1f5f9; }
+        
+        /* Couleurs spécifiques pour les forces actives */
+        .tab-P.active { background: #dcfce7; border-color: #16a34a; color: #166534; font-weight: bold;}
+        .tab-R.active { background: #fee2e2; border-color: #dc2626; color: #991b1b; font-weight: bold;}
+        .tab-F.active { background: #e0f2fe; border-color: #0284c7; color: #075985; font-weight: bold;}
+        .tab-f.active { background: #ffedd5; border-color: #ea580c; color: #9a3412; font-weight: bold;}
+        
+        .vector-label { font-family: 'Times New Roman', serif; font-style: italic; font-weight: bold;}
+    </style>
+</head>
+<body class="flex flex-col h-screen p-4 gap-4">
+
+    <!-- En-tête -->
+    <header class="flex justify-between items-end pb-2 border-b-2 border-slate-200 shrink-0">
+        <div>
+            <h1 class="text-3xl font-extrabold text-slate-800 tracking-tight">Actions Mécaniques</h1>
+            <p class="text-sm text-slate-500 font-medium uppercase tracking-wider mt-1">Simulation Interactive - Tronc Commun</p>
+        </div>
+        <div class="hidden md:block text-right text-sm text-slate-500">
+            <span class="font-semibold text-slate-700">Mode Projection :</span> Contraste Élevé
+        </div>
+    </header>
+
+    <!-- Zone principale -->
+    <main class="flex flex-col lg:flex-row flex-1 gap-4 min-h-0">
+        
+        <!-- Panneau Gauche : Contrôles -->
+        <div class="control-panel p-5 w-full lg:w-[320px] flex flex-col shrink-0 overflow-y-auto">
+            <h2 class="text-base font-bold mb-4 text-slate-800 border-b-2 border-slate-100 pb-2">Paramètres du Système</h2>
+            
+            <!-- Masse -->
+            <div class="mb-5">
+                <label class="flex justify-between items-end mb-2 text-sm font-semibold text-slate-700">
+                    <span>Masse du bloc (m)</span>
+                    <span id="massDisplay" class="font-mono text-emerald-700 bg-emerald-100 px-2 py-1 rounded border border-emerald-200">10 kg</span>
+                </label>
+                <input type="range" id="massSlider" min="1" max="50" step="1" value="10">
+            </div>
+
+            <!-- Force F -->
+            <div class="mb-5">
+                <label class="flex justify-between items-end mb-2 text-sm font-semibold text-slate-700">
+                    <span>Force de traction (F)</span>
+                    <span id="forceDisplay" class="font-mono text-blue-700 bg-blue-100 px-2 py-1 rounded border border-blue-200">50 N</span>
+                </label>
+                <input type="range" id="forceSlider" min="0" max="200" step="5" value="50">
+            </div>
+
+            <!-- Angle -->
+            <div class="mb-5">
+                <label class="flex justify-between items-end mb-2 text-sm font-semibold text-slate-700">
+                    <span>Angle d'inclinaison (α)</span>
+                    <span id="angleDisplay" class="font-mono text-purple-700 bg-purple-100 px-2 py-1 rounded border border-purple-200">0°</span>
+                </label>
+                <input type="range" id="angleSlider" min="0" max="90" step="5" value="30">
+            </div>
+
+            <h2 class="text-base font-bold mt-2 mb-4 text-slate-800 border-b-2 border-slate-100 pb-2">Contrôle du Temps</h2>
+            
+            <!-- Vitesse de simulation -->
+            <div class="mb-6">
+                <label class="flex justify-between items-end mb-2 text-sm font-semibold text-slate-700">
+                    <span>Vitesse de l'expérience</span>
+                    <span id="speedDisplay" class="font-mono text-slate-700 bg-slate-100 px-2 py-1 rounded border border-slate-300">1.0x</span>
+                </label>
+                <input type="range" id="speedSlider" min="0.1" max="3" step="0.1" value="1">
+            </div>
+
+            <div class="mt-auto flex flex-col gap-3">
+                <button id="playBtn" class="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-bold text-lg transition-colors flex items-center justify-center gap-2 shadow-md">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M5 3l14 9-14 9V3z"/></svg>
+                    Play (Mouvement)
+                </button>
+                <button id="resetBtn" class="w-full py-2.5 bg-slate-200 hover:bg-slate-300 text-slate-800 rounded-lg font-semibold transition-colors flex items-center justify-center gap-2 border border-slate-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path></svg>
+                    Remettre au départ
+                </button>
+            </div>
+        </div>
+
+        <!-- Zone Centrale : Canvas -->
+        <div id="canvas-wrapper" class="flex-1 h-[400px] lg:h-auto w-full">
+            <canvas id="simCanvas"></canvas>
+            
+            <!-- Légende incrustée en haut à gauche -->
+            <div class="absolute top-4 left-4 bg-white/90 p-3 rounded-lg border border-slate-200 shadow-sm text-sm font-semibold text-slate-700 space-y-1 backdrop-blur-sm">
+                <label class="flex items-center gap-2 cursor-pointer hover:bg-slate-50 p-1 rounded">
+                    <input type="checkbox" id="showP" checked class="w-4 h-4 accent-green-600">
+                    <span class="text-green-700">Poids (<span class="vector-label">P</span>)</span>
+                </label>
+                <label class="flex items-center gap-2 cursor-pointer hover:bg-slate-50 p-1 rounded">
+                    <input type="checkbox" id="showR" checked class="w-4 h-4 accent-red-600">
+                    <span class="text-red-700">Réaction (<span class="vector-label">R</span>)</span>
+                </label>
+                <label class="flex items-center gap-2 cursor-pointer hover:bg-slate-50 p-1 rounded">
+                    <input type="checkbox" id="showF" checked class="w-4 h-4 accent-blue-600">
+                    <span class="text-blue-700">Traction (<span class="vector-label">F</span>)</span>
+                </label>
+                <label class="flex items-center gap-2 cursor-pointer hover:bg-slate-50 p-1 rounded">
+                    <input type="checkbox" id="showf" checked class="w-4 h-4 accent-orange-600">
+                    <span class="text-orange-700">Frottements (<span class="vector-label">f</span>)</span>
+                </label>
+            </div>
+        </div>
+
+        <!-- Panneau Droit : Analyse -->
+        <div class="control-panel p-5 w-full lg:w-[350px] flex flex-col shrink-0 overflow-y-auto">
+            <h2 class="text-lg font-extrabold mb-4 text-slate-800 flex items-center gap-2 border-b-2 border-slate-100 pb-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-indigo-600"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                Bilan & Caractéristiques
+            </h2>
+
+            <!-- Sélecteur de force -->
+            <div class="grid grid-cols-2 gap-2 mb-5">
+                <button onclick="selectForce('P')" id="tab-P" class="tab-btn tab-P active rounded py-2 text-sm font-bold">Poids (P)</button>
+                <button onclick="selectForce('R')" id="tab-R" class="tab-btn tab-R rounded py-2 text-sm font-bold">Réaction (R)</button>
+                <button onclick="selectForce('F')" id="tab-F" class="tab-btn tab-F rounded py-2 text-sm font-bold">Traction (F)</button>
+                <button onclick="selectForce('f')" id="tab-f" class="tab-btn tab-f rounded py-2 text-sm font-bold">Frottement (f)</button>
+            </div>
+
+            <!-- Fiche d'identité de la force -->
+            <div class="bg-slate-50 rounded-lg p-4 border border-slate-200 mb-5 text-sm shadow-inner">
+                <div class="flex justify-between mb-2">
+                    <span class="text-slate-500 font-semibold">Acteur :</span>
+                    <span id="acteurLabel" class="font-bold text-slate-800">La Terre</span>
+                </div>
+                <div class="flex justify-between mb-2">
+                    <span class="text-slate-500 font-semibold">Receveur :</span>
+                    <span class="font-bold text-slate-800">Le Bloc</span>
+                </div>
+                <div class="flex justify-between pt-2 border-t border-slate-200">
+                    <span class="text-slate-500 font-semibold">Type d'action :</span>
+                    <span id="typeLabel" class="font-bold text-indigo-700">À distance</span>
+                </div>
+            </div>
+
+            <!-- Les 4 Caractéristiques -->
+            <h3 class="text-sm uppercase tracking-widest text-slate-500 font-extrabold mb-3">Les 4 Caractéristiques</h3>
+            <ul class="space-y-3 text-sm">
+                <li class="flex items-start gap-3 bg-white p-3 rounded-lg border border-slate-200 shadow-sm">
+                    <div class="w-3 h-3 rounded-full bg-slate-400 mt-1 shrink-0" id="dotColor"></div>
+                    <div>
+                        <span class="text-slate-500 text-xs font-bold uppercase block mb-0.5">Point d'application</span>
+                        <span id="charPoint" class="font-semibold text-slate-800 text-base">Centre de gravité G</span>
+                    </div>
+                </li>
+                <li class="flex items-start gap-3 bg-white p-3 rounded-lg border border-slate-200 shadow-sm">
+                    <div class="w-5 h-1 bg-slate-400 mt-2 shrink-0" id="lineColor"></div>
+                    <div>
+                        <span class="text-slate-500 text-xs font-bold uppercase block mb-0.5">Direction (Droite d'action)</span>
+                        <span id="charDir" class="font-semibold text-slate-800 text-base">Verticale</span>
+                    </div>
+                </li>
+                <li class="flex items-start gap-3 bg-white p-3 rounded-lg border border-slate-200 shadow-sm">
+                    <svg class="w-4 h-4 text-slate-400 mt-0.5 shrink-0" id="arrowColor" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
+                    <div>
+                        <span class="text-slate-500 text-xs font-bold uppercase block mb-0.5">Sens</span>
+                        <span id="charSens" class="font-semibold text-slate-800 text-base">Vers le bas</span>
+                    </div>
+                </li>
+                <li class="flex items-start gap-3 bg-white p-3 rounded-lg border border-slate-200 shadow-sm">
+                    <span class="text-slate-400 font-serif italic font-extrabold text-lg shrink-0">I</span>
+                    <div class="w-full">
+                        <span class="text-slate-500 text-xs font-bold uppercase block mb-0.5">Intensité</span>
+                        <div class="flex justify-between items-baseline">
+                            <span id="charFormula" class="text-slate-500 text-xs italic">P = m × g</span>
+                            <span id="charIntensite" class="font-mono text-lg font-bold">98.1 N</span>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            
+            <div id="mvtAlert" class="mt-4 p-3 rounded-lg bg-red-50 text-red-700 border border-red-200 font-bold text-sm hidden shadow-sm text-center">
+                Mouvement détecté !<br><span class="font-normal text-xs">Traction horizontale > Frottement max</span>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const canvas = document.getElementById('simCanvas');
+        const ctx = canvas.getContext('2d');
+        const wrapper = document.getElementById('canvas-wrapper');
+
+        // DOM Elements
+        const sliders = {
+            mass: document.getElementById('massSlider'),
+            force: document.getElementById('forceSlider'),
+            angle: document.getElementById('angleSlider'),
+            speed: document.getElementById('speedSlider')
+        };
+        const displays = {
+            mass: document.getElementById('massDisplay'),
+            force: document.getElementById('forceDisplay'),
+            angle: document.getElementById('angleDisplay'),
+            speed: document.getElementById('speedDisplay')
+        };
+        const checks = {
+            P: document.getElementById('showP'),
+            R: document.getElementById('showR'),
+            F: document.getElementById('showF'),
+            f: document.getElementById('showf')
+        };
+
+        // Constantes physiques
+        const g = 9.81; 
+        const mu_s = 0.4; // Frottement statique
+        const mu_k = 0.3; // Frottement cinétique
+        const pixelsPerMeter = 60; // Zoomé pour projection
+
+        // État
+        let state = {
+            m: 10, F_app: 50, alpha: 30, speed: 1.0,
+            x: 0, v: 0,
+            isPlaying: false, selectedForce: 'P',
+            P: 0, R_n: 0, f_frot: 0, f_max: 0, F_x: 0, isMoving: false
+        };
+
+        // Gestion du Canvas
+        function resizeCanvas() {
+            canvas.width = wrapper.clientWidth;
+            canvas.height = wrapper.clientHeight;
+            if(state.x === 0) state.x = (canvas.width / pixelsPerMeter) / 2 - 1.5; // Centrage initial
+            drawScene();
+        }
+        window.addEventListener('resize', resizeCanvas);
+        // Délai pour s'assurer que le flex a fini de s'arranger
+        setTimeout(resizeCanvas, 50); 
+
+        // Physique Mathématiques
+        function updatePhysics() {
+            state.m = parseFloat(sliders.mass.value);
+            state.F_app = parseFloat(sliders.force.value);
+            state.alpha = parseFloat(sliders.angle.value);
+            state.speed = parseFloat(sliders.speed.value);
+
+            // Mettre à jour l'UI
+            displays.mass.innerText = state.m + " kg";
+            displays.force.innerText = state.F_app + " N";
+            displays.angle.innerText = state.alpha + "°";
+            displays.speed.innerText = state.speed.toFixed(1) + "x";
+
+            let alphaRad = state.alpha * Math.PI / 180;
+
+            state.P = state.m * g;
+            state.R_n = Math.max(0, state.P - state.F_app * Math.sin(alphaRad)); // Bloque à 0 si ça soulève
+            
+            state.f_max = mu_s * state.R_n;
+            state.F_x = state.F_app * Math.cos(alphaRad);
+
+            if (state.v > 0 || (state.isPlaying && state.F_x > state.f_max)) {
+                // Mouvement
+                state.f_frot = mu_k * state.R_n;
+                state.isMoving = true;
+                document.getElementById('mvtAlert').classList.remove('hidden');
+            } else {
+                // Statique
+                state.f_frot = Math.min(state.F_x, state.f_max); 
+                state.isMoving = false;
+                document.getElementById('mvtAlert').classList.add('hidden');
+                if(!state.isPlaying) state.v = 0; 
+            }
+
+            updatePanel();
+            drawScene();
+        }
+
+        // Animation
+        let lastTime = performance.now();
+        function animate(time) {
+            const dt = ((time - lastTime) / 1000) * state.speed; // Multiplicateur de vitesse ici
+            lastTime = time;
+
+            if (state.isPlaying && state.isMoving && dt < 0.2) {
+                let a = (state.F_x - state.f_frot) / state.m;
+                state.v += a * dt;
+                state.x += state.v * dt;
+
+                // Boucler si sort de l'écran
+                let wMeters = canvas.width / pixelsPerMeter;
+                if (state.x * pixelsPerMeter > canvas.width + 150) {
+                    state.x = -2;
+                }
+            }
+
+            drawScene();
+            requestAnimationFrame(animate);
+        }
+
+        // Dessin des flèches épaisses pour projection
+        function drawArrow(x, y, length, angleRad, color, label, isSelected) {
+            ctx.save();
+            ctx.translate(x, y);
+            ctx.rotate(angleRad);
+
+            // Droite d'action (Ligne de construction)
+            if (isSelected) {
+                ctx.beginPath();
+                ctx.setLineDash([8, 8]);
+                ctx.moveTo(-2000, 0);
+                ctx.lineTo(2000, 0);
+                ctx.strokeStyle = color;
+                ctx.globalAlpha = 0.2;
+                ctx.lineWidth = 2;
+                ctx.stroke();
+                ctx.setLineDash([]);
+                ctx.globalAlpha = 1.0;
+            }
+
+            let lineWidth = isSelected ? 6 : 4;
+            
+            // Halo de sélection
+            if(isSelected) {
+                ctx.shadowBlur = 10;
+                ctx.shadowColor = color;
+            }
+
+            ctx.beginPath();
+            ctx.moveTo(0, 0);
+            ctx.lineTo(length, 0);
+            ctx.strokeStyle = color;
+            ctx.lineWidth = lineWidth;
+            ctx.lineCap = 'round';
+            ctx.stroke();
+
+            // Tête de flèche proportionnelle
+            let headSize = isSelected ? 16 : 12;
+            ctx.beginPath();
+            ctx.moveTo(length + 2, 0);
+            ctx.lineTo(length - headSize, -headSize*0.6);
+            ctx.lineTo(length - headSize, headSize*0.6);
+            ctx.fillStyle = color;
+            ctx.fill();
+
+            ctx.shadowBlur = 0; // Reset
+
+            // Texte bien visible
+            ctx.rotate(-angleRad);
+            ctx.fillStyle = color;
+            ctx.font = 'italic bold 24px "Times New Roman", serif';
+            
+            // Décalage intelligent selon l'angle
+            let lx = Math.cos(angleRad) * (length + 25);
+            let ly = Math.sin(angleRad) * (length + 25);
+            
+            // Dessiner un contour blanc sous le texte pour le détacher du fond
+            ctx.lineWidth = 4;
+            ctx.strokeStyle = 'white';
+            ctx.strokeText(label, lx - 8, ly + 8);
+            ctx.fillText(label, lx - 8, ly + 8);
+
+            ctx.restore();
+        }
+
+        // Dessin global
+        function drawScene() {
+            if(!ctx) return;
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            const groundY = canvas.height - 80;
+            const boxW = 120;
+            const boxH = 90;
+            const px = state.x * pixelsPerMeter;
+
+            // --- Sol ---
+            ctx.beginPath();
+            ctx.moveTo(0, groundY);
+            ctx.lineTo(canvas.width, groundY);
+            ctx.strokeStyle = '#334155';
+            ctx.lineWidth = 6;
+            ctx.stroke();
+            
+            // Hachures
+            ctx.beginPath();
+            for(let i=0; i<canvas.width; i+=25) {
+                ctx.moveTo(i, groundY);
+                ctx.lineTo(i-15, groundY+20);
+            }
+            ctx.strokeStyle = '#94a3b8';
+            ctx.lineWidth = 3;
+            ctx.stroke();
+
+            // --- Bloc ---
+            ctx.fillStyle = '#f1f5f9'; // Gris très clair
+            ctx.strokeStyle = '#475569';
+            ctx.lineWidth = 4;
+            ctx.fillRect(px, groundY - boxH, boxW, boxH);
+            ctx.strokeRect(px, groundY - boxH, boxW, boxH);
+
+            // Points
+            const Gx = px + boxW/2;   const Gy = groundY - boxH/2;
+            const Ax = px + boxW;     const Ay = groundY - boxH/2;
+            const Cx = px + boxW/2;   const Cy = groundY;
+
+            // Tracer corde
+            if (state.F_app > 0) {
+                ctx.beginPath();
+                ctx.moveTo(Ax, Ay);
+                let ropeL = 200;
+                ctx.lineTo(Ax + ropeL * Math.cos(-state.alpha * Math.PI/180), Ay + ropeL * Math.sin(-state.alpha * Math.PI/180));
+                ctx.strokeStyle = '#cbd5e1';
+                ctx.lineWidth = 5;
+                ctx.stroke();
+            }
+
+            // Marqueurs de points
+            const drawPoint = (x, y, label, color) => {
+                ctx.fillStyle = color;
+                ctx.beginPath(); ctx.arc(x, y, 6, 0, Math.PI*2); ctx.fill();
+                ctx.fillStyle = '#0f172a'; ctx.font = 'bold 16px sans-serif'; 
+                ctx.fillText(label, x + 8, y - 8);
+            };
+
+            drawPoint(Gx, Gy, 'G', '#16a34a');
+            drawPoint(Ax, Ay, 'A', '#0284c7');
+            if(checks.R.checked || checks.f.checked) drawPoint(Cx, Cy, 'C', '#dc2626');
+
+            // Échelle de force
+            const vectorScale = 2.0; // Plus grand pour projection
+
+            // Ordre : f, R, P, F pour superposition propre
+            if (checks.f.checked && state.f_frot > 0) {
+                let sel = state.selectedForce === 'f';
+                drawArrow(Cx, Cy, state.f_frot * vectorScale, Math.PI, sel ? '#ea580c' : '#fdba74', 'f', sel);
+            }
+            if (checks.R.checked && state.R_n > 0) {
+                let sel = state.selectedForce === 'R';
+                drawArrow(Cx, Cy, state.R_n * vectorScale, -Math.PI/2, sel ? '#dc2626' : '#fca5a5', 'R', sel);
+            }
+            if (checks.P.checked) {
+                let sel = state.selectedForce === 'P';
+                drawArrow(Gx, Gy, state.P * vectorScale, Math.PI/2, sel ? '#16a34a' : '#86efac', 'P', sel);
+            }
+            if (checks.F.checked && state.F_app > 0) {
+                let sel = state.selectedForce === 'F';
+                drawArrow(Ax, Ay, state.F_app * vectorScale, -state.alpha * Math.PI/180, sel ? '#0284c7' : '#7dd3fc', 'F', sel);
+            }
+        }
+
+        // Système d'onglets
+        window.selectForce = function(forceID) {
+            state.selectedForce = forceID;
+            
+            // Nettoyage UI
+            const tabs = ['P', 'R', 'F', 'f'];
+            for(let i=0; i<tabs.length; i++) {
+                document.getElementById('tab-' + tabs[i]).classList.remove('active');
+            }
+            document.getElementById('tab-' + forceID).classList.add('active');
+
+            updatePanel();
+            drawScene(); // Redessine pour mettre le vecteur en surbrillance
+        }
+
+        // Mise à jour Panneau de droite
+        function updatePanel() {
+            const elActeur = document.getElementById('acteurLabel');
+            const elType = document.getElementById('typeLabel');
+            const charPt = document.getElementById('charPoint');
+            const charDir = document.getElementById('charDir');
+            const charSens = document.getElementById('charSens');
+            const charForm = document.getElementById('charFormula');
+            const charInt = document.getElementById('charIntensite');
+            const dotCol = document.getElementById('dotColor');
+            const linCol = document.getElementById('lineColor');
+            const arrCol = document.getElementById('arrowColor');
+
+            const setColors = (colorHex) => {
+                dotCol.style.backgroundColor = colorHex;
+                linCol.style.backgroundColor = colorHex;
+                arrCol.style.color = colorHex;
+                charInt.style.color = colorHex;
+            };
+
+            if (state.selectedForce === 'P') {
+                elActeur.innerText = "La Terre"; elType.innerText = "À distance";
+                charPt.innerHTML = "Centre de gravité (G)"; charDir.innerText = "Verticale"; charSens.innerText = "Vers le bas";
+                charForm.innerText = "P = m × g"; charInt.innerText = state.P.toFixed(1) + " N";
+                setColors("#16a34a");
+            } 
+            else if (state.selectedForce === 'R') {
+                elActeur.innerText = "Le Support (Sol)"; elType.innerText = "Contact réparti";
+                charPt.innerHTML = "Centre de contact (C)"; charDir.innerText = "Perpendiculaire au sol"; charSens.innerText = "Vers le haut";
+                charForm.innerText = "R = P - F.sin(α)"; charInt.innerText = state.R_n.toFixed(1) + " N";
+                setColors("#dc2626");
+            }
+            else if (state.selectedForce === 'F') {
+                elActeur.innerText = "L'Opérateur / Fil"; elType.innerText = "Contact localisé";
+                charPt.innerHTML = "Point d'attache (A)"; charDir.innerText = state.alpha === 0 ? "Horizontale" : `Inclinée de ${state.alpha}°`; charSens.innerText = "Vers la droite / haut";
+                charForm.innerText = "Valeur donnée"; charInt.innerText = state.F_app.toFixed(1) + " N";
+                setColors("#0284c7");
+            }
+            else if (state.selectedForce === 'f') {
+                elActeur.innerText = "Le Support (Sol rugueux)"; elType.innerText = "Contact réparti (Tangentiel)";
+                charPt.innerHTML = "Centre de contact (C)"; charDir.innerText = "Horizontale (parallèle au sol)"; charSens.innerText = "Opposé au mouvement (Gauche)";
+                charForm.innerText = state.isMoving ? "f = µ_k × R" : "f = F.cos(α)"; charInt.innerText = state.f_frot.toFixed(1) + " N";
+                setColors("#ea580c");
+            }
+        }
+
+        // Événements
+        [sliders.mass, sliders.force, sliders.angle, sliders.speed].forEach(s => {
+            s.addEventListener('input', updatePhysics);
+        });
+
+        // Toggle Checks
+        ['P', 'R', 'F', 'f'].forEach(id => {
+            checks[id].addEventListener('change', drawScene);
+        });
+
+        // Bouton Play/Pause
+        document.getElementById('playBtn').addEventListener('click', function() {
+            state.isPlaying = !state.isPlaying;
+            if(state.isPlaying) {
+                this.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg> Pause`;
+                this.classList.replace('bg-blue-600', 'bg-amber-600');
+                this.classList.replace('hover:bg-blue-700', 'hover:bg-amber-700');
+            } else {
+                this.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M5 3l14 9-14 9V3z"/></svg> Play (Mouvement)`;
+                this.classList.replace('bg-amber-600', 'bg-blue-600');
+                this.classList.replace('hover:bg-amber-700', 'hover:bg-blue-700');
+                state.v = 0; // Arrête l'inertie lors de la pause pour simplifier la démo
+            }
+            updatePhysics();
+        });
+
+        // Bouton Reset
+        document.getElementById('resetBtn').addEventListener('click', () => {
+            state.x = (canvas.width / pixelsPerMeter) / 2 - 1.5;
+            state.v = 0;
+            if(state.isPlaying) document.getElementById('playBtn').click(); // Met en pause automatiquement
+            updatePhysics();
+        });
+
+        // Lancement
+        selectForce('P');
+        updatePhysics();
+        requestAnimationFrame(animate);
+
+    </script>
+</body>
+</html>
