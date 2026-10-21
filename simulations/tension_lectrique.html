@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La Tension Électrique - Tronc Commun</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body, html {
+            margin: 0; padding: 0; width: 100%; height: 100%;
+            background-color: #f8fafc; /* Fond très clair, contrasté */
+            color: #0f172a;
+            font-family: 'Inter', system-ui, sans-serif;
+            overflow-x: hidden;
+        }
+
+        .panel-box {
+            background-color: #ffffff;
+            border: 1px solid #cbd5e1;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+
+        #canvas-wrapper {
+            position: relative;
+            background-color: #ffffff;
+            background-image: 
+                linear-gradient(#f1f5f9 2px, transparent 2px),
+                linear-gradient(90deg, #f1f5f9 2px, transparent 2px);
+            background-size: 40px 40px;
+            border: 1px solid #94a3b8;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        canvas {
+            width: 100%;
+            height: 100%;
+            object-fit: contain; 
+            max-height: 80vh;
+        }
+
+        input[type=range] {
+            -webkit-appearance: none; width: 100%; background: transparent;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none; height: 20px; width: 20px;
+            border-radius: 50%; cursor: pointer;
+            margin-top: -8px; box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            background: #0f172a;
+        }
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%; height: 6px; cursor: pointer;
+            background: #cbd5e1; border-radius: 3px;
+        }
+
+        .math-symbol { font-family: 'Times New Roman', serif; font-style: italic; font-weight: bold; }
+    </style>
+</head>
+<body class="flex flex-col h-screen p-4 gap-4">
+
+    <!-- En-tête -->
+    <header class="pb-2 border-b-2 border-slate-300 shrink-0">
+        <h1 class="text-3xl font-extrabold text-slate-800 tracking-tight">La Tension Électrique (Différence de Potentiel)</h1>
+        <p class="text-xs text-slate-600 font-bold uppercase tracking-wider mt-1">Loi d'Additivité des Tensions • Circuit en Série • Tronc Commun</p>
+    </header>
+
+    <!-- Zone principale : Grille stricte à 3 colonnes -->
+    <main class="grid grid-cols-1 lg:grid-cols-[300px_1fr_350px] gap-4 flex-1 min-h-0">
+        
+        <!-- COLONNE GAUCHE (Contrôles) -->
+        <div class="panel-box p-5 flex flex-col overflow-y-auto">
+            
+            <h2 class="text-sm font-bold mb-3 text-slate-800">Contrôle du Circuit</h2>
+            <button id="btnSwitch" class="w-full mb-6 py-3 bg-red-600 hover:bg-red-700 text-white rounded-lg font-bold text-lg transition-colors shadow-md flex justify-center items-center gap-2 border-2 border-red-800">
+                <span id="switchText">Interrupteur : OUVERT</span>
+            </button>
+
+            <h2 class="text-sm font-bold mb-3 text-slate-800 border-t border-slate-200 pt-4">Pédagogie</h2>
+            <div class="mb-6 bg-slate-50 border border-slate-200 p-3 rounded-lg shadow-inner">
+                <label class="flex items-center gap-3 cursor-pointer">
+                    <input type="checkbox" id="checkPotential" class="w-5 h-5 accent-indigo-600">
+                    <div class="text-sm">
+                        <span class="font-bold text-slate-800 block">Afficher les Potentiels</span>
+                        <span class="text-[10px] text-slate-600 block mt-0.5">Colore les fils (Rouge = Max V, Bleu = 0V)</span>
+                    </div>
+                </label>
+            </div>
+
+            <h2 class="text-sm font-bold mb-3 text-slate-800 border-t border-slate-200 pt-4">Composants</h2>
+            
+            <div class="mb-5">
+                <label class="flex justify-between text-xs font-bold text-slate-700 mb-2">
+                    <span>Générateur (U)</span>
+                    <span id="val_u" class="text-slate-900 font-mono text-sm bg-slate-100 px-2 rounded border border-slate-300">12 V</span>
+                </label>
+                <input type="range" id="slider_u" min="0" max="24" step="1" value="12">
+            </div>
+
+            <div class="mb-5">
+                <label class="flex justify-between text-xs font-bold text-slate-700 mb-2">
+                    <span>Résistance R₁</span>
+                    <span id="val_r1" class="text-slate-900 font-mono text-sm bg-slate-100 px-2 rounded border border-slate-300">40 Ω</span>
+                </label>
+                <input type="range" id="slider_r1" min="10" max="100" step="5" value="40">
+            </div>
+
+            <div class="mb-2">
+                <label class="flex justify-between text-xs font-bold text-slate-700 mb-2">
+                    <span>Résistance R₂</span>
+                    <span id="val_r2" class="text-slate-900 font-mono text-sm bg-slate-100 px-2 rounded border border-slate-300">20 Ω</span>
+                </label>
+                <input type="range" id="slider_r2" min="10" max="100" step="5" value="20">
+            </div>
+        </div>
+
+        <!-- COLONNE CENTRALE (Canvas) -->
+        <div id="canvas-wrapper" class="w-full h-[450px] lg:h-full">
+            <canvas id="circuitCanvas" width="800" height="600"></canvas>
+            
+            <!-- Légende incrustée -->
+            <div id="potentialLegend" class="absolute bottom-4 left-4 bg-white/95 border-2 border-slate-300 p-2 rounded shadow text-[10px] font-bold text-slate-700 hidden">
+                <div class="mb-1 text-center border-b border-slate-200 pb-1">Potentiel (V)</div>
+                <div class="flex items-center gap-1">
+                    <span>0V</span>
+                    <div class="w-24 h-3 bg-gradient-to-r from-blue-600 via-green-500 to-red-600 rounded"></div>
+                    <span id="legendMaxV">24V</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- COLONNE DROITE (Analyse Mathématique) -->
+        <div class="panel-box p-5 flex flex-col overflow-y-auto bg-slate-50">
+            
+            <h2 class="text-sm font-extrabold mb-3 text-slate-800 uppercase tracking-wide border-b-2 border-slate-200 pb-1">1. Potentiels aux Nœuds</h2>
+            <div class="space-y-2 mb-5">
+                <div class="flex justify-between items-center bg-white p-2 border border-slate-200 rounded shadow-sm">
+                    <span class="font-bold text-slate-700 text-sm">Nœud A (Avant R₁)</span>
+                    <span id="calc_va" class="font-mono text-lg font-bold text-indigo-700">0.00 V</span>
+                </div>
+                <div class="flex justify-between items-center bg-white p-2 border border-slate-200 rounded shadow-sm">
+                    <span class="font-bold text-slate-700 text-sm">Nœud B (Entre R₁ et R₂)</span>
+                    <span id="calc_vb" class="font-mono text-lg font-bold text-indigo-700">0.00 V</span>
+                </div>
+                <div class="flex justify-between items-center bg-white p-2 border border-slate-200 rounded shadow-sm">
+                    <span class="font-bold text-slate-700 text-sm">Nœud C (Après R₂)</span>
+                    <span id="calc_vc" class="font-mono text-lg font-bold text-indigo-700">0.00 V</span>
+                </div>
+            </div>
+
+            <h2 class="text-sm font-extrabold mb-3 text-slate-800 uppercase tracking-wide border-b-2 border-slate-200 pb-1">2. Différences de Potentiel</h2>
+            <div class="space-y-3 mb-6">
+                <!-- Tension U1 -->
+                <div class="bg-white p-3 rounded border border-slate-300 shadow-sm">
+                    <div class="flex justify-between items-center mb-1">
+                        <span class="font-bold text-slate-900">Tension aux bornes de R₁</span>
+                        <span id="calc_u1" class="font-mono text-xl font-extrabold text-red-600">0.00 V</span>
+                    </div>
+                    <div class="text-[11px] text-slate-500 font-medium bg-slate-50 p-1 rounded">
+                        <span class="math-symbol">U<sub>AB</sub></span> = <span class="math-symbol">V<sub>A</sub></span> - <span class="math-symbol">V<sub>B</sub></span>
+                    </div>
+                </div>
+                
+                <!-- Tension U2 -->
+                <div class="bg-white p-3 rounded border border-slate-300 shadow-sm">
+                    <div class="flex justify-between items-center mb-1">
+                        <span class="font-bold text-slate-900">Tension aux bornes de R₂</span>
+                        <span id="calc_u2" class="font-mono text-xl font-extrabold text-green-600">0.00 V</span>
+                    </div>
+                    <div class="text-[11px] text-slate-500 font-medium bg-slate-50 p-1 rounded">
+                        <span class="math-symbol">U<sub>BC</sub></span> = <span class="math-symbol">V<sub>B</sub></span> - <span class="math-symbol">V<sub>C</sub></span>
+                    </div>
+                </div>
+            </div>
+
+            <h2 class="text-sm font-extrabold mb-3 text-slate-800 uppercase tracking-wide border-b-2 border-slate-200 pb-1">3. Loi d'Additivité</h2>
+            <div class="bg-slate-800 p-4 rounded-lg shadow-md mt-auto text-white">
+                <p class="text-xs text-slate-300 mb-3 leading-relaxed">
+                    Dans un circuit en série, la tension aux bornes du générateur est égale à la somme des tensions aux bornes des récepteurs.
+                </p>
+                <div class="text-center font-bold text-lg mb-3 pb-2 border-b border-slate-600">
+                    <span class="math-symbol text-yellow-400">U<sub>G</sub></span> = 
+                    <span class="math-symbol text-red-400">U<sub>AB</sub></span> + 
+                    <span class="math-symbol text-green-400">U<sub>BC</sub></span>
+                </div>
+                <div class="flex justify-between items-center">
+                    <span class="font-bold text-sm">Générateur (<span class="math-symbol text-yellow-400">U<sub>G</sub></span>) :</span>
+                    <span id="calc_ug" class="font-mono text-xl font-extrabold text-yellow-400">0.00 V</span>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        const canvas = document.getElementById('circuitCanvas');
+        const ctx = canvas.getContext('2d');
+
+        // Éléments du DOM
+        const btnSwitch = document.getElementById('btnSwitch');
+        const switchText = document.getElementById('switchText');
+        const checkPotential = document.getElementById('checkPotential');
+        const legend = document.getElementById('potentialLegend');
+        const legendMaxV = document.getElementById('legendMaxV');
+        
+        const sliderU = document.getElementById('slider_u');
+        const sliderR1 = document.getElementById('slider_r1');
+        const sliderR2 = document.getElementById('slider_r2');
+        
+        const valU = document.getElementById('val_u');
+        const valR1 = document.getElementById('val_r1');
+        const valR2 = document.getElementById('val_r2');
+
+        const calcVa = document.getElementById('calc_va');
+        const calcVb = document.getElementById('calc_vb');
+        const calcVc = document.getElementById('calc_vc');
+        const calcU1 = document.getElementById('calc_u1');
+        const calcU2 = document.getElementById('calc_u2');
+        const calcUg = document.getElementById('calc_ug');
+
+        // État de la simulation
+        let state = {
+            isClosed: false,
+            showPotential: false,
+            u: 12, r1: 40, r2: 20,
+            i: 0,
+            va: 0, vb: 0, vc: 0,
+            u1: 0, u2: 0
+        };
+
+        // Fonction pour obtenir la couleur en fonction du potentiel (HSL)
+        function getPotentialColor(v, maxV) {
+            if (!state.showPotential || maxV === 0) return '#475569'; // Gris foncé standard
+            
+            // Calcul du ratio entre 0 (0V) et 1 (Tension Max)
+            let ratio = Math.max(0, Math.min(1, v / maxV));
+            
+            // Teinte HSL : 240 (Bleu) à 0 (Rouge)
+            let hue = 240 - (ratio * 240);
+            return `hsl(${hue}, 85%, 50%)`;
+        }
+
+        // Met à jour les calculs mathématiques
+        function updatePhysics() {
+            state.u = parseFloat(sliderU.value);
+            state.r1 = parseFloat(sliderR1.value);
+            state.r2 = parseFloat(sliderR2.value);
+            state.showPotential = checkPotential.checked;
+
+            valU.innerText = state.u + " V";
+            valR1.innerText = state.r1 + " Ω";
+            valR2.innerText = state.r2 + " Ω";
+
+            if (state.showPotential) {
+                legend.classList.remove('hidden');
+                legendMaxV.innerText = state.u + "V";
+            } else {
+                legend.classList.add('hidden');
+            }
+
+            if (state.isClosed) {
+                let req = state.r1 + state.r2;
+                state.i = state.u / req;
+                
+                state.va = state.u;
+                state.u1 = state.r1 * state.i;
+                state.vb = state.va - state.u1;
+                state.u2 = state.r2 * state.i;
+                state.vc = 0; // Relié au pôle négatif (masse locale)
+            } else {
+                state.i = 0;
+                // Si circuit ouvert (interrupteur avant A), potentiel avant interrupteur = U
+                // Après interrupteur = 0V
+                state.va = 0;
+                state.vb = 0;
+                state.vc = 0;
+                state.u1 = 0;
+                state.u2 = 0;
+            }
+
+            // Mise à jour de l'interface
+            calcVa.innerText = state.va.toFixed(2) + " V";
+            calcVb.innerText = Math.abs(state.vb).toFixed(2) + " V";
+            calcVc.innerText = state.vc.toFixed(2) + " V";
+            
+            calcU1.innerText = state.u1.toFixed(2) + " V";
+            calcU2.innerText = state.u2.toFixed(2) + " V";
+            calcUg.innerText = state.u.toFixed(2) + " V";
+
+            drawCircuit();
+        }
+
+        // Gestion des événements
+        btnSwitch.addEventListener('click', function() {
+            state.isClosed = !state.isClosed;
+            if (state.isClosed) {
+                btnSwitch.className = "w-full mb-6 py-3 bg-green-600 hover:bg-green-700 text-white rounded-lg font-bold text-lg transition-colors shadow-md flex justify-center items-center gap-2 border-2 border-green-800";
+                switchText.innerText = "Interrupteur : FERMÉ";
+            } else {
+                btnSwitch.className = "w-full mb-6 py-3 bg-red-600 hover:bg-red-700 text-white rounded-lg font-bold text-lg transition-colors shadow-md flex justify-center items-center gap-2 border-2 border-red-800";
+                switchText.innerText = "Interrupteur : OUVERT";
+            }
+            updatePhysics();
+        });
+
+        checkPotential.addEventListener('change', updatePhysics);
+
+        const slidersArr = [sliderU, sliderR1, sliderR2];
+        for (let i = 0; i < slidersArr.length; i++) {
+            slidersArr[i].addEventListener('input', updatePhysics);
+        }
+
+        // ==========================================
+        // DESSIN DU CIRCUIT SUR LE CANVAS HTML5
+        // ==========================================
+
+        function drawWire(x1, y1, x2, y2, color) {
+            ctx.beginPath();
+            ctx.moveTo(x1, y1);
+            ctx.lineTo(x2, y2);
+            ctx.strokeStyle = color;
+            ctx.lineWidth = 6;
+            ctx.lineCap = 'square';
+            ctx.stroke();
+        }
+
+        function drawNode(x, y, label) {
+            ctx.fillStyle = '#0f172a';
+            ctx.beginPath();
+            ctx.arc(x, y, 6, 0, Math.PI * 2);
+            ctx.fill();
+            
+            if (label) {
+                ctx.fillStyle = '#b91c1c'; // Rouge foncé
+                ctx.font = 'bold 22px sans-serif';
+                ctx.fillText(label, x - 10, y - 15);
+            }
+        }
+
+        function drawResistor(x, y, label, labelValue) {
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(x - 35, y - 15, 70, 30);
+            
+            ctx.strokeStyle = '#0f172a';
+            ctx.lineWidth = 4;
+            ctx.strokeRect(x - 35, y - 15, 70, 30);
+            
+            ctx.fillStyle = '#0f172a';
+            ctx.font = 'bold 20px sans-serif';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(label, x, y);
+            ctx.textBaseline = 'alphabetic';
+
+            if (labelValue) {
+                ctx.fillStyle = '#475569';
+                ctx.font = 'bold 16px monospace';
+                ctx.fillText(labelValue, x, y + 35);
+            }
+        }
+
+        function drawGenerator(x, y) {
+            // Zone de coupure pour effacer le fil en dessous
+            ctx.clearRect(x - 20, y - 30, 40, 60);
+
+            // Borne + (Haut)
+            ctx.strokeStyle = '#dc2626'; // Rouge
+            ctx.lineWidth = 6;
+            ctx.beginPath(); ctx.moveTo(x - 25, y - 8); ctx.lineTo(x + 25, y - 8); ctx.stroke();
+            
+            // Borne - (Bas)
+            ctx.strokeStyle = '#2563eb'; // Bleu
+            ctx.lineWidth = 12;
+            ctx.beginPath(); ctx.moveTo(x - 12, y + 8); ctx.lineTo(x + 12, y + 8); ctx.stroke();
+
+            ctx.fillStyle = '#dc2626'; ctx.font = 'bold 24px sans-serif'; ctx.fillText('+', x - 40, y - 2);
+            ctx.fillStyle = '#2563eb'; ctx.font = 'bold 30px sans-serif'; ctx.fillText('-', x - 40, y + 18);
+            ctx.fillStyle = '#0f172a'; ctx.font = 'bold 22px sans-serif'; ctx.fillText('G', x + 40, y + 6);
+        }
+
+        function drawSwitch(x, y, isClosed) {
+            ctx.clearRect(x - 30, y - 30, 60, 60);
+
+            ctx.fillStyle = '#0f172a';
+            ctx.beginPath(); ctx.arc(x - 20, y, 5, 0, Math.PI*2); ctx.fill();
+            ctx.beginPath(); ctx.arc(x + 20, y, 5, 0, Math.PI*2); ctx.fill();
+
+            ctx.strokeStyle = '#b91c1c'; // Lame rouge
+            ctx.lineWidth = 5;
+            ctx.lineCap = 'round';
+            ctx.beginPath();
+            ctx.moveTo(x - 20, y);
+            if (isClosed) {
+                ctx.lineTo(x + 20, y);
+            } else {
+                ctx.lineTo(x + 15, y - 25);
+            }
+            ctx.stroke();
+            
+            ctx.fillStyle = '#0f172a'; ctx.font = 'bold 20px sans-serif'; ctx.fillText('K', x, y - 30);
+        }
+
+        function drawVoltmeter(cx, cy, label, valueText, wX1, wX2, lineY, connectionColorLeft, connectionColorRight) {
+            // Fils de connexion verticaux (en parallèle)
+            ctx.strokeStyle = '#94a3b8'; // Gris standard pour les connexions du voltmètre
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.moveTo(wX1, lineY); ctx.lineTo(wX1, cy);
+            ctx.moveTo(wX2, lineY); ctx.lineTo(wX2, cy);
+            ctx.stroke();
+
+            // Fils de connexion horizontaux vers le cadran
+            ctx.beginPath();
+            ctx.moveTo(wX1, cy); ctx.lineTo(cx - 25, cy);
+            ctx.moveTo(wX2, cy); ctx.lineTo(cx + 25, cy);
+            ctx.stroke();
+            
+            // Nœuds de connexion (colorés selon le potentiel si actif)
+            ctx.fillStyle = connectionColorLeft;
+            ctx.beginPath(); ctx.arc(wX1, lineY, 6, 0, Math.PI*2); ctx.fill();
+            ctx.fillStyle = connectionColorRight;
+            ctx.beginPath(); ctx.arc(wX2, lineY, 6, 0, Math.PI*2); ctx.fill();
+
+            // Cadran du Voltmètre
+            ctx.fillStyle = '#ffffff';
+            ctx.beginPath(); ctx.arc(cx, cy, 26, 0, Math.PI * 2); ctx.fill();
+            ctx.strokeStyle = '#0f172a'; ctx.lineWidth = 4; ctx.stroke();
+            
+            ctx.fillStyle = '#0f172a'; ctx.font = 'bold 24px sans-serif';
+            ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+            ctx.fillText('V', cx, cy);
+            ctx.textBaseline = 'alphabetic';
+
+            if (valueText) {
+                ctx.fillStyle = '#b91c1c'; ctx.font = 'bold 16px monospace';
+                ctx.fillText(valueText, cx, cy - 35);
+            }
+            
+            // Label secondaire (ex: V_R1)
+            ctx.fillStyle = '#64748b'; ctx.font = 'bold 14px sans-serif';
+            ctx.fillText(label, cx, cy + 42);
+        }
+
+        function drawCircuit() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Coordonnées principales du circuit rectangulaire
+            const X_LEFT = 150;
+            const X_RIGHT = 650;
+            const Y_TOP = 250;
+            const Y_BOT = 450;
+            const Y_GEN = 350;
+
+            const X_SW_L = 200; // Switch Left
+            const X_SW_R = 260; // Switch Right
+
+            const X_R1_L = 310;
+            const X_R1_R = 390;
+            
+            const X_R2_L = 510;
+            const X_R2_R = 590;
+
+            // Détermination des couleurs selon les potentiels
+            const maxU = state.u;
+            const colorMax = getPotentialColor(maxU, maxU);
+            const colorA = getPotentialColor(state.va, maxU);
+            const colorB = getPotentialColor(state.vb, maxU);
+            const colorC = getPotentialColor(state.vc, maxU);
+
+            // 1. TRACÉ DES FILS PRINCIPAUX (Découpés par zones de potentiel)
+
+            // Zone Max (Générateur + -> Interrupteur Gauche)
+            drawWire(X_LEFT, Y_GEN - 8, X_LEFT, Y_TOP, colorMax);
+            drawWire(X_LEFT, Y_TOP, X_SW_L, Y_TOP, colorMax);
+
+            // Zone Nœud A (Interrupteur Droite -> Résistance R1 Gauche)
+            drawWire(X_SW_R, Y_TOP, X_R1_L, Y_TOP, colorA);
+
+            // Zone Nœud B (Résistance R1 Droite -> Résistance R2 Gauche)
+            drawWire(X_R1_R, Y_TOP, X_R2_L, Y_TOP, colorB);
+
+            // Zone Nœud C / 0V (Résistance R2 Droite -> Générateur -)
+            drawWire(X_R2_R, Y_TOP, X_RIGHT, Y_TOP, colorC);
+            drawWire(X_RIGHT, Y_TOP, X_RIGHT, Y_BOT, colorC);
+            drawWire(X_RIGHT, Y_BOT, X_LEFT, Y_BOT, colorC);
+            drawWire(X_LEFT, Y_BOT, X_LEFT, Y_GEN + 8, colorC);
+
+            // 2. DESSIN DES NŒUDS EXPLICITES
+            drawNode(X_R1_L - 20, Y_TOP, "A");
+            drawNode(X_R1_R + 60, Y_TOP, "B");
+            drawNode(X_R2_R + 20, Y_TOP, "C");
+
+            // 3. DESSIN DES COMPOSANTS
+            drawGenerator(X_LEFT, Y_GEN);
+            drawSwitch(230, Y_TOP, state.isClosed);
+            
+            drawResistor(350, Y_TOP, "R₁", state.r1 + " Ω");
+            drawResistor(550, Y_TOP, "R₂", state.r2 + " Ω");
+
+            // 4. DESSIN DES VOLTMÈTRES (En parallèle)
+            
+            // Voltmètre Générateur (à gauche)
+            const vGenVal = state.u.toFixed(1) + " V";
+            // On le dessine à gauche du générateur
+            drawVoltmeter(60, 350, "V_G", vGenVal, X_LEFT, X_LEFT, Y_GEN - 50, colorMax, colorC);
+            // Corriger les fils du voltmètre G qui sont spéciaux (vers le haut et le bas, pas la même ligne Y)
+            ctx.strokeStyle = '#94a3b8'; ctx.lineWidth = 3; ctx.beginPath();
+            ctx.moveTo(X_LEFT, Y_GEN - 50); ctx.lineTo(60, Y_GEN - 50); ctx.lineTo(60, 320); // Fil Haut
+            ctx.moveTo(X_LEFT, Y_GEN + 50); ctx.lineTo(60, Y_GEN + 50); ctx.lineTo(60, 380); // Fil Bas
+            ctx.stroke();
+            // Nœuds du voltmètre Générateur
+            ctx.fillStyle = colorMax; ctx.beginPath(); ctx.arc(X_LEFT, Y_GEN - 50, 6, 0, Math.PI*2); ctx.fill();
+            ctx.fillStyle = colorC;   ctx.beginPath(); ctx.arc(X_LEFT, Y_GEN + 50, 6, 0, Math.PI*2); ctx.fill();
+
+            // Voltmètre R1
+            const vR1Val = state.isClosed ? state.u1.toFixed(1) + " V" : "0.0 V";
+            drawVoltmeter(350, 130, "V_1", vR1Val, 290, 410, Y_TOP, colorA, colorB);
+
+            // Voltmètre R2
+            const vR2Val = state.isClosed ? state.u2.toFixed(1) + " V" : "0.0 V";
+            drawVoltmeter(550, 130, "V_2", vR2Val, 490, 610, Y_TOP, colorB, colorC);
+        }
+
+        // Initialisation
+        updatePhysics();
+
+    </script>
+</body>
+</html>
