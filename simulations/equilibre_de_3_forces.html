@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Équilibre de 3 Forces - Tronc Commun</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body, html {
+            margin: 0; padding: 0; width: 100%; height: 100%;
+            background-color: #f8fafc;
+            color: #0f172a;
+            font-family: 'Inter', system-ui, sans-serif;
+            overflow-x: hidden;
+        }
+
+        .glass-panel {
+            background-color: #ffffff;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+            border-radius: 12px;
+        }
+
+        #canvas-wrapper {
+            position: relative;
+            background-color: #ffffff;
+            background-image: 
+                linear-gradient(#f1f5f9 2px, transparent 2px),
+                linear-gradient(90deg, #f1f5f9 2px, transparent 2px);
+            background-size: 50px 50px;
+            border: 1px solid #cbd5e1;
+            border-radius: 12px;
+            box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.02);
+            overflow: hidden;
+        }
+
+        canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+
+        input[type=range] {
+            -webkit-appearance: none; width: 100%; background: transparent;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none; height: 18px; width: 18px;
+            border-radius: 50%; background: currentColor; cursor: pointer;
+            margin-top: -7px; box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+        }
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%; height: 5px; cursor: pointer;
+            background: #cbd5e1; border-radius: 3px;
+        }
+
+        /* Specific thumb colors */
+        #f1_mag::-webkit-slider-thumb, #f1_ang::-webkit-slider-thumb { background: #2563eb; }
+        #f2_mag::-webkit-slider-thumb, #f2_ang::-webkit-slider-thumb { background: #16a34a; }
+
+        .toggle-checkbox:checked {
+            right: 0;
+            border-color: #3b82f6;
+        }
+        .toggle-checkbox:checked + .toggle-label {
+            background-color: #3b82f6;
+        }
+    </style>
+</head>
+<body class="flex flex-col h-screen p-4 md:p-6 gap-4">
+
+    <!-- En-tête -->
+    <header class="flex justify-between items-end pb-3 border-b-2 border-slate-200 shrink-0">
+        <div>
+            <h1 class="text-3xl font-extrabold text-slate-800 tracking-tight">Équilibre d'un corps</h1>
+            <p class="text-sm text-slate-500 font-semibold uppercase tracking-wider mt-1">Action de 3 forces non parallèles • Tronc Commun</p>
+        </div>
+    </header>
+
+    <!-- Zone principale -->
+    <main class="flex flex-col lg:flex-row flex-1 gap-4 min-h-0">
+        
+        <!-- Panneau Gauche : Contrôles -->
+        <div class="glass-panel p-5 w-full lg:w-[350px] flex flex-col shrink-0 overflow-y-auto">
+            <h2 class="text-base font-bold mb-4 text-slate-800 border-b-2 border-slate-100 pb-2">Contrôle des Forces</h2>
+            
+            <!-- Force 1 (Bleu) -->
+            <div class="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                <h3 class="font-bold text-blue-800 mb-3 flex items-center gap-2">
+                    <span class="w-3 h-3 rounded-full bg-blue-600 inline-block"></span> Force F₁
+                </h3>
+                
+                <div class="mb-4">
+                    <label class="flex justify-between text-sm font-semibold text-slate-700 mb-1">
+                        <span>Intensité (N)</span>
+                        <span id="f1_mag_disp" class="font-mono text-blue-700">100 N</span>
+                    </label>
+                    <input type="range" id="f1_mag" min="0" max="200" step="5" value="100" class="text-blue-600">
+                </div>
+                
+                <div>
+                    <label class="flex justify-between text-sm font-semibold text-slate-700 mb-1">
+                        <span>Angle (°)</span>
+                        <span id="f1_ang_disp" class="font-mono text-blue-700">30°</span>
+                    </label>
+                    <input type="range" id="f1_ang" min="0" max="360" step="5" value="30" class="text-blue-600">
+                </div>
+            </div>
+
+            <!-- Force 2 (Vert) -->
+            <div class="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg">
+                <h3 class="font-bold text-green-800 mb-3 flex items-center gap-2">
+                    <span class="w-3 h-3 rounded-full bg-green-600 inline-block"></span> Force F₂
+                </h3>
+                
+                <div class="mb-4">
+                    <label class="flex justify-between text-sm font-semibold text-slate-700 mb-1">
+                        <span>Intensité (N)</span>
+                        <span id="f2_mag_disp" class="font-mono text-green-700">120 N</span>
+                    </label>
+                    <input type="range" id="f2_mag" min="0" max="200" step="5" value="120" class="text-green-600">
+                </div>
+                
+                <div>
+                    <label class="flex justify-between text-sm font-semibold text-slate-700 mb-1">
+                        <span>Angle (°)</span>
+                        <span id="f2_ang_disp" class="font-mono text-green-700">150°</span>
+                    </label>
+                    <input type="range" id="f2_ang" min="0" max="360" step="5" value="150" class="text-green-600">
+                </div>
+            </div>
+
+            <h2 class="text-base font-bold mt-auto mb-4 text-slate-800 border-b-2 border-slate-100 pb-2">Affichage</h2>
+            
+            <div class="flex items-center justify-between">
+                <span class="text-sm font-bold text-slate-700">Polygone des forces (Triangle)</span>
+                <div class="relative inline-block w-12 mr-2 align-middle select-none transition duration-200 ease-in">
+                    <input type="checkbox" name="toggle" id="polygonToggle" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer transition-transform duration-200 ease-in-out"/>
+                    <label for="polygonToggle" class="toggle-label block overflow-hidden h-6 rounded-full bg-slate-300 cursor-pointer transition-colors duration-200 ease-in-out"></label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Espace Simulation (Canvas) -->
+        <div id="canvas-wrapper" class="flex-1 w-full relative">
+            <canvas id="simCanvas"></canvas>
+            
+            <!-- Légende axe -->
+            <div class="absolute bottom-4 left-4 bg-white/90 border border-slate-200 p-2 rounded shadow-sm text-xs font-semibold text-slate-500">
+                Échelle : 1 carreau = 20 N
+            </div>
+        </div>
+
+        <!-- Panneau Droit : Analyse -->
+        <div class="glass-panel p-5 w-full lg:w-[350px] flex flex-col shrink-0 overflow-y-auto">
+            <h2 class="text-lg font-extrabold mb-4 text-slate-800 flex items-center gap-2 border-b-2 border-slate-100 pb-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-indigo-600"><polygon points="12 2 2 22 22 22"></polygon></svg>
+                Bilan à l'équilibre
+            </h2>
+
+            <!-- F3 Dynamique -->
+            <div class="bg-red-50 p-4 rounded-lg border border-red-200 mb-6 shadow-inner">
+                <h3 class="font-bold text-red-800 mb-2 flex items-center gap-2">
+                    <span class="w-3 h-3 rounded-full bg-red-600 inline-block"></span> Force d'équilibre F₃
+                </h3>
+                <p class="text-xs text-red-600/80 mb-3 font-medium">Calculée automatiquement pour maintenir l'anneau immobile.</p>
+                
+                <div class="flex justify-between items-center mb-1">
+                    <span class="text-sm font-bold text-slate-700">Intensité :</span>
+                    <span id="f3_mag_disp" class="font-mono text-lg font-bold text-red-700">0 N</span>
+                </div>
+                <div class="flex justify-between items-center">
+                    <span class="text-sm font-bold text-slate-700">Angle :</span>
+                    <span id="f3_ang_disp" class="font-mono text-lg font-bold text-red-700">0°</span>
+                </div>
+            </div>
+
+            <!-- Conditions d'équilibre -->
+            <h3 class="text-sm uppercase tracking-widest text-slate-500 font-extrabold mb-3">Conditions d'équilibre</h3>
+            
+            <ul class="space-y-3 text-sm">
+                <li class="bg-white p-3 rounded-lg border border-slate-200 shadow-sm flex items-start gap-3">
+                    <div class="w-6 h-6 rounded-full bg-green-100 text-green-600 flex items-center justify-center shrink-0 mt-0.5">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    </div>
+                    <div>
+                        <span class="font-bold text-slate-800 block mb-1">Lignes d'action concourantes</span>
+                        <span class="text-slate-500 text-xs">Les droites d'action des 3 forces se coupent en un point unique (le centre de l'anneau) et sont coplanaires.</span>
+                    </div>
+                </li>
+                
+                <li class="bg-white p-3 rounded-lg border border-slate-200 shadow-sm flex items-start gap-3">
+                    <div class="w-6 h-6 rounded-full bg-green-100 text-green-600 flex items-center justify-center shrink-0 mt-0.5">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    </div>
+                    <div class="w-full">
+                        <span class="font-bold text-slate-800 block mb-1">Somme vectorielle nulle</span>
+                        <span class="text-slate-500 text-xs block mb-2">F₁ + F₂ + F₃ = 0</span>
+                        
+                        <div class="bg-slate-50 p-2 rounded border border-slate-100 font-mono text-xs text-slate-600 space-y-1">
+                            <div class="flex justify-between">
+                                <span>Σ Fx = </span>
+                                <span id="sum_x" class="text-emerald-600 font-bold">0.00</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>Σ Fy = </span>
+                                <span id="sum_y" class="text-emerald-600 font-bold">0.00</span>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+
+        </div>
+    </main>
+
+    <script>
+        const canvas = document.getElementById('simCanvas');
+        const ctx = canvas.getContext('2d');
+        const wrapper = document.getElementById('canvas-wrapper');
+
+        // Inputs
+        const in_f1_mag = document.getElementById('f1_mag');
+        const in_f1_ang = document.getElementById('f1_ang');
+        const in_f2_mag = document.getElementById('f2_mag');
+        const in_f2_ang = document.getElementById('f2_ang');
+        const polygonToggle = document.getElementById('polygonToggle');
+
+        // Displays
+        const disp_f1_mag = document.getElementById('f1_mag_disp');
+        const disp_f1_ang = document.getElementById('f1_ang_disp');
+        const disp_f2_mag = document.getElementById('f2_mag_disp');
+        const disp_f2_ang = document.getElementById('f2_ang_disp');
+        const disp_f3_mag = document.getElementById('f3_mag_disp');
+        const disp_f3_ang = document.getElementById('f3_ang_disp');
+        const disp_sum_x = document.getElementById('sum_x');
+        const disp_sum_y = document.getElementById('sum_y');
+
+        // State
+        let state = {
+            f1: { mag: 100, ang: 30, x: 0, y: 0, color: '#2563eb', label: 'F₁' },
+            f2: { mag: 120, ang: 150, x: 0, y: 0, color: '#16a34a', label: 'F₂' },
+            f3: { mag: 0, ang: 0, x: 0, y: 0, color: '#dc2626', label: 'F₃' },
+            showPolygon: false
+        };
+
+        const pixelsPerNewton = 50 / 20; // 50px grid size = 20 N
+
+        function resizeCanvas() {
+            canvas.width = wrapper.clientWidth;
+            canvas.height = wrapper.clientHeight;
+            draw();
+        }
+        window.addEventListener('resize', resizeCanvas);
+        setTimeout(resizeCanvas, 50);
+
+        function updatePhysics() {
+            // Read inputs
+            state.f1.mag = parseFloat(in_f1_mag.value);
+            state.f1.ang = parseFloat(in_f1_ang.value);
+            state.f2.mag = parseFloat(in_f2_mag.value);
+            state.f2.ang = parseFloat(in_f2_ang.value);
+            state.showPolygon = polygonToggle.checked;
+
+            // Update UI displays
+            disp_f1_mag.innerText = state.f1.mag + " N";
+            disp_f1_ang.innerText = state.f1.ang + "°";
+            disp_f2_mag.innerText = state.f2.mag + " N";
+            disp_f2_ang.innerText = state.f2.ang + "°";
+
+            // Math angles (degrees to radians)
+            const rad1 = state.f1.ang * Math.PI / 180;
+            const rad2 = state.f2.ang * Math.PI / 180;
+
+            // Components
+            state.f1.x = state.f1.mag * Math.cos(rad1);
+            state.f1.y = state.f1.mag * Math.sin(rad1);
+            
+            state.f2.x = state.f2.mag * Math.cos(rad2);
+            state.f2.y = state.f2.mag * Math.sin(rad2);
+
+            // Equilibrium: F3 = - (F1 + F2)
+            state.f3.x = -(state.f1.x + state.f2.x);
+            state.f3.y = -(state.f1.y + state.f2.y);
+
+            // F3 Magnitude and Angle
+            state.f3.mag = Math.sqrt(state.f3.x*state.f3.x + state.f3.y*state.f3.y);
+            let rad3 = Math.atan2(state.f3.y, state.f3.x);
+            if (rad3 < 0) rad3 += 2 * Math.PI;
+            state.f3.ang = rad3 * 180 / Math.PI;
+
+            // Update F3 displays
+            disp_f3_mag.innerText = state.f3.mag.toFixed(1) + " N";
+            disp_f3_ang.innerText = state.f3.ang.toFixed(1) + "°";
+
+            // Sum validation (should be very close to 0)
+            const sumX = state.f1.x + state.f2.x + state.f3.x;
+            const sumY = state.f1.y + state.f2.y + state.f3.y;
+            disp_sum_x.innerText = Math.abs(sumX) < 0.01 ? "0.00" : sumX.toFixed(2);
+            disp_sum_y.innerText = Math.abs(sumY) < 0.01 ? "0.00" : sumY.toFixed(2);
+
+            draw();
+        }
+
+        function drawArrow(startX, startY, f, scale, dashedActionLine) {
+            const endX = startX + f.x * scale;
+            const endY = startY - f.y * scale; // Y is inverted in canvas
+
+            const rad = Math.atan2(-f.y, f.x); // Canvas angle
+
+            // Droite d'action (pointillés)
+            if (dashedActionLine && f.mag > 0) {
+                ctx.beginPath();
+                ctx.setLineDash([5, 5]);
+                // Ligne qui traverse tout
+                const lineLen = 1000;
+                ctx.moveTo(startX - Math.cos(rad) * lineLen, startY - Math.sin(rad) * lineLen);
+                ctx.lineTo(startX + Math.cos(rad) * lineLen, startY + Math.sin(rad) * lineLen);
+                ctx.strokeStyle = f.color;
+                ctx.globalAlpha = 0.2;
+                ctx.lineWidth = 1;
+                ctx.stroke();
+                ctx.setLineDash([]);
+                ctx.globalAlpha = 1.0;
+            }
+
+            if (f.mag === 0) return;
+
+            // Vector
+            ctx.beginPath();
+            ctx.moveTo(startX, startY);
+            ctx.lineTo(endX, endY);
+            ctx.strokeStyle = f.color;
+            ctx.lineWidth = 4;
+            ctx.lineCap = 'round';
+            ctx.stroke();
+
+            // Arrow head
+            ctx.save();
+            ctx.translate(endX, endY);
+            ctx.rotate(rad);
+            ctx.beginPath();
+            ctx.moveTo(2, 0);
+            ctx.lineTo(-12, -7);
+            ctx.lineTo(-12, 7);
+            ctx.fillStyle = f.color;
+            ctx.fill();
+            
+            // Label
+            ctx.rotate(-rad);
+            ctx.font = 'italic bold 20px "Times New Roman", serif';
+            
+            // Offset text based on angle to avoid overlapping the arrow
+            let lx = Math.cos(rad) * 20;
+            let ly = Math.sin(rad) * 20;
+            
+            ctx.lineWidth = 3;
+            ctx.strokeStyle = 'white';
+            ctx.strokeText(f.label, lx, ly);
+            ctx.fillText(f.label, lx, ly);
+            
+            // Vector arrow over text
+            ctx.beginPath();
+            ctx.moveTo(lx, ly - 18);
+            ctx.lineTo(lx + 12, ly - 18);
+            ctx.lineTo(lx + 8, ly - 21);
+            ctx.moveTo(lx + 12, ly - 18);
+            ctx.lineTo(lx + 8, ly - 15);
+            ctx.lineWidth = 1.5;
+            ctx.strokeStyle = f.color;
+            ctx.stroke();
+
+            ctx.restore();
+        }
+
+        function draw() {
+            if(!ctx) return;
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            const cx = canvas.width / 2;
+            const cy = canvas.height / 2;
+
+            if (!state.showPolygon) {
+                // Mode 1: Forces concourantes
+                
+                // Dessiner l'anneau central
+                ctx.beginPath();
+                ctx.arc(cx, cy, 10, 0, Math.PI * 2);
+                ctx.fillStyle = 'transparent';
+                ctx.strokeStyle = '#475569';
+                ctx.lineWidth = 4;
+                ctx.stroke();
+                
+                // Dessiner l'intérieur de l'anneau
+                ctx.beginPath();
+                ctx.arc(cx, cy, 6, 0, Math.PI * 2);
+                ctx.fillStyle = '#f8fafc';
+                ctx.fill();
+
+                // Dessiner les vecteurs
+                drawArrow(cx, cy, state.f1, pixelsPerNewton, true);
+                drawArrow(cx, cy, state.f2, pixelsPerNewton, true);
+                drawArrow(cx, cy, state.f3, pixelsPerNewton, true);
+
+            } else {
+                // Mode 2: Polygone des forces
+                
+                // Pour centrer le triangle, on calcule le barycentre des 3 sommets
+                const p0 = { x: 0, y: 0 };
+                const p1 = { x: state.f1.x * pixelsPerNewton, y: -state.f1.y * pixelsPerNewton };
+                const p2 = { x: p1.x + state.f2.x * pixelsPerNewton, y: p1.y - state.f2.y * pixelsPerNewton };
+                
+                const baryX = (p0.x + p1.x + p2.x) / 3;
+                const baryY = (p0.y + p1.y + p2.y) / 3;
+
+                const startX = cx - baryX;
+                const startY = cy - baryY;
+
+                // F1
+                drawArrow(startX, startY, state.f1, pixelsPerNewton, false);
+                
+                // F2 (start from tip of F1)
+                const f2StartX = startX + state.f1.x * pixelsPerNewton;
+                const f2StartY = startY - state.f1.y * pixelsPerNewton;
+                drawArrow(f2StartX, f2StartY, state.f2, pixelsPerNewton, false);
+                
+                // F3 (start from tip of F2)
+                const f3StartX = f2StartX + state.f2.x * pixelsPerNewton;
+                const f3StartY = f2StartY - state.f2.y * pixelsPerNewton;
+                drawArrow(f3StartX, f3StartY, state.f3, pixelsPerNewton, false);
+            }
+        }
+
+        // Setup Event Listeners (Using standard for loop as requested)
+        const inputs = [in_f1_mag, in_f1_ang, in_f2_mag, in_f2_ang, polygonToggle];
+        for (let i = 0; i < inputs.length; i++) {
+            inputs[i].addEventListener('input', updatePhysics);
+        }
+
+        // Init
+        updatePhysics();
+
+    </script>
+</body>
+</html>
