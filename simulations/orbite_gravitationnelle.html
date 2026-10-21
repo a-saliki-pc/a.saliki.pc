@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gravitation Universelle en Mouvement</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden; /* Prevent scrolling, full app feel */
+            background-color: #030510;
+            font-family: 'Inter', -apple-system, sans-serif;
+            color: white;
+        }
+
+        #simulation-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .glass-panel {
+            background: rgba(15, 23, 42, 0.4);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255,255,255,0.1);
+            border-radius: 1.5rem;
+            z-index: 10;
+        }
+
+        /* Stylized range sliders */
+        input[type=range] {
+            -webkit-appearance: none;
+            width: 100%;
+            background: transparent;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 16px;
+            width: 16px;
+            border-radius: 50%;
+            background: #60a5fa;
+            cursor: pointer;
+            margin-top: -6px;
+            box-shadow: 0 0 10px rgba(96, 165, 250, 0.8);
+        }
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 4px;
+            cursor: pointer;
+            background: rgba(255,255,255,0.2);
+            border-radius: 2px;
+        }
+        
+        .preset-btn {
+            transition: all 0.3s ease;
+        }
+        .preset-btn.active {
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            border-color: transparent;
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.5);
+            color: white;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 10px; }
+    </style>
+</head>
+<body class="relative flex flex-col md:flex-row p-4 md:p-6 gap-6 pointer-events-none">
+
+    <!-- Canvas sits in the background -->
+    <canvas id="simulation-canvas"></canvas>
+
+    <!-- UI Overlay (pointer-events-auto allows interacting with UI while canvas ignores clicks) -->
+    <div class="absolute inset-0 p-4 md:p-6 flex flex-col md:flex-row justify-between items-start pointer-events-none z-10 w-full max-w-[1600px] mx-auto gap-6">
+        
+        <!-- Left Panel: Header & Presets -->
+        <div class="glass-panel p-6 w-full md:w-[350px] flex flex-col pointer-events-auto flex-shrink-0">
+            <h1 class="text-2xl md:text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-400 mb-1">
+                Orbites & Gravité
+            </h1>
+            <p class="text-sm text-gray-400 mb-6">Moteur physique en temps réel</p>
+
+            <h2 class="text-xs uppercase tracking-wider text-gray-500 font-semibold mb-3">Systèmes Préconfigurés</h2>
+            <div class="flex flex-col gap-2 mb-6">
+                <button onclick="setPreset('soleil_terre')" id="btn-soleil_terre" class="preset-btn active px-4 py-3 rounded-xl text-sm font-medium border border-gray-600 text-gray-300 hover:bg-white/5 flex items-center justify-between">
+                    <span class="flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-yellow-400 shadow-[0_0_8px_#facc15]"></span>Soleil & Terre</span>
+                    <span class="text-xs opacity-50">1 UA</span>
+                </button>
+                <button onclick="setPreset('terre_lune')" id="btn-terre_lune" class="preset-btn px-4 py-3 rounded-xl text-sm font-medium border border-gray-600 text-gray-300 hover:bg-white/5 flex items-center justify-between">
+                    <span class="flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-blue-500 shadow-[0_0_8px_#3b82f6]"></span>Terre & Lune</span>
+                    <span class="text-xs opacity-50">384k km</span>
+                </button>
+                <button onclick="setPreset('terre_sat')" id="btn-terre_sat" class="preset-btn px-4 py-3 rounded-xl text-sm font-medium border border-gray-600 text-gray-300 hover:bg-white/5 flex items-center justify-between">
+                    <span class="flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-blue-500 shadow-[0_0_8px_#3b82f6]"></span>Terre & ISS</span>
+                    <span class="text-xs opacity-50">LEO</span>
+                </button>
+            </div>
+
+            <div class="mt-auto pt-4 border-t border-white/10">
+                <div class="text-xs text-blue-200/70 leading-relaxed mb-4">
+                    Les vitesses orbitales sont calculées automatiquement : 
+                    <strong class="text-blue-300 font-mono block mt-1">v = √(G × M / r)</strong>
+                </div>
+                
+                <h3 class="text-xs uppercase tracking-widest text-gray-400 font-bold mb-2">Loi de Gravitation</h3>
+                <div class="flex justify-center items-center gap-2 text-sm font-mono text-gray-200 mb-3 bg-white/5 py-2 rounded-lg border border-white/10">
+                    <span>F = G &times;</span>
+                    <div class="flex flex-col text-center">
+                        <span class="border-b border-gray-400 px-1">m₁ &times; m₂</span>
+                        <span class="px-1">d²</span>
+                    </div>
+                </div>
+                
+                <div class="bg-black/30 p-3 rounded-lg border border-white/5 font-mono text-[11px] md:text-xs text-gray-300 space-y-2">
+                    <div class="text-gray-500 mb-1">G = 6.67 &times; 10⁻¹¹</div>
+                    <div class="flex items-center gap-2">
+                        <span>F = G &times;</span>
+                        <div class="flex flex-col text-center">
+                            <span class="border-b border-gray-500 px-1 text-yellow-200/80" id="calcTop">m1 &times; m2</span>
+                            <span class="px-1 text-green-200/80" id="calcBottom">d²</span>
+                        </div>
+                    </div>
+                    <div class="text-purple-300 font-bold pt-2 border-t border-white/10 mt-2 text-sm" id="calcResult">F = 0 N</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Panel: Controls & Telemetry -->
+        <div class="glass-panel p-6 w-full md:w-[380px] flex flex-col pointer-events-auto ml-auto overflow-y-auto max-h-[calc(100vh-3rem)]">
+            <h2 class="text-lg font-semibold mb-4 flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-purple-400"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                Paramètres Interactifs
+            </h2>
+
+            <!-- Mass 1 -->
+            <div class="mb-5">
+                <label class="flex justify-between items-end mb-2">
+                    <span id="name1" class="font-medium text-gray-200">Corps 1</span>
+                    <span id="m1Display" class="font-mono text-sm text-yellow-400 bg-yellow-400/10 px-2 py-0.5 rounded"></span>
+                </label>
+                <input type="range" id="m1Slider" min="20" max="32" step="0.1" value="30.3" class="w-full">
+            </div>
+
+            <!-- Mass 2 -->
+            <div class="mb-5">
+                <label class="flex justify-between items-end mb-2">
+                    <span id="name2" class="font-medium text-gray-200">Corps 2</span>
+                    <span id="m2Display" class="font-mono text-sm text-blue-400 bg-blue-400/10 px-2 py-0.5 rounded"></span>
+                </label>
+                <input type="range" id="m2Slider" min="2" max="28" step="0.1" value="24.77" class="w-full">
+            </div>
+
+            <!-- Distance -->
+            <div class="mb-6">
+                <label class="flex justify-between items-end mb-2">
+                    <span class="font-medium text-gray-200">Distance Initiale</span>
+                    <span id="dDisplay" class="font-mono text-sm text-green-400 bg-green-400/10 px-2 py-0.5 rounded"></span>
+                </label>
+                <input type="range" id="dSlider" min="6" max="12.5" step="0.05" value="11.17" class="w-full">
+            </div>
+
+            <!-- Telemetry / Data Readout -->
+            <div class="bg-black/30 rounded-xl p-4 border border-white/5 space-y-3">
+                <h3 class="text-xs uppercase tracking-widest text-gray-500 font-bold mb-2">Télémétrie en temps réel</h3>
+                
+                <div class="flex justify-between items-center">
+                    <span class="text-sm text-gray-400">Force Gravitationnelle</span>
+                    <span id="forceDisplay" class="font-mono text-purple-300 font-bold">0 N</span>
+                </div>
+                <div class="w-full h-px bg-white/10"></div>
+                <div class="flex justify-between items-center">
+                    <span class="text-sm text-gray-400">Vitesse (<span id="name2Short">Corps 2</span>)</span>
+                    <span id="vDisplay" class="font-mono text-cyan-300">0 km/s</span>
+                </div>
+                <div class="w-full h-px bg-white/10"></div>
+                <div class="flex justify-between items-center">
+                    <span class="text-sm text-gray-400">Temps Simulé / sec</span>
+                    <span id="timeScaleDisplay" class="font-mono text-gray-300">0 jours</span>
+                </div>
+            </div>
+            
+            <button onclick="resetOrbit()" class="mt-6 w-full py-2 bg-white/10 hover:bg-white/20 border border-white/20 rounded-lg text-sm transition-colors flex items-center justify-center gap-2 pointer-events-auto">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path></svg>
+                Réinitialiser l'Orbite
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('simulation-canvas');
+        const ctx = canvas.getContext('2d');
+
+        // Handle Resizing
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        // UI Elements
+        const sliders = {
+            m1: document.getElementById('m1Slider'),
+            m2: document.getElementById('m2Slider'),
+            d: document.getElementById('dSlider')
+        };
+        const displays = {
+            m1: document.getElementById('m1Display'),
+            m2: document.getElementById('m2Display'),
+            d: document.getElementById('dDisplay'),
+            f: document.getElementById('forceDisplay'),
+            v: document.getElementById('vDisplay'),
+            t: document.getElementById('timeScaleDisplay'),
+            n1: document.getElementById('name1'),
+            n2: document.getElementById('name2'),
+            n2s: document.getElementById('name2Short'),
+            cTop: document.getElementById('calcTop'),
+            cBot: document.getElementById('calcBottom'),
+            cRes: document.getElementById('calcResult')
+        };
+
+        // Physics Constants
+        const G = 6.67430e-11; // N(m/kg)^2
+
+        // System State (Real physical units: kg, meters, m/s)
+        let state = {
+            name1: "Soleil", name2: "Terre",
+            color1: "#fbbf24", color2: "#3b82f6", glow1: "#d97706", glow2: "#2563eb",
+            m1: 0, m2: 0, 
+            x1: 0, y1: 0, vx1: 0, vy1: 0,
+            x2: 0, y2: 0, vx2: 0, vy2: 0,
+            distInitial: 0,
+            dt: 1, // Time step per frame (seconds)
+            pixelScale: 1 // meters per pixel
+        };
+
+        let trail = [];
+        const MAX_TRAIL = 150; // length of fading tail
+
+        const presets = {
+            soleil_terre: {
+                name1: "Soleil", name2: "Terre", color1: "#ffdd44", color2: "#44aaff", glow1: "#ff8800", glow2: "#0044ff",
+                m1Exp: 30.30, m2Exp: 24.77, dExp: 11.17 
+            },
+            terre_lune: {
+                name1: "Terre", name2: "Lune", color1: "#44aaff", color2: "#cccccc", glow1: "#0044ff", glow2: "#ffffff",
+                m1Exp: 24.77, m2Exp: 22.86, dExp: 8.58 
+            },
+            terre_sat: {
+                name1: "Terre", name2: "ISS", color1: "#44aaff", color2: "#ffffff", glow1: "#0044ff", glow2: "#ffffff",
+                m1Exp: 24.77, m2Exp: 5.62, dExp: 6.83 // ISS is ~420,000kg. Distance: Earth Radius 6371km + 400km
+            }
+        };
+
+        // Starfield generator
+        const stars = [];
+        for(let i=0; i<300; i++) {
+            stars.push({
+                x: Math.random(), 
+                y: Math.random(),
+                size: Math.random() * 1.5 + 0.1,
+                opacity: Math.random(),
+                speed: (Math.random() - 0.5) * 0.005
+            });
+        }
+
+        function formatSci(val, unit) {
+            if(val === 0) return `0 ${unit}`;
+            const exp = Math.floor(Math.log10(val));
+            const mant = val / Math.pow(10, exp);
+            if (exp >= -2 && exp <= 3) return `${val.toLocaleString('fr-FR', {maximumFractionDigits: 1})} ${unit}`;
+            return `${mant.toFixed(1)} × 10<sup>${exp}</sup> ${unit}`;
+        }
+
+        window.setPreset = function(key) {
+            // Update UI buttons
+            const btns = document.querySelectorAll('.preset-btn');
+            for (let i = 0; i < btns.length; i++) {
+                btns[i].classList.remove('active');
+            }
+            
+            if(document.getElementById(`btn-${key}`)) {
+                document.getElementById(`btn-${key}`).classList.add('active');
+            }
+
+            const p = presets[key];
+            state.name1 = p.name1; state.name2 = p.name2;
+            state.color1 = p.color1; state.color2 = p.color2;
+            state.glow1 = p.glow1; state.glow2 = p.glow2;
+            
+            displays.n1.innerText = p.name1;
+            displays.n2.innerText = p.name2;
+            displays.n2s.innerText = p.name2;
+
+            sliders.m1.value = p.m1Exp;
+            sliders.m2.value = p.m2Exp;
+            sliders.d.value = p.dExp;
+
+            resetOrbit();
+        }
+
+        // Calculates circular orbit and sets up the physics engine
+        window.resetOrbit = function() {
+            // Read values from sliders
+            state.m1 = Math.pow(10, parseFloat(sliders.m1.value));
+            state.m2 = Math.pow(10, parseFloat(sliders.m2.value));
+            state.distInitial = Math.pow(10, parseFloat(sliders.d.value));
+
+            // Update UI Displays
+            displays.m1.innerHTML = formatSci(state.m1, 'kg');
+            displays.m2.innerHTML = formatSci(state.m2, 'kg');
+            displays.d.innerHTML = formatSci(state.distInitial, 'm');
+
+            // Set positions (Logical: Origin at barycenter)
+            // Barycenter: x_b = (m1*x1 + m2*x2) / (m1 + m2) = 0
+            // Distance d = x2 - x1
+            // So x1 = -d * m2 / (m1 + m2), x2 = d * m1 / (m1 + m2)
+            const totalMass = state.m1 + state.m2;
+            const r1 = state.distInitial * (state.m2 / totalMass);
+            const r2 = state.distInitial * (state.m1 / totalMass);
+
+            state.x1 = -r1; state.y1 = 0;
+            state.x2 = r2;  state.y2 = 0;
+
+            // Velocity for circular orbit around barycenter
+            // v = sqrt(G * M_other^2 / (totalMass * d))
+            const v1 = Math.sqrt(G * Math.pow(state.m2, 2) / (totalMass * state.distInitial));
+            const v2 = Math.sqrt(G * Math.pow(state.m1, 2) / (totalMass * state.distInitial));
+
+            state.vx1 = 0; state.vy1 = -v1;
+            state.vx2 = 0; state.vy2 = v2;
+
+            // Calculate ideal time step (dt) to make the simulation look good
+            // We want ~1 orbit every 10 seconds (at 60fps -> 600 frames)
+            const period = 2 * Math.PI * Math.sqrt(Math.pow(state.distInitial, 3) / (G * totalMass));
+            state.dt = period / 800; // frames per orbit roughly
+
+            // Display time scale (Simulation time passing per real second at 60fps)
+            const timePerSec = state.dt * 60;
+            if (timePerSec > 86400 * 30) displays.t.innerText = (timePerSec / (86400*30)).toFixed(1) + " mois";
+            else if (timePerSec > 86400) displays.t.innerText = (timePerSec / 86400).toFixed(1) + " jours";
+            else if (timePerSec > 3600) displays.t.innerText = (timePerSec / 3600).toFixed(1) + " heures";
+            else displays.t.innerText = (timePerSec / 60).toFixed(1) + " minutes";
+
+            const formatForCalc = (val) => {
+                if(val === 0) return "0";
+                const exp = Math.floor(Math.log10(val));
+                const mant = val / Math.pow(10, exp);
+                if (exp >= -2 && exp <= 3) return val.toLocaleString('fr-FR', {maximumFractionDigits: 1});
+                return `${mant.toFixed(2)}&times;10<sup>${exp}</sup>`;
+            };
+            
+            if (displays.cTop && displays.cBot && displays.cRes) {
+                displays.cTop.innerHTML = `(${formatForCalc(state.m1)}) &times; (${formatForCalc(state.m2)})`;
+                displays.cBot.innerHTML = `(${formatForCalc(state.distInitial)})²`;
+                const staticForce = G * state.m1 * state.m2 / (state.distInitial * state.distInitial);
+                displays.cRes.innerHTML = `F = ${formatSci(staticForce, 'N')}`;
+            }
+
+            // Visual Scale: make the initial distance occupy 35% of the screen height
+            const visualDistancePx = canvas.height * 0.35;
+            state.pixelScale = visualDistancePx / state.distInitial;
+
+            trail = []; // Clear trail
+        }
+
+        // Attach listeners to sliders
+        const sliderArray = [sliders.m1, sliders.m2, sliders.d];
+        for (let i = 0; i < sliderArray.length; i++) {
+            if (sliderArray[i]) {
+                sliderArray[i].addEventListener('input', () => {
+                    // Unset preset buttons visually
+                    const btns = document.querySelectorAll('.preset-btn');
+                    for (let j = 0; j < btns.length; j++) {
+                        btns[j].classList.remove('active');
+                    }
+                    resetOrbit();
+                });
+            }
+        }
+
+        // Semi-Implicit Euler Integration (much more stable for orbits than standard Euler)
+        function updatePhysics() {
+            // Sub-stepping for higher precision without losing visual framerate
+            const subSteps = 10;
+            const dt = state.dt / subSteps;
+
+            for(let i=0; i<subSteps; i++) {
+                const dx = state.x2 - state.x1;
+                const dy = state.y2 - state.y1;
+                const r2 = dx*dx + dy*dy;
+                const r = Math.sqrt(r2);
+
+                const force = G * state.m1 * state.m2 / r2;
+                
+                // Accelerations
+                const a1 = force / state.m1;
+                const ax1 = a1 * (dx / r);
+                const ay1 = a1 * (dy / r);
+
+                const a2 = force / state.m2;
+                const ax2 = -a2 * (dx / r);
+                const ay2 = -a2 * (dy / r);
+
+                // Update V
+                state.vx1 += ax1 * dt;
+                state.vy1 += ay1 * dt;
+                state.vx2 += ax2 * dt;
+                state.vy2 += ay2 * dt;
+
+                // Update P
+                state.x1 += state.vx1 * dt;
+                state.y1 += state.vy1 * dt;
+                state.x2 += state.vx2 * dt;
+                state.y2 += state.vy2 * dt;
+            }
+
+            // Update Real-Time Telemetry
+            const dx = state.x2 - state.x1;
+            const dy = state.y2 - state.y1;
+            const r2 = dx*dx + dy*dy;
+            const forceDisplay = G * state.m1 * state.m2 / r2;
+            const v2Display = Math.sqrt(state.vx2*state.vx2 + state.vy2*state.vy2);
+            
+            displays.f.innerHTML = formatSci(forceDisplay, 'N');
+            displays.v.innerText = (v2Display / 1000).toLocaleString('fr-FR', {maximumFractionDigits: 1}) + ' km/s';
+
+            // Save trail (Relative to Body 1 to look nice even if barycenter moves slightly)
+            // Convert to screen coordinates instantly for the trail array
+            const cx = canvas.width / 2;
+            const cy = canvas.height / 2;
+            
+            // We want to center the camera on the barycenter (0,0)
+            const sx2 = cx + state.x2 * state.pixelScale;
+            const sy2 = cy + state.y2 * state.pixelScale;
+            
+            trail.push({x: sx2, y: sy2});
+            if(trail.length > MAX_TRAIL) trail.shift();
+        }
+
+        function drawPlanet(x, y, radius, color, glow, label) {
+            ctx.save();
+            
+            // Outer Glow
+            ctx.shadowBlur = radius * 2;
+            ctx.shadowColor = glow;
+            
+            // Base planet
+            ctx.beginPath();
+            ctx.arc(x, y, radius, 0, Math.PI * 2);
+            
+            // Radial Gradient to give 3D sphere illusion
+            const grad = ctx.createRadialGradient(x - radius*0.3, y - radius*0.3, radius*0.1, x, y, radius);
+            grad.addColorStop(0, '#ffffff');
+            grad.addColorStop(0.3, color);
+            grad.addColorStop(1, '#000000');
+            
+            ctx.fillStyle = grad;
+            ctx.fill();
+            
+            ctx.shadowBlur = 0; // Reset
+            
+            // Label
+            ctx.fillStyle = 'rgba(255,255,255,0.7)';
+            ctx.font = '12px Inter, sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText(label, x, y + radius + 15);
+            
+            ctx.restore();
+        }
+
+        function drawStars() {
+            ctx.fillStyle = '#ffffff';
+            for (let i = 0; i < stars.length; i++) {
+                let s = stars[i];
+                // Twinkle effect
+                s.opacity += s.speed;
+                if(s.opacity > 1 || s.opacity < 0) s.speed = -s.speed;
+                
+                ctx.globalAlpha = Math.max(0, Math.min(1, s.opacity));
+                ctx.beginPath();
+                ctx.arc(s.x * canvas.width, s.y * canvas.height, s.size, 0, Math.PI*2);
+                ctx.fill();
+            }
+            ctx.globalAlpha = 1.0;
+        }
+
+        function render() {
+            // Slightly transparent clear for faint motion blur on stars/background
+            ctx.fillStyle = 'rgba(3, 5, 16, 0.4)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            drawStars();
+
+            updatePhysics();
+
+            const cx = canvas.width / 2;
+            const cy = canvas.height / 2;
+
+            // Draw Trail
+            if (trail.length > 1) {
+                ctx.beginPath();
+                for (let i = 0; i < trail.length; i++) {
+                    const pt = trail[i];
+                    if (i === 0) ctx.moveTo(pt.x, pt.y);
+                    else ctx.lineTo(pt.x, pt.y);
+                }
+                
+                // Gradient trail fading out
+                ctx.save();
+                ctx.lineCap = 'round';
+                ctx.lineJoin = 'round';
+                ctx.lineWidth = 2;
+                
+                // Opacity based on trail age (approximate via strokeStyle)
+                for(let i=1; i<trail.length; i++) {
+                    ctx.beginPath();
+                    ctx.moveTo(trail[i-1].x, trail[i-1].y);
+                    ctx.lineTo(trail[i].x, trail[i].y);
+                    ctx.strokeStyle = `rgba(255, 255, 255, ${i / trail.length * 0.5})`;
+                    ctx.stroke();
+                }
+                ctx.restore();
+            }
+
+            // Screen coordinates for bodies
+            const sx1 = cx + state.x1 * state.pixelScale;
+            const sy1 = cy + state.y1 * state.pixelScale;
+            const sx2 = cx + state.x2 * state.pixelScale;
+            const sy2 = cy + state.y2 * state.pixelScale;
+
+            // Visual Radii (Logarithmic mapping for extreme mass differences to look good)
+            // Ensure they are bounded so they don't cover the screen or become invisible
+            const r1 = Math.max(10, Math.min(50, Math.log10(state.m1) * 1.5));
+            const r2 = Math.max(6, Math.min(30, Math.log10(state.m2) * 1.2));
+
+            // Draw connecting gravitational tether (faint)
+            ctx.beginPath();
+            ctx.setLineDash([4, 8]);
+            ctx.moveTo(sx1, sy1);
+            ctx.lineTo(sx2, sy2);
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
+            ctx.stroke();
+            ctx.setLineDash([]);
+
+            // Draw Planets
+            drawPlanet(sx1, sy1, r1, state.color1, state.glow1, state.name1);
+            drawPlanet(sx2, sy2, r2, state.color2, state.glow2, state.name2);
+
+            requestAnimationFrame(render);
+        }
+
+        // Start Engine
+        setPreset('soleil_terre');
+        render();
+
+    </script>
+</body>
+</html>
