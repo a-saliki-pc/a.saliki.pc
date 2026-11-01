@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Types de Désintégration Radioactive</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0f172a; /* Slate 900 */
+            color: #f8fafc;
+            overflow-x: hidden;
+        }
+        .font-mono {
+            font-family: 'JetBrains Mono', monospace;
+        }
+        
+        /* Effets de lueur */
+        .glow-red { box-shadow: 0 0 15px rgba(255, 71, 87, 0.5); }
+        .glow-orange { box-shadow: 0 0 15px rgba(255, 165, 2, 0.5); }
+        .glow-yellow { box-shadow: 0 0 15px rgba(255, 217, 61, 0.5); }
+        .glow-purple { box-shadow: 0 0 15px rgba(165, 94, 234, 0.5); }
+
+        /* Animation des particules SVG */
+        .particle-anim {
+            transition: transform 1.5s cubic-bezier(0.25, 0.1, 0.25, 1), opacity 1.5s;
+        }
+        .pulse-glow {
+            animation: pulse-op 1s infinite alternate;
+        }
+        @keyframes pulse-op {
+            from { opacity: 0.5; filter: drop-shadow(0 0 5px yellow); }
+            to { opacity: 1; filter: drop-shadow(0 0 15px yellow); }
+        }
+
+        /* Scrollbar custom */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0f172a; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #475569; }
+
+        /* Style pour les isotopes A, Z */
+        .isotope {
+            display: inline-flex;
+            align-items: center;
+            vertical-align: middle;
+            line-height: 1;
+        }
+        .isotope-indices {
+            display: flex;
+            flex-direction: column;
+            text-align: right;
+            margin-right: 0.1rem;
+            font-size: 0.7em;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+
+    <!-- En-tête -->
+    <header class="bg-slate-900/90 backdrop-blur border-b border-slate-800 py-4 px-6 shadow-lg flex flex-col md:flex-row items-center justify-between z-20 gap-4">
+        <div class="flex items-center gap-3">
+            <span class="text-3xl">☢️</span>
+            <div>
+                <h1 class="text-xl md:text-2xl font-black tracking-wide uppercase text-slate-100">
+                    Les Types de Désintégration
+                </h1>
+                <p class="text-xs text-slate-400 uppercase tracking-widest font-semibold">Physique Nucléaire - 2ème Bac PC/SVT</p>
+            </div>
+        </div>
+        <div class="text-xs font-bold bg-slate-800 text-slate-300 px-4 py-2 rounded-lg border border-slate-700 shadow-inner text-center">
+            Lois de Soddy :<br>
+            <span class="text-cyan-400">Conservation de A et Z</span>
+        </div>
+    </header>
+
+    <main class="flex-1 flex flex-col p-4 md:p-6 max-w-[1400px] mx-auto w-full gap-6">
+
+        <!-- BOUTONS DE SÉLECTION DU TYPE -->
+        <nav class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <button onclick="selectType('alpha')" id="btn-alpha" class="type-btn glow-red bg-slate-800 border-2 border-[#ff4757] text-white p-4 rounded-2xl flex flex-col items-center justify-center gap-2 transition-transform transform hover:scale-105">
+                <span class="text-3xl font-black text-[#ff4757]">α</span>
+                <span class="text-sm font-bold uppercase tracking-wider">Alpha</span>
+            </button>
+            <button onclick="selectType('betaminus')" id="btn-betaminus" class="type-btn bg-slate-800 border-2 border-slate-700 text-slate-400 p-4 rounded-2xl flex flex-col items-center justify-center gap-2 transition-transform transform hover:scale-105">
+                <span class="text-3xl font-black text-[#ffa502]">β⁻</span>
+                <span class="text-sm font-bold uppercase tracking-wider">Bêta Moins</span>
+            </button>
+            <button onclick="selectType('betaplus')" id="btn-betaplus" class="type-btn bg-slate-800 border-2 border-slate-700 text-slate-400 p-4 rounded-2xl flex flex-col items-center justify-center gap-2 transition-transform transform hover:scale-105">
+                <span class="text-3xl font-black text-[#ffd93d]">β⁺</span>
+                <span class="text-sm font-bold uppercase tracking-wider">Bêta Plus</span>
+            </button>
+            <button onclick="selectType('gamma')" id="btn-gamma" class="type-btn bg-slate-800 border-2 border-slate-700 text-slate-400 p-4 rounded-2xl flex flex-col items-center justify-center gap-2 transition-transform transform hover:scale-105">
+                <span class="text-3xl font-black text-[#a55eea]">γ</span>
+                <span class="text-sm font-bold uppercase tracking-wider">Gamma</span>
+            </button>
+        </nav>
+
+        <!-- ZONE DYNAMIQUE (Change selon le type) -->
+        <section id="dynamic-content" class="grid grid-cols-1 lg:grid-cols-2 gap-6 transition-opacity duration-300">
+            
+            <!-- Colonne Gauche : Théorie & Équation -->
+            <div class="flex flex-col gap-6">
+                <!-- Définition -->
+                <div class="bg-slate-800/50 border border-slate-700 rounded-2xl p-6 shadow-xl relative overflow-hidden">
+                    <div id="card-color-bar" class="absolute top-0 left-0 w-1.5 h-full bg-[#ff4757]"></div>
+                    <h2 class="text-xl font-black text-white mb-2 flex items-center gap-2">
+                        <span id="type-title">Désintégration Alpha (α)</span>
+                    </h2>
+                    <p id="type-desc" class="text-sm text-slate-300 mb-4 leading-relaxed">
+                        Émission d'un noyau d'hélium (2 protons, 2 neutrons). Concerne principalement les noyaux lourds (A > 200).
+                    </p>
+                    
+                    <h3 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2 border-b border-slate-700 pb-1">Que se passe-t-il dans le noyau ?</h3>
+                    <p id="type-mechanism" class="text-sm text-slate-300 mb-4">
+                        Le noyau père se sépare d'un bloc de 4 nucléons (particule α) pour devenir un noyau fils plus léger et plus stable.
+                    </p>
+
+                    <h3 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2 border-b border-slate-700 pb-1">Équation Générale</h3>
+                    <div id="type-eq-gen" class="font-mono text-lg font-bold bg-slate-950 p-4 rounded-xl border border-slate-800 text-center text-white flex justify-center items-center gap-2">
+                        <!-- Rempli par JS -->
+                    </div>
+                </div>
+
+                <!-- Exemple Réel -->
+                <div class="bg-slate-800 border border-slate-700 rounded-2xl p-6 shadow-xl">
+                    <h3 class="text-sm font-bold text-slate-300 uppercase tracking-widest flex items-center gap-2 mb-4">
+                        💡 Exemple concret
+                    </h3>
+                    <div id="type-eq-ex" class="font-mono text-xl font-bold bg-slate-900 p-4 rounded-xl border border-slate-700 text-center text-[#ff4757] flex justify-center items-center gap-2 mb-4 shadow-inner">
+                        <!-- Rempli par JS -->
+                    </div>
+                    <p id="type-context" class="text-sm text-slate-400 leading-relaxed bg-slate-950 p-3 rounded-lg border border-slate-800">
+                        <!-- Rempli par JS -->
+                    </p>
+                </div>
+            </div>
+
+            <!-- Colonne Droite : Animations -->
+            <div class="flex flex-col gap-6">
+                <!-- Schéma SVG Animé -->
+                <div class="bg-slate-800/50 border border-slate-700 rounded-2xl p-6 shadow-xl flex flex-col">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-sm font-bold text-slate-300 uppercase tracking-widest">🎬 Animation au niveau nucléaire</h3>
+                        <button onclick="playNucleusAnim()" class="bg-slate-700 hover:bg-slate-600 text-white text-xs font-bold py-1.5 px-3 rounded-lg transition-colors flex items-center gap-1">
+                            <svg class="w-3 h-3" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg> Animer
+                        </button>
+                    </div>
+                    
+                    <div class="relative w-full h-48 bg-slate-950 rounded-xl border border-slate-800 overflow-hidden flex items-center justify-center shadow-inner">
+                        <!-- SVG Container -->
+                        <div id="svg-container" class="w-full h-full"></div>
+                    </div>
+                    
+                    <div class="mt-3 flex justify-center gap-4 text-xs font-bold text-slate-400">
+                        <div class="flex items-center gap-1"><span class="w-3 h-3 rounded-full bg-red-500"></span> Proton</div>
+                        <div class="flex items-center gap-1"><span class="w-3 h-3 rounded-full bg-blue-500"></span> Neutron</div>
+                    </div>
+                </div>
+
+                <!-- Test de Pénétration -->
+                <div class="bg-slate-800/50 border border-slate-700 rounded-2xl p-6 shadow-xl flex flex-col">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-sm font-bold text-slate-300 uppercase tracking-widest">🛡️ Pouvoir Pénétrant</h3>
+                        <button onclick="playPenetrationAnim()" class="bg-slate-700 hover:bg-slate-600 text-white text-xs font-bold py-1.5 px-3 rounded-lg transition-colors flex items-center gap-1">
+                            <svg class="w-3 h-3" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg> Tester
+                        </button>
+                    </div>
+                    
+                    <div class="relative w-full h-32 bg-slate-950 rounded-xl border border-slate-800 overflow-hidden shadow-inner">
+                        <canvas id="penCanvas" class="absolute inset-0 w-full h-full block"></canvas>
+                    </div>
+                    <p id="pen-desc" class="text-xs text-slate-400 mt-3 text-center">
+                        La particule α est arrêtée par une simple feuille de papier.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- TABLEAU COMPARATIF -->
+        <section class="bg-slate-900 border border-slate-700 rounded-2xl p-6 shadow-xl mt-4">
+            <h2 class="text-lg font-black text-white mb-4 flex items-center gap-2">
+                📊 Tableau Comparatif
+            </h2>
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm text-left text-slate-300">
+                    <thead class="text-xs text-slate-400 uppercase bg-slate-800">
+                        <tr>
+                            <th scope="col" class="px-4 py-3 rounded-tl-lg">Type</th>
+                            <th scope="col" class="px-4 py-3">Particule Émise</th>
+                            <th scope="col" class="px-4 py-3">Variation de A</th>
+                            <th scope="col" class="px-4 py-3">Variation de Z</th>
+                            <th scope="col" class="px-4 py-3 rounded-tr-lg">Pouvoir Pénétrant</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="bg-slate-900 border-b border-slate-800 hover:bg-slate-800/50">
+                            <td class="px-4 py-3 font-bold text-[#ff4757]">α (Alpha)</td>
+                            <td class="px-4 py-3">Noyau d'Hélium (⁴₂He)</td>
+                            <td class="px-4 py-3 font-mono">-4</td>
+                            <td class="px-4 py-3 font-mono">-2</td>
+                            <td class="px-4 py-3">Faible (Papier)</td>
+                        </tr>
+                        <tr class="bg-slate-900 border-b border-slate-800 hover:bg-slate-800/50">
+                            <td class="px-4 py-3 font-bold text-[#ffa502]">β⁻ (Bêta -)</td>
+                            <td class="px-4 py-3">Électron (⁰₋₁e)</td>
+                            <td class="px-4 py-3 font-mono">0</td>
+                            <td class="px-4 py-3 font-mono">+1</td>
+                            <td class="px-4 py-3">Moyen (Aluminium)</td>
+                        </tr>
+                        <tr class="bg-slate-900 border-b border-slate-800 hover:bg-slate-800/50">
+                            <td class="px-4 py-3 font-bold text-[#ffd93d]">β⁺ (Bêta +)</td>
+                            <td class="px-4 py-3">Positon (⁰₊₁e)</td>
+                            <td class="px-4 py-3 font-mono">0</td>
+                            <td class="px-4 py-3 font-mono">-1</td>
+                            <td class="px-4 py-3">Moyen (Aluminium)</td>
+                        </tr>
+                        <tr class="bg-slate-900 hover:bg-slate-800/50">
+                            <td class="px-4 py-3 font-bold text-[#a55eea]">γ (Gamma)</td>
+                            <td class="px-4 py-3">Photon (Onde EM)</td>
+                            <td class="px-4 py-3 font-mono">0</td>
+                            <td class="px-4 py-3 font-mono">0</td>
+                            <td class="px-4 py-3">Très élevé (Plomb)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- MINI QUIZ -->
+        <section class="bg-slate-800/30 border border-slate-700 rounded-2xl p-6 mb-8">
+            <h2 class="text-lg font-black text-white mb-4 flex items-center gap-2">
+                🧠 Teste tes connaissances
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                
+                <div class="bg-slate-900 p-4 rounded-xl border border-slate-700">
+                    <p class="text-sm font-bold text-slate-300 mb-2">1. Quelle particule est émise lors de la radioactivité α ?</p>
+                    <details class="cursor-pointer group">
+                        <summary class="text-xs font-bold text-cyan-400 hover:text-cyan-300 outline-none">Voir la réponse</summary>
+                        <p class="mt-2 text-sm text-white bg-slate-800 p-2 rounded">Un noyau d'Hélium (⁴₂He), composé de 2 protons et 2 neutrons.</p>
+                    </details>
+                </div>
+                
+                <div class="bg-slate-900 p-4 rounded-xl border border-slate-700">
+                    <p class="text-sm font-bold text-slate-300 mb-2">2. Lors d'une émission β⁻, que se passe-t-il dans le noyau ?</p>
+                    <details class="cursor-pointer group">
+                        <summary class="text-xs font-bold text-cyan-400 hover:text-cyan-300 outline-none">Voir la réponse</summary>
+                        <p class="mt-2 text-sm text-white bg-slate-800 p-2 rounded">Un neutron se transforme en proton, en éjectant un électron (⁰₋₁e).</p>
+                    </details>
+                </div>
+
+                <div class="bg-slate-900 p-4 rounded-xl border border-slate-700">
+                    <p class="text-sm font-bold text-slate-300 mb-2">3. Quel rayonnement nécessite un épais mur de plomb pour être arrêté ?</p>
+                    <details class="cursor-pointer group">
+                        <summary class="text-xs font-bold text-cyan-400 hover:text-cyan-300 outline-none">Voir la réponse</summary>
+                        <p class="mt-2 text-sm text-white bg-slate-800 p-2 rounded">Le rayonnement Gamma (γ), car il est constitué de photons très énergétiques et n'a pas de masse.</p>
+                    </details>
+                </div>
+
+                <div class="bg-slate-900 p-4 rounded-xl border border-slate-700">
+                    <p class="text-sm font-bold text-slate-300 mb-2">4. Que stipulent les lois de Soddy ?</p>
+                    <details class="cursor-pointer group">
+                        <summary class="text-xs font-bold text-cyan-400 hover:text-cyan-300 outline-none">Voir la réponse</summary>
+                        <p class="mt-2 text-sm text-white bg-slate-800 p-2 rounded">Lors d'une réaction nucléaire, il y a conservation du nombre de masse (A) et du nombre de charge (Z).</p>
+                    </details>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- LOGIQUE JAVASCRIPT -->
+    <script>
+        // --- DONNÉES PÉDAGOGIQUES ---
+        const decayData = {
+            alpha: {
+                id: 'alpha',
+                title: "Désintégration Alpha (α)",
+                color: "#ff4757",
+                glowClass: "glow-red",
+                desc: "Émission d'un noyau d'hélium (2 protons, 2 neutrons). Concerne principalement les noyaux lourds (A > 200).",
+                mechanism: "Le noyau père instable se sépare d'un bloc très stable de 4 nucléons (la particule α) pour devenir un noyau fils plus léger.",
+                eqGen: `
+                    <div class="isotope"><div class="isotope-indices"><span>A</span><span>Z</span></div><span>X</span></div>
+                    <span>→</span>
+                    <div class="isotope"><div class="isotope-indices"><span>A-4</span><span>Z-2</span></div><span>Y</span></div>
+                    <span>+</span>
+                    <div class="isotope"><div class="isotope-indices"><span>4</span><span>2</span></div><span>He</span></div>
+                `,
+                eqEx: `
+                    <div class="isotope"><div class="isotope-indices"><span>238</span><span>92</span></div><span>U</span></div>
+                    <span class="text-white mx-2">→</span>
+                    <div class="isotope"><div class="isotope-indices"><span>234</span><span>90</span></div><span>Th</span></div>
+                    <span class="text-white mx-2">+</span>
+                    <div class="isotope"><div class="isotope-indices"><span>4</span><span>2</span></div><span>He</span></div>
+                `,
+                context: "<strong>L'Uranium-238</strong> se désintègre naturellement en Thorium. La particule α est très ionisante mais très peu pénétrante, elle est arrêtée par quelques centimètres d'air ou une simple feuille de papier.",
+                penStop: 1 // 1: Papier, 2: Alu, 3: Plomb
+            },
+            betaminus: {
+                id: 'betaminus',
+                title: "Désintégration Bêta Moins (β⁻)",
+                color: "#ffa502",
+                glowClass: "glow-orange",
+                desc: "Émission d'un électron (e⁻) et d'un antineutrino. Concerne les noyaux qui ont un excès de neutrons.",
+                mechanism: "Au sein du noyau, un neutron se transforme en proton. Pour conserver la charge, un électron est créé et éjecté à très grande vitesse.",
+                eqGen: `
+                    <div class="isotope"><div class="isotope-indices"><span>A</span><span>Z</span></div><span>X</span></div>
+                    <span>→</span>
+                    <div class="isotope"><div class="isotope-indices"><span>A</span><span>Z+1</span></div><span>Y</span></div>
+                    <span>+</span>
+                    <div class="isotope"><div class="isotope-indices"><span>0</span><span>-1</span></div><span>e</span></div>
+                `,
+                eqEx: `
+                    <div class="isotope"><div class="isotope-indices"><span>14</span><span>6</span></div><span>C</span></div>
+                    <span class="text-white mx-2">→</span>
+                    <div class="isotope"><div class="isotope-indices"><span>14</span><span>7</span></div><span>N</span></div>
+                    <span class="text-white mx-2">+</span>
+                    <div class="isotope"><div class="isotope-indices"><span>0</span><span>-1</span></div><span>e</span></div>
+                `,
+                context: "<strong>Le Carbone-14</strong> utilisé pour la datation archéologique se désintègre par émission β⁻ pour devenir de l'Azote-14 stable. L'électron émis peut traverser du papier mais est arrêté par quelques millimètres d'aluminium.",
+                penStop: 2
+            },
+            betaplus: {
+                id: 'betaplus',
+                title: "Désintégration Bêta Plus (β⁺)",
+                color: "#ffd93d",
+                glowClass: "glow-yellow",
+                desc: "Émission d'un positon (e⁺, antiparticule de l'électron). Concerne les noyaux artificiels ayant un excès de protons.",
+                mechanism: "Au sein du noyau, un proton se transforme en neutron. Pour conserver la charge, un positon (charge +e) est éjecté du noyau.",
+                eqGen: `
+                    <div class="isotope"><div class="isotope-indices"><span>A</span><span>Z</span></div><span>X</span></div>
+                    <span>→</span>
+                    <div class="isotope"><div class="isotope-indices"><span>A</span><span>Z-1</span></div><span>Y</span></div>
+                    <span>+</span>
+                    <div class="isotope"><div class="isotope-indices"><span>0</span><span>+1</span></div><span>e</span></div>
+                `,
+                eqEx: `
+                    <div class="isotope"><div class="isotope-indices"><span>22</span><span>11</span></div><span>Na</span></div>
+                    <span class="text-white mx-2">→</span>
+                    <div class="isotope"><div class="isotope-indices"><span>22</span><span>10</span></div><span>Ne</span></div>
+                    <span class="text-white mx-2">+</span>
+                    <div class="isotope"><div class="isotope-indices"><span>0</span><span>+1</span></div><span>e</span></div>
+                `,
+                context: "<strong>Le Sodium-22</strong> (ou le Fluor-18) se désintègre par β⁺. C'est très utilisé en imagerie médicale (TEP Scan) car le positon émis s'annihile rapidement avec un électron du corps pour émettre des photons.",
+                penStop: 2
+            },
+            gamma: {
+                id: 'gamma',
+                title: "Rayonnement Gamma (γ)",
+                color: "#a55eea",
+                glowClass: "glow-purple",
+                desc: "Émission d'un photon de très haute énergie (onde électromagnétique). Accompagne souvent les désintégrations α et β.",
+                mechanism: "Après une désintégration, le noyau fils est souvent dans un état excité (surplus d'énergie). Il se 'calme' et devient stable en libérant cette énergie sous forme de lumière (photon γ).",
+                eqGen: `
+                    <div class="isotope"><div class="isotope-indices"><span>A</span><span>Z</span></div><span>X*</span></div>
+                    <span>→</span>
+                    <div class="isotope"><div class="isotope-indices"><span>A</span><span>Z</span></div><span>X</span></div>
+                    <span>+</span>
+                    <span class="text-xl mx-1">γ</span>
+                `,
+                eqEx: `
+                    <div class="isotope"><div class="isotope-indices"><span>99m</span><span>43</span></div><span>Tc</span></div>
+                    <span class="text-white mx-2">→</span>
+                    <div class="isotope"><div class="isotope-indices"><span>99</span><span>43</span></div><span>Tc</span></div>
+                    <span class="text-white mx-2">+</span>
+                    <span class="text-xl mx-1">γ</span>
+                `,
+                context: "<strong>Le Technétium-99m</strong> (le 'm' signifie métastable/excité) se désexcite en émettant un rayon gamma. Ce rayonnement est très pénétrant : il faut d'épais murs de plomb ou de béton pour l'arrêter.",
+                penStop: 3
+            }
+        };
+
+        let currentType = 'alpha';
+
+        // --- GESTION DE L'INTERFACE ---
+        function selectType(type) {
+            currentType = type;
+            const data = decayData[type];
+
+            // 1. Mise à jour des boutons
+            document.querySelectorAll('.type-btn').forEach(btn => {
+                btn.classList.remove('glow-red', 'glow-orange', 'glow-yellow', 'glow-purple', 'border-[#ff4757]', 'border-[#ffa502]', 'border-[#ffd93d]', 'border-[#a55eea]', 'text-white');
+                btn.classList.add('border-slate-700', 'text-slate-400');
+            });
+            const activeBtn = document.getElementById(`btn-${type}`);
+            activeBtn.classList.remove('border-slate-700', 'text-slate-400');
+            activeBtn.classList.add(data.glowClass, 'text-white');
+            activeBtn.style.borderColor = data.color;
+
+            // 2. Mise à jour du contenu texte
+            document.getElementById('card-color-bar').style.backgroundColor = data.color;
+            document.getElementById('type-title').textContent = data.title;
+            document.getElementById('type-desc').textContent = data.desc;
+            document.getElementById('type-mechanism').textContent = data.mechanism;
+            
+            document.getElementById('type-eq-gen').innerHTML = data.eqGen;
+            document.getElementById('type-eq-ex').innerHTML = data.eqEx;
+            document.getElementById('type-eq-ex').style.color = data.color;
+            document.getElementById('type-context').innerHTML = data.context;
+
+            // Update Penetration text
+            const penDesc = document.getElementById('pen-desc');
+            if(type === 'alpha') penDesc.innerHTML = "La particule <span style='color:#ff4757;font-weight:bold;'>α</span> est lourde et chargée : elle est arrêtée par une simple feuille de papier.";
+            else if(type === 'betaminus' || type === 'betaplus') penDesc.innerHTML = "Les particules <span style='color:#ffa502;font-weight:bold;'>β</span> sont légères et rapides : elles traversent le papier mais sont arrêtées par de l'aluminium.";
+            else penDesc.innerHTML = "Le rayonnement <span style='color:#a55eea;font-weight:bold;'>γ</span> n'a ni masse ni charge : il est très pénétrant et nécessite du plomb pour être atténué.";
+
+            // Reset animations
+            resetNucleusSVG();
+            resetPenetration();
+        }
+
+        // --- ANIMATION SVG NOYAU ---
+        function resetNucleusSVG() {
+            const container = document.getElementById('svg-container');
+            const data = decayData[currentType];
+            
+            // Création d'un groupe de protons(rouges) et neutrons(bleus) pour simuler un noyau
+            let circles = '';
+            // Dessinons un amas (noyau père) au centre gauche (x=100, y=100)
+            const cx = 100, cy = 96;
+            
+            // Background cluster
+            const cluster = [
+                [-10,-10,'#3b82f6'], [10,-15,'#ef4444'], [0,-5,'#3b82f6'], [-15,5,'#ef4444'],
+                [15,5,'#3b82f6'], [5,15,'#ef4444'], [-5,20,'#3b82f6'], [0,5,'#ef4444'],
+                [-8,8,'#3b82f6'], [8,-5,'#ef4444'], [-18,-5,'#3b82f6']
+            ];
+            
+            cluster.forEach(p => {
+                circles += `<circle cx="${cx + p[0]}" cy="${cy + p[1]}" r="7" fill="${p[2]}" stroke="#0f172a" stroke-width="1"/>`;
+            });
+
+            // Éléments qui vont s'animer selon le type
+            let animGroup = '';
+            
+            if (currentType === 'alpha') {
+                // Particule Alpha : 2 protons (rouges), 2 neutrons (bleus)
+                animGroup = `
+                    <g id="anim-particle" class="particle-anim" transform="translate(0,0)">
+                        <circle cx="${cx+10}" cy="${cy-5}" r="7" fill="#ef4444" stroke="#0f172a" stroke-width="1"/>
+                        <circle cx="${cx+22}" cy="${cy-5}" r="7" fill="#3b82f6" stroke="#0f172a" stroke-width="1"/>
+                        <circle cx="${cx+16}" cy="${cy+6}" r="7" fill="#ef4444" stroke="#0f172a" stroke-width="1"/>
+                        <circle cx="${cx+28}" cy="${cy+6}" r="7" fill="#3b82f6" stroke="#0f172a" stroke-width="1"/>
+                        <text x="${cx+15}" y="${cy-15}" fill="${data.color}" font-size="14" font-weight="bold" font-family="sans-serif">α</text>
+                    </g>
+                `;
+            } else if (currentType === 'betaminus') {
+                // Neutron devient proton + électron émis
+                circles += `<circle id="trans-nucleon" cx="${cx+15}" cy="${cy}" r="7" fill="#3b82f6" stroke="#0f172a" stroke-width="1" class="transition-colors duration-1000"/>`;
+                animGroup = `
+                    <g id="anim-particle" class="particle-anim opacity-0" transform="translate(0,0)">
+                        <circle cx="${cx+20}" cy="${cy}" r="4" fill="${data.color}" shadow="0 0 5px ${data.color}"/>
+                        <text x="${cx+20}" y="${cy-10}" fill="${data.color}" font-size="14" font-weight="bold" font-family="sans-serif">e⁻</text>
+                    </g>
+                `;
+            } else if (currentType === 'betaplus') {
+                // Proton devient neutron + positon émis
+                circles += `<circle id="trans-nucleon" cx="${cx+15}" cy="${cy}" r="7" fill="#ef4444" stroke="#0f172a" stroke-width="1" class="transition-colors duration-1000"/>`;
+                animGroup = `
+                    <g id="anim-particle" class="particle-anim opacity-0" transform="translate(0,0)">
+                        <circle cx="${cx+20}" cy="${cy}" r="4" fill="${data.color}" />
+                        <text x="${cx+20}" y="${cy-10}" fill="${data.color}" font-size="14" font-weight="bold" font-family="sans-serif">e⁺</text>
+                    </g>
+                `;
+            } else if (currentType === 'gamma') {
+                // Noyau excité (lueur) devient stable, émission onde
+                circles = `<g id="gamma-core" class="pulse-glow">${circles}</g>`;
+                animGroup = `
+                    <g id="anim-particle" class="particle-anim opacity-0" transform="translate(0,0)">
+                        <path d="M ${cx+20} ${cy} Q ${cx+30} ${cy-20} ${cx+40} ${cy} T ${cx+60} ${cy} T ${cx+80} ${cy}" fill="none" stroke="${data.color}" stroke-width="3"/>
+                        <text x="${cx+40}" y="${cy-15}" fill="${data.color}" font-size="16" font-weight="bold" font-family="sans-serif">γ</text>
+                    </g>
+                `;
+            }
+
+            container.innerHTML = `
+                <svg width="100%" height="100%" viewBox="0 0 350 192">
+                    ${circles}
+                    ${animGroup}
+                </svg>
+            `;
+        }
+
+        function playNucleusAnim() {
+            const particle = document.getElementById('anim-particle');
+            if (!particle) return;
+
+            // Reset
+            particle.style.transform = 'translate(0,0)';
+            if(currentType !== 'alpha') particle.classList.add('opacity-0');
+            
+            const nucleon = document.getElementById('trans-nucleon');
+            if (currentType === 'betaminus' && nucleon) nucleon.setAttribute('fill', '#3b82f6'); // neutron
+            if (currentType === 'betaplus' && nucleon) nucleon.setAttribute('fill', '#ef4444'); // proton
+            
+            const core = document.getElementById('gamma-core');
+            if (currentType === 'gamma' && core) core.classList.add('pulse-glow');
+
+            // Animate after brief delay
+            setTimeout(() => {
+                if (currentType === 'betaminus' && nucleon) nucleon.setAttribute('fill', '#ef4444'); // devient proton
+                if (currentType === 'betaplus' && nucleon) nucleon.setAttribute('fill', '#3b82f6'); // devient neutron
+                if (currentType === 'gamma' && core) core.classList.remove('pulse-glow'); // perd l'excitation
+
+                if(currentType !== 'alpha') particle.classList.remove('opacity-0');
+                particle.style.transform = 'translate(150px, 0)';
+            }, 100);
+        }
+
+        // --- ANIMATION PENETRATION (CANVAS) ---
+        const penCanvas = document.getElementById('penCanvas');
+        const penCtx = penCanvas.getContext('2d');
+        let penAnimId;
+        let penState = { x: 20, isPlaying: false };
+
+        function resizePenCanvas() {
+            penCanvas.width = penCanvas.parentElement.clientWidth;
+            penCanvas.height = penCanvas.parentElement.clientHeight;
+            drawPenetration();
+        }
+        window.addEventListener('resize', resizePenCanvas);
+
+        function drawPenetration() {
+            if(!penCtx) return;
+            const w = penCanvas.width;
+            const h = penCanvas.height;
+            penCtx.clearRect(0, 0, w, h);
+
+            // Obstacles
+            const obsY = 20;
+            const obsH = h - 40;
+            
+            // 1. Papier (x=100)
+            penCtx.fillStyle = '#f8fafc'; // Blanc
+            penCtx.fillRect(100, obsY, 5, obsH);
+            penCtx.fillStyle = '#94a3b8';
+            penCtx.font = '10px sans-serif';
+            penCtx.fillText('Papier', 90, h - 5);
+
+            // 2. Aluminium (x=200)
+            penCtx.fillStyle = '#94a3b8'; // Gris clair
+            penCtx.fillRect(200, obsY, 10, obsH);
+            penCtx.fillText('Aluminium', 185, h - 5);
+
+            // 3. Plomb (x=300)
+            penCtx.fillStyle = '#334155'; // Gris foncé
+            penCtx.fillRect(300, obsY, 20, obsH);
+            penCtx.fillText('Plomb', 295, h - 5);
+
+            // Dessin de la particule
+            const data = decayData[currentType];
+            penCtx.fillStyle = data.color;
+            penCtx.shadowBlur = 10;
+            penCtx.shadowColor = data.color;
+
+            if (currentType === 'alpha') {
+                penCtx.beginPath(); penCtx.arc(penState.x, h/2, 6, 0, Math.PI*2); penCtx.fill();
+            } else if (currentType === 'betaminus' || currentType === 'betaplus') {
+                penCtx.beginPath(); penCtx.arc(penState.x, h/2, 3, 0, Math.PI*2); penCtx.fill();
+            } else if (currentType === 'gamma') {
+                // Onde (ligne sinusoïdale simple)
+                penCtx.beginPath();
+                for(let i=0; i<30; i++) {
+                    penCtx.lineTo(penState.x - 30 + i, h/2 + Math.sin(i*0.5)*5);
+                }
+                penCtx.strokeStyle = data.color;
+                penCtx.lineWidth = 2;
+                penCtx.stroke();
+            }
+            penCtx.shadowBlur = 0; // reset
+        }
+
+        function resetPenetration() {
+            penState.x = 20;
+            penState.isPlaying = false;
+            cancelAnimationFrame(penAnimId);
+            resizePenCanvas(); // Appelle drawPenetration()
+        }
+
+        function playPenetrationAnim() {
+            resetPenetration();
+            penState.isPlaying = true;
+            
+            const stopPoint = decayData[currentType].penStop === 1 ? 95 : 
+                              decayData[currentType].penStop === 2 ? 195 : 290;
+
+            function loop() {
+                if (!penState.isPlaying) return;
+                
+                penState.x += 3; // vitesse
+                
+                if (penState.x >= stopPoint) {
+                    penState.x = stopPoint;
+                    penState.isPlaying = false;
+                }
+                
+                drawPenetration();
+                
+                if(penState.isPlaying) {
+                    penAnimId = requestAnimationFrame(loop);
+                }
+            }
+            loop();
+        }
+
+        // --- INITIALISATION ---
+        setTimeout(() => {
+            selectType('alpha');
+            resizePenCanvas();
+        }, 100);
+
+    </script>
+</body>
+</html>
