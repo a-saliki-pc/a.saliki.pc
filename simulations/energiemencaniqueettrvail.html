@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulation : Travail et Énergies</title>
+
+    <!-- Polices -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- MathJax pour les formules -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+    <style>
+        :root {
+            /* Mode Clair */
+            --bg: #f4f7f6;
+            --panel-bg: #ffffff;
+            --text: #2d3748;
+            --text-muted: #718096;
+            --primary: #0a192f;   /* Bleu Nuit */
+            --accent: #ff7e67;    /* Orange */
+            --border: #e2e8f0;
+            --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            --ep-color: #3b82f6;  /* Bleu */
+            --ec-color: #f97316;  /* Orange Chart */
+            --em-color: #1f2937;  /* Noir / Gris foncé */
+        }
+
+        [data-theme="dark"] {
+            /* Mode Sombre */
+            --bg: #0f172a;
+            --panel-bg: #1e293b;
+            --text: #f1f5f9;
+            --text-muted: #94a3b8;
+            --primary: #60a5fa;
+            --border: #334155;
+            --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+            --em-color: #f1f5f9;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--border);
+        }
+
+        h1 { font-size: 1.8rem; color: var(--primary); }
+
+        .btn-theme {
+            background: var(--panel-bg);
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .btn-theme:hover { border-color: var(--accent); }
+
+        .layout {
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+        }
+
+        /* Panneau de contrôle (Gauche) */
+        .controls {
+            width: 350px;
+            background: var(--panel-bg);
+            padding: 20px;
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            flex-shrink: 0;
+        }
+
+        .control-group { margin-bottom: 15px; }
+        
+        .control-group label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            accent-color: var(--accent);
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-direction: column;
+        }
+        
+        .radio-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.95rem;
+            cursor: pointer;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        button.action {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        #btn-play { background: #10b981; }
+        #btn-pause { background: #f59e0b; }
+        #btn-reset { background: #ef4444; }
+        button.action:hover { filter: brightness(0.9); transform: scale(1.02); }
+
+        .formulas {
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.05);
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+        [data-theme="dark"] .formulas { background: rgba(255, 255, 255, 0.05); }
+
+        .hidden { display: none !important; }
+
+        /* Zone Principale (Droite) */
+        .main-view {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            min-width: 0;
+        }
+
+        .hud {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            background: var(--panel-bg);
+            padding: 15px;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            font-size: 0.95rem;
+        }
+        .hud-item { flex: 1 1 120px; }
+        .hud-val { font-weight: 700; color: var(--accent); }
+
+        .canvas-container {
+            background: var(--panel-bg);
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            padding: 10px;
+            position: relative;
+        }
+
+        canvas {
+            width: 100%;
+            height: 350px;
+            background: rgba(0,0,0,0.02);
+            border-radius: 8px;
+            display: block;
+        }
+        [data-theme="dark"] canvas { background: rgba(255,255,255,0.02); }
+
+        .charts-container {
+            display: flex;
+            gap: 20px;
+            height: 250px;
+        }
+        .chart-box {
+            background: var(--panel-bg);
+            border-radius: 16px;
+            padding: 15px;
+            box-shadow: var(--shadow);
+            position: relative;
+        }
+        .chart-line { flex: 2; }
+        .chart-bar { flex: 1; }
+
+        @media (max-width: 1024px) {
+            .layout { flex-direction: column; }
+            .controls { width: 100%; }
+            .charts-container { flex-direction: column; height: 500px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>⚛️ Énergie Mécanique & Travail</h1>
+        <button class="btn-theme" onclick="toggleTheme()">🌙 Mode Sombre</button>
+    </header>
+
+    <div class="layout">
+        <!-- PANNEAU GAUCHE -->
+        <div class="controls">
+            <h3 style="margin-bottom: 15px; color: var(--primary);">Parcours</h3>
+            <div class="radio-group">
+                <label class="radio-item"><input type="radio" name="mode" value="incline" checked> Plan incliné</label>
+                <label class="radio-item"><input type="radio" name="mode" value="horizontal"> Parcours horizontal</label>
+                <label class="radio-item"><input type="radio" name="mode" value="semicircle"> Demi-cercle (Looping)</label>
+            </div>
+
+            <hr style="border-color: var(--border); margin: 15px 0;">
+
+            <div class="control-group">
+                <label>Masse m (kg) <span id="val-m">1.0</span></label>
+                <input type="range" id="slider-m" min="0.1" max="5" step="0.1" value="1.0">
+            </div>
+            
+            <div class="control-group" id="grp-h">
+                <label><span id="label-h">Hauteur initiale h (m)</span> <span id="val-h">10.0</span></label>
+                <input type="range" id="slider-h" min="1" max="20" step="0.5" value="10.0">
+            </div>
+
+            <div class="control-group" id="grp-alpha">
+                <label>Angle α (°) <span id="val-alpha">30</span></label>
+                <input type="range" id="slider-alpha" min="5" max="60" step="1" value="30">
+            </div>
+
+            <div class="control-group" id="grp-v0">
+                <label>Vitesse initiale v₀ (m/s) <span id="val-v0">0.0</span></label>
+                <input type="range" id="slider-v0" min="0" max="20" step="0.5" value="0.0">
+            </div>
+
+            <div class="control-group">
+                <label>Frottements k (sans unité) <span id="val-k">0.0</span></label>
+                <input type="range" id="slider-k" min="0" max="1" step="0.05" value="0.0">
+            </div>
+
+            <label class="radio-item" style="margin-top: 15px;">
+                <input type="checkbox" id="check-vectors" checked> Afficher les vecteurs (Poids / Vitesse)
+            </label>
+
+            <div class="buttons">
+                <button class="action" id="btn-play">▶ Lancer</button>
+                <button class="action" id="btn-pause">⏸ Pause</button>
+                <button class="action" id="btn-reset">🔄 Reset</button>
+            </div>
+
+            <div class="formulas">
+                \( E_p = m \cdot g \cdot h \) <br>
+                \( E_c = \frac{1}{2} m \cdot v^2 \) <br>
+                \( E_m = E_c + E_p \) <br>
+                \( \Delta E_m = \Sigma W_{frottements} \)
+            </div>
+        </div>
+
+        <!-- ZONE PRINCIPALE (DROITE) -->
+        <div class="main-view">
+            <!-- HUD -->
+            <div class="hud">
+                <div class="hud-item">Chrono (t): <br><span class="hud-val" id="hud-t">0.00 s</span></div>
+                <div class="hud-item">Vitesse (v): <br><span class="hud-val" id="hud-v">0.00 m/s</span></div>
+                <div class="hud-item" style="color: var(--ep-color)">Én. Pot. (Ep): <br><span class="hud-val" id="hud-ep">0.0 J</span></div>
+                <div class="hud-item" style="color: var(--ec-color)">Én. Cin. (Ec): <br><span class="hud-val" id="hud-ec">0.0 J</span></div>
+                <div class="hud-item" style="color: var(--text)">Én. Méca (Em): <br><span class="hud-val" id="hud-em">0.0 J</span></div>
+                <div class="hud-item">W(Poids): <br><span class="hud-val" id="hud-wp">0.0 J</span></div>
+                <div class="hud-item" style="color: #ef4444">W(Frott.): <br><span class="hud-val" id="hud-wf">0.0 J</span></div>
+            </div>
+
+            <!-- Canvas -->
+            <div class="canvas-container">
+                <canvas id="simCanvas" width="800" height="350"></canvas>
+            </div>
+
+            <!-- Charts -->
+            <div class="charts-container">
+                <div class="chart-box chart-line">
+                    <canvas id="lineChart"></canvas>
+                </div>
+                <div class="chart-box chart-bar">
+                    <canvas id="barChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        /* --- GESTION DU THÈME --- */
+        function toggleTheme() {
+            const body = document.documentElement;
+            const current = body.getAttribute('data-theme');
+            const newTheme = current === 'dark' ? 'light' : 'dark';
+            body.setAttribute('data-theme', newTheme);
+            updateChartTheme();
+        }
+
+        /* --- VARIABLES GLOBALES & PHYSIQUE --- */
+        const g = 9.81;
+        let mode = 'incline';
+        let m = 1.0, H_init = 10.0, alpha = Math.PI/6, v0 = 0.0, k = 0.0;
+        
+        // État de la simulation
+        let t = 0, s = 0, v = 0, h = 0; 
+        let x_pos = 0, y_pos = 0;
+        let phi = -Math.PI/2; // Pour le demi-cercle (angle par rapport au bas)
+        let W_frot = 0, Ep_init = 0, Ec_init = 0;
+        
+        let isPlaying = false;
+        let animationId;
+        const dt = 0.016; // 60 FPS
+        let lastPlotTime = 0;
+
+        /* --- ELEMENTS DOM --- */
+        const canvas = document.getElementById('simCanvas');
+        const ctx = canvas.getContext('2d');
+        const UI = {
+            m: document.getElementById('slider-m'), valM: document.getElementById('val-m'),
+            h: document.getElementById('slider-h'), valH: document.getElementById('val-h'), labelH: document.getElementById('label-h'),
+            alpha: document.getElementById('slider-alpha'), valAlpha: document.getElementById('val-alpha'),
+            v0: document.getElementById('slider-v0'), valV0: document.getElementById('val-v0'),
+            k: document.getElementById('slider-k'), valK: document.getElementById('val-k'),
+            vectors: document.getElementById('check-vectors')
+        };
+        const HUD = {
+            t: document.getElementById('hud-t'), v: document.getElementById('hud-v'),
+            ep: document.getElementById('hud-ep'), ec: document.getElementById('hud-ec'),
+            em: document.getElementById('hud-em'), wp: document.getElementById('hud-wp'),
+            wf: document.getElementById('hud-wf')
+        };
+
+        /* --- INITIALISATION DES GRAPHIQUES (Chart.js) --- */
+        Chart.defaults.font.family = "'Poppins', sans-serif";
+        const lineCtx = document.getElementById('lineChart').getContext('2d');
+        const barCtx = document.getElementById('barChart').getContext('2d');
+
+        const lineChart = new Chart(lineCtx, {
+            type: 'line',
+            data: {
+                labels: [],
+                datasets: [
+                    { label: 'Ep (J)', data: [], borderColor: '#3b82f6', tension: 0.1, pointRadius: 0 },
+                    { label: 'Ec (J)', data: [], borderColor: '#f97316', tension: 0.1, pointRadius: 0 },
+                    { label: 'Em (J)', data: [], borderColor: '#1f2937', borderDash: [5, 5], tension: 0.1, pointRadius: 0 }
+                ]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: false, animation: false,
+                scales: { x: { title: { display: true, text: 'Temps (s)' } }, y: { title: { display: true, text: 'Énergie (J)' } } }
+            }
+        });
+
+        const barChart = new Chart(barCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Énergies'],
+                datasets: [
+                    { label: 'Ep (J)', data: [0], backgroundColor: '#3b82f6' },
+                    { label: 'Ec (J)', data: [0], backgroundColor: '#f97316' },
+                    { label: 'Em (J)', data: [0], backgroundColor: '#1f2937' }
+                ]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: false, animation: { duration: 100 },
+                scales: { y: { beginAtZero: true } }
+            }
+        });
+
+        function updateChartTheme() {
+            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+            const color = isDark ? '#94a3b8' : '#718096';
+            const emColor = isDark ? '#f1f5f9' : '#1f2937';
+            
+            lineChart.data.datasets[2].borderColor = emColor;
+            barChart.data.datasets[2].backgroundColor = emColor;
+            
+            [lineChart, barChart].forEach(chart => {
+                if(chart.options.scales.x) {
+                    chart.options.scales.x.ticks.color = color;
+                    chart.options.scales.x.title.color = color;
+                }
+                chart.options.scales.y.ticks.color = color;
+                chart.options.scales.y.title.color = color;
+                chart.options.plugins.legend.labels.color = color;
+                chart.update();
+            });
+        }
+
+        /* --- LOGIQUE DE L'UI --- */
+        document.getElementsByName('mode').forEach(radio => {
+            radio.addEventListener('change', (e) => {
+                mode = e.target.value;
+                document.getElementById('grp-alpha').classList.toggle('hidden', mode !== 'incline');
+                if (mode === 'horizontal') {
+                    UI.h.value = 0; UI.valH.textContent = "0.0";
+                    document.getElementById('grp-h').classList.add('hidden');
+                    UI.labelH.textContent = "Hauteur initiale h (m)";
+                } else if (mode === 'semicircle') {
+                    document.getElementById('grp-h').classList.remove('hidden');
+                    UI.labelH.textContent = "Rayon R (m)";
+                } else {
+                    document.getElementById('grp-h').classList.remove('hidden');
+                    UI.labelH.textContent = "Hauteur initiale h (m)";
+                }
+                resetSim();
+            });
+        });
+
+        Object.keys(UI).forEach(key => {
+            if (UI[key].tagName === 'INPUT' && UI[key].type === 'range') {
+                UI[key].addEventListener('input', () => {
+                    document.getElementById(`val-${key.replace('slider-', '')}`).textContent = UI[key].value;
+                    resetSim();
+                });
+            }
+        });
+
+        document.getElementById('btn-play').addEventListener('click', () => {
+            if(h <= 0 && mode === 'incline') resetSim();
+            if(!isPlaying) { isPlaying = true; step(); }
+        });
+        document.getElementById('btn-pause').addEventListener('click', () => { isPlaying = false; });
+        document.getElementById('btn-reset').addEventListener('click', resetSim);
+        UI.vectors.addEventListener('change', drawCanvas);
+
+        /* --- FONCTIONS PHYSIQUES --- */
+        function readInputs() {
+            m = parseFloat(UI.m.value);
+            H_init = parseFloat(UI.h.value);
+            alpha = parseFloat(UI.alpha.value) * Math.PI / 180;
+            v0 = parseFloat(UI.v0.value);
+            k = parseFloat(UI.k.value);
+        }
+
+        function resetSim() {
+            isPlaying = false;
+            cancelAnimationFrame(animationId);
+            readInputs();
+
+            t = 0; s = 0; W_frot = 0;
+            
+            if (mode === 'incline') {
+                v = v0; h = H_init;
+                x_pos = 0; y_pos = h;
+            } else if (mode === 'horizontal') {
+                v = Math.max(v0, 1.0); // Forcer un mvt initial si horizontal
+                if(v0 === 0) { UI.v0.value = 5; UI.valV0.textContent = 5; v = 5; }
+                h = 0; x_pos = 0; y_pos = 0;
+            } else if (mode === 'semicircle') {
+                v = v0; h = H_init; // H_init est le rayon R
+                phi = -Math.PI/2; 
+                x_pos = -H_init; y_pos = H_init;
+            }
+
+            Ep_init = m * g * h;
+            Ec_init = 0.5 * m * v * v;
+            lastPlotTime = -1;
+
+            lineChart.data.labels = [];
+            lineChart.data.datasets.forEach(ds => ds.data = []);
+            
+            // Fixer l'échelle max du graphe barre
+            barChart.options.scales.y.max = (Ep_init + Ec_init) * 1.2 || 100;
+            
+            updateHUD();
+            drawCanvas();
+        }
+
+        function step() {
+            if (!isPlaying) return;
+
+            // Intégration Semi-Implicite d'Euler (v d'abord, puis pos)
+            if (mode === 'incline') {
+                let a = g * Math.sin(alpha) - k * g * Math.cos(alpha) * Math.sign(v || 1);
+                if (v <= 0 && a <= 0 && t > 0) { isPlaying = false; }
+                else {
+                    v += a * dt;
+                    if(v < 0) v = 0;
+                    s += v * dt;
+                    h = H_init - s * Math.sin(alpha);
+                    x_pos = s * Math.cos(alpha);
+                    y_pos = h;
+                    W_frot -= k * m * g * Math.cos(alpha) * v * dt;
+                    if (h <= 0) { h = 0; isPlaying = false; }
+                }
+            } 
+            else if (mode === 'horizontal') {
+                let a = -k * g * Math.sign(v);
+                v += a * dt;
+                if(v <= 0) { v = 0; isPlaying = false; }
+                s += v * dt;
+                x_pos = s; y_pos = 0;
+                W_frot -= k * m * g * v * dt;
+                if (x_pos > 35) isPlaying = false;
+            } 
+            else if (mode === 'semicircle') {
+                let R = H_init;
+                let N = m * g * Math.cos(phi) + m * v * v / R;
+                let f = -k * N * Math.sign(v);
+                let a = -g * Math.sin(phi) + f / m;
+                
+                v += a * dt;
+                phi += (v / R) * dt;
+                
+                h = R * (1 - Math.cos(phi));
+                x_pos = R * Math.sin(phi);
+                y_pos = h;
+                
+                W_frot -= Math.abs(f * v * dt);
+
+                // Arrêt si oscillation presque nulle
+                if (Math.abs(v) < 0.05 && Math.abs(Math.sin(phi)) < 0.02) {
+                    v = 0; isPlaying = false;
+                }
+            }
+
+            t += dt;
+            updateHUD();
+            drawCanvas();
+            
+            if (isPlaying) animationId = requestAnimationFrame(step);
+        }
+
+        function updateHUD() {
+            let Ep = m * g * h;
+            let Ec = 0.5 * m * v * v;
+            let Em = Ep + Ec;
+            let W_poids = Ep_init - Ep;
+
+            HUD.t.textContent = t.toFixed(2) + " s";
+            HUD.v.textContent = v.toFixed(2) + " m/s";
+            HUD.ep.textContent = Ep.toFixed(1) + " J";
+            HUD.ec.textContent = Ec.toFixed(1) + " J";
+            HUD.em.textContent = Em.toFixed(1) + " J";
+            HUD.wp.textContent = W_poids.toFixed(1) + " J";
+            HUD.wf.textContent = W_frot.toFixed(1) + " J";
+
+            // Mise à jour des graphes toutes les 0.1s
+            if (t - lastPlotTime >= 0.1) {
+                lineChart.data.labels.push(t.toFixed(1));
+                lineChart.data.datasets[0].data.push(Ep);
+                lineChart.data.datasets[1].data.push(Ec);
+                lineChart.data.datasets[2].data.push(Em);
+                lineChart.update();
+                lastPlotTime = t;
+            }
+
+            barChart.data.datasets[0].data[0] = Ep;
+            barChart.data.datasets[1].data[0] = Ec;
+            barChart.data.datasets[2].data[0] = Em;
+            barChart.update();
+        }
+
+        /* --- DESSIN CANVAS --- */
+        function drawCanvas() {
+            const cw = canvas.width;
+            const ch = canvas.height;
+            ctx.clearRect(0, 0, cw, ch);
+            
+            // Échelle de conversion mètre -> pixel
+            let scale = 15; // 1m = 15px
+            let offsetX = 50;
+            let offsetY = ch - 40; // Ligne H=0
+
+            if (mode === 'semicircle') {
+                offsetX = cw / 2; // Centrer le demi-cercle
+                scale = Math.min(15, (ch - 80) / H_init); // Adapter l'échelle au rayon
+            }
+
+            const cx = (x) => offsetX + x * scale;
+            const cy = (y) => offsetY - y * scale;
+
+            // 1. Dessiner le repère H=0
+            ctx.beginPath();
+            ctx.moveTo(0, cy(0));
+            ctx.lineTo(cw, cy(0));
+            ctx.strokeStyle = '#cbd5e1';
+            ctx.setLineDash([5, 5]);
+            ctx.stroke();
+            ctx.setLineDash([]);
+            ctx.fillStyle = '#cbd5e1';
+            ctx.font = "14px Poppins";
+            ctx.fillText("h = 0", 10, cy(0) + 20);
+
+            // 2. Dessiner le parcours
+            ctx.beginPath();
+            ctx.lineWidth = 4;
+            const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+            ctx.strokeStyle = isDark ? '#f8fafc' : '#334155';
+
+            if (mode === 'incline') {
+                let base = H_init / Math.tan(alpha);
+                ctx.moveTo(cx(0), cy(H_init));
+                ctx.lineTo(cx(base), cy(0));
+                ctx.lineTo(cw, cy(0));
+            } else if (mode === 'horizontal') {
+                ctx.moveTo(0, cy(0));
+                ctx.lineTo(cw, cy(0));
+            } else if (mode === 'semicircle') {
+                // Arc de cercle. (x,y,r, start, end)
+                let R_px = H_init * scale;
+                ctx.arc(cx(0), cy(H_init), R_px, 0, Math.PI, false);
+            }
+            ctx.stroke();
+
+            // 3. Dessiner l'objet
+            let px = cx(x_pos);
+            let py = cy(y_pos);
+            
+            ctx.beginPath();
+            ctx.arc(px, py - 10, 10, 0, Math.PI * 2); // -10 pour poser sur la ligne
+            ctx.fillStyle = '#ff7e67';
+            ctx.fill();
+            ctx.lineWidth = 2;
+            ctx.strokeStyle = '#fff';
+            ctx.stroke();
+
+            // 4. Vecteurs
+            if (UI.vectors.checked) {
+                let pScale = 2; // échelle visuelle vecteur
+                // Poids (vers le bas)
+                drawArrow(px, py - 10, px, py - 10 + m*g*pScale, '#ef4444');
+                
+                // Vitesse (tangente)
+                if (v > 0.1 || v < -0.1) {
+                    let vx = 0, vy = 0;
+                    if (mode === 'incline') {
+                        vx = v * Math.cos(alpha);
+                        vy = -v * Math.sin(alpha);
+                    } else if (mode === 'horizontal') {
+                        vx = v; vy = 0;
+                    } else if (mode === 'semicircle') {
+                        vx = v * Math.cos(phi);
+                        vy = v * Math.sin(phi);
+                    }
+                    // Y est inversé sur le canvas
+                    drawArrow(px, py - 10, px + vx * pScale * 5, py - 10 - vy * pScale * 5, '#10b981');
+                }
+            }
+        }
+
+        function drawArrow(fromx, fromy, tox, toy, color) {
+            let headlen = 10;
+            let dx = tox - fromx;
+            let dy = toy - fromy;
+            let angle = Math.atan2(dy, dx);
+            ctx.beginPath();
+            ctx.moveTo(fromx, fromy);
+            ctx.lineTo(tox, toy);
+            ctx.lineTo(tox - headlen * Math.cos(angle - Math.PI / 6), toy - headlen * Math.sin(angle - Math.PI / 6));
+            ctx.moveTo(tox, toy);
+            ctx.lineTo(tox - headlen * Math.cos(angle + Math.PI / 6), toy - headlen * Math.sin(angle + Math.PI / 6));
+            ctx.strokeStyle = color;
+            ctx.lineWidth = 3;
+            ctx.stroke();
+        }
+
+        // Init
+        updateChartTheme();
+        resetSim();
+
+    </script>
+</body>
+</html>
