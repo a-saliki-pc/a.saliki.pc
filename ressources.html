@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<!-- ===== SEO PRINCIPAL ===== -->
 <title>Ressources Physique-Chimie — Fiches, Formulaires, Tableau Périodique | DARRSSY</title>
 <meta name="description" content="Ressources de Physique-Chimie pour lycéens marocains : fiches de révision, formulaires, tableau périodique, calculateurs et convertisseurs d'unités pour préparer le Bac.">
 <meta name="keywords" content="ressources physique chimie, fiches révision bac, formulaire physique, tableau périodique, convertisseur unités, cours 2 bac maroc">
@@ -43,65 +42,29 @@
 
 <style>
 :root {
-  --primary: #16213e;
-  --primary-light: #2a9d8f;
-  --primary-dark: #0f1a30;
-  --accent: #e8a33d;
-  --accent-dark: #c17f1e;
-  --success: #2a9d8f;
-  --danger: #c0483f;
-  --violet: #7c6fba;
-  --dark: #16213e;
-  --gray: #5b6b7a;
-  --gray-light: #93a3b0;
-  --border: #d9d2bb;
-  --light: #faf6ec;
-  --white: #fffdf7;
-  --ink: #16213e;
+  --primary: #16213e; --primary-light: #2a9d8f; --primary-dark: #0f1a30;
+  --accent: #e8a33d; --accent-dark: #c17f1e; --success: #2a9d8f;
+  --danger: #c0483f; --violet: #7c6fba; --dark: #16213e;
+  --gray: #5b6b7a; --gray-light: #93a3b0; --border: #d9d2bb;
+  --light: #faf6ec; --white: #fffdf7; --ink: #16213e;
   --gradient: linear-gradient(120deg, #16213e 0%, #1f3a5f 55%, #2a9d8f 100%);
   --gradient-accent: linear-gradient(120deg, #e8a33d 0%, #c0483f 100%);
   --gradient-violet: linear-gradient(120deg, #7c6fba 0%, #c0483f 100%);
   --shadow-sm: 0 1px 0 rgba(22, 33, 62, 0.06);
   --shadow: 6px 6px 0 rgba(22, 33, 62, 0.08);
   --shadow-lg: 10px 10px 0 rgba(22, 33, 62, 0.1);
-  --radius: 6px;
-  --radius-sm: 4px;
+  --radius: 6px; --radius-sm: 4px;
   --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
-
 * { margin: 0; padding: 0; box-sizing: border-box; }
 html { scroll-behavior: smooth; }
-
-body {
-  font-family: 'Inter', 'Tajawal', sans-serif;
-  background:
-    linear-gradient(rgba(22,33,62,0.1) 0.5px, transparent 0.5px),
-    linear-gradient(90deg, rgba(22,33,62,0.1) 0.5px, transparent 0.5px),
-    linear-gradient(rgba(22,33,62,0.028) 0.5px, transparent 0.5px),
-    linear-gradient(90deg, rgba(22,33,62,0.028) 0.5px, transparent 0.5px),
-    var(--light);
-  background-size: 50px 50px, 50px 50px, 10px 10px, 10px 10px, auto;
-  background-position: -1px -1px, -1px -1px, -1px -1px, -1px -1px, 0 0;
-  color: var(--ink);
-  line-height: 1.6;
-  overflow-x: hidden;
-  position: relative;
-}
-
+body { font-family: 'Inter', 'Tajawal', sans-serif; background: linear-gradient(rgba(22,33,62,0.1) 0.5px, transparent 0.5px), linear-gradient(90deg, rgba(22,33,62,0.1) 0.5px, transparent 0.5px), linear-gradient(rgba(22,33,62,0.028) 0.5px, transparent 0.5px), linear-gradient(90deg, rgba(22,33,62,0.028) 0.5px, transparent 0.5px), var(--light); background-size: 50px 50px, 50px 50px, 10px 10px, 10px 10px, auto; background-position: -1px -1px, -1px -1px, -1px -1px, -1px -1px, 0 0; color: var(--ink); line-height: 1.6; overflow-x: hidden; position: relative; }
 [dir="rtl"] body { font-family: 'Tajawal', 'Inter', sans-serif; }
 a { text-decoration: none; color: inherit; }
 img { max-width: 100%; display: block; }
-
 h1, h2, h3 { font-family: 'Fraunces', 'Tajawal', serif; letter-spacing: -0.01em; }
 
-nav {
-  position: fixed; top: 0; left: 0; right: 0;
-  background: rgba(250, 246, 236, 0.94); backdrop-filter: blur(10px);
-  border-bottom: 2px solid var(--ink);
-  z-index: 1000; padding: 10px 5%;
-  display: flex; justify-content: space-between; align-items: center;
-  transition: var(--transition);
-}
+nav { position: fixed; top: 0; left: 0; right: 0; background: rgba(250, 246, 236, 0.94); backdrop-filter: blur(10px); border-bottom: 2px solid var(--ink); z-index: 1000; padding: 10px 5%; display: flex; justify-content: space-between; align-items: center; transition: var(--transition); }
 .logo { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
 .logo-img-wrap { position: relative; width: 50px; height: 50px; border-radius: 50%; background: var(--white); padding: 2px; border: 2px solid var(--ink); outline: 1px dashed var(--accent); outline-offset: 3px; flex-shrink: 0; transition: var(--transition); }
 .logo-img-wrap::before { content: ''; position: absolute; inset: 2px; border-radius: 50%; background: white; z-index: 0; }
@@ -132,8 +95,6 @@ nav {
 .hero-page p { font-size: 1.05rem; max-width: 700px; margin: 0 auto; opacity: 0.9; }
 
 .conteneur { max-width: 1200px; margin: -30px auto 0; padding: 0 5% 60px; position: relative; z-index: 3; }
-
-/* ONGLETS PRINCIPAUX */
 .tabs-bar { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-bottom: 35px; padding: 12px; background: var(--white); border: 2px solid var(--ink); border-radius: var(--radius); box-shadow: var(--shadow); max-width: fit-content; margin-left: auto; margin-right: auto; }
 .tab-btn { background: transparent; border: none; color: var(--gray); padding: 10px 18px; border-radius: var(--radius-sm); font-family: inherit; font-size: 0.86rem; font-weight: 600; cursor: pointer; transition: var(--transition); display: inline-flex; align-items: center; gap: 7px; white-space: nowrap; }
 .tab-btn:hover { color: var(--ink); background: var(--light); }
@@ -147,7 +108,6 @@ nav {
 .section-titre h2 { font-size: 1.8rem; font-weight: 600; color: var(--ink); margin-bottom: 8px; }
 .section-titre p { color: var(--gray); font-size: 0.98rem; max-width: 600px; margin: 0 auto; }
 
-/* FICHES */
 .fiches-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 22px; }
 .fiche-card { background: var(--white); border: 2px solid var(--ink); border-radius: var(--radius-sm); padding: 25px; box-shadow: var(--shadow-sm); transition: var(--transition); display: flex; flex-direction: column; gap: 12px; }
 .fiche-card:hover { transform: translate(-3px, -3px); box-shadow: var(--shadow); }
@@ -159,7 +119,6 @@ nav {
 .btn-fiche { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 10px 16px; background: var(--light); border: 1.5px solid var(--ink); color: var(--ink); border-radius: var(--radius-sm); font-family: inherit; font-weight: 600; font-size: 0.85rem; cursor: pointer; transition: var(--transition); }
 .btn-fiche:hover { background: var(--ink); color: var(--white); }
 
-/* FORMULAIRE */
 .formulaire-search { max-width: 600px; margin: 0 auto 30px; position: relative; }
 .formulaire-search input { width: 100%; padding: 15px 20px 15px 50px; background: var(--white); border: 2px solid var(--ink); border-radius: var(--radius-sm); font-family: inherit; font-size: 0.95rem; color: var(--ink); box-shadow: var(--shadow-sm); transition: var(--transition); }
 [dir="rtl"] .formulaire-search input { padding: 15px 50px 15px 20px; }
@@ -176,7 +135,6 @@ nav {
 .formule-item .f-nom { font-size: 0.8rem; color: var(--gray); margin-bottom: 5px; font-weight: 500; }
 .formule-item .f-eq { color: var(--ink); font-size: 0.95rem; }
 
-/* CALCULATEUR */
 .calculateur-wrap { max-width: 800px; margin: 0 auto; }
 .calc-tabs { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; margin-bottom: 25px; }
 .calc-tab { background: var(--white); border: 2px solid var(--ink); color: var(--ink); padding: 9px 16px; border-radius: var(--radius-sm); font-family: inherit; font-size: 0.82rem; font-weight: 600; cursor: pointer; transition: var(--transition); }
@@ -198,7 +156,6 @@ nav {
 .calc-resultat .lbl { font-size: 0.75rem; color: var(--gray); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; font-family: 'JetBrains Mono', monospace; }
 .calc-resultat .val { font-family: 'JetBrains Mono', monospace; font-size: 1.8rem; font-weight: 700; color: var(--primary-light); }
 
-/* TABLEAU PÉRIODIQUE */
 .periodique-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); gap: 10px; }
 .element-card { background: var(--white); border: 2px solid var(--border); border-radius: var(--radius-sm); padding: 12px 8px; text-align: center; cursor: pointer; transition: var(--transition); position: relative; }
 .element-card:hover { transform: translateY(-4px); border-color: var(--ink); box-shadow: var(--shadow); z-index: 2; }
@@ -228,7 +185,6 @@ nav {
 .element-stat .lbl { font-size: 0.68rem; color: var(--gray); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
 .element-stat .val { font-size: 1rem; font-weight: 700; color: var(--primary-light); font-family: 'JetBrains Mono', monospace; }
 
-/* CONVERTISSEUR */
 .conv-wrap { max-width: 700px; margin: 0 auto; }
 .conv-types { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; margin-bottom: 25px; }
 .conv-type-btn { background: var(--white); border: 2px solid var(--ink); color: var(--ink); padding: 9px 16px; border-radius: var(--radius-sm); font-family: inherit; font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: var(--transition); }
@@ -244,7 +200,6 @@ nav {
 .conv-resultat .lbl { font-size: 0.75rem; color: var(--gray); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; font-family: 'JetBrains Mono', monospace; }
 .conv-resultat .val { font-family: 'JetBrains Mono', monospace; font-size: 1.7rem; font-weight: 700; color: var(--primary-light); word-break: break-all; }
 
-/* CONSTANTES */
 .constantes-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 18px; }
 .constante-card { background: var(--white); border: 2px solid var(--ink); border-radius: var(--radius-sm); padding: 20px; box-shadow: var(--shadow-sm); border-left: 6px solid var(--primary-light); transition: var(--transition); }
 [dir="rtl"] .constante-card { border-left: 2px solid var(--ink); border-right: 6px solid var(--primary-light); }
@@ -322,6 +277,7 @@ footer { background: var(--light); border-top: 2px solid var(--ink); color: var(
     <li><a href="exercices.html" data-i18n="nav.exercices">Exercices</a></li>
     <li><a href="examens.html" data-i18n="nav.examens">Examens</a></li>
     <li><a href="simulations.html" data-i18n="nav.simulations">Simulations</a></li>
+    <li><a href="qcm.html" data-i18n="nav.qcm">QCM</a></li> <!-- LIEN QCM AJOUTÉ -->
     <li><a href="ressources.html" class="actif" data-i18n="nav.ressources">Ressources</a></li>
     <li>
       <div class="lang-switcher">
@@ -555,10 +511,10 @@ footer { background: var(--light); border-top: 2px solid var(--ink); color: var(
       </div>
       <p data-i18n="footer.desc">La plateforme éducative marocaine dédiée à la réussite des lycéens en Physique & Chimie.</p>
       <div class="footer-social">
-        <a href="#"><i class="fab fa-facebook-f"></i></a>
-        <a href="#"><i class="fab fa-instagram"></i></a>
-        <a href="#"><i class="fab fa-youtube"></i></a>
-          <a href="https://www.tiktok.com/@darrssy_physique" target="_blank" rel="noopener" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+        <a href="https://www.facebook.com/darrssy" target="_blank" rel="noopener" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+        <a href="https://www.instagram.com/darrssy" target="_blank" rel="noopener" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+        <a href="https://www.youtube.com/@darrssy" target="_blank" rel="noopener" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+        <a href="https://www.tiktok.com/@darrssy_physique" target="_blank" rel="noopener" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
       </div>
     </div>
     <div class="footer-col">
@@ -568,6 +524,7 @@ footer { background: var(--light); border-top: 2px solid var(--ink); color: var(
         <li><a href="cours.html" data-i18n="nav.cours">Cours</a></li>
         <li><a href="exercices.html" data-i18n="nav.exercices">Exercices</a></li>
         <li><a href="examens.html" data-i18n="nav.examens">Examens</a></li>
+        <li><a href="qcm.html" data-i18n="nav.qcm">QCM</a></li> <!-- LIEN QCM AJOUTÉ ICI -->
       </ul>
     </div>
     <div class="footer-col">
@@ -596,7 +553,7 @@ const trad = {
   fr: {
     'nav.home': 'Accueil', 'nav.cours': 'Cours', 'nav.exercices': 'Exercices',
     'nav.examens': 'Examens', 'nav.simulations': 'Simulations', 'nav.ressources': 'Ressources',
-    'nav.admin': 'Administration', 'nav.connexion': 'Connexion',
+    'nav.admin': 'Administration', 'nav.connexion': 'Connexion', 'nav.qcm': 'QCM', // AJOUT
     'res.titre1': 'Outils &', 'res.titre2': 'Ressources',
     'res.desc': "Fiches de révision, formulaire complet, calculateur interactif, tableau périodique et convertisseur d'unités.",
     'tab.fiches': 'Fiches', 'tab.formulaire': 'Formulaire', 'tab.calculateur': 'Calculateur',
@@ -624,7 +581,7 @@ const trad = {
   ar: {
     'nav.home': 'الرئيسية', 'nav.cours': 'الدروس', 'nav.exercices': 'التمارين',
     'nav.examens': 'الامتحانات', 'nav.simulations': 'المحاكاة', 'nav.ressources': 'الموارد',
-    'nav.admin': 'الإدارة', 'nav.connexion': 'تسجيل الدخول',
+    'nav.admin': 'الإدارة', 'nav.connexion': 'تسجيل الدخول', 'nav.qcm': 'اختبار', // AJOUT
     'res.titre1': 'أدوات و', 'res.titre2': 'موارد',
     'res.desc': 'بطاقات المراجعة، الصيغ الكاملة، الحاسبة التفاعلية، الجدول الدوري ومحول الوحدات.',
     'tab.fiches': 'البطاقات', 'tab.formulaire': 'الصيغ', 'tab.calculateur': 'الحاسبة',
