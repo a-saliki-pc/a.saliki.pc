@@ -55,7 +55,6 @@ body { font-family: 'Poppins', 'Tajawal', sans-serif; background: var(--light); 
 a { text-decoration: none; color: inherit; }
 img { max-width: 100%; display: block; }
 
-/* ===== NAVBAR ===== */
 nav {
   position: fixed; top: 0; left: 0; right: 0;
   background: rgba(255,255,255,0.95); backdrop-filter: blur(12px);
@@ -90,7 +89,6 @@ nav {
 .lang-btn.actif { background: var(--gradient); color: white; }
 .menu-toggle { display: none; font-size: 1.5rem; cursor: pointer; color: var(--primary); background: none; border: none; }
 
-/* ===== HERO ===== */
 .hero { min-height: 100vh; background: var(--gradient); display: flex; align-items: center; justify-content: center; padding: 140px 5% 80px; position: relative; overflow: hidden; color: white; }
 .hero::before { content: ''; position: absolute; top: -50%; right: -20%; width: 700px; height: 700px; background: radial-gradient(circle, rgba(245,158,11,0.15) 0%, transparent 70%); border-radius: 50%; }
 .hero::after { content: ''; position: absolute; bottom: -30%; left: -10%; width: 500px; height: 500px; background: radial-gradient(circle, rgba(6,182,212,0.2) 0%, transparent 70%); border-radius: 50%; }
@@ -129,7 +127,6 @@ nav {
 .hero-stat strong { display: block; font-size: 1.5rem; font-weight: 800; }
 .hero-stat span { font-size: 0.78rem; opacity: 0.9; }
 
-/* ===== SECTIONS ===== */
 section { padding: 90px 5%; }
 .section-title { text-align: center; margin-bottom: 60px; }
 .section-title .badge { display: inline-block; background: rgba(59,130,246,0.1); color: var(--primary-light); padding: 6px 18px; border-radius: 50px; font-size: 0.85rem; font-weight: 600; margin-bottom: 15px; letter-spacing: 1px; text-transform: uppercase; }
@@ -357,6 +354,7 @@ footer { background: var(--dark); color: white; padding: 60px 5% 25px; margin-to
       </div>
     </div>
     
+    <!-- ✅ CARTE CLIQUABLE VERS SIMULATIONS -->
     <a href="simulations.html" class="hero-visual" style="text-decoration: none; color: inherit;">
       <div class="hero-card">
         <div class="hero-logo-wrap">
@@ -383,6 +381,7 @@ footer { background: var(--dark); color: white; padding: 60px 5% 25px; margin-to
   </div>
 </section>
 
+<!-- ===== HUB CLASSES ===== -->
 <section id="classes" style="background: var(--light);">
   <div class="section-title fade-in">
     <span class="badge" data-i18n="classes.badge">Niveaux scolaires</span>
@@ -390,7 +389,8 @@ footer { background: var(--dark); color: white; padding: 60px 5% 25px; margin-to
     <p data-i18n="classes.desc">Un programme adapté au système éducatif marocain, du Tronc Commun à la 2ème année Bac.</p>
   </div>
   <div class="classes-grid">
-    <div class="class-card fade-in" onclick="location.href='cours.html'">
+    <!-- ✅ LIEN MODIFIÉ -->
+    <div class="class-card fade-in" onclick="location.href='cours.html?niveau=tronc'">
       <div class="class-icon"><i class="fas fa-seedling"></i></div>
       <h3 data-i18n="classe.tronc">Tronc Commun</h3>
       <p data-i18n="classe.tronc.desc">Les bases fondamentales de la physique et de la chimie pour bien démarrer.</p>
@@ -400,7 +400,8 @@ footer { background: var(--dark); color: white; padding: 60px 5% 25px; margin-to
       </div>
     </div>
 
-    <div class="class-card fade-in" onclick="location.href='cours.html'">
+    <!-- ✅ LIEN MODIFIÉ -->
+    <div class="class-card fade-in" onclick="location.href='cours.html?niveau=1bac'">
       <div class="class-icon"><i class="fas fa-flask"></i></div>
       <h3 data-i18n="classe.1bac">1ère Année Bac</h3>
       <p data-i18n="classe.1bac.desc">Approfondissement des concepts scientifiques et préparation au Bac.</p>
@@ -410,7 +411,8 @@ footer { background: var(--dark); color: white; padding: 60px 5% 25px; margin-to
       </div>
     </div>
 
-    <div class="class-card fade-in" onclick="location.href='cours.html'">
+    <!-- ✅ LIEN MODIFIÉ -->
+    <div class="class-card fade-in" onclick="location.href='cours.html?niveau=2bacpc'">
       <div class="class-icon"><i class="fas fa-graduation-cap"></i></div>
       <h3 data-i18n="classe.2bac">2ème Année Bac</h3>
       <p data-i18n="classe.2bac.desc">Programme complet du Baccalauréat avec préparation intensive à l'examen national.</p>
