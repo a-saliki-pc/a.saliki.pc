@@ -494,6 +494,17 @@ async function chargerDonnees() {
     if (typeof lireTable !== 'function') throw new Error('lireTable non chargé');
     tousLesCours = await lireTable('cours', { filtres: { publie: true }, ordre: { col: 'created_at', asc: false } });
     toutesLesRessources = await lireTable('ressources', { filtres: { publie: true } });
+
+    // === AJOUT : Lire le paramètre de l'URL et activer le filtre ===
+    const urlParams = new URLSearchParams(window.location.search);
+    const niveauURL = urlParams.get('niveau');
+    
+    if (niveauURL) {
+      filtres.niveau = niveauURL;
+      document.getElementById('filtreNiveau').value = niveauURL;
+    }
+    // ===============================================================
+
     afficherCours();
   } catch (err) {
     document.getElementById('coursSections').innerHTML = `<div class="loading-zone"><i class="fas fa-exclamation-triangle" style="color:#ef4444;animation:none;"></i><p>Erreur : ${err.message}</p></div>`;
