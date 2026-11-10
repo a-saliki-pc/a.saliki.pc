@@ -3,19 +3,19 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+ 
 <title>Ressources Physique-Chimie — Fiches, Formulaires, Tableau Périodique | DARRSSY</title>
 <meta name="description" content="Ressources de Physique-Chimie pour lycéens marocains : fiches de révision, formulaires, tableau périodique, calculateurs et convertisseurs d'unités pour préparer le Bac.">
 <meta name="keywords" content="ressources physique chimie, fiches révision bac, formulaire physique, tableau périodique, convertisseur unités, cours 2 bac maroc">
 <meta name="author" content="DARRSSY">
 <meta name="robots" content="index, follow, max-image-preview:large">
 <meta name="theme-color" content="#16213e">
-
+ 
 <link rel="canonical" href="https://darrssy.com/ressources.html" />
 <link rel="alternate" hreflang="fr" href="https://darrssy.com/ressources.html" />
 <link rel="alternate" hreflang="ar" href="https://darrssy.com/ressources.html" />
 <link rel="alternate" hreflang="x-default" href="https://darrssy.com/ressources.html" />
-
+ 
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="DARRSSY">
 <meta property="og:url" content="https://darrssy.com/ressources.html">
@@ -26,12 +26,12 @@
 <meta property="og:image:height" content="630">
 <meta property="og:locale" content="fr_FR">
 <meta property="og:locale:alternate" content="ar_MA">
-
+ 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Ressources Physique-Chimie | DARRSSY">
 <meta name="twitter:description" content="Toutes les ressources pour réviser et préparer le Bac.">
 <meta name="twitter:image" content="https://darrssy.com/assets/logo-darrssy.png">
-
+ 
 <link rel="icon" type="image/png" href="assets/logo-darrssy.png">
 <link rel="apple-touch-icon" href="assets/logo-darrssy.png">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,500&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
@@ -39,7 +39,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
-
+ 
 <style>
 :root {
   --primary: #16213e; --primary-light: #2a9d8f; --primary-dark: #0f1a30;
@@ -63,7 +63,7 @@ body { font-family: 'Inter', 'Tajawal', sans-serif; background: linear-gradient(
 a { text-decoration: none; color: inherit; }
 img { max-width: 100%; display: block; }
 h1, h2, h3 { font-family: 'Fraunces', 'Tajawal', serif; letter-spacing: -0.01em; }
-
+ 
 nav { position: fixed; top: 0; left: 0; right: 0; background: rgba(250, 246, 236, 0.94); backdrop-filter: blur(10px); border-bottom: 2px solid var(--ink); z-index: 1000; padding: 10px 5%; display: flex; justify-content: space-between; align-items: center; transition: var(--transition); }
 .logo { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
 .logo-img-wrap { position: relative; width: 50px; height: 50px; border-radius: 50%; background: var(--white); padding: 2px; border: 2px solid var(--ink); outline: 1px dashed var(--accent); outline-offset: 3px; flex-shrink: 0; transition: var(--transition); }
@@ -86,28 +86,33 @@ nav { position: fixed; top: 0; left: 0; right: 0; background: rgba(250, 246, 236
 .lang-btn { background: transparent; border: none; color: var(--ink); font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; font-weight: 700; padding: 8px 14px; cursor: pointer; transition: var(--transition); }
 .lang-btn.actif { background: var(--ink); color: var(--white); }
 .menu-toggle { display: none; font-size: 1.5rem; cursor: pointer; color: var(--primary); background: none; border: none; }
-
+ 
 .hero-page { padding: 130px 5% 50px; background: var(--gradient); color: var(--white); position: relative; overflow: hidden; }
 .hero-page::before { content: ''; position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px); background-size: 44px 44px; pointer-events: none; }
 .hero-page-content { max-width: 1200px; margin: 0 auto; position: relative; z-index: 2; text-align: center; }
 .hero-page h1 { font-size: 2.8rem; font-weight: 600; margin-bottom: 15px; line-height: 1.15; }
 .hero-page h1 span { color: var(--accent); font-style: italic; }
 .hero-page p { font-size: 1.05rem; max-width: 700px; margin: 0 auto; opacity: 0.9; }
-
+ 
 .conteneur { max-width: 1200px; margin: -30px auto 0; padding: 0 5% 60px; position: relative; z-index: 3; }
 .tabs-bar { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-bottom: 35px; padding: 12px; background: var(--white); border: 2px solid var(--ink); border-radius: var(--radius); box-shadow: var(--shadow); max-width: fit-content; margin-left: auto; margin-right: auto; }
 .tab-btn { background: transparent; border: none; color: var(--gray); padding: 10px 18px; border-radius: var(--radius-sm); font-family: inherit; font-size: 0.86rem; font-weight: 600; cursor: pointer; transition: var(--transition); display: inline-flex; align-items: center; gap: 7px; white-space: nowrap; }
 .tab-btn:hover { color: var(--ink); background: var(--light); }
 .tab-btn.actif { background: var(--ink); color: var(--white); box-shadow: 0 4px 0 rgba(0,0,0,0.1); }
-
+ 
 .tab-panel { display: none; animation: fadeIn 0.4s ease; }
 .tab-panel.actif { display: block; }
 @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
-
+ 
 .section-titre { text-align: center; margin-bottom: 35px; }
 .section-titre h2 { font-size: 1.8rem; font-weight: 600; color: var(--ink); margin-bottom: 8px; }
 .section-titre p { color: var(--gray); font-size: 0.98rem; max-width: 600px; margin: 0 auto; }
-
+ 
+.fiches-filter { display: flex; gap: 10px; justify-content: center; margin-bottom: 28px; flex-wrap: wrap; }
+.fiche-filter-btn { background: var(--white); border: 2px solid var(--ink); color: var(--ink); padding: 8px 18px; border-radius: 50px; font-family: inherit; font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: var(--transition); }
+.fiche-filter-btn:hover { background: var(--light); }
+.fiche-filter-btn.actif { background: var(--ink); color: var(--white); }
+ 
 .fiches-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 22px; }
 .fiche-card { background: var(--white); border: 2px solid var(--ink); border-radius: var(--radius-sm); padding: 25px; box-shadow: var(--shadow-sm); transition: var(--transition); display: flex; flex-direction: column; gap: 12px; }
 .fiche-card:hover { transform: translate(-3px, -3px); box-shadow: var(--shadow); }
@@ -118,14 +123,14 @@ nav { position: fixed; top: 0; left: 0; right: 0; background: rgba(250, 246, 236
 .fiche-desc { font-size: 0.86rem; color: var(--gray); line-height: 1.5; flex: 1; }
 .btn-fiche { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 10px 16px; background: var(--light); border: 1.5px solid var(--ink); color: var(--ink); border-radius: var(--radius-sm); font-family: inherit; font-weight: 600; font-size: 0.85rem; cursor: pointer; transition: var(--transition); }
 .btn-fiche:hover { background: var(--ink); color: var(--white); }
-
+ 
 .formulaire-search { max-width: 600px; margin: 0 auto 30px; position: relative; }
 .formulaire-search input { width: 100%; padding: 15px 20px 15px 50px; background: var(--white); border: 2px solid var(--ink); border-radius: var(--radius-sm); font-family: inherit; font-size: 0.95rem; color: var(--ink); box-shadow: var(--shadow-sm); transition: var(--transition); }
 [dir="rtl"] .formulaire-search input { padding: 15px 50px 15px 20px; }
 .formulaire-search input:focus { outline: none; border-color: var(--primary-light); box-shadow: 0 0 0 3px rgba(42,157,143,0.2); }
 .formulaire-search i { position: absolute; top: 50%; left: 20px; transform: translateY(-50%); color: var(--ink); font-size: 1rem; }
 [dir="rtl"] .formulaire-search i { left: auto; right: 20px; }
-
+ 
 .formules-categories { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 20px; }
 .formule-cat { background: var(--white); border: 2px solid var(--ink); border-radius: var(--radius-sm); padding: 22px; box-shadow: var(--shadow-sm); transition: var(--transition); }
 .formule-cat:hover { box-shadow: var(--shadow); }
@@ -134,13 +139,13 @@ nav { position: fixed; top: 0; left: 0; right: 0; background: rgba(250, 246, 236
 .formule-item:last-child { border-bottom: none; }
 .formule-item .f-nom { font-size: 0.8rem; color: var(--gray); margin-bottom: 5px; font-weight: 500; }
 .formule-item .f-eq { color: var(--ink); font-size: 0.95rem; }
-
+ 
 .calculateur-wrap { max-width: 800px; margin: 0 auto; }
 .calc-tabs { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; margin-bottom: 25px; }
 .calc-tab { background: var(--white); border: 2px solid var(--ink); color: var(--ink); padding: 9px 16px; border-radius: var(--radius-sm); font-family: inherit; font-size: 0.82rem; font-weight: 600; cursor: pointer; transition: var(--transition); }
 .calc-tab:hover { background: var(--light); }
 .calc-tab.actif { background: var(--ink); color: var(--white); }
-
+ 
 .calc-panel { display: none; background: var(--white); border: 2px solid var(--ink); border-radius: var(--radius); padding: 30px; box-shadow: var(--shadow); }
 .calc-panel.actif { display: block; animation: fadeIn 0.4s ease; }
 .calc-panel h3 { font-size: 1.15rem; font-weight: 600; color: var(--ink); margin-bottom: 8px; }
@@ -155,7 +160,7 @@ nav { position: fixed; top: 0; left: 0; right: 0; background: rgba(250, 246, 236
 .calc-resultat.visible { display: block; animation: fadeIn 0.3s ease; }
 .calc-resultat .lbl { font-size: 0.75rem; color: var(--gray); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; font-family: 'JetBrains Mono', monospace; }
 .calc-resultat .val { font-family: 'JetBrains Mono', monospace; font-size: 1.8rem; font-weight: 700; color: var(--primary-light); }
-
+ 
 .periodique-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); gap: 10px; }
 .element-card { background: var(--white); border: 2px solid var(--border); border-radius: var(--radius-sm); padding: 12px 8px; text-align: center; cursor: pointer; transition: var(--transition); position: relative; }
 .element-card:hover { transform: translateY(-4px); border-color: var(--ink); box-shadow: var(--shadow); z-index: 2; }
@@ -168,7 +173,7 @@ nav { position: fixed; top: 0; left: 0; right: 0; background: rgba(250, 246, 236
 .element-card.fam-alcalino { border-color: rgba(232,163,61,0.4); } .element-card.fam-alcalino .symbole { color: var(--accent-dark); }
 .element-card.fam-halogene { border-color: rgba(42,157,143,0.4); } .element-card.fam-halogene .symbole { color: var(--success); }
 .element-card.fam-gaz { border-color: rgba(124,111,186,0.4); } .element-card.fam-gaz .symbole { color: var(--violet); }
-
+ 
 .element-modal { position: fixed; inset: 0; background: rgba(22,33,62,0.85); backdrop-filter: blur(5px); z-index: 5000; display: none; align-items: center; justify-content: center; padding: 15px; }
 .element-modal.ouvert { display: flex; }
 .element-modal-box { background: var(--white); border: 2px solid var(--ink); border-radius: var(--radius); padding: 30px; max-width: 450px; width: 100%; position: relative; box-shadow: 10px 10px 0 rgba(0,0,0,0.2); animation: slideUp 0.3s; }
@@ -184,7 +189,21 @@ nav { position: fixed; top: 0; left: 0; right: 0; background: rgba(250, 246, 236
 .element-stat { background: var(--light); border: 1.5px solid var(--border); border-radius: var(--radius-sm); padding: 12px 14px; }
 .element-stat .lbl { font-size: 0.68rem; color: var(--gray); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
 .element-stat .val { font-size: 1rem; font-weight: 700; color: var(--primary-light); font-family: 'JetBrains Mono', monospace; }
-
+ 
+.fiche-modal-box { background: var(--white); border: 2px solid var(--ink); border-radius: var(--radius); padding: 30px; max-width: 560px; width: 100%; max-height: 85vh; overflow-y: auto; position: relative; box-shadow: 10px 10px 0 rgba(0,0,0,0.2); animation: slideUp 0.3s; }
+.fiche-modal-header { display: flex; align-items: center; gap: 14px; margin-bottom: 18px; padding-right: 40px; }
+[dir="rtl"] .fiche-modal-header { padding-right: 0; padding-left: 40px; }
+.fiche-modal-icon { width: 56px; height: 56px; border-radius: var(--radius-sm); background: var(--ink); display: flex; align-items: center; justify-content: center; font-size: 1.4rem; color: var(--accent); flex-shrink: 0; }
+.fiche-modal-header h3 { font-size: 1.2rem; color: var(--ink); font-weight: 600; margin-bottom: 3px; }
+.fiche-modal-header span { color: var(--gray); font-size: 0.8rem; font-family: 'JetBrains Mono', monospace; }
+.fiche-points { list-style: none; margin-bottom: 18px; }
+.fiche-points li { padding: 10px 0 10px 24px; border-bottom: 1px dashed var(--border); position: relative; font-size: 0.9rem; color: var(--ink); line-height: 1.55; }
+.fiche-points li:last-child { border-bottom: none; }
+.fiche-points li::before { content: '→'; position: absolute; left: 0; color: var(--accent); font-weight: 700; }
+[dir="rtl"] .fiche-points li { padding: 10px 24px 10px 0; }
+[dir="rtl"] .fiche-points li::before { left: auto; right: 0; }
+.fiche-formule-box { background: var(--light); border: 1.5px solid var(--border); border-radius: var(--radius-sm); padding: 14px; text-align: center; font-size: 1rem; }
+ 
 .conv-wrap { max-width: 700px; margin: 0 auto; }
 .conv-types { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; margin-bottom: 25px; }
 .conv-type-btn { background: var(--white); border: 2px solid var(--ink); color: var(--ink); padding: 9px 16px; border-radius: var(--radius-sm); font-family: inherit; font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: var(--transition); }
@@ -199,7 +218,7 @@ nav { position: fixed; top: 0; left: 0; right: 0; background: rgba(250, 246, 236
 .conv-resultat { background: var(--light); border: 2px solid var(--primary-light); border-radius: var(--radius-sm); padding: 20px; text-align: center; margin-top: 15px; }
 .conv-resultat .lbl { font-size: 0.75rem; color: var(--gray); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; font-family: 'JetBrains Mono', monospace; }
 .conv-resultat .val { font-family: 'JetBrains Mono', monospace; font-size: 1.7rem; font-weight: 700; color: var(--primary-light); word-break: break-all; }
-
+ 
 .constantes-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 18px; }
 .constante-card { background: var(--white); border: 2px solid var(--ink); border-radius: var(--radius-sm); padding: 20px; box-shadow: var(--shadow-sm); border-left: 6px solid var(--primary-light); transition: var(--transition); }
 [dir="rtl"] .constante-card { border-left: 2px solid var(--ink); border-right: 6px solid var(--primary-light); }
@@ -209,7 +228,7 @@ nav { position: fixed; top: 0; left: 0; right: 0; background: rgba(250, 246, 236
 .constante-card .c-nom i { color: var(--primary-light); font-size: 0.8rem; }
 .constante-card .c-valeur { font-family: 'JetBrains Mono', monospace; font-size: 1.05rem; font-weight: 700; color: var(--ink); }
 .constante-card .c-symbole { font-size: 0.9rem; color: var(--primary-light); font-weight: 700; margin-top: 5px; font-style: italic; }
-
+ 
 footer { background: var(--light); border-top: 2px solid var(--ink); color: var(--ink); padding: 56px 5% 25px; margin-top: 60px; }
 .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; max-width: 1200px; margin: 0 auto 40px; }
 .footer-brand .footer-logo { display: flex; align-items: center; gap: 12px; margin-bottom: 15px; }
@@ -230,7 +249,7 @@ footer { background: var(--light); border-top: 2px solid var(--ink); color: var(
 .footer-col ul a i { margin-right: 6px; color: var(--accent); }
 .footer-bottom { border-top: 1px dashed var(--border); padding-top: 24px; text-align: center; color: var(--gray); font-size: 0.86rem; font-family: 'JetBrains Mono', monospace; }
 .footer-bottom span { color: var(--accent-dark); font-weight: 700; }
-
+ 
 @media (max-width: 900px) {
   .footer-grid { grid-template-columns: 1fr 1fr; }
   .hero-page h1 { font-size: 2.2rem; }
@@ -262,7 +281,7 @@ footer { background: var(--light); border-top: 2px solid var(--ink); color: var(
 </style>
 </head>
 <body>
-
+ 
 <nav>
   <a href="index.html" class="logo">
     <div class="logo-img-wrap"><img src="assets/logo-darrssy.png" alt="DARRSSY"></div>
@@ -289,14 +308,14 @@ footer { background: var(--light); border-top: 2px solid var(--ink); color: var(
   </ul>
   <button class="menu-toggle" id="menuToggle" aria-label="Menu"><i class="fas fa-bars"></i></button>
 </nav>
-
+ 
 <section class="hero-page">
   <div class="hero-page-content">
     <h1><span data-i18n="res.titre1">Outils &</span> <span data-i18n="res.titre2">Ressources</span></h1>
     <p data-i18n="res.desc">Fiches de révision, formulaire complet, calculateur interactif, tableau périodique et convertisseur d'unités.</p>
   </div>
 </section>
-
+ 
 <div class="conteneur">
   <div class="tabs-bar">
     <button class="tab-btn actif" data-tab="fiches"><i class="fas fa-file-alt"></i> <span data-i18n="tab.fiches">Fiches</span></button>
@@ -306,15 +325,20 @@ footer { background: var(--light); border-top: 2px solid var(--ink); color: var(
     <button class="tab-btn" data-tab="convertisseur"><i class="fas fa-exchange-alt"></i> <span data-i18n="tab.convertisseur">Convertisseur</span></button>
     <button class="tab-btn" data-tab="constantes"><i class="fas fa-superscript"></i> <span data-i18n="tab.constantes">Constantes</span></button>
   </div>
-
+ 
   <div class="tab-panel actif" id="panel-fiches">
     <div class="section-titre">
       <h2 data-i18n="fiches.titre">Fiches de révision</h2>
       <p data-i18n="fiches.desc">Résumés synthétiques pour réviser efficacement chaque chapitre.</p>
     </div>
+    <div class="fiches-filter">
+      <button class="fiche-filter-btn actif" data-fmat="all" data-i18n="fiches.tous">Toutes</button>
+      <button class="fiche-filter-btn" data-fmat="physique" data-i18n="fiches.physique">Physique</button>
+      <button class="fiche-filter-btn" data-fmat="chimie" data-i18n="fiches.chimie">Chimie</button>
+    </div>
     <div class="fiches-grid" id="fichesGrid"></div>
   </div>
-
+ 
   <div class="tab-panel" id="panel-formulaire">
     <div class="section-titre">
       <h2 data-i18n="formulaire.titre">Formulaire complet</h2>
@@ -326,7 +350,7 @@ footer { background: var(--light); border-top: 2px solid var(--ink); color: var(
     </div>
     <div class="formules-categories" id="formulesCategories"></div>
   </div>
-
+ 
   <div class="tab-panel" id="panel-calculateur">
     <div class="section-titre">
       <h2 data-i18n="calc.titre">Calculateur interactif</h2>
@@ -340,6 +364,10 @@ footer { background: var(--light); border-top: 2px solid var(--ink); color: var(
         <button class="calc-tab" data-calc="chute" data-i18n="calc.chute">Chute libre</button>
         <button class="calc-tab" data-calc="rc">τ = RC</button>
         <button class="calc-tab" data-calc="rlc">T₀ = 2π√LC</button>
+        <button class="calc-tab" data-calc="matiere" data-i18n="calc.matiere">Quantité de matière</button>
+        <button class="calc-tab" data-calc="dilution" data-i18n="calc.dilution">Dilution</button>
+        <button class="calc-tab" data-calc="gaz" data-i18n="calc.gaz">Gaz parfaits</button>
+        <button class="calc-tab" data-calc="puissance" data-i18n="calc.puissance">Puissance</button>
       </div>
       <div class="calc-panel actif" id="calc-ph">
         <h3 data-i18n="calc.ph.titre">Calcul du pH</h3>
@@ -399,9 +427,51 @@ footer { background: var(--light); border-top: 2px solid var(--ink); color: var(
         <button class="btn-calc" onclick="calculerRLC()"><i class="fas fa-calculator"></i> <span data-i18n="calc.bouton">Calculer</span></button>
         <div class="calc-resultat" id="res-rlc"><div class="lbl">T₀ =</div><div class="val" id="res-rlc-val">—</div></div>
       </div>
+      <div class="calc-panel" id="calc-matiere">
+        <h3 data-i18n="calc.matiere.titre">Quantité de matière</h3>
+        <div class="calc-formule">$$n = \frac{m}{M}$$</div>
+        <div class="calc-inputs">
+          <div class="calc-input-group"><label>m (g)</label><input type="number" id="mat-m" value="10" step="any"></div>
+          <div class="calc-input-group"><label>M (g/mol)</label><input type="number" id="mat-M" value="18" step="any"></div>
+        </div>
+        <button class="btn-calc" onclick="calculerMatiere()"><i class="fas fa-calculator"></i> <span data-i18n="calc.bouton">Calculer</span></button>
+        <div class="calc-resultat" id="res-matiere"><div class="lbl">n =</div><div class="val" id="res-matiere-val">—</div></div>
+      </div>
+      <div class="calc-panel" id="calc-dilution">
+        <h3 data-i18n="calc.dilution.titre">Dilution d'une solution</h3>
+        <div class="calc-formule">$$C_1 V_1 = C_2 V_2$$</div>
+        <div class="calc-inputs">
+          <div class="calc-input-group"><label>C₁ (mol/L)</label><input type="number" id="dil-c1" value="1" step="any"></div>
+          <div class="calc-input-group"><label>V₁ (mL)</label><input type="number" id="dil-v1" value="10" step="any"></div>
+          <div class="calc-input-group"><label>V₂ (mL)</label><input type="number" id="dil-v2" value="100" step="any"></div>
+        </div>
+        <button class="btn-calc" onclick="calculerDilution()"><i class="fas fa-calculator"></i> <span data-i18n="calc.bouton">Calculer</span></button>
+        <div class="calc-resultat" id="res-dilution"><div class="lbl">C₂ =</div><div class="val" id="res-dilution-val">—</div></div>
+      </div>
+      <div class="calc-panel" id="calc-gaz">
+        <h3 data-i18n="calc.gaz.titre">Loi des gaz parfaits</h3>
+        <div class="calc-formule">$$P = \frac{nRT}{V}$$</div>
+        <div class="calc-inputs">
+          <div class="calc-input-group"><label>n (mol)</label><input type="number" id="gaz-n" value="1" step="any"></div>
+          <div class="calc-input-group"><label>T (K)</label><input type="number" id="gaz-t" value="298" step="any"></div>
+          <div class="calc-input-group"><label>V (L)</label><input type="number" id="gaz-v" value="22.4" step="any"></div>
+        </div>
+        <button class="btn-calc" onclick="calculerGaz()"><i class="fas fa-calculator"></i> <span data-i18n="calc.bouton">Calculer</span></button>
+        <div class="calc-resultat" id="res-gaz"><div class="lbl">P =</div><div class="val" id="res-gaz-val">—</div></div>
+      </div>
+      <div class="calc-panel" id="calc-puissance">
+        <h3 data-i18n="calc.puissance.titre">Puissance électrique</h3>
+        <div class="calc-formule">$$P = U \cdot I$$</div>
+        <div class="calc-inputs">
+          <div class="calc-input-group"><label>U (V)</label><input type="number" id="pui-u" value="220" step="any"></div>
+          <div class="calc-input-group"><label>I (A)</label><input type="number" id="pui-i" value="2" step="any"></div>
+        </div>
+        <button class="btn-calc" onclick="calculerPuissance()"><i class="fas fa-calculator"></i> <span data-i18n="calc.bouton">Calculer</span></button>
+        <div class="calc-resultat" id="res-puissance"><div class="lbl">P =</div><div class="val" id="res-puissance-val">—</div></div>
+      </div>
     </div>
   </div>
-
+ 
   <div class="tab-panel" id="panel-periodique">
     <div class="section-titre">
       <h2 data-i18n="perio.titre">Tableau périodique simplifié</h2>
@@ -409,7 +479,7 @@ footer { background: var(--light); border-top: 2px solid var(--ink); color: var(
     </div>
     <div class="periodique-grid" id="periodiqueGrid"></div>
   </div>
-
+ 
   <div class="tab-panel" id="panel-convertisseur">
     <div class="section-titre">
       <h2 data-i18n="conv.titre">Convertisseur d'unités</h2>
@@ -475,7 +545,7 @@ footer { background: var(--light); border-top: 2px solid var(--ink); color: var(
       </div>
     </div>
   </div>
-
+ 
   <div class="tab-panel" id="panel-constantes">
     <div class="section-titre">
       <h2 data-i18n="const.titre">Constantes physiques</h2>
@@ -484,7 +554,7 @@ footer { background: var(--light); border-top: 2px solid var(--ink); color: var(
     <div class="constantes-grid" id="constantesGrid"></div>
   </div>
 </div>
-
+ 
 <div class="element-modal" id="elementModal">
   <div class="element-modal-box">
     <button class="close-el" id="closeElementModal"><i class="fas fa-times"></i></button>
@@ -498,7 +568,22 @@ footer { background: var(--light); border-top: 2px solid var(--ink); color: var(
     <div class="element-stats" id="modalStats"></div>
   </div>
 </div>
-
+ 
+<div class="element-modal" id="ficheModal">
+  <div class="fiche-modal-box">
+    <button class="close-el" id="closeFicheModal"><i class="fas fa-times"></i></button>
+    <div class="fiche-modal-header">
+      <div class="fiche-modal-icon" id="ficheModalIcon"><i class="fas fa-file-alt"></i></div>
+      <div>
+        <h3 id="ficheModalTitre">—</h3>
+        <span id="ficheModalTag">2ème Bac PC</span>
+      </div>
+    </div>
+    <ul class="fiche-points" id="ficheModalPoints"></ul>
+    <div class="fiche-formule-box" id="ficheModalFormule" style="display:none;"></div>
+  </div>
+</div>
+ 
 <footer>
   <div class="footer-grid">
     <div class="footer-brand">
@@ -545,10 +630,11 @@ footer { background: var(--light); border-top: 2px solid var(--ink); color: var(
   </div>
   <div class="footer-bottom">© 2026 <span>DARRSSY</span> — <span data-i18n="footer.droits">Tous droits réservés.</span></div>
 </footer>
-
+ 
 <script>
 let currentLang = localStorage.getItem('darrssy-lang') || 'fr';
-
+let ficheFiltreActif = 'all';
+ 
 const trad = {
   fr: {
     'nav.home': 'Accueil', 'nav.cours': 'Cours', 'nav.exercices': 'Exercices',
@@ -559,6 +645,7 @@ const trad = {
     'tab.fiches': 'Fiches', 'tab.formulaire': 'Formulaire', 'tab.calculateur': 'Calculateur',
     'tab.periodique': 'Tableau périodique', 'tab.convertisseur': 'Convertisseur', 'tab.constantes': 'Constantes',
     'fiches.titre': 'Fiches de révision', 'fiches.desc': 'Résumés synthétiques pour réviser efficacement chaque chapitre.',
+    'fiches.tous': 'Toutes', 'fiches.physique': 'Physique', 'fiches.chimie': 'Chimie',
     'formulaire.titre': 'Formulaire complet', 'formulaire.desc': 'Toutes les formules de Physique-Chimie en un seul endroit.',
     'formulaire.placeholder': 'Rechercher une formule...',
     'calc.titre': 'Calculateur interactif', 'calc.desc': 'Entrez vos valeurs et obtenez le résultat instantanément.',
@@ -568,6 +655,10 @@ const trad = {
     'calc.arrhenius.titre': "Loi d'Arrhenius", 'calc.einstein.titre': 'Énergie de masse (Einstein)',
     'calc.chute.titre': 'Chute libre', 'calc.rc.titre': 'Constante de temps RC',
     'calc.rlc.titre': 'Période propre LC (Thomson)',
+    'calc.matiere': 'Quantité de matière', 'calc.matiere.titre': 'Quantité de matière',
+    'calc.dilution': 'Dilution', 'calc.dilution.titre': "Dilution d'une solution",
+    'calc.gaz': 'Gaz parfaits', 'calc.gaz.titre': 'Loi des gaz parfaits',
+    'calc.puissance': 'Puissance', 'calc.puissance.titre': 'Puissance électrique',
     'perio.titre': 'Tableau périodique simplifié', 'perio.desc': 'Les 20 premiers éléments. Cliquez pour voir les détails.',
     'conv.titre': "Convertisseur d'unités", 'conv.desc': 'Convertissez rapidement entre les unités courantes.',
     'conv.longueur': 'Longueur', 'conv.masse': 'Masse', 'conv.temps': 'Temps',
@@ -587,6 +678,7 @@ const trad = {
     'tab.fiches': 'البطاقات', 'tab.formulaire': 'الصيغ', 'tab.calculateur': 'الحاسبة',
     'tab.periodique': 'الجدول الدوري', 'tab.convertisseur': 'المحول', 'tab.constantes': 'الثوابت',
     'fiches.titre': 'بطاقات المراجعة', 'fiches.desc': 'ملخصات موجزة للمراجعة الفعالة لكل درس.',
+    'fiches.tous': 'الكل', 'fiches.physique': 'الفيزياء', 'fiches.chimie': 'الكيمياء',
     'formulaire.titre': 'الصيغ الكاملة', 'formulaire.desc': 'جميع صيغ الفيزياء والكيمياء في مكان واحد.',
     'formulaire.placeholder': 'ابحث عن صيغة...',
     'calc.titre': 'الحاسبة التفاعلية', 'calc.desc': 'أدخل قيمك واحصل على النتيجة فوراً.',
@@ -596,6 +688,10 @@ const trad = {
     'calc.arrhenius.titre': 'قانون أرينيوس', 'calc.einstein.titre': 'طاقة الكتلة (أينشتاين)',
     'calc.chute.titre': 'السقوط الحر', 'calc.rc.titre': 'الثابت الزمني RC',
     'calc.rlc.titre': 'الدور الذاتي LC',
+    'calc.matiere': 'كمية المادة', 'calc.matiere.titre': 'كمية المادة',
+    'calc.dilution': 'التخفيف', 'calc.dilution.titre': 'تخفيف محلول',
+    'calc.gaz': 'الغازات المثالية', 'calc.gaz.titre': 'قانون الغازات المثالية',
+    'calc.puissance': 'القدرة', 'calc.puissance.titre': 'القدرة الكهربائية',
     'perio.titre': 'الجدول الدوري المبسط', 'perio.desc': 'العناصر العشرون الأولى. انقر لعرض التفاصيل.',
     'conv.titre': 'محول الوحدات', 'conv.desc': 'حول بسرعة بين الوحدات الشائعة.',
     'conv.longueur': 'الطول', 'conv.masse': 'الكتلة', 'conv.temps': 'الزمن',
@@ -607,18 +703,266 @@ const trad = {
     'footer.contact': 'اتصل بنا', 'footer.maroc': 'المغرب', 'footer.droits': 'جميع الحقوق محفوظة.'
   }
 };
-
+ 
 const fiches = [
-  { id: 'f1', niveau: '2bacpc', matiere: 'physique', icon: 'fa-water', titre_fr: 'Ondes mécaniques', titre_ar: 'الموجات الميكانيكية', desc_fr: 'Définition, célérité, périodicité.', desc_ar: 'التعريف، السرعة، الدورية.' },
-  { id: 'f2', niveau: '2bacpc', matiere: 'physique', icon: 'fa-bolt', titre_fr: 'Dipôle RC', titre_ar: 'ثنائي القطب RC', desc_fr: 'Charge, décharge, constante de temps.', desc_ar: 'الشحن، التفريغ، الثابت الزمني.' },
-  { id: 'f3', niveau: '2bacpc', matiere: 'physique', icon: 'fa-wave-square', titre_fr: 'Circuit RLC', titre_ar: 'دارة RLC', desc_fr: 'Oscillations libres, amorties.', desc_ar: 'التذبذبات الحرة والمخمدة.' },
-  { id: 'f4', niveau: '2bacpc', matiere: 'physique', icon: 'fa-radiation', titre_fr: 'Radioactivité', titre_ar: 'النشاط الإشعاعي', desc_fr: 'Décroissance, demi-vie.', desc_ar: 'التحلل، نصف العمر.' },
-  { id: 'f5', niveau: '2bacpc', matiere: 'physique', icon: 'fa-rocket', titre_fr: 'Mécanique de Newton', titre_ar: 'ميكانيك نيوتن', desc_fr: 'Les 3 lois de Newton.', desc_ar: 'قوانين نيوتن الثلاثة.' },
-  { id: 'f6', niveau: '2bacpc', matiere: 'chimie', icon: 'fa-hourglass-half', titre_fr: 'Cinétique chimique', titre_ar: 'الحركية الكيميائية', desc_fr: 'Vitesse de réaction, catalyse.', desc_ar: 'سرعة التفاعل، الحفز.' },
-  { id: 'f7', niveau: '2bacpc', matiere: 'chimie', icon: 'fa-flask', titre_fr: 'Acide-base', titre_ar: 'الحموض والقواعد', desc_fr: 'pH, couples, titrage.', desc_ar: 'pH، الثنائيات، المعايرة.' },
-  { id: 'f8', niveau: '2bacpc', matiere: 'chimie', icon: 'fa-battery-full', titre_fr: 'Oxydoréduction', titre_ar: 'الأكسدة والإرجاع', desc_fr: 'Piles, électrolyse.', desc_ar: 'الأعمدة، التحليل الكهربائي.' }
+  { id: 'f1', niveau: '2bacpc', matiere: 'physique', icon: 'fa-water', titre_fr: 'Ondes mécaniques', titre_ar: 'الموجات الميكانيكية', desc_fr: 'Définition, célérité, périodicité.', desc_ar: 'التعريف، السرعة، الدورية.',
+    formule: 'v = \\dfrac{d}{\\Delta t} \\qquad \\lambda = v \\cdot T',
+    points_fr: [
+      "Une onde mécanique progressive transporte de l'énergie, sans transport de matière.",
+      "Elle se propage dans un milieu matériel à une célérité v qui dépend du milieu traversé.",
+      "Onde périodique : elle se répète avec une période T et une fréquence f = 1/T.",
+      "La longueur d'onde λ est la distance parcourue par l'onde pendant une période : λ = v·T.",
+      "Diffraction : déviation de l'onde au passage d'une ouverture de taille voisine de λ."
+    ],
+    points_ar: [
+      "الموجة الميكانيكية التقدمية تنقل الطاقة دون نقل المادة.",
+      "تنتشر في وسط مادي بسرعة انتشار v تعتمد على الوسط.",
+      "الموجة الدورية: تتكرر بدورة زمنية T وتردد f = 1/T.",
+      "الطول الموجي λ هو المسافة التي تقطعها الموجة خلال دورة واحدة: λ = v·T.",
+      "الحيود: انحراف الموجة عند مرورها من فتحة قريبة الحجم من λ."
+    ]
+  },
+  { id: 'f2', niveau: '2bacpc', matiere: 'physique', icon: 'fa-bolt', titre_fr: 'Dipôle RC', titre_ar: 'ثنائي القطب RC', desc_fr: 'Charge, décharge, constante de temps.', desc_ar: 'الشحن، التفريغ، الثابت الزمني.',
+    formule: 'u_C(t) = E\\left(1-e^{-t/\\tau}\\right) \\qquad \\tau = RC',
+    points_fr: [
+      "Un dipôle RC est constitué d'un résistor R et d'un condensateur C montés en série.",
+      "Pendant la charge, la tension u_C croît de 0 à E en suivant une loi exponentielle.",
+      "La constante de temps τ = RC caractérise la rapidité du régime transitoire.",
+      "Au bout d'une durée 5τ, le condensateur est considéré comme totalement chargé (ou déchargé).",
+      "Méthode graphique : τ est l'abscisse du point où la tangente à l'origine coupe l'asymptote."
+    ],
+    points_ar: [
+      "ثنائي القطب RC يتكون من موصل أومي R ومكثف C مركبين على التوالي.",
+      "خلال الشحن، يتزايد التوتر u_C من 0 إلى E وفق قانون أسي.",
+      "الثابت الزمني τ = RC يميز سرعة النظام الانتقالي.",
+      "بعد مدة 5τ، يعتبر المكثف مشحونا (أو مفرغا) بشكل كامل.",
+      "الطريقة البيانية: τ هي الفاصلة التي يقطع عندها المماس عند الأصل المستقيم المقارب."
+    ]
+  },
+  { id: 'f3', niveau: '2bacpc', matiere: 'physique', icon: 'fa-wave-square', titre_fr: 'Circuit RLC', titre_ar: 'دارة RLC', desc_fr: 'Oscillations libres, amorties.', desc_ar: 'التذبذبات الحرة والمخمدة.',
+    formule: 'T_0 = 2\\pi\\sqrt{LC}',
+    points_fr: [
+      "Un circuit RLC série comprend un résistor, une bobine et un condensateur.",
+      "En régime libre, les oscillations sont amorties à cause de la résistance R du circuit.",
+      "Si R est très faible, les oscillations sont quasi périodiques, de pseudo-période T ≈ T₀.",
+      "La période propre T₀ ne dépend que de L et C (cas idéal, sans résistance).",
+      "L'énergie totale (électrique + magnétique) diminue progressivement, dissipée par effet Joule dans R."
+    ],
+    points_ar: [
+      "دارة RLC على التوالي تتكون من موصل أومي وملف ومكثف.",
+      "في النظام الحر، تكون التذبذبات مخمدة بسبب مقاومة الدارة R.",
+      "إذا كانت R ضعيفة جدا، تكون التذبذبات شبه دورية بدور زائف T ≈ T₀.",
+      "الدور الذاتي T₀ لا يعتمد إلا على L وC (الحالة المثالية بدون مقاومة).",
+      "الطاقة الكلية (كهربائية + مغناطيسية) تتناقص تدريجيا وتتبدد كحرارة في R."
+    ]
+  },
+  { id: 'f4', niveau: '2bacpc', matiere: 'physique', icon: 'fa-radiation', titre_fr: 'Radioactivité', titre_ar: 'النشاط الإشعاعي', desc_fr: 'Décroissance, demi-vie.', desc_ar: 'التحلل، نصف العمر.',
+    formule: 'N(t) = N_0\\,e^{-\\lambda t} \\qquad T_{1/2} = \\dfrac{\\ln 2}{\\lambda}',
+    points_fr: [
+      "La radioactivité est une transformation spontanée et aléatoire d'un noyau instable.",
+      "Trois types principaux : désintégration α, β⁻ et β⁺ (souvent accompagnée d'un rayonnement γ).",
+      "La loi de décroissance radioactive est exponentielle : N(t) = N₀·e^(-λt).",
+      "La demi-vie T½ est le temps au bout duquel la moitié des noyaux initiaux a disparu.",
+      "Les lois de conservation de Soddy (nombre de masse A et numéro atomique Z) s'appliquent à chaque réaction."
+    ],
+    points_ar: [
+      "النشاط الإشعاعي تحول تلقائي وعشوائي لنواة غير مستقرة.",
+      "ثلاثة أنواع رئيسية: تفكك α وβ⁻ وβ⁺ (غالبا مصحوب بإشعاع γ).",
+      "قانون التناقص الإشعاعي أسي: N(t) = N₀·e^(-λt).",
+      "نصف العمر T½ هو الزمن اللازم لاختفاء نصف عدد الأنوية الأولية.",
+      "قوانين صودي للانحفاظ (العدد الكتلي A والعدد الذري Z) تُطبَّق في كل تفاعل."
+    ]
+  },
+  { id: 'f5', niveau: '2bacpc', matiere: 'physique', icon: 'fa-rocket', titre_fr: 'Mécanique de Newton', titre_ar: 'ميكانيك نيوتن', desc_fr: 'Les 3 lois de Newton.', desc_ar: 'قوانين نيوتن الثلاثة.',
+    formule: '\\sum \\vec{F} = m\\vec{a}',
+    points_fr: [
+      "1ère loi (inertie) : dans un référentiel galiléen, un système isolé/pseudo-isolé garde un mouvement rectiligne uniforme.",
+      "2ème loi : la somme des forces appliquées égale le produit de la masse par l'accélération : ΣF = m·a.",
+      "3ème loi (actions réciproques) : si A exerce une force sur B, alors B exerce une force opposée sur A.",
+      "Le vecteur accélération est toujours colinéaire à la résultante des forces, pas forcément à la vitesse.",
+      "Un référentiel galiléen est celui où ces lois s'appliquent directement (le référentiel terrestre l'est souvent en bonne approximation)."
+    ],
+    points_ar: [
+      "القانون الأول (القصور الذاتي): في معلم غاليلي، تحافظ الجملة المعزولة أو شبه المعزولة على حركة مستقيمة منتظمة.",
+      "القانون الثاني: مجموع القوى المطبقة يساوي حاصل ضرب الكتلة في التسارع: ΣF = m·a.",
+      "القانون الثالث (التآثرات المتبادلة): إذا أثّر A بقوة على B، فإن B يؤثر بقوة معاكسة على A.",
+      "متجهة التسارع مرافقة دائما لمحصلة القوى، وليس بالضرورة لمتجهة السرعة.",
+      "المعلم الغاليلي هو معلم تُطبَّق فيه هذه القوانين مباشرة (يُقارَب المعلم الأرضي غالبا بمعلم غاليلي)."
+    ]
+  },
+  { id: 'f6', niveau: '2bacpc', matiere: 'chimie', icon: 'fa-hourglass-half', titre_fr: 'Cinétique chimique', titre_ar: 'الحركية الكيميائية', desc_fr: 'Vitesse de réaction, catalyse.', desc_ar: 'سرعة التفاعل، الحفز.',
+    formule: 'v = -\\dfrac{d[C]}{dt} \\qquad k = k_0\\,e^{-E_a/(RT)}',
+    points_fr: [
+      "La vitesse de réaction mesure la rapidité de disparition d'un réactif (ou d'apparition d'un produit).",
+      "Elle se définit à partir de la variation de concentration par unité de temps : v = -d[C]/dt.",
+      "Un facteur cinétique (température, concentration) modifie la vitesse sans modifier l'état final.",
+      "Un catalyseur accélère la réaction sans être consommé et sans déplacer l'équilibre.",
+      "Le temps de demi-réaction t½ est le temps au bout duquel l'avancement atteint la moitié de sa valeur finale."
+    ],
+    points_ar: [
+      "سرعة التفاعل تقيس سرعة اختفاء متفاعل (أو ظهور ناتج).",
+      "تُعرَّف انطلاقا من تغير التركيز خلال الزمن: v = -d[C]/dt.",
+      "العامل الحركي (الحرارة، التركيز) يغيّر السرعة دون تغيير الحالة النهائية.",
+      "الحفاز يُسرّع التفاعل دون أن يُستهلك ودون تغيير حالة التوازن.",
+      "زمن نصف التفاعل t½ هو الزمن الذي يبلغ فيه التقدم نصف قيمته النهائية."
+    ]
+  },
+  { id: 'f7', niveau: '2bacpc', matiere: 'chimie', icon: 'fa-flask', titre_fr: 'Acide-base', titre_ar: 'الحموض والقواعد', desc_fr: 'pH, couples, titrage.', desc_ar: 'pH، الثنائيات، المعايرة.',
+    formule: '\\text{pH} = -\\log[\\text{H}_3\\text{O}^+] \\qquad K_e = 10^{-14}',
+    points_fr: [
+      "Un acide (selon Brønsted) cède un proton H⁺ ; une base en capte un.",
+      "Le pH mesure l'acidité d'une solution : pH = -log[H₃O⁺], compris en général entre 0 et 14.",
+      "Un couple acide/base (AH/A⁻) est caractérisé par sa constante d'acidité Ka (ou son pKa).",
+      "Lors d'un titrage, l'équivalence correspond au mélange stœchiométrique des réactifs.",
+      "Le produit ionique de l'eau Ke = [H₃O⁺][OH⁻] = 10⁻¹⁴ à 25 °C relie les deux espèces."
+    ],
+    points_ar: [
+      "الحمض (حسب برونشتد) يمنح بروتونا H⁺؛ والقاعدة تكتسبه.",
+      "pH يقيس حموضة المحلول: pH = -log[H₃O⁺]، ويتراوح عادة بين 0 و14.",
+      "الثنائية حمض/قاعدة (AH/A⁻) تتميز بثابت حموضتها Ka (أو pKa).",
+      "عند المعايرة، التكافؤ يوافق المزيج المكافئ ستوكيومتريا للمتفاعلات.",
+      "الجداء الأيوني للماء Ke = [H₃O⁺][OH⁻] = 10⁻¹⁴ عند 25 °م يربط بين النوعين."
+    ]
+  },
+  { id: 'f8', niveau: '2bacpc', matiere: 'chimie', icon: 'fa-battery-full', titre_fr: 'Oxydoréduction', titre_ar: 'الأكسدة والإرجاع', desc_fr: 'Piles, électrolyse.', desc_ar: 'الأعمدة، التحليل الكهربائي.',
+    formule: 'Q = n \\cdot F',
+    points_fr: [
+      "Une oxydation est une perte d'électrons ; une réduction est un gain d'électrons.",
+      "Un couple oxydant/réducteur (Ox/Red) échange des électrons selon une demi-équation.",
+      "Dans une pile, les électrons circulent spontanément de l'anode (oxydation) vers la cathode (réduction) via le circuit extérieur.",
+      "Dans une électrolyse, un générateur impose une réaction non spontanée.",
+      "La quantité d'électricité échangée est liée à la quantité de matière par Q = n·F (F ≈ 96500 C/mol)."
+    ],
+    points_ar: [
+      "الأكسدة هي فقدان إلكترونات؛ والإرجاع هو اكتساب إلكترونات.",
+      "الثنائية مؤكسد/مرجع (Ox/Red) تتبادل إلكترونات وفق نصف معادلة.",
+      "في العمود، تنتقل الإلكترونات تلقائيا من المصعد (أكسدة) إلى المهبط (إرجاع) عبر الدارة الخارجية.",
+      "في التحليل الكهربائي، يفرض المولد تفاعلا غير تلقائي.",
+      "كمية الكهرباء المتبادلة ترتبط بكمية المادة بالعلاقة Q = n·F (F ≈ 96500 C/mol)."
+    ]
+  },
+  { id: 'f9', niveau: '2bacpc', matiere: 'physique', icon: 'fa-magnet', titre_fr: 'Dipôle RL (bobine)', titre_ar: 'ثنائي القطب RL (الوشيعة)', desc_fr: "Établissement du courant, auto-induction.", desc_ar: 'إرساء التيار، الحث الذاتي.',
+    formule: 'i(t) = \\dfrac{E}{R}\\left(1-e^{-t/\\tau}\\right) \\qquad \\tau = \\dfrac{L}{R}',
+    points_fr: [
+      "Une bobine s'oppose aux variations du courant qui la traverse : c'est le phénomène d'auto-induction.",
+      "La tension aux bornes d'une bobine réelle est u = L·di/dt + r·i, où L est son inductance.",
+      "Lors de l'établissement du courant dans un dipôle RL, l'intensité croît progressivement vers sa valeur finale E/R.",
+      "La constante de temps τ = L/R caractérise la durée du régime transitoire, comme pour un dipôle RC."
+    ],
+    points_ar: [
+      "الوشيعة تعارض تغيرات التيار الذي يجتازها: وهي ظاهرة الحث الذاتي.",
+      "التوتر بين طرفي وشيعة حقيقية هو u = L·di/dt + r·i، حيث L محاثتها.",
+      "عند إرساء التيار في ثنائي قطب RL، تتزايد شدة التيار تدريجيا نحو قيمتها النهائية E/R.",
+      "الثابت الزمني τ = L/R يميز مدة النظام الانتقالي، كما هو الحال بالنسبة لثنائي القطب RC."
+    ]
+  },
+  { id: 'f10', niveau: '2bacpc', matiere: 'physique', icon: 'fa-signal', titre_fr: 'Oscillations forcées — Résonance', titre_ar: 'التذبذبات القسرية — الرنين', desc_fr: 'Circuit RLC en régime sinusoïdal forcé.', desc_ar: 'دارة RLC في النظام الجيبي القسري.',
+    formule: 'Z = \\sqrt{R^2 + \\left(L\\omega - \\dfrac{1}{C\\omega}\\right)^2} \\qquad \\omega_0 = \\dfrac{1}{\\sqrt{LC}}',
+    points_fr: [
+      "Un générateur basse fréquence impose au circuit RLC série une tension sinusoïdale de pulsation ω.",
+      "L'impédance Z du circuit relie les amplitudes : U_m = Z·I_m.",
+      "La résonance d'intensité est obtenue quand ω = ω₀ = 1/√(LC) : l'impédance est alors minimale (Z = R).",
+      "À la résonance, l'intensité est maximale et la tension est en phase avec l'intensité."
+    ],
+    points_ar: [
+      "يفرض مولد منخفض التردد على دارة RLC على التوالي توترا جيبيا ذا نبض ω.",
+      "ممانعة الدارة Z تربط بين السعتين: U_m = Z·I_m.",
+      "يتحقق رنين الشدة عندما ω = ω₀ = 1/√(LC): تكون الممانعة عندئذ دنيا (Z = R).",
+      "عند الرنين، تكون الشدة قصوى ويكون التوتر متوافقا في الطور مع الشدة."
+    ]
+  },
+  { id: 'f11', niveau: '2bacpc', matiere: 'physique', icon: 'fa-tint', titre_fr: 'Chute verticale avec frottement', titre_ar: 'السقوط الرأسي مع الاحتكاك', desc_fr: 'Vitesse limite, régime transitoire.', desc_ar: 'السرعة الحدية، النظام الانتقالي.',
+    formule: 'm\\dfrac{dv}{dt} = mg - kv \\qquad v_{lim} = \\dfrac{mg}{k}',
+    points_fr: [
+      "Dans un fluide, un corps en chute subit son poids, la poussée d'Archimède et une force de frottement.",
+      "Pour de faibles vitesses, la force de frottement est souvent modélisée par f = -k·v, proportionnelle à la vitesse.",
+      "La vitesse croît puis tend vers une valeur constante appelée vitesse limite v_lim, atteinte quand dv/dt = 0.",
+      "Le temps caractéristique τ = m/k joue un rôle analogue à celui des régimes transitoires électriques."
+    ],
+    points_ar: [
+      "في مائع، يخضع جسم ساقط لثقله ودافعة أرخميدس وقوة احتكاك.",
+      "من أجل سرعات ضعيفة، غالبا ما تُنمذج قوة الاحتكاك بـ f = -k·v (متناسبة مع السرعة).",
+      "تتزايد السرعة ثم تميل نحو قيمة ثابتة تسمى السرعة الحدية v_lim، تتحقق عندما dv/dt = 0.",
+      "الزمن المميز τ = m/k يلعب دورا مماثلا لدور الأنظمة الانتقالية الكهربائية."
+    ]
+  },
+  { id: 'f12', niveau: '2bacpc', matiere: 'physique', icon: 'fa-plug', titre_fr: 'Champ électrique uniforme', titre_ar: 'المجال الكهربائي المنتظم', desc_fr: "Déviation d'une particule chargée.", desc_ar: 'انحراف جسيمة مشحونة.',
+    formule: 'F = qE \\qquad a = \\dfrac{qE}{m}',
+    points_fr: [
+      "Entre deux plaques planes parallèles portées à une tension U règne un champ électrique uniforme E = U/d.",
+      "Une particule chargée (charge q, masse m) y subit une force électrique constante F = qE.",
+      "Son mouvement est uniformément accéléré dans la direction du champ : a = qE/m.",
+      "La trajectoire d'une particule entrant avec une vitesse perpendiculaire au champ est parabolique, comme un mouvement de projectile."
+    ],
+    points_ar: [
+      "بين لوحين مستويين متوازيين مطبق بينهما توتر U، يسود مجال كهربائي منتظم E = U/d.",
+      "تخضع جسيمة مشحونة (شحنتها q وكتلتها m) لقوة كهربائية ثابتة F = qE.",
+      "حركتها متسارعة بانتظام في اتجاه المجال: a = qE/m.",
+      "مسار جسيمة تدخل بسرعة عمودية على المجال يكون قطعا مكافئا، شبيها بحركة مقذوف."
+    ]
+  },
+  { id: 'f13', niveau: '2bacpc', matiere: 'physique', icon: 'fa-satellite', titre_fr: 'Satellites et lois de Kepler', titre_ar: 'الأقمار الصناعية وقوانين كبلر', desc_fr: '3ème loi de Kepler, satellite géostationnaire.', desc_ar: 'قانون كبلر الثالث، القمر الثابت.',
+    formule: '\\dfrac{T^2}{a^3} = \\dfrac{4\\pi^2}{GM}',
+    points_fr: [
+      "Un satellite en orbite circulaire est soumis uniquement à la force de gravitation, qui joue le rôle de force centripète.",
+      "Sa vitesse et sa période ne dépendent que du rayon de l'orbite et de la masse de l'astre attracteur.",
+      "La 3ème loi de Kepler relie la période T au demi-grand axe a de l'orbite : T²/a³ = 4π²/(GM), constante pour un même astre.",
+      "Un satellite géostationnaire reste à la verticale d'un même point de l'équateur, avec une période de 24 h."
+    ],
+    points_ar: [
+      "يخضع قمر صناعي في مدار دائري فقط لقوة الجاذبية، التي تلعب دور القوة الجاذبة المركزية.",
+      "سرعته ودوره لا يعتمدان إلا على نصف قطر المدار وكتلة الجرم الجاذب.",
+      "قانون كبلر الثالث يربط الدور T بنصف المحور الكبير a للمدار: T²/a³ = 4π²/(GM)، وهو ثابت بالنسبة لنفس الجرم.",
+      "القمر الصناعي الثابت بالنسبة للأرض يبقى عموديا فوق نفس النقطة من خط الاستواء، بدور يساوي 24 سا."
+    ]
+  },
+  { id: 'f14', niveau: '2bacpc', matiere: 'chimie', icon: 'fa-balance-scale', titre_fr: "Évolution d'un système chimique", titre_ar: 'تطور جملة كيميائية', desc_fr: "Quotient de réaction, constante d'équilibre K.", desc_ar: 'خارج التفاعل، ثابتة التوازن K.',
+    formule: 'Q_{r,\\text{éq}} = K',
+    points_fr: [
+      "Le quotient de réaction Qr compare, à chaque instant, les concentrations des produits et des réactifs.",
+      "Une transformation chimique n'est jamais totale : elle évolue vers un état d'équilibre dynamique.",
+      "À l'équilibre, le quotient de réaction est constant et égal à la constante d'équilibre K, qui ne dépend que de la température.",
+      "Comparer Qr,i à K permet de prévoir le sens d'évolution spontané du système (direct si Qr,i < K, indirect sinon)."
+    ],
+    points_ar: [
+      "خارج التفاعل Qr يقارن في كل لحظة بين تراكيز النواتج والمتفاعلات.",
+      "التحول الكيميائي لا يكون تاما أبدا: فهو يتطور نحو حالة توازن ديناميكي.",
+      "عند التوازن، يكون خارج التفاعل ثابتا ومساويا لثابتة التوازن K، التي لا تعتمد إلا على درجة الحرارة.",
+      "مقارنة Qr,i بـ K تتيح التنبؤ باتجاه التطور التلقائي للجملة (مباشر إذا كان Qr,i < K، وغير مباشر إن لم يكن كذلك)."
+    ]
+  },
+  { id: 'f15', niveau: '2bacpc', matiere: 'chimie', icon: 'fa-vial', titre_fr: 'Dosage acido-basique', titre_ar: 'معايرة حمض-قاعدة', desc_fr: 'Titrage, équivalence, indicateurs colorés.', desc_ar: 'المعايرة، التكافؤ، الكواشف الملونة.',
+    formule: "C_A V_A = C_B V_B \\;\\text{(à l'équivalence)}",
+    points_fr: [
+      "Un dosage (titrage) détermine la concentration inconnue d'une espèce à l'aide d'une solution titrante de concentration connue.",
+      "L'équivalence est atteinte quand les réactifs ont été mélangés dans les proportions stœchiométriques.",
+      "Elle se repère par un saut de pH (suivi pH-métrique) ou le changement de teinte d'un indicateur coloré bien choisi.",
+      "Un indicateur coloré convient si sa zone de virage encadre le pH à l'équivalence."
+    ],
+    points_ar: [
+      "المعايرة تحدد التركيز المجهول لنوع كيميائي باستخدام محلول معاير معلوم التركيز.",
+      "يتحقق التكافؤ عندما يُمزَج المتفاعلان بنسب ستوكيومترية.",
+      "يُحدَّد بقفزة في الرقم الهيدروجيني (تتبع pH-متري) أو بتغير لون كاشف ملون مناسب.",
+      "يكون الكاشف الملون مناسبا إذا كان مجال تحوله يحيط بـ pH عند التكافؤ."
+    ]
+  },
+  { id: 'f16', niveau: '2bacpc', matiere: 'chimie', icon: 'fa-link', titre_fr: 'Les polymères', titre_ar: 'البوليميرات', desc_fr: 'Polymérisation, macromolécules.', desc_ar: 'البلمرة، الجزيئات الكبيرة.',
+    formule: 'n\\,\\text{monomère} \\longrightarrow \\text{polymère}',
+    points_fr: [
+      "Un polymère est une macromolécule formée par l'enchaînement répété d'unités simples appelées monomères.",
+      "La polymérisation par addition conserve tous les atomes du monomère (ex. le polyéthylène à partir de l'éthène).",
+      "Le degré de polymérisation n indique le nombre de motifs qui se répètent dans la chaîne.",
+      "Les propriétés d'un polymère (souplesse, résistance) dépendent de sa structure et de sa masse molaire."
+    ],
+    points_ar: [
+      "البوليمر جزيء كبير يتشكل من تكرار ربط وحدات بسيطة تسمى مونومرات.",
+      "البلمرة بالإضافة تحافظ على جميع ذرات المونومر (مثال: البولي إيثيلين انطلاقا من الإيثين).",
+      "درجة البلمرة n تشير إلى عدد الوحدات المتكررة في السلسلة.",
+      "خصائص البوليمر (المرونة، المقاومة) تعتمد على بنيته وكتلته المولية."
+    ]
+  }
 ];
-
+ 
 const formules = [
   { cat_fr: 'Ondes', cat_ar: 'الموجات', items: [
     { nom_fr: 'Célérité', eq: 'v = \\frac{d}{\\Delta t}' },
@@ -648,9 +992,17 @@ const formules = [
     { nom_fr: 'Produit ionique', eq: 'K_e = [H_3O^+][OH^-] = 10^{-14}' },
     { nom_fr: 'Vitesse', eq: 'v = -\\frac{d[C]}{dt}' },
     { nom_fr: 'Arrhenius', eq: 'k = k_0 e^{-E_a/(RT)}' }
+  ]},
+  { cat_fr: 'Mathématiques', cat_ar: 'الرياضيات', items: [
+    { nom_fr: 'Identité trigonométrique', eq: '\\sin^2\\theta + \\cos^2\\theta = 1' },
+    { nom_fr: "Dérivées de sin et cos", eq: "(\\sin x)' = \\cos x \\quad (\\cos x)' = -\\sin x" },
+    { nom_fr: "Dérivées de eˣ et ln x", eq: "(e^{x})' = e^{x} \\quad (\\ln x)' = \\frac{1}{x}" },
+    { nom_fr: 'Primitive de xⁿ', eq: '\\int x^n\\,dx = \\frac{x^{n+1}}{n+1} + C' },
+    { nom_fr: 'Produit scalaire', eq: '\\vec{u}\\cdot\\vec{v} = \\Vert\\vec{u}\\Vert\\,\\Vert\\vec{v}\\Vert\\cos\\theta' },
+    { nom_fr: "Norme d'un vecteur", eq: '\\Vert\\vec{u}\\Vert = \\sqrt{x^2+y^2}' }
   ]}
 ];
-
+ 
 const elements = [
   { z: 1, sym: 'H', nom_fr: 'Hydrogène', masse: 1.008, cat: 'gaz', famille_fr: 'Non-métal' },
   { z: 2, sym: 'He', nom_fr: 'Hélium', masse: 4.003, cat: 'gaz', famille_fr: 'Gaz noble' },
@@ -673,7 +1025,7 @@ const elements = [
   { z: 19, sym: 'K', nom_fr: 'Potassium', masse: 39.098, cat: 'alcalin', famille_fr: 'Métal alcalin' },
   { z: 20, sym: 'Ca', nom_fr: 'Calcium', masse: 40.078, cat: 'alcalino', famille_fr: 'Alcalino-terreux' }
 ];
-
+ 
 const constantes = [
   { nom_fr: 'Vitesse de la lumière', sym: 'c', val: '2,998 × 10⁸ m/s' },
   { nom_fr: 'Constante de Planck', sym: 'h', val: '6,626 × 10⁻³⁴ J·s' },
@@ -688,7 +1040,7 @@ const constantes = [
   { nom_fr: 'Permittivité du vide', sym: 'ε₀', val: '8,854 × 10⁻¹² F/m' },
   { nom_fr: 'Perméabilité du vide', sym: 'μ₀', val: '4π × 10⁻⁷ H/m' }
 ];
-
+ 
 document.addEventListener('DOMContentLoaded', () => {
   appliquerLangue(currentLang);
   afficherFiches();
@@ -706,7 +1058,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }, 500);
 });
-
+ 
 function appliquerLangue(lang) {
   currentLang = lang;
   document.getElementById('htmlRoot').setAttribute('lang', lang);
@@ -725,7 +1077,7 @@ function appliquerLangue(lang) {
   localStorage.setItem('darrssy-lang', lang);
   afficherFiches(); afficherFormules(); afficherPeriodique(); afficherConstantes();
 }
-
+ 
 function bindEvents() {
   document.getElementById('menuToggle').addEventListener('click', () => {
     document.getElementById('navLinks').classList.toggle('active');
@@ -757,6 +1109,14 @@ function bindEvents() {
       document.getElementById('conv-' + btn.getAttribute('data-conv')).classList.add('actif');
     });
   });
+  document.querySelectorAll('.fiche-filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.fiche-filter-btn').forEach(b => b.classList.remove('actif'));
+      btn.classList.add('actif');
+      ficheFiltreActif = btn.getAttribute('data-fmat');
+      afficherFiches();
+    });
+  });
   document.getElementById('formulaireSearch').addEventListener('input', afficherFormules);
   document.getElementById('closeElementModal').addEventListener('click', () => {
     document.getElementById('elementModal').classList.remove('ouvert');
@@ -764,12 +1124,19 @@ function bindEvents() {
   document.getElementById('elementModal').addEventListener('click', (e) => {
     if (e.target.id === 'elementModal') document.getElementById('elementModal').classList.remove('ouvert');
   });
+  document.getElementById('closeFicheModal').addEventListener('click', () => {
+    document.getElementById('ficheModal').classList.remove('ouvert');
+  });
+  document.getElementById('ficheModal').addEventListener('click', (e) => {
+    if (e.target.id === 'ficheModal') document.getElementById('ficheModal').classList.remove('ouvert');
+  });
 }
-
+ 
 function afficherFiches() {
   const grid = document.getElementById('fichesGrid');
   grid.innerHTML = '';
-  fiches.forEach(f => {
+  const liste = ficheFiltreActif === 'all' ? fiches : fiches.filter(f => f.matiere === ficheFiltreActif);
+  liste.forEach(f => {
     const card = document.createElement('div');
     card.className = 'fiche-card';
     const titre = currentLang === 'fr' ? f.titre_fr : f.titre_ar;
@@ -783,13 +1150,32 @@ function afficherFiches() {
       <div class="fiche-desc">${desc}</div>
       <button class="btn-fiche"><span>${btnLabel}</span><i class="fas fa-arrow-right"></i></button>
     `;
-    card.querySelector('.btn-fiche').addEventListener('click', () => {
-      alert(currentLang === 'fr' ? 'Fiche bientôt disponible.' : 'البطاقة قريباً.');
-    });
+    card.querySelector('.btn-fiche').addEventListener('click', () => ouvrirFiche(f));
     grid.appendChild(card);
   });
 }
-
+ 
+function ouvrirFiche(f) {
+  const titre = currentLang === 'fr' ? f.titre_fr : f.titre_ar;
+  const matLabel = currentLang === 'fr' ? (f.matiere === 'physique' ? 'Physique' : 'Chimie') : (f.matiere === 'physique' ? 'الفيزياء' : 'الكيمياء');
+  document.getElementById('ficheModalIcon').innerHTML = `<i class="fas ${f.icon}"></i>`;
+  document.getElementById('ficheModalTitre').textContent = titre;
+  document.getElementById('ficheModalTag').textContent = '2ème Bac PC · ' + matLabel;
+  const points = currentLang === 'fr' ? f.points_fr : f.points_ar;
+  document.getElementById('ficheModalPoints').innerHTML = (points || []).map(p => `<li>${p}</li>`).join('');
+  const fbox = document.getElementById('ficheModalFormule');
+  if (f.formule) {
+    fbox.style.display = 'block';
+    fbox.innerHTML = `$$${f.formule}$$`;
+    if (window.renderMathInElement) {
+      renderMathInElement(fbox, { delimiters: [{ left: '$$', right: '$$', display: false }], throwOnError: false });
+    }
+  } else {
+    fbox.style.display = 'none';
+  }
+  document.getElementById('ficheModal').classList.add('ouvert');
+}
+ 
 function afficherFormules() {
   const search = (document.getElementById('formulaireSearch').value || '').toLowerCase();
   const container = document.getElementById('formulesCategories');
@@ -807,7 +1193,7 @@ function afficherFormules() {
     renderMathInElement(container, { delimiters: [{ left: '$$', right: '$$', display: false }, { left: '$', right: '$', display: false }], throwOnError: false });
   }
 }
-
+ 
 function afficherResultat(id, val, unite) {
   document.getElementById('res-' + id).classList.add('visible');
   document.getElementById('res-' + id + '-val').textContent = val + (unite ? ' ' + unite : '');
@@ -818,7 +1204,11 @@ function calculerEnergie() { const dm = parseFloat(document.getElementById('en-d
 function calculerChute() { const h = parseFloat(document.getElementById('ch-h').value); if (!h || h <= 0) return; afficherResultat('chute', Math.sqrt(2 * h / 9.81).toFixed(3), 's'); }
 function calculerRC() { const R = parseFloat(document.getElementById('rc-r').value); const C = parseFloat(document.getElementById('rc-c').value) * 1e-6; if (!R || !C) return; afficherResultat('rc', (R * C * 1000).toFixed(3), 'ms'); }
 function calculerRLC() { const L = parseFloat(document.getElementById('rlc-l').value); const C = parseFloat(document.getElementById('rlc-c').value) * 1e-6; if (!L || !C) return; afficherResultat('rlc', (2 * Math.PI * Math.sqrt(L * C) * 1000).toFixed(3), 'ms'); }
-
+function calculerMatiere() { const m = parseFloat(document.getElementById('mat-m').value); const M = parseFloat(document.getElementById('mat-M').value); if (!m || !M) return; afficherResultat('matiere', (m / M).toFixed(4), 'mol'); }
+function calculerDilution() { const c1 = parseFloat(document.getElementById('dil-c1').value); const v1 = parseFloat(document.getElementById('dil-v1').value); const v2 = parseFloat(document.getElementById('dil-v2').value); if (!c1 || !v1 || !v2) return; afficherResultat('dilution', ((c1 * v1) / v2).toFixed(4), 'mol/L'); }
+function calculerGaz() { const n = parseFloat(document.getElementById('gaz-n').value); const T = parseFloat(document.getElementById('gaz-t').value); const V = parseFloat(document.getElementById('gaz-v').value); if (!n || !T || !V) return; afficherResultat('gaz', ((n * 8.314 * T) / (V / 1000)).toExponential(3), 'Pa'); }
+function calculerPuissance() { const U = parseFloat(document.getElementById('pui-u').value); const I = parseFloat(document.getElementById('pui-i').value); if (!U || !I) return; afficherResultat('puissance', (U * I).toFixed(2), 'W'); }
+ 
 function afficherPeriodique() {
   const grid = document.getElementById('periodiqueGrid');
   grid.innerHTML = '';
@@ -843,7 +1233,7 @@ function ouvrirElement(el) {
   `;
   document.getElementById('elementModal').classList.add('ouvert');
 }
-
+ 
 function convertir(type) {
   const map = { longueur: { v: 'conv-l-val', from: 'conv-l-from', to: 'conv-l-to', res: 'conv-l-res', suffix: 'm' }, masse: { v: 'conv-m-val', from: 'conv-m-from', to: 'conv-m-to', res: 'conv-m-res', suffix: 'kg' }, temps: { v: 'conv-t-val', from: 'conv-t-from', to: 'conv-t-to', res: 'conv-t-res', suffix: 's' }, energie: { v: 'conv-e-val', from: 'conv-e-from', to: 'conv-e-to', res: 'conv-e-res', suffix: 'J' } };
   if (type === 'temperature') {
@@ -864,7 +1254,7 @@ function convertir(type) {
   const result = (v * from) / to;
   document.getElementById(m.res).textContent = result.toExponential(4).replace('e', ' × 10^') + ' ' + m.suffix;
 }
-
+ 
 function afficherConstantes() {
   const grid = document.getElementById('constantesGrid');
   grid.innerHTML = '';
