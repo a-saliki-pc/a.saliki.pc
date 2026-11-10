@@ -13,65 +13,29 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
 :root {
-  --primary: #16213e;
-  --primary-light: #2a9d8f;
-  --primary-dark: #0f1a30;
-  --accent: #e8a33d;
-  --accent-dark: #c17f1e;
-  --success: #2a9d8f;
-  --danger: #c0483f;
-  --violet: #7c6fba;
-  --dark: #16213e;
-  --gray: #5b6b7a;
-  --gray-light: #93a3b0;
-  --border: #d9d2bb;
-  --light: #faf6ec;
-  --white: #fffdf7;
-  --ink: #16213e;
+  --primary: #16213e; --primary-light: #2a9d8f; --primary-dark: #0f1a30;
+  --accent: #e8a33d; --accent-dark: #c17f1e; --success: #2a9d8f;
+  --danger: #c0483f; --violet: #7c6fba; --dark: #16213e;
+  --gray: #5b6b7a; --gray-light: #93a3b0; --border: #d9d2bb;
+  --light: #faf6ec; --white: #fffdf7; --ink: #16213e;
   --gradient: linear-gradient(120deg, #16213e 0%, #1f3a5f 55%, #2a9d8f 100%);
   --gradient-accent: linear-gradient(120deg, #e8a33d 0%, #c0483f 100%);
-  --gradient-success: linear-gradient(120deg, #2a9d8f 0%, #74c6bb 100%);
+  --gradient-violet: linear-gradient(120deg, #7c6fba 0%, #c0483f 100%);
   --shadow-sm: 0 1px 0 rgba(22, 33, 62, 0.06);
   --shadow: 6px 6px 0 rgba(22, 33, 62, 0.08);
   --shadow-lg: 10px 10px 0 rgba(22, 33, 62, 0.1);
-  --radius: 6px;
-  --radius-sm: 4px;
+  --radius: 6px; --radius-sm: 4px;
   --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
-
 * { margin: 0; padding: 0; box-sizing: border-box; }
 html { scroll-behavior: smooth; }
-
-body {
-  font-family: 'Inter', 'Tajawal', sans-serif;
-  background:
-    linear-gradient(rgba(22,33,62,0.1) 0.5px, transparent 0.5px),
-    linear-gradient(90deg, rgba(22,33,62,0.1) 0.5px, transparent 0.5px),
-    linear-gradient(rgba(22,33,62,0.028) 0.5px, transparent 0.5px),
-    linear-gradient(90deg, rgba(22,33,62,0.028) 0.5px, transparent 0.5px),
-    var(--light);
-  background-size: 50px 50px, 50px 50px, 10px 10px, 10px 10px, auto;
-  background-position: -1px -1px, -1px -1px, -1px -1px, -1px -1px, 0 0;
-  color: var(--ink);
-  line-height: 1.6;
-  overflow-x: hidden;
-  position: relative;
-}
-
+body { font-family: 'Inter', 'Tajawal', sans-serif; background: linear-gradient(rgba(22,33,62,0.1) 0.5px, transparent 0.5px), linear-gradient(90deg, rgba(22,33,62,0.1) 0.5px, transparent 0.5px), linear-gradient(rgba(22,33,62,0.028) 0.5px, transparent 0.5px), linear-gradient(90deg, rgba(22,33,62,0.028) 0.5px, transparent 0.5px), var(--light); background-size: 50px 50px, 50px 50px, 10px 10px, 10px 10px, auto; background-position: -1px -1px, -1px -1px, -1px -1px, -1px -1px, 0 0; color: var(--ink); line-height: 1.6; overflow-x: hidden; position: relative; }
 [dir="rtl"] body { font-family: 'Tajawal', 'Inter', sans-serif; }
 a { text-decoration: none; color: inherit; }
 img { max-width: 100%; display: block; }
-
 h1, h2, h3 { font-family: 'Fraunces', 'Tajawal', serif; letter-spacing: -0.01em; }
 
-nav {
-  position: fixed; top: 0; left: 0; right: 0;
-  background: rgba(250, 246, 236, 0.94); backdrop-filter: blur(10px);
-  border-bottom: 2px solid var(--ink);
-  z-index: 1000; padding: 10px 5%;
-  display: flex; justify-content: space-between; align-items: center;
-  transition: var(--transition);
-}
+nav { position: fixed; top: 0; left: 0; right: 0; background: rgba(250, 246, 236, 0.94); backdrop-filter: blur(10px); border-bottom: 2px solid var(--ink); z-index: 1000; padding: 10px 5%; display: flex; justify-content: space-between; align-items: center; transition: var(--transition); }
 .logo { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
 .logo-img-wrap { position: relative; width: 50px; height: 50px; border-radius: 50%; background: var(--white); padding: 2px; border: 2px solid var(--ink); outline: 1px dashed var(--accent); outline-offset: 3px; flex-shrink: 0; transition: var(--transition); }
 .logo-img-wrap::before { content: ''; position: absolute; inset: 2px; border-radius: 50%; background: white; z-index: 0; }
@@ -110,14 +74,14 @@ nav {
 [dir="rtl"] .search-wrap i { left: auto; right: 22px; }
 
 .filtres-bar { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-bottom: 35px; }
-.filtre-btn { background: var(--white); border: 2px solid var(--ink); color: var(--ink); padding: 9px 22px; border-radius: var(--radius-sm); font-family: inherit; font-size: 0.88rem; font-weight: 600; cursor: pointer; transition: var(--transition); display: inline-flex; align-items: center; gap: 8px; }
-.filtre-btn:hover { background: rgba(22,33,62,0.05); }
+.filtre-btn { background: var(--white); border: 2px solid var(--ink); color: var(--ink); padding: 9px 20px; border-radius: var(--radius-sm); font-family: inherit; font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: var(--transition); display: inline-flex; align-items: center; gap: 6px; }
+.filtre-btn:hover { background: var(--light); }
 .filtre-btn.actif { background: var(--ink); color: var(--white); }
 
 .lecon-section { margin-bottom: 45px; }
 .lecon-titre { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 2px solid var(--ink); font-size: 1.4rem; font-weight: 600; color: var(--ink); font-family: 'Fraunces', 'Tajawal', serif; }
 .lecon-titre i { color: var(--primary-light); font-size: 1.2rem; }
-.lecon-titre .nb { font-size: 0.8rem; background: rgba(42,157,143,0.1); color: var(--primary-light); padding: 4px 12px; border-radius: 50px; font-weight: 700; margin-left: auto; font-family: 'JetBrains Mono', monospace; }
+.lecon-titre .nb { font-size: 0.8rem; background: var(--white); color: var(--ink); padding: 4px 12px; border: 1px solid var(--border); border-radius: 50px; font-weight: 700; margin-left: auto; font-family: 'JetBrains Mono', monospace; }
 [dir="rtl"] .lecon-titre .nb { margin-left: 0; margin-right: auto; }
 
 .sims-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 25px; }
@@ -254,6 +218,7 @@ footer { background: var(--light); border-top: 2px solid var(--ink); color: var(
     <li><a href="exercices.html" data-i18n="nav.exercices">Exercices</a></li>
     <li><a href="examens.html" data-i18n="nav.examens">Examens</a></li>
     <li><a href="simulations.html" class="actif" data-i18n="nav.simulations">Simulations</a></li>
+    <li><a href="qcm.html" data-i18n="nav.qcm">QCM</a></li> <!-- LIEN QCM AJOUTÉ -->
     <li><a href="ressources.html" data-i18n="nav.ressources">Ressources</a></li>
     <li>
       <div class="lang-switcher">
@@ -322,10 +287,10 @@ footer { background: var(--light); border-top: 2px solid var(--ink); color: var(
       </div>
       <p data-i18n="footer.desc">La plateforme éducative marocaine dédiée à la réussite des lycéens en Physique & Chimie.</p>
       <div class="footer-social">
-        <a href="#"><i class="fab fa-facebook-f"></i></a>
-        <a href="#"><i class="fab fa-instagram"></i></a>
-        <a href="#"><i class="fab fa-youtube"></i></a>
-          <a href="https://www.tiktok.com/@darrssy_physique" target="_blank" rel="noopener" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+        <a href="https://www.facebook.com/darrssy" target="_blank" rel="noopener" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+        <a href="https://www.instagram.com/darrssy" target="_blank" rel="noopener" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+        <a href="https://www.youtube.com/@darrssy" target="_blank" rel="noopener" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+        <a href="https://www.tiktok.com/@darrssy_physique" target="_blank" rel="noopener" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
       </div>
     </div>
     <div class="footer-col">
@@ -335,6 +300,7 @@ footer { background: var(--light); border-top: 2px solid var(--ink); color: var(
         <li><a href="cours.html" data-i18n="nav.cours">Cours</a></li>
         <li><a href="exercices.html" data-i18n="nav.exercices">Exercices</a></li>
         <li><a href="examens.html" data-i18n="nav.examens">Examens</a></li>
+        <li><a href="qcm.html" data-i18n="nav.qcm">QCM</a></li> <!-- LIEN QCM AJOUTÉ ICI -->
       </ul>
     </div>
     <div class="footer-col">
@@ -370,7 +336,7 @@ const trad = {
   fr: {
     'nav.home': 'Accueil', 'nav.cours': 'Cours', 'nav.exercices': 'Exercices',
     'nav.examens': 'Examens', 'nav.simulations': 'Simulations', 'nav.ressources': 'Ressources',
-    'nav.admin': 'Administration', 'nav.connexion': 'Connexion',
+    'nav.admin': 'Administration', 'nav.connexion': 'Connexion', 'nav.qcm': 'QCM', // AJOUT
     'sims.titre1': 'Simulations', 'sims.titre2': 'interactives',
     'sims.desc': 'Explorez les phénomènes physiques et chimiques en modifiant les paramètres. Visualisez les effets en temps réel.',
     'sims.searchPlaceholder': 'Rechercher une simulation...',
@@ -391,7 +357,7 @@ const trad = {
   ar: {
     'nav.home': 'الرئيسية', 'nav.cours': 'الدروس', 'nav.exercices': 'التمارين',
     'nav.examens': 'الامتحانات', 'nav.simulations': 'المحاكاة', 'nav.ressources': 'الموارد',
-    'nav.admin': 'الإدارة', 'nav.connexion': 'تسجيل الدخول',
+    'nav.admin': 'الإدارة', 'nav.connexion': 'تسجيل الدخول', 'nav.qcm': 'اختبار', // AJOUT
     'sims.titre1': 'المحاكاة', 'sims.titre2': 'التفاعلية',
     'sims.desc': 'استكشف الظواهر الفيزيائية والكيميائية عن طريق تعديل المعاملات.',
     'sims.searchPlaceholder': 'ابحث عن محاكاة...',
