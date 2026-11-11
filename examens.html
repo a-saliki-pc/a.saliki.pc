@@ -572,9 +572,11 @@ function filtrerExamens() {
     if (filtres.type !== 'all' && e.type !== filtres.type) return false;
     if (filtres.annee !== 'all' && e.annee !== parseInt(filtres.annee)) return false;
 
-    // === FILTRAGE PAR LANGUE (SÉPARATION STRICTE) ===
-    if (currentLang === 'fr' && !e.titre_fr) return false;
-    if (currentLang === 'ar' && !e.titre_ar) return false;
+    // === SÉPARATION STRICTE PAR NIVEAU (FR / AR) ===
+    // En FR, on n'affiche PAS le niveau 2bacsvt
+    if (currentLang === 'fr' && e.niveau === '2bacsvt') return false;
+    // En AR, on n'affiche QUE le niveau 2bacsvt
+    if (currentLang === 'ar' && e.niveau !== '2bacsvt') return false;
     // ===============================================
 
     if (filtres.recherche) {
@@ -746,6 +748,6 @@ function resetTimer() {
   mettreAJourTimer();
 }
 </script>
-<script data-goatcounter="https://darrssy.goatcounter.com/count" async src="//gc.zc.goatcounter.com/count.js"></script>
+<script data-goatcounter="https://darrssy.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </body>
 </html>
