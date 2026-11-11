@@ -290,7 +290,7 @@ footer { background: var(--light); border-top: 2px solid var(--ink); color: var(
     <li><a href="exercices.html" data-i18n="nav.exercices">Exercices</a></li>
     <li><a href="examens.html" data-i18n="nav.examens">Examens</a></li>
     <li><a href="simulations.html" data-i18n="nav.simulations">Simulations</a></li>
-    <li><a href="qcm.html" data-i18n="nav.qcm">QCM</a></li>
+    <li><a href="qcm.html" data-i18n="nav.qcm">QCM</a></li> <!-- LIGNE AJOUTÉE ICI -->
     <li><a href="ressources.html" data-i18n="nav.ressources">Ressources</a></li>
     <li>
       <div class="lang-switcher">
@@ -326,8 +326,9 @@ footer { background: var(--light); border-top: 2px solid var(--ink); color: var(
         <option value="all" data-i18n="filtre.tousNiveaux">Tous les niveaux</option>
         <option value="tronc" data-i18n="niveau.tronc">Tronc Commun</option>
         <option value="1bac" data-i18n="niveau.1bac">1ère Bac</option>
-        <option value="2bacpc" data-i18n="niveau.2bacpc">2ème Bac PC</option>
-        <option value="2bacsvt" data-i18n="niveau.2bacsvt">2ème Bac SVT</option>
+        <!-- MODIFICATION ICI -->
+        <option value="2bacpc" data-i18n="niveau.2bacpc">2ème Bac PC / SVT Biof</option>
+        <option value="2bacsvt" data-i18n="niveau.2bacsvt">2ème Bac SVT (Arabe)</option>
       </select>
     </div>
     <div class="filtre-group">
@@ -399,10 +400,10 @@ footer { background: var(--light); border-top: 2px solid var(--ink); color: var(
       </div>
       <p data-i18n="footer.desc">La plateforme éducative marocaine dédiée à la réussite des lycéens en Physique & Chimie.</p>
       <div class="footer-social">
-        <a href="#"><i class="fab fa-facebook-f"></i></a>
-        <a href="#"><i class="fab fa-instagram"></i></a>
-        <a href="#"><i class="fab fa-youtube"></i></a>
-          <a href="https://www.tiktok.com/@darrssy_physique" target="_blank" rel="noopener" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+        <a href="https://www.facebook.com/darrssy" target="_blank" rel="noopener" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+        <a href="https://www.instagram.com/darrssy" target="_blank" rel="noopener" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+        <a href="https://www.youtube.com/@darrssy" target="_blank" rel="noopener" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+        <a href="https://www.tiktok.com/@darrssy_physique" target="_blank" rel="noopener" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
       </div>
     </div>
     <div class="footer-col">
@@ -482,7 +483,7 @@ const trad = {
     'filtre.tousNiveaux': 'Tous les niveaux', 'filtre.toutesMatieres': 'Toutes les matières',
     'filtre.toutesLecons': 'Toutes les leçons', 'filtre.reset': 'Réinitialiser',
     'niveau.tronc': 'Tronc Commun', 'niveau.1bac': '1ère Bac',
-    'niveau.2bacpc': '2ème Bac PC', 'niveau.2bacsvt': '2ème Bac SVT',
+    'niveau.2bacpc': '2ème Bac PC / SVT Biof', 'niveau.2bacsvt': '2ème Bac SVT (Arabe)',
     'matiere.physique': 'Physique', 'matiere.chimie': 'Chimie',
     'statut.gratuit': 'Gratuit', 'statut.premium': 'Premium',
     'panneau.titre': 'Détail du cours', 'panneau.description': 'Description',
@@ -508,7 +509,7 @@ const trad = {
     'filtre.tousNiveaux': 'جميع المستويات', 'filtre.toutesMatieres': 'جميع المواد',
     'filtre.toutesLecons': 'جميع الدروس', 'filtre.reset': 'إعادة',
     'niveau.tronc': 'الجذع المشترك', 'niveau.1bac': 'الأولى باك',
-    'niveau.2bacpc': 'الثانية باك ع.ف', 'niveau.2bacsvt': 'الثانية باك ع.ح.أ',
+    'niveau.2bacpc': 'الثانية باك ع.ف / ع.ح.أ', 'niveau.2bacsvt': 'الثانية باك ع.ح.أ (عربية)',
     'matiere.physique': 'الفيزياء', 'matiere.chimie': 'الكيمياء',
     'statut.gratuit': 'مجاني', 'statut.premium': 'مدفوع',
     'panneau.titre': 'تفاصيل الدرس', 'panneau.description': 'الوصف',
@@ -598,6 +599,12 @@ function filtrerCours() {
     if (filtres.niveau !== 'all' && c.niveau !== filtres.niveau) return false;
     if (filtres.matiere !== 'all' && c.matiere !== filtres.matiere) return false;
     if (filtres.lecon !== 'all' && (c.chapitre_fr || '') !== filtres.lecon) return false;
+    
+    // === FILTRAGE PAR LANGUE (SÉPARATION STRICTE) ===
+    if (currentLang === 'fr' && !c.titre_fr) return false;
+    if (currentLang === 'ar' && !c.titre_ar) return false;
+    // ===============================================
+
     if (search) {
       const t = ((c.titre_fr || '') + ' ' + (c.titre_ar || '') + ' ' + (c.chapitre_fr || '')).toLowerCase();
       if (!t.includes(search)) return false;
