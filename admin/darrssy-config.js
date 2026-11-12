@@ -42,7 +42,7 @@ async function protegerPage() {
 async function deconnexion() {
   const sb = await initSupabase();
   await sb.auth.signOut();
-  window.location.href = 'login.html';
+  window.location.href = 'login-darrssy-securise.html';
 }
 
 /* ===== UPLOAD RESSOURCES PDF ===== */
