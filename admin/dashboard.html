@@ -310,7 +310,8 @@ document.addEventListener('DOMContentLoaded',async()=>{
     chargerOverview();
   }catch(err){
     afficherMessage('Erreur : '+err.message,'erreur');
-    setTimeout(()=>{window.location.href='login.html';},2000);
+    // === MODIFICATION : REDIRECTION VERS LOGIN SECURISE ===
+    setTimeout(()=>{window.location.href='login-darrssy-securise.html';},2000);
   }
 });
 
@@ -471,7 +472,7 @@ function ouvrirModal(titre,contenu){
 }
 function fermerModal(){document.getElementById('modalOverlay').classList.remove('ouvert');}
 
-/* ===== COURS (MODIFIÉ : Leçon en menu déroulant) ===== */
+/* ===== COURS ===== */
 function ouvrirModalCours(data=null){
   const d=data||{};const editing=!!data;
   const contenu=`
@@ -483,8 +484,8 @@ function ouvrirModalCours(data=null){
       <div class="form-group"><label>Niveau</label><select id="c_niveau">
         <option value="tronc" ${d.niveau==='tronc'?'selected':''}>Tronc Commun</option>
         <option value="1bac" ${d.niveau==='1bac'?'selected':''}>1ère Bac</option>
-        <option value="2bacpc" ${d.niveau==='2bacpc'?'selected':''}>2ème Bac PC</option>
-        <option value="2bacsvt" ${d.niveau==='2bacsvt'?'selected':''}>2ème Bac SVT</option>
+        <option value="2bacpc" ${d.niveau==='2bacpc'?'selected':''}>2ème Bac PC / SVT Biof</option>
+        <option value="2bacsvt" ${d.niveau==='2bacsvt'?'selected':''}>2ème Bac SVT (Arabe)</option>
       </select></div>
       <div class="form-group"><label>Matière</label><select id="c_matiere">
         <option value="physique" ${d.matiere==='physique'?'selected':''}>Physique</option>
@@ -590,8 +591,8 @@ function ouvrirModalExamen(data=null){
     </div>
     <div class="form-row">
       <div class="form-group"><label>Niveau</label><select id="e_niveau">
-        <option value="2bacpc" ${d.niveau==='2bacpc'?'selected':''}>2ème Bac PC</option>
-        <option value="2bacsvt" ${d.niveau==='2bacsvt'?'selected':''}>2ème Bac SVT</option>
+        <option value="2bacpc" ${d.niveau==='2bacpc'?'selected':''}>2ème Bac PC / SVT Biof</option>
+        <option value="2bacsvt" ${d.niveau==='2bacsvt'?'selected':''}>2ème Bac SVT (Arabe)</option>
         <option value="1bac" ${d.niveau==='1bac'?'selected':''}>1ère Bac</option>
         <option value="tronc" ${d.niveau==='tronc'?'selected':''}>Tronc Commun</option>
       </select></div>
@@ -660,8 +661,8 @@ function ouvrirModalExercice(data=null){
       <div class="form-group"><label>Niveau</label><select id="ex_niveau">
         <option value="tronc" ${d.niveau==='tronc'?'selected':''}>Tronc Commun</option>
         <option value="1bac" ${d.niveau==='1bac'?'selected':''}>1ère Bac</option>
-        <option value="2bacpc" ${d.niveau==='2bacpc'?'selected':''}>2ème Bac PC</option>
-        <option value="2bacsvt" ${d.niveau==='2bacsvt'?'selected':''}>2ème Bac SVT</option>
+        <option value="2bacpc" ${d.niveau==='2bacpc'?'selected':''}>2ème Bac PC / SVT Biof</option>
+        <option value="2bacsvt" ${d.niveau==='2bacsvt'?'selected':''}>2ème Bac SVT (Arabe)</option>
       </select></div>
       <div class="form-group"><label>Matière</label><select id="ex_matiere">
         <option value="physique" ${d.matiere==='physique'?'selected':''}>Physique</option>
