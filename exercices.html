@@ -422,9 +422,7 @@ const trad = {
     'filtre.tousNiveaux': 'Tous les niveaux', 'filtre.toutesMatieres': 'Toutes les matières',
     'filtre.toutesLecons': 'Toutes les leçons', 'filtre.reset': 'Réinitialiser',
     'niveau.tronc': 'Tronc Commun', 'niveau.1bac': '1ère Bac',
-    // === MODIFICATION ICI ===
     'niveau.2bacpc': '2ème Bac PC / SVT Biof', 'niveau.2bacsvt': '2ème Bac SVT (Arabe)',
-    // =========================
     'matiere.physique': 'Physique', 'matiere.chimie': 'Chimie',
     'btn.enonce': 'Énoncé PDF', 'btn.corrige': 'Corrigé PDF', 'btn.indispo': 'Indisponible',
     'loading': 'Chargement...', 'share.copied': 'Lien copié !',
@@ -448,9 +446,7 @@ const trad = {
     'filtre.tousNiveaux': 'جميع المستويات', 'filtre.toutesMatieres': 'جميع المواد',
     'filtre.toutesLecons': 'جميع الدروس', 'filtre.reset': 'إعادة',
     'niveau.tronc': 'الجذع المشترك', 'niveau.1bac': 'الأولى باك',
-    // === MODIFICATION ICI ===
     'niveau.2bacpc': 'الثانية باك ع.ف / ع.ح.أ', 'niveau.2bacsvt': 'الثانية باك ع.ح.أ (عربية)',
-    // =========================
     'matiere.physique': 'الفيزياء', 'matiere.chimie': 'الكيمياء',
     'btn.enonce': 'نص PDF', 'btn.corrige': 'حل PDF', 'btn.indispo': 'غير متوفر',
     'loading': 'جارٍ التحميل...', 'share.copied': 'تم نسخ الرابط!',
@@ -533,12 +529,14 @@ function filtrerExercices() {
       if (leconEx !== filtres.lecon) return false;
     }
     
-    // === SÉPARATION STRICTE PAR NIVEAU (FR / AR) ===
-    // En FR, on n'affiche PAS le niveau 2bacsvt
-    if (currentLang === 'fr' && e.niveau === '2bacsvt') return false;
-    // En AR, on n'affiche QUE le niveau 2bacsvt
-    if (currentLang === 'ar' && e.niveau !== '2bacsvt') return false;
-    // ===============================================
+    // === SÉPARATION AUTOMATIQUE PAR LANGUE ===
+    // Détecte si le titre contient des caractères arabes
+    const regexArabe = /[\u0600-\u06FF]/;
+    const estArabe = regexArabe.test(e.titre_fr) || regexArabe.test(e.titre_ar || '');
+    
+    if (currentLang === 'fr' && estArabe) return false;
+    if (currentLang === 'ar' && !estArabe) return false;
+    // ==========================================
 
     if (search) {
       const t = ((e.titre_fr || '') + ' ' + (e.titre_ar || '') + ' ' + (e.chapitre_fr || '')).toLowerCase();
