@@ -597,12 +597,14 @@ function filtrerCours() {
     if (filtres.matiere !== 'all' && c.matiere !== filtres.matiere) return false;
     if (filtres.lecon !== 'all' && (c.chapitre_fr || '') !== filtres.lecon) return false;
     
-    // === SÉPARATION STRICTE PAR NIVEAU (FR / AR) ===
-    // En FR, on n'affiche PAS le niveau 2bacsvt
-    if (currentLang === 'fr' && c.niveau === '2bacsvt') return false;
-    // En AR, on n'affiche QUE le niveau 2bacsvt
-    if (currentLang === 'ar' && c.niveau !== '2bacsvt') return false;
-    // ===============================================
+    // === SÉPARATION AUTOMATIQUE PAR LANGUE ===
+    // Détecte si le titre contient des caractères arabes
+    const regexArabe = /[\u0600-\u06FF]/;
+    const estArabe = regexArabe.test(c.titre_fr) || regexArabe.test(c.titre_ar || '');
+    
+    if (currentLang === 'fr' && estArabe) return false;
+    if (currentLang === 'ar' && !estArabe) return false;
+    // ==========================================
 
     if (search) {
       const t = ((c.titre_fr || '') + ' ' + (c.titre_ar || '') + ' ' + (c.chapitre_fr || '')).toLowerCase();
