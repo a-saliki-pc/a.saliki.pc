@@ -273,7 +273,7 @@ tbody tr{transition:var(--transition)}tbody tr:hover{background:rgba(139,92,246,
 
 <script src="darrssy-config.js"></script>
 <script>
-/* ===== LISTE FIXE DES LEÇONS ===== */
+/* ===== LISTE FIXE DES LEÇONS (MISE À JOUR POUR MATHS ET SVT) ===== */
 const LECONS = {
   physique: [
     { fr: 'Les ondes mécaniques', ar: 'الموجات الميكانيكية' },
@@ -291,6 +291,22 @@ const LECONS = {
     { fr: 'Cinétique chimique', ar: 'الحركية الكيميائية' },
     { fr: 'Acide-base', ar: 'الحموض والقواعد' },
     { fr: 'Chimie organique', ar: 'الكيمياء العضوية' }
+  ],
+  maths: [
+    { fr: 'Généralités sur les fonctions', ar: 'عموميات حول الدوال' },
+    { fr: 'Équations et inéquations', ar: 'المعادلات والمتراجحات' },
+    { fr: 'Suites numériques', ar: 'المتتاليات العددية' },
+    { fr: 'Dérivation', ar: 'الاشتقاق' },
+    { fr: 'Limites et continuité', ar: 'النهايات والاستمرارية' },
+    { fr: 'Fonctions logarithmiques', ar: 'الدوال اللوغاريتمية' },
+    { fr: 'Fonctions exponentielles', ar: 'الدوال الأسية' },
+    { fr: 'Nombres complexes', ar: 'الأعداد العقدية' }
+  ],
+  svt: [
+    { fr: 'La Terre et son environnement', ar: 'الأرض وبيئتها' },
+    { fr: 'Génétique et information héréditaire', ar: 'الوراثة والمعلومات الوراثية' },
+    { fr: 'Les lois de Mendel', ar: 'قوانين مندل' },
+    { fr: 'Géologie : la chaîne de montagnes', ar: 'الجيولوجيا : السلسلة الجبلية' }
   ]
 };
 
@@ -310,7 +326,6 @@ document.addEventListener('DOMContentLoaded',async()=>{
     chargerOverview();
   }catch(err){
     afficherMessage('Erreur : '+err.message,'erreur');
-    // === MODIFICATION : REDIRECTION VERS LOGIN SECURISE ===
     setTimeout(()=>{window.location.href='login-darrssy-securise.html';},2000);
   }
 });
@@ -367,6 +382,7 @@ function chargerPanel(panel){
 /* ===== CONSTRUIRE MENU DÉROULANT LEÇONS ===== */
 function construireOptionsLecons(selectedFr, selectedAr, langue){
   let html='<option value="">— Aucune leçon —</option>';
+  
   html+='<optgroup label="📘 PHYSIQUE">';
   LECONS.physique.forEach(l=>{
     const val=langue==='fr'?l.fr:l.ar;
@@ -374,6 +390,7 @@ function construireOptionsLecons(selectedFr, selectedAr, langue){
     html+=`<option value="${val}" ${sel===val?'selected':''}>${val}</option>`;
   });
   html+='</optgroup>';
+  
   html+='<optgroup label="🧪 CHIMIE">';
   LECONS.chimie.forEach(l=>{
     const val=langue==='fr'?l.fr:l.ar;
@@ -381,6 +398,23 @@ function construireOptionsLecons(selectedFr, selectedAr, langue){
     html+=`<option value="${val}" ${sel===val?'selected':''}>${val}</option>`;
   });
   html+='</optgroup>';
+
+  html+='<optgroup label="📐 MATHS">';
+  LECONS.maths.forEach(l=>{
+    const val=langue==='fr'?l.fr:l.ar;
+    const sel=langue==='fr'?selectedFr:selectedAr;
+    html+=`<option value="${val}" ${sel===val?'selected':''}>${val}</option>`;
+  });
+  html+='</optgroup>';
+
+  html+='<optgroup label="🧬 SVT">';
+  LECONS.svt.forEach(l=>{
+    const val=langue==='fr'?l.fr:l.ar;
+    const sel=langue==='fr'?selectedFr:selectedAr;
+    html+=`<option value="${val}" ${sel===val?'selected':''}>${val}</option>`;
+  });
+  html+='</optgroup>';
+  
   return html;
 }
 
@@ -490,6 +524,8 @@ function ouvrirModalCours(data=null){
       <div class="form-group"><label>Matière</label><select id="c_matiere">
         <option value="physique" ${d.matiere==='physique'?'selected':''}>Physique</option>
         <option value="chimie" ${d.matiere==='chimie'?'selected':''}>Chimie</option>
+        <option value="maths" ${d.matiere==='maths'?'selected':''}>Mathématiques</option>
+        <option value="svt" ${d.matiere==='svt'?'selected':''}>SVT</option>
       </select></div>
     </div>
     <div class="form-row">
@@ -667,6 +703,8 @@ function ouvrirModalExercice(data=null){
       <div class="form-group"><label>Matière</label><select id="ex_matiere">
         <option value="physique" ${d.matiere==='physique'?'selected':''}>Physique</option>
         <option value="chimie" ${d.matiere==='chimie'?'selected':''}>Chimie</option>
+        <option value="maths" ${d.matiere==='maths'?'selected':''}>Mathématiques</option>
+        <option value="svt" ${d.matiere==='svt'?'selected':''}>SVT</option>
       </select></div>
     </div>
     <div class="form-row">
