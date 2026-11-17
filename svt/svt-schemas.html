@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr" id="htmlRoot">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Schémas interactifs | DARRSSY SVT</title>
+<link rel="icon" type="image/png" href="../assets/logo-darrssy.png">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,500&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+:root { 
+  --primary: #16213e; --primary-light: #2a9d8f; --accent: #e8a33d; --accent-dark: #c17f1e;
+  --ink: #16213e; --gray: #5b6b7a; --gray-light: #93a3b0; --border: #d9d2bb; --light: #faf6ec; --white: #fffdf7;
+  --danger: #c0483f;
+  --shadow: 6px 6px 0 rgba(22,33,62,0.08); --shadow-lg: 10px 10px 0 rgba(22,33,62,0.1);
+  --radius: 6px; --radius-sm: 4px; --transition: all 0.25s ease;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Inter', 'Tajawal', sans-serif; background: linear-gradient(rgba(22,33,62,0.1) 0.5px, transparent 0.5px), linear-gradient(90deg, rgba(22,33,62,0.1) 0.5px, transparent 0.5px), linear-gradient(rgba(22,33,62,0.028) 0.5px, transparent 0.5px), linear-gradient(90deg, rgba(22,33,62,0.028) 0.5px, transparent 0.5px), var(--light); background-size: 50px 50px, 50px 50px, 10px 10px, 10px 10px, auto; color: var(--ink); line-height: 1.6; min-height: 100vh; display: flex; flex-direction: column; }
+[dir="rtl"] body { font-family: 'Tajawal', 'Inter', sans-serif; }
+a { text-decoration: none; color: inherit; }
+h1, h2, h3 { font-family: 'Fraunces', 'Tajawal', serif; }
+
+nav { background: var(--white); border-bottom: 2px solid var(--ink); padding: 10px 5%; display: flex; justify-content: space-between; align-items: center; }
+.logo { display: flex; align-items: center; gap: 12px; }
+.logo-img-wrap { width: 40px; height: 40px; border-radius: 50%; background: var(--white); padding: 2px; border: 2px solid var(--ink); }
+.logo-img-wrap img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
+.logo-texte .titre { font-family: 'Fraunces', serif; font-size: 1.2rem; font-weight: 700; }
+.nav-right { display: flex; align-items: center; gap: 10px; }
+.lang-switcher { display: flex; background: var(--white); border: 2px solid var(--ink); border-radius: var(--radius-sm); overflow: hidden; }
+.lang-btn { background: transparent; border: none; color: var(--ink); font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; font-weight: 700; padding: 6px 12px; cursor: pointer; transition: var(--transition); }
+.lang-btn.actif { background: var(--ink); color: var(--white); }
+.btn-back { background: var(--ink); color: var(--white); padding: 8px 18px; border-radius: var(--radius-sm); font-weight: 600; font-size: 0.9rem; transition: var(--transition); display: flex; align-items: center; gap: 6px; border: 2px solid var(--ink); }
+.btn-back:hover { background: var(--white); color: var(--ink); }
+.btn-back.secondary { background: transparent; color: var(--ink); border-color: var(--ink); }
+.btn-back.secondary:hover { background: var(--ink); color: var(--white); }
+
+.main-content { flex: 1; padding: 40px 5%; max-width: 1100px; margin: 0 auto; width: 100%; }
+.page-title { text-align: center; margin-bottom: 40px; }
+.page-title h1 { font-size: 2.2rem; margin-bottom: 10px; }
+.page-title p { color: var(--gray); }
+
+.schema-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px; }
+
+.schema-card { background: var(--white); border: 2px solid var(--ink); border-radius: var(--radius); padding: 25px; box-shadow: var(--shadow-lg); display: flex; flex-direction: column; transition: var(--transition); cursor: pointer; position: relative; touch-action: manipulation; }
+.schema-card:hover { border-color: var(--primary-light); transform: translateY(-5px); }
+.schema-card h3 { font-size: 1.2rem; margin-bottom: 15px; color: var(--ink); display: flex; align-items: center; gap: 10px; border-bottom: 2px dashed var(--border); padding-bottom: 10px; }
+.schema-card h3 i { color: var(--accent); }
+.schema-desc { font-size: 0.9rem; color: var(--gray); margin-top: 15px; line-height: 1.5; }
+.click-hint { position: absolute; top: 15px; right: 15px; font-size: 0.75rem; color: var(--gray-light); background: var(--light); padding: 4px 8px; border-radius: 4px; display: flex; align-items: center; gap: 4px; z-index: 2; }
+
+/* CONTENEUR SVG */
+.svg-container { width: 100%; height: 250px; background: #fafbfc; border: 1px solid var(--border); border-radius: var(--radius-sm); display: flex; justify-content: center; align-items: center; overflow: hidden; position: relative; }
+.svg-container svg { width: 100%; height: 100%; }
+
+/* ANIMATIONS */
+@keyframes slideFaultRight { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(25px, -15px); } }
+@keyframes slideFaultLeft { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(-25px, 15px); } }
+@keyframes foldMove { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+@keyframes spinDna { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+.fault-block-right { animation: slideFaultRight 6s ease-in-out infinite; }
+.fault-block-left { animation: slideFaultLeft 6s ease-in-out infinite; }
+.fold-anticlinal { animation: foldMove 5s ease-in-out infinite; }
+.dna-group { animation: spinDna 12s linear infinite; transform-origin: center; }
+
+/* MODALE (LIGHTBOX) */
+.modal-overlay { position: fixed; inset: 0; background: rgba(22,33,62,0.85); backdrop-filter: blur(5px); z-index: 5000; display: none; align-items: center; justify-content: center; padding: 20px; opacity: 0; transition: opacity 0.3s ease; }
+.modal-overlay.show { display: flex; opacity: 1; }
+.modal-content { background: var(--white); border: 2px solid var(--ink); border-radius: var(--radius); padding: 25px; width: 100%; max-width: 900px; position: relative; box-shadow: 10px 10px 0 rgba(0,0,0,0.2); transform: scale(0.9); transition: transform 0.3s ease; max-height: 95vh; overflow-y: auto; }
+.modal-overlay.show .modal-content { transform: scale(1); }
+.modal-close { position: absolute; top: 15px; right: 15px; background: var(--white); border: 2px solid var(--ink); color: var(--ink); width: 40px; height: 40px; border-radius: var(--radius-sm); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; transition: var(--transition); z-index: 10; }
+.modal-close:hover { background: var(--danger); color: var(--white); border-color: var(--danger); }
+.modal-title { font-size: 1.5rem; font-family: 'Fraunces', serif; margin-bottom: 20px; color: var(--ink); display: flex; align-items: center; gap: 10px; border-bottom: 2px dashed var(--border); padding-bottom: 15px; padding-right: 45px; }
+.modal-title i { color: var(--accent); }
+.modal-svg-container { width: 100%; height: 450px; background: #fafbfc; border: 1px solid var(--border); border-radius: var(--radius-sm); display: flex; justify-content: center; align-items: center; margin-bottom: 20px; overflow: hidden; }
+.modal-svg-container svg { width: 100% !important; height: 100% !important; display: block; }
+.modal-desc { font-size: 1rem; color: var(--ink); line-height: 1.6; background: var(--light); padding: 15px; border-radius: var(--radius-sm); border-left: 4px solid var(--primary-light); }
+[dir="rtl"] .modal-desc { border-left: none; border-right: 4px solid var(--primary-light); }
+.modal-desc strong { color: var(--primary-light); }
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  nav { padding: 10px 3%; }
+  .logo-img-wrap { width: 35px; height: 35px; }
+  .logo-texte .titre { font-size: 1rem; }
+  .btn-back span { display: none; }
+  .btn-back { padding: 8px 12px; font-size: 0.8rem; }
+  .lang-btn { padding: 6px 8px; font-size: 0.7rem; }
+  .main-content { padding: 20px 4%; }
+  .page-title h1 { font-size: 1.6rem; }
+  .schema-grid { grid-template-columns: 1fr; }
+  .svg-container { height: 220px; }
+  
+  /* Modale sur mobile */
+  .modal-overlay { padding: 10px; }
+  .modal-content { padding: 20px; max-height: 98vh; }
+  .modal-svg-container { height: 300px; }
+  .modal-title { font-size: 1.2rem; padding-right: 40px; }
+  .modal-close { width: 35px; height: 35px; top: 10px; right: 10px; font-size: 1rem; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="logo">
+    <div class="logo-img-wrap"><img src="../assets/logo-darrssy.png" alt="DARRSSY"></div>
+    <div class="logo-texte"><span class="titre">DARRSSY SVT</span></div>
+  </a>
+  <div class="nav-right">
+    <div class="lang-switcher">
+      <button class="lang-btn actif" data-lang="fr">FR</button>
+      <button class="lang-btn" data-lang="ar">AR</button>
+    </div>
+    <a href="index.html" class="btn-back secondary"><i class="fas fa-th-large"></i> <span data-i18n="nav.menu">Menu</span></a>
+    <a href="../index.html" class="btn-back"><i class="fas fa-home"></i> <span data-i18n="nav.home">Site</span></a>
+  </div>
+</nav>
+
+<div class="main-content">
+  <div class="page-title">
+    <h1 data-i18n="title">Schémas Animés de SVT</h1>
+    <p data-i18n="desc">Cliquez sur un schéma pour l'agrandir et l'observer en détail.</p>
+  </div>
+
+  <div class="schema-grid">
+    
+    <!-- SCHEMA 1 : FAILLE NORMALE -->
+    <div class="schema-card" onclick="openModal('s1')">
+      <div class="click-hint"><i class="fas fa-search-plus"></i> Agrandir</div>
+      <h3><i class="fas fa-mountain"></i> <span data-i18n="s1.title">La Faille Normale</span></h3>
+      <div class="svg-container">
+        <svg viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg">
+          <line x1="150" y1="0" x2="170" y2="200" stroke="#16213e" stroke-width="3" stroke-dasharray="5,5"/>
+          <g class="fault-block-left">
+            <polygon points="0,50 150,50 160,200 0,200" fill="#d9d2bb" stroke="#5b6b7a" stroke-width="2"/>
+            <polygon points="0,100 150,100 155,150 0,150" fill="#c17f1e" opacity="0.6"/>
+            <polygon points="0,150 155,150 158,200 0,200" fill="#2a9d8f" opacity="0.6"/>
+          </g>
+          <g class="fault-block-right">
+            <polygon points="170,20 300,20 300,200 160,200" fill="#d9d2bb" stroke="#5b6b7a" stroke-width="2"/>
+            <polygon points="170,70 300,70 300,120 165,120" fill="#c17f1e" opacity="0.6"/>
+            <polygon points="168,120 300,120 300,200 162,200" fill="#2a9d8f" opacity="0.6"/>
+            <path d="M 230 40 L 260 10 M 260 10 L 250 10 M 260 10 L 260 20" fill="none" stroke="#c0483f" stroke-width="2"/>
+          </g>
+        </svg>
+      </div>
+      <div class="schema-desc" data-i18n="s1.desc">
+        <strong>Faille normale :</strong> Créée par une force d'extension. Un bloc descend par rapport à l'autre.
+      </div>
+    </div>
+
+    <!-- SCHEMA 2 : PLIS -->
+    <div class="schema-card" onclick="openModal('s2')">
+      <div class="click-hint"><i class="fas fa-search-plus"></i> Agrandir</div>
+      <h3><i class="fas fa-water"></i> <span data-i18n="s2.title">Les Plis Géologiques</span></h3>
+      <div class="svg-container">
+        <svg viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg">
+          <path d="M 0 150 Q 75 100 150 150 T 300 150 L 300 200 L 0 200 Z" fill="#c17f1e" opacity="0.4" stroke="#5b6b7a"/>
+          <g class="fold-anticlinal">
+            <path d="M 0 100 Q 75 30 150 100 Q 225 170 300 100 L 300 130 Q 225 200 150 130 Q 75 60 0 130 Z" fill="#2a9d8f" opacity="0.6" stroke="#16213e" stroke-width="2"/>
+            <text x="70" y="50" font-family="Inter" font-size="10" fill="#c0483f" font-weight="bold">Anticlinal</text>
+            <text x="220" y="160" font-family="Inter" font-size="10" fill="#c0483f" font-weight="bold">Synclinal</text>
+          </g>
+          <path d="M 0 50 Q 75 -20 150 50 Q 225 120 300 50 L 300 70 Q 225 140 150 70 Q 75 0 0 70 Z" fill="#e8a33d" opacity="0.4" stroke="#5b6b7a"/>
+          <path d="M 10 100 L 50 100 M 50 100 L 40 95 M 50 100 L 40 105" fill="none" stroke="#16213e" stroke-width="2"/>
+          <path d="M 290 100 L 250 100 M 250 100 L 260 95 M 250 100 L 260 105" fill="none" stroke="#16213e" stroke-width="2"/>
+        </svg>
+      </div>
+      <div class="schema-desc" data-i18n="s2.desc">
+        <strong>Plis :</strong> Créés par une force de compression. L'anticlinal est une bosse, le synclinal un creux.
+      </div>
+    </div>
+
+    <!-- SCHEMA 3 : MEIOSE -->
+    <div class="schema-card" onclick="openModal('s3')">
+      <div class="click-hint"><i class="fas fa-search-plus"></i> Agrandir</div>
+      <h3><i class="fas fa-dna"></i> <span data-i18n="s3.title">Brassage Génétique (Méiose)</span></h3>
+      <div class="svg-container">
+        <svg viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="150" cy="40" r="30" fill="#faf6ec" stroke="#16213e" stroke-width="2"/>
+          <text x="150" y="45" font-family="Inter" font-size="10" text-anchor="middle" fill="#16213e">Cellule Mère</text>
+          <g transform="translate(150, 40)">
+            <path d="M -10 -20 Q 0 -10 10 -20 M -10 -20 Q 0 -10 10 -20" stroke="#c0483f" stroke-width="3"/>
+            <path d="M -10 20 Q 0 10 10 20 M -10 20 Q 0 10 10 20" stroke="#2a9d8f" stroke-width="3"/>
+          </g>
+          <path d="M 150 80 L 150 110 M 150 110 L 140 100 M 150 110 L 160 100" fill="none" stroke="#5b6b7a" stroke-width="2"/>
+          <circle cx="75" cy="160" r="25" fill="#faf6ec" stroke="#16213e" stroke-width="2"/>
+          <circle cx="225" cy="160" r="25" fill="#faf6ec" stroke="#16213e" stroke-width="2"/>
+          <g transform="translate(75, 160)">
+            <line x1="-10" y1="-15" x2="10" y2="-15" stroke="#c0483f" stroke-width="3"/>
+            <line x1="-10" y1="0" x2="10" y2="0" stroke="#2a9d8f" stroke-width="3"/>
+          </g>
+          <g transform="translate(225, 160)">
+            <line x1="-10" y1="-15" x2="10" y2="-15" stroke="#2a9d8f" stroke-width="3"/>
+            <line x1="-10" y1="0" x2="10" y2="0" stroke="#c0483f" stroke-width="3"/>
+          </g>
+          <text x="75" y="195" font-family="Inter" font-size="9" text-anchor="middle" fill="#5b6b7a">Gamète 1</text>
+          <text x="225" y="195" font-family="Inter" font-size="9" text-anchor="middle" fill="#5b6b7a">Gamète 2</text>
+        </svg>
+      </div>
+      <div class="schema-desc" data-i18n="s3.desc">
+        <strong>Méiose :</strong> Échange de segments entre chromosomes homologues (crossing-over).
+      </div>
+    </div>
+
+    <!-- SCHEMA 4 : ADN -->
+    <div class="schema-card" onclick="openModal('s4')">
+      <div class="click-hint"><i class="fas fa-search-plus"></i> Agrandir</div>
+      <h3><i class="fas fa-infinity"></i> <span data-i18n="s4.title">La Double Hélice d'ADN</span></h3>
+      <div class="svg-container" style="perspective: 800px;">
+        <svg class="dna-group" viewBox="0 0 100 200" xmlns="http://www.w3.org/2000/svg" style="height: 200px;">
+          <path d="M 20 10 C 80 50, 80 100, 20 140 C 80 180, 80 200, 20 200" fill="none" stroke="#2a9d8f" stroke-width="4"/>
+          <path d="M 80 10 C 20 50, 20 100, 80 140 C 20 180, 20 200, 80 200" fill="none" stroke="#e8a33d" stroke-width="4"/>
+          <line x1="35" y1="30" x2="65" y2="30" stroke="#16213e" stroke-width="2"/>
+          <line x1="65" y1="60" x2="35" y2="60" stroke="#16213e" stroke-width="2"/>
+          <line x1="35" y1="80" x2="65" y2="80" stroke="#16213e" stroke-width="2"/>
+          <line x1="65" y1="110" x2="35" y2="110" stroke="#16213e" stroke-width="2"/>
+          <line x1="35" y1="130" x2="65" y2="130" stroke="#16213e" stroke-width="2"/>
+          <line x1="65" y1="160" x2="35" y2="160" stroke="#16213e" stroke-width="2"/>
+          <line x1="35" y1="180" x2="65" y2="180" stroke="#16213e" stroke-width="2"/>
+        </svg>
+      </div>
+      <div class="schema-desc" data-i18n="s4.desc">
+        <strong>ADN :</strong> Une double hélice avec des brins complémentaires (A-T, C-G).
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- MODALE (LIGHTBOX) -->
+<div class="modal-overlay" id="schemaModal" onclick="closeModal(event)">
+  <div class="modal-content" onclick="event.stopPropagation()">
+    <button class="modal-close" onclick="closeModal(event)"><i class="fas fa-times"></i></button>
+    <h2 class="modal-title" id="modalTitle"><i class="fas fa-mountain"></i> Titre</h2>
+    <div class="modal-svg-container" id="modalSvgContainer">
+      <!-- Le SVG sera injecté ici par JS -->
+    </div>
+    <div class="modal-desc" id="modalDesc">
+      Description
+    </div>
+  </div>
+</div>
+
+<script>
+let currentLang = localStorage.getItem('darrssy-lang') || 'fr';
+
+const trad = {
+  fr: {
+    'nav.menu': 'Menu', 'nav.home': 'Site',
+    'title': 'Schémas Animés de SVT', 'desc': 'Cliquez sur un schéma pour l\'agrandir et l\'observer en détail.',
+    's1.title': 'La Faille Normale', 's1.desc': '<strong>Faille normale :</strong> Créée par une force d\'extension. Un bloc descend par rapport à l\'autre. Le compartiment supérieur (à droite) glisse vers le bas.',
+    's2.title': 'Les Plis Géologiques', 's2.desc': '<strong>Plis :</strong> Créés par une force de compression. L\'<strong>anticlinal</strong> est une bosse (couches vers le haut). Le <strong>synclinal</strong> est un creux (couches vers le bas).',
+    's3.title': 'Brassage Génétique (Méiose)', 's3.desc': '<strong>Méiose :</strong> Les chromosomes homologues s\'échangent des segments (crossing-over), créant de nouvelles combinaisons génétiques avant de se séparer dans les gamètes.',
+    's4.title': 'La Double Hélice d\'ADN', 's4.desc': '<strong>ADN :</strong> Une double hélice qui tourne sur elle-même. Les deux brins sont complémentaires : l\'Adénine (A) s\'apparie toujours avec la Thymine (T), et la Cytosine (C) avec la Guanine (G).'
+  },
+  ar: {
+    'nav.menu': 'القائمة', 'nav.home': 'الموقع',
+    'title': 'رسوم متحركة لعلوم الحياة والأرض', 'desc': 'انقر على رسم لتكبيرها ومراقبتها بالتفصيل.',
+    's1.title': 'الصدع العادي', 's1.desc': '<strong>الصدع العادي :</strong> ينشأ بفعل قوة تمدد. تهبط كتلة مقارنة بالأخرى. تنزلق الكتلة العلوية (إلى اليمين) نحو الأسفل.',
+    's2.title': 'الطيات الجيولوجية', 's2.desc': '<strong>الطيات :</strong> تنشأ بفعل قوة ضغط. <strong>المحدب</strong> هو انتفاخ (الطبقات نحو الأعلى). <strong>المقعر</strong> هو تجويف (الطبقات نحو الأسفل).',
+    's3.title': 'التنوع الوراثي (الانقسام الاختزالي)', 's3.desc': '<strong>الانقسام الاختزالي :</strong> تتبادل الصبغيات المتماثلة قطعاً (العبور)، مما يخلق تركيبات وراثية جديدة قبل انفصالها في الأمشاج.',
+    's4.title': 'اللولب المزدوج للحمض النووي', 's4.desc': '<strong>الحمض النووي :</strong> لولب مزدوج يلتف على نفسه. الشريطان متكاملان: الأدينين (A) يرتبط دائماً بالثايمين (T)، والسيتوزين (C) بالغوانين (G).'
+  }
+};
+
+document.addEventListener('DOMContentLoaded', () => {
+  appliquerLangue(currentLang);
+  bindEvents();
+});
+
+function appliquerLangue(lang) {
+  currentLang = lang;
+  document.getElementById('htmlRoot').setAttribute('lang', lang);
+  document.getElementById('htmlRoot').setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (trad[lang] && trad[lang][key]) el.innerHTML = trad[lang][key];
+  });
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.classList.toggle('actif', btn.getAttribute('data-lang') === lang);
+  });
+  localStorage.setItem('darrssy-lang', lang);
+}
+
+function bindEvents() {
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.addEventListener('click', () => appliquerLangue(btn.getAttribute('data-lang')));
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeModal(e);
+  });
+}
+
+// ==========================================
+// LOGIQUE DE LA MODALE
+// ==========================================
+function openModal(id) {
+  const modal = document.getElementById('schemaModal');
+  const titleEl = document.getElementById('modalTitle');
+  const svgContainer = document.getElementById('modalSvgContainer');
+  const descEl = document.getElementById('modalDesc');
+  
+  // Récupérer les éléments de la carte cliquée
+  const card = document.querySelector(`.schema-card[onclick="openModal('${id}')"]`);
+  const svg = card.querySelector('svg').outerHTML;
+  const titleText = card.querySelector('h3').innerHTML;
+  const descText = card.querySelector('.schema-desc').innerHTML;
+  
+  // Injecter dans la modale
+  titleEl.innerHTML = titleText;
+  svgContainer.innerHTML = svg;
+  descEl.innerHTML = descText;
+  
+  // Gestion de l'affichage du SVG dans la modale (pour qu'il s'adapte à toutes les tailles)
+  const injectedSvg = svgContainer.querySelector('svg');
+  injectedSvg.style.width = '100%';
+  injectedSvg.style.height = '100%';
+  // Supprimer la hauteur fixe qui pourrait bloquer l'agrandissement
+  injectedSvg.removeAttribute('style'); 
+  injectedSvg.style.width = '100%';
+  injectedSvg.style.height = '100%';
+  
+  // Afficher la modale
+  modal.classList.add('show');
+  document.body.style.overflow = 'hidden'; 
+}
+
+function closeModal(event) {
+  const modal = document.getElementById('schemaModal');
+  if (event.target === modal || event.target.closest('.modal-close')) {
+    modal.classList.remove('show');
+    document.body.style.overflow = ''; 
+  }
+}
+</script>
+</body>
+</html>
