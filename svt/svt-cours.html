@@ -25,7 +25,6 @@ body { font-family: 'Inter', 'Tajawal', sans-serif; background: linear-gradient(
 a { text-decoration: none; color: inherit; }
 h1, h2, h3 { font-family: 'Fraunces', 'Tajawal', serif; }
 
-/* NAV */
 nav { background: var(--white); border-bottom: 2px solid var(--ink); padding: 10px 5%; display: flex; justify-content: space-between; align-items: center; }
 .logo { display: flex; align-items: center; gap: 12px; }
 .logo-img-wrap { width: 40px; height: 40px; border-radius: 50%; background: var(--white); padding: 2px; border: 2px solid var(--ink); }
@@ -40,30 +39,22 @@ nav { background: var(--white); border-bottom: 2px solid var(--ink); padding: 10
 .btn-back.secondary { background: transparent; color: var(--ink); border-color: var(--ink); }
 .btn-back.secondary:hover { background: var(--ink); color: var(--white); }
 
-/* CONTENU */
 .main-content { flex: 1; padding: 40px 5%; max-width: 1000px; margin: 0 auto; width: 100%; }
 .page-title { text-align: center; margin-bottom: 30px; }
 .page-title h1 { font-size: 2.2rem; margin-bottom: 10px; }
 .page-title p { color: var(--gray); }
 
-/* FILTRES NIVEAUX */
 .level-filters { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-bottom: 40px; }
 .level-btn { background: var(--white); border: 2px solid var(--ink); color: var(--ink); padding: 10px 20px; border-radius: 50px; font-family: inherit; font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: var(--transition); }
 .level-btn:hover { background: var(--light); }
 .level-btn.actif { background: var(--ink); color: var(--white); }
 
-/* GRILLE DES COURS */
 .level-section { display: none; animation: fadeIn 0.4s ease; }
 .level-section.actif { display: block; }
 @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-.chapitre-title { font-size: 1.3rem; font-weight: 600; color: var(--ink); margin: 30px 0 15px; display: flex; align-items: center; gap: 10px; border-bottom: 2px solid var(--border); padding-bottom: 10px; }
-.chapitre-title i { color: var(--accent); }
-
-/* CARTE ACCORDEON */
 .cours-accordion { background: var(--white); border: 2px solid var(--ink); border-radius: var(--radius); margin-bottom: 15px; box-shadow: var(--shadow); overflow: hidden; transition: var(--transition); }
 .cours-accordion:hover { border-color: var(--primary-light); box-shadow: var(--shadow-lg); }
-
 .cours-header { padding: 20px 25px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; background: var(--white); transition: var(--transition); }
 .cours-header:hover { background: var(--light); }
 .cours-header-left { display: flex; align-items: center; gap: 15px; }
@@ -71,25 +62,19 @@ nav { background: var(--white); border-bottom: 2px solid var(--ink); padding: 10
 .cours-title { font-size: 1.15rem; font-weight: 600; color: var(--ink); margin-bottom: 4px; }
 .cours-subtitle { font-size: 0.85rem; color: var(--gray); font-family: 'JetBrains Mono', monospace; }
 .cours-toggle-icon { font-size: 1.2rem; color: var(--primary-light); transition: transform 0.3s ease; }
-
-/* CONTENU ACCORDEON */
 .cours-content { max-height: 0; overflow: hidden; transition: max-height 0.4s ease-out; background: #fafbfc; border-top: 0 solid var(--border); }
 .cours-content.open { max-height: 2500px; border-top: 2px dashed var(--border); }
 .cours-inner { padding: 25px; font-size: 0.95rem; color: var(--ink); }
 
-/* RÉSUMÉ / POINTS CLÉS */
 .resume-block { margin-bottom: 20px; }
 .resume-block h4 { font-size: 1rem; color: var(--primary-light); margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
-.resume-block ul { list-style: none; padding-left: 0; }
-.resume-block ul li { padding: 8px 0 8px 25px; border-bottom: 1px dashed var(--border); position: relative; line-height: 1.5; }
-[dir="rtl"] .resume-block ul li { padding: 8px 25px 8px 0; }
-.resume-block ul li:last-child { border-bottom: none; }
-.resume-block ul li::before { content: '→'; position: absolute; left: 0; color: var(--accent); font-weight: bold; }
-[dir="rtl"] .resume-block ul li::before { content: '←'; left: auto; right: 0; }
-
+.resume-block p { line-height: 1.7; color: var(--ink); }
 .formule-box { background: var(--white); border: 1.5px solid var(--ink); border-radius: var(--radius-sm); padding: 15px; text-align: center; font-size: 1.05rem; color: var(--accent-dark); margin: 15px 0; font-weight: 600; box-shadow: var(--shadow-sm); overflow-x: auto; }
 
-/* RESPONSIVE MOBILE */
+.loading-zone { text-align: center; padding: 60px 20px; color: var(--gray); }
+.loading-zone i { font-size: 2.1rem; color: var(--primary-light); animation: spin 1s linear infinite; display: block; margin-bottom: 15px; }
+@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
 @media (max-width: 768px) {
   nav { padding: 10px 3%; }
   .logo-img-wrap { width: 35px; height: 35px; }
@@ -99,7 +84,6 @@ nav { background: var(--white); border-bottom: 2px solid var(--ink); padding: 10
   .lang-btn { padding: 6px 8px; font-size: 0.7rem; }
   .main-content { padding: 20px 4%; }
   .page-title h1 { font-size: 1.6rem; }
-  .page-title p { font-size: 0.9rem; }
   .level-filters { gap: 5px; }
   .level-btn { padding: 8px 12px; font-size: 0.8rem; }
   .cours-header { padding: 15px; }
@@ -107,7 +91,6 @@ nav { background: var(--white); border-bottom: 2px solid var(--ink); padding: 10
   .cours-subtitle { font-size: 0.75rem; }
   .cours-icon { width: 35px; height: 35px; font-size: 1rem; }
   .cours-inner { padding: 15px; }
-  .resume-block ul li { font-size: 0.85rem; }
   .formule-box { font-size: 0.9rem; padding: 10px; }
 }
 </style>
@@ -115,7 +98,7 @@ nav { background: var(--white); border-bottom: 2px solid var(--ink); padding: 10
 <body>
 
 <nav>
-  <a href="index.html" class="logo">
+  <a href="../index.html" class="logo">
     <div class="logo-img-wrap"><img src="../assets/logo-darrssy.png" alt="DARRSSY"></div>
     <div class="logo-texte"><span class="titre">DARRSSY SVT</span></div>
   </a>
@@ -141,155 +124,41 @@ nav { background: var(--white); border-bottom: 2px solid var(--ink); padding: 10
     <button class="level-btn" data-level="2bac" data-i18n="lvl.2bac">2ème Année Bac</button>
   </div>
 
-  <!-- SECTION TRONC COMMUN -->
+  <!-- ZONES DE CONTENU DYNAMIQUE -->
   <div class="level-section actif" id="level-tronc">
-    <div class="chapitre-title"><i class="fas fa-leaf"></i> <span data-i18n="chap.geologie">Géologie</span></div>
-    
-    <div class="cours-accordion">
-      <div class="cours-header" onclick="toggleAccordion(this)">
-        <div class="cours-header-left">
-          <div class="cours-icon"><i class="fas fa-mountain"></i></div>
-          <div>
-            <div class="cours-title" data-i18n="c1.title">La Terre et son environnement</div>
-            <div class="cours-subtitle">Géologie · 45 min</div>
-          </div>
-        </div>
-        <i class="fas fa-chevron-down cours-toggle-icon"></i>
-      </div>
-      <div class="cours-content">
-        <div class="cours-inner">
-          <div class="resume-block">
-            <h4><i class="fas fa-bookmark"></i> <span data-i18n="resume">Points clés du résumé</span></h4>
-            <ul>
-              <li data-i18n="c1.p1"><strong>Structure de la Terre :</strong> La Terre est constituée de la croûte, du manteau et du noyau (interne et externe).</li>
-              <li data-i18n="c1.p2"><strong>Tectonique des plaques :</strong> La lithosphère est découpée en plaques qui se déplacent sur l'asthénosphère.</li>
-              <li data-i18n="c1.p3"><strong>Zones de divergence :</strong> Les dorsales océaniques sont des zones où les plaques s'écartent (accrétion).</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
+    <div id="cours-tronc" class="loading-zone"><i class="fas fa-spinner"></i><p data-i18n="loading">Chargement...</p></div>
   </div>
-
-  <!-- SECTION 1 BAC -->
   <div class="level-section" id="level-1bac">
-    <div class="chapitre-title"><i class="fas fa-flask"></i> <span data-i18n="chap.biologie">Biologie</span></div>
-    
-    <div class="cours-accordion">
-      <div class="cours-header" onclick="toggleAccordion(this)">
-        <div class="cours-header-left">
-          <div class="cours-icon"><i class="fas fa-dna"></i></div>
-          <div>
-            <div class="cours-title" data-i18n="c2.title">Génétique et information héréditaire</div>
-            <div class="cours-subtitle">Biologie · 90 min</div>
-          </div>
-        </div>
-        <i class="fas fa-chevron-down cours-toggle-icon"></i>
-      </div>
-      <div class="cours-content">
-        <div class="cours-inner">
-          <div class="resume-block">
-            <h4><i class="fas fa-bookmark"></i> <span data-i18n="resume">Points clés du résumé</span></h4>
-            <ul>
-              <li data-i18n="c2.p1"><strong>ADN et gènes :</strong> L'ADN porte l'information génétique. Un gène est une séquence de nucléotides qui code pour un caractère.</li>
-              <li data-i18n="c2.p2"><strong>Transcription et traduction :</strong> L'ADN est transcrit en ARNm, puis traduit en protéines dans les ribosomes.</li>
-              <li data-i18n="c2.p3"><strong>Mutations :</strong> Les mutations sont des modifications de la séquence de l'ADN et peuvent être à l'origine de nouvelles variations.</li>
-            </ul>
-          </div>
-          <div class="formule-box">Code génétique : 1 codon (3 nucléotides) = 1 acide aminé</div>
-        </div>
-      </div>
-    </div>
+    <div id="cours-1bac" class="loading-zone"><i class="fas fa-spinner"></i><p data-i18n="loading">Chargement...</p></div>
   </div>
-
-  <!-- SECTION 2 BAC -->
   <div class="level-section" id="level-2bac">
-    <div class="chapitre-title"><i class="fas fa-dna"></i> <span data-i18n="chap.genetique">Génétique</span></div>
-    
-    <div class="cours-accordion">
-      <div class="cours-header" onclick="toggleAccordion(this)">
-        <div class="cours-header-left">
-          <div class="cours-icon"><i class="fas fa-sitemap"></i></div>
-          <div>
-            <div class="cours-title" data-i18n="c3.title">Les lois de Mendel</div>
-            <div class="cours-subtitle">Génétique · 120 min</div>
-          </div>
-        </div>
-        <i class="fas fa-chevron-down cours-toggle-icon"></i>
-      </div>
-      <div class="cours-content">
-        <div class="cours-inner">
-          <div class="resume-block">
-            <h4><i class="fas fa-bookmark"></i> <span data-i18n="resume">Points clés du résumé</span></h4>
-            <ul>
-              <li data-i18n="c3.p1"><strong>Monohybridisme :</strong> Croisement de deux lignées pures pour un seul caractère. La F1 est homogène, la F2 donne 3/4 dominant et 1/4 récessif.</li>
-              <li data-i18n="c3.p2"><strong>Dihybridisme :</strong> Croisement pour deux caractères. On obtient 4 phénotypes en F2 (9:3:3:1).</li>
-              <li data-i18n="c3.p3"><strong>Test-cross :</strong> Croisement avec un homozygote récessif pour déterminer le génotype d'un individu.</li>
-            </ul>
-          </div>
-          <div class="formule-box">F2 (Monohybridisme) : 3/4 [Dominant] ; 1/4 [Récessif]</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="cours-accordion">
-      <div class="cours-header" onclick="toggleAccordion(this)">
-        <div class="cours-header-left">
-          <div class="cours-icon"><i class="fas fa-globe-africa"></i></div>
-          <div>
-            <div class="cours-title" data-i18n="c4.title">Géologie : la chaîne de montagnes</div>
-            <div class="cours-subtitle">Géologie · 75 min</div>
-          </div>
-        </div>
-        <i class="fas fa-chevron-down cours-toggle-icon"></i>
-      </div>
-      <div class="cours-content">
-        <div class="cours-inner">
-          <div class="resume-block">
-            <h4><i class="fas fa-bookmark"></i> <span data-i18n="resume">Points clés du résumé</span></h4>
-            <ul>
-              <li data-i18n="c4.p1"><strong>Orogenèse :</strong> Processus de formation des montagnes par collision de deux plaques lithosphériques.</li>
-              <li data-i18n="c4.p2"><strong>Plis et failles :</strong> Les roches se déforment sous l'effet de la compression (plis) ou se cassent (failles).</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
+    <div id="cours-2bac" class="loading-zone"><i class="fas fa-spinner"></i><p data-i18n="loading">Chargement...</p></div>
   </div>
-
 </div>
 
+<!-- IMPORTANT : Charger darrssy-config.js pour Supabase -->
+<script src="../admin/darrssy-config.js"></script>
 <script>
 let currentLang = localStorage.getItem('darrssy-lang') || 'fr';
+let tousLesCours = [];
 
 const trad = {
   fr: {
-    'nav.menu': 'Menu', 'nav.home': 'Site',
-    'title': 'Cours de SVT', 'desc': 'Cliquez sur un cours pour voir le résumé complet.',
+    'nav.menu': 'Menu', 'nav.home': 'Site', 'title': 'Cours de SVT', 'desc': 'Cliquez sur un cours pour voir le résumé complet.',
     'lvl.tronc': 'Tronc Commun', 'lvl.1bac': '1ère Année Bac', 'lvl.2bac': '2ème Année Bac',
-    'chap.geologie': 'Géologie', 'chap.biologie': 'Biologie', 'chap.genetique': 'Génétique',
-    'resume': 'Points clés du résumé',
-    'c1.title': 'La Terre et son environnement', 'c1.p1': '<strong>Structure de la Terre :</strong> La Terre est constituée de la croûte, du manteau et du noyau (interne et externe).', 'c1.p2': '<strong>Tectonique des plaques :</strong> La lithosphère est découpée en plaques qui se déplacent sur l\'asthénosphère.', 'c1.p3': '<strong>Zones de divergence :</strong> Les dorsales océaniques sont des zones où les plaques s\'écartent (accrétion).',
-    'c2.title': 'Génétique et information héréditaire', 'c2.p1': '<strong>ADN et gènes :</strong> L\'ADN porte l\'information génétique. Un gène est une séquence de nucléotides qui code pour un caractère.', 'c2.p2': '<strong>Transcription et traduction :</strong> L\'ADN est transcrit en ARNm, puis traduit en protéines dans les ribosomes.', 'c2.p3': '<strong>Mutations :</strong> Les mutations sont des modifications de la séquence de l\'ADN et peuvent être à l\'origine de nouvelles variations.',
-    'c3.title': 'Les lois de Mendel', 'c3.p1': '<strong>Monohybridisme :</strong> Croisement de deux lignées pures pour un seul caractère. La F1 est homogène, la F2 donne 3/4 dominant et 1/4 récessif.', 'c3.p2': '<strong>Dihybridisme :</strong> Croisement pour deux caractères. On obtient 4 phénotypes en F2 (9:3:3:1).', 'c3.p3': '<strong>Test-cross :</strong> Croisement avec un homozygote récessif pour déterminer le génotype d\'un individu.',
-    'c4.title': 'Géologie : la chaîne de montagnes', 'c4.p1': '<strong>Orogenèse :</strong> Processus de formation des montagnes par collision de deux plaques lithosphériques.', 'c4.p2': '<strong>Plis et failles :</strong> Les roches se déforment sous l\'effet de la compression (plis) ou se cassent (failles).'
+    'loading': 'Chargement...', 'resume': 'Résumé du cours', 'noCours': 'Aucun cours disponible pour ce niveau pour le moment.'
   },
   ar: {
-    'nav.menu': 'القائمة', 'nav.home': 'الموقع',
-    'title': 'دروس علوم الحياة والأرض', 'desc': 'انقر على درس لرؤية الملخص الكامل.',
+    'nav.menu': 'القائمة', 'nav.home': 'الموقع', 'title': 'دروس علوم الحياة والأرض', 'desc': 'انقر على درس لرؤية الملخص الكامل.',
     'lvl.tronc': 'الجذع المشترك', 'lvl.1bac': 'الأولى باكالوريا', 'lvl.2bac': 'الثانية باكالوريا',
-    'chap.geologie': 'الجيولوجيا', 'chap.biologie': 'علم الأحياء', 'chap.genetique': 'الوراثة',
-    'resume': 'النقاط الأساسية للملخص',
-    'c1.title': 'الأرض وبيئتها', 'c1.p1': '<strong>بنية الأرض :</strong> تتكون الأرض من القشرة، الوشاح، والنواة (الداخلية والخارجية).', 'c1.p2': '<strong>الصفائح التكتونية :</strong> الغلاف الصخري مقسم إلى صفائح تتحرك على الغلاف الموري.', 'c1.p3': '<strong>مناطق التباعد :</strong> التلال المحيطية هي مناطق تتباعد فيها الصفائح (التمدد).',
-    'c2.title': 'الوراثة والمعلومات الوراثية', 'c2.p1': '<strong>الحمض النووي والجينات :</strong> الحمض النووي ADN يحمل المعلومات الوراثية. الجين هو تتابع نيوكليوتيدات يرمز لصفة.', 'c2.p2': '<strong>النسخ والترجمة :</strong> يُنسخ ADN إلى ARNm، ثم يُترجم إلى بروتينات في الريبوسومات.', 'c2.p3': '<strong>الطفرات :</strong> الطفرات هي تغيرات في تتابع ADN ويمكن أن تكون مصدراً لتنوعات جديدة.',
-    'c3.title': 'قوانين مندل', 'c3.p1': '<strong>الهجين الواحد :</strong> تهجين سلالتين نقيتين لصفة واحدة. F1 متجانسة، F2 تعطي 3/4 سائدة و 1/4 متنحية.', 'c3.p2': '<strong>الهجين المزدوج :</strong> تهجين لصفتين. نحصل على 4 أنماط ظاهرية في F2 (9:3:3:1).', 'c3.p3': '<strong>التهجين الاختباري :</strong> تهجين مع متماثل الزيجوت متنحٍ لتحديد النمط الجيني لفرد.',
-    'c4.title': 'الجيولوجيا : السلسلة الجبلية', 'c4.p1': '<strong>تكوين الجبال :</strong> عملية تكوين الجبال عن طريق اصطدام صفيحتين صخريتين.', 'c4.p2': '<strong>الطيات والصدوع :</strong> تتشوه الصخور تحت تأثير الضغط (طيات) أو تتكسر (صدوع).'
+    'loading': 'جارٍ التحميل...', 'resume': 'ملخص الدرس', 'noCours': 'لا يوجد أي درس متاح لهذا المستوى حالياً.'
   }
 };
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
   appliquerLangue(currentLang);
   bindEvents();
+  await chargerCours();
   setTimeout(renderMath, 500);
 });
 
@@ -305,6 +174,7 @@ function appliquerLangue(lang) {
     btn.classList.toggle('actif', btn.getAttribute('data-lang') === lang);
   });
   localStorage.setItem('darrssy-lang', lang);
+  if (tousLesCours.length > 0) afficherCours();
   setTimeout(renderMath, 200);
 }
 
@@ -320,6 +190,92 @@ function bindEvents() {
       document.getElementById('level-' + btn.getAttribute('data-level')).classList.add('actif');
     });
   });
+}
+
+// ==========================================
+// CHARGEMENT DES COURS DEPUIS SUPABASE
+// ==========================================
+async function chargerCours() {
+  try {
+    if (typeof lireTable !== 'function') throw new Error("lireTable non chargé");
+    
+    // On récupère uniquement les cours de la matière "svt"
+    tousLesCours = await lireTable('cours', { 
+      filtres: { publie: true, matiere: 'svt' }, 
+      ordre: { col: 'created_at', asc: false } 
+    });
+    
+    afficherCours();
+  } catch (err) {
+    console.error(err);
+    document.getElementById('cours-tronc').innerHTML = `<p style="color:red;">Erreur de chargement: ${err.message}</p>`;
+  }
+}
+
+function afficherCours() {
+  // Vider les conteneurs
+  const containers = {
+    tronc: document.getElementById('cours-tronc'),
+    '1bac': document.getElementById('cours-1bac'),
+    '2bac': document.getElementById('cours-2bac')
+  };
+  
+  Object.values(containers).forEach(c => c.innerHTML = '');
+
+  if (tousLesCours.length === 0) {
+    containers['tronc'].innerHTML = `<p>${trad[currentLang]['noCours']}</p>`;
+    return;
+  }
+
+  tousLesCours.forEach(c => {
+    let niveau = c.niveau;
+    let container = containers[niveau];
+    
+    // Si le niveau est 2bacpc ou 2bacsvt, on le met dans l'onglet 2bac
+    if (niveau === '2bacpc' || niveau === '2bacsvt') {
+      container = containers['2bac'];
+    }
+    
+    if (!container) return; // Sécurité
+
+    const titre = currentLang === 'fr' ? c.titre_fr : (c.titre_ar || c.titre_fr);
+    const desc = currentLang === 'fr' ? (c.description_fr || '') : (c.description_ar || c.description_fr || '');
+    
+    // On crée l'accordéon
+    const accordion = document.createElement('div');
+    accordion.className = 'cours-accordion';
+    accordion.innerHTML = `
+      <div class="cours-header" onclick="toggleAccordion(this)">
+        <div class="cours-header-left">
+          <div class="cours-icon"><i class="fas ${c.icone || 'fa-dna'}"></i></div>
+          <div>
+            <div class="cours-title">${titre}</div>
+            <div class="cours-subtitle">${c.chapitre_fr || 'Général'}</div>
+          </div>
+        </div>
+        <i class="fas fa-chevron-down cours-toggle-icon"></i>
+      </div>
+      <div class="cours-content">
+        <div class="cours-inner">
+          <div class="resume-block">
+            <h4><i class="fas fa-bookmark"></i> ${trad[currentLang]['resume']}</h4>
+            <p>${desc}</p>
+          </div>
+        </div>
+      </div>
+    `;
+    
+    container.appendChild(accordion);
+  });
+  
+  // Si un conteneur est resté vide (aucun cours pour ce niveau)
+  Object.keys(containers).forEach(k => {
+    if (containers[k].innerHTML === '') {
+      containers[k].innerHTML = `<p style="color:var(--gray);">${trad[currentLang]['noCours']}</p>`;
+    }
+  });
+  
+  setTimeout(renderMath, 100);
 }
 
 function toggleAccordion(header) {
@@ -343,6 +299,6 @@ function renderMath() {
   }
 }
 </script>
-  <script data-goatcounter="https://darrssy.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+<script data-goatcounter="https://darrssy.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </body>
 </html>
