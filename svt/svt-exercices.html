@@ -49,36 +49,23 @@ nav { background: var(--white); border-bottom: 2px solid var(--ink); padding: 10
 .level-section.actif { display: block; }
 @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-.chapitre-title { font-size: 1.3rem; font-weight: 600; color: var(--ink); margin: 30px 0 15px; display: flex; align-items: center; gap: 10px; border-bottom: 2px solid var(--border); padding-bottom: 10px; }
-.chapitre-title i { color: var(--accent); }
-
 .exo-card { background: var(--white); border: 2px solid var(--ink); border-radius: var(--radius); margin-bottom: 20px; box-shadow: var(--shadow); overflow: hidden; transition: var(--transition); }
 .exo-card:hover { box-shadow: var(--shadow-lg); border-color: var(--primary-light); }
-
 .exo-header { padding: 20px 25px; border-bottom: 2px dashed var(--border); display: flex; justify-content: space-between; align-items: flex-start; gap: 15px; }
-.exo-num { background: var(--ink); color: var(--accent); font-family: 'JetBrains Mono', monospace; font-weight: 700; padding: 5px 12px; border-radius: var(--radius-sm); font-size: 0.9rem; }
 .exo-titre { font-size: 1.1rem; font-weight: 600; color: var(--ink); flex: 1; }
 .exo-diff { display: flex; gap: 3px; font-size: 0.9rem; color: var(--accent); }
-
 .exo-body { padding: 25px; }
-.exo-enonce { font-size: 1rem; color: var(--ink); margin-bottom: 20px; line-height: 1.7; }
-.exo-enonce strong { color: var(--accent-dark); }
+.exo-actions { display: flex; gap: 15px; flex-wrap: wrap; }
+.btn-pdf { display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; border-radius: var(--radius-sm); font-weight: 600; font-size: 0.9rem; transition: var(--transition); text-decoration: none; border: 2px solid; }
+.btn-pdf.enonce { background: var(--light); border-color: var(--ink); color: var(--ink); }
+.btn-pdf.enonce:hover { background: var(--ink); color: var(--white); }
+.btn-pdf.corrige { background: var(--primary-light); border-color: var(--primary-light); color: var(--white); }
+.btn-pdf.corrige:hover { background: #1e7a6f; border-color: #1e7a6f; }
+.btn-pdf.disabled { background: var(--light); border-color: var(--border); color: var(--gray-light); cursor: not-allowed; opacity: 0.6; }
 
-.btn-solution { background: var(--light); border: 2px solid var(--primary-light); color: var(--primary-light); padding: 10px 20px; border-radius: var(--radius-sm); font-weight: 600; font-size: 0.9rem; cursor: pointer; transition: var(--transition); display: inline-flex; align-items: center; gap: 8px; }
-.btn-solution:hover { background: var(--primary-light); color: var(--white); }
-.btn-solution.active { background: var(--primary-light); color: var(--white); }
-
-.exo-solution { display: none; margin-top: 20px; padding: 20px; background: #fafbfc; border: 2px solid var(--border); border-left: 4px solid var(--success); border-radius: var(--radius-sm); animation: fadeIn 0.3s ease; }
-[dir="rtl"] .exo-solution { border-left: none; border-right: 4px solid var(--success); }
-.exo-solution.show { display: block; }
-.solution-title { font-size: 0.95rem; font-weight: 700; color: var(--success); margin-bottom: 15px; display: flex; align-items: center; gap: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
-.solution-step { margin-bottom: 15px; padding-left: 20px; position: relative; }
-[dir="rtl"] .solution-step { padding-left: 0; padding-right: 20px; }
-.solution-step::before { content: counter(step); counter-increment: step; position: absolute; left: 0; top: 2px; width: 20px; height: 20px; background: var(--primary-light); color: var(--white); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: bold; }
-[dir="rtl"] .solution-step::before { left: auto; right: 0; }
-.exo-solution { counter-reset: step; }
-.solution-step p { font-size: 0.95rem; color: var(--ink); line-height: 1.6; }
-.solution-step strong { color: var(--primary-light); }
+.loading-zone { text-align: center; padding: 60px 20px; color: var(--gray); }
+.loading-zone i { font-size: 2.1rem; color: var(--primary-light); animation: spin 1s linear infinite; display: block; margin-bottom: 15px; }
+@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
 @media (max-width: 768px) {
   nav { padding: 10px 3%; }
@@ -89,21 +76,20 @@ nav { background: var(--white); border-bottom: 2px solid var(--ink); padding: 10
   .lang-btn { padding: 6px 8px; font-size: 0.7rem; }
   .main-content { padding: 20px 4%; }
   .page-title h1 { font-size: 1.6rem; }
-  .page-title p { font-size: 0.9rem; }
   .level-filters { gap: 5px; }
   .level-btn { padding: 8px 12px; font-size: 0.8rem; }
   .exo-header { flex-direction: column; gap: 10px; padding: 15px; }
   .exo-title { font-size: 1rem; }
   .exo-body { padding: 15px; }
-  .exo-enonce { font-size: 0.9rem; }
-  .solution-step p { font-size: 0.85rem; }
+  .exo-actions { flex-direction: column; }
+  .btn-pdf { width: 100%; justify-content: center; }
 }
 </style>
 </head>
 <body>
 
 <nav>
-  <a href="index.html" class="logo">
+  <a href="../index.html" class="logo">
     <div class="logo-img-wrap"><img src="../assets/logo-darrssy.png" alt="DARRSSY"></div>
     <div class="logo-texte"><span class="titre">DARRSSY SVT</span></div>
   </a>
@@ -120,7 +106,7 @@ nav { background: var(--white); border-bottom: 2px solid var(--ink); padding: 10
 <div class="main-content">
   <div class="page-title">
     <h1 data-i18n="title">Exercices de SVT</h1>
-    <p data-i18n="desc">Entraîne-toi avec des exercices corrigés.</p>
+    <p data-i18n="desc">Téléchargez les énoncés et les corrigés des exercices.</p>
   </div>
 
   <div class="level-filters">
@@ -129,146 +115,41 @@ nav { background: var(--white); border-bottom: 2px solid var(--ink); padding: 10
     <button class="level-btn" data-level="2bac" data-i18n="lvl.2bac">2ème Année Bac</button>
   </div>
 
-  <!-- SECTION TRONC COMMUN -->
   <div class="level-section actif" id="level-tronc">
-    <div class="chapitre-title"><i class="fas fa-leaf"></i> <span data-i18n="chap.geologie">Géologie</span></div>
-    
-    <div class="exo-card">
-      <div class="exo-header">
-        <span class="exo-num">EXO 1</span>
-        <div class="exo-titre" data-i18n="e1.title">La structure de la Terre</div>
-        <div class="exo-diff"><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i></div>
-      </div>
-      <div class="exo-body">
-        <div class="exo-enonce" data-i18n="e1.enonce">
-          La Terre est divisée en plusieurs couches.<br>
-          1) Citez les trois couches principales de la Terre.<br>
-          2) Quelle est la différence entre la lithosphère et l'asthénosphère ?
-        </div>
-        <button class="btn-solution" onclick="toggleSolution(this)">
-          <i class="fas fa-eye"></i> <span data-i18n="btn.show">Voir la solution</span>
-        </button>
-        <div class="exo-solution">
-          <div class="solution-title"><i class="fas fa-check-circle"></i> <span data-i18n="solution">Correction</span></div>
-          <div class="solution-step">
-            <p data-i18n="e1.s1"><strong>1) Les trois couches :</strong><br>La croûte (continentale et océanique), le manteau, et le noyau (interne et externe).</p>
-          </div>
-          <div class="solution-step">
-            <p data-i18n="e1.s2"><strong>2) Différence :</strong><br>La lithosphère est la couche rigide de surface (croûte + partie supérieure du manteau). L'asthénosphère est la couche ductile située en dessous, sur laquelle reposent les plaques lithosphériques.</p>
-          </div>
-        </div>
-      </div>
-    </div>
+    <div id="exos-tronc" class="loading-zone"><i class="fas fa-spinner"></i><p data-i18n="loading">Chargement...</p></div>
   </div>
-
-  <!-- SECTION 1 BAC -->
   <div class="level-section" id="level-1bac">
-    <div class="chapitre-title"><i class="fas fa-dna"></i> <span data-i18n="chap.genetique">Génétique</span></div>
-    
-    <div class="exo-card">
-      <div class="exo-header">
-        <span class="exo-num">EXO 2</span>
-        <div class="exo-titre" data-i18n="e2.title">Transcription de l'ADN</div>
-        <div class="exo-diff"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i></div>
-      </div>
-      <div class="exo-body">
-        <div class="exo-enonce" data-i18n="e2.enonce">
-          Soit un brin d'ADN ayant la séquence suivante : <strong>3'- A T G C C A T G - 5'</strong>.<br>
-          1) Donnez la séquence du brin d'ARN messager complémentaire.<br>
-          2) Combien d'acides aminés seront codés par cet ARNm ?
-        </div>
-        <button class="btn-solution" onclick="toggleSolution(this)">
-          <i class="fas fa-eye"></i> <span data-i18n="btn.show">Voir la solution</span>
-        </button>
-        <div class="exo-solution">
-          <div class="solution-title"><i class="fas fa-check-circle"></i> <span data-i18n="solution">Correction</span></div>
-          <div class="solution-step">
-            <p data-i18n="e2.s1"><strong>1) Séquence de l'ARNm :</strong><br>Lors de la transcription, A devient U, T devient A, C devient G, G devient C.<br>La séquence est donc : <strong>5'- U A C G G U A C - 3'</strong>.</p>
-          </div>
-          <div class="solution-step">
-            <p data-i18n="e2.s2"><strong>2) Nombre d'acides aminés :</strong><br>On lit l'ARNm par groupes de 3 nucléotides (codons).<br>UAC - GGU - AC... Il y a donc <strong>2</strong> codons complets (et un dernier incomplet).</p>
-          </div>
-        </div>
-      </div>
-    </div>
+    <div id="exos-1bac" class="loading-zone"><i class="fas fa-spinner"></i><p data-i18n="loading">Chargement...</p></div>
   </div>
-
-  <!-- SECTION 2 BAC -->
   <div class="level-section" id="level-2bac">
-    <div class="chapitre-title"><i class="fas fa-sitemap"></i> <span data-i18n="chap.genetique">Génétique</span></div>
-    
-    <div class="exo-card">
-      <div class="exo-header">
-        <span class="exo-num">EXO 3</span>
-        <div class="exo-titre" data-i18n="e3.title">Monohybridisme chez la souris</div>
-        <div class="exo-diff"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
-      </div>
-      <div class="exo-body">
-        <div class="exo-enonce" data-i18n="e3.enonce">
-          On croise une souris à poil noir (lignée pure) avec une souris à poil blanc (lignée pure).<br>
-          En F1, toutes les souris sont noires.<br>
-          1) Quel est le caractère dominant ?<br>
-          2) En croisant les individus F1 entre eux, quelles seront les proportions phénotypiques en F2 ?
-        </div>
-        <button class="btn-solution" onclick="toggleSolution(this)">
-          <i class="fas fa-eye"></i> <span data-i18n="btn.show">Voir la solution</span>
-        </button>
-        <div class="exo-solution">
-          <div class="solution-title"><i class="fas fa-check-circle"></i> <span data-i18n="solution">Correction</span></div>
-          <div class="solution-step">
-            <p data-i18n="e3.s1"><strong>1) Caractère dominant :</strong><br>Puisque la F1 est 100% noire, le caractère "poil noir" est <strong>dominant</strong>. On le note "N", et le poil blanc "n". Les parents sont donc NN et nn. La F1 est Nn.</p>
-          </div>
-          <div class="solution-step">
-            <p data-i18n="e3.s2"><strong>2) Proportions en F2 :</strong><br>Le croisement F1 x F1 est Nn x Nn.<br>La F2 donne : 1/4 NN, 2/4 Nn, 1/4 nn.<br>Soit <strong>3/4 de souris noires</strong> et <strong>1/4 de souris blanches</strong>.</p>
-          </div>
-        </div>
-      </div>
-    </div>
+    <div id="exos-2bac" class="loading-zone"><i class="fas fa-spinner"></i><p data-i18n="loading">Chargement...</p></div>
   </div>
-
 </div>
 
+<script src="../admin/darrssy-config.js"></script>
 <script>
 let currentLang = localStorage.getItem('darrssy-lang') || 'fr';
+let tousLesExercices = [];
 
 const trad = {
   fr: {
-    'nav.menu': 'Menu', 'nav.home': 'Site',
-    'title': 'Exercices de SVT', 'desc': 'Entraîne-toi avec des exercices corrigés.',
+    'nav.menu': 'Menu', 'nav.home': 'Site', 'title': 'Exercices de SVT', 'desc': 'Téléchargez les énoncés et les corrigés des exercices.',
     'lvl.tronc': 'Tronc Commun', 'lvl.1bac': '1ère Année Bac', 'lvl.2bac': '2ème Année Bac',
-    'chap.geologie': 'Géologie', 'chap.genetique': 'Génétique',
-    'btn.show': 'Voir la solution', 'solution': 'Correction',
-    'e1.title': 'La structure de la Terre', 'e1.enonce': 'La Terre est divisée en plusieurs couches.<br>1) Citez les trois couches principales de la Terre.<br>2) Quelle est la différence entre la lithosphère et l\'asthénosphère ?',
-    'e1.s1': '<strong>1) Les trois couches :</strong><br>La croûte (continentale et océanique), le manteau, et le noyau (interne et externe).',
-    'e1.s2': '<strong>2) Différence :</strong><br>La lithosphère est la couche rigide de surface (croûte + partie supérieure du manteau). L\'asthénosphère est la couche ductile située en dessous, sur laquelle reposent les plaques lithosphériques.',
-    'e2.title': 'Transcription de l\'ADN', 'e2.enonce': 'Soit un brin d\'ADN ayant la séquence suivante : <strong>3\'- A T G C C A T G - 5\'</strong>.<br>1) Donnez la séquence du brin d\'ARN messager complémentaire.<br>2) Combien d\'acides aminés seront codés par cet ARNm ?',
-    'e2.s1': '<strong>1) Séquence de l\'ARNm :</strong><br>Lors de la transcription, A devient U, T devient A, C devient G, G devient C.<br>La séquence est donc : <strong>5\'- U A C G G U A C - 3\'</strong>.',
-    'e2.s2': '<strong>2) Nombre d\'acides aminés :</strong><br>On lit l\'ARNm par groupes de 3 nucléotides (codons).<br>UAC - GGU - AC... Il y a donc <strong>2</strong> codons complets (et un dernier incomplet).',
-    'e3.title': 'Monohybridisme chez la souris', 'e3.enonce': 'On croise une souris à poil noir (lignée pure) avec une souris à poil blanc (lignée pure).<br>En F1, toutes les souris sont noires.<br>1) Quel est le caractère dominant ?<br>2) En croisant les individus F1 entre eux, quelles seront les proportions phénotypiques en F2 ?',
-    'e3.s1': '<strong>1) Caractère dominant :</strong><br>Puisque la F1 est 100% noire, le caractère "poil noir" est <strong>dominant</strong>. On le note "N", et le poil blanc "n". Les parents sont donc NN et nn. La F1 est Nn.',
-    'e3.s2': '<strong>2) Proportions en F2 :</strong><br>Le croisement F1 x F1 est Nn x Nn.<br>La F2 donne : 1/4 NN, 2/4 Nn, 1/4 nn.<br>Soit <strong>3/4 de souris noires</strong> et <strong>1/4 de souris blanches</strong>.'
+    'loading': 'Chargement...', 'noExo': 'Aucun exercice disponible pour ce niveau pour le moment.',
+    'btn.enonce': 'Télécharger l\'énoncé', 'btn.corrige': 'Télécharger le corrigé', 'btn.indispo': 'Indisponible'
   },
   ar: {
-    'nav.menu': 'القائمة', 'nav.home': 'الموقع',
-    'title': 'تمارين علوم الحياة والأرض', 'desc': 'تدرب مع تمارين مصححة.',
+    'nav.menu': 'القائمة', 'nav.home': 'الموقع', 'title': 'تمارين علوم الحياة والأرض', 'desc': 'قم بتحميل نصوص وحلول التمارين.',
     'lvl.tronc': 'الجذع المشترك', 'lvl.1bac': 'الأولى باكالوريا', 'lvl.2bac': 'الثانية باكالوريا',
-    'chap.geologie': 'الجيولوجيا', 'chap.genetique': 'الوراثة',
-    'btn.show': 'عرض الحل', 'solution': 'التصحيح',
-    'e1.title': 'بنية الأرض', 'e1.enonce': 'تنقسم الأرض إلى عدة طبقات.<br>1) اذكر الطبقات الرئيسية الثلاث للأرض.<br>2) ما الفرق بين الغلاف الصخري والغلاف الموري؟',
-    'e1.s1': '<strong>1) الطبقات الثلاث :</strong><br>القشرة (القارية والمحيطية)، الوشاح، والنواة (الداخلية والخارجية).',
-    'e1.s2': '<strong>2) الفرق :</strong><br>الغلاف الصخري هو الطبقة الصلبة السطحية (القشرة + الجزء العلوي من الوشاح). الغلاف الموري هو الطبقة المطاوعة التي تقع تحته، والتي تستقر عليها الصفائح الصخرية.',
-    'e2.title': 'نسخ الحمض النووي DNA', 'e2.enonce': 'ليكن شريط DNA له التسلسل التالي : <strong>3\'- A T G C C A T G - 5\'</strong>.<br>1) أعط تسلسل شريط ARN الرسول المكمل.<br>2) كم عدد الأحماض الأمينية التي سيشفرها هذا ARNm؟',
-    'e2.s1': '<strong>1) تسلسل ARNm :</strong><br>أثناء النسخ، A يصبح U، T يصبح A، C يصبح G، G يصبح C.<br>إذن التسلسل هو : <strong>5\'- U A C G G U A C - 3\'</strong>.',
-    'e2.s2': '<strong>2) عدد الأحماض الأمينية :</strong><br>نقرأ ARNm في مجموعات من 3 نيوكليوتيدات (رامزات).<br>UAC - GGU - AC... إذن هناك <strong>2</strong> رامزات كاملة (والأخيرة غير كاملة).',
-    'e3.title': 'الهجين الواحد عند الفئران', 'e3.enonce': 'نهجن فأراً ذا فراء أسود (سلالة نقية) مع فأرة ذات فراء أبيض (سلالة نقية).<br>في F1، جميع الفئران سوداء.<br>1) ما هي الصفة السائدة؟<br>2) عند تهجين أفراد F1 فيما بينهم، ما هي النسب الظاهرية في F2؟',
-    'e3.s1': '<strong>1) الصفة السائدة :</strong><br>بما أن F1 كلها سوداء، فإن صفة "الفراء الأسود" هي <strong>السائدة</strong>. نرمز لها بـ "N"، والأبيض بـ "n". الآباء هما NN و nn. F1 هي Nn.',
-    'e3.s2': '<strong>2) النسب في F2 :</strong><br>التهجين F1 x F1 هو Nn x Nn.<br>F2 تعطي : 1/4 NN، 2/4 Nn، 1/4 nn.<br>أي <strong>3/4 فئران سوداء</strong> و <strong>1/4 فأرة بيضاء</strong>.'
+    'loading': 'جارٍ التحميل...', 'noExo': 'لا يوجد أي تمرين متاح لهذا المستوى حالياً.',
+    'btn.enonce': 'تحميل النص', 'btn.corrige': 'تحميل الحل', 'btn.indispo': 'غير متوفر'
   }
 };
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
   appliquerLangue(currentLang);
   bindEvents();
+  await chargerExercices();
 });
 
 function appliquerLangue(lang) {
@@ -283,6 +164,7 @@ function appliquerLangue(lang) {
     btn.classList.toggle('actif', btn.getAttribute('data-lang') === lang);
   });
   localStorage.setItem('darrssy-lang', lang);
+  if (tousLesExercices.length > 0) afficherExercices();
 }
 
 function bindEvents() {
@@ -299,19 +181,77 @@ function bindEvents() {
   });
 }
 
-function toggleSolution(btn) {
-  const solution = btn.nextElementSibling;
-  if (solution.classList.contains('show')) {
-    solution.classList.remove('show');
-    btn.innerHTML = '<i class="fas fa-eye"></i> <span data-i18n="btn.show">' + trad[currentLang]['btn.show'] + '</span>';
-    btn.classList.remove('active');
-  } else {
-    solution.classList.add('show');
-    btn.innerHTML = '<i class="fas fa-eye-slash"></i> <span data-i18n="btn.show">Masquer</span>';
-    btn.classList.add('active');
+async function chargerExercices() {
+  try {
+    if (typeof lireTable !== 'function') throw new Error("lireTable non chargé");
+    tousLesExercices = await lireTable('exercices', { 
+      filtres: { publie: true, matiere: 'svt' }, 
+      ordre: { col: 'ordre', asc: true } 
+    });
+    afficherExercices();
+  } catch (err) {
+    console.error(err);
+    document.getElementById('exos-tronc').innerHTML = `<p style="color:red;">Erreur de chargement: ${err.message}</p>`;
   }
 }
+
+function afficherExercices() {
+  const containers = {
+    tronc: document.getElementById('exos-tronc'),
+    '1bac': document.getElementById('exos-1bac'),
+    '2bac': document.getElementById('exos-2bac')
+  };
+  
+  Object.values(containers).forEach(c => c.innerHTML = '');
+
+  if (tousLesExercices.length === 0) {
+    containers['tronc'].innerHTML = `<p>${trad[currentLang]['noExo']}</p>`;
+    return;
+  }
+
+  tousLesExercices.forEach(ex => {
+    let niveau = ex.niveau;
+    let container = containers[niveau];
+    
+    if (niveau === '2bacpc' || niveau === '2bacsvt') container = containers['2bac'];
+    if (!container) return; 
+
+    const titre = currentLang === 'fr' ? ex.titre_fr : (ex.titre_ar || ex.titre_fr);
+    const difficulte = ex.difficulte || 1;
+    const etoiles = [1, 2, 3].map(i => `<i class="fas fa-star${i <= difficulte ? '' : '-o'}"></i>`).join('');
+    
+    let btnEnonce = ex.fichier_url 
+      ? `<a href="${ex.fichier_url}" target="_blank" class="btn-pdf enonce"><i class="fas fa-file-pdf"></i> ${trad[currentLang]['btn.enonce']}</a>`
+      : `<button class="btn-pdf disabled"><i class="fas fa-file-pdf"></i> ${trad[currentLang]['btn.indispo']}</button>`;
+      
+    let btnCorrige = ex.fichier_corrige_url 
+      ? `<a href="${ex.fichier_corrige_url}" target="_blank" class="btn-pdf corrige"><i class="fas fa-check-circle"></i> ${trad[currentLang]['btn.corrige']}</a>`
+      : `<button class="btn-pdf disabled"><i class="fas fa-check-circle"></i> ${trad[currentLang]['btn.indispo']}</button>`;
+
+    const card = document.createElement('div');
+    card.className = 'exo-card';
+    card.innerHTML = `
+      <div class="exo-header">
+        <div class="exo-titre">${titre}</div>
+        <div class="exo-diff">${etoiles}</div>
+      </div>
+      <div class="exo-body">
+        <div class="exo-actions">
+          ${btnEnonce}
+          ${btnCorrige}
+        </div>
+      </div>
+    `;
+    container.appendChild(card);
+  });
+  
+  Object.keys(containers).forEach(k => {
+    if (containers[k].innerHTML === '') {
+      containers[k].innerHTML = `<p style="color:var(--gray);">${trad[currentLang]['noExo']}</p>`;
+    }
+  });
+}
 </script>
-  <script data-goatcounter="https://darrssy.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+<script data-goatcounter="https://darrssy.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </body>
 </html>
