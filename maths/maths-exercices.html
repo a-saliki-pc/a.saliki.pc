@@ -3,13 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Traceur et Analyse de fonctions | DARRSSY Maths</title>
+<title>Exercices de Mathématiques | DARRSSY Maths</title>
 <link rel="icon" type="image/png" href="../assets/logo-darrssy.png">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,500&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.8.0/math.js"></script>
 <style>
-:root { --primary: #16213e; --primary-light: #2a9d8f; --accent: #e8a33d; --ink: #16213e; --gray: #5b6b7a; --gray-light: #93a3b0; --border: #d9d2bb; --light: #faf6ec; --white: #fffdf7; --success: #2a9d8f; --danger: #c0483f; --shadow: 6px 6px 0 rgba(22,33,62,0.08); --shadow-lg: 10px 10px 0 rgba(22,33,62,0.1); --radius: 6px; --radius-sm: 4px; --transition: all 0.25s ease; }
+:root { 
+  --primary: #16213e; --primary-light: #2a9d8f; --accent: #e8a33d; --accent-dark: #c17f1e;
+  --ink: #16213e; --gray: #5b6b7a; --gray-light: #93a3b0; --border: #d9d2bb; --light: #faf6ec; --white: #fffdf7;
+  --success: #2a9d8f; --danger: #c0483f;
+  --shadow: 6px 6px 0 rgba(22,33,62,0.08); --shadow-lg: 10px 10px 0 rgba(22,33,62,0.1);
+  --radius: 6px; --radius-sm: 4px; --transition: all 0.25s ease;
+}
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body { font-family: 'Inter', 'Tajawal', sans-serif; background: linear-gradient(rgba(22,33,62,0.1) 0.5px, transparent 0.5px), linear-gradient(90deg, rgba(22,33,62,0.1) 0.5px, transparent 0.5px), linear-gradient(rgba(22,33,62,0.028) 0.5px, transparent 0.5px), linear-gradient(90deg, rgba(22,33,62,0.028) 0.5px, transparent 0.5px), var(--light); background-size: 50px 50px, 50px 50px, 10px 10px, 10px 10px, auto; color: var(--ink); line-height: 1.6; min-height: 100vh; display: flex; flex-direction: column; }
 [dir="rtl"] body { font-family: 'Tajawal', 'Inter', sans-serif; }
@@ -30,66 +35,63 @@ nav { background: var(--white); border-bottom: 2px solid var(--ink); padding: 10
 .btn-back.secondary { background: transparent; color: var(--ink); border-color: var(--ink); }
 .btn-back.secondary:hover { background: var(--ink); color: var(--white); }
 
-.main-content { flex: 1; padding: 30px 5%; max-width: 1200px; margin: 0 auto; width: 100%; display: flex; flex-direction: column; gap: 20px; }
-.page-title { text-align: center; }
-.page-title h1 { font-size: 2.2rem; margin-bottom: 5px; }
+.main-content { flex: 1; padding: 40px 5%; max-width: 1000px; margin: 0 auto; width: 100%; }
+.page-title { text-align: center; margin-bottom: 30px; }
+.page-title h1 { font-size: 2.2rem; margin-bottom: 10px; }
 .page-title p { color: var(--gray); }
 
-.lab-card { background: var(--white); border: 2px solid var(--ink); border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow-lg); display: flex; flex-direction: column; gap: 15px; }
+.level-filters { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-bottom: 40px; }
+.level-btn { background: var(--white); border: 2px solid var(--ink); color: var(--ink); padding: 10px 20px; border-radius: 50px; font-family: inherit; font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: var(--transition); }
+.level-btn:hover { background: var(--light); }
+.level-btn.actif { background: var(--ink); color: var(--white); }
 
-.quick-examples { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
-.example-btn { background: var(--light); border: 1px solid var(--border); color: var(--ink); padding: 6px 14px; border-radius: 50px; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; cursor: pointer; transition: var(--transition); }
-.example-btn:hover { background: var(--ink); color: var(--white); border-color: var(--ink); }
+.level-section { display: none; animation: fadeIn 0.4s ease; }
+.level-section.actif { display: block; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-.input-group { display: flex; gap: 10px; flex-wrap: wrap; }
-.input-group input { flex: 1; min-width: 250px; padding: 14px 18px; border: 2px solid var(--ink); border-radius: var(--radius-sm); font-family: 'JetBrains Mono', monospace; font-size: 1.1rem; color: var(--ink); background: var(--light); transition: var(--transition); }
-.input-group input:focus { outline: none; border-color: var(--primary-light); box-shadow: 0 0 0 3px rgba(42,157,143,0.2); }
-.btn-calc { background: var(--ink); color: var(--white); border: 2px solid var(--ink); padding: 12px 25px; border-radius: var(--radius-sm); font-weight: 700; font-size: 1rem; cursor: pointer; transition: var(--transition); display: flex; align-items: center; gap: 8px; }
-.btn-calc:hover { background: var(--accent); color: var(--ink); border-color: var(--accent); transform: translateY(-2px); }
+/* CARTE EXERCICE */
+.exo-card { background: var(--white); border: 2px solid var(--ink); border-radius: var(--radius); margin-bottom: 20px; box-shadow: var(--shadow); overflow: hidden; transition: var(--transition); }
+.exo-card:hover { box-shadow: var(--shadow-lg); border-color: var(--primary-light); }
+.exo-header { padding: 20px 25px; border-bottom: 2px dashed var(--border); display: flex; justify-content: space-between; align-items: flex-start; gap: 15px; }
+.exo-num { background: var(--ink); color: var(--accent); font-family: 'JetBrains Mono', monospace; font-weight: 700; padding: 5px 12px; border-radius: var(--radius-sm); font-size: 0.9rem; }
+.exo-titre { font-size: 1.1rem; font-weight: 600; color: var(--ink); flex: 1; }
+.exo-diff { display: flex; gap: 3px; font-size: 0.9rem; color: var(--accent); }
+.exo-body { padding: 25px; }
+.exo-actions { display: flex; gap: 15px; flex-wrap: wrap; }
+.btn-pdf { display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; border-radius: var(--radius-sm); font-weight: 600; font-size: 0.9rem; transition: var(--transition); text-decoration: none; border: 2px solid; }
+.btn-pdf.enonce { background: var(--light); border-color: var(--ink); color: var(--ink); }
+.btn-pdf.enonce:hover { background: var(--ink); color: var(--white); }
+.btn-pdf.corrige { background: var(--primary-light); border-color: var(--primary-light); color: var(--white); }
+.btn-pdf.corrige:hover { background: #1e7a6f; border-color: #1e7a6f; }
+.btn-pdf.disabled { background: var(--light); border-color: var(--border); color: var(--gray-light); cursor: not-allowed; opacity: 0.6; }
 
-/* ANALYSE */
-.analysis-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
-@media (max-width: 900px) { .analysis-grid { grid-template-columns: 1fr; } }
-
-.analysis-card { background: var(--light); border: 2px solid var(--ink); border-radius: var(--radius-sm); padding: 15px 20px; }
-.analysis-card h3 { font-size: 1rem; margin-bottom: 10px; color: var(--ink); display: flex; align-items: center; gap: 8px; border-bottom: 1px dashed var(--border); padding-bottom: 8px; }
-.analysis-card h3 i { color: var(--primary-light); }
-.analysis-card .eq-display { font-family: 'JetBrains Mono', monospace; font-size: 1.1rem; color: var(--accent-dark); font-weight: 700; word-break: break-all; }
-
-/* TABLES */
-.table-container { overflow-x: auto; }
-table.variation-table, table.concavity-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; text-align: center; }
-table.variation-table th, table.variation-table td, table.concavity-table th, table.concavity-table td { border: 1px solid var(--ink); padding: 8px; }
-table.variation-table th, table.concavity-table th { background: var(--ink); color: var(--white); }
-.variation-arrow-up { color: var(--success); font-weight: bold; font-size: 1.2rem; }
-.variation-arrow-down { color: var(--danger); font-weight: bold; font-size: 1.2rem; }
-.concavity-up { color: var(--primary-light); font-weight: bold; }
-.concavity-down { color: var(--accent-dark); font-weight: bold; }
-.double-bar { font-weight: 900; color: var(--ink); letter-spacing: -2px; }
-
-/* CANVAS ZONE */
-.canvas-container { width: 100%; height: 450px; background: #fff; border: 2px solid var(--ink); border-radius: var(--radius-sm); position: relative; overflow: hidden; cursor: grab; touch-action: pan-y; /* Permet le scroll sur mobile */ }
-canvas { width: 100%; height: 100%; display: block; }
-.zoom-controls { position: absolute; bottom: 15px; right: 15px; display: flex; flex-direction: column; gap: 5px; z-index: 10; }
-.zoom-btn { width: 40px; height: 40px; background: var(--white); border: 2px solid var(--ink); border-radius: var(--radius-sm); font-size: 1.2rem; font-weight: bold; color: var(--ink); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: var(--transition); box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-.zoom-btn:hover { background: var(--ink); color: var(--white); }
+.loading-zone { text-align: center; padding: 60px 20px; color: var(--gray); }
+.loading-zone i { font-size: 2.1rem; color: var(--primary-light); animation: spin 1s linear infinite; display: block; margin-bottom: 15px; }
+@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
 @media (max-width: 768px) {
-  .input-group { flex-direction: column; }
-  .btn-calc { width: 100%; justify-content: center; }
-  .canvas-container { height: 350px; }
+  nav { padding: 10px 3%; }
+  .logo-img-wrap { width: 35px; height: 35px; }
+  .logo-texte .titre { font-size: 1rem; }
   .btn-back span { display: none; }
-  .btn-back { padding: 8px 12px; }
-  .page-title h1 { font-size: 1.8rem; }
-  /* Taille des boutons de zoom sur mobile */
-  .zoom-btn { width: 48px; height: 48px; font-size: 1.4rem; }
+  .btn-back { padding: 8px 12px; font-size: 0.8rem; }
+  .lang-btn { padding: 6px 8px; font-size: 0.7rem; }
+  .main-content { padding: 20px 4%; }
+  .page-title h1 { font-size: 1.6rem; }
+  .level-filters { gap: 5px; }
+  .level-btn { padding: 8px 12px; font-size: 0.8rem; }
+  .exo-header { flex-direction: column; gap: 10px; padding: 15px; }
+  .exo-title { font-size: 1rem; }
+  .exo-body { padding: 15px; }
+  .exo-actions { flex-direction: column; }
+  .btn-pdf { width: 100%; justify-content: center; }
 }
 </style>
 </head>
 <body>
 
 <nav>
-  <a href="index.html" class="logo">
+  <a href="../index.html" class="logo">
     <div class="logo-img-wrap"><img src="../assets/logo-darrssy.png" alt="DARRSSY"></div>
     <div class="logo-texte"><span class="titre">DARRSSY Maths</span></div>
   </a>
@@ -105,108 +107,51 @@ canvas { width: 100%; height: 100%; display: block; }
 
 <div class="main-content">
   <div class="page-title">
-    <h1 data-i18n="title">Analyse et Traceur de fonctions</h1>
-    <p data-i18n="desc">Domaine, dérivées, tableau de variation, concavité et courbe en un seul endroit.</p>
+    <h1 data-i18n="title">Exercices de Mathématiques</h1>
+    <p data-i18n="desc">Téléchargez les énoncés et les corrigés des exercices.</p>
   </div>
 
-  <div class="lab-card">
-    <div class="quick-examples">
-      <button class="example-btn" onclick="setFunction('x^2 - 3x + 1')">Polynôme (x²)</button>
-      <button class="example-btn" onclick="setFunction('x^3 - 2x^2 + x - 1')">Polynôme (x³)</button>
-      <button class="example-btn" onclick="setFunction('1/x')">Inverse (1/x)</button>
-      <button class="example-btn" onclick="setFunction('log(x)')">Logarithme (ln x)</button>
-      <button class="example-btn" onclick="setFunction('sqrt(x)')">Racine (√x)</button>
-    </div>
-    
-    <div class="input-group">
-      <input type="text" id="functionInput" placeholder="Ex: x^3 - 2x^2 + x - 1" value="x^3 - 2x^2 + x - 1" onkeypress="if(event.key === 'Enter') analyzeFunction()">
-      <button class="btn-calc" onclick="analyzeFunction()"><i class="fas fa-microscope"></i> <span data-i18n="draw">Analyser & Tracer</span></button>
-    </div>
+  <div class="level-filters">
+    <button class="level-btn actif" data-level="tronc" data-i18n="lvl.tronc">Tronc Commun</button>
+    <button class="level-btn" data-level="1bac" data-i18n="lvl.1bac">1ère Année Bac</button>
+    <button class="level-btn" data-level="2bac" data-i18n="lvl.2bac">2ème Année Bac</button>
+  </div>
 
-    <!-- DOMAINE + DERIVEES -->
-    <div class="analysis-grid">
-      <div class="analysis-card">
-        <h3><i class="fas fa-globe"></i> <span data-i18n="ana.domain">Domaine de définition</span></h3>
-        <div class="eq-display" id="domainDisplay">ℝ</div>
-      </div>
-      <div class="analysis-card">
-        <h3><i class="fas fa-pen-fancy"></i> <span data-i18n="ana.derivative">Dérivée f'(x)</span></h3>
-        <div class="eq-display" id="derivativeDisplay">—</div>
-      </div>
-      <div class="analysis-card">
-        <h3><i class="fas fa-pen-fancy"></i> <span data-i18n="ana.secondDerivative">Dérivée seconde f''(x)</span></h3>
-        <div class="eq-display" id="secondDerivativeDisplay">—</div>
-      </div>
-    </div>
-
-    <div class="analysis-card">
-      <h3><i class="fas fa-table"></i> <span data-i18n="ana.variation">Tableau de variation</span></h3>
-      <div class="table-container" id="variationTableContainer">
-        <p style="color:var(--gray); font-size:0.9rem;">Cliquez sur "Analyser & Tracer" pour générer le tableau.</p>
-      </div>
-    </div>
-
-    <div class="analysis-card">
-      <h3><i class="fas fa-smile"></i> <span data-i18n="ana.concavity">Concavité (f''(x))</span></h3>
-      <div class="table-container" id="concavityTableContainer">
-        <p style="color:var(--gray); font-size:0.9rem;">Cliquez sur "Analyser & Tracer" pour générer la concavité.</p>
-      </div>
-    </div>
-
-    <!-- COURBE -->
-    <div class="canvas-container" id="canvasContainer">
-      <canvas id="mathCanvas"></canvas>
-      <div class="zoom-controls">
-        <button class="zoom-btn" onclick="changeZoom(1.2)"><i class="fas fa-plus"></i></button>
-        <button class="zoom-btn" onclick="changeZoom(0.8)"><i class="fas fa-minus"></i></button>
-        <button class="zoom-btn" onclick="resetZoom()" style="font-size: 0.9rem;"><i class="fas fa-home"></i></button>
-      </div>
-    </div>
-    
-    <div class="hint" data-i18n="hint" style="font-size:0.85rem; color:var(--gray); text-align:center;">
-      Astuce : <code>x^2</code> · <code>exp(x)</code> · <code>log(x)</code> · <code>sqrt(x)</code> — Utilisez la molette pour zoomer.
-    </div>
+  <div class="level-section actif" id="level-tronc">
+    <div id="exos-tronc" class="loading-zone"><i class="fas fa-spinner"></i><p data-i18n="loading">Chargement...</p></div>
+  </div>
+  <div class="level-section" id="level-1bac">
+    <div id="exos-1bac" class="loading-zone"><i class="fas fa-spinner"></i><p data-i18n="loading">Chargement...</p></div>
+  </div>
+  <div class="level-section" id="level-2bac">
+    <div id="exos-2bac" class="loading-zone"><i class="fas fa-spinner"></i><p data-i18n="loading">Chargement...</p></div>
   </div>
 </div>
 
+<script src="../admin/darrssy-config.js"></script>
 <script>
 let currentLang = localStorage.getItem('darrssy-lang') || 'fr';
-let currentScale = 30;
-let currentDomain = { min: -Infinity, max: Infinity };
+let tousLesExercices = [];
 
 const trad = {
   fr: {
-    'nav.menu': 'Menu', 'nav.home': 'Site',
-    'title': 'Analyse et Traceur de fonctions',
-    'desc': 'Domaine, dérivées, tableau de variation, concavité et courbe en un seul endroit.',
-    'draw': 'Analyser & Tracer',
-    'ana.domain': 'Domaine de définition', 'ana.derivative': "Dérivée f'(x)", 'ana.secondDerivative': "Dérivée seconde f''(x)",
-    'ana.variation': 'Tableau de variation', 'ana.concavity': 'Concavité (f\'\'(x))',
-    'hint': 'Astuce : <code>x^2</code> · <code>exp(x)</code> · <code>log(x)</code> · <code>sqrt(x)</code> — Utilisez la molette pour zoomer.',
-    'err.syntax': 'Erreur de syntaxe dans la fonction.',
-    'var.x': 'x', 'var.fx': 'f(x)', 'var.sign': "Signe de f'(x)", 'var.var': 'Variation de f',
-    'conc.x': 'x', 'conc.sign': "Signe de f''(x)", 'conc.shape': 'Forme de la courbe',
-    'conc.convex': 'Convexe (∪)', 'conc.concave': 'Concave (∩)'
+    'nav.menu': 'Menu', 'nav.home': 'Site', 'title': 'Exercices de Mathématiques', 'desc': 'Téléchargez les énoncés et les corrigés des exercices.',
+    'lvl.tronc': 'Tronc Commun', 'lvl.1bac': '1ère Année Bac', 'lvl.2bac': '2ème Année Bac',
+    'loading': 'Chargement...', 'noExo': 'Aucun exercice disponible pour ce niveau pour le moment.',
+    'btn.enonce': 'Télécharger l\'énoncé', 'btn.corrige': 'Télécharger le corrigé', 'btn.indispo': 'Indisponible'
   },
   ar: {
-    'nav.menu': 'القائمة', 'nav.home': 'الموقع',
-    'title': 'تحليل ورسم الدوال',
-    'desc': 'مجال التعريف، الاشتقاق، جدول التغيرات، التقعر والمنحنى في مكان واحد.',
-    'draw': 'تحليل ورسم',
-    'ana.domain': 'مجال التعريف', 'ana.derivative': 'المشتقة f\'(x)', 'ana.secondDerivative': 'المشتقة الثانية f\'\'(x)',
-    'ana.variation': 'جدول التغيرات', 'ana.concavity': 'التقعر (f\'\'(x))',
-    'hint': 'نصيحة: <code>x^2</code> · <code>exp(x)</code> · <code>log(x)</code> · <code>sqrt(x)</code> — استخدم عجلة الفأرة للتكبير.',
-    'err.syntax': 'خطأ في صياغة الدالة.',
-    'var.x': 'x', 'var.fx': 'f(x)', 'var.sign': 'إشارة f\'(x)', 'var.var': 'تغيرات f',
-    'conc.x': 'x', 'conc.sign': 'إشارة f\'\'(x)', 'conc.shape': 'شكل المنحنى',
-    'conc.convex': 'محدب (∪)', 'conc.concave': 'مقعر (∩)'
+    'nav.menu': 'القائمة', 'nav.home': 'الموقع', 'title': 'تمارين الرياضيات', 'desc': 'قم بتحميل نصوص وحلول التمارين.',
+    'lvl.tronc': 'الجذع المشترك', 'lvl.1bac': 'الأولى باكالوريا', 'lvl.2bac': 'الثانية باكالوريا',
+    'loading': 'جارٍ التحميل...', 'noExo': 'لا يوجد أي تمرين متاح لهذا المستوى حالياً.',
+    'btn.enonce': 'تحميل النص', 'btn.corrige': 'تحميل الحل', 'btn.indispo': 'غير متوفر'
   }
 };
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
   appliquerLangue(currentLang);
   bindEvents();
-  setTimeout(analyzeFunction, 200);
+  await chargerExercices();
 });
 
 function appliquerLangue(lang) {
@@ -221,328 +166,95 @@ function appliquerLangue(lang) {
     btn.classList.toggle('actif', btn.getAttribute('data-lang') === lang);
   });
   localStorage.setItem('darrssy-lang', lang);
+  if (tousLesExercices.length > 0) afficherExercices();
 }
 
 function bindEvents() {
-  window.addEventListener('resize', drawFunction);
-  
-  const container = document.getElementById('canvasContainer');
-  
-  // Gestion du zoom molette (PC)
-  container.addEventListener('wheel', (e) => { 
-    e.preventDefault(); 
-    if (e.deltaY < 0) changeZoom(1.1); 
-    else changeZoom(0.9); 
-  }, { passive: false });
-
-  // Gestion du pincement à deux doigts (Mobile) pour le zoom
-  let initialDistance = 0;
-  container.addEventListener('touchstart', (e) => {
-    if (e.touches.length === 2) {
-      initialDistance = Math.hypot(
-        e.touches[0].pageX - e.touches[1].pageX,
-        e.touches[0].pageY - e.touches[1].pageY
-      );
-    }
-  }, { passive: true });
-
-  container.addEventListener('touchmove', (e) => {
-    if (e.touches.length === 2) {
-      e.preventDefault(); // Empêche le zoom de la page web
-      const currentDistance = Math.hypot(
-        e.touches[0].pageX - e.touches[1].pageX,
-        e.touches[0].pageY - e.touches[1].pageY
-      );
-      if (initialDistance > 0) {
-        const factor = currentDistance / initialDistance;
-        if (factor > 1.05) { changeZoom(1.05); initialDistance = currentDistance; } // Zoom in
-        else if (factor < 0.95) { changeZoom(0.95); initialDistance = currentDistance; } // Zoom out
-      }
-    }
-  }, { passive: false });
-}
-
-function setFunction(expr) { document.getElementById('functionInput').value = expr; analyzeFunction(); }
-function changeZoom(factor) { currentScale *= factor; if (currentScale < 5) currentScale = 5; if (currentScale > 200) currentScale = 200; drawFunction(); }
-function resetZoom() { currentScale = 30; drawFunction(); }
-
-// DETECTION DU DOMAINE
-function detectDomain(exprStr) {
-  let domain = { min: -Infinity, max: Infinity, text: 'ℝ' };
-  try {
-    const node = math.parse(exprStr);
-    node.traverse((n) => {
-      if (n.type === 'OperatorNode' && n.op === '/') {
-        let denominator = n.args[1];
-        let roots = findRoots(denominator.toString(), -10, 10, 0.1);
-        if (denominator.toString() === 'x' && roots.length === 0) roots.push(0);
-        if (roots.length > 0) {
-          domain.text = `ℝ \\ {${roots.map(r => Number(r).toFixed(2)).join(', ')}}`;
-          domain.exclusions = roots;
-        }
-      }
-      if (n.type === 'FunctionNode' && (n.fn.name === 'log' || n.fn.name === 'ln')) {
-        let inner = n.args[0];
-        let root = findRoot(inner.toString(), -10, 10, 0.01);
-        if (root !== null) { domain.min = root; domain.text = `]${Number(root).toFixed(2)}, +∞[`; }
-        else { domain.min = 0; domain.text = ']0, +∞['; }
-      }
-      if (n.type === 'FunctionNode' && n.fn.name === 'sqrt') {
-        let inner = n.args[0];
-        let root = findRoot(inner.toString(), -10, 10, 0.01);
-        if (root !== null) { domain.min = root; domain.text = `[${Number(root).toFixed(2)}, +∞[`; }
-        else { domain.min = 0; domain.text = '[0, +∞['; }
-      }
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.addEventListener('click', () => appliquerLangue(btn.getAttribute('data-lang')));
+  });
+  document.querySelectorAll('.level-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.level-btn').forEach(b => b.classList.remove('actif'));
+      btn.classList.add('actif');
+      document.querySelectorAll('.level-section').forEach(s => s.classList.remove('actif'));
+      document.getElementById('level-' + btn.getAttribute('data-level')).classList.add('actif');
     });
-  } catch(e) {}
-  return domain;
-}
-
-function findRoot(exprStr, min, max, step = 0.01) {
-  let lastVal = null, lastX = null;
-  for (let x = min; x <= max; x += step) {
-    try {
-      let val = math.evaluate(exprStr, { x: x });
-      if (isNaN(val)) continue;
-      if (Math.abs(val) < 1e-4) return x;
-      if (lastVal !== null && lastVal * val < 0) return lastX - lastVal * (x - lastX) / (val - lastVal);
-      lastVal = val; lastX = x;
-    } catch(e) { lastVal = null; lastX = null; }
-  }
-  return null;
-}
-
-function findRoots(exprStr, min, max, step = 0.1) {
-  let roots = [];
-  let lastVal = null, lastX = null;
-  for (let x = min; x <= max; x += step) {
-    try {
-      let val = math.evaluate(exprStr, { x: x });
-      if (isNaN(val)) continue;
-      if (lastVal !== null && lastVal * val < 0) {
-        let root = lastX - lastVal * (x - lastX) / (val - lastVal);
-        if (!roots.some(r => Math.abs(r - root) < 0.1)) roots.push(root);
-      }
-      if (Math.abs(val) < 1e-6) { if (!roots.some(r => Math.abs(r - x) < 0.1)) roots.push(x); }
-      lastVal = val; lastX = x;
-    } catch(e) { lastVal = null; lastX = null; }
-  }
-  return roots.sort((a, b) => a - b);
-}
-
-function calcLimit(exprStr, target, direction) {
-  try {
-    if (target === Infinity) return Number(math.evaluate(exprStr, { x: 1e6 })).toFixed(2);
-    if (target === -Infinity) return Number(math.evaluate(exprStr, { x: -1e6 })).toFixed(2);
-    const step = 1e-6;
-    const xVal = direction === 'left' ? target - step : target + step;
-    let val = math.evaluate(exprStr, { x: xVal });
-    if (!isFinite(val)) return val > 0 ? '+∞' : '-∞';
-    return Number(val).toFixed(2);
-  } catch(e) { return '?'; }
-}
-
-// LOGIQUE D'ANALYSE
-function analyzeFunction() {
-  const exprStr = document.getElementById('functionInput').value;
-  const domainDisplay = document.getElementById('domainDisplay');
-  const derivativeDisplay = document.getElementById('derivativeDisplay');
-  const secondDerivativeDisplay = document.getElementById('secondDerivativeDisplay');
-  const variationContainer = document.getElementById('variationTableContainer');
-  const concavityContainer = document.getElementById('concavityTableContainer');
-
-  try {
-    const expr = math.parse(exprStr);
-    const derivative = math.derivative(expr, 'x');
-    const secondDerivative = math.derivative(derivative, 'x');
-
-    currentDomain = detectDomain(exprStr);
-    domainDisplay.textContent = currentDomain.text;
-    derivativeDisplay.textContent = derivative.toString().replace(/\*/g, '·');
-    secondDerivativeDisplay.textContent = secondDerivative.toString().replace(/\*/g, '·');
-
-    generateVariationTable(exprStr, derivative.toString(), variationContainer);
-    generateConcavityTable(secondDerivative.toString(), concavityContainer);
-    drawFunction();
-  } catch (e) {
-    domainDisplay.textContent = '—';
-    derivativeDisplay.textContent = trad[currentLang]['err.syntax'];
-    secondDerivativeDisplay.textContent = trad[currentLang]['err.syntax'];
-  }
-}
-
-function generateVariationTable(exprStr, derivativeStr, container) {
-  const domain = currentDomain;
-  let searchMin = domain.min === -Infinity ? -10 : domain.min + 0.1;
-  let searchMax = domain.max === Infinity ? 10 : domain.max - 0.1;
-  
-  const roots = findRoots(derivativeStr, searchMin, searchMax, 0.1);
-  let points = [];
-  if (domain.min !== -Infinity) points.push({ val: domain.min, type: 'bound' });
-  roots.forEach(r => { if (!points.some(p => Math.abs(p.val - r) < 0.1)) points.push({ val: r, type: 'critical' }); });
-  if (domain.exclusions) domain.exclusions.forEach(ex => { if (!points.some(p => Math.abs(p.val - ex) < 0.1)) points.push({ val: ex, type: 'exclusion' }); });
-  if (domain.max !== Infinity) points.push({ val: domain.max, type: 'bound' });
-  
-  if (points.length === 0) points = [{ val: -10, type: 'bound' }, { val: 10, type: 'bound' }];
-  points.sort((a, b) => a.val - b.val);
-
-  let html = `<table class="variation-table"><tr><th>${trad[currentLang]['var.x']}</th>`;
-  points.forEach(p => {
-    if (p.type === 'bound') html += `<th>${p.val === -Infinity ? '-∞' : (p.val === Infinity ? '+∞' : p.val)}</th>`;
-    else if (p.type === 'exclusion') html += `<th>${p.val}</th>`;
-    else html += `<th>${p.val.toFixed(2)}</th>`;
   });
-  html += `</tr>`;
+}
 
-  html += `<tr><td><strong>${trad[currentLang]['var.sign']}</strong></td>`;
-  for (let i = 0; i < points.length - 1; i++) {
-    if (points[i].type === 'exclusion' || points[i+1].type === 'exclusion') { html += `<td></td>`; continue; }
-    const mid = (points[i].val + points[i+1].val) / 2;
-    let sign = '?';
-    try { const val = math.evaluate(derivativeStr, { x: mid }); sign = val > 0 ? '+' : (val < 0 ? '-' : '0'); } catch(e) {}
-    html += `<td>${sign}</td>`;
+async function chargerExercices() {
+  try {
+    if (typeof lireTable !== 'function') throw new Error("lireTable non chargé");
+    tousLesExercices = await lireTable('exercices', { 
+      filtres: { publie: true, matiere: 'maths' }, 
+      ordre: { col: 'ordre', asc: true } 
+    });
+    afficherExercices();
+  } catch (err) {
+    console.error(err);
+    document.getElementById('exos-tronc').innerHTML = `<p style="color:red;">Erreur de chargement: ${err.message}</p>`;
   }
-  if (points[points.length-1].type !== 'exclusion') html += `<td></td>`;
-  html += `</tr>`;
+}
 
-  html += `<tr><td><strong>${trad[currentLang]['var.var']}</strong></td>`;
-  for (let i = 0; i < points.length - 1; i++) {
-    if (points[i].type === 'exclusion' || points[i+1].type === 'exclusion') { html += `<td class="double-bar">||</td>`; continue; }
-    const mid = (points[i].val + points[i+1].val) / 2;
-    let arrow = '?';
-    try { const val = math.evaluate(derivativeStr, { x: mid }); arrow = val > 0 ? '<span class="variation-arrow-up">↗</span>' : (val < 0 ? '<span class="variation-arrow-down">↘</span>' : '→'); } catch(e) {}
-    html += `<td>${arrow}</td>`;
+function afficherExercices() {
+  const containers = {
+    tronc: document.getElementById('exos-tronc'),
+    '1bac': document.getElementById('exos-1bac'),
+    '2bac': document.getElementById('exos-2bac')
+  };
+  
+  Object.values(containers).forEach(c => c.innerHTML = '');
+
+  if (tousLesExercices.length === 0) {
+    containers['tronc'].innerHTML = `<p>${trad[currentLang]['noExo']}</p>`;
+    return;
   }
-  html += `</tr>`;
 
-  html += `<tr><td><strong>${trad[currentLang]['var.fx']}</strong></td>`;
-  points.forEach((p, idx) => {
-    let val = '';
-    if (p.type === 'bound') {
-      if (p.val === -Infinity) val = calcLimit(exprStr, -Infinity, 'right');
-      else if (p.val === Infinity) val = calcLimit(exprStr, Infinity, 'left');
-      else val = calcLimit(exprStr, p.val, idx === 0 ? 'right' : 'left');
-    } else if (p.type === 'exclusion') {
-      val = '<span class="double-bar">||</span>';
-    } else {
-      try { val = Number(math.evaluate(exprStr, { x: p.val })).toFixed(2); } catch(e) { val = '?'; }
+  tousLesExercices.forEach(ex => {
+    let niveau = ex.niveau;
+    let container = containers[niveau];
+    
+    if (niveau === '2bacpc' || niveau === '2bacsvt') container = containers['2bac'];
+    if (!container) return; 
+
+    const titre = currentLang === 'fr' ? ex.titre_fr : (ex.titre_ar || ex.titre_fr);
+    const difficulte = ex.difficulte || 1;
+    const etoiles = [1, 2, 3].map(i => `<i class="fas fa-star${i <= difficulte ? '' : '-o'}"></i>`).join('');
+    
+    // Boutons de téléchargement
+    let btnEnonce = ex.fichier_url 
+      ? `<a href="${ex.fichier_url}" target="_blank" class="btn-pdf enonce"><i class="fas fa-file-pdf"></i> ${trad[currentLang]['btn.enonce']}</a>`
+      : `<button class="btn-pdf disabled"><i class="fas fa-file-pdf"></i> ${trad[currentLang]['btn.indispo']}</button>`;
+      
+    let btnCorrige = ex.fichier_corrige_url 
+      ? `<a href="${ex.fichier_corrige_url}" target="_blank" class="btn-pdf corrige"><i class="fas fa-check-circle"></i> ${trad[currentLang]['btn.corrige']}</a>`
+      : `<button class="btn-pdf disabled"><i class="fas fa-check-circle"></i> ${trad[currentLang]['btn.indispo']}</button>`;
+
+    const card = document.createElement('div');
+    card.className = 'exo-card';
+    card.innerHTML = `
+      <div class="exo-header">
+        <div class="exo-titre">${titre}</div>
+        <div class="exo-diff">${etoiles}</div>
+      </div>
+      <div class="exo-body">
+        <div class="exo-actions">
+          ${btnEnonce}
+          ${btnCorrige}
+        </div>
+      </div>
+    `;
+    container.appendChild(card);
+  });
+  
+  Object.keys(containers).forEach(k => {
+    if (containers[k].innerHTML === '') {
+      containers[k].innerHTML = `<p style="color:var(--gray);">${trad[currentLang]['noExo']}</p>`;
     }
-    html += `<td>${val}</td>`;
   });
-  html += `</tr></table>`;
-  container.innerHTML = html;
-}
-
-function generateConcavityTable(secondDerivativeStr, container) {
-  const domain = currentDomain;
-  let searchMin = domain.min === -Infinity ? -10 : domain.min + 0.1;
-  let searchMax = domain.max === Infinity ? 10 : domain.max - 0.1;
-  
-  const roots = findRoots(secondDerivativeStr, searchMin, searchMax, 0.1);
-  let points = [];
-  if (domain.min !== -Infinity) points.push({ val: domain.min, type: 'bound' });
-  roots.forEach(r => { if (!points.some(p => Math.abs(p.val - r) < 0.1)) points.push({ val: r, type: 'inflection' }); });
-  if (domain.exclusions) domain.exclusions.forEach(ex => { if (!points.some(p => Math.abs(p.val - ex) < 0.1)) points.push({ val: ex, type: 'exclusion' }); });
-  if (domain.max !== Infinity) points.push({ val: domain.max, type: 'bound' });
-  
-  if (points.length === 0) points = [{ val: -10, type: 'bound' }, { val: 10, type: 'bound' }];
-  points.sort((a, b) => a.val - b.val);
-
-  let html = `<table class="concavity-table"><tr><th>${trad[currentLang]['conc.x']}</th>`;
-  points.forEach(p => {
-    if (p.type === 'bound') html += `<th>${p.val === -Infinity ? '-∞' : (p.val === Infinity ? '+∞' : p.val)}</th>`;
-    else if (p.type === 'exclusion') html += `<th>${p.val}</th>`;
-    else html += `<th>${p.val.toFixed(2)}</th>`;
-  });
-  html += `</tr>`;
-
-  html += `<tr><td><strong>${trad[currentLang]['conc.sign']}</strong></td>`;
-  for (let i = 0; i < points.length - 1; i++) {
-    if (points[i].type === 'exclusion' || points[i+1].type === 'exclusion') { html += `<td></td>`; continue; }
-    const mid = (points[i].val + points[i+1].val) / 2;
-    let sign = '?';
-    try { const val = math.evaluate(secondDerivativeStr, { x: mid }); sign = val > 0 ? '+' : (val < 0 ? '-' : '0'); } catch(e) {}
-    html += `<td>${sign}</td>`;
-  }
-  if (points[points.length-1].type !== 'exclusion') html += `<td></td>`;
-  html += `</tr>`;
-
-  html += `<tr><td><strong>${trad[currentLang]['conc.shape']}</strong></td>`;
-  for (let i = 0; i < points.length - 1; i++) {
-    if (points[i].type === 'exclusion' || points[i+1].type === 'exclusion') { html += `<td class="double-bar">||</td>`; continue; }
-    const mid = (points[i].val + points[i+1].val) / 2;
-    let shape = '?';
-    try {
-      const val = math.evaluate(secondDerivativeStr, { x: mid });
-      shape = val > 0 ? `<span class="concavity-up">${trad[currentLang]['conc.convex']}</span>` : `<span class="concavity-down">${trad[currentLang]['conc.concave']}</span>`;
-    } catch(e) {}
-    html += `<td>${shape}</td>`;
-  }
-  html += `</tr></table>`;
-  container.innerHTML = html;
-}
-
-// DESSIN DU GRAPHIQUE (Adapté Mobile)
-function drawFunction() {
-  const canvas = document.getElementById('mathCanvas');
-  if (!canvas) return;
-  const ctx = canvas.getContext('2d');
-  
-  // Utilisation de getBoundingClientRect pour une taille précise sur mobile
-  const rect = canvas.getBoundingClientRect();
-  const dpr = window.devicePixelRatio || 1;
-  
-  // Si le canvas a une taille de 0 (car caché), on s'arrête
-  if (rect.width === 0 || rect.height === 0) return;
-
-  canvas.width = rect.width * dpr;
-  canvas.height = rect.height * dpr;
-  ctx.scale(dpr, dpr);
-  
-  const w = rect.width;
-  const h = rect.height;
-  const expr = document.getElementById('functionInput').value;
-  
-  ctx.clearRect(0, 0, w, h);
-  
-  const originX = w / 2;
-  const originY = h / 2;
-  const scale = currentScale;
-  
-  let gridStep = scale;
-  
-  ctx.strokeStyle = 'rgba(22, 33, 62, 0.08)';
-  ctx.lineWidth = 1;
-  
-  for (let x = originX % gridStep; x < w; x += gridStep) {
-    ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke();
-  }
-  for (let y = originY % gridStep; y < h; y += gridStep) {
-    ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke();
-  }
-  
-  ctx.strokeStyle = '#16213e'; ctx.lineWidth = 2;
-  ctx.beginPath(); ctx.moveTo(0, originY); ctx.lineTo(w, originY); ctx.stroke();
-  ctx.beginPath(); ctx.moveTo(originX, 0); ctx.lineTo(originX, h); ctx.stroke();
-  
-  ctx.fillStyle = '#16213e'; ctx.font = '12px "JetBrains Mono", monospace'; ctx.textAlign = 'center'; ctx.textBaseline = 'top';
-  for (let x = originX % gridStep; x < w; x += gridStep) { const val = Math.round((x - originX) / scale); if (val !== 0) ctx.fillText(val, x, originY + 5); }
-  ctx.textAlign = 'right'; ctx.textBaseline = 'middle';
-  for (let y = originY % gridStep; y < h; y += gridStep) { const val = Math.round((originY - y) / scale); if (val !== 0) ctx.fillText(val, originX - 8, y); }
-  ctx.textAlign = 'right'; ctx.textBaseline = 'top'; ctx.fillText('0', originX - 5, originY + 5);
-  
-  ctx.strokeStyle = '#e8a33d'; ctx.lineWidth = 3; ctx.shadowColor = '#e8a33d'; ctx.shadowBlur = 6; ctx.beginPath();
-  let firstPoint = true;
-  for(let px = 0; px < w; px++) {
-    const mathX = (px - originX) / scale; let mathY;
-    try { mathY = math.evaluate(expr, { x: mathX }); } catch (e) { mathY = NaN; }
-    if (isNaN(mathY) || !isFinite(mathY)) { firstPoint = true; continue; }
-    const py = originY - (mathY * scale);
-    if (firstPoint) { ctx.moveTo(px, py); firstPoint = false; } else { ctx.lineTo(px, py); }
-  }
-  ctx.stroke(); ctx.shadowBlur = 0;
 }
 </script>
-  <script data-goatcounter="https://darrssy.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+<script data-goatcounter="https://darrssy.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </body>
 </html>
