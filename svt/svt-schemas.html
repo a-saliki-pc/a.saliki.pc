@@ -21,7 +21,7 @@ body { font-family: 'Inter', 'Tajawal', sans-serif; background: linear-gradient(
 a { text-decoration: none; color: inherit; }
 h1, h2, h3 { font-family: 'Fraunces', 'Tajawal', serif; }
 
-nav { background: var(--white); border-bottom: 2px solid var(--ink); padding: 10px 5%; display: flex; justify-content: space-between; align-items: center; }
+nav { background: var(--white); border-bottom: 2px solid var(--ink); padding: 10px 5%; display: flex; justify-content: space-between; align-items: center; position: relative; }
 .logo { display: flex; align-items: center; gap: 12px; }
 .logo-img-wrap { width: 40px; height: 40px; border-radius: 50%; background: var(--white); padding: 2px; border: 2px solid var(--ink); }
 .logo-img-wrap img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
@@ -34,6 +34,31 @@ nav { background: var(--white); border-bottom: 2px solid var(--ink); padding: 10
 .btn-back:hover { background: var(--white); color: var(--ink); }
 .btn-back.secondary { background: transparent; color: var(--ink); border-color: var(--ink); }
 .btn-back.secondary:hover { background: var(--ink); color: var(--white); }
+
+/* NAV LINKS */
+.nav-links { display: flex; gap: 18px; list-style: none; align-items: center; margin: 0; padding: 0; }
+.nav-links a { color: var(--ink); font-weight: 500; font-size: 0.92rem; transition: color 0.25s; position: relative; padding: 4px 0; }
+.nav-links a:hover, .nav-links a.actif { color: var(--primary-light); }
+.nav-links a::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background: var(--accent); transition: width 0.25s; }
+.nav-links a:hover::after, .nav-links a.actif::after { width: 100%; }
+.nav-links a.actif { font-weight: 700; }
+.menu-toggle { display: none; font-size: 1.3rem; cursor: pointer; color: var(--ink); background: none; border: none; padding: 5px; }
+
+@media (max-width: 991px) {
+  .menu-toggle { display: block; }
+  .nav-links {
+    position: absolute; top: 100%; left: 0; right: 0;
+    background: var(--white);
+    flex-direction: column;
+    padding: 20px; gap: 15px;
+    border-bottom: 2px solid var(--ink);
+    box-shadow: var(--shadow-lg);
+    display: none;
+    z-index: 1000;
+  }
+  .nav-links.active { display: flex; }
+  .nav-links a { font-size: 1rem; width: 100%; text-align: center; }
+}
 
 .main-content { flex: 1; padding: 40px 5%; max-width: 1100px; margin: 0 auto; width: 100%; }
 .page-title { text-align: center; margin-bottom: 40px; }
@@ -166,13 +191,21 @@ nav { background: var(--white); border-bottom: 2px solid var(--ink); padding: 10
     <div class="logo-img-wrap"><img src="../assets/logo-darrssy.png" alt="DARRSSY"></div>
     <div class="logo-texte"><span class="titre">DARRSSY SVT</span></div>
   </a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="index.html" data-i18n="nav.svt_home">Accueil</a></li>
+    <li><a href="svt-cours.html" data-i18n="nav.cours">Cours</a></li>
+    <li><a href="svt-exercices.html" data-i18n="nav.exercices">Exercices</a></li>
+    <li><a href="svt-examens.html" data-i18n="nav.examens">Examens</a></li>
+    <li><a href="svt-schemas.html" class="actif" data-i18n="nav.schemas">Schémas</a></li>
+    <li><a href="svt-formules.html" data-i18n="nav.formules">Lois & Formules</a></li>
+  </ul>
   <div class="nav-right">
     <div class="lang-switcher">
       <button class="lang-btn actif" data-lang="fr">FR</button>
       <button class="lang-btn" data-lang="ar">AR</button>
     </div>
-    <a href="index.html" class="btn-back secondary"><i class="fas fa-th-large"></i> <span data-i18n="nav.menu">Menu</span></a>
     <a href="../index.html" class="btn-back"><i class="fas fa-home"></i> <span data-i18n="nav.home">Site</span></a>
+    <button class="menu-toggle" id="menuToggle" aria-label="Menu"><i class="fas fa-bars"></i></button>
   </div>
 </nav>
 
@@ -897,6 +930,7 @@ let currentLang = localStorage.getItem('darrssy-lang') || 'fr';
 const trad = {
   fr: {
     'nav.menu': 'Menu', 'nav.home': 'Site',
+    'nav.svt_home': 'Accueil', 'nav.cours': 'Cours', 'nav.exercices': 'Exercices', 'nav.examens': 'Examens', 'nav.schemas': 'Schémas', 'nav.formules': 'Lois & Formules',
     'title': 'Schémas Animés de SVT', 'desc': 'Cliquez sur un schéma pour l\'agrandir. Survolez les éléments pour voir les explications.',
     's1.title': 'La Faille Normale', 's1.desc': '<strong>Faille normale :</strong> Créée par une force d\'extension. Le compartiment supérieur monte relativement par rapport au compartiment inférieur. Les couches de roches (grès, calcaire, argile) sont décalées le long du plan de faille.',
     's2.title': 'Les Plis Géologiques', 's2.desc': '<strong>Plis :</strong> Créés par une force de <strong>compression</strong>. L\'<strong>anticlinal</strong> est convexe (bosse). Le <strong>synclinal</strong> est concave (creux). Le plan axial divise le pli en deux flancs.',
@@ -910,6 +944,7 @@ const trad = {
   },
   ar: {
     'nav.menu': 'القائمة', 'nav.home': 'الموقع',
+    'nav.svt_home': 'الرئيسية', 'nav.cours': 'الدروس', 'nav.exercices': 'التمارين', 'nav.examens': 'الامتحانات', 'nav.schemas': 'الرسوم التفاعلية', 'nav.formules': 'القوانين والصيغ',
     'title': 'رسوم متحركة لعلوم الحياة والأرض', 'desc': 'انقر على رسم لتكبيره. مرر الماوس فوق العناصر لرؤية الشروحات.',
     's1.title': 'الصدع العادي', 's1.desc': '<strong>الصدع العادي :</strong> ينشأ بفعل قوة تمدد. ترتفع الكتلة العلوية نسبيًا مقارنة بالكتلة السفلية. تتزحزح طبقات الصخور (حجر رملي، حجر جيري، صلصال) على طول مستوى الصدع.',
     's2.title': 'الطيات الجيولوجية', 's2.desc': '<strong>الطيات :</strong> تنشأ بفعل قوة <strong>ضغط</strong>. <strong>المحدب</strong> هو انتفاخ. <strong>المقعر</strong> هو تجويف. المستوى المحوري يقسم الطية إلى جناحين.',
@@ -949,6 +984,23 @@ function bindEvents() {
   document.querySelectorAll('.lang-btn').forEach(btn => {
     btn.addEventListener('click', () => appliquerLangue(btn.getAttribute('data-lang')));
   });
+  const menuToggle = document.getElementById('menuToggle');
+  const navLinks = document.getElementById('navLinks');
+  if (menuToggle && navLinks) {
+    menuToggle.addEventListener('click', () => {
+      navLinks.classList.toggle('active');
+      const icon = menuToggle.querySelector('i');
+      if (icon) {
+        if (navLinks.classList.contains('active')) {
+          icon.classList.remove('fa-bars');
+          icon.classList.add('fa-times');
+        } else {
+          icon.classList.remove('fa-times');
+          icon.classList.add('fa-bars');
+        }
+      }
+    });
+  }
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') closeModal(e);
   });
