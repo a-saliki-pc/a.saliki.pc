@@ -21,7 +21,7 @@ body { font-family: 'Inter', 'Tajawal', sans-serif; background: linear-gradient(
 a { text-decoration: none; color: inherit; }
 h1, h2, h3 { font-family: 'Fraunces', 'Tajawal', serif; }
 
-nav { background: var(--white); border-bottom: 2px solid var(--ink); padding: 10px 5%; display: flex; justify-content: space-between; align-items: center; }
+nav { background: var(--white); border-bottom: 2px solid var(--ink); padding: 10px 5%; display: flex; justify-content: space-between; align-items: center; position: relative; }
 .logo { display: flex; align-items: center; gap: 12px; }
 .logo-img-wrap { width: 40px; height: 40px; border-radius: 50%; background: var(--white); padding: 2px; border: 2px solid var(--ink); }
 .logo-img-wrap img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
@@ -34,6 +34,31 @@ nav { background: var(--white); border-bottom: 2px solid var(--ink); padding: 10
 .btn-back:hover { background: var(--white); color: var(--ink); }
 .btn-back.secondary { background: transparent; color: var(--ink); border-color: var(--ink); }
 .btn-back.secondary:hover { background: var(--ink); color: var(--white); }
+
+/* NAV LINKS */
+.nav-links { display: flex; gap: 18px; list-style: none; align-items: center; margin: 0; padding: 0; }
+.nav-links a { color: var(--ink); font-weight: 500; font-size: 0.92rem; transition: color 0.25s; position: relative; padding: 4px 0; }
+.nav-links a:hover, .nav-links a.actif { color: var(--primary-light); }
+.nav-links a::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background: var(--accent); transition: width 0.25s; }
+.nav-links a:hover::after, .nav-links a.actif::after { width: 100%; }
+.nav-links a.actif { font-weight: 700; }
+.menu-toggle { display: none; font-size: 1.3rem; cursor: pointer; color: var(--ink); background: none; border: none; padding: 5px; }
+
+@media (max-width: 991px) {
+  .menu-toggle { display: block; }
+  .nav-links {
+    position: absolute; top: 100%; left: 0; right: 0;
+    background: var(--white);
+    flex-direction: column;
+    padding: 20px; gap: 15px;
+    border-bottom: 2px solid var(--ink);
+    box-shadow: var(--shadow-lg);
+    display: none;
+    z-index: 1000;
+  }
+  .nav-links.active { display: flex; }
+  .nav-links a { font-size: 1rem; width: 100%; text-align: center; }
+}
 
 .main-content { flex: 1; padding: 40px 5%; max-width: 1000px; margin: 0 auto; width: 100%; }
 .page-title { text-align: center; margin-bottom: 30px; }
@@ -91,17 +116,26 @@ nav { background: var(--white); border-bottom: 2px solid var(--ink); padding: 10
 <body>
 
 <nav>
-  <a href="../index.html" class="logo">
+  <a href="index.html" class="logo">
     <div class="logo-img-wrap"><img src="../assets/logo-darrssy.png" alt="DARRSSY"></div>
     <div class="logo-texte"><span class="titre">DARRSSY Maths</span></div>
   </a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="index.html" data-i18n="nav.maths_home">Accueil</a></li>
+    <li><a href="maths-cours.html" data-i18n="nav.cours">Cours</a></li>
+    <li><a href="maths-exercices.html" class="actif" data-i18n="nav.exercices">Exercices</a></li>
+    <li><a href="maths-examens.html" data-i18n="nav.examens">Examens</a></li>
+    <li><a href="traceur-graphe.html" data-i18n="nav.traceur">Traceur</a></li>
+    <li><a href="calculateur-limites.html" data-i18n="nav.limites">Limites</a></li>
+    <li><a href="maths-formules.html" data-i18n="nav.formules">Formules</a></li>
+  </ul>
   <div class="nav-right">
     <div class="lang-switcher">
       <button class="lang-btn actif" data-lang="fr">FR</button>
       <button class="lang-btn" data-lang="ar">AR</button>
     </div>
-    <a href="index.html" class="btn-back secondary"><i class="fas fa-th-large"></i> <span data-i18n="nav.menu">Menu</span></a>
     <a href="../index.html" class="btn-back"><i class="fas fa-home"></i> <span data-i18n="nav.home">Site</span></a>
+    <button class="menu-toggle" id="menuToggle" aria-label="Menu"><i class="fas fa-bars"></i></button>
   </div>
 </nav>
 
@@ -135,13 +169,13 @@ let tousLesExercices = [];
 
 const trad = {
   fr: {
-    'nav.menu': 'Menu', 'nav.home': 'Site', 'title': 'Exercices de Mathématiques', 'desc': 'Téléchargez les énoncés et les corrigés des exercices.',
+    'nav.menu': 'Menu', 'nav.home': 'Site', 'nav.maths_home': 'Accueil', 'nav.cours': 'Cours', 'nav.exercices': 'Exercices', 'nav.examens': 'Examens', 'nav.traceur': 'Traceur', 'nav.limites': 'Limites', 'nav.formules': 'Formules', 'title': 'Exercices de Mathématiques', 'desc': 'Téléchargez les énoncés et les corrigés des exercices.',
     'lvl.tronc': 'Tronc Commun', 'lvl.1bac': '1ère Année Bac', 'lvl.2bac': '2ème Année Bac',
     'loading': 'Chargement...', 'noExo': 'Aucun exercice disponible pour ce niveau pour le moment.',
     'btn.enonce': 'Télécharger l\'énoncé', 'btn.corrige': 'Télécharger le corrigé', 'btn.indispo': 'Indisponible'
   },
   ar: {
-    'nav.menu': 'القائمة', 'nav.home': 'الموقع', 'title': 'تمارين الرياضيات', 'desc': 'قم بتحميل نصوص وحلول التمارين.',
+    'nav.menu': 'القائمة', 'nav.home': 'الموقع', 'nav.maths_home': 'الرئيسية', 'nav.cours': 'الدروس', 'nav.exercices': 'التمارين', 'nav.examens': 'الامتحانات', 'nav.traceur': 'راسم الدوال', 'nav.limites': 'حاسبة النهايات', 'nav.formules': 'الصيغ', 'title': 'تمارين الرياضيات', 'desc': 'قم بتحميل نصوص وحلول التمارين.',
     'lvl.tronc': 'الجذع المشترك', 'lvl.1bac': 'الأولى باكالوريا', 'lvl.2bac': 'الثانية باكالوريا',
     'loading': 'جارٍ التحميل...', 'noExo': 'لا يوجد أي تمرين متاح لهذا المستوى حالياً.',
     'btn.enonce': 'تحميل النص', 'btn.corrige': 'تحميل الحل', 'btn.indispo': 'غير متوفر'
@@ -181,6 +215,23 @@ function bindEvents() {
       document.getElementById('level-' + btn.getAttribute('data-level')).classList.add('actif');
     });
   });
+  const menuToggle = document.getElementById('menuToggle');
+  const navLinks = document.getElementById('navLinks');
+  if (menuToggle && navLinks) {
+    menuToggle.addEventListener('click', () => {
+      navLinks.classList.toggle('active');
+      const icon = menuToggle.querySelector('i');
+      if (icon) {
+        if (navLinks.classList.contains('active')) {
+          icon.classList.remove('fa-bars');
+          icon.classList.add('fa-times');
+        } else {
+          icon.classList.remove('fa-times');
+          icon.classList.add('fa-bars');
+        }
+      }
+    });
+  }
 }
 
 async function chargerExercices() {
@@ -220,7 +271,7 @@ function afficherExercices() {
 
     const titre = currentLang === 'fr' ? ex.titre_fr : (ex.titre_ar || ex.titre_fr);
     const difficulte = ex.difficulte || 1;
-    const etoiles = [1, 2, 3].map(i => `<i class="fas fa-star${i <= difficulte ? '' : '-o'}"></i>`).join('');
+    const etoiles = [1, 2, 3].map(i => `<i class="${i <= difficulte ? 'fas' : 'far'} fa-star"></i>`).join('');
     
     // Boutons de téléchargement
     let btnEnonce = ex.fichier_url 
