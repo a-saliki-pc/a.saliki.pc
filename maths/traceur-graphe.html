@@ -202,7 +202,7 @@ td.interval-cell { font-size: 0.9rem; letter-spacing: 1px; }
 .canvas-wrapper { position: relative; }
 .canvas-container {
   width: 100%; height: 500px; background: var(--white); border: 2px solid var(--ink);
-  border-radius: var(--radius-sm); position: relative; overflow: hidden;
+  border-radius: var(--radius) var(--radius) 0 0; position: relative; overflow: hidden;
   cursor: crosshair; touch-action: none; transition: background 0.3s;
 }
 canvas { width: 100%; height: 100%; display: block; }
@@ -237,6 +237,120 @@ canvas { width: 100%; height: 100%; display: block; }
 }
 .legend-item { display: flex; align-items: center; gap: 8px; }
 .legend-color { width: 20px; height: 3px; border-radius: 2px; flex-shrink: 0; }
+
+/* CANVAS BOTTOM BAR (Formule sous la courbe) */
+.canvas-bottom-bar {
+  background: var(--white);
+  border: 2px solid var(--ink);
+  border-top: none;
+  border-radius: 0 0 var(--radius) var(--radius);
+  padding: 12px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  box-shadow: var(--shadow);
+  transition: background 0.3s;
+}
+.bottom-bar-label {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--gray);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'JetBrains Mono', monospace;
+  white-space: nowrap;
+}
+.bottom-bar-items {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+  flex: 1;
+}
+.formula-pill {
+  background: var(--light);
+  border: 1.5px solid var(--ink);
+  border-left: 5px solid var(--fn-color, var(--accent));
+  padding: 6px 14px;
+  border-radius: var(--radius-sm);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--ink);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 2px 2px 0 rgba(22,33,62,0.06);
+}
+.formula-pill strong {
+  color: var(--primary-light);
+}
+
+/* MATH SHORTCUTS KEYPAD */
+.math-shortcuts-bar {
+  background: var(--light);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  transition: var(--transition);
+}
+.shortcuts-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--primary-light);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+.shortcuts-buttons {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.math-sym-btn {
+  background: var(--white);
+  border: 1.5px solid var(--ink);
+  color: var(--ink);
+  padding: 6px 11px;
+  border-radius: var(--radius-sm);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--transition);
+  box-shadow: 2px 2px 0 rgba(22,33,62,0.06);
+  user-select: none;
+}
+.math-sym-btn:hover {
+  background: var(--accent);
+  color: var(--ink);
+  border-color: var(--accent-dark);
+  transform: translateY(-2px);
+  box-shadow: 2px 4px 0 rgba(22,33,62,0.12);
+}
+.math-sym-btn:active {
+  transform: translateY(0);
+}
+.math-sym-btn.btn-hl {
+  background: var(--ink);
+  color: var(--white);
+  border-color: var(--ink);
+}
+.math-sym-btn.btn-hl:hover {
+  background: var(--primary-light);
+  color: var(--white);
+  border-color: var(--primary-light);
+}
 
 /* RESPONSIVE */
 @media (max-width: 768px) {
@@ -302,6 +416,30 @@ canvas { width: 100%; height: 100%; display: block; }
       <div class="function-row" data-index="0">
         <div class="color-swatch" style="background:#e8a33d;"></div>
         <input type="text" placeholder="Ex: x^3 - 2*x^2 + x - 1" value="x^3 - 2*x^2 + x - 1">
+      </div>
+    </div>
+
+    <!-- Math shortcuts keypad -->
+    <div class="math-shortcuts-bar">
+      <span class="shortcuts-label"><i class="fas fa-calculator"></i> <span data-i18n="shortcuts.title">Insérer :</span></span>
+      <div class="shortcuts-buttons">
+        <button type="button" class="math-sym-btn btn-hl" onclick="insertMath('sqrt()', 5)" title="Racine carrée (√x)">√x</button>
+        <button type="button" class="math-sym-btn btn-hl" onclick="insertMath('exp()', 4)" title="Exponentielle (eˣ)">eˣ</button>
+        <button type="button" class="math-sym-btn btn-hl" onclick="insertMath('ln()', 3)" title="Logarithme népérien (ln)">ln(x)</button>
+        <button type="button" class="math-sym-btn" onclick="insertMath('^2')" title="Carré (x²)">x²</button>
+        <button type="button" class="math-sym-btn" onclick="insertMath('^3')" title="Cube (x³)">x³</button>
+        <button type="button" class="math-sym-btn" onclick="insertMath('^')" title="Puissance (xⁿ)">xⁿ</button>
+        <button type="button" class="math-sym-btn" onclick="insertMath('1/()', 3)" title="Inverse (1/x)">1/x</button>
+        <button type="button" class="math-sym-btn" onclick="insertMath('abs()', 4)" title="Valeur absolue (|x|)">|x|</button>
+        <button type="button" class="math-sym-btn" onclick="insertMath('sin()', 4)" title="Sinus">sin</button>
+        <button type="button" class="math-sym-btn" onclick="insertMath('cos()', 4)" title="Cosinus">cos</button>
+        <button type="button" class="math-sym-btn" onclick="insertMath('tan()', 4)" title="Tangente">tan</button>
+        <button type="button" class="math-sym-btn" onclick="insertMath('pi')" title="Pi (π)">π</button>
+        <button type="button" class="math-sym-btn" onclick="insertMath('()', 1)" title="Parenthèses">( )</button>
+        <button type="button" class="math-sym-btn" onclick="insertMath('+')">+</button>
+        <button type="button" class="math-sym-btn" onclick="insertMath('-')">−</button>
+        <button type="button" class="math-sym-btn" onclick="insertMath('*')">×</button>
+        <button type="button" class="math-sym-btn" onclick="insertMath('/')">/</button>
       </div>
     </div>
 
@@ -375,6 +513,11 @@ canvas { width: 100%; height: 100%; display: block; }
           <button class="zoom-btn" onclick="resetView()" title="Réinitialiser"><i class="fas fa-home"></i></button>
         </div>
       </div>
+      <!-- BANDEAU FORMULE SOUS LE GRAPHE (Visible pour les captures d'écran) -->
+      <div class="canvas-bottom-bar" id="canvasBottomBar">
+        <span class="bottom-bar-label"><i class="fas fa-chart-line"></i> <span data-i18n="graph.fnLabel">Fonction(s) affichée(s) :</span></span>
+        <div class="bottom-bar-items" id="bottomBarItems"></div>
+      </div>
     </div>
 
     <div class="hint" data-i18n="hint" style="font-size:0.85rem; color:var(--gray); text-align:center;">
@@ -401,6 +544,15 @@ let detectedRoots = [];
 const COLORS = ['#e8a33d', '#2a9d8f', '#c0483f', '#6c5ce7', '#00b894'];
 const DERIVATIVE_DASH = [8, 5];
 
+// Configure math.js to recognize ln as natural logarithm
+try {
+  if (typeof math !== 'undefined' && math.import) {
+    math.import({
+      ln: function(x) { return Math.log(x); }
+    }, { override: true });
+  }
+} catch(e) {}
+
 // ============================================================
 // I18N
 // ============================================================
@@ -411,6 +563,8 @@ const trad = {
     'desc': 'Domaine, dérivées, asymptotes, racines, tableau de variation, concavité et courbe — tout en un.',
     'draw': 'Analyser & Tracer', 'addFn': 'Ajouter f(x)', 'export': 'Exporter PNG',
     'showDeriv': "Afficher f'(x)",
+    'shortcuts.title': 'Insérer :',
+    'graph.fnLabel': 'Fonction(s) affichée(s) :',
     'ana.domain': 'Domaine de définition', 'ana.derivative': "Dérivée f'(x)",
     'ana.secondDerivative': "Dérivée seconde f''(x)",
     'ana.roots': 'Racines (f(x) = 0)', 'ana.yintercept': "Ordonnée à l'origine",
@@ -435,6 +589,8 @@ const trad = {
     'desc': 'مجال التعريف، الاشتقاق، المقاربات، الجذور، جدول التغيرات، التقعر والمنحنى — الكل في واحد.',
     'draw': 'تحليل ورسم', 'addFn': 'إضافة دالة', 'export': 'تصدير PNG',
     'showDeriv': "عرض f'(x)",
+    'shortcuts.title': 'إدراج :',
+    'graph.fnLabel': 'الدالة (الدوال) المعروضة :',
     'ana.domain': 'مجال التعريف', 'ana.derivative': "المشتقة f'(x)",
     'ana.secondDerivative': "المشتقة الثانية f''(x)",
     'ana.roots': 'الجذور (f(x) = 0)', 'ana.yintercept': 'ترتيبة المبدأ',
@@ -482,6 +638,11 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('toggleDerivative').addEventListener('change', (e) => {
     showDerivative = e.target.checked;
     drawAll();
+    updateBottomBar();
+  });
+  // Prevent shortcut buttons from stealing input focus
+  document.querySelectorAll('.math-sym-btn').forEach(btn => {
+    btn.addEventListener('mousedown', (e) => e.preventDefault());
   });
   // Keyboard shortcut
   document.addEventListener('keydown', (e) => {
@@ -559,6 +720,105 @@ function loadExample(expr) {
   const firstInput = document.querySelector('.function-row input');
   firstInput.value = expr;
   analyzeAll();
+}
+
+// ============================================================
+// MATH INPUT HELPERS & KEYPAD
+// ============================================================
+let activeInput = null;
+
+function getActiveInput() {
+  if (activeInput && document.body.contains(activeInput)) return activeInput;
+  const inputs = document.querySelectorAll('.function-row input');
+  return inputs[0] || null;
+}
+
+document.addEventListener('focusin', (e) => {
+  if (e.target && e.target.matches && e.target.matches('.function-row input')) {
+    activeInput = e.target;
+  }
+});
+
+function insertMath(text, cursorOffset) {
+  const input = getActiveInput();
+  if (!input) return;
+  input.focus();
+  const start = input.selectionStart !== null ? input.selectionStart : input.value.length;
+  const end = input.selectionEnd !== null ? input.selectionEnd : input.value.length;
+  const val = input.value;
+
+  if (start !== end && text.endsWith('()')) {
+    const selected = val.substring(start, end);
+    const prefix = text.slice(0, -1);
+    const replacement = prefix + selected + ')';
+    input.value = val.substring(0, start) + replacement + val.substring(end);
+    const newPos = start + replacement.length;
+    input.setSelectionRange(newPos, newPos);
+  } else {
+    input.value = val.substring(0, start) + text + val.substring(end);
+    const newPos = (cursorOffset !== undefined) ? start + cursorOffset : start + text.length;
+    input.setSelectionRange(newPos, newPos);
+  }
+}
+
+function cleanMathExpr(raw) {
+  if (!raw) return '';
+  let s = String(raw).trim();
+  // Standardize unicode minus, dashes, multiplication, and division
+  s = s.replace(/[\u2212\u2013\u2014]/g, '-');
+  s = s.replace(/[×\u00D7\u22C5]/g, '*');
+  s = s.replace(/[÷]/g, '/');
+  // Superscripts
+  s = s.replace(/²/g, '^2').replace(/³/g, '^3').replace(/⁴/g, '^4');
+  // π
+  s = s.replace(/π/g, 'pi');
+  // Square roots: √(expr) or √x or √3 -> sqrt(...)
+  s = s.replace(/√\s*\(([^)]+)\)/g, 'sqrt($1)');
+  s = s.replace(/√\s*([a-zA-Z0-9_]+)/g, 'sqrt($1)');
+  s = s.replace(/√/g, 'sqrt');
+  // e^x or e^(expr) -> exp(...)
+  s = s.replace(/\be\s*\^\s*\(([^)]+)\)/g, 'exp($1)');
+  s = s.replace(/\be\s*\^\s*([a-zA-Z0-9_]+)/g, 'exp($1)');
+  // ln(expr) -> log(expr) (mathjs uses log as natural log ln)
+  s = s.replace(/\bln\s*\(/g, 'log(');
+  return s;
+}
+
+function escapeHtml(str) {
+  if (!str) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
+function updateBottomBar() {
+  const bar = document.getElementById('canvasBottomBar');
+  const itemsContainer = document.getElementById('bottomBarItems');
+  if (!bar || !itemsContainer) return;
+
+  const valid = parsedFunctions.filter(f => !f.error);
+  if (valid.length === 0) {
+    itemsContainer.innerHTML = '<span style="color:var(--gray); font-size:0.85rem; font-style:italic;">Aucune fonction tracée</span>';
+    return;
+  }
+
+  itemsContainer.innerHTML = valid.map((fn, idx) => {
+    const displayLabel = valid.length > 1 ? `f<sub>${idx + 1}</sub>(x)` : 'f(x)';
+    const displayExpr = escapeHtml(fn.rawExpr || fn.exprStr);
+    let derivHtml = '';
+    if (showDerivative && fn.derivativeStr) {
+      derivHtml = `<span style="opacity:0.85; margin-left:8px; font-size:0.82rem;">| f'${valid.length > 1 ? '<sub>' + (idx + 1) + '</sub>' : ''}(x) = ${escapeHtml(fn.derivativeStr)}</span>`;
+    }
+    return `
+      <div class="formula-pill">
+        <span class="pill-dot" style="background:${fn.color};"></span>
+        <span><strong>${displayLabel}</strong> = ${displayExpr}${derivHtml}</span>
+      </div>
+    `;
+  }).join('');
 }
 
 // ============================================================
@@ -687,7 +947,11 @@ function detectDomain(exprStr) {
 }
 
 function safeEval(expr, x) {
-  try { const v = math.evaluate(expr, { x }); return (isNaN(v) || !isFinite(v)) ? null : v; } catch(e) { return null; }
+  try {
+    const v = math.evaluate(expr, { x });
+    if (typeof v !== 'number') return null;
+    return (isNaN(v) || !isFinite(v)) ? null : v;
+  } catch(e) { return null; }
 }
 
 function fmt(n) {
@@ -751,21 +1015,22 @@ function analyzeAll() {
 
   rows.forEach((row, i) => {
     const input = row.querySelector('input');
-    const exprStr = input.value.trim();
-    if (!exprStr) return;
+    const rawExpr = input.value.trim();
+    if (!rawExpr) return;
+    const exprStr = cleanMathExpr(rawExpr);
     try {
       const expr = math.parse(exprStr);
       const derivative = math.derivative(expr, 'x');
       let secondDerivative;
       try { secondDerivative = math.derivative(derivative, 'x'); } catch(e) { secondDerivative = null; }
       parsedFunctions.push({
-        exprStr, expr,
+        rawExpr, exprStr, expr,
         derivative, derivativeStr: derivative.toString(),
         secondDerivative, secondDerivativeStr: secondDerivative ? secondDerivative.toString() : null,
         color: COLORS[i % COLORS.length]
       });
     } catch(e) {
-      parsedFunctions.push({ exprStr, error: true, color: COLORS[i % COLORS.length] });
+      parsedFunctions.push({ rawExpr, exprStr, error: true, color: COLORS[i % COLORS.length] });
     }
   });
 
@@ -779,6 +1044,8 @@ function analyzeAll() {
     document.getElementById('yInterceptDisplay').textContent = '—';
     document.getElementById('asymptotesDisplay').textContent = '—';
     drawAll();
+    updateLegend();
+    updateBottomBar();
     return;
   }
 
@@ -826,6 +1093,7 @@ function analyzeAll() {
   // Draw
   drawAll();
   updateLegend();
+  updateBottomBar();
 }
 
 // ============================================================
@@ -995,7 +1263,8 @@ function updateLegend() {
   const legend = document.getElementById('canvasLegend');
   if (parsedFunctions.length === 0) { legend.innerHTML = ''; return; }
   legend.innerHTML = parsedFunctions.filter(f => !f.error).map((f, i) => {
-    const label = parsedFunctions.length > 1 ? `f<sub>${i+1}</sub>(x) = ${truncate(f.exprStr, 18)}` : `f(x) = ${truncate(f.exprStr, 22)}`;
+    const displayVal = f.rawExpr || f.exprStr;
+    const label = parsedFunctions.length > 1 ? `f<sub>${i+1}</sub>(x) = ${truncate(displayVal, 18)}` : `f(x) = ${truncate(displayVal, 22)}`;
     return `<div class="legend-item"><div class="legend-color" style="background:${f.color};"></div><span>${label}</span></div>`;
   }).join('');
 }
@@ -1278,6 +1547,59 @@ function drawAll() {
       }
     }
   }
+
+  // Draw formula badge at bottom-left of canvas (captured in screenshots & PNG export)
+  const validFns = parsedFunctions.filter(fn => !fn.error);
+  if (validFns.length > 0) {
+    const padY = 7;
+    const padX = 12;
+    const lineHeight = 19;
+    const badgeH = validFns.length * lineHeight + padY * 2;
+    
+    ctx.font = '600 12px "JetBrains Mono", Menlo, Consolas, monospace';
+    let maxW = 0;
+    const lines = validFns.map((fn, idx) => {
+      const label = validFns.length > 1 ? `f${idx + 1}(x) = ` : 'f(x) = ';
+      const text = label + (fn.rawExpr || fn.exprStr);
+      const m = ctx.measureText(text);
+      if (m.width > maxW) maxW = m.width;
+      return { text, color: fn.color };
+    });
+
+    const badgeW = Math.min(maxW + padX * 2 + 18, w - 24);
+    const badgeX = 12;
+    const badgeY = h - badgeH - 12;
+
+    ctx.save();
+    ctx.fillStyle = isDark ? 'rgba(26, 30, 46, 0.90)' : 'rgba(255, 253, 247, 0.92)';
+    ctx.strokeStyle = isDark ? 'rgba(255, 255, 255, 0.15)' : 'rgba(0, 0, 0, 0.12)';
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    if (ctx.roundRect) {
+      ctx.roundRect(badgeX, badgeY, badgeW, badgeH, 6);
+    } else {
+      ctx.rect(badgeX, badgeY, badgeW, badgeH);
+    }
+    ctx.fill();
+    ctx.stroke();
+
+    lines.forEach((l, i) => {
+      const lineY = badgeY + padY + (i + 1) * lineHeight - 5;
+      // Colored bullet dot
+      ctx.fillStyle = l.color;
+      ctx.beginPath();
+      ctx.arc(badgeX + padX + 4, lineY - 4, 3.5, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Text formula
+      ctx.fillStyle = isDark ? '#e4e7ee' : '#1e2430';
+      ctx.font = '600 12px "JetBrains Mono", Menlo, Consolas, monospace';
+      ctx.textAlign = 'left';
+      ctx.textBaseline = 'alphabetic';
+      ctx.fillText(l.text, badgeX + padX + 14, lineY, badgeW - padX * 2 - 16);
+    });
+    ctx.restore();
+  }
 }
 
 function drawCurve(ctx, exprStr, color, w, h, originX, originY, scale, isDashed) {
@@ -1295,7 +1617,7 @@ function drawCurve(ctx, exprStr, color, w, h, originX, originY, scale, isDashed)
     const mathX = (px - originX) / scale;
     let mathY;
     try { mathY = math.evaluate(exprStr, { x: mathX }); } catch(e) { mathY = NaN; }
-    if (isNaN(mathY) || !isFinite(mathY)) { firstPoint = true; lastPy = null; continue; }
+    if (typeof mathY !== 'number' || isNaN(mathY) || !isFinite(mathY)) { firstPoint = true; lastPy = null; continue; }
     const py = originY - (mathY * scale);
     // Detect discontinuity (large jump)
     if (lastPy !== null && Math.abs(py - lastPy) > h * 0.8) { firstPoint = true; }
