@@ -37,6 +37,31 @@ nav { position: fixed; top: 0; left: 0; right: 0; background: rgba(250, 246, 236
 .btn-back { background: var(--ink); color: var(--white); padding: 8px 18px; border-radius: var(--radius-sm); font-weight: 600; font-size: 0.9rem; transition: var(--transition); display: flex; align-items: center; gap: 6px; border: 2px solid var(--ink); }
 .btn-back:hover { background: var(--white); color: var(--ink); }
 
+/* NAV LINKS */
+.nav-links { display: flex; gap: 18px; list-style: none; align-items: center; margin: 0; padding: 0; }
+.nav-links a { color: var(--ink); font-weight: 500; font-size: 0.92rem; transition: color 0.25s; position: relative; padding: 4px 0; }
+.nav-links a:hover, .nav-links a.actif { color: var(--primary-light); }
+.nav-links a::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background: var(--accent); transition: width 0.25s; }
+.nav-links a:hover::after, .nav-links a.actif::after { width: 100%; }
+.nav-links a.actif { font-weight: 700; }
+.menu-toggle { display: none; font-size: 1.3rem; cursor: pointer; color: var(--ink); background: none; border: none; padding: 5px; }
+
+@media (max-width: 991px) {
+  .menu-toggle { display: block; }
+  .nav-links {
+    position: absolute; top: 100%; left: 0; right: 0;
+    background: var(--white);
+    flex-direction: column;
+    padding: 20px; gap: 15px;
+    border-bottom: 2px solid var(--ink);
+    box-shadow: var(--shadow-lg);
+    display: none;
+    z-index: 1000;
+  }
+  .nav-links.active { display: flex; }
+  .nav-links a { font-size: 1rem; width: 100%; text-align: center; }
+}
+
 .hero-svt { min-height: 50vh; background: var(--gradient); display: flex; align-items: center; justify-content: center; padding: 130px 5% 60px; color: var(--white); text-align: center; position: relative; overflow: hidden; }
 .hero-svt::before { content: ''; position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px); background-size: 44px 44px; pointer-events: none; }
 .hero-content { position: relative; z-index: 2; max-width: 800px; }
@@ -82,12 +107,21 @@ nav { position: fixed; top: 0; left: 0; right: 0; background: rgba(250, 246, 236
       <span class="arabe">دَرْسِي</span>
     </div>
   </a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="index.html" class="actif" data-i18n="nav.svt_home">Accueil</a></li>
+    <li><a href="svt-cours.html" data-i18n="nav.cours">Cours</a></li>
+    <li><a href="svt-exercices.html" data-i18n="nav.exercices">Exercices</a></li>
+    <li><a href="svt-examens.html" data-i18n="nav.examens">Examens</a></li>
+    <li><a href="svt-schemas.html" data-i18n="nav.schemas">Schémas</a></li>
+    <li><a href="svt-formules.html" data-i18n="nav.formules">Lois & Formules</a></li>
+  </ul>
   <div class="nav-right">
     <div class="lang-switcher">
       <button class="lang-btn actif" data-lang="fr">FR</button>
       <button class="lang-btn" data-lang="ar">AR</button>
     </div>
-    <a href="../index.html" class="btn-back"><i class="fas fa-arrow-left"></i> <span data-i18n="nav.back">Retour au site</span></a>
+    <a href="../index.html" class="btn-back"><i class="fas fa-home"></i> <span data-i18n="nav.back">Retour au site</span></a>
+    <button class="menu-toggle" id="menuToggle" aria-label="Menu"><i class="fas fa-bars"></i></button>
   </div>
 </nav>
 
@@ -157,6 +191,7 @@ let currentLang = localStorage.getItem('darrssy-lang') || 'fr';
 const trad = {
   fr: {
     'nav.back': 'Retour au site',
+    'nav.svt_home': 'Accueil', 'nav.cours': 'Cours', 'nav.exercices': 'Exercices', 'nav.examens': 'Examens', 'nav.schemas': 'Schémas', 'nav.formules': 'Lois & Formules',
     'hero.title1': 'Espace', 'hero.title2': 'SVT',
     'hero.desc': 'Explorez les Sciences de la Vie et de la Terre : cours, exercices, examens, schémas interactifs et fiches de révision.',
     'dash.title': 'Que veux-tu faire aujourd\'hui ?', 'dash.desc': 'Choisis une section pour commencer à réviser ou à explorer.',
@@ -169,6 +204,7 @@ const trad = {
   },
   ar: {
     'nav.back': 'العودة للموقع',
+    'nav.svt_home': 'الرئيسية', 'nav.cours': 'الدروس', 'nav.exercices': 'التمارين', 'nav.examens': 'الامتحانات', 'nav.schemas': 'الرسوم التفاعلية', 'nav.formules': 'القوانين والصيغ',
     'hero.title1': 'فضاء', 'hero.title2': 'علوم الحياة والأرض',
     'hero.desc': 'استكشف علوم الحياة والأرض: دروس، تمارين، امتحانات، رسوم تفاعلية وبطاقات مراجعة لجميع المستويات.',
     'dash.title': 'ماذا تريد أن تفعل اليوم؟', 'dash.desc': 'اختر قسماً لتبدأ المراجعة أو الاستكشاف.',
@@ -204,6 +240,23 @@ function bindEvents() {
   document.querySelectorAll('.lang-btn').forEach(btn => {
     btn.addEventListener('click', () => appliquerLangue(btn.getAttribute('data-lang')));
   });
+  const menuToggle = document.getElementById('menuToggle');
+  const navLinks = document.getElementById('navLinks');
+  if (menuToggle && navLinks) {
+    menuToggle.addEventListener('click', () => {
+      navLinks.classList.toggle('active');
+      const icon = menuToggle.querySelector('i');
+      if (icon) {
+        if (navLinks.classList.contains('active')) {
+          icon.classList.remove('fa-bars');
+          icon.classList.add('fa-times');
+        } else {
+          icon.classList.remove('fa-times');
+          icon.classList.add('fa-bars');
+        }
+      }
+    });
+  }
 }
 </script>
 <script data-goatcounter="https://darrssy.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
