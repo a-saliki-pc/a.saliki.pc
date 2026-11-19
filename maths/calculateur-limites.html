@@ -4,71 +4,231 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Calculateur de limites | DARRSSY Maths</title>
+<meta name="description" content="Calculez les limites de fonctions mathématiques avec méthode détaillée pas à pas, règles de factorisation, L'Hôpital, limites usuelles, tableau de valeurs et aperçu graphique.">
 <link rel="icon" type="image/png" href="../assets/logo-darrssy.png">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,500&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<!-- KaTeX pour le rendu mathématique professionnel -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<!-- Math.js pour le calcul formel, symbolique et numérique -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.8.0/math.js"></script>
+
 <style>
-:root { --primary: #16213e; --primary-light: #2a9d8f; --accent: #e8a33d; --ink: #16213e; --gray: #5b6b7a; --gray-light: #93a3b0; --border: #d9d2bb; --light: #faf6ec; --white: #fffdf7; --shadow: 6px 6px 0 rgba(22,33,62,0.08); --shadow-lg: 10px 10px 0 rgba(22,33,62,0.1); --radius: 6px; --radius-sm: 4px; --transition: all 0.25s ease; }
+:root {
+  --primary: #16213e; --primary-light: #2a9d8f; --accent: #e8a33d; --accent-dark: #c17f1e;
+  --ink: #16213e; --gray: #5b6b7a; --gray-light: #93a3b0; --border: #d9d2bb;
+  --light: #faf6ec; --white: #fffdf7; --success: #2a9d8f; --danger: #c0483f;
+  --shadow: 6px 6px 0 rgba(22,33,62,0.08); --shadow-lg: 10px 10px 0 rgba(22,33,62,0.1);
+  --radius: 6px; --radius-sm: 4px; --transition: all 0.25s ease;
+}
 * { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: 'Inter', 'Tajawal', sans-serif; background: linear-gradient(rgba(22,33,62,0.1) 0.5px, transparent 0.5px), linear-gradient(90deg, rgba(22,33,62,0.1) 0.5px, transparent 0.5px), linear-gradient(rgba(22,33,62,0.028) 0.5px, transparent 0.5px), linear-gradient(90deg, rgba(22,33,62,0.028) 0.5px, transparent 0.5px), var(--light); background-size: 50px 50px, 50px 50px, 10px 10px, 10px 10px, auto; color: var(--ink); line-height: 1.6; min-height: 100vh; display: flex; flex-direction: column; }
+body {
+  font-family: 'Inter', 'Tajawal', sans-serif;
+  background: linear-gradient(rgba(22,33,62,0.1) 0.5px, transparent 0.5px),
+              linear-gradient(90deg, rgba(22,33,62,0.1) 0.5px, transparent 0.5px),
+              linear-gradient(rgba(22,33,62,0.028) 0.5px, transparent 0.5px),
+              linear-gradient(90deg, rgba(22,33,62,0.028) 0.5px, transparent 0.5px),
+              var(--light);
+  background-size: 50px 50px, 50px 50px, 10px 10px, 10px 10px, auto;
+  color: var(--ink); line-height: 1.6; min-height: 100vh; display: flex; flex-direction: column;
+}
 [dir="rtl"] body { font-family: 'Tajawal', 'Inter', sans-serif; }
 a { text-decoration: none; color: inherit; }
 h1, h2, h3 { font-family: 'Fraunces', 'Tajawal', serif; }
 
-nav { background: var(--white); border-bottom: 2px solid var(--ink); padding: 10px 5%; display: flex; justify-content: space-between; align-items: center; }
+/* NAV */
+nav {
+  background: var(--white); border-bottom: 2px solid var(--ink); padding: 10px 5%;
+  display: flex; justify-content: space-between; align-items: center;
+}
 .logo { display: flex; align-items: center; gap: 12px; }
 .logo-img-wrap { width: 40px; height: 40px; border-radius: 50%; background: var(--white); padding: 2px; border: 2px solid var(--ink); }
 .logo-img-wrap img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
 .logo-texte .titre { font-family: 'Fraunces', serif; font-size: 1.2rem; font-weight: 700; }
 .nav-right { display: flex; align-items: center; gap: 10px; }
+.lang-switcher { display: flex; background: var(--white); border: 2px solid var(--ink); border-radius: var(--radius-sm); overflow: hidden; }
+.lang-btn { background: transparent; border: none; color: var(--ink); font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; font-weight: 700; padding: 6px 12px; cursor: pointer; transition: var(--transition); }
+.lang-btn.actif { background: var(--ink); color: var(--white); }
 .btn-back { background: var(--ink); color: var(--white); padding: 8px 18px; border-radius: var(--radius-sm); font-weight: 600; font-size: 0.9rem; transition: var(--transition); display: flex; align-items: center; gap: 6px; border: 2px solid var(--ink); }
 .btn-back:hover { background: var(--white); color: var(--ink); }
 .btn-back.secondary { background: transparent; color: var(--ink); border-color: var(--ink); }
 .btn-back.secondary:hover { background: var(--ink); color: var(--white); }
 
-.main-content { flex: 1; padding: 40px 5%; max-width: 900px; margin: 0 auto; width: 100%; }
-.page-title { text-align: center; margin-bottom: 30px; }
+/* MAIN */
+.main-content { flex: 1; padding: 40px 5%; max-width: 980px; margin: 0 auto; width: 100%; display: flex; flex-direction: column; gap: 20px; }
+.page-title { text-align: center; margin-bottom: 10px; }
 .page-title h1 { font-size: 2.2rem; margin-bottom: 10px; }
-.page-title p { color: var(--gray); }
+.page-title p { color: var(--gray); font-size: 1.05rem; }
 
-.lab-card { background: var(--white); border: 2px solid var(--ink); border-radius: var(--radius); padding: 30px; box-shadow: var(--shadow-lg); }
+.lab-card {
+  background: var(--white); border: 2px solid var(--ink); border-radius: var(--radius);
+  padding: 30px; box-shadow: var(--shadow-lg); display: flex; flex-direction: column; gap: 20px;
+}
 
-.input-group { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
-.input-group input, .input-group select { padding: 14px 18px; border: 2px solid var(--ink); border-radius: var(--radius-sm); font-family: 'JetBrains Mono', monospace; font-size: 1.1rem; color: var(--ink); background: var(--light); transition: var(--transition); }
-.input-group input { flex: 2; min-width: 250px; }
-.input-group select { flex: 1; min-width: 150px; cursor: pointer; }
-.input-group input:focus, .input-group select:focus { outline: none; border-color: var(--primary-light); box-shadow: 0 0 0 3px rgba(42,157,143,0.2); }
-.btn-calc { background: var(--ink); color: var(--white); border: 2px solid var(--ink); padding: 14px 25px; border-radius: var(--radius-sm); font-weight: 700; font-size: 1rem; cursor: pointer; transition: var(--transition); display: flex; align-items: center; justify-content: center; gap: 8px; }
+/* Quick examples categorized */
+.quick-examples { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
+.example-btn {
+  background: var(--light); border: 1.5px solid var(--border); color: var(--ink);
+  padding: 7px 14px; border-radius: 50px; font-family: 'JetBrains Mono', monospace;
+  font-size: 0.8rem; cursor: pointer; transition: var(--transition); display: inline-flex;
+  align-items: center; gap: 6px;
+}
+.example-btn:hover { background: var(--ink); color: var(--white); border-color: var(--ink); transform: translateY(-1px); }
+.example-btn .badge-ex {
+  font-size: 0.65rem; background: rgba(42, 157, 143, 0.15); color: var(--primary-light);
+  padding: 1px 6px; border-radius: 4px; font-family: 'Inter', sans-serif; font-weight: 700;
+}
+.example-btn:hover .badge-ex { background: rgba(255, 255, 255, 0.25); color: #fff; }
+
+/* Inputs */
+.input-group { display: flex; gap: 10px; flex-wrap: wrap; }
+.input-group input, .input-group select {
+  padding: 14px 18px; border: 2px solid var(--ink); border-radius: var(--radius-sm);
+  font-family: 'JetBrains Mono', monospace; font-size: 1.05rem; color: var(--ink);
+  background: var(--light); transition: var(--transition);
+}
+.input-group input { flex: 2; min-width: 220px; }
+.input-group select { flex: 1; min-width: 140px; cursor: pointer; }
+.input-group input:focus, .input-group select:focus {
+  outline: none; border-color: var(--primary-light); box-shadow: 0 0 0 3px rgba(42,157,143,0.2);
+}
+
+.custom-target-row { display: none; align-items: center; gap: 10px; }
+.custom-target-row.visible { display: flex; }
+.custom-target-row label { font-size: 0.9rem; font-weight: 600; color: var(--gray); white-space: nowrap; }
+.custom-target-row input {
+  flex: 1; padding: 10px 14px; border: 2px solid var(--ink); border-radius: var(--radius-sm);
+  font-family: 'JetBrains Mono', monospace; font-size: 1rem; color: var(--ink); background: var(--light); max-width: 220px;
+}
+.custom-target-row input:focus { outline: none; border-color: var(--primary-light); box-shadow: 0 0 0 3px rgba(42,157,143,0.2); }
+
+.btn-calc {
+  background: var(--ink); color: var(--white); border: 2px solid var(--ink); padding: 14px 28px;
+  border-radius: var(--radius-sm); font-weight: 700; font-size: 1rem; cursor: pointer;
+  transition: var(--transition); display: flex; align-items: center; justify-content: center; gap: 8px;
+}
 .btn-calc:hover { background: var(--accent); color: var(--ink); border-color: var(--accent); transform: translateY(-2px); }
 
-.result-container { display: none; margin-top: 25px; animation: fadeIn 0.4s ease; }
+/* Results */
+.result-container { display: none; animation: fadeIn 0.4s ease; }
 .result-container.visible { display: block; }
 @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-.result-header { background: var(--ink); color: var(--white); padding: 20px; border-radius: var(--radius) var(--radius) 0 0; text-align: center; }
-.result-header .lbl { font-size: 0.85rem; color: var(--accent); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; font-family: 'JetBrains Mono', monospace; }
-.result-header .val { font-family: 'Fraunces', serif; font-size: 2.5rem; font-weight: 700; }
-.method-box { background: #fff; border: 2px solid var(--ink); border-top: none; border-radius: 0 0 var(--radius) var(--radius); padding: 25px; }
-.method-box h3 { font-size: 1.1rem; margin-bottom: 15px; color: var(--ink); display: flex; align-items: center; gap: 8px; }
+
+.result-header {
+  background: var(--ink); color: var(--white); padding: 25px; border-radius: var(--radius) var(--radius) 0 0; text-align: center;
+}
+.result-header .lbl {
+  font-size: 0.85rem; color: var(--accent); text-transform: uppercase; letter-spacing: 1.5px;
+  margin-bottom: 8px; font-family: 'JetBrains Mono', monospace; font-weight: 700;
+}
+.result-header .val {
+  font-family: 'Fraunces', serif; font-size: 2.8rem; font-weight: 700; line-height: 1.2;
+}
+.result-header .val .katex { font-size: 2.8rem !important; }
+.result-header .notation {
+  font-size: 1.2rem; color: var(--white); font-family: 'JetBrains Mono', monospace;
+  margin-top: 10px; opacity: 0.95; min-height: 36px;
+}
+
+/* Indeterminate Form Badge */
+.form-badge {
+  display: inline-flex; align-items: center; gap: 8px; background: rgba(232, 163, 61, 0.2);
+  border: 1.5px solid var(--accent); color: var(--white); padding: 6px 18px; border-radius: 50px;
+  font-family: 'JetBrains Mono', monospace; font-size: 0.9rem; font-weight: 700; margin-top: 12px;
+}
+
+/* Method Section */
+.method-box {
+  background: #fff; border: 2px solid var(--ink); border-top: none;
+  border-radius: 0 0 var(--radius) var(--radius); padding: 28px;
+}
+.method-box h3 {
+  font-size: 1.2rem; margin-bottom: 20px; color: var(--ink); display: flex; align-items: center; gap: 10px;
+}
 .method-box h3 i { color: var(--primary-light); }
 
-.step-item { display: flex; gap: 15px; margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px dashed var(--border); }
+/* Pedagogical Steps */
+.step-item {
+  display: flex; gap: 18px; margin-bottom: 20px; padding-bottom: 20px;
+  border-bottom: 1px dashed var(--border);
+}
 .step-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
-.step-num { width: 28px; height: 28px; background: var(--light); border: 1.5px solid var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 0.85rem; color: var(--accent-dark); flex-shrink: 0; }
-.step-text { flex: 1; font-size: 0.95rem; color: var(--ink); line-height: 1.6; }
-.step-text code { background: var(--light); padding: 2px 6px; border-radius: 4px; font-family: 'JetBrains Mono', monospace; color: var(--accent-dark); font-size: 0.9rem; }
+.step-num {
+  width: 34px; height: 34px; background: var(--light); border: 2px solid var(--accent);
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 0.9rem;
+  color: var(--accent-dark); flex-shrink: 0;
+}
+.step-text { flex: 1; font-size: 0.98rem; color: var(--ink); line-height: 1.7; }
+.step-text strong.step-title {
+  display: block; font-size: 1.05rem; margin-bottom: 6px; color: var(--primary);
+  font-family: 'Fraunces', 'Tajawal', serif;
+}
+.step-card-detail {
+  background: var(--light); border: 1px solid var(--border); border-radius: var(--radius-sm);
+  padding: 12px 16px; margin: 8px 0; font-family: 'JetBrains Mono', monospace;
+  font-size: 0.95rem; overflow-x: auto;
+}
+.step-text code {
+  background: var(--light); padding: 2px 6px; border-radius: 4px;
+  font-family: 'JetBrains Mono', monospace; color: var(--accent-dark); font-size: 0.9rem;
+}
 .step-text .highlight { color: var(--primary-light); font-weight: 700; }
+.math-block { margin: 10px 0; padding: 10px 14px; background: var(--light); border-left: 3px solid var(--primary-light); border-radius: var(--radius-sm); overflow-x: auto; }
+[dir="rtl"] .math-block { border-left: none; border-right: 3px solid var(--primary-light); }
 
-.table-values { width: 100%; border-collapse: collapse; margin-top: 15px; font-family: 'JetBrains Mono', monospace; font-size: 0.9rem; }
-.table-values th, .table-values td { border: 1px solid var(--border); padding: 8px 12px; text-align: center; }
+/* Method Tag Badge */
+.method-tag {
+  display: inline-flex; align-items: center; gap: 6px; background: rgba(42, 157, 143, 0.12);
+  border: 1px solid var(--primary-light); color: var(--primary-light); padding: 4px 12px;
+  border-radius: 4px; font-weight: 700; font-size: 0.8rem; margin-bottom: 8px; text-transform: uppercase;
+}
+
+/* Lateral limits */
+.lateral-box { display: flex; gap: 15px; margin-top: 12px; flex-wrap: wrap; }
+.lateral-card {
+  flex: 1; min-width: 160px; background: var(--light); border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm); padding: 14px 18px; text-align: center;
+}
+.lateral-card .lat-label {
+  font-size: 0.8rem; color: var(--gray); text-transform: uppercase; letter-spacing: 0.5px;
+  font-family: 'JetBrains Mono', monospace; margin-bottom: 6px; font-weight: 600;
+}
+.lateral-card .lat-value { font-family: 'Fraunces', serif; font-size: 1.6rem; font-weight: 700; color: var(--ink); }
+.lateral-card.diverge { border-color: var(--danger); }
+.lateral-card.diverge .lat-value { color: var(--danger); }
+
+/* Table */
+.table-values { width: 100%; border-collapse: collapse; margin-top: 15px; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; }
+.table-values th, .table-values td { border: 1px solid var(--border); padding: 8px 10px; text-align: center; }
 .table-values th { background: var(--light); font-weight: 700; color: var(--ink); }
 .table-values td { color: var(--gray); }
 .table-values td.approach { color: var(--primary-light); font-weight: 700; }
+.table-values td.inf-cell { color: var(--danger); font-weight: 700; font-size: 0.95rem; }
+.table-values td.converge-cell { color: var(--success); font-weight: 700; }
 
-.error-box { background: #fdf2f2; border: 2px solid #c0483f; border-radius: var(--radius); padding: 20px; text-align: center; color: #c0483f; font-weight: 600; margin-top: 25px; display: none; }
+/* Mini graph */
+.mini-graph-card { margin-top: 25px; padding-top: 20px; border-top: 2px dashed var(--border); }
+.mini-graph-container {
+  width: 100%; height: 280px; border: 2px solid var(--ink); border-radius: var(--radius-sm);
+  overflow: hidden; margin-top: 10px; background: var(--white); position: relative;
+}
+.mini-graph-container canvas { width: 100%; height: 100%; display: block; }
+.graph-legend {
+  display: flex; gap: 16px; justify-content: center; margin-top: 10px; font-size: 0.85rem;
+  font-family: 'JetBrains Mono', monospace; color: var(--gray); flex-wrap: wrap;
+}
+.legend-pill { display: flex; align-items: center; gap: 6px; }
+.legend-dot { width: 12px; height: 3px; border-radius: 2px; }
+
+.error-box {
+  background: #fdf2f2; border: 2px solid #c0483f; border-radius: var(--radius);
+  padding: 20px; text-align: center; color: #c0483f; font-weight: 600; margin-top: 10px; display: none;
+}
 .error-box.visible { display: block; }
 
-.hint { font-size: 0.85rem; color: var(--gray); margin-top: 20px; text-align: center; }
+.hint { font-size: 0.88rem; color: var(--gray); text-align: center; }
 .hint code { background: var(--light); padding: 2px 6px; border-radius: 4px; font-family: 'JetBrains Mono', monospace; color: var(--accent); }
 
 @media (max-width: 768px) {
@@ -77,9 +237,13 @@ nav { background: var(--white); border-bottom: 2px solid var(--ink); padding: 10
   .btn-back span { display: none; }
   .btn-back { padding: 8px 12px; }
   .page-title h1 { font-size: 1.8rem; }
-  .result-header .val { font-size: 2rem; }
-  .table-values { font-size: 0.75rem; }
+  .result-header .val { font-size: 2.2rem; }
+  .result-header .val .katex { font-size: 2.2rem !important; }
+  .table-values { font-size: 0.72rem; }
   .table-values th, .table-values td { padding: 5px; }
+  .lateral-box { flex-direction: column; }
+  .custom-target-row { flex-wrap: wrap; }
+  .mini-graph-container { height: 220px; }
 }
 </style>
 </head>
@@ -91,6 +255,10 @@ nav { background: var(--white); border-bottom: 2px solid var(--ink); padding: 10
     <div class="logo-texte"><span class="titre">DARRSSY Maths</span></div>
   </a>
   <div class="nav-right">
+    <div class="lang-switcher">
+      <button class="lang-btn actif" data-lang="fr">FR</button>
+      <button class="lang-btn" data-lang="ar">AR</button>
+    </div>
     <a href="index.html" class="btn-back secondary"><i class="fas fa-th-large"></i> <span data-i18n="nav.menu">Menu Maths</span></a>
     <a href="../index.html" class="btn-back"><i class="fas fa-home"></i> <span data-i18n="nav.home">Site DARRSSY</span></a>
   </div>
@@ -99,89 +267,224 @@ nav { background: var(--white); border-bottom: 2px solid var(--ink); padding: 10
 <div class="main-content">
   <div class="page-title">
     <h1 data-i18n="title">Calculateur de limites</h1>
-    <p data-i18n="desc">Entrez une fonction, choisissez la valeur cible et obtenez le résultat avec la méthode.</p>
+    <p data-i18n="desc">Entrez une fonction, choisissez la valeur cible et découvrez le résultat détaillé étape par étape avec les méthodes du programme marocain.</p>
   </div>
 
   <div class="lab-card">
+    <!-- Quick examples relevant to Bac SM / PC / SVT -->
+    <div class="quick-examples">
+      <button class="example-btn" onclick="loadExample('(x^2 - 1)/(x - 1)', '1')">
+        (x²−1)/(x−1) → 1 <span class="badge-ex">Factorisation</span>
+      </button>
+      <button class="example-btn" onclick="loadExample('(x^2 - 4)/(x - 2)', '2')">
+        (x²−4)/(x−2) → 2 <span class="badge-ex">0/0</span>
+      </button>
+      <button class="example-btn" onclick="loadExample('(sqrt(x + 1) - 1)/x', '0')">
+        (√(x+1)−1)/x → 0 <span class="badge-ex">Conjugué</span>
+      </button>
+      <button class="example-btn" onclick="loadExample('sin(x)/x', '0')">
+        sin(x)/x → 0 <span class="badge-ex">Trigo usuelle</span>
+      </button>
+      <button class="example-btn" onclick="loadExample('(1 - cos(x))/(x^2)', '0')">
+        (1−cos x)/x² → 0 <span class="badge-ex">Trigo</span>
+      </button>
+      <button class="example-btn" onclick="loadExample('(exp(x) - 1)/x', '0')">
+        (eˣ−1)/x → 0 <span class="badge-ex">Exponentielle</span>
+      </button>
+      <button class="example-btn" onclick="loadExample('log(1 + x)/x', '0')">
+        ln(1+x)/x → 0 <span class="badge-ex">Logarithme</span>
+      </button>
+      <button class="example-btn" onclick="loadExample('(2x^2 + 3)/(x^2 - 1)', 'Infinity')">
+        (2x²+3)/(x²−1) → +∞</button>
+      <button class="example-btn" onclick="loadExample('(1 + 1/x)^x', 'Infinity')">
+        (1+1/x)ˣ → +∞</button>
+      <button class="example-btn" onclick="loadExample('log(x)/x', 'Infinity')">
+        ln(x)/x → +∞</button>
+      <button class="example-btn" onclick="loadExample('1/x', '0')">
+        1/x → 0 <span class="badge-ex">Gauche/Droite</span>
+      </button>
+    </div>
+
     <div class="input-group">
       <input type="text" id="limitFunction" placeholder="Ex: (x^2 - 1)/(x - 1)" value="(x^2 - 1)/(x - 1)" onkeypress="if(event.key === 'Enter') calculateLimit()">
-      <select id="limitTarget">
+      <select id="limitTarget" onchange="onTargetChange()">
         <option value="0">x → 0</option>
         <option value="1" selected>x → 1</option>
         <option value="2">x → 2</option>
-        <option value="-1">x → -1</option>
+        <option value="-1">x → −1</option>
+        <option value="3">x → 3</option>
         <option value="Infinity">x → +∞</option>
-        <option value="-Infinity">x → -∞</option>
+        <option value="-Infinity">x → −∞</option>
+        <option value="custom">x → personnalisé…</option>
       </select>
       <button class="btn-calc" onclick="calculateLimit()"><i class="fas fa-calculator"></i> <span data-i18n="calc">Calculer</span></button>
+    </div>
+
+    <!-- Custom target input -->
+    <div class="custom-target-row" id="customTargetRow">
+      <label data-i18n="custom.label">Valeur cible :</label>
+      <input type="text" id="customTargetInput" placeholder="Ex: 5, pi, 4" onkeypress="if(event.key === 'Enter') calculateLimit()">
     </div>
 
     <div class="result-container" id="resultContainer">
       <div class="result-header">
         <div class="lbl" data-i18n="result.lbl">Résultat de la limite</div>
         <div class="val" id="resultValue">—</div>
+        <div class="notation" id="resultNotation"></div>
+        <div id="formBadge"></div>
       </div>
+
       <div class="method-box">
-        <h3><i class="fas fa-shoe-prints"></i> <span data-i18n="method.title">Méthode de calcul</span></h3>
+        <h3><i class="fas fa-shoe-prints"></i> <span data-i18n="method.title">Méthode de calcul détaillée</span></h3>
         <div id="methodSteps"></div>
+
+        <!-- Mini graph visualization -->
+        <div class="mini-graph-card">
+          <h3 style="font-size:1.05rem; margin-bottom:8px; color:var(--ink); display:flex; align-items:center; gap:8px;">
+            <i class="fas fa-chart-line" style="color:var(--primary-light);"></i>
+            <span data-i18n="graph.preview">Aperçu graphique au voisinage de la limite</span>
+          </h3>
+          <div class="mini-graph-container" id="miniGraphContainer">
+            <canvas id="limitCanvas"></canvas>
+          </div>
+          <div class="graph-legend">
+            <div class="legend-pill"><span class="legend-dot" style="background:#e8a33d;"></span><span>f(x)</span></div>
+            <div class="legend-pill"><span class="legend-dot" style="background:#2a9d8f; height:2px; border-top:1px dashed #2a9d8f;"></span><span data-i18n="graph.limitLine">Ligne de limite</span></div>
+            <div class="legend-pill"><span class="legend-dot" style="background:#c0483f; height:2px; border-top:1px dashed #c0483f;"></span><span data-i18n="graph.targetLine">Cible x₀</span></div>
+          </div>
+        </div>
+
       </div>
     </div>
 
     <div class="error-box" id="errorBox"></div>
 
     <div class="hint" data-i18n="hint">
-      Astuce : <code>(x^2-1)/(x-1)</code> · <code>sin(x)/x</code> · <code>(1+1/x)^x</code> · <code>exp(-x)</code>
+      Astuce : <code>x^2</code> · <code>sin(x)/x</code> · <code>(1+1/x)^x</code> · <code>exp(-x)</code> · <code>log(x)</code> · <code>sqrt(x)</code> — Appuyez sur Entrée pour calculer.
     </div>
   </div>
 </div>
 
 <script>
+// ============================================================
+// CONFIGURATION & CONSTANTES
+// ============================================================
+const INF_THRESHOLD = 1e4; // Dès 10 000, on affiche le symbole +∞ / −∞
+const ZERO_THRESHOLD = 1e-9;
+
 let currentLang = localStorage.getItem('darrssy-lang') || 'fr';
+let currentGraphData = null;
 
 const trad = {
   fr: {
     'nav.menu': 'Menu Maths', 'nav.home': 'Site DARRSSY',
     'title': 'Calculateur de limites',
-    'desc': 'Entrez une fonction, choisissez la valeur cible et obtenez le résultat avec la méthode.',
-    'calc': 'Calculer', 'result.lbl': 'Résultat de la limite', 'method.title': 'Méthode de calcul',
-    'hint': 'Astuce : <code>(x^2-1)/(x-1)</code> · <code>sin(x)/x</code> · <code>(1+1/x)^x</code> · <code>exp(-x)</code>',
-    'err.syntax': 'Erreur de syntaxe dans la fonction.', 'err.noLimit': "La limite n'existe pas (valeurs différentes à gauche et à droite).",
-    'infinity': '+∞', 'minusInfinity': '-∞',
-    'step.table': 'Tableau de valeurs',
-    'step.table.desc': 'On évalue la fonction pour des valeurs de <code>x</code> de plus en plus proches de la valeur cible.',
-    'step.left': 'Limite à gauche',
-    'step.left.desc': 'Valeurs approchées par la gauche :',
-    'step.right': 'Limite à droite',
-    'step.right.desc': 'Valeurs approchées par la droite :',
-    'step.table.result': 'On constate que les deux suites de valeurs tendent vers la même limite :',
-    'step.infinity': 'Comportement à l\'infini',
-    'step.infinity.desc': 'On étudie le comportement de la fonction lorsque <code>x</code> devient très grand (ou très petit).',
-    'step.final': 'Conclusion',
-    'step.final.desc': 'La limite de la fonction est <span class="highlight">{res}</span>.'
+    'desc': 'Entrez une fonction, choisissez la valeur cible et découvrez le résultat détaillé étape par étape avec les méthodes du programme marocain.',
+    'calc': 'Calculer', 'result.lbl': 'Résultat de la limite', 'method.title': 'Méthode de calcul détaillée',
+    'custom.label': 'Valeur cible :',
+    'graph.preview': 'Aperçu graphique au voisinage de la limite',
+    'graph.limitLine': 'Ligne de limite (L)',
+    'graph.targetLine': 'Cible x₀',
+    'hint': 'Astuce : <code>x^2</code> · <code>sin(x)/x</code> · <code>(1+1/x)^x</code> · <code>exp(-x)</code> · <code>log(x)</code> · <code>sqrt(x)</code> — Entrée pour calculer.',
+    'err.syntax': 'Erreur de syntaxe dans la fonction.',
+    'err.noLimit': "La limite globale n'existe pas (valeurs différentes à gauche et à droite).",
+    'err.undefined': "La fonction n'est pas définie au voisinage de cette valeur.",
+    'step.subst': 'Substitution directe initiale',
+    'step.subst.desc': 'On commence toujours par évaluer la fonction directement en remplaçant x par la cible x₀ :',
+    'step.direct.success': 'La substitution directe donne directement une valeur définie et finie. La fonction est continue en ce point :',
+    'step.form': 'Forme Indéterminée détectée',
+    'step.form.desc': 'La substitution directe conduit à la forme indéterminée',
+    'step.form.action': 'Il est donc nécessaire d\'appliquer une technique algébrique pour lever l\'indétermination.',
+    'step.method.factor': 'Méthode : Factorisation et Simplification',
+    'step.method.factor.desc': 'Comme x = {target} annule à la fois le numérateur et le dénominateur, on factorise par <code>(x - {target})</code> puis on simplifie :',
+    'step.method.conjugate': 'Méthode : Expression conjuguée',
+    'step.method.conjugate.desc': 'Présence de radicaux. On multiplie et on divise par l\'expression conjuguée en utilisant l\'identité remarquable (A - B)(A + B) = A² - B² :',
+    'step.method.hopital': 'Méthode : Règle de L\'Hôpital',
+    'step.method.hopital.desc': 'Pour un quotient de la forme 0/0 ou ∞/∞, on dérive séparément le numérateur et le dénominateur :',
+    'step.method.dominant': 'Méthode : Termes de plus haut degré (Infini)',
+    'step.method.dominant.desc': 'En ±∞ pour une fraction rationnelle, la limite est égale à la limite du quotient des termes de plus haut degré :',
+    'step.method.known': 'Méthode : Limite remarquable usuelle',
+    'step.method.known.desc': 'On applique directement une limite usuelle fondamentale du programme du Baccalauréat :',
+    'step.table': 'Tableau d\'évaluation numérique et convergence',
+    'step.table.desc': 'Vérification numérique en observant les valeurs de f(x) quand x s\'approche de la cible :',
+    'step.lateral': 'Limites latérales (Gauche et Droite)',
+    'step.lateral.desc': 'Comparaison rigoureuse du comportement à gauche (x < x₀) et à droite (x > x₀) :',
+    'step.lateral.agree': 'Les deux limites latérales sont égales : la limite existe et est bien définie.',
+    'step.lateral.disagree': 'Les limites latérales sont distinctes : la limite n\'existe pas au sens strict.',
+    'step.lateral.diverge': 'La fonction diverge vers l\'infini au voisinage de la cible (asymptote verticale).',
+    'step.final': 'Conclusion mathématique',
+    'step.final.desc': 'La limite de la fonction f(x) lorsque x tend vers {target} est :',
+    'step.final.noexist': 'La limite globale de f(x) lorsque x tend vers {target} <span style="color:var(--danger);font-weight:700;">n\'existe pas</span>.',
+    'left': 'À gauche', 'right': 'À droite',
+    'col.x': 'x', 'col.fx': 'f(x)',
+    'noExist': 'N\'existe pas',
+    'FI': 'Forme Indéterminée'
   },
   ar: {
     'nav.menu': 'قائمة الرياضيات', 'nav.home': 'موقع DARRSSY',
     'title': 'حاسبة النهايات',
-    'desc': 'أدخل دالة، اختر القيمة المستهدفة واحصل على النتيجة مع الطريقة.',
-    'calc': 'حساب', 'result.lbl': 'نتيجة النهاية', 'method.title': 'طريقة الحساب',
-    'hint': 'نصيحة: <code>(x^2-1)/(x-1)</code> · <code>sin(x)/x</code> · <code>(1+1/x)^x</code> · <code>exp(-x)</code>',
-    'err.syntax': 'خطأ في صياغة الدالة.', 'err.noLimit': 'النهاية غير موجودة (قيم مختلفة من اليسار واليمين).',
-    'infinity': '+∞', 'minusInfinity': '-∞',
-    'step.table': 'جدول القيم',
-    'step.table.desc': 'نحسب قيم الدالة من أجل قيم <code>x</code> تقترب أكثر فأكثر من القيمة المستهدفة.',
-    'step.left': 'النهاية من اليسار',
-    'step.left.desc': 'قيم مقربة من اليسار:',
-    'step.right': 'النهاية من اليمين',
-    'step.right.desc': 'قيم مقربة من اليمين:',
-    'step.table.result': 'نلاحظ أن كلا المتتاليتين من القيم تتجهان نحو نفس النهاية:',
-    'step.infinity': 'السلوك عند اللانهاية',
-    'step.infinity.desc': 'ندرس سلوك الدالة عندما تصبح <code>x</code> كبيرة جداً (أو صغيرة جداً).',
-    'step.final': 'استنتاج',
-    'step.final.desc': 'نهاية الدالة هي <span class="highlight">{res}</span>.'
+    'desc': 'أدخل دالة، اختر القيمة المستهدفة واكتشف النتيجة مفصلة خطوة بخطوة مع طرق منهاج البكالوريا المغربي.',
+    'calc': 'حساب', 'result.lbl': 'نتيجة النهاية', 'method.title': 'طريقة الحساب المفصلة',
+    'custom.label': 'القيمة المستهدفة:',
+    'graph.preview': 'معاينة بيانية في جوار النهاية',
+    'graph.limitLine': 'خط النهاية (L)',
+    'graph.targetLine': 'الهدف x₀',
+    'hint': 'نصيحة: <code>x^2</code> · <code>sin(x)/x</code> · <code>(1+1/x)^x</code> · <code>exp(-x)</code> · <code>log(x)</code> · <code>sqrt(x)</code> — اضغط Entrée للحساب.',
+    'err.syntax': 'خطأ في صياغة الدالة.',
+    'err.noLimit': 'النهاية الإجمالية غير موجودة (قيم مختلفة من اليسار واليمين).',
+    'err.undefined': 'الدالة غير معرفة في جوار هذه القيمة.',
+    'step.subst': 'التعويض المباشر الأولي',
+    'step.subst.desc': 'نبدأ دائماً بتعويض x بالقيمة المستهدفة x₀ مباشرة في الدالة:',
+    'step.direct.success': 'التعويض المباشر يعطي قيمة معرفة ومنتهية مباشرة. الدالة متصلة في هذه النقطة:',
+    'step.form': 'شكل غير محدد مكتشف',
+    'step.form.desc': 'التعويض المباشر يؤدي إلى الشكل غير المحدد',
+    'step.form.action': 'لذلك يجب تطبيق تقنية جبرية لرفع عدم التحديد.',
+    'step.method.factor': 'طريقة : التعميل والاختزال',
+    'step.method.factor.desc': 'بما أن x = {target} يعدم البسط والمقام معاً، نعمل بالحد <code>(x - {target})</code> ثم نختزل:',
+    'step.method.conjugate': 'طريقة : الضرب في المرافق',
+    'step.method.conjugate.desc': 'وجود الجذور المربعة. نضرب ونقسم في التعبير المرافق باستعمال المتطابقة الهامة (A - B)(A + B) = A² - B²:',
+    'step.method.hopital': 'طريقة : قاعدة لوبيتال (L\'Hôpital)',
+    'step.method.hopital.desc': 'لحاصل قسمة من الشكل 0/0 أو ∞/∞، نشتق البسط والمقام كل على حدة:',
+    'step.method.dominant': 'طريقة : الحد الأكبر درجة (عند اللانهاية)',
+    'step.method.dominant.desc': 'عند اللانهاية لدالة جذرية، النهاية تساوي نهاية خارج الحدين الأكبر درجة:',
+    'step.method.known': 'طريقة : نهاية اعتيادية أساسية',
+    'step.method.known.desc': 'نطبق مباشرة نهاية اعتيادية مبرمجة في مقرر البكالوريا:',
+    'step.table': 'جدول القيم المقربة والتقارب',
+    'step.table.desc': 'تحقق عددي بملاحظة قيم f(x) عند اقتراب x من الهدف:',
+    'step.lateral': 'النهايات على اليمين وعلى اليسار',
+    'step.lateral.desc': 'مقارنة دقيقة للسلوك على اليسار (x < x₀) وعلى اليمين (x > x₀):',
+    'step.lateral.agree': 'النهايتان من اليسار ومن اليمين متساويتان: النهاية موجودة ومحددة بدقة.',
+    'step.lateral.disagree': 'النهايتان على اليسار وعلى اليمين مختلفتان: النهاية غير موجودة بالمعنى الدقيق.',
+    'step.lateral.diverge': 'الدالة تتباعد نحو اللانهاية في جوار الهدف (مقارب عمودي).',
+    'step.final': 'الخلاصة الرياضية',
+    'step.final.desc': 'نهاية الدالة f(x) عندما يؤول x إلى {target} هي:',
+    'step.final.noexist': 'النهاية الإجمالية لـ f(x) عندما يؤول x إلى {target} <span style="color:var(--danger);font-weight:700;">غير موجودة</span>.',
+    'left': 'على اليسار', 'right': 'على اليمين',
+    'col.x': 'x', 'col.fx': 'f(x)',
+    'noExist': 'غير موجودة',
+    'FI': 'شكل غير محدد'
   }
 };
 
-document.addEventListener('DOMContentLoaded', () => { appliquerLangue(currentLang); });
+// ============================================================
+// INITIALISATION
+// ============================================================
+document.addEventListener('DOMContentLoaded', () => {
+  appliquerLangue(currentLang);
+  bindEvents();
+  setTimeout(calculateLimit, 200);
+});
+
+function bindEvents() {
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.addEventListener('click', () => appliquerLangue(btn.getAttribute('data-lang')));
+  });
+  window.addEventListener('resize', () => {
+    if (currentGraphData) {
+      drawLimitGraph(currentGraphData.expr, currentGraphData.target, currentGraphData.limitResult, currentGraphData.limitExists);
+    }
+  });
+}
 
 function appliquerLangue(lang) {
   currentLang = lang;
@@ -191,122 +494,706 @@ function appliquerLangue(lang) {
     const key = el.getAttribute('data-i18n');
     if (trad[lang] && trad[lang][key]) el.innerHTML = trad[lang][key];
   });
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.classList.toggle('actif', btn.getAttribute('data-lang') === lang);
+  });
   localStorage.setItem('darrssy-lang', lang);
+  if (currentGraphData) calculateLimit();
 }
 
+function onTargetChange() {
+  const sel = document.getElementById('limitTarget');
+  const row = document.getElementById('customTargetRow');
+  if (sel.value === 'custom') {
+    row.classList.add('visible');
+    document.getElementById('customTargetInput').focus();
+  } else {
+    row.classList.remove('visible');
+  }
+}
+
+function loadExample(expr, target) {
+  document.getElementById('limitFunction').value = expr;
+  const sel = document.getElementById('limitTarget');
+  let found = false;
+  for (let opt of sel.options) {
+    if (opt.value === target) { sel.value = target; found = true; break; }
+  }
+  if (!found) {
+    sel.value = 'custom';
+    document.getElementById('customTargetRow').classList.add('visible');
+    document.getElementById('customTargetInput').value = target;
+  } else {
+    document.getElementById('customTargetRow').classList.remove('visible');
+  }
+  calculateLimit();
+}
+
+// ============================================================
+// EVALUATION SECURISEE & OUTILS MATHS
+// ============================================================
+function safeEval(expr, x) {
+  try {
+    const v = math.evaluate(expr, { x });
+    if (typeof v === 'number' && !isNaN(v)) return v;
+    return null;
+  } catch(e) { return null; }
+}
+
+function isInf(v) {
+  return v !== null && (Math.abs(v) >= INF_THRESHOLD || !isFinite(v));
+}
+
+function formatForDisplay(v) {
+  if (v === null || v === undefined) return '—';
+  if (typeof v === 'string') return v;
+  if (isNaN(v)) return '—';
+  if (isInf(v)) return v > 0 ? '+∞' : '−∞';
+  if (Math.abs(v) < ZERO_THRESHOLD) return '0';
+  if (Math.abs(v - Math.round(v)) < 1e-6) return Math.round(v).toString();
+  if (Math.abs(v - Math.E) < 1e-4) return 'e';
+  if (Math.abs(v - Math.PI) < 1e-4) return 'π';
+  if (Math.abs(v - 0.5) < 1e-6) return '1/2';
+  return Number(v.toFixed(5)).toString();
+}
+
+function formatTableVal(v) {
+  if (v === null) return '—';
+  if (isInf(v)) return v > 0 ? '+∞' : '−∞';
+  if (Math.abs(v) < ZERO_THRESHOLD) return '≈ 0';
+  return v.toFixed(6);
+}
+
+function renderLatex(tex, isDisplay = false) {
+  try {
+    if (window.katex) {
+      return katex.renderToString(tex, { throwOnError: false, displayMode: isDisplay });
+    }
+  } catch (e) {}
+  return `<code>${tex}</code>`;
+}
+
+// Décomposition de fraction F(x) = N(x) / D(x)
+function splitFraction(expr) {
+  let depth = 0, splitIdx = -1;
+  for (let i = expr.length - 1; i >= 0; i--) {
+    if (expr[i] === ')') depth++;
+    else if (expr[i] === '(') depth--;
+    else if (expr[i] === '/' && depth === 0) { splitIdx = i; break; }
+  }
+  if (splitIdx <= 0) return null;
+  let num = expr.substring(0, splitIdx).trim();
+  let den = expr.substring(splitIdx + 1).trim();
+  if (num.startsWith('(') && num.endsWith(')')) num = num.slice(1, -1);
+  if (den.startsWith('(') && den.endsWith(')')) den = den.slice(1, -1);
+  return { num, den };
+}
+
+// Convertit une expression basique en LaTeX
+function exprToLatex(expr) {
+  try {
+    const node = math.parse(expr);
+    return node.toTex();
+  } catch(e) {
+    return expr.replace(/\*/g, ' \\cdot ').replace(/sqrt/g, '\\sqrt');
+  }
+}
+
+// ============================================================
+// DETECTION AVANCEE DES FORMES INDETERMINEES
+// ============================================================
+function detectIndeterminateForm(expr, target) {
+  // Cas à l'infini
+  if (target === Infinity || target === -Infinity) {
+    const frac = splitFraction(expr);
+    if (frac) {
+      const numHuge = safeEval(frac.num, target === Infinity ? 1e6 : -1e6);
+      const denHuge = safeEval(frac.den, target === Infinity ? 1e6 : -1e6);
+      if (isInf(numHuge) && isInf(denHuge)) return '∞/∞';
+    }
+    // Forme (1 + 1/x)^x
+    if (expr.includes('^x') || expr.includes('^(x)')) {
+      return '1^∞';
+    }
+    // Forme x * exp(-x) ou exp(x)/x
+    if (expr.includes('*') || expr.includes('exp')) {
+      const p10 = safeEval(expr, 10), p100 = safeEval(expr, 100);
+      if (p10 !== null && p100 !== null) {
+        if (Math.abs(p100) < 1e-4 && expr.includes('*')) return '0 × ∞';
+      }
+    }
+    return null;
+  }
+
+  // Cas valeur finie
+  const direct = safeEval(expr, target);
+  if (direct !== null && isFinite(direct) && Math.abs(direct) < INF_THRESHOLD) {
+    return null; // Déterminée directement
+  }
+
+  const frac = splitFraction(expr);
+  if (frac) {
+    const num = safeEval(frac.num, target);
+    const den = safeEval(frac.den, target);
+    if (num !== null && den !== null) {
+      if (Math.abs(num) < 1e-5 && Math.abs(den) < 1e-5) return '0/0';
+      if (isInf(num) && isInf(den)) return '∞/∞';
+    }
+  }
+
+  // Produit 0 * inf
+  if (expr.includes('*')) {
+    const parts = expr.split('*');
+    if (parts.length === 2) {
+      const v1 = safeEval(parts[0], target);
+      const v2 = safeEval(parts[1], target);
+      if ((v1 !== null && Math.abs(v1) < 1e-5 && isInf(v2)) || (v2 !== null && Math.abs(v2) < 1e-5 && isInf(v1))) {
+        return '0 × ∞';
+      }
+    }
+  }
+
+  return null;
+}
+
+// ============================================================
+// MOTEUR DE RESOLUTION SYMBOLIQUE & ALGEBRIQUE
+// ============================================================
+function resoudreAlgebriquement(expr, target, targetLabel) {
+  const methodes = [];
+  let limitSymbolique = null;
+  let fi = detectIndeterminateForm(expr, target);
+
+  // Étape 1 : Substitution directe
+  const valDirecte = (target === Infinity || target === -Infinity) ? null : safeEval(expr, target);
+  
+  if (valDirecte !== null && isFinite(valDirecte) && Math.abs(valDirecte) < INF_THRESHOLD) {
+    methodes.push({
+      titre: trad[currentLang]['step.subst'],
+      tag: 'Substitution',
+      desc: `${trad[currentLang]['step.direct.success']}<div class="math-block">${renderLatex(`f(${targetLabel}) = ${exprToLatex(expr)} = ${formatForDisplay(valDirecte)}`, true)}</div>`
+    });
+    limitSymbolique = valDirecte;
+    return { methodes, limitSymbolique, fi: null };
+  }
+
+  // Si substitution donne une forme indéterminée
+  if (fi) {
+    methodes.push({
+      titre: trad[currentLang]['step.form'],
+      tag: 'Forme Indéterminée',
+      desc: `<p>${trad[currentLang]['step.form.desc']} <strong style="color:var(--accent-dark); font-size:1.15rem;">[ ${fi} ]</strong>.</p><p style="margin-top:6px;">${trad[currentLang]['step.form.action']}</p>`
+    });
+  }
+
+  const frac = splitFraction(expr);
+
+  // CAS A : Limites à l'infini pour fractions rationnelles
+  if ((target === Infinity || target === -Infinity) && frac) {
+    try {
+      const numMatch = frac.num.match(/([+-]?\s*\d*)\s*\*?\s*x(\^(\d+))?/);
+      const denMatch = frac.den.match(/([+-]?\s*\d*)\s*\*?\s*x(\^(\d+))?/);
+      
+      methodes.push({
+        titre: trad[currentLang]['step.method.dominant'],
+        tag: 'Plus haut degré',
+        desc: `${trad[currentLang]['step.method.dominant.desc']}<div class="math-block">${renderLatex(`\\lim_{x \\to ${targetLabel}} \\frac{${exprToLatex(frac.num)}}{${exprToLatex(frac.den)}} = \\lim_{x \\to ${targetLabel}} \\frac{\\text{terme de plus haut degré de } P(x)}{\\text{terme de plus haut degré de } Q(x)}`, true)}</div>`
+      });
+    } catch(e) {}
+  }
+
+  // CAS B : Limite en 0 de sin(x)/x, (1-cos(x))/x^2, (e^x - 1)/x, ln(1+x)/x
+  if (target === 0) {
+    if (expr === 'sin(x)/x' || expr === '(sin(x))/x') {
+      methodes.push({
+        titre: trad[currentLang]['step.method.known'],
+        tag: 'Limite usuelle',
+        desc: `${trad[currentLang]['step.method.known.desc']}<div class="math-block">${renderLatex('\\lim_{x \\to 0} \\frac{\\sin(x)}{x} = 1', true)}</div>`
+      });
+      limitSymbolique = 1;
+      return { methodes, limitSymbolique, fi };
+    }
+    if (expr.includes('1 - cos(x)') && expr.includes('x^2')) {
+      methodes.push({
+        titre: trad[currentLang]['step.method.known'],
+        tag: 'Limite trigonométrique',
+        desc: `${trad[currentLang]['step.method.known.desc']}<div class="math-block">${renderLatex('\\lim_{x \\to 0} \\frac{1 - \\cos(x)}{x^2} = \\frac{1}{2}', true)}</div>`
+      });
+      limitSymbolique = 0.5;
+      return { methodes, limitSymbolique, fi };
+    }
+    if (expr.includes('exp(x) - 1') && expr.includes('/x')) {
+      methodes.push({
+        titre: trad[currentLang]['step.method.known'],
+        tag: 'Nombre dérivé en 0',
+        desc: `${trad[currentLang]['step.method.known.desc']}<div class="math-block">${renderLatex('\\lim_{x \\to 0} \\frac{e^x - 1}{x} = (e^x)\'(0) = e^0 = 1', true)}</div>`
+      });
+      limitSymbolique = 1;
+      return { methodes, limitSymbolique, fi };
+    }
+    if (expr.includes('log(1 + x)') || expr.includes('log(x + 1)')) {
+      methodes.push({
+        titre: trad[currentLang]['step.method.known'],
+        tag: 'Limite logarithme',
+        desc: `${trad[currentLang]['step.method.known.desc']}<div class="math-block">${renderLatex('\\lim_{x \\to 0} \\frac{\\ln(1 + x)}{x} = 1', true)}</div>`
+      });
+      limitSymbolique = 1;
+      return { methodes, limitSymbolique, fi };
+    }
+  }
+
+  // CAS C : Limite de (1 + 1/x)^x en +inf
+  if (target === Infinity && (expr.includes('(1 + 1/x)^x') || expr.includes('(1+1/x)^x'))) {
+    methodes.push({
+      titre: trad[currentLang]['step.method.known'],
+      tag: 'Forme exponentielle (1^∞)',
+      desc: `On réécrit sous forme exponentielle : $f(x) = e^{x \\ln(1 + 1/x)}$. Comme $\\lim_{x \\to +\\infty} x \\ln(1 + 1/x) = 1$ :<div class="math-block">${renderLatex('\\lim_{x \\to +\\infty} \\left(1 + \\frac{1}{x}\\right)^x = e^1 = e \\approx 2{,}71828', true)}</div>`
+    });
+    limitSymbolique = Math.E;
+    return { methodes, limitSymbolique, fi: '1^∞' };
+  }
+
+  // CAS D : Fraction rationnelle 0/0 avec factorisation par (x - a)
+  if (fi === '0/0' && frac && isFinite(target)) {
+    // Cas radical / conjugué
+    if (frac.num.includes('sqrt') || frac.den.includes('sqrt')) {
+      methodes.push({
+        titre: trad[currentLang]['step.method.conjugate'],
+        tag: 'Expression Conjuguée',
+        desc: `${trad[currentLang]['step.method.conjugate.desc']}<div class="math-block">${renderLatex(`\\frac{${exprToLatex(frac.num)}}{${exprToLatex(frac.den)}} = \\frac{(${exprToLatex(frac.num)}) \\cdot (\\text{conjugué})}{(${exprToLatex(frac.den)}) \\cdot (\\text{conjugué})}`, true)}</div>`
+      });
+    } else {
+      // Polynômes purs : factorisation
+      const a = target;
+      const facteur = a >= 0 ? `(x - ${a})` : `(x + ${Math.abs(a)})`;
+      const descFact = trad[currentLang]['step.method.factor.desc'].replace(/{target}/g, targetLabel);
+      
+      methodes.push({
+        titre: trad[currentLang]['step.method.factor'],
+        tag: 'Factorisation',
+        desc: `${descFact}<div class="math-block">${renderLatex(`\\lim_{x \\to ${targetLabel}} \\frac{${exprToLatex(frac.num)}}{${exprToLatex(frac.den)}} = \\lim_{x \\to ${targetLabel}} \\frac{${facteur} \\cdot P_1(x)}{${facteur} \\cdot Q_1(x)} = \\lim_{x \\to ${targetLabel}} \\frac{P_1(x)}{Q_1(x)}`, true)}</div>`
+      });
+    }
+
+    // Application additionnelle : Règle de L'Hôpital pour confirmation analytique
+    try {
+      const nodeNum = math.parse(frac.num);
+      const nodeDen = math.parse(frac.den);
+      const dNum = math.derivative(nodeNum, 'x');
+      const dDen = math.derivative(nodeDen, 'x');
+      const valDNum = math.evaluate(dNum.toString(), { x: target });
+      const valDDen = math.evaluate(dDen.toString(), { x: target });
+
+      if (valDDen !== 0 && !isNaN(valDNum) && !isNaN(valDDen)) {
+        const hopitalRes = valDNum / valDDen;
+        limitSymbolique = hopitalRes;
+        methodes.push({
+          titre: trad[currentLang]['step.method.hopital'],
+          tag: "Règle de L'Hôpital",
+          desc: `${trad[currentLang]['step.method.hopital.desc']}<div class="math-block">${renderLatex(`\\lim_{x \\to ${targetLabel}} \\frac{${dNum.toTex()}}{${dDen.toTex()}} = \\frac{${formatForDisplay(valDNum)}}{${formatForDisplay(valDDen)}} = ${formatForDisplay(hopitalRes)}`, true)}</div>`
+        });
+      }
+    } catch(e) {}
+  }
+
+  return { methodes, limitSymbolique, fi };
+}
+
+// ============================================================
+// CALCUL PRINCIPAL DE LIMITE
+// ============================================================
 function calculateLimit() {
-  const expr = document.getElementById('limitFunction').value;
-  const targetStr = document.getElementById('limitTarget').value;
+  const expr = document.getElementById('limitFunction').value.trim();
+  const targetSel = document.getElementById('limitTarget').value;
   const resultContainer = document.getElementById('resultContainer');
   const resultValue = document.getElementById('resultValue');
+  const resultNotation = document.getElementById('resultNotation');
+  const formBadge = document.getElementById('formBadge');
   const methodSteps = document.getElementById('methodSteps');
   const errorBox = document.getElementById('errorBox');
 
   resultContainer.classList.remove('visible');
   errorBox.classList.remove('visible');
   methodSteps.innerHTML = '';
+  formBadge.innerHTML = '';
+  resultNotation.textContent = '';
+
+  if (!expr) return;
 
   try {
-    let target = targetStr === 'Infinity' ? Infinity : (targetStr === '-Infinity' ? -Infinity : parseFloat(targetStr));
-    let limitVal;
-    let steps = [];
+    try { math.parse(expr); } catch(e) { throw new Error('syntax'); }
 
+    // Détermination de la cible x₀
+    let target, targetLabel;
+    if (targetSel === 'custom') {
+      const customVal = document.getElementById('customTargetInput').value.trim();
+      if (!customVal) throw new Error('syntax');
+      
+      const lower = customVal.toLowerCase();
+      if (lower === '+inf' || lower === 'infinity' || lower === '+∞' || lower === 'inf') {
+        target = Infinity; targetLabel = '+∞';
+      } else if (lower === '-inf' || lower === '-infinity' || lower === '-∞') {
+        target = -Infinity; targetLabel = '−∞';
+      } else {
+        let numericVal;
+        try { numericVal = math.evaluate(customVal); } catch(e) { numericVal = parseFloat(customVal); }
+        if (isNaN(numericVal)) throw new Error('syntax');
+
+        if (numericVal >= INF_THRESHOLD) {
+          target = Infinity; targetLabel = '+∞';
+        } else if (numericVal <= -INF_THRESHOLD) {
+          target = -Infinity; targetLabel = '−∞';
+        } else {
+          target = numericVal;
+          targetLabel = customVal;
+        }
+      }
+    } else if (targetSel === 'Infinity') {
+      target = Infinity; targetLabel = '+∞';
+    } else if (targetSel === '-Infinity') {
+      target = -Infinity; targetLabel = '−∞';
+    } else {
+      target = parseFloat(targetSel);
+      targetLabel = targetSel;
+    }
+
+    let steps = [];
+    let limitResult = null;
+    let limitExists = true;
+
+    // Résolution algébrique pas-à-pas
+    const algebre = resoudreAlgebriquement(expr, target, targetLabel);
+    
+    algebre.methodes.forEach(m => {
+      steps.push({
+        title: `<span class="method-tag">${m.tag}</span> ${m.titre}`,
+        desc: m.desc
+      });
+    });
+
+    if (algebre.fi) {
+      formBadge.innerHTML = `<div class="form-badge"><i class="fas fa-exclamation-triangle"></i> ${trad[currentLang]['FI']} : ${algebre.fi}</div>`;
+    }
+
+    // Évaluation numérique de confirmation
     if (target === Infinity || target === -Infinity) {
-      // CAS INFINI
-      steps.push({ title: trad[currentLang]['step.infinity'], desc: trad[currentLang]['step.infinity.desc'] });
-      const testVal = target === Infinity ? 1e8 : -1e8;
-      limitVal = math.evaluate(expr, { x: testVal });
-      if (!isFinite(limitVal)) {
-        if (limitVal > 0) limitVal = trad[currentLang]['infinity'];
-        else if (limitVal < 0) limitVal = trad[currentLang]['minusInfinity'];
-      } else if (Math.abs(limitVal) < 1e-6) { limitVal = 0; }
+      steps.push({ title: trad[currentLang]['step.table'], desc: trad[currentLang]['step.table.desc'] });
+
+      const sign = target === Infinity ? 1 : -1;
+      const testPoints = [10, 100, 1000, 1e4, 1e6, 1e8];
+      const values = testPoints.map(p => ({ x: sign * p, fx: safeEval(expr, sign * p) }));
+
+      let tableHTML = `<table class="table-values"><tr><th>${trad[currentLang]['col.x']}</th>`;
+      values.forEach(v => tableHTML += `<th>${formatScientific(v.x)}</th>`);
+      tableHTML += `</tr><tr><th>${trad[currentLang]['col.fx']}</th>`;
+      values.forEach(v => {
+        const cls = isInf(v.fx) ? 'inf-cell' : (v.fx !== null && Math.abs(v.fx) < 1 ? 'converge-cell' : '');
+        tableHTML += `<td class="${cls}">${formatTableVal(v.fx)}</td>`;
+      });
+      tableHTML += `</tr></table>`;
+      steps.push({ title: '', desc: tableHTML });
+
+      const last = values[values.length - 1].fx;
+      const secondLast = values[values.length - 2].fx;
+
+      if (algebre.limitSymbolique !== null) {
+        limitResult = algebre.limitSymbolique;
+      } else if (last === null && secondLast === null) {
+        throw new Error('undefined');
+      } else if (last !== null && isInf(last)) {
+        limitResult = last > 0 ? '+∞' : '−∞';
+      } else if (last !== null && Math.abs(last) < ZERO_THRESHOLD) {
+        limitResult = 0;
+      } else if (last !== null) {
+        limitResult = last;
+      } else {
+        throw new Error('undefined');
+      }
 
     } else {
-      // CAS POINT FINI : TABLEAU DE VALEURS
+      // Cas cible finie
       steps.push({ title: trad[currentLang]['step.table'], desc: trad[currentLang]['step.table.desc'] });
-      
-      // Générer les valeurs de gauche et de droite
-      const stepsVal = [0.1, 0.01, 0.001, 0.0001];
-      let leftValues = [];
-      let rightValues = [];
-      
-      for (let h of stepsVal) {
-        try { leftValues.push({ x: (target - h).toFixed(4), y: math.evaluate(expr, { x: target - h }) }); } 
-        catch(e) { leftValues.push({ x: (target - h).toFixed(4), y: NaN }); }
-        try { rightValues.push({ x: (target + h).toFixed(4), y: math.evaluate(expr, { x: target + h }) }); } 
-        catch(e) { rightValues.push({ x: (target + h).toFixed(4), y: NaN }); }
-      }
 
-      // Extraire la limite (moyenne des deux dernières valeurs)
-      const lastLeft = leftValues[3].y;
-      const lastRight = rightValues[3].y;
+      const offsets = [0.1, 0.01, 0.001, 0.0001, 0.00001];
+      let leftVals = offsets.map(h => ({ x: target - h, fx: safeEval(expr, target - h) }));
+      let rightVals = offsets.map(h => ({ x: target + h, fx: safeEval(expr, target + h) }));
 
-      if (isNaN(lastLeft) || isNaN(lastRight)) {
-        throw new Error('syntax');
-      }
+      let tableHTML = `<table class="table-values"><tr>
+        <th colspan="2">${trad[currentLang]['left']} (x → ${targetLabel}⁻)</th>
+        <th colspan="2">${trad[currentLang]['right']} (x → ${targetLabel}⁺)</th>
+      </tr><tr>
+        <th>${trad[currentLang]['col.x']}</th><th>${trad[currentLang]['col.fx']}</th>
+        <th>${trad[currentLang]['col.x']}</th><th>${trad[currentLang]['col.fx']}</th>
+      </tr>`;
 
-      if (Math.abs(lastLeft - lastRight) > 1e-3 && isFinite(lastLeft) && isFinite(lastRight)) {
-        throw new Error('noLimit');
-      }
-
-      limitVal = (lastLeft + lastRight) / 2;
-
-      // Créer le tableau HTML
-      let tableHTML = `<table class="table-values">
-        <tr><th>x (gauche)</th><th>f(x)</th><th>x (droite)</th><th>f(x)</th></tr>`;
-      
-      for (let i = 0; i < stepsVal.length; i++) {
-        const lY = isNaN(leftValues[i].y) ? '—' : Number(leftValues[i].y).toFixed(5);
-        const rY = isNaN(rightValues[i].y) ? '—' : Number(rightValues[i].y).toFixed(5);
+      for (let i = 0; i < offsets.length; i++) {
+        const lCls = isInf(leftVals[i].fx) ? 'inf-cell' : '';
+        const rCls = isInf(rightVals[i].fx) ? 'inf-cell' : '';
         tableHTML += `<tr>
-          <td>${leftValues[i].x}</td><td>${lY}</td>
-          <td>${rightValues[i].x}</td><td>${rY}</td>
+          <td>${leftVals[i].x.toFixed(5)}</td><td class="${lCls}">${formatTableVal(leftVals[i].fx)}</td>
+          <td>${rightVals[i].x.toFixed(5)}</td><td class="${rCls}">${formatTableVal(rightVals[i].fx)}</td>
         </tr>`;
       }
       tableHTML += `</table>`;
-      
-      steps.push({ 
-        title: trad[currentLang]['step.table.result'], 
-        desc: tableHTML 
-      });
-    }
+      steps.push({ title: '', desc: tableHTML });
 
-    // Formater le résultat final
-    let finalResult = limitVal;
-    if (typeof finalResult === 'number') {
-      if (!isFinite(finalResult) || isNaN(finalResult)) {
-        finalResult = '—';
-      } else {
-        let rounded = Math.round(finalResult * 100000) / 100000;
-        if (Math.abs(rounded - Math.round(rounded)) < 1e-4) rounded = Math.round(rounded);
-        finalResult = rounded;
-      }
-    }
+      const lastLeft = leftVals[leftVals.length - 1].fx;
+      const lastRight = rightVals[rightVals.length - 1].fx;
 
-    steps.push({
-      title: trad[currentLang]['step.final'],
-      desc: trad[currentLang]['step.final.desc'].replace('{res}', finalResult)
-    });
+      let leftLimit = (lastLeft !== null && isInf(lastLeft)) ? (lastLeft > 0 ? '+∞' : '−∞') : lastLeft;
+      let rightLimit = (lastRight !== null && isInf(lastRight)) ? (lastRight > 0 ? '+∞' : '−∞') : lastRight;
 
-    resultValue.textContent = finalResult;
-    methodSteps.innerHTML = steps.map((s, i) => `
-      <div class="step-item">
-        <div class="step-num">${i + 1}</div>
-        <div class="step-text">
-          <strong>${s.title}</strong><br>
-          ${s.desc}
+      steps.push({ title: trad[currentLang]['step.lateral'], desc: trad[currentLang]['step.lateral.desc'] });
+
+      const leftDisplay = formatForDisplay(leftLimit);
+      const rightDisplay = formatForDisplay(rightLimit);
+      const leftDiverge = isInf(lastLeft);
+      const rightDiverge = isInf(lastRight);
+
+      let lateralHTML = `<div class="lateral-box">
+        <div class="lateral-card${leftDiverge ? ' diverge' : ''}">
+          <div class="lat-label">lim x→${targetLabel}⁻</div>
+          <div class="lat-value">${leftDisplay}</div>
         </div>
-      </div>
-    `).join('');
+        <div class="lateral-card${rightDiverge ? ' diverge' : ''}">
+          <div class="lat-label">lim x→${targetLabel}⁺</div>
+          <div class="lat-value">${rightDisplay}</div>
+        </div>
+      </div>`;
+
+      const leftNum = typeof leftLimit === 'number' ? leftLimit : null;
+      const rightNum = typeof rightLimit === 'number' ? rightLimit : null;
+
+      if (leftDisplay === rightDisplay) {
+        lateralHTML += `<p style="margin-top:12px; color:var(--success); font-weight:700;"><i class="fas fa-check-circle"></i> ${trad[currentLang]['step.lateral.agree']}</p>`;
+        if (algebre.limitSymbolique !== null) limitResult = algebre.limitSymbolique;
+        else if (typeof leftLimit === 'string') limitResult = leftLimit;
+        else if (leftNum !== null && rightNum !== null) limitResult = (leftNum + rightNum) / 2;
+        else limitResult = leftLimit !== null ? leftLimit : rightLimit;
+      } else if (leftDiverge && rightDiverge && leftDisplay !== rightDisplay) {
+        lateralHTML += `<p style="margin-top:12px; color:var(--danger); font-weight:700;"><i class="fas fa-times-circle"></i> ${trad[currentLang]['step.lateral.disagree']}</p>`;
+        limitExists = false;
+        limitResult = trad[currentLang]['noExist'];
+      } else if (leftNum !== null && rightNum !== null && Math.abs(leftNum - rightNum) > 1e-3) {
+        lateralHTML += `<p style="margin-top:12px; color:var(--danger); font-weight:700;"><i class="fas fa-times-circle"></i> ${trad[currentLang]['step.lateral.disagree']}</p>`;
+        limitExists = false;
+        limitResult = trad[currentLang]['noExist'];
+      } else {
+        limitResult = algebre.limitSymbolique !== null ? algebre.limitSymbolique : (leftLimit !== null ? leftLimit : rightLimit);
+      }
+
+      steps.push({ title: '', desc: lateralHTML });
+    }
+
+    // Conclusion formelle
+    const displayResult = formatForDisplay(limitResult);
+
+    if (limitExists) {
+      const latexEq = `\\lim_{x \\to ${targetLabel}} f(x) = ${displayResult}`;
+      steps.push({
+        title: trad[currentLang]['step.final'],
+        desc: `${trad[currentLang]['step.final.desc'].replace('{target}', targetLabel)}<div class="math-block" style="font-size:1.2rem;">${renderLatex(latexEq, true)}</div>`
+      });
+      resultValue.innerHTML = renderLatex(displayResult);
+      resultNotation.innerHTML = renderLatex(`\\lim_{x \\to ${targetLabel}} f(x) = ${displayResult}`);
+      resultNotation.style.display = '';
+    } else {
+      steps.push({
+        title: trad[currentLang]['step.final'],
+        desc: trad[currentLang]['step.final.noexist'].replace('{target}', targetLabel)
+      });
+      resultValue.textContent = displayResult;
+      resultNotation.textContent = '';
+      resultNotation.style.display = 'none';
+    }
+
+    // Affichage des étapes
+    methodSteps.innerHTML = steps.filter(s => s.title || s.desc).map((s, i) => {
+      if (!s.title) return `<div class="step-item"><div class="step-num" style="visibility:hidden;">·</div><div class="step-text">${s.desc}</div></div>`;
+      return `<div class="step-item">
+        <div class="step-num">${i + 1}</div>
+        <div class="step-text"><strong class="step-title">${s.title}</strong>${s.desc}</div>
+      </div>`;
+    }).join('');
+
+    let stepIdx = 0;
+    methodSteps.querySelectorAll('.step-num').forEach(el => {
+      if (el.style.visibility !== 'hidden') { stepIdx++; el.textContent = stepIdx; }
+    });
 
     resultContainer.classList.add('visible');
 
+    // Mise à jour du graphe
+    currentGraphData = { expr, target, limitResult, limitExists };
+    drawLimitGraph(expr, target, limitResult, limitExists);
+
   } catch (e) {
-    errorBox.textContent = trad[currentLang][e.message === 'noLimit' ? 'err.noLimit' : 'err.syntax'];
+    let key = 'err.syntax';
+    if (e.message === 'noLimit') key = 'err.noLimit';
+    else if (e.message === 'undefined') key = 'err.undefined';
+    errorBox.textContent = trad[currentLang][key];
     errorBox.classList.add('visible');
   }
 }
+
+function formatScientific(n) {
+  if (Math.abs(n) >= 1e4) {
+    const exp = Math.floor(Math.log10(Math.abs(n)));
+    const base = n / Math.pow(10, exp);
+    return (Math.abs(base) === 1 ? (base < 0 ? '−' : '') : base.toFixed(0)) + '10' + superscript(exp);
+  }
+  return n.toString();
+}
+
+function superscript(n) {
+  const map = { '0': '⁰', '1': '¹', '2': '²', '3': '³', '4': '⁴', '5': '⁵', '6': '⁶', '7': '⁷', '8': '⁸', '9': '⁹', '-': '⁻' };
+  return String(n).split('').map(c => map[c] || c).join('');
+}
+
+// ============================================================
+// CANVAS : MINI-GRAPHE INTERACTIF AU VOISINAGE
+// ============================================================
+function drawLimitGraph(expr, target, limitResult, limitExists) {
+  const canvas = document.getElementById('limitCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const rect = canvas.parentElement.getBoundingClientRect();
+  const dpr = window.devicePixelRatio || 1;
+  canvas.width = rect.width * dpr;
+  canvas.height = rect.height * dpr;
+  ctx.scale(dpr, dpr);
+  const w = rect.width, h = rect.height;
+
+  ctx.fillStyle = '#fffdf7';
+  ctx.fillRect(0, 0, w, h);
+
+  let xMin, xMax, yMin = -5, yMax = 5;
+
+  if (target === Infinity) {
+    xMin = 0; xMax = 40;
+  } else if (target === -Infinity) {
+    xMin = -40; xMax = 0;
+  } else {
+    const span = 4;
+    xMin = target - span;
+    xMax = target + span;
+  }
+
+  const sampleSteps = 80;
+  let sampleY = [];
+  for (let i = 0; i <= sampleSteps; i++) {
+    const x = xMin + (i / sampleSteps) * (xMax - xMin);
+    const y = safeEval(expr, x);
+    if (y !== null && isFinite(y) && Math.abs(y) < 100) sampleY.push(y);
+  }
+
+  if (typeof limitResult === 'number' && isFinite(limitResult)) {
+    sampleY.push(limitResult);
+  }
+
+  if (sampleY.length > 2) {
+    sampleY.sort((a, b) => a - b);
+    const q10 = sampleY[Math.floor(sampleY.length * 0.05)];
+    const q90 = sampleY[Math.floor(sampleY.length * 0.95)];
+    const pad = Math.max(1, (q90 - q10) * 0.3);
+    yMin = Math.min(-1, q10 - pad);
+    yMax = Math.max(1, q90 + pad);
+  }
+
+  function toPxX(x) { return ((x - xMin) / (xMax - xMin)) * w; }
+  function toPxY(y) { return h - ((y - yMin) / (yMax - yMin)) * h; }
+
+  // Grille
+  ctx.strokeStyle = 'rgba(22, 33, 62, 0.06)';
+  ctx.lineWidth = 1;
+  const numGridLines = 6;
+  for (let i = 1; i < numGridLines; i++) {
+    const gx = (i / numGridLines) * w;
+    ctx.beginPath(); ctx.moveTo(gx, 0); ctx.lineTo(gx, h); ctx.stroke();
+    const gy = (i / numGridLines) * h;
+    ctx.beginPath(); ctx.moveTo(0, gy); ctx.lineTo(w, gy); ctx.stroke();
+  }
+
+  // Axes repère
+  ctx.strokeStyle = '#16213e';
+  ctx.lineWidth = 1.5;
+  const zeroY = toPxY(0);
+  if (zeroY >= 0 && zeroY <= h) {
+    ctx.beginPath(); ctx.moveTo(0, zeroY); ctx.lineTo(w, zeroY); ctx.stroke();
+  }
+  const zeroX = toPxX(0);
+  if (zeroX >= 0 && zeroX <= w) {
+    ctx.beginPath(); ctx.moveTo(zeroX, 0); ctx.lineTo(zeroX, h); ctx.stroke();
+  }
+
+  // Ligne de limite L
+  if (limitExists && typeof limitResult === 'number' && isFinite(limitResult)) {
+    const limY = toPxY(limitResult);
+    if (limY >= 0 && limY <= h) {
+      ctx.save();
+      ctx.strokeStyle = '#2a9d8f';
+      ctx.lineWidth = 2;
+      ctx.setLineDash([6, 4]);
+      ctx.beginPath(); ctx.moveTo(0, limY); ctx.lineTo(w, limY); ctx.stroke();
+      ctx.fillStyle = '#2a9d8f';
+      ctx.font = '11px "JetBrains Mono", monospace';
+      ctx.fillText(`L = ${formatForDisplay(limitResult)}`, 8, Math.max(14, limY - 4));
+      ctx.restore();
+    }
+  }
+
+  // Ligne cible x0
+  if (isFinite(target)) {
+    const tarX = toPxX(target);
+    if (tarX >= 0 && tarX <= w) {
+      ctx.save();
+      ctx.strokeStyle = '#c0483f';
+      ctx.lineWidth = 2;
+      ctx.setLineDash([5, 4]);
+      ctx.beginPath(); ctx.moveTo(tarX, 0); ctx.lineTo(tarX, h); ctx.stroke();
+      ctx.fillStyle = '#c0483f';
+      ctx.font = '11px "JetBrains Mono", monospace';
+      ctx.fillText(`x₀ = ${formatForDisplay(target)}`, Math.min(w - 70, tarX + 6), h - 10);
+      ctx.restore();
+    }
+  }
+
+  // Courbe fonction
+  ctx.strokeStyle = '#e8a33d';
+  ctx.lineWidth = 2.5;
+  ctx.beginPath();
+  let first = true;
+  let lastPy = null;
+
+  for (let px = 0; px <= w; px += 1) {
+    const mathX = xMin + (px / w) * (xMax - xMin);
+    const mathY = safeEval(expr, mathX);
+    if (mathY === null || !isFinite(mathY)) { first = true; lastPy = null; continue; }
+    const py = toPxY(mathY);
+    if (lastPy !== null && Math.abs(py - lastPy) > h * 0.7) { first = true; }
+    if (first) { ctx.moveTo(px, py); first = false; }
+    else { ctx.lineTo(px, py); }
+    lastPy = py;
+  }
+  ctx.stroke();
+
+  // Point limite
+  if (isFinite(target) && limitExists && typeof limitResult === 'number' && isFinite(limitResult)) {
+    const ptX = toPxX(target);
+    const ptY = toPxY(limitResult);
+    if (ptX >= 0 && ptX <= w && ptY >= 0 && ptY <= h) {
+      const isDef = safeEval(expr, target) !== null;
+      ctx.fillStyle = isDef ? '#2a9d8f' : '#fffdf7';
+      ctx.strokeStyle = '#2a9d8f';
+      ctx.lineWidth = 2.5;
+      ctx.beginPath();
+      ctx.arc(ptX, ptY, 6, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.stroke();
+    }
+  }
+}
 </script>
-  <script data-goatcounter="https://darrssy.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+<script data-goatcounter="https://darrssy.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </body>
 </html>
