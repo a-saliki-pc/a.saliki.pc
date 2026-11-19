@@ -46,6 +46,10 @@ nav { background: var(--white); border-bottom: 2px solid var(--ink); padding: 10
 .nav-links a.actif { font-weight: 700; }
 .menu-toggle { display: none; font-size: 1.3rem; cursor: pointer; color: var(--ink); background: none; border: none; padding: 5px; }
 
+/* CORRECTION ICI : On force le masquage des sections inactives */
+.level-section { display: none; animation: fadeIn 0.4s ease; }
+.level-section.actif { display: block; }
+
 @media (max-width: 991px) {
   .menu-toggle { display: block; }
   .nav-links {
@@ -72,8 +76,6 @@ nav { background: var(--white); border-bottom: 2px solid var(--ink); padding: 10
 .level-btn:hover { background: var(--light); }
 .level-btn.actif { background: var(--ink); color: var(--white); }
 
-.level-section { display: none; animation: fadeIn 0.4s ease; }
-.level-section.actif { display: block; }
 @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
 .cours-accordion { background: var(--white); border: 2px solid var(--ink); border-radius: var(--radius); margin-bottom: 15px; box-shadow: var(--shadow); overflow: hidden; transition: var(--transition); }
@@ -168,7 +170,6 @@ nav { background: var(--white); border-bottom: 2px solid var(--ink); padding: 10
   </div>
 </div>
 
-<!-- IMPORTANT : Charger darrssy-config.js pour Supabase -->
 <script src="../admin/darrssy-config.js"></script>
 <script>
 let currentLang = localStorage.getItem('darrssy-lang') || 'fr';
@@ -241,14 +242,10 @@ function bindEvents() {
   }
 }
 
-// ==========================================
-// CHARGEMENT DES COURS DEPUIS SUPABASE
-// ==========================================
 async function chargerCours() {
   try {
     if (typeof lireTable !== 'function') throw new Error("lireTable non chargé");
     
-    // On récupère uniquement les cours de la matière "maths"
     tousLesCours = await lireTable('cours', { 
       filtres: { publie: true, matiere: 'maths' }, 
       ordre: { col: 'created_at', asc: false } 
@@ -262,7 +259,6 @@ async function chargerCours() {
 }
 
 function afficherCours() {
-  // Vider les conteneurs
   const containers = {
     tronc: document.getElementById('cours-tronc'),
     '1bac': document.getElementById('cours-1bac'),
@@ -285,12 +281,11 @@ function afficherCours() {
       container = containers['2bac'];
     }
     
-    if (!container) return; // Sécurité
+    if (!container) return;
 
     const titre = currentLang === 'fr' ? c.titre_fr : (c.titre_ar || c.titre_fr);
     const desc = currentLang === 'fr' ? (c.description_fr || '') : (c.description_ar || c.description_fr || '');
     
-    // On crée l'accordéon
     const accordion = document.createElement('div');
     accordion.className = 'cours-accordion';
     accordion.innerHTML = `
@@ -317,7 +312,6 @@ function afficherCours() {
     container.appendChild(accordion);
   });
   
-  // Si un conteneur est resté vide (aucun cours pour ce niveau)
   Object.keys(containers).forEach(k => {
     if (containers[k].innerHTML === '') {
       containers[k].innerHTML = `<p style="color:var(--gray);">${trad[currentLang]['noCours']}</p>`;
