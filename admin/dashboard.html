@@ -273,12 +273,19 @@ tbody tr{transition:var(--transition)}tbody tr:hover{background:rgba(139,92,246,
 
 <script src="darrssy-config.js"></script>
 <script>
-/* ===== LISTE FIXE DES LEÇONS (MISE À JOUR POUR MATHS ET SVT) ===== */
+/* ===== LISTE FIXE DES LEÇONS (MISE À JOUR POUR MATHS ET SVT + TRONC COMMUN + 1BAC) ===== */
 const LECONS = {
   physique: [
+    // Tronc Commun
+    { fr: 'Mécanique (Forces, équilibre)', ar: 'الميكانيك (القوى، التوازن)' },
+    { fr: 'Électricité (Loi d\'Ohm)', ar: 'الكهرباء (قانون أوم)' },
+    // 1 Bac
+    { fr: 'Travail et énergie', ar: 'الشغل والطاقة' },
+    { fr: 'Électricité (RC, RL)', ar: 'الكهرباء (RC, RL)' },
+    { fr: 'Optique', ar: 'البصريات' },
+    // 2 Bac
     { fr: 'Les ondes mécaniques', ar: 'الموجات الميكانيكية' },
     { fr: 'Les ondes lumineuses', ar: 'الموجات الضوئية' },
-    { fr: 'Électricité (RC, RL)', ar: 'الكهرباء (RC, RL)' },
     { fr: 'Circuit RLC', ar: 'دارة RLC' },
     { fr: "Modulation et démodulation d'amplitude", ar: 'التضمين وإزالة التضمين' },
     { fr: 'Application des lois de Newton', ar: 'تطبيق قوانين نيوتن' },
@@ -287,24 +294,47 @@ const LECONS = {
     { fr: 'Radioactivité', ar: 'النشاط الإشعاعي' }
   ],
   chimie: [
+    // Tronc Commun
+    { fr: 'Espèces chimiques', ar: 'الأنواع الكيميائية' },
+    { fr: 'L\'atome', ar: 'الذرة' },
+    // 1 Bac
+    { fr: 'Chimie organique', ar: 'الكيمياء العضوية' },
+    // 2 Bac
     { fr: 'Oxydoréduction', ar: 'الأكسدة والإرجاع' },
     { fr: 'Cinétique chimique', ar: 'الحركية الكيميائية' },
-    { fr: 'Acide-base', ar: 'الحموض والقواعد' },
-    { fr: 'Chimie organique', ar: 'الكيمياء العضوية' }
+    { fr: 'Acide-base', ar: 'الحموض والقواعد' }
   ],
   maths: [
-    { fr: 'Généralités sur les fonctions', ar: 'عموميات حول الدوال' },
+    // Tronc Commun
+    { fr: 'Ensembles de nombres', ar: 'مجموعات الأعداد' },
+    { fr: 'Ordre dans ℝ', ar: 'الترتيب في ℝ' },
     { fr: 'Équations et inéquations', ar: 'المعادلات والمتراجحات' },
+    { fr: 'Généralités sur les fonctions', ar: 'عموميات حول الدوال' },
+    { fr: 'Fonctions linéaires et affines', ar: 'الدوال الخطية والتآلفية' },
+    { fr: 'Trigonométrie', ar: 'حساب المثلثات' },
+    { fr: 'Statistiques', ar: 'الإحصاء' },
+    // 1 Bac
+    { fr: 'Notions de logique', ar: 'مبادئ المنطق' },
+    { fr: 'Calcul trigonométrique', ar: 'الحساب المثلثي' },
     { fr: 'Suites numériques', ar: 'المتتاليات العددية' },
-    { fr: 'Dérivation', ar: 'الاشتقاق' },
     { fr: 'Limites et continuité', ar: 'النهايات والاستمرارية' },
+    { fr: 'Dérivation', ar: 'الاشتقاق' },
+    { fr: 'Barycentre', ar: 'المرجح' },
+    // 2 Bac
     { fr: 'Fonctions logarithmiques', ar: 'الدوال اللوغاريتمية' },
     { fr: 'Fonctions exponentielles', ar: 'الدوال الأسية' },
     { fr: 'Nombres complexes', ar: 'الأعداد العقدية' }
   ],
   svt: [
+    // Tronc Commun
     { fr: 'La Terre et son environnement', ar: 'الأرض وبيئتها' },
-    { fr: 'Génétique et information héréditaire', ar: 'الوراثة والمعلومات الوراثية' },
+    { fr: 'La cellule', ar: 'الخلية' },
+    { fr: 'La reproduction', ar: 'التكاثر' },
+    // 1 Bac
+    { fr: 'Génétique', ar: 'الوراثة' },
+    { fr: 'La tectonique des plaques', ar: 'تكتونية الصفائح' },
+    { fr: 'La transmission des caractères', ar: 'انتقال الصفات' },
+    // 2 Bac
     { fr: 'Les lois de Mendel', ar: 'قوانين مندل' },
     { fr: 'Géologie : la chaîne de montagnes', ar: 'الجيولوجيا : السلسلة الجبلية' }
   ]
@@ -632,14 +662,21 @@ function ouvrirModalExamen(data=null){
         <option value="1bac" ${d.niveau==='1bac'?'selected':''}>1ère Bac</option>
         <option value="tronc" ${d.niveau==='tronc'?'selected':''}>Tronc Commun</option>
       </select></div>
+      <div class="form-group"><label>Matière</label><select id="e_matiere">
+        <option value="pc" ${d.matiere==='pc'?'selected':''}>Physique-Chimie</option>
+        <option value="maths" ${d.matiere==='maths'?'selected':''}>Mathématiques</option>
+        <option value="svt" ${d.matiere==='svt'?'selected':''}>SVT</option>
+      </select></div>
+    </div>
+    <div class="form-row">
       <div class="form-group"><label>Type</label><select id="e_type">
         <option value="controle" ${d.type==='controle'?'selected':''}>Contrôle</option>
         <option value="regional" ${d.type==='regional'?'selected':''}>Régional</option>
         <option value="national" ${d.type==='national'?'selected':''}>National</option>
       </select></div>
+      <div class="form-group"><label>Année</label><input type="number" id="e_annee" value="${d.annee||2024}"></div>
     </div>
     <div class="form-row">
-      <div class="form-group"><label>Année</label><input type="number" id="e_annee" value="${d.annee||2024}"></div>
       <div class="form-group"><label>Durée (min)</label><input type="number" id="e_duree" value="${d.duree||120}"></div>
     </div>
     <div class="form-group"><label>Description (FR)</label><textarea id="e_desc_fr" style="font-family:'Poppins',sans-serif;font-size:.92rem;">${d.description_fr||''}</textarea></div>
@@ -676,7 +713,7 @@ function ouvrirModalExamen(data=null){
       let fichier_url=d.fichier_url||null;let fichier_corrige_url=d.fichier_corrige_url||null;
       if(fichierSujet){const n=fichierSujet.name.normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-zA-Z0-9._-]/g,'_').replace(/_+/g,'_');fichier_url=await uploaderFichier(fichierSujet,`examens/sujets/${Date.now()}_${n}`);}
       if(fichierCorrige){const n=fichierCorrige.name.normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-zA-Z0-9._-]/g,'_').replace(/_+/g,'_');fichier_corrige_url=await uploaderFichier(fichierCorrige,`examens/corriges/${Date.now()}_${n}`);}
-      const dataEx={titre_fr,titre_ar:document.getElementById('e_titre_ar').value,niveau:document.getElementById('e_niveau').value,type:document.getElementById('e_type').value,annee:parseInt(document.getElementById('e_annee').value),duree:parseInt(document.getElementById('e_duree').value),description_fr:document.getElementById('e_desc_fr').value,publie:document.getElementById('e_publie').checked,matiere:'pc',fichier_url,fichier_corrige_url};
+      const dataEx={titre_fr,titre_ar:document.getElementById('e_titre_ar').value,niveau:document.getElementById('e_niveau').value,matiere:document.getElementById('e_matiere').value,type:document.getElementById('e_type').value,annee:parseInt(document.getElementById('e_annee').value),duree:parseInt(document.getElementById('e_duree').value),description_fr:document.getElementById('e_desc_fr').value,publie:document.getElementById('e_publie').checked,fichier_url,fichier_corrige_url};
       if(editing)await modifierLigne('examens',d.id,dataEx);else await insererLigne('examens',dataEx);
       afficherMessage('Examen enregistré !','succes');fermerModal();chargerExamens();
     }catch(err){afficherMessage('Erreur : '+err.message,'erreur');btn.disabled=false;btn.innerHTML='<i class="fas fa-save"></i> Enregistrer';}
