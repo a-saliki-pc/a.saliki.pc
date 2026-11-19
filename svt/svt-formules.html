@@ -4,29 +4,43 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Lois et Formules SVT | DARRSSY SVT</title>
+<meta name="description" content="Aide-mémoire complet des lois, équations et formules mathématiques en SVT (Génétique, Énergie cellulaire, Géologie, Écologie) avec calculateurs interactifs pour le Baccalauréat marocain.">
 <link rel="icon" type="image/png" href="../assets/logo-darrssy.png">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,500&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<!-- KaTeX pour les formules mathématiques -->
+<!-- KaTeX pour le rendu des formules -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
 
 <style>
 :root { 
   --primary: #16213e; --primary-light: #2a9d8f; --accent: #e8a33d; --accent-dark: #c17f1e;
-  --ink: #16213e; --gray: #5b6b7a; --gray-light: #93a3b0; --border: #d9d2bb; --light: #faf6ec; --white: #fffdf7;
+  --ink: #16213e; --gray: #5b6b7a; --gray-light: #93a3b0; --border: #d9d2bb;
+  --light: #faf6ec; --white: #fffdf7; --success: #2a9d8f; --danger: #c0483f;
   --shadow: 6px 6px 0 rgba(22,33,62,0.08); --shadow-lg: 10px 10px 0 rgba(22,33,62,0.1);
   --radius: 6px; --radius-sm: 4px; --transition: all 0.25s ease;
 }
 * { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: 'Inter', 'Tajawal', sans-serif; background: linear-gradient(rgba(22,33,62,0.1) 0.5px, transparent 0.5px), linear-gradient(90deg, rgba(22,33,62,0.1) 0.5px, transparent 0.5px), linear-gradient(rgba(22,33,62,0.028) 0.5px, transparent 0.5px), linear-gradient(90deg, rgba(22,33,62,0.028) 0.5px, transparent 0.5px), var(--light); background-size: 50px 50px, 50px 50px, 10px 10px, 10px 10px, auto; color: var(--ink); line-height: 1.6; min-height: 100vh; display: flex; flex-direction: column; }
+body {
+  font-family: 'Inter', 'Tajawal', sans-serif;
+  background: linear-gradient(rgba(22,33,62,0.1) 0.5px, transparent 0.5px),
+              linear-gradient(90deg, rgba(22,33,62,0.1) 0.5px, transparent 0.5px),
+              linear-gradient(rgba(22,33,62,0.028) 0.5px, transparent 0.5px),
+              linear-gradient(90deg, rgba(22,33,62,0.028) 0.5px, transparent 0.5px),
+              var(--light);
+  background-size: 50px 50px, 50px 50px, 10px 10px, 10px 10px, auto;
+  color: var(--ink); line-height: 1.6; min-height: 100vh; display: flex; flex-direction: column;
+}
 [dir="rtl"] body { font-family: 'Tajawal', 'Inter', sans-serif; }
 a { text-decoration: none; color: inherit; }
 h1, h2, h3 { font-family: 'Fraunces', 'Tajawal', serif; }
 
 /* NAV */
-nav { background: var(--white); border-bottom: 2px solid var(--ink); padding: 10px 5%; display: flex; justify-content: space-between; align-items: center; }
+nav {
+  background: var(--white); border-bottom: 2px solid var(--ink); padding: 10px 5%;
+  display: flex; justify-content: space-between; align-items: center;
+}
 .logo { display: flex; align-items: center; gap: 12px; }
 .logo-img-wrap { width: 40px; height: 40px; border-radius: 50%; background: var(--white); padding: 2px; border: 2px solid var(--ink); }
 .logo-img-wrap img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
@@ -41,32 +55,107 @@ nav { background: var(--white); border-bottom: 2px solid var(--ink); padding: 10
 .btn-back.secondary:hover { background: var(--ink); color: var(--white); }
 
 /* CONTENU */
-.main-content { flex: 1; padding: 40px 5%; max-width: 1000px; margin: 0 auto; width: 100%; }
-.page-title { text-align: center; margin-bottom: 30px; }
-.page-title h1 { font-size: 2.2rem; margin-bottom: 10px; }
-.page-title p { color: var(--gray); }
+.main-content { flex: 1; padding: 40px 5%; max-width: 1080px; margin: 0 auto; width: 100%; }
+.page-title { text-align: center; margin-bottom: 25px; }
+.page-title h1 { font-size: 2.3rem; margin-bottom: 10px; }
+.page-title p { color: var(--gray); font-size: 1.05rem; }
+
+/* BARRE DE RECHERCHE RAPIDE */
+.search-bar-wrap {
+  position: relative; max-width: 550px; margin: 0 auto 30px;
+}
+.search-input {
+  width: 100%; padding: 14px 20px 14px 45px; border: 2px solid var(--ink); border-radius: 50px;
+  background: var(--white); font-family: inherit; font-size: 0.95rem; color: var(--ink);
+  box-shadow: var(--shadow); transition: var(--transition);
+}
+[dir="rtl"] .search-input { padding: 14px 45px 14px 20px; }
+.search-input:focus { outline: none; border-color: var(--primary-light); box-shadow: 0 0 0 3px rgba(42,157,143,0.2); }
+.search-icon { position: absolute; left: 18px; top: 50%; transform: translateY(-50%); color: var(--gray); font-size: 1rem; pointer-events: none; }
+[dir="rtl"] .search-icon { left: auto; right: 18px; }
 
 /* ONGLETS (TABS) */
-.tabs-bar { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-bottom: 30px; padding: 10px; background: var(--white); border: 2px solid var(--ink); border-radius: var(--radius); box-shadow: var(--shadow); }
-.tab-btn { background: transparent; border: none; color: var(--gray); padding: 10px 20px; border-radius: var(--radius-sm); font-family: inherit; font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: var(--transition); display: inline-flex; align-items: center; gap: 8px; }
+.tabs-bar {
+  display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-bottom: 30px;
+  padding: 10px; background: var(--white); border: 2px solid var(--ink); border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+.tab-btn {
+  background: transparent; border: none; color: var(--gray); padding: 10px 18px;
+  border-radius: var(--radius-sm); font-family: inherit; font-size: 0.9rem; font-weight: 600;
+  cursor: pointer; transition: var(--transition); display: inline-flex; align-items: center; gap: 8px;
+}
 .tab-btn:hover { color: var(--ink); background: var(--light); }
 .tab-btn.actif { background: var(--ink); color: var(--white); }
+.tab-btn.highlight { border: 1.5px dashed var(--accent); color: var(--accent-dark); font-weight: 700; }
+.tab-btn.highlight.actif { background: var(--accent); color: var(--ink); border-color: var(--ink); }
 
 .tab-panel { display: none; animation: fadeIn 0.3s ease; }
 .tab-panel.actif { display: block; }
 @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
 /* CARTES DE FORMULES */
-.formule-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; }
-.formule-card { background: var(--white); border: 2px solid var(--ink); border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow); transition: var(--transition); }
-.formule-card:hover { box-shadow: var(--shadow-lg); border-color: var(--primary-light); }
-.formule-card h3 { font-size: 1.1rem; margin-bottom: 15px; color: var(--ink); display: flex; align-items: center; gap: 8px; font-family: 'Fraunces', serif; }
+.formule-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 22px; }
+.formule-card {
+  background: var(--white); border: 2px solid var(--ink); border-radius: var(--radius);
+  padding: 22px; box-shadow: var(--shadow); transition: var(--transition); display: flex; flex-direction: column;
+}
+.formule-card:hover { box-shadow: var(--shadow-lg); border-color: var(--primary-light); transform: translateY(-2px); }
+.formule-card h3 {
+  font-size: 1.15rem; margin-bottom: 16px; color: var(--ink); display: flex; align-items: center;
+  justify-content: space-between; border-bottom: 2px dashed var(--border); padding-bottom: 10px;
+}
 .formule-card h3 i { color: var(--accent); }
+.badge-theme {
+  font-size: 0.68rem; font-weight: 700; text-transform: uppercase; padding: 2px 8px;
+  border-radius: 4px; background: rgba(42,157,143,0.12); color: var(--primary-light);
+  font-family: 'JetBrains Mono', monospace;
+}
 
-.formule-item { padding: 10px 0; border-bottom: 1px dashed var(--border); display: flex; flex-direction: column; gap: 5px; }
+.formule-item {
+  padding: 12px 0; border-bottom: 1px dashed var(--border); display: flex;
+  flex-direction: column; gap: 6px;
+}
 .formule-item:last-child { border-bottom: none; padding-bottom: 0; }
-.formule-nom { font-size: 0.9rem; color: var(--gray); }
-.formule-eq { font-size: 1rem; color: var(--ink); font-weight: 500; padding: 5px 0; overflow-x: auto; }
+.formule-nom { font-size: 0.92rem; color: var(--primary); font-weight: 700; }
+.formule-desc { font-size: 0.82rem; color: var(--gray); line-height: 1.4; }
+.formule-eq {
+  font-size: 1.05rem; color: var(--ink); font-weight: 500; padding: 8px 12px;
+  background: var(--light); border-radius: var(--radius-sm); border-left: 3px solid var(--accent);
+  overflow-x: auto;
+}
+[dir="rtl"] .formule-eq { border-left: none; border-right: 3px solid var(--accent); }
+.formule-explication {
+  font-size: 0.8rem; color: var(--gray); font-family: 'JetBrains Mono', monospace;
+  background: #fdfdfd; padding: 4px 8px; border-radius: 4px; margin-top: 3px;
+}
+
+/* SECTION CALCULATEURS SVT */
+.calc-svt-box {
+  background: var(--white); border: 2px solid var(--ink); border-radius: var(--radius);
+  padding: 25px; box-shadow: var(--shadow-lg); margin-bottom: 25px;
+}
+.calc-svt-box h3 {
+  font-size: 1.25rem; margin-bottom: 15px; color: var(--ink); display: flex; align-items: center; gap: 10px;
+}
+.calc-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px; margin-bottom: 15px; }
+.calc-field label { display: block; font-size: 0.85rem; font-weight: 700; color: var(--gray); margin-bottom: 6px; }
+.calc-field input {
+  width: 100%; padding: 10px 14px; border: 2px solid var(--ink); border-radius: var(--radius-sm);
+  font-family: 'JetBrains Mono', monospace; font-size: 1rem; color: var(--ink); background: var(--light);
+}
+.calc-field input:focus { outline: none; border-color: var(--primary-light); box-shadow: 0 0 0 3px rgba(42,157,143,0.2); }
+.btn-calc-svt {
+  background: var(--ink); color: var(--white); border: none; padding: 10px 22px;
+  border-radius: var(--radius-sm); font-weight: 700; font-size: 0.9rem; cursor: pointer;
+  transition: var(--transition); display: inline-flex; align-items: center; gap: 8px;
+}
+.btn-calc-svt:hover { background: var(--accent); color: var(--ink); }
+.calc-result {
+  margin-top: 15px; padding: 14px; background: rgba(42,157,143,0.1); border: 1.5px solid var(--primary-light);
+  border-radius: var(--radius-sm); font-family: 'JetBrains Mono', monospace; font-size: 0.95rem; display: none;
+}
+.calc-result.visible { display: block; animation: fadeIn 0.3s ease; }
 
 @media (max-width: 768px) {
   nav { padding: 10px 3%; }
@@ -76,13 +165,10 @@ nav { background: var(--white); border-bottom: 2px solid var(--ink); padding: 10
   .btn-back { padding: 8px 12px; font-size: 0.8rem; }
   .lang-btn { padding: 6px 8px; font-size: 0.7rem; }
   .main-content { padding: 20px 4%; }
-  .page-title h1 { font-size: 1.6rem; }
-  .page-title p { font-size: 0.9rem; }
-  .tabs-bar { padding: 5px; gap: 5px; }
-  .tab-btn { padding: 8px 12px; font-size: 0.8rem; }
+  .page-title h1 { font-size: 1.7rem; }
+  .tabs-bar { padding: 6px; gap: 6px; }
+  .tab-btn { padding: 8px 12px; font-size: 0.78rem; }
   .formule-grid { grid-template-columns: 1fr; }
-  .formule-item { flex-direction: column; align-items: flex-start; gap: 5px; }
-  .formule-eq { text-align: left; width: 100%; }
 }
 </style>
 </head>
@@ -106,109 +192,279 @@ nav { background: var(--white); border-bottom: 2px solid var(--ink); padding: 10
 <div class="main-content">
   <div class="page-title">
     <h1 data-i18n="title">Lois et Formules SVT</h1>
-    <p data-i18n="desc">Votre aide-mémoire pour toutes les lois essentielles de la biologie et de la géologie.</p>
+    <p data-i18n="desc">Aide-mémoire interactif pour toutes les formules, lois quantitatives et calculs essentiels du programme marocain de SVT.</p>
   </div>
 
-  <!-- ONGLETS -->
+  <!-- RECHERCHE EN DIRECT -->
+  <div class="search-bar-wrap">
+    <i class="fas fa-search search-icon"></i>
+    <input type="text" id="formuleSearch" class="search-input" placeholder="Rechercher une loi, formule ou mot-clé (ex: Mendel, Hardy, ATP, Khi²)..." oninput="filtrerFormules()">
+  </div>
+
+  <!-- ONGLETS THEMATIQUES -->
   <div class="tabs-bar">
-    <button class="tab-btn actif" data-tab="genetique"><i class="fas fa-dna"></i> <span data-i18n="tab.genetique">Génétique</span></button>
-    <button class="tab-btn" data-tab="geologie"><i class="fas fa-mountain"></i> <span data-i18n="tab.geologie">Géologie</span></button>
+    <button class="tab-btn actif" data-tab="genetique"><i class="fas fa-dna"></i> <span data-i18n="tab.genetique">Génétique formelle</span></button>
+    <button class="tab-btn" data-tab="population"><i class="fas fa-users"></i> <span data-i18n="tab.population">Génétique des populations</span></button>
+    <button class="tab-btn" data-tab="energie"><i class="fas fa-bolt"></i> <span data-i18n="tab.energie">Énergie cellulaire & ATP</span></button>
+    <button class="tab-btn" data-tab="geologie"><i class="fas fa-mountain"></i> <span data-i18n="tab.geologie">Géologie & Datation</span></button>
     <button class="tab-btn" data-tab="ecologie"><i class="fas fa-leaf"></i> <span data-i18n="tab.ecologie">Écologie</span></button>
+    <button class="tab-btn highlight" data-tab="calcs"><i class="fas fa-calculator"></i> <span data-i18n="tab.calcs">Mini-Calculateurs SVT</span></button>
   </div>
 
-  <!-- TAB 1 : GENETIQUE -->
+  <!-- TAB 1 : GENETIQUE FORMELLE -->
   <div class="tab-panel actif" id="tab-genetique">
     <div class="formule-grid">
-      <div class="formule-card">
-        <h3><i class="fas fa-sitemap"></i> <span data-i18n="gen.lois">Lois de Mendel</span></h3>
-        <div class="formule-item">
-          <span class="formule-nom" data-i18n="gen.mono">Monohybridisme (F1 x F1)</span>
-          <span class="formule-eq">\(F_2\) : 3/4 [Dominant] ; 1/4 [Récessif]</span>
-        </div>
-        <div class="formule-item">
-          <span class="formule-nom" data-i18n="gen.dihy">Dihybridisme (F1 x F1)</span>
-          <span class="formule-eq">\(F_2\) : 9/16 ; 3/16 ; 3/16 ; 1/16</span>
-        </div>
-      </div>
       
       <div class="formule-card">
-        <h3><i class="fas fa-calculator"></i> <span data-i18n="gen.proba">Calculs de probabilités</span></h3>
+        <h3><span><i class="fas fa-sitemap"></i> <span data-i18n="gen.lois">Lois de Mendel</span></span> <span class="badge-theme">1ère & 2ème Bac</span></h3>
         <div class="formule-item">
-          <span class="formule-nom" data-i18n="gen.p1">Probabilité d'un phénotype</span>
-          <span class="formule-eq">\(P = \frac{\text{Nombre de cas favorables}}{\text{Nombre de cas possibles}}\)</span>
+          <span class="formule-nom" data-i18n="gen.mono">Monohybridisme (F1 × F1)</span>
+          <span class="formule-desc">Cas de dominance absolue pour 1 couple d'allèles</span>
+          <span class="formule-eq">\(F_2\) : \(\frac{3}{4}\) [Dominant] \; ; \; \frac{1}{4} [Récessif]</span>
+          <span class="formule-explication">Ratio phénotypique standard : 3 : 1</span>
         </div>
         <div class="formule-item">
-          <span class="formule-nom" data-i18n="gen.p2">Test du \(\chi^2\) (Khi-deux)</span>
-          <span class="formule-eq">\(\chi^2 = \sum \frac{(O - T)^2}{T}\)</span>
+          <span class="formule-nom">Codominance (F1 × F1)</span>
+          <span class="formule-desc">Aucun allèle ne domine l'autre</span>
+          <span class="formule-eq">\(F_2\) : \(\frac{1}{4} [P_1] \; ; \; \frac{2}{4} [Intermédiaire] \; ; \; \frac{1}{4} [P_2]\)</span>
+          <span class="formule-explication">Ratio phénotypique : 1 : 2 : 1</span>
+        </div>
+        <div class="formule-item">
+          <span class="formule-nom" data-i18n="gen.dihy">Dihybridisme indépendant (F1 × F1)</span>
+          <span class="formule-desc">3ème loi de Mendel : ségrégation indépendante des 2 couples d'allèles</span>
+          <span class="formule-eq">\(F_2\) : \(\frac{9}{16} [AB] \; ; \; \frac{3}{16} [Ab] \; ; \; \frac{3}{16} [aB] \; ; \; \frac{1}{16} [ab]\)</span>
         </div>
       </div>
 
       <div class="formule-card">
-        <h3><i class="fas fa-dna"></i> <span data-i18n="gen.arn">Synthèse des protéines</span></h3>
+        <h3><span><i class="fas fa-exchange-alt"></i> Test-Cross & Brassage</span> <span class="badge-theme">Liaison</span></h3>
         <div class="formule-item">
-          <span class="formule-nom" data-i18n="gen.arnm">Transcription (ADN → ARNm)</span>
-          <span class="formule-eq">A → U ; T → A ; C → G ; G → C</span>
+          <span class="formule-nom">Test-Cross : 2 gènes indépendants</span>
+          <span class="formule-desc">Croisement F1 (hétérozygote) × double récessif</span>
+          <span class="formule-eq">Résultat : \(25\% \; ; \; 25\% \; ; \; 25\% \; ; \; 25\%\) (1:1:1:1)</span>
         </div>
         <div class="formule-item">
-          <span class="formule-nom" data-i18n="gen.codon">Code génétique (ARNm → Acides aminés)</span>
-          <span class="formule-eq">1 codon (3 nucléotides) = 1 acide aminé</span>
+          <span class="formule-nom">Test-Cross : 2 gènes liés (avec crossing-over)</span>
+          <span class="formule-desc">Les types parentaux l'emportent sur les types recombinés</span>
+          <span class="formule-eq">\(\% \text{ Parentaux} > \% \text{ Recombinés}\)</span>
+        </div>
+        <div class="formule-item">
+          <span class="formule-nom">Distance génétique (Carte factorielle)</span>
+          <span class="formule-desc">Taux de recombinaison en centimorgans (cM)</span>
+          <span class="formule-eq">\(d = \frac{\text{Nombre d'individus recombinés}}{\text{Nombre total d'individus}} \times 100 \text{ (cM)}\)</span>
+          <span class="formule-explication">1% de recombinaison = 1 cM</span>
         </div>
       </div>
+
+      <div class="formule-card">
+        <h3><span><i class="fas fa-check-double"></i> Test statistique du \(\chi^2\)</span> <span class="badge-theme">Validation</span></h3>
+        <div class="formule-item">
+          <span class="formule-nom">Formule du Khi-deux (\(\chi^2\))</span>
+          <span class="formule-desc">Compare les effectifs observés (O) aux effectifs théoriques (T)</span>
+          <span class="formule-eq">\(\chi^2 = \sum \frac{(O - T)^2}{T}\)</span>
+          <span class="formule-explication">Degré de liberté : \(ddl = k - 1\) (k = nb de phénotypes)</span>
+        </div>
+        <div class="formule-item">
+          <span class="formule-nom">Règle de décision</span>
+          <span class="formule-desc">Comparaison avec la valeur seuil critique \(\chi^2_{\alpha}\)</span>
+          <span class="formule-eq">\(\chi^2_{\text{calculé}} \le \chi^2_{\text{seuil}} \implies \text{Hypothèse acceptée}\)</span>
+        </div>
+      </div>
+
     </div>
   </div>
 
-  <!-- TAB 2 : GEOLOGIE -->
+  <!-- TAB 2 : GENETIQUE DES POPULATIONS -->
+  <div class="tab-panel" id="tab-population">
+    <div class="formule-grid">
+      
+      <div class="formule-card">
+        <h3><span><i class="fas fa-balance-scale"></i> Loi de Hardy-Weinberg</span> <span class="badge-theme">Population idéale</span></h3>
+        <div class="formule-item">
+          <span class="formule-nom">Fréquences des allèles (p et q)</span>
+          <span class="formule-desc">Cas d'un gène autosomal à deux allèles A (dominant) et a (récessif)</span>
+          <span class="formule-eq">\(p = f(A) \quad ; \quad q = f(a) \quad \implies \quad p + q = 1\)</span>
+        </div>
+        <div class="formule-item">
+          <span class="formule-nom">Fréquences des génotypes à l'équilibre</span>
+          <span class="formule-desc">Développement du binôme \((p + q)^2 = 1\)</span>
+          <span class="formule-eq">\(f(AA) = p^2 \quad ; \quad f(Aa) = 2pq \quad ; \quad f(aa) = q^2\)</span>
+          <span class="formule-explication">Relation d'équilibre : \(p^2 + 2pq + q^2 = 1\)</span>
+        </div>
+        <div class="formule-item">
+          <span class="formule-nom">Calcul des fréquences alléliques à partir des effectifs</span>
+          <span class="formule-desc">Pour un échantillon total de N individus</span>
+          <span class="formule-eq">\(p = \frac{2 \cdot N(AA) + N(Aa)}{2N} \quad ; \quad q = \frac{2 \cdot N(aa) + N(Aa)}{2N}\)</span>
+        </div>
+      </div>
+
+      <div class="formule-card">
+        <h3><span><i class="fas fa-venus-mars"></i> Gènes liés au sexe (Chromosome X)</span> <span class="badge-theme">Génétique humaine</span></h3>
+        <div class="formule-item">
+          <span class="formule-nom">Chez les mâles (Hémizygotes XY)</span>
+          <span class="formule-desc">La fréquence du phénotype est égale à la fréquence de l'allèle</span>
+          <span class="formule-eq">\(f(X^A Y) = p \quad ; \quad f(X^a Y) = q\)</span>
+        </div>
+        <div class="formule-item">
+          <span class="formule-nom">Chez les femelles (XX)</span>
+          <span class="formule-desc">Même comportement qu'un gène autosomal</span>
+          <span class="formule-eq">\(f(X^A X^A) = p^2 \; ; \; f(X^A X^a) = 2pq \; ; \; f(X^a X^a) = q^2\)</span>
+          <span class="formule-explication">Les hommes sont beaucoup plus touchés par les allèles récessifs récurrents (\(q \gg q^2\)).</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- TAB 3 : ENERGIE CELLULAIRE & ATP -->
+  <div class="tab-panel" id="tab-energie">
+    <div class="formule-grid">
+      
+      <div class="formule-card">
+        <h3><span><i class="fas fa-fire-alt"></i> Respiration Cellulaire</span> <span class="badge-theme">Aérobie</span></h3>
+        <div class="formule-item">
+          <span class="formule-nom">Équation globale de la respiration</span>
+          <span class="formule-desc">Oxydation complète du glucose en milieu aérobie (mitochondrie)</span>
+          <span class="formule-eq">\(\text{C}_6\text{H}_{12}\text{O}_6 + 6\text{O}_2 + 38(\text{ADP} + \text{Pi}) \longrightarrow 6\text{CO}_2 + 6\text{H}_2\text{O} + 38\text{ ATP}\)</span>
+        </div>
+        <div class="formule-item">
+          <span class="formule-nom">Rendement énergétique de la respiration</span>
+          <span class="formule-desc">Énergie stockée sous forme d'ATP par rapport à l'énergie du glucose (2840 kJ/mol)</span>
+          <span class="formule-eq">\(R = \frac{38 \times 30{,}5 \text{ kJ}}{2840 \text{ kJ}} \times 100 \approx 40{,}8\%\)</span>
+          <span class="formule-explication">Le reste (~59,2%) est dissipé sous forme de chaleur.</span>
+        </div>
+      </div>
+
+      <div class="formule-card">
+        <h3><span><i class="fas fa-wine-bottle"></i> Fermentations (Anaérobie)</span> <span class="badge-theme">Hyaloplasme</span></h3>
+        <div class="formule-item">
+          <span class="formule-nom">Fermentation Lactique (Muscles, bactéries)</span>
+          <span class="formule-desc">Oxydation incomplète produisant de l'acide lactique</span>
+          <span class="formule-eq">\(\text{C}_6\text{H}_{12}\text{O}_6 + 2(\text{ADP} + \text{Pi}) \longrightarrow 2\,\text{CH}_3\text{CHOH-COOH} + 2\text{ ATP}\)</span>
+        </div>
+        <div class="formule-item">
+          <span class="formule-nom">Fermentation Alcoolique (Levures)</span>
+          <span class="formule-desc">Oxydation incomplète produisant de l'éthanol et du CO₂</span>
+          <span class="formule-eq">\(\text{C}_6\text{H}_{12}\text{O}_6 + 2(\text{ADP} + \text{Pi}) \longrightarrow 2\,\text{C}_2\text{H}_5\text{OH} + 2\,\text{CO}_2 + 2\text{ ATP}\)</span>
+        </div>
+        <div class="formule-item">
+          <span class="formule-nom">Rendement énergétique de la fermentation</span>
+          <span class="formule-desc">Seulement 2 ATP formés par molécule de glucose</span>
+          <span class="formule-eq">\(R = \frac{2 \times 30{,}5 \text{ kJ}}{2840 \text{ kJ}} \times 100 \approx 2{,}15\%\)</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- TAB 4 : GEOLOGIE & DATATION -->
   <div class="tab-panel" id="tab-geologie">
     <div class="formule-grid">
+      
       <div class="formule-card">
-        <h3><i class="fas fa-clock"></i> <span data-i18n="geo.datation">Datation absolue</span></h3>
+        <h3><span><i class="fas fa-stopwatch"></i> Datation Radiométrique</span> <span class="badge-theme">Géochronologie</span></h3>
         <div class="formule-item">
           <span class="formule-nom" data-i18n="geo.k">Loi de décroissance radioactive</span>
-          <span class="formule-eq">\(N = N_0 \cdot e^{-\lambda t}\)</span>
+          <span class="formule-desc">Nombre d'atomes radioactifs restants au temps t</span>
+          <span class="formule-eq">\(N(t) = N_0 \cdot e^{-\lambda t}\)</span>
+          <span class="formule-explication">\(\lambda\) : constante radioactive ; \(t_{1/2} = \frac{\ln(2)}{\lambda}\)</span>
         </div>
         <div class="formule-item">
-          <span class="formule-nom" data-i18n="geo.age">Âge de l'échantillon</span>
-          <span class="formule-eq">\(t = \frac{1}{\lambda} \ln\left(\frac{N_0}{N}\right)\)</span>
+          <span class="formule-nom" data-i18n="geo.age">Calcul de l'âge géologique</span>
+          <span class="formule-desc">Âge de la roche à partir du rapport pères/fils</span>
+          <span class="formule-eq">\(t = \frac{1}{\lambda} \ln\left(1 + \frac{N_{\text{fils}}}{N_{\text{père}}}\right)\)</span>
         </div>
       </div>
 
       <div class="formule-card">
-        <h3><i class="fas fa-layer-group"></i> <span data-i18n="geo.strates">Stratigraphie</span></h3>
+        <h3><span><i class="fas fa-tachometer-alt"></i> Cinématique & Géophysique</span> <span class="badge-theme">Tectonique</span></h3>
         <div class="formule-item">
-          <span class="formule-nom" data-i18n="geo.principes">Principes fondamentaux</span>
-          <span class="formule-eq">Superposition, continuité, recoupement</span>
+          <span class="formule-nom">Vitesse d'expansion ou subduction</span>
+          <span class="formule-desc">Calculée à partir des anomalies magnétiques ou de points chauds</span>
+          <span class="formule-eq">\(V = \frac{d}{t} \quad \text{en cm/an ou km/Ma}\)</span>
+          <span class="formule-explication">1 cm/an = 10 km/Ma</span>
         </div>
         <div class="formule-item">
-          <span class="formule-nom" data-i18n="geo.failles">Failles et plis</span>
-          <span class="formule-eq">Faille normale (extension) / inverse (compression)</span>
+          <span class="formule-nom">Gradient géothermique</span>
+          <span class="formule-desc">Augmentation de la température avec la profondeur</span>
+          <span class="formule-eq">\(G = \frac{\Delta T}{\Delta z} \quad \text{(moyenne continentale : } \approx 30^\circ\text{C/km)}\)</span>
         </div>
       </div>
+
     </div>
   </div>
 
-  <!-- TAB 3 : ECOLOGIE -->
+  <!-- TAB 5 : ECOLOGIE -->
   <div class="tab-panel" id="tab-ecologie">
     <div class="formule-grid">
+      
       <div class="formule-card">
-        <h3><i class="fas fa-globe"></i> <span data-i18n="eco.cycles">Cycles biogéochimiques</span></h3>
+        <h3><span><i class="fas fa-tree"></i> Écologie Végétale & Animale</span> <span class="badge-theme">Densité & Fréquence</span></h3>
         <div class="formule-item">
-          <span class="formule-nom" data-i18n="eco.carbone">Cycle du carbone</span>
-          <span class="formule-eq">Photosynthèse, respiration, décomposition</span>
+          <span class="formule-nom">Fréquence de Raunkiaer (F)</span>
+          <span class="formule-desc">Présence d'une espèce dans les relevés écologiques</span>
+          <span class="formule-eq">\(F = \frac{n}{N} \times 100 \quad \text{(\%)}\)</span>
+          <span class="formule-explication">\(n\) : relevés où l'espèce existe ; \(N\) : nombre total de relevés</span>
         </div>
         <div class="formule-item">
-          <span class="formule-nom" data-i18n="eco.azote">Cycle de l'azote</span>
-          <span class="formule-eq">Fixation, nitrification, dénitrification</span>
+          <span class="formule-nom">Densité absolue (D) et Densité relative (d)</span>
+          <span class="formule-desc">Nombre d'individus par unité de surface</span>
+          <span class="formule-eq">\(D = \frac{n_i}{S} \quad ; \quad d = \frac{n_i}{N_{\text{total}}} \times 100 \quad \text{(\%)}\)</span>
         </div>
       </div>
 
       <div class="formule-card">
-        <h3><i class="fas fa-chart-pie"></i> <span data-i18n="eco.flux">Flux d'énergie</span></h3>
+        <h3><span><i class="fas fa-layer-group"></i> Réseaux & Pyramides Trophiques</span> <span class="badge-theme">Flux de matière</span></h3>
         <div class="formule-item">
-          <span class="formule-nom" data-i18n="eco.rendement">Rendement écologique</span>
-          <span class="formule-eq">\(R = \frac{\text{Biomasse du niveau } n+1}{\text{Biomasse du niveau } n} \times 100\)</span>
+          <span class="formule-nom">Rendement écologique de production</span>
+          <span class="formule-desc">Efficacité du transfert d'énergie d'un niveau trophique au suivant</span>
+          <span class="formule-eq">\(R = \frac{\text{Production nette du niveau } n}{\text{Production nette du niveau } n-1} \times 100 \approx 10\%\)</span>
+          <span class="formule-explication">Règle des 10% (Loi de Lindeman).</span>
         </div>
       </div>
+
     </div>
+  </div>
+
+  <!-- TAB 6 : MINI-CALCULATEURS SVT INTERACTIFS -->
+  <div class="tab-panel" id="tab-calcs">
+    
+    <!-- Mini Calc 1 : Hardy-Weinberg -->
+    <div class="calc-svt-box">
+      <h3><i class="fas fa-calculator" style="color:var(--accent);"></i> Calculateur Hardy-Weinberg (Fréquences alléliques & génotypiques)</h3>
+      <p style="font-size:0.9rem; color:var(--gray); margin-bottom:15px;">
+        Entrez la fréquence des individus malades (homozygotes récessifs \(q^2 = f(aa)\)) ou la fréquence de l'allèle récessif \(q\) :
+      </p>
+      <div class="calc-grid">
+        <div class="calc-field">
+          <label>Fréquence de la maladie \(q^2\) (Ex: 0.0004 pour 1/2500) :</label>
+          <input type="number" id="hwQ2" step="0.00001" placeholder="Ex: 0.0004" value="0.0004">
+        </div>
+      </div>
+      <button class="btn-calc-svt" onclick="calculerHardyWeinberg()"><i class="fas fa-play"></i> Calculer les fréquences</button>
+      <div class="calc-result" id="hwResult"></div>
+    </div>
+
+    <!-- Mini Calc 2 : Distance génétique -->
+    <div class="calc-svt-box">
+      <h3><i class="fas fa-ruler-combined" style="color:var(--primary-light);"></i> Calculateur de distance génétique (cM)</h3>
+      <p style="font-size:0.9rem; color:var(--gray); margin-bottom:15px;">
+        Issu d'un Test-Cross : entrez le nombre d'individus recombinés et le total d'individus obtenus.
+      </p>
+      <div class="calc-grid">
+        <div class="calc-field">
+          <label>Nombre de recombinés :</label>
+          <input type="number" id="recCount" placeholder="Ex: 85" value="85">
+        </div>
+        <div class="calc-field">
+          <label>Nombre total d'individus :</label>
+          <input type="number" id="totalCount" placeholder="Ex: 1000" value="1000">
+        </div>
+      </div>
+      <button class="btn-calc-svt" onclick="calculerDistanceGenetique()"><i class="fas fa-play"></i> Calculer la distance</button>
+      <div class="calc-result" id="distResult"></div>
+    </div>
+
   </div>
 
 </div>
@@ -218,35 +474,43 @@ let currentLang = localStorage.getItem('darrssy-lang') || 'fr';
 
 const trad = {
   fr: {
-    'nav.menu': 'Menu', 'nav.home': 'Site',
-    'title': 'Lois et Formules SVT', 'desc': 'Votre aide-mémoire pour toutes les lois essentielles de la biologie et de la géologie.',
-    'tab.genetique': 'Génétique', 'tab.geologie': 'Géologie', 'tab.ecologie': 'Écologie',
-    'gen.lois': 'Lois de Mendel', 'gen.mono': 'Monohybridisme (F1 x F1)', 'gen.dihy': 'Dihybridisme (F1 x F1)',
-    'gen.proba': 'Calculs de probabilités', 'gen.p1': "Probabilité d'un phénotype", 'gen.p2': 'Test du χ² (Khi-deux)',
-    'gen.arn': 'Synthèse des protéines', 'gen.arnm': 'Transcription (ADN → ARNm)', 'gen.codon': 'Code génétique (ARNm → Acides aminés)',
-    'geo.datation': 'Datation absolue', 'geo.k': 'Loi de décroissance radioactive', 'geo.age': "Âge de l'échantillon",
-    'geo.strates': 'Stratigraphie', 'geo.principes': 'Principes fondamentaux', 'geo.failles': 'Failles et plis',
-    'eco.cycles': 'Cycles biogéochimiques', 'eco.carbone': 'Cycle du carbone', 'eco.azote': "Cycle de l'azote",
-    'eco.flux': "Flux d'énergie", 'eco.rendement': 'Rendement écologique'
+    'nav.menu': 'Menu SVT', 'nav.home': 'Site DARRSSY',
+    'title': 'Lois et Formules SVT',
+    'desc': 'Aide-mémoire interactif pour toutes les formules, lois quantitatives et calculs essentiels du programme marocain de SVT.',
+    'tab.genetique': 'Génétique formelle',
+    'tab.population': 'Génétique des populations',
+    'tab.energie': 'Énergie cellulaire & ATP',
+    'tab.geologie': 'Géologie & Datation',
+    'tab.ecologie': 'Écologie',
+    'tab.calcs': 'Mini-Calculateurs SVT',
+    'gen.lois': 'Lois de Mendel',
+    'gen.mono': 'Monohybridisme (F1 × F1)',
+    'gen.dihy': 'Dihybridisme indépendant (F1 × F1)',
+    'geo.k': 'Loi de décroissance radioactive',
+    'geo.age': "Âge de l'échantillon"
   },
   ar: {
-    'nav.menu': 'القائمة', 'nav.home': 'الموقع',
-    'title': 'قوانين وصيغ علوم الحياة والأرض', 'desc': 'مساعد ذاكرتك لجميع القوانين الأساسية في علم الأحياء والجيولوجيا.',
-    'tab.genetique': 'الوراثة', 'tab.geologie': 'الجيولوجيا', 'tab.ecologie': 'علم البيئة',
-    'gen.lois': 'قوانين مندل', 'gen.mono': 'الهجين الواحد (F1 x F1)', 'gen.dihy': 'الهجين المزدوج (F1 x F1)',
-    'gen.proba': 'حساب الاحتمالات', 'gen.p1': 'احتمال نمط ظاهري', 'gen.p2': 'اختبار χ² (كاي-مربع)',
-    'gen.arn': 'تخليق البروتينات', 'gen.arnm': 'النسخ (ADN → ARNm)', 'gen.codon': 'الشيفرة الوراثية (ARNm → أحماض أمينية)',
-    'geo.datation': 'التأريخ المطلق', 'geo.k': 'قانون التناقص الإشعاعي', 'geo.age': 'عمر العينة',
-    'geo.strates': 'الطبقات الجيولوجية', 'geo.principes': 'المبادئ الأساسية', 'geo.failles': 'الصدوع والطيات',
-    'eco.cycles': 'الدورات البيوجيوكيميائية', 'eco.carbone': 'دورة الكربون', 'eco.azote': 'دورة النيتروجين',
-    'eco.flux': 'تدفق الطاقة', 'eco.rendement': 'المردودية البيئية'
+    'nav.menu': 'قائمة علوم الحياة والأرض', 'nav.home': 'موقع DARRSSY',
+    'title': 'قوانين وصيغ علوم الحياة والأرض',
+    'desc': 'مساعد ذاكرتك التفاعلي لجميع الصيغ والقوانين الكمية والحسابات الأساسية لمنهاج البكالوريا المغربي.',
+    'tab.genetique': 'الوراثة المندلية',
+    'tab.population': 'وراثة الساكنة',
+    'tab.energie': 'الطاقة الخلوية و ATP',
+    'tab.geologie': 'الجيولوجيا والتأريخ',
+    'tab.ecologie': 'علم البيئة',
+    'tab.calcs': 'حاسبات تفاعلية لـ SVT',
+    'gen.lois': 'قوانين مندل',
+    'gen.mono': 'الهجونة الأحادية (F1 × F1)',
+    'gen.dihy': 'الهجونة الثنائية المستقلة (F1 × F1)',
+    'geo.k': 'قانون التناقص الإشعاعي',
+    'geo.age': 'عمر العينة'
   }
 };
 
 document.addEventListener('DOMContentLoaded', () => {
   appliquerLangue(currentLang);
   bindEvents();
-  setTimeout(renderMath, 500);
+  renderMath();
 });
 
 function appliquerLangue(lang) {
@@ -257,15 +521,7 @@ function appliquerLangue(lang) {
   document.querySelectorAll('[data-i18n]').forEach(el => {
     const key = el.getAttribute('data-i18n');
     if (trad[lang] && trad[lang][key]) {
-      // On utilise textContent pour les spans, innerHTML pour le reste
-      if (el.tagName === 'SPAN' || el.tagName === 'H1' || el.tagName === 'H3' || el.tagName === 'P') {
-         // On ne remplace pas les formules KaTeX
-         if (!el.classList.contains('formule-eq')) {
-            el.innerHTML = trad[lang][key];
-         }
-      } else {
-        el.innerHTML = trad[lang][key];
-      }
+      el.innerHTML = trad[lang][key];
     }
   });
   
@@ -273,7 +529,7 @@ function appliquerLangue(lang) {
     btn.classList.toggle('actif', btn.getAttribute('data-lang') === lang);
   });
   localStorage.setItem('darrssy-lang', lang);
-  setTimeout(renderMath, 200);
+  setTimeout(renderMath, 150);
 }
 
 function bindEvents() {
@@ -287,6 +543,7 @@ function bindEvents() {
       document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('actif'));
       btn.classList.add('actif');
       document.getElementById('tab-' + btn.getAttribute('data-tab')).classList.add('actif');
+      setTimeout(renderMath, 100);
     });
   });
 }
@@ -302,8 +559,76 @@ function renderMath() {
     });
   }
 }
-</script>
-  <script data-goatcounter="https://darrssy.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 
+// FILTRE DE RECHERCHE EN DIRECT
+function filtrerFormules() {
+  const query = document.getElementById('formuleSearch').value.toLowerCase().trim();
+  const items = document.querySelectorAll('.formule-card');
+  
+  if (!query) {
+    items.forEach(card => card.style.display = '');
+    return;
+  }
+
+  items.forEach(card => {
+    const text = card.textContent.toLowerCase();
+    if (text.includes(query)) {
+      card.style.display = '';
+    } else {
+      card.style.display = 'none';
+    }
+  });
+}
+
+// MINI-CALCULATEUR 1 : HARDY-WEINBERG
+function calculerHardyWeinberg() {
+  const q2Val = parseFloat(document.getElementById('hwQ2').value);
+  const resBox = document.getElementById('hwResult');
+  
+  if (isNaN(q2Val) || q2Val <= 0 || q2Val >= 1) {
+    resBox.innerHTML = '<span style="color:var(--danger);font-weight:700;">Veuillez entrer une fréquence valide entre 0 et 1 (ex: 0.0004).</span>';
+    resBox.classList.add('visible');
+    return;
+  }
+
+  const q = Math.sqrt(q2Val);
+  const p = 1 - q;
+  const p2 = p * p;
+  const twoPq = 2 * p * q;
+
+  resBox.innerHTML = `
+    <strong>Résultats de l'équilibre de Hardy-Weinberg :</strong><br>
+    • Fréquence allèle récessif <code>q = f(a)</code> : <strong>${q.toFixed(4)}</strong> (soit ${(q * 100).toFixed(2)}%)<br>
+    • Fréquence allèle dominant <code>p = f(A)</code> : <strong>${p.toFixed(4)}</strong> (soit ${(p * 100).toFixed(2)}%)<br>
+    • Fréquence des porteurs sains hétérozygotes <code>2pq = f(Aa)</code> : <strong>${twoPq.toFixed(4)}</strong> (soit ${(twoPq * 100).toFixed(2)}% ou 1 individu sur ${Math.round(1 / twoPq)})<br>
+    • Fréquence des homozygotes dominants <code>p² = f(AA)</code> : <strong>${p2.toFixed(4)}</strong> (soit ${(p2 * 100).toFixed(2)}%)
+  `;
+  resBox.classList.add('visible');
+}
+
+// MINI-CALCULATEUR 2 : DISTANCE GENETIQUE
+function calculerDistanceGenetique() {
+  const rec = parseFloat(document.getElementById('recCount').value);
+  const tot = parseFloat(document.getElementById('totalCount').value);
+  const resBox = document.getElementById('distResult');
+
+  if (isNaN(rec) || isNaN(tot) || tot <= 0 || rec < 0 || rec > tot) {
+    resBox.innerHTML = '<span style="color:var(--danger);font-weight:700;">Veuillez entrer des effectifs valides (recombinés ≤ total).</span>';
+    resBox.classList.add('visible');
+    return;
+  }
+
+  const dist = (rec / tot) * 100;
+
+  resBox.innerHTML = `
+    <strong>Résultats de la liaison génétique :</strong><br>
+    • Taux de recombinaison : <strong>${dist.toFixed(2)} %</strong><br>
+    • Distance génétique : <strong>${dist.toFixed(2)} cM</strong> (centimorgans)<br>
+    • Interprétation : ${dist < 50 ? '<span style="color:var(--success); font-weight:700;">Les deux gènes sont liés (sur le même chromosome).</span>' : '<span style="color:var(--accent-dark); font-weight:700;">Les gènes sont indépendants ou très éloignés (≥ 50 cM).</span>'}
+  `;
+  resBox.classList.add('visible');
+}
+</script>
+<script data-goatcounter="https://darrssy.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 </body>
 </html>
