@@ -9,74 +9,221 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.8.0/math.js"></script>
 <style>
-:root { --primary: #16213e; --primary-light: #2a9d8f; --accent: #e8a33d; --ink: #16213e; --gray: #5b6b7a; --gray-light: #93a3b0; --border: #d9d2bb; --light: #faf6ec; --white: #fffdf7; --success: #2a9d8f; --danger: #c0483f; --shadow: 6px 6px 0 rgba(22,33,62,0.08); --shadow-lg: 10px 10px 0 rgba(22,33,62,0.1); --radius: 6px; --radius-sm: 4px; --transition: all 0.25s ease; }
+:root {
+  --primary: #16213e; --primary-light: #2a9d8f; --accent: #e8a33d; --accent-dark: #c17f1e;
+  --ink: #16213e; --gray: #5b6b7a; --gray-light: #93a3b0; --border: #d9d2bb;
+  --light: #faf6ec; --white: #fffdf7; --success: #2a9d8f; --danger: #c0483f;
+  --shadow: 6px 6px 0 rgba(22,33,62,0.08); --shadow-lg: 10px 10px 0 rgba(22,33,62,0.1);
+  --radius: 6px; --radius-sm: 4px; --transition: all 0.25s ease;
+}
+
+/* Dark mode */
+[data-theme="dark"] {
+  --primary: #c5cae0; --primary-light: #3dd9c5; --accent: #f0b856; --accent-dark: #d4952a;
+  --ink: #e2e6f0; --gray: #9aa8b6; --gray-light: #6e7f8e; --border: #3a4050;
+  --light: #1a1e2e; --white: #222738; --success: #3dd9c5; --danger: #e06060;
+  --shadow: 6px 6px 0 rgba(0,0,0,0.25); --shadow-lg: 10px 10px 0 rgba(0,0,0,0.3);
+}
+
 * { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: 'Inter', 'Tajawal', sans-serif; background: linear-gradient(rgba(22,33,62,0.1) 0.5px, transparent 0.5px), linear-gradient(90deg, rgba(22,33,62,0.1) 0.5px, transparent 0.5px), linear-gradient(rgba(22,33,62,0.028) 0.5px, transparent 0.5px), linear-gradient(90deg, rgba(22,33,62,0.028) 0.5px, transparent 0.5px), var(--light); background-size: 50px 50px, 50px 50px, 10px 10px, 10px 10px, auto; color: var(--ink); line-height: 1.6; min-height: 100vh; display: flex; flex-direction: column; }
+body {
+  font-family: 'Inter', 'Tajawal', sans-serif;
+  background: linear-gradient(rgba(22,33,62,0.1) 0.5px, transparent 0.5px),
+              linear-gradient(90deg, rgba(22,33,62,0.1) 0.5px, transparent 0.5px),
+              linear-gradient(rgba(22,33,62,0.028) 0.5px, transparent 0.5px),
+              linear-gradient(90deg, rgba(22,33,62,0.028) 0.5px, transparent 0.5px),
+              var(--light);
+  background-size: 50px 50px, 50px 50px, 10px 10px, 10px 10px, auto;
+  color: var(--ink); line-height: 1.6; min-height: 100vh;
+  display: flex; flex-direction: column; transition: background 0.3s, color 0.3s;
+}
 [dir="rtl"] body { font-family: 'Tajawal', 'Inter', sans-serif; }
 a { text-decoration: none; color: inherit; }
 h1, h2, h3 { font-family: 'Fraunces', 'Tajawal', serif; }
 
-nav { background: var(--white); border-bottom: 2px solid var(--ink); padding: 10px 5%; display: flex; justify-content: space-between; align-items: center; }
+/* NAV */
+nav {
+  background: var(--white); border-bottom: 2px solid var(--ink);
+  padding: 10px 5%; display: flex; justify-content: space-between; align-items: center;
+  transition: background 0.3s;
+}
 .logo { display: flex; align-items: center; gap: 12px; }
 .logo-img-wrap { width: 40px; height: 40px; border-radius: 50%; background: var(--white); padding: 2px; border: 2px solid var(--ink); }
 .logo-img-wrap img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
 .logo-texte .titre { font-family: 'Fraunces', serif; font-size: 1.2rem; font-weight: 700; }
 .nav-right { display: flex; align-items: center; gap: 10px; }
-.btn-back { background: var(--ink); color: var(--white); padding: 8px 18px; border-radius: var(--radius-sm); font-weight: 600; font-size: 0.9rem; transition: var(--transition); display: flex; align-items: center; gap: 6px; border: 2px solid var(--ink); }
+.btn-back { background: var(--ink); color: var(--white); padding: 8px 18px; border-radius: var(--radius-sm); font-weight: 600; font-size: 0.9rem; transition: var(--transition); display: flex; align-items: center; gap: 6px; border: 2px solid var(--ink); cursor: pointer; }
 .btn-back:hover { background: var(--white); color: var(--ink); }
 .btn-back.secondary { background: transparent; color: var(--ink); border-color: var(--ink); }
 .btn-back.secondary:hover { background: var(--ink); color: var(--white); }
+.btn-icon { background: transparent; color: var(--ink); border: 2px solid var(--ink); width: 38px; height: 38px; border-radius: var(--radius-sm); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1rem; transition: var(--transition); }
+.btn-icon:hover { background: var(--ink); color: var(--white); }
 
-.main-content { flex: 1; padding: 30px 5%; max-width: 1200px; margin: 0 auto; width: 100%; display: flex; flex-direction: column; gap: 20px; }
+/* MAIN */
+.main-content { flex: 1; padding: 30px 5%; max-width: 1300px; margin: 0 auto; width: 100%; display: flex; flex-direction: column; gap: 20px; }
 .page-title { text-align: center; }
 .page-title h1 { font-size: 2.2rem; margin-bottom: 5px; }
 .page-title p { color: var(--gray); }
 
-.lab-card { background: var(--white); border: 2px solid var(--ink); border-radius: var(--radius); padding: 20px; box-shadow: var(--shadow-lg); display: flex; flex-direction: column; gap: 15px; }
+/* CARDS */
+.lab-card {
+  background: var(--white); border: 2px solid var(--ink); border-radius: var(--radius);
+  padding: 20px; box-shadow: var(--shadow-lg); display: flex; flex-direction: column; gap: 15px;
+  transition: background 0.3s;
+}
 
+/* QUICK EXAMPLES */
 .quick-examples { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
-.example-btn { background: var(--light); border: 1px solid var(--border); color: var(--ink); padding: 6px 14px; border-radius: 50px; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; cursor: pointer; transition: var(--transition); }
+.example-btn {
+  background: var(--light); border: 1px solid var(--border); color: var(--ink);
+  padding: 6px 14px; border-radius: 50px; font-family: 'JetBrains Mono', monospace;
+  font-size: 0.82rem; cursor: pointer; transition: var(--transition);
+}
 .example-btn:hover { background: var(--ink); color: var(--white); border-color: var(--ink); }
 
-.input-group { display: flex; gap: 10px; flex-wrap: wrap; }
-.input-group input { flex: 1; min-width: 250px; padding: 14px 18px; border: 2px solid var(--ink); border-radius: var(--radius-sm); font-family: 'JetBrains Mono', monospace; font-size: 1.1rem; color: var(--ink); background: var(--light); transition: var(--transition); }
-.input-group input:focus { outline: none; border-color: var(--primary-light); box-shadow: 0 0 0 3px rgba(42,157,143,0.2); }
-.btn-calc { background: var(--ink); color: var(--white); border: 2px solid var(--ink); padding: 12px 25px; border-radius: var(--radius-sm); font-weight: 700; font-size: 1rem; cursor: pointer; transition: var(--transition); display: flex; align-items: center; gap: 8px; }
+/* INPUT AREA */
+.input-section { display: flex; flex-direction: column; gap: 10px; }
+.function-row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.function-row input {
+  flex: 1; min-width: 200px; padding: 12px 16px; border: 2px solid var(--ink);
+  border-radius: var(--radius-sm); font-family: 'JetBrains Mono', monospace;
+  font-size: 1rem; color: var(--ink); background: var(--light); transition: var(--transition);
+}
+.function-row input:focus { outline: none; border-color: var(--primary-light); box-shadow: 0 0 0 3px rgba(42,157,143,0.2); }
+.color-swatch {
+  width: 36px; height: 36px; border-radius: 50%; border: 2px solid var(--ink);
+  cursor: default; flex-shrink: 0;
+}
+.btn-remove-fn {
+  width: 36px; height: 36px; border-radius: 50%; border: 2px solid var(--danger);
+  background: transparent; color: var(--danger); cursor: pointer; font-size: 1rem;
+  display: flex; align-items: center; justify-content: center; transition: var(--transition);
+}
+.btn-remove-fn:hover { background: var(--danger); color: var(--white); }
+
+.actions-row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+.btn-calc {
+  background: var(--ink); color: var(--white); border: 2px solid var(--ink);
+  padding: 12px 25px; border-radius: var(--radius-sm); font-weight: 700;
+  font-size: 1rem; cursor: pointer; transition: var(--transition);
+  display: flex; align-items: center; gap: 8px;
+}
 .btn-calc:hover { background: var(--accent); color: var(--ink); border-color: var(--accent); transform: translateY(-2px); }
+.btn-secondary {
+  background: transparent; color: var(--ink); border: 2px solid var(--border);
+  padding: 10px 18px; border-radius: var(--radius-sm); font-weight: 600;
+  font-size: 0.9rem; cursor: pointer; transition: var(--transition);
+  display: flex; align-items: center; gap: 6px;
+}
+.btn-secondary:hover { border-color: var(--ink); background: var(--light); }
 
-/* ANALYSE */
-.analysis-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
-@media (max-width: 900px) { .analysis-grid { grid-template-columns: 1fr; } }
+/* TOGGLE */
+.toggle-group { display: flex; align-items: center; gap: 8px; font-size: 0.88rem; color: var(--gray); }
+.toggle-switch { position: relative; width: 40px; height: 22px; cursor: pointer; }
+.toggle-switch input { opacity: 0; width: 0; height: 0; }
+.toggle-slider {
+  position: absolute; inset: 0; background: var(--border); border-radius: 22px;
+  transition: 0.3s;
+}
+.toggle-slider::before {
+  content: ''; position: absolute; width: 16px; height: 16px; border-radius: 50%;
+  left: 3px; bottom: 3px; background: var(--white); transition: 0.3s;
+}
+.toggle-switch input:checked + .toggle-slider { background: var(--primary-light); }
+.toggle-switch input:checked + .toggle-slider::before { transform: translateX(18px); }
 
-.analysis-card { background: var(--light); border: 2px solid var(--ink); border-radius: var(--radius-sm); padding: 15px 20px; }
-.analysis-card h3 { font-size: 1rem; margin-bottom: 10px; color: var(--ink); display: flex; align-items: center; gap: 8px; border-bottom: 1px dashed var(--border); padding-bottom: 8px; }
+/* ANALYSIS GRID */
+.analysis-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px; }
+.analysis-card {
+  background: var(--light); border: 2px solid var(--ink); border-radius: var(--radius-sm);
+  padding: 15px 20px; transition: background 0.3s;
+}
+.analysis-card h3 {
+  font-size: 0.95rem; margin-bottom: 10px; color: var(--ink);
+  display: flex; align-items: center; gap: 8px;
+  border-bottom: 1px dashed var(--border); padding-bottom: 8px;
+}
 .analysis-card h3 i { color: var(--primary-light); }
-.analysis-card .eq-display { font-family: 'JetBrains Mono', monospace; font-size: 1.1rem; color: var(--accent-dark); font-weight: 700; word-break: break-all; }
+.analysis-card .eq-display {
+  font-family: 'JetBrains Mono', monospace; font-size: 1rem;
+  color: var(--accent-dark); font-weight: 700; word-break: break-all;
+}
+.roots-list { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 5px; }
+.root-badge {
+  background: var(--white); border: 1px solid var(--accent); border-radius: 20px;
+  padding: 2px 10px; font-family: 'JetBrains Mono', monospace; font-size: 0.82rem;
+  color: var(--accent-dark);
+}
 
 /* TABLES */
 .table-container { overflow-x: auto; }
-table.variation-table, table.concavity-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; text-align: center; }
-table.variation-table th, table.variation-table td, table.concavity-table th, table.concavity-table td { border: 1px solid var(--ink); padding: 8px; }
+table.variation-table, table.concavity-table {
+  width: 100%; border-collapse: collapse; margin-top: 10px;
+  font-family: 'JetBrains Mono', monospace; font-size: 0.82rem; text-align: center;
+}
+table.variation-table th, table.variation-table td,
+table.concavity-table th, table.concavity-table td {
+  border: 1px solid var(--ink); padding: 8px 6px;
+}
 table.variation-table th, table.concavity-table th { background: var(--ink); color: var(--white); }
 .variation-arrow-up { color: var(--success); font-weight: bold; font-size: 1.2rem; }
 .variation-arrow-down { color: var(--danger); font-weight: bold; font-size: 1.2rem; }
 .concavity-up { color: var(--primary-light); font-weight: bold; }
 .concavity-down { color: var(--accent-dark); font-weight: bold; }
+td.interval-cell { font-size: 0.9rem; letter-spacing: 1px; }
 
 /* CANVAS */
-.canvas-container { width: 100%; height: 450px; background: #fff; border: 2px solid var(--ink); border-radius: var(--radius-sm); position: relative; overflow: hidden; cursor: grab; }
+.canvas-wrapper { position: relative; }
+.canvas-container {
+  width: 100%; height: 500px; background: var(--white); border: 2px solid var(--ink);
+  border-radius: var(--radius-sm); position: relative; overflow: hidden;
+  cursor: crosshair; touch-action: none; transition: background 0.3s;
+}
 canvas { width: 100%; height: 100%; display: block; }
-.zoom-controls { position: absolute; bottom: 15px; right: 15px; display: flex; flex-direction: column; gap: 5px; z-index: 10; }
-.zoom-btn { width: 40px; height: 40px; background: var(--white); border: 2px solid var(--ink); border-radius: var(--radius-sm); font-size: 1.2rem; font-weight: bold; color: var(--ink); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: var(--transition); box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+
+.canvas-controls {
+  position: absolute; bottom: 15px; right: 15px;
+  display: flex; flex-direction: column; gap: 5px; z-index: 10;
+}
+.zoom-btn {
+  width: 40px; height: 40px; background: var(--white); border: 2px solid var(--ink);
+  border-radius: var(--radius-sm); font-size: 1.2rem; font-weight: bold;
+  color: var(--ink); cursor: pointer; display: flex; align-items: center;
+  justify-content: center; transition: var(--transition);
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
 .zoom-btn:hover { background: var(--ink); color: var(--white); }
 
+.coord-tooltip {
+  position: absolute; top: 15px; left: 15px; background: rgba(22,33,62,0.9);
+  color: #fff; padding: 6px 14px; border-radius: var(--radius-sm);
+  font-family: 'JetBrains Mono', monospace; font-size: 0.82rem;
+  pointer-events: none; opacity: 0; transition: opacity 0.15s; z-index: 10;
+}
+[data-theme="dark"] .coord-tooltip { background: rgba(255,255,255,0.9); color: #222; }
+.coord-tooltip.visible { opacity: 1; }
+
+.canvas-legend {
+  position: absolute; top: 15px; right: 15px; background: var(--white);
+  border: 1px solid var(--border); border-radius: var(--radius-sm);
+  padding: 8px 14px; font-size: 0.8rem; z-index: 10;
+  display: flex; flex-direction: column; gap: 4px; max-width: 200px;
+}
+.legend-item { display: flex; align-items: center; gap: 8px; }
+.legend-color { width: 20px; height: 3px; border-radius: 2px; flex-shrink: 0; }
+
+/* RESPONSIVE */
 @media (max-width: 768px) {
-  .input-group { flex-direction: column; }
+  .function-row { flex-direction: column; }
+  .function-row input { min-width: unset; }
   .btn-calc { width: 100%; justify-content: center; }
   .canvas-container { height: 350px; }
   .btn-back span { display: none; }
   .btn-back { padding: 8px 12px; }
   .page-title h1 { font-size: 1.8rem; }
+  .analysis-grid { grid-template-columns: 1fr; }
+  .actions-row { flex-direction: column; }
+  .btn-secondary { width: 100%; justify-content: center; }
 }
 </style>
 </head>
@@ -88,6 +235,7 @@ canvas { width: 100%; height: 100%; display: block; }
     <div class="logo-texte"><span class="titre">DARRSSY Maths</span></div>
   </a>
   <div class="nav-right">
+    <button class="btn-icon" id="themeToggle" title="Mode sombre"><i class="fas fa-moon"></i></button>
     <a href="index.html" class="btn-back secondary"><i class="fas fa-th-large"></i> <span data-i18n="nav.menu">Menu Maths</span></a>
     <a href="../index.html" class="btn-back"><i class="fas fa-home"></i> <span data-i18n="nav.home">Site DARRSSY</span></a>
   </div>
@@ -96,25 +244,48 @@ canvas { width: 100%; height: 100%; display: block; }
 <div class="main-content">
   <div class="page-title">
     <h1 data-i18n="title">Analyse et Traceur de fonctions</h1>
-    <p data-i18n="desc">Domaine, dérivées, tableau de variation, concavité et courbe en un seul endroit.</p>
+    <p data-i18n="desc">Domaine, dérivées, asymptotes, racines, tableau de variation, concavité et courbe — tout en un.</p>
   </div>
 
   <div class="lab-card">
+    <!-- Quick examples -->
     <div class="quick-examples">
-      <button class="example-btn" onclick="setFunction('x^2 - 3x + 1')">Polynôme (x²)</button>
-      <button class="example-btn" onclick="setFunction('x^3 - 2x^2 + x - 1')">Polynôme (x³)</button>
-      <button class="example-btn" onclick="setFunction('1/x')">Inverse (1/x)</button>
-      <button class="example-btn" onclick="setFunction('log(x)')">Logarithme (ln x)</button>
-      <button class="example-btn" onclick="setFunction('sqrt(x)')">Racine (√x)</button>
-    </div>
-    
-    <div class="input-group">
-      <input type="text" id="functionInput" placeholder="Ex: x^3 - 2x^2 + x - 1" value="x^3 - 2x^2 + x - 1" onkeypress="if(event.key === 'Enter') analyzeFunction()">
-      <button class="btn-calc" onclick="analyzeFunction()"><i class="fas fa-microscope"></i> <span data-i18n="draw">Analyser & Tracer</span></button>
+      <button class="example-btn" onclick="loadExample('x^2 - 3*x + 1')">x² − 3x + 1</button>
+      <button class="example-btn" onclick="loadExample('x^3 - 2*x^2 + x - 1')">x³ − 2x² + x − 1</button>
+      <button class="example-btn" onclick="loadExample('1/x')">1/x</button>
+      <button class="example-btn" onclick="loadExample('log(x)')">ln(x)</button>
+      <button class="example-btn" onclick="loadExample('sqrt(x)')">√x</button>
+      <button class="example-btn" onclick="loadExample('sin(x)')">sin(x)</button>
+      <button class="example-btn" onclick="loadExample('exp(-x^2)')">e⁻ˣ²</button>
+      <button class="example-btn" onclick="loadExample('tan(x)')">tan(x)</button>
+      <button class="example-btn" onclick="loadExample('abs(x)')">|x|</button>
+      <button class="example-btn" onclick="loadExample('x*exp(-x)')">x·e⁻ˣ</button>
     </div>
 
-    <!-- DOMAINE + DERIVEES -->
-    <div class="analysis-grid">
+    <!-- Function inputs -->
+    <div class="input-section" id="functionInputs">
+      <div class="function-row" data-index="0">
+        <div class="color-swatch" style="background:#e8a33d;"></div>
+        <input type="text" placeholder="Ex: x^3 - 2*x^2 + x - 1" value="x^3 - 2*x^2 + x - 1">
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="actions-row">
+      <button class="btn-calc" onclick="analyzeAll()"><i class="fas fa-microscope"></i> <span data-i18n="draw">Analyser & Tracer</span></button>
+      <button class="btn-secondary" onclick="addFunction()"><i class="fas fa-plus"></i> <span data-i18n="addFn">Ajouter f(x)</span></button>
+      <button class="btn-secondary" onclick="exportCanvas()"><i class="fas fa-download"></i> <span data-i18n="export">Exporter PNG</span></button>
+      <div class="toggle-group">
+        <label class="toggle-switch">
+          <input type="checkbox" id="toggleDerivative">
+          <span class="toggle-slider"></span>
+        </label>
+        <span data-i18n="showDeriv">Afficher f'(x)</span>
+      </div>
+    </div>
+
+    <!-- Analysis: Domain, Derivatives, Roots, Asymptotes -->
+    <div class="analysis-grid" id="analysisGrid">
       <div class="analysis-card">
         <h3><i class="fas fa-globe"></i> <span data-i18n="ana.domain">Domaine de définition</span></h3>
         <div class="eq-display" id="domainDisplay">ℝ</div>
@@ -127,78 +298,144 @@ canvas { width: 100%; height: 100%; display: block; }
         <h3><i class="fas fa-pen-fancy"></i> <span data-i18n="ana.secondDerivative">Dérivée seconde f''(x)</span></h3>
         <div class="eq-display" id="secondDerivativeDisplay">—</div>
       </div>
+      <div class="analysis-card">
+        <h3><i class="fas fa-crosshairs"></i> <span data-i18n="ana.roots">Racines (f(x) = 0)</span></h3>
+        <div id="rootsDisplay" class="roots-list"><span style="color:var(--gray); font-size:0.85rem;">—</span></div>
+      </div>
+      <div class="analysis-card">
+        <h3><i class="fas fa-dot-circle"></i> <span data-i18n="ana.yintercept">Ordonnée à l'origine</span></h3>
+        <div class="eq-display" id="yInterceptDisplay">—</div>
+      </div>
+      <div class="analysis-card">
+        <h3><i class="fas fa-arrows-alt-v"></i> <span data-i18n="ana.asymptotes">Asymptotes</span></h3>
+        <div class="eq-display" id="asymptotesDisplay" style="font-size:0.88rem;">—</div>
+      </div>
     </div>
 
+    <!-- Variation Table -->
     <div class="analysis-card">
       <h3><i class="fas fa-table"></i> <span data-i18n="ana.variation">Tableau de variation</span></h3>
       <div class="table-container" id="variationTableContainer">
-        <p style="color:var(--gray); font-size:0.9rem;">Cliquez sur "Analyser & Tracer" pour générer le tableau.</p>
+        <p style="color:var(--gray); font-size:0.9rem;" data-i18n="clickToGen">Cliquez sur « Analyser & Tracer » pour générer le tableau.</p>
       </div>
     </div>
 
+    <!-- Concavity Table -->
     <div class="analysis-card">
       <h3><i class="fas fa-smile"></i> <span data-i18n="ana.concavity">Concavité (f''(x))</span></h3>
       <div class="table-container" id="concavityTableContainer">
-        <p style="color:var(--gray); font-size:0.9rem;">Cliquez sur "Analyser & Tracer" pour générer la concavité.</p>
+        <p style="color:var(--gray); font-size:0.9rem;" data-i18n="clickToGen2">Cliquez sur « Analyser & Tracer » pour générer la concavité.</p>
       </div>
     </div>
 
-    <!-- COURBE -->
-    <div class="canvas-container" id="canvasContainer">
-      <canvas id="mathCanvas"></canvas>
-      <div class="zoom-controls">
-        <button class="zoom-btn" onclick="changeZoom(1.2)"><i class="fas fa-plus"></i></button>
-        <button class="zoom-btn" onclick="changeZoom(0.8)"><i class="fas fa-minus"></i></button>
-        <button class="zoom-btn" onclick="resetZoom()" style="font-size: 0.9rem;"><i class="fas fa-home"></i></button>
+    <!-- Graph Canvas -->
+    <div class="canvas-wrapper">
+      <div class="canvas-container" id="canvasContainer">
+        <canvas id="mathCanvas"></canvas>
+        <div class="coord-tooltip" id="coordTooltip">x: 0.00, y: 0.00</div>
+        <div class="canvas-legend" id="canvasLegend"></div>
+        <div class="canvas-controls">
+          <button class="zoom-btn" onclick="changeZoom(1.3)" title="Zoom +"><i class="fas fa-plus"></i></button>
+          <button class="zoom-btn" onclick="changeZoom(0.7)" title="Zoom −"><i class="fas fa-minus"></i></button>
+          <button class="zoom-btn" onclick="resetView()" title="Réinitialiser"><i class="fas fa-home"></i></button>
+        </div>
       </div>
     </div>
-    
+
     <div class="hint" data-i18n="hint" style="font-size:0.85rem; color:var(--gray); text-align:center;">
-      Astuce : <code>x^2</code> · <code>exp(x)</code> · <code>log(x)</code> · <code>sqrt(x)</code> — Utilisez la molette pour zoomer.
+      Astuce : <code>x^2</code> · <code>sin(x)</code> · <code>exp(x)</code> · <code>log(x)</code> · <code>sqrt(x)</code> · <code>abs(x)</code> — Glissez pour déplacer, molette pour zoomer, Ctrl+Entrée pour analyser.
     </div>
   </div>
 </div>
 
 <script>
+// ============================================================
+// STATE
+// ============================================================
 let currentLang = localStorage.getItem('darrssy-lang') || 'fr';
-let currentScale = 30;
+let currentScale = 40;
+let panX = 0, panY = 0;
 let currentDomain = { min: -Infinity, max: Infinity };
+let showDerivative = false;
+let isDragging = false, dragStartX = 0, dragStartY = 0, panStartX = 0, panStartY = 0;
+let lastPinchDist = 0;
+let parsedFunctions = []; // { expr, derivative, secondDerivative, color }
+let detectedAsymptotes = { vertical: [], horizontal: [] };
+let detectedRoots = [];
 
+const COLORS = ['#e8a33d', '#2a9d8f', '#c0483f', '#6c5ce7', '#00b894'];
+const DERIVATIVE_DASH = [8, 5];
+
+// ============================================================
+// I18N
+// ============================================================
 const trad = {
   fr: {
     'nav.menu': 'Menu Maths', 'nav.home': 'Site DARRSSY',
     'title': 'Analyse et Traceur de fonctions',
-    'desc': 'Domaine, dérivées, tableau de variation, concavité et courbe en un seul endroit.',
-    'draw': 'Analyser & Tracer',
-    'ana.domain': 'Domaine de définition', 'ana.derivative': "Dérivée f'(x)", 'ana.secondDerivative': "Dérivée seconde f''(x)",
-    'ana.variation': 'Tableau de variation', 'ana.concavity': 'Concavité (f\'\'(x))',
-    'hint': 'Astuce : <code>x^2</code> · <code>exp(x)</code> · <code>log(x)</code> · <code>sqrt(x)</code> — Utilisez la molette pour zoomer.',
+    'desc': 'Domaine, dérivées, asymptotes, racines, tableau de variation, concavité et courbe — tout en un.',
+    'draw': 'Analyser & Tracer', 'addFn': 'Ajouter f(x)', 'export': 'Exporter PNG',
+    'showDeriv': "Afficher f'(x)",
+    'ana.domain': 'Domaine de définition', 'ana.derivative': "Dérivée f'(x)",
+    'ana.secondDerivative': "Dérivée seconde f''(x)",
+    'ana.roots': 'Racines (f(x) = 0)', 'ana.yintercept': "Ordonnée à l'origine",
+    'ana.asymptotes': 'Asymptotes',
+    'ana.variation': 'Tableau de variation', 'ana.concavity': "Concavité (f''(x))",
+    'hint': 'Astuce : <code>x^2</code> · <code>sin(x)</code> · <code>exp(x)</code> · <code>log(x)</code> · <code>sqrt(x)</code> · <code>abs(x)</code> — Glissez pour déplacer, molette pour zoomer, Ctrl+Entrée pour analyser.',
     'err.syntax': 'Erreur de syntaxe dans la fonction.',
     'var.x': 'x', 'var.fx': 'f(x)', 'var.sign': "Signe de f'(x)", 'var.var': 'Variation de f',
     'conc.x': 'x', 'conc.sign': "Signe de f''(x)", 'conc.shape': 'Forme de la courbe',
     'conc.convex': 'Convexe (∪)', 'conc.concave': 'Concave (∩)',
-    'dom.R': 'ℝ (tous les réels)', 'dom.inf': '+∞', 'dom.minusinf': '-∞'
+    'dom.R': 'ℝ (tous les réels)', 'dom.inf': '+∞', 'dom.minusinf': '-∞',
+    'clickToGen': 'Cliquez sur « Analyser & Tracer » pour générer le tableau.',
+    'clickToGen2': 'Cliquez sur « Analyser & Tracer » pour générer la concavité.',
+    'noRoots': 'Aucune racine trouvée dans [-20, 20]',
+    'noCritical': 'Aucun point critique trouvé.',
+    'noInflection': "Aucun point d'inflexion trouvé.",
+    'va': 'AV', 'ha': 'AH', 'none': 'Aucune détectée'
   },
   ar: {
     'nav.menu': 'قائمة الرياضيات', 'nav.home': 'موقع DARRSSY',
     'title': 'تحليل ورسم الدوال',
-    'desc': 'مجال التعريف، الاشتقاق، جدول التغيرات، التقعر والمنحنى في مكان واحد.',
-    'draw': 'تحليل ورسم',
-    'ana.domain': 'مجال التعريف', 'ana.derivative': 'المشتقة f\'(x)', 'ana.secondDerivative': 'المشتقة الثانية f\'\'(x)',
-    'ana.variation': 'جدول التغيرات', 'ana.concavity': 'التقعر (f\'\'(x))',
-    'hint': 'نصيحة: <code>x^2</code> · <code>exp(x)</code> · <code>log(x)</code> · <code>sqrt(x)</code> — استخدم عجلة الفأرة للتكبير.',
+    'desc': 'مجال التعريف، الاشتقاق، المقاربات، الجذور، جدول التغيرات، التقعر والمنحنى — الكل في واحد.',
+    'draw': 'تحليل ورسم', 'addFn': 'إضافة دالة', 'export': 'تصدير PNG',
+    'showDeriv': "عرض f'(x)",
+    'ana.domain': 'مجال التعريف', 'ana.derivative': "المشتقة f'(x)",
+    'ana.secondDerivative': "المشتقة الثانية f''(x)",
+    'ana.roots': 'الجذور (f(x) = 0)', 'ana.yintercept': 'ترتيبة المبدأ',
+    'ana.asymptotes': 'المقاربات',
+    'ana.variation': 'جدول التغيرات', 'ana.concavity': "التقعر (f''(x))",
+    'hint': 'نصيحة: <code>x^2</code> · <code>sin(x)</code> · <code>exp(x)</code> · <code>log(x)</code> · <code>sqrt(x)</code> · <code>abs(x)</code> — اسحب للتحريك، عجلة للتكبير.',
     'err.syntax': 'خطأ في صياغة الدالة.',
-    'var.x': 'x', 'var.fx': 'f(x)', 'var.sign': 'إشارة f\'(x)', 'var.var': 'تغيرات f',
-    'conc.x': 'x', 'conc.sign': 'إشارة f\'\'(x)', 'conc.shape': 'شكل المنحنى',
+    'var.x': 'x', 'var.fx': 'f(x)', 'var.sign': "إشارة f'(x)", 'var.var': 'تغيرات f',
+    'conc.x': 'x', 'conc.sign': "إشارة f''(x)", 'conc.shape': 'شكل المنحنى',
     'conc.convex': 'محدب (∪)', 'conc.concave': 'مقعر (∩)',
-    'dom.R': 'ℝ (جميع الأعداد الحقيقية)', 'dom.inf': '+∞', 'dom.minusinf': '-∞'
+    'dom.R': 'ℝ (جميع الأعداد الحقيقية)', 'dom.inf': '+∞', 'dom.minusinf': '-∞',
+    'clickToGen': 'انقر على « تحليل ورسم » لإنشاء الجدول.',
+    'clickToGen2': 'انقر على « تحليل ورسم » لإنشاء التقعر.',
+    'noRoots': 'لا توجد جذور في [-20, 20]',
+    'noCritical': 'لم يتم العثور على نقاط حرجة.',
+    'noInflection': 'لم يتم العثور على نقاط انعطاف.',
+    'va': 'م.ع', 'ha': 'م.أ', 'none': 'لم يتم اكتشاف أي منها'
   }
 };
 
+// ============================================================
+// INIT
+// ============================================================
 document.addEventListener('DOMContentLoaded', () => {
   appliquerLangue(currentLang);
-  bindEvents();
-  setTimeout(analyzeFunction, 200);
+  initTheme();
+  bindCanvasEvents();
+  document.getElementById('toggleDerivative').addEventListener('change', (e) => {
+    showDerivative = e.target.checked;
+    drawAll();
+  });
+  // Keyboard shortcut
+  document.addEventListener('keydown', (e) => {
+    if (e.ctrlKey && e.key === 'Enter') { e.preventDefault(); analyzeAll(); }
+  });
+  setTimeout(analyzeAll, 300);
 });
 
 function appliquerLangue(lang) {
@@ -212,119 +449,112 @@ function appliquerLangue(lang) {
   localStorage.setItem('darrssy-lang', lang);
 }
 
-function bindEvents() {
-  window.addEventListener('resize', drawFunction);
-  const container = document.getElementById('canvasContainer');
-  container.addEventListener('wheel', (e) => { e.preventDefault(); if (e.deltaY < 0) changeZoom(1.1); else changeZoom(0.9); }, { passive: false });
+// ============================================================
+// DARK MODE
+// ============================================================
+function initTheme() {
+  const saved = localStorage.getItem('darrssy-theme');
+  const preferDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  if (saved === 'dark' || (!saved && preferDark)) setTheme('dark');
+  else setTheme('light');
+  document.getElementById('themeToggle').addEventListener('click', () => {
+    const current = document.documentElement.getAttribute('data-theme');
+    setTheme(current === 'dark' ? 'light' : 'dark');
+  });
+}
+function setTheme(theme) {
+  document.documentElement.setAttribute('data-theme', theme);
+  localStorage.setItem('darrssy-theme', theme);
+  const icon = document.querySelector('#themeToggle i');
+  icon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+  // Redraw canvas with new colors
+  if (parsedFunctions.length > 0) requestAnimationFrame(drawAll);
 }
 
-function setFunction(expr) { document.getElementById('functionInput').value = expr; analyzeFunction(); }
-function changeZoom(factor) { currentScale *= factor; if (currentScale < 5) currentScale = 5; if (currentScale > 200) currentScale = 200; drawFunction(); }
-function resetZoom() { currentScale = 30; drawFunction(); }
+// ============================================================
+// MULTI-FUNCTION MANAGEMENT
+// ============================================================
+function getInputRows() { return document.querySelectorAll('.function-row'); }
 
-// ==========================================
-// DETECTION DU DOMAINE DE DEFINITION
-// ==========================================
-function detectDomain(exprStr) {
-  // Par défaut : tous les réels
-  let domain = { min: -Infinity, max: Infinity, text: 'ℝ' };
-  
-  // Détection des dénominateurs et des fonctions
-  const hasDenominator = exprStr.includes('/');
-  const hasLog = exprStr.includes('log(') || exprStr.includes('ln(');
-  const hasSqrt = exprStr.includes('sqrt(');
-  
-  // Si la fonction contient un logarithme
-  if (hasLog) {
-    domain.min = 0;
-    domain.text = ']0, +∞[';
-    // On essaie de trouver la racine du logarithme
-    // Ex: log(x-2) => x > 2
-    const logMatch = exprStr.match(/log\(([^)]+)\)/);
-    if (logMatch) {
-      try {
-        const innerExpr = logMatch[1];
-        const root = findRoot(innerExpr, -10, 10, 0.01);
-        if (root !== null) {
-          domain.min = root;
-          domain.text = `]${root.toFixed(2)}, +∞[`;
-        }
-      } catch(e) {}
-    }
-  }
-  
-  // Si la fonction contient une racine carrée
-  if (hasSqrt) {
-    const sqrtMatch = exprStr.match(/sqrt\(([^)]+)\)/);
-    if (sqrtMatch) {
-      try {
-        const innerExpr = sqrtMatch[1];
-        const root = findRoot(innerExpr, -10, 10, 0.01);
-        if (root !== null) {
-          domain.min = root;
-          domain.text = `[${root.toFixed(2)}, +∞[`;
-        } else {
-          domain.min = 0;
-          domain.text = '[0, +∞[';
-        }
-      } catch(e) {}
-    }
-  }
-  
-  // Si la fonction contient un dénominateur (division)
-  if (hasDenominator) {
-    // Trouver les valeurs interdites (dénominateur = 0)
-    const divMatches = exprStr.match(/\/\(([^)]+)\)/g);
-    if (divMatches) {
-      divMatches.forEach(match => {
-        try {
-          const innerExpr = match.replace(/^\//, '').replace(/[()]/g, '');
-          // Trouver les racines du dénominateur
-          const roots = findRoots(innerExpr, -10, 10, 0.1);
-          if (roots.length > 0) {
-            domain.exclusions = roots;
-            domain.text = `ℝ \\ {${roots.map(r => r.toFixed(2)).join(', ')}}`;
-          }
-        } catch(e) {}
-      });
-    }
-  }
-  
-  return domain;
+function addFunction() {
+  const container = document.getElementById('functionInputs');
+  const rows = getInputRows();
+  if (rows.length >= 5) return;
+  const idx = rows.length;
+  const div = document.createElement('div');
+  div.className = 'function-row';
+  div.setAttribute('data-index', idx);
+  div.innerHTML = `
+    <div class="color-swatch" style="background:${COLORS[idx]};"></div>
+    <input type="text" placeholder="Ex: sin(x)">
+    <button class="btn-remove-fn" onclick="removeFunction(this)" title="Supprimer"><i class="fas fa-times"></i></button>
+  `;
+  container.appendChild(div);
 }
 
-// Trouver une seule racine sur [-10, 10]
+function removeFunction(btn) {
+  const row = btn.closest('.function-row');
+  row.remove();
+  // Re-index colors
+  getInputRows().forEach((r, i) => {
+    r.setAttribute('data-index', i);
+    r.querySelector('.color-swatch').style.background = COLORS[i];
+  });
+  if (parsedFunctions.length > 0) analyzeAll();
+}
+
+function loadExample(expr) {
+  const firstInput = document.querySelector('.function-row input');
+  firstInput.value = expr;
+  analyzeAll();
+}
+
+// ============================================================
+// ROOT / ZERO FINDING (improved)
+// ============================================================
 function findRoot(exprStr, min, max, step = 0.01) {
-  let lastVal = null;
-  let lastX = null;
+  let lastVal = null, lastX = null;
   for (let x = min; x <= max; x += step) {
     try {
-      let val = math.evaluate(exprStr, { x: x });
-      if (isNaN(val)) continue;
-      if (Math.abs(val) < 1e-4) return x;
+      let val = math.evaluate(exprStr, { x });
+      if (isNaN(val) || !isFinite(val)) { lastVal = null; lastX = null; continue; }
+      if (Math.abs(val) < 1e-6) return x;
       if (lastVal !== null && lastVal * val < 0) {
-        return lastX - lastVal * (x - lastX) / (val - lastVal);
+        // Bisection refinement
+        return bisect(exprStr, lastX, x, 50);
       }
-      lastVal = val;
-      lastX = x;
+      lastVal = val; lastX = x;
     } catch(e) { lastVal = null; lastX = null; }
   }
   return null;
 }
 
-function findRoots(exprStr, min, max, step = 0.1) {
+function bisect(exprStr, a, b, iters) {
+  for (let i = 0; i < iters; i++) {
+    const mid = (a + b) / 2;
+    try {
+      const fMid = math.evaluate(exprStr, { x: mid });
+      const fA = math.evaluate(exprStr, { x: a });
+      if (Math.abs(fMid) < 1e-12) return mid;
+      if (fA * fMid < 0) b = mid; else a = mid;
+    } catch(e) { return (a + b) / 2; }
+  }
+  return (a + b) / 2;
+}
+
+function findRoots(exprStr, min, max, step = 0.05) {
   let roots = [];
   let lastVal = null, lastX = null;
   for (let x = min; x <= max; x += step) {
     try {
-      let val = math.evaluate(exprStr, { x: x });
-      if (isNaN(val)) continue;
+      let val = math.evaluate(exprStr, { x });
+      if (isNaN(val) || !isFinite(val)) { lastVal = null; lastX = null; continue; }
       if (lastVal !== null && lastVal * val < 0) {
-        let root = lastX - lastVal * (x - lastX) / (val - lastVal);
-        if (!roots.some(r => Math.abs(r - root) < 0.1)) roots.push(root);
+        let root = bisect(exprStr, lastX, x, 50);
+        if (!roots.some(r => Math.abs(r - root) < 0.05)) roots.push(root);
       }
-      if (Math.abs(val) < 1e-6) {
-        if (!roots.some(r => Math.abs(r - x) < 0.1)) roots.push(x);
+      if (Math.abs(val) < 1e-8) {
+        if (!roots.some(r => Math.abs(r - x) < 0.05)) roots.push(x);
       }
       lastVal = val; lastX = x;
     } catch(e) { lastVal = null; lastX = null; }
@@ -332,240 +562,698 @@ function findRoots(exprStr, min, max, step = 0.1) {
   return roots.sort((a, b) => a - b);
 }
 
-// ==========================================
-// LOGIQUE D'ANALYSE
-// ==========================================
-function analyzeFunction() {
-  const exprStr = document.getElementById('functionInput').value;
-  const domainDisplay = document.getElementById('domainDisplay');
-  const derivativeDisplay = document.getElementById('derivativeDisplay');
-  const secondDerivativeDisplay = document.getElementById('secondDerivativeDisplay');
-  const variationContainer = document.getElementById('variationTableContainer');
-  const concavityContainer = document.getElementById('concavityTableContainer');
+// ============================================================
+// DOMAIN DETECTION
+// ============================================================
+function detectDomain(exprStr) {
+  let domain = { min: -Infinity, max: Infinity, text: 'ℝ', exclusions: [] };
+  const hasLog = /\blog\b/.test(exprStr) || /\bln\b/.test(exprStr);
+  const hasSqrt = /\bsqrt\b/.test(exprStr);
+  const hasDenom = exprStr.includes('/');
 
-  try {
-    const expr = math.parse(exprStr);
-    const derivative = math.derivative(expr, 'x');
-    const secondDerivative = math.derivative(derivative, 'x');
-
-    // Domaine de définition
-    currentDomain = detectDomain(exprStr);
-    domainDisplay.textContent = currentDomain.text;
-
-    // Dérivées
-    derivativeDisplay.textContent = derivative.toString();
-    secondDerivativeDisplay.textContent = secondDerivative.toString();
-
-    // Tableaux (basés sur le domaine)
-    generateVariationTable(exprStr, derivative.toString(), variationContainer);
-    generateConcavityTable(secondDerivative.toString(), concavityContainer);
-
-    // Courbe
-    drawFunction();
-
-  } catch (e) {
-    domainDisplay.textContent = '—';
-    derivativeDisplay.textContent = trad[currentLang]['err.syntax'];
-    secondDerivativeDisplay.textContent = trad[currentLang]['err.syntax'];
+  if (hasLog) {
+    const logMatch = exprStr.match(/log\(([^)]+)\)/);
+    if (logMatch) {
+      try {
+        const inner = logMatch[1];
+        const root = findRoot(inner, -20, 20, 0.01);
+        if (root !== null) { domain.min = root; domain.text = `]${fmt(root)}, +∞[`; }
+        else { domain.min = 0; domain.text = ']0, +∞['; }
+      } catch(e) { domain.min = 0; domain.text = ']0, +∞['; }
+    } else { domain.min = 0; domain.text = ']0, +∞['; }
   }
+  if (hasSqrt) {
+    const sqrtMatch = exprStr.match(/sqrt\(([^)]+)\)/);
+    if (sqrtMatch) {
+      try {
+        const inner = sqrtMatch[1];
+        const root = findRoot(inner, -20, 20, 0.01);
+        if (root !== null) { domain.min = Math.max(domain.min, root); domain.text = `[${fmt(root)}, +∞[`; }
+        else { domain.min = Math.max(domain.min, 0); domain.text = '[0, +∞['; }
+      } catch(e) {}
+    }
+  }
+  if (hasDenom) {
+    // Find values where function blows up
+    let exclusions = [];
+    for (let x = -20; x <= 20; x += 0.05) {
+      try {
+        const val = math.evaluate(exprStr, { x });
+        if (!isFinite(val) || isNaN(val)) {
+          // Check neighbors
+          const before = safeEval(exprStr, x - 0.01);
+          const after = safeEval(exprStr, x + 0.01);
+          if ((before !== null && after !== null) && (Math.abs(before) > 1000 || Math.abs(after) > 1000)) {
+            if (!exclusions.some(e => Math.abs(e - x) < 0.1)) exclusions.push(x);
+          }
+        }
+      } catch(e) {}
+    }
+    // Refine exclusions
+    exclusions = exclusions.map(e => {
+      // Try to find exact zero of denominator nearby
+      for (let dx = -0.5; dx <= 0.5; dx += 0.001) {
+        const test = e + dx;
+        const v = safeEval(exprStr, test);
+        if (v === null || !isFinite(v)) {
+          const vm = safeEval(exprStr, test - 0.0001);
+          const vp = safeEval(exprStr, test + 0.0001);
+          if (vm !== null && vp !== null && Math.abs(vm) > 100 && Math.abs(vp) > 100) return Math.round(test * 1000) / 1000;
+        }
+      }
+      return Math.round(e * 100) / 100;
+    });
+    // Deduplicate
+    exclusions = [...new Set(exclusions.map(e => Math.round(e * 100) / 100))];
+    if (exclusions.length > 0) {
+      domain.exclusions = exclusions;
+      if (domain.text === 'ℝ') domain.text = `ℝ \\ {${exclusions.map(r => fmt(r)).join(', ')}}`;
+      else domain.text += ` \\ {${exclusions.map(r => fmt(r)).join(', ')}}`;
+    }
+  }
+  return domain;
 }
 
-function generateVariationTable(exprStr, derivativeStr, container) {
-  // On cherche les racines de f' dans le domaine
-  const domain = currentDomain;
-  let searchMin = domain.min === -Infinity ? -10 : domain.min + 0.1;
-  let searchMax = domain.max === Infinity ? 10 : domain.max - 0.1;
-  
-  const roots = findRoots(derivativeStr, searchMin, searchMax, 0.1);
-  
-  // Points critiques : les racines + les bornes du domaine
-  let points = [];
-  if (domain.min !== -Infinity) points.push(domain.min);
-  roots.forEach(r => {
-    if (!points.some(p => Math.abs(p - r) < 0.1)) points.push(r);
+function safeEval(expr, x) {
+  try { const v = math.evaluate(expr, { x }); return (isNaN(v) || !isFinite(v)) ? null : v; } catch(e) { return null; }
+}
+
+function fmt(n) {
+  if (n === null || n === undefined) return '—';
+  if (typeof n === 'string') return n;
+  if (!isFinite(n) || Math.abs(n) >= 1e4) return n > 0 ? '+∞' : '−∞';
+  if (Math.abs(n) < 1e-9) return '0';
+  if (Math.abs(n - Math.round(n)) < 1e-6) return Math.round(n).toString();
+  return Number(n).toFixed(2);
+}
+
+// ============================================================
+// ASYMPTOTE DETECTION
+// ============================================================
+function detectAsymptotes(exprStr) {
+  let vertical = [], horizontal = [];
+
+  // Vertical: where function goes to ±∞
+  for (let x = -20; x <= 20; x += 0.1) {
+    const v = safeEval(exprStr, x);
+    if (v === null || !isFinite(v) || Math.abs(v) >= 1e4) {
+      const vl = safeEval(exprStr, x - 0.001);
+      const vr = safeEval(exprStr, x + 0.001);
+      if ((vl !== null && Math.abs(vl) > 500) || (vr !== null && Math.abs(vr) > 500)) {
+        const rounded = Math.round(x * 10) / 10;
+        if (!vertical.some(a => Math.abs(a - rounded) < 0.15)) vertical.push(rounded);
+      }
+    }
+  }
+
+  // Horizontal: limits at ±∞ (avec vérification de convergence)
+  const at1e5 = safeEval(exprStr, 1e5);
+  const at1e6 = safeEval(exprStr, 1e6);
+  if (at1e5 !== null && at1e6 !== null && Math.abs(at1e6) < 1e4) {
+    if (Math.abs(at1e6 - at1e5) < 0.05) {
+      const rounded = Math.round(at1e6 * 1000) / 1000;
+      horizontal.push({ value: rounded, dir: '+∞' });
+    }
+  }
+
+  const atNeg1e5 = safeEval(exprStr, -1e5);
+  const atNeg1e6 = safeEval(exprStr, -1e6);
+  if (atNeg1e5 !== null && atNeg1e6 !== null && Math.abs(atNeg1e6) < 1e4) {
+    if (Math.abs(atNeg1e6 - atNeg1e5) < 0.05) {
+      const rounded = Math.round(atNeg1e6 * 1000) / 1000;
+      if (!horizontal.some(h => Math.abs(h.value - rounded) < 0.001)) {
+        horizontal.push({ value: rounded, dir: '-∞' });
+      }
+    }
+  }
+
+  return { vertical, horizontal };
+}
+
+// ============================================================
+// MAIN ANALYSIS
+// ============================================================
+function analyzeAll() {
+  const rows = getInputRows();
+  parsedFunctions = [];
+
+  rows.forEach((row, i) => {
+    const input = row.querySelector('input');
+    const exprStr = input.value.trim();
+    if (!exprStr) return;
+    try {
+      const expr = math.parse(exprStr);
+      const derivative = math.derivative(expr, 'x');
+      let secondDerivative;
+      try { secondDerivative = math.derivative(derivative, 'x'); } catch(e) { secondDerivative = null; }
+      parsedFunctions.push({
+        exprStr, expr,
+        derivative, derivativeStr: derivative.toString(),
+        secondDerivative, secondDerivativeStr: secondDerivative ? secondDerivative.toString() : null,
+        color: COLORS[i % COLORS.length]
+      });
+    } catch(e) {
+      parsedFunctions.push({ exprStr, error: true, color: COLORS[i % COLORS.length] });
+    }
   });
-  if (domain.max !== Infinity) points.push(domain.max);
-  
-  if (points.length === 0) {
-    container.innerHTML = `<p style="color:var(--gray); font-size:0.9rem;">Aucun point critique trouvé dans le domaine.</p>`;
+
+  // Analysis for first (primary) function
+  const primary = parsedFunctions[0];
+  if (!primary || primary.error) {
+    document.getElementById('domainDisplay').textContent = '—';
+    document.getElementById('derivativeDisplay').textContent = trad[currentLang]['err.syntax'];
+    document.getElementById('secondDerivativeDisplay').textContent = '—';
+    document.getElementById('rootsDisplay').innerHTML = '—';
+    document.getElementById('yInterceptDisplay').textContent = '—';
+    document.getElementById('asymptotesDisplay').textContent = '—';
+    drawAll();
     return;
   }
-  
-  let html = `<table class="variation-table">
-    <tr>
-      <th>${trad[currentLang]['var.x']}</th>`;
-  points.forEach(p => {
-    if (p === domain.min) html += `<th>${domain.min === -Infinity ? '-∞' : Number(p).toFixed(2)}</th>`;
-    else if (p === domain.max) html += `<th>${domain.max === Infinity ? '+∞' : Number(p).toFixed(2)}</th>`;
-    else html += `<th>${Number(p).toFixed(2)}</th>`;
-  });
+
+  // Domain
+  currentDomain = detectDomain(primary.exprStr);
+  document.getElementById('domainDisplay').textContent = currentDomain.text;
+
+  // Derivatives
+  document.getElementById('derivativeDisplay').textContent = primary.derivativeStr;
+  document.getElementById('secondDerivativeDisplay').textContent = primary.secondDerivativeStr || '—';
+
+  // Roots
+  const searchMin = currentDomain.min === -Infinity ? -20 : Math.max(currentDomain.min + 0.01, -20);
+  const searchMax = currentDomain.max === Infinity ? 20 : Math.min(currentDomain.max - 0.01, 20);
+  detectedRoots = findRoots(primary.exprStr, searchMin, searchMax, 0.02);
+  const rootsDisplay = document.getElementById('rootsDisplay');
+  if (detectedRoots.length > 0) {
+    rootsDisplay.innerHTML = detectedRoots.map(r => `<span class="root-badge">x ≈ ${fmt(r)}</span>`).join('');
+  } else {
+    rootsDisplay.innerHTML = `<span style="color:var(--gray); font-size:0.85rem;">${trad[currentLang]['noRoots']}</span>`;
+  }
+
+  // Y-intercept
+  const yInt = safeEval(primary.exprStr, 0);
+  document.getElementById('yInterceptDisplay').textContent = yInt !== null ? `f(0) = ${fmt(yInt)}` : '—';
+
+  // Asymptotes
+  detectedAsymptotes = detectAsymptotes(primary.exprStr);
+  const asymDisplay = document.getElementById('asymptotesDisplay');
+  let asymParts = [];
+  detectedAsymptotes.vertical.forEach(v => asymParts.push(`${trad[currentLang]['va']}: x = ${fmt(v)}`));
+  detectedAsymptotes.horizontal.forEach(h => asymParts.push(`${trad[currentLang]['ha']}: y = ${fmt(h.value)}`));
+  asymDisplay.textContent = asymParts.length > 0 ? asymParts.join(' · ') : trad[currentLang]['none'];
+
+  // Variation table
+  if (primary.derivativeStr) {
+    generateVariationTable(primary.exprStr, primary.derivativeStr, document.getElementById('variationTableContainer'));
+  }
+
+  // Concavity table
+  if (primary.secondDerivativeStr) {
+    generateConcavityTable(primary.secondDerivativeStr, document.getElementById('concavityTableContainer'));
+  }
+
+  // Draw
+  drawAll();
+  updateLegend();
+}
+
+// ============================================================
+// VARIATION TABLE (improved with interval columns)
+// ============================================================
+function generateVariationTable(exprStr, derivativeStr, container) {
+  const domain = currentDomain;
+  let searchMin = domain.min === -Infinity ? -20 : domain.min + 0.01;
+  let searchMax = domain.max === Infinity ? 20 : domain.max - 0.01;
+  const roots = findRoots(derivativeStr, searchMin, searchMax, 0.05);
+
+  // Build boundary points: -∞ (or domain.min), roots, +∞ (or domain.max)
+  let points = [];
+  points.push(domain.min === -Infinity ? -Infinity : domain.min);
+  roots.forEach(r => { if (!points.some(p => p !== -Infinity && p !== Infinity && Math.abs(p - r) < 0.05)) points.push(r); });
+  points.push(domain.max === Infinity ? Infinity : domain.max);
+
+  if (points.length < 2) {
+    container.innerHTML = `<p style="color:var(--gray); font-size:0.9rem;">${trad[currentLang]['noCritical']}</p>`;
+    return;
+  }
+
+  // Build table with interval columns between points
+  const totalCols = points.length * 2 - 1; // point, interval, point, interval, ..., point
+  let html = `<table class="variation-table"><tr><th style="width:120px;">${trad[currentLang]['var.x']}</th>`;
+
+  for (let i = 0; i < points.length; i++) {
+    const p = points[i];
+    let label;
+    if (p === -Infinity) label = '-∞';
+    else if (p === Infinity) label = '+∞';
+    else label = fmt(p);
+    html += `<th>${label}</th>`;
+    if (i < points.length - 1) html += `<th class="interval-cell"></th>`;
+  }
   html += `</tr>`;
-  
-  // Signe de f'
+
+  // Sign of f' row
   html += `<tr><td><strong>${trad[currentLang]['var.sign']}</strong></td>`;
-  for (let i = 0; i < points.length - 1; i++) {
-    const mid = (points[i] + points[i+1]) / 2;
-    let sign;
-    try {
-      const val = math.evaluate(derivativeStr, { x: mid });
-      sign = val > 0 ? '+' : (val < 0 ? '-' : '0');
-    } catch(e) { sign = '?'; }
-    html += `<td>${sign}</td>`;
+  for (let i = 0; i < points.length; i++) {
+    html += `<td>0</td>`;
+    if (i < points.length - 1) {
+      const a = points[i] === -Infinity ? searchMin : points[i];
+      const b = points[i+1] === Infinity ? searchMax : points[i+1];
+      const mid = (a + b) / 2;
+      let sign = '?';
+      try { const val = math.evaluate(derivativeStr, { x: mid }); sign = val > 0 ? '+' : (val < 0 ? '−' : '0'); } catch(e) {}
+      html += `<td class="interval-cell" style="font-size:1.1rem; font-weight:bold; color:${sign === '+' ? 'var(--success)' : 'var(--danger)'};">${sign}</td>`;
+    }
   }
-  html += `<td></td></tr>`;
-  
-  // Variation de f
-  html += `<tr><td><strong>${trad[currentLang]['var.var']}</strong></td>`;
-  for (let i = 0; i < points.length - 1; i++) {
-    const mid = (points[i] + points[i+1]) / 2;
-    let arrow;
-    try {
-      const val = math.evaluate(derivativeStr, { x: mid });
-      arrow = val > 0 ? '<span class="variation-arrow-up">↗</span>' : (val < 0 ? '<span class="variation-arrow-down">↘</span>' : '→');
-    } catch(e) { arrow = '?'; }
-    html += `<td>${arrow}</td>`;
-  }
-  html += `<td></td></tr>`;
-  
-  // Valeurs de f
-  html += `<tr><td><strong>${trad[currentLang]['var.fx']}</strong></td>`;
-  points.forEach(p => {
-    let val;
-    try {
-      if (p === -Infinity) val = '-∞';
-      else if (p === Infinity) val = '+∞';
-      else {
-        val = math.evaluate(exprStr, { x: p });
-        val = Number(val).toFixed(2);
-      }
-    } catch(e) { val = '?'; }
-    html += `<td>${val}</td>`;
-  });
   html += `</tr>`;
-  
-  html += `</table>`;
+
+  // Variation arrow row
+  html += `<tr><td><strong>${trad[currentLang]['var.var']}</strong></td>`;
+  for (let i = 0; i < points.length; i++) {
+    // Value of f at this point
+    const p = points[i];
+    let val = '';
+    if (p === -Infinity) {
+      const lim = safeEval(exprStr, -1e6);
+      val = lim === null ? '?' : ((!isFinite(lim) || Math.abs(lim) >= 1e4) ? (lim > 0 ? '+∞' : '−∞') : fmt(lim));
+    } else if (p === Infinity) {
+      const lim = safeEval(exprStr, 1e6);
+      val = lim === null ? '?' : ((!isFinite(lim) || Math.abs(lim) >= 1e4) ? (lim > 0 ? '+∞' : '−∞') : fmt(lim));
+    } else {
+      const v = safeEval(exprStr, p);
+      if (v === null || !isFinite(v) || Math.abs(v) >= 1e4) {
+        // Point singulier / asymptote verticale : vérification des limites latérales
+        const vl = safeEval(exprStr, p - 0.001);
+        const vr = safeEval(exprStr, p + 0.001);
+        if ((vl !== null && Math.abs(vl) >= 1e3) || (vr !== null && Math.abs(vr) >= 1e3)) {
+          const lStr = (vl !== null && Math.abs(vl) >= 1e3) ? (vl > 0 ? '+∞' : '−∞') : (vl !== null ? fmt(vl) : '?');
+          const rStr = (vr !== null && Math.abs(vr) >= 1e3) ? (vr > 0 ? '+∞' : '−∞') : (vr !== null ? fmt(vr) : '?');
+          val = `${lStr} | ${rStr}`;
+        } else {
+          val = '||';
+        }
+      } else {
+        val = fmt(v);
+      }
+    }
+    html += `<td style="font-family:'JetBrains Mono',monospace; font-weight:700;">${val}</td>`;
+
+    if (i < points.length - 1) {
+      const a = points[i] === -Infinity ? searchMin : points[i];
+      const b = points[i+1] === Infinity ? searchMax : points[i+1];
+      const mid = (a + b) / 2;
+      let arrow = '';
+      try {
+        const val = math.evaluate(derivativeStr, { x: mid });
+        arrow = val > 0 ? '<span class="variation-arrow-up">↗</span>' : (val < 0 ? '<span class="variation-arrow-down">↘</span>' : '→');
+      } catch(e) { arrow = '?'; }
+      html += `<td class="interval-cell">${arrow}</td>`;
+    }
+  }
+  html += `</tr></table>`;
   container.innerHTML = html;
 }
 
+// ============================================================
+// CONCAVITY TABLE
+// ============================================================
 function generateConcavityTable(secondDerivativeStr, container) {
   const domain = currentDomain;
-  let searchMin = domain.min === -Infinity ? -10 : domain.min + 0.1;
-  let searchMax = domain.max === Infinity ? 10 : domain.max - 0.1;
-  
-  const roots = findRoots(secondDerivativeStr, searchMin, searchMax, 0.1);
+  let searchMin = domain.min === -Infinity ? -20 : domain.min + 0.01;
+  let searchMax = domain.max === Infinity ? 20 : domain.max - 0.01;
+  const roots = findRoots(secondDerivativeStr, searchMin, searchMax, 0.05);
+
   let points = [];
-  if (domain.min !== -Infinity) points.push(domain.min);
-  roots.forEach(r => { if (!points.some(p => Math.abs(p - r) < 0.1)) points.push(r); });
-  if (domain.max !== Infinity) points.push(domain.max);
-  
-  if (points.length === 0) {
-    container.innerHTML = `<p style="color:var(--gray); font-size:0.9rem;">Aucun point d'inflexion trouvé dans le domaine.</p>`;
+  points.push(domain.min === -Infinity ? -Infinity : domain.min);
+  roots.forEach(r => { if (!points.some(p => p !== -Infinity && p !== Infinity && Math.abs(p - r) < 0.05)) points.push(r); });
+  points.push(domain.max === Infinity ? Infinity : domain.max);
+
+  if (points.length < 2) {
+    container.innerHTML = `<p style="color:var(--gray); font-size:0.9rem;">${trad[currentLang]['noInflection']}</p>`;
     return;
   }
-  
-  let html = `<table class="concavity-table">
-    <tr>
-      <th>${trad[currentLang]['conc.x']}</th>`;
-  points.forEach(p => {
-    if (p === domain.min) html += `<th>${domain.min === -Infinity ? '-∞' : Number(p).toFixed(2)}</th>`;
-    else if (p === domain.max) html += `<th>${domain.max === Infinity ? '+∞' : Number(p).toFixed(2)}</th>`;
-    else html += `<th>${Number(p).toFixed(2)}</th>`;
-  });
+
+  let html = `<table class="concavity-table"><tr><th style="width:120px;">${trad[currentLang]['conc.x']}</th>`;
+  for (let i = 0; i < points.length; i++) {
+    const p = points[i];
+    let label = p === -Infinity ? '-∞' : (p === Infinity ? '+∞' : fmt(p));
+    html += `<th>${label}</th>`;
+    if (i < points.length - 1) html += `<th class="interval-cell"></th>`;
+  }
   html += `</tr>`;
-  
-  // Signe de f''
+
+  // Sign of f''
   html += `<tr><td><strong>${trad[currentLang]['conc.sign']}</strong></td>`;
-  for (let i = 0; i < points.length - 1; i++) {
-    const mid = (points[i] + points[i+1]) / 2;
-    let sign;
-    try {
-      const val = math.evaluate(secondDerivativeStr, { x: mid });
-      sign = val > 0 ? '+' : (val < 0 ? '-' : '0');
-    } catch(e) { sign = '?'; }
-    html += `<td>${sign}</td>`;
+  for (let i = 0; i < points.length; i++) {
+    html += `<td>0</td>`;
+    if (i < points.length - 1) {
+      const a = points[i] === -Infinity ? searchMin : points[i];
+      const b = points[i+1] === Infinity ? searchMax : points[i+1];
+      const mid = (a + b) / 2;
+      let sign = '?';
+      try { const val = math.evaluate(secondDerivativeStr, { x: mid }); sign = val > 0 ? '+' : (val < 0 ? '−' : '0'); } catch(e) {}
+      html += `<td class="interval-cell" style="font-weight:bold; color:${sign === '+' ? 'var(--primary-light)' : 'var(--accent-dark)'};">${sign}</td>`;
+    }
   }
-  html += `<td></td></tr>`;
-  
-  // Forme de la courbe
+  html += `</tr>`;
+
+  // Shape
   html += `<tr><td><strong>${trad[currentLang]['conc.shape']}</strong></td>`;
-  for (let i = 0; i < points.length - 1; i++) {
-    const mid = (points[i] + points[i+1]) / 2;
-    let shape;
-    try {
-      const val = math.evaluate(secondDerivativeStr, { x: mid });
-      shape = val > 0 ? `<span class="concavity-up">${trad[currentLang]['conc.convex']}</span>` : `<span class="concavity-down">${trad[currentLang]['conc.concave']}</span>`;
-    } catch(e) { shape = '?'; }
-    html += `<td>${shape}</td>`;
+  for (let i = 0; i < points.length; i++) {
+    html += `<td></td>`;
+    if (i < points.length - 1) {
+      const a = points[i] === -Infinity ? searchMin : points[i];
+      const b = points[i+1] === Infinity ? searchMax : points[i+1];
+      const mid = (a + b) / 2;
+      let shape = '?';
+      try {
+        const val = math.evaluate(secondDerivativeStr, { x: mid });
+        shape = val > 0 ? `<span class="concavity-up">${trad[currentLang]['conc.convex']}</span>` : `<span class="concavity-down">${trad[currentLang]['conc.concave']}</span>`;
+      } catch(e) {}
+      html += `<td class="interval-cell">${shape}</td>`;
+    }
   }
-  html += `<td></td></tr>`;
-  
-  html += `</table>`;
+  html += `</tr></table>`;
   container.innerHTML = html;
 }
 
-// ==========================================
-// DESSIN DU GRAPHIQUE
-// ==========================================
-function drawFunction() {
+// ============================================================
+// LEGEND
+// ============================================================
+function updateLegend() {
+  const legend = document.getElementById('canvasLegend');
+  if (parsedFunctions.length === 0) { legend.innerHTML = ''; return; }
+  legend.innerHTML = parsedFunctions.filter(f => !f.error).map((f, i) => {
+    const label = parsedFunctions.length > 1 ? `f<sub>${i+1}</sub>(x) = ${truncate(f.exprStr, 18)}` : `f(x) = ${truncate(f.exprStr, 22)}`;
+    return `<div class="legend-item"><div class="legend-color" style="background:${f.color};"></div><span>${label}</span></div>`;
+  }).join('');
+}
+function truncate(s, n) { return s.length > n ? s.slice(0, n) + '…' : s; }
+
+// ============================================================
+// CANVAS EVENTS (pan, zoom, touch, tooltip)
+// ============================================================
+function bindCanvasEvents() {
+  const container = document.getElementById('canvasContainer');
+
+  // Mouse wheel zoom
+  container.addEventListener('wheel', (e) => {
+    e.preventDefault();
+    const rect = container.getBoundingClientRect();
+    const mouseX = e.clientX - rect.left;
+    const mouseY = e.clientY - rect.top;
+    const factor = e.deltaY < 0 ? 1.15 : 0.87;
+
+    // Zoom toward cursor
+    const w = rect.width, h = rect.height;
+    const originX = w / 2 + panX;
+    const originY = h / 2 + panY;
+    const mathXBefore = (mouseX - originX) / currentScale;
+    const mathYBefore = (originY - mouseY) / currentScale;
+
+    currentScale *= factor;
+    currentScale = Math.max(5, Math.min(300, currentScale));
+
+    const newOriginX = mouseX - mathXBefore * currentScale;
+    const newOriginY = mouseY + mathYBefore * currentScale;
+    panX = newOriginX - w / 2;
+    panY = newOriginY - h / 2;
+
+    drawAll();
+  }, { passive: false });
+
+  // Mouse drag
+  container.addEventListener('mousedown', (e) => {
+    isDragging = true;
+    dragStartX = e.clientX; dragStartY = e.clientY;
+    panStartX = panX; panStartY = panY;
+    container.style.cursor = 'grabbing';
+  });
+  window.addEventListener('mousemove', (e) => {
+    if (isDragging) {
+      panX = panStartX + (e.clientX - dragStartX);
+      panY = panStartY + (e.clientY - dragStartY);
+      drawAll();
+    }
+    // Tooltip
+    const rect = container.getBoundingClientRect();
+    const mx = e.clientX - rect.left, my = e.clientY - rect.top;
+    if (mx >= 0 && mx <= rect.width && my >= 0 && my <= rect.height) {
+      showTooltip(mx, my, rect.width, rect.height);
+    } else {
+      document.getElementById('coordTooltip').classList.remove('visible');
+    }
+  });
+  window.addEventListener('mouseup', () => {
+    isDragging = false;
+    container.style.cursor = 'crosshair';
+  });
+
+  // Touch events
+  container.addEventListener('touchstart', (e) => {
+    if (e.touches.length === 1) {
+      isDragging = true;
+      dragStartX = e.touches[0].clientX; dragStartY = e.touches[0].clientY;
+      panStartX = panX; panStartY = panY;
+    } else if (e.touches.length === 2) {
+      isDragging = false;
+      lastPinchDist = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY);
+    }
+  }, { passive: true });
+  container.addEventListener('touchmove', (e) => {
+    e.preventDefault();
+    if (e.touches.length === 1 && isDragging) {
+      panX = panStartX + (e.touches[0].clientX - dragStartX);
+      panY = panStartY + (e.touches[0].clientY - dragStartY);
+      drawAll();
+    } else if (e.touches.length === 2) {
+      const dist = Math.hypot(e.touches[0].clientX - e.touches[1].clientX, e.touches[0].clientY - e.touches[1].clientY);
+      if (lastPinchDist > 0) {
+        const factor = dist / lastPinchDist;
+        currentScale *= factor;
+        currentScale = Math.max(5, Math.min(300, currentScale));
+        drawAll();
+      }
+      lastPinchDist = dist;
+    }
+  }, { passive: false });
+  container.addEventListener('touchend', () => { isDragging = false; lastPinchDist = 0; });
+
+  // Resize
+  window.addEventListener('resize', drawAll);
+}
+
+function showTooltip(mx, my, w, h) {
+  const originX = w / 2 + panX;
+  const originY = h / 2 + panY;
+  const mathX = (mx - originX) / currentScale;
+  const mathY = (originY - my) / currentScale;
+  const tooltip = document.getElementById('coordTooltip');
+  tooltip.textContent = `x: ${mathX.toFixed(2)}, y: ${mathY.toFixed(2)}`;
+  tooltip.classList.add('visible');
+}
+
+function changeZoom(factor) {
+  currentScale *= factor;
+  currentScale = Math.max(5, Math.min(300, currentScale));
+  drawAll();
+}
+
+function resetView() {
+  currentScale = 40;
+  panX = 0; panY = 0;
+  drawAll();
+}
+
+// ============================================================
+// EXPORT
+// ============================================================
+function exportCanvas() {
+  const canvas = document.getElementById('mathCanvas');
+  const link = document.createElement('a');
+  link.download = 'darrssy-graphe.png';
+  link.href = canvas.toDataURL('image/png');
+  link.click();
+}
+
+// ============================================================
+// DRAWING ENGINE
+// ============================================================
+function drawAll() {
   const canvas = document.getElementById('mathCanvas');
   if (!canvas) return;
   const ctx = canvas.getContext('2d');
-  const rect = canvas.getBoundingClientRect();
-  
+  const rect = canvas.parentElement.getBoundingClientRect();
   const dpr = window.devicePixelRatio || 1;
   canvas.width = rect.width * dpr;
   canvas.height = rect.height * dpr;
   ctx.scale(dpr, dpr);
-  
-  const w = rect.width;
-  const h = rect.height;
-  const expr = document.getElementById('functionInput').value;
-  
-  ctx.clearRect(0, 0, w, h);
-  
-  const originX = w / 2;
-  const originY = h / 2;
+  const w = rect.width, h = rect.height;
+
+  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+  const bgColor = isDark ? '#222738' : '#fffdf7';
+  const gridColor = isDark ? 'rgba(200,210,230,0.08)' : 'rgba(22,33,62,0.08)';
+  const axisColor = isDark ? '#8899aa' : '#16213e';
+  const labelColor = isDark ? '#8899aa' : '#16213e';
+
+  ctx.fillStyle = bgColor;
+  ctx.fillRect(0, 0, w, h);
+
+  const originX = w / 2 + panX;
+  const originY = h / 2 + panY;
   const scale = currentScale;
-  
+
+  // Adaptive grid step
   let gridStep = scale;
-  
-  ctx.strokeStyle = 'rgba(22, 33, 62, 0.08)';
-  ctx.lineWidth = 1;
-  
+  let gridUnit = 1;
+  if (gridStep < 15) { while (gridStep < 15) { gridStep *= 5; gridUnit *= 5; } }
+  else if (gridStep > 80) { while (gridStep > 80) { gridStep /= 2; gridUnit /= 2; } }
+
+  // Grid
+  ctx.strokeStyle = gridColor; ctx.lineWidth = 1;
   for (let x = originX % gridStep; x < w; x += gridStep) {
     ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke();
   }
   for (let y = originY % gridStep; y < h; y += gridStep) {
     ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke();
   }
-  
-  ctx.strokeStyle = '#16213e'; ctx.lineWidth = 2;
-  ctx.beginPath(); ctx.moveTo(0, originY); ctx.lineTo(w, originY); ctx.stroke();
-  ctx.beginPath(); ctx.moveTo(originX, 0); ctx.lineTo(originX, h); ctx.stroke();
-  
-  ctx.fillStyle = '#16213e'; ctx.font = '12px "JetBrains Mono", monospace'; ctx.textAlign = 'center'; ctx.textBaseline = 'top';
-  for (let x = originX % gridStep; x < w; x += gridStep) { const val = Math.round((x - originX) / scale); if (val !== 0) ctx.fillText(val, x, originY + 5); }
+
+  // Axes
+  ctx.strokeStyle = axisColor; ctx.lineWidth = 1.5;
+  // X-axis
+  if (originY >= 0 && originY <= h) {
+    ctx.beginPath(); ctx.moveTo(0, originY); ctx.lineTo(w, originY); ctx.stroke();
+    // Arrow
+    ctx.beginPath(); ctx.moveTo(w - 10, originY - 5); ctx.lineTo(w, originY); ctx.lineTo(w - 10, originY + 5); ctx.stroke();
+  }
+  // Y-axis
+  if (originX >= 0 && originX <= w) {
+    ctx.beginPath(); ctx.moveTo(originX, 0); ctx.lineTo(originX, h); ctx.stroke();
+    // Arrow
+    ctx.beginPath(); ctx.moveTo(originX - 5, 10); ctx.lineTo(originX, 0); ctx.lineTo(originX + 5, 10); ctx.stroke();
+  }
+
+  // Labels
+  ctx.fillStyle = labelColor;
+  ctx.font = '11px "JetBrains Mono", monospace';
+  ctx.textAlign = 'center'; ctx.textBaseline = 'top';
+  for (let x = originX % gridStep; x < w; x += gridStep) {
+    const val = (x - originX) / scale;
+    if (Math.abs(val) < 1e-6) continue;
+    const label = Number.isInteger(Math.round(val * 100) / 100) ? Math.round(val).toString() : val.toFixed(1);
+    ctx.fillText(label, x, originY + 6);
+  }
   ctx.textAlign = 'right'; ctx.textBaseline = 'middle';
-  for (let y = originY % gridStep; y < h; y += gridStep) { const val = Math.round((originY - y) / scale); if (val !== 0) ctx.fillText(val, originX - 8, y); }
-  ctx.textAlign = 'right'; ctx.textBaseline = 'top'; ctx.fillText('0', originX - 5, originY + 5);
-  
-  // Courbe (en évitant les points hors domaine)
-  ctx.strokeStyle = '#e8a33d'; ctx.lineWidth = 3; ctx.shadowColor = '#e8a33d'; ctx.shadowBlur = 6; ctx.beginPath();
+  for (let y = originY % gridStep; y < h; y += gridStep) {
+    const val = (originY - y) / scale;
+    if (Math.abs(val) < 1e-6) continue;
+    const label = Number.isInteger(Math.round(val * 100) / 100) ? Math.round(val).toString() : val.toFixed(1);
+    ctx.fillText(label, originX - 6, y);
+  }
+  // Origin
+  if (originX > 20 && originX < w - 20 && originY > 20 && originY < h - 20) {
+    ctx.textAlign = 'right'; ctx.textBaseline = 'top';
+    ctx.fillText('0', originX - 6, originY + 6);
+  }
+
+  // Vertical asymptotes
+  ctx.setLineDash([6, 6]);
+  ctx.strokeStyle = isDark ? 'rgba(230,100,100,0.5)' : 'rgba(192,72,63,0.4)';
+  ctx.lineWidth = 1.5;
+  detectedAsymptotes.vertical.forEach(va => {
+    const px = originX + va * scale;
+    if (px > 0 && px < w) {
+      ctx.beginPath(); ctx.moveTo(px, 0); ctx.lineTo(px, h); ctx.stroke();
+      ctx.fillStyle = isDark ? '#e06060' : '#c0483f';
+      ctx.font = '10px "JetBrains Mono", monospace';
+      ctx.textAlign = 'left'; ctx.textBaseline = 'top';
+      ctx.fillText(`x=${fmt(va)}`, px + 4, 8);
+    }
+  });
+
+  // Horizontal asymptotes
+  ctx.strokeStyle = isDark ? 'rgba(100,200,180,0.5)' : 'rgba(42,157,143,0.4)';
+  detectedAsymptotes.horizontal.forEach(ha => {
+    const py = originY - ha.value * scale;
+    if (py > 0 && py < h) {
+      ctx.beginPath(); ctx.moveTo(0, py); ctx.lineTo(w, py); ctx.stroke();
+      ctx.fillStyle = isDark ? '#3dd9c5' : '#2a9d8f';
+      ctx.font = '10px "JetBrains Mono", monospace';
+      ctx.textAlign = 'left'; ctx.textBaseline = 'bottom';
+      ctx.fillText(`y=${fmt(ha.value)}`, 8, py - 4);
+    }
+  });
+  ctx.setLineDash([]);
+
+  // Draw each function
+  parsedFunctions.forEach(fn => {
+    if (fn.error) return;
+    drawCurve(ctx, fn.exprStr, fn.color, w, h, originX, originY, scale, false);
+    // Draw derivative if toggled
+    if (showDerivative && fn.derivativeStr) {
+      drawCurve(ctx, fn.derivativeStr, fn.color, w, h, originX, originY, scale, true);
+    }
+  });
+
+  // Mark roots with dots
+  ctx.fillStyle = isDark ? '#f0b856' : '#c17f1e';
+  detectedRoots.forEach(r => {
+    const px = originX + r * scale;
+    const py = originY;
+    if (px > 0 && px < w) {
+      ctx.beginPath();
+      ctx.arc(px, py, 5, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.strokeStyle = isDark ? '#222738' : '#fffdf7';
+      ctx.lineWidth = 2;
+      ctx.stroke();
+    }
+  });
+
+  // Mark y-intercept
+  if (parsedFunctions.length > 0 && !parsedFunctions[0].error) {
+    const yInt = safeEval(parsedFunctions[0].exprStr, 0);
+    if (yInt !== null) {
+      const px = originX;
+      const py = originY - yInt * scale;
+      if (px > 0 && px < w && py > 0 && py < h) {
+        ctx.fillStyle = isDark ? '#3dd9c5' : '#2a9d8f';
+        ctx.beginPath();
+        ctx.arc(px, py, 5, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.strokeStyle = isDark ? '#222738' : '#fffdf7';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+      }
+    }
+  }
+}
+
+function drawCurve(ctx, exprStr, color, w, h, originX, originY, scale, isDashed) {
+  ctx.strokeStyle = color;
+  ctx.lineWidth = isDashed ? 2 : 2.5;
+  if (isDashed) ctx.setLineDash(DERIVATIVE_DASH);
+  else ctx.setLineDash([]);
+  ctx.shadowColor = color;
+  ctx.shadowBlur = isDashed ? 0 : 4;
+  ctx.beginPath();
   let firstPoint = true;
-  
-  for(let px = 0; px < w; px++) {
+  let lastPy = null;
+
+  for (let px = 0; px < w; px += 0.5) {
     const mathX = (px - originX) / scale;
     let mathY;
-    try { 
-      mathY = math.evaluate(expr, { x: mathX }); 
-    } catch (e) { 
-      mathY = NaN; 
-    }
-    if (isNaN(mathY) || !isFinite(mathY)) { firstPoint = true; continue; }
+    try { mathY = math.evaluate(exprStr, { x: mathX }); } catch(e) { mathY = NaN; }
+    if (isNaN(mathY) || !isFinite(mathY)) { firstPoint = true; lastPy = null; continue; }
     const py = originY - (mathY * scale);
-    if (firstPoint) { ctx.moveTo(px, py); firstPoint = false; } else { ctx.lineTo(px, py); }
+    // Detect discontinuity (large jump)
+    if (lastPy !== null && Math.abs(py - lastPy) > h * 0.8) { firstPoint = true; }
+    if (firstPoint) { ctx.moveTo(px, py); firstPoint = false; }
+    else { ctx.lineTo(px, py); }
+    lastPy = py;
   }
-  ctx.stroke(); ctx.shadowBlur = 0;
+  ctx.stroke();
+  ctx.shadowBlur = 0;
+  ctx.setLineDash([]);
 }
 </script>
   <script data-goatcounter="https://darrssy.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
