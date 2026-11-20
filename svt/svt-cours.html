@@ -16,6 +16,7 @@
 :root { 
   --primary: #16213e; --primary-light: #2a9d8f; --accent: #e8a33d; --accent-dark: #c17f1e;
   --ink: #16213e; --gray: #5b6b7a; --gray-light: #93a3b0; --border: #d9d2bb; --light: #faf6ec; --white: #fffdf7;
+  --danger: #c0483f;
   --shadow: 6px 6px 0 rgba(22,33,62,0.08); --shadow-lg: 10px 10px 0 rgba(22,33,62,0.1);
   --radius: 6px; --radius-sm: 4px; --transition: all 0.25s ease;
 }
@@ -88,13 +89,24 @@ nav { background: var(--white); border-bottom: 2px solid var(--ink); padding: 10
 .cours-subtitle { font-size: 0.85rem; color: var(--gray); font-family: 'JetBrains Mono', monospace; }
 .cours-toggle-icon { font-size: 1.2rem; color: var(--primary-light); transition: transform 0.3s ease; }
 .cours-content { max-height: 0; overflow: hidden; transition: max-height 0.4s ease-out; background: #fafbfc; border-top: 0 solid var(--border); }
-.cours-content.open { max-height: 2500px; border-top: 2px dashed var(--border); }
+.cours-content.open { max-height: 3000px; border-top: 2px dashed var(--border); }
 .cours-inner { padding: 25px; font-size: 0.95rem; color: var(--ink); }
 
 .resume-block { margin-bottom: 20px; }
 .resume-block h4 { font-size: 1rem; color: var(--primary-light); margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
-.resume-block p { line-height: 1.7; color: var(--ink); }
+.resume-block p { line-height: 1.7; color: var(--ink); margin-bottom: 20px; }
 .formule-box { background: var(--white); border: 1.5px solid var(--ink); border-radius: var(--radius-sm); padding: 15px; text-align: center; font-size: 1.05rem; color: var(--accent-dark); margin: 15px 0; font-weight: 600; box-shadow: var(--shadow-sm); overflow-x: auto; }
+
+/* NOUVEAU : Zone des ressources */
+.ressources-liste { margin-top: 20px; border-top: 2px dashed var(--border); padding-top: 20px; }
+.ressources-liste h5 { font-size: 0.95rem; font-weight: 700; color: var(--ink); margin-bottom: 15px; display: flex; align-items: center; gap: 8px; }
+.btn-ressource { display: flex; align-items: center; justify-content: space-between; background: var(--white); border: 1px solid var(--border); padding: 12px 15px; border-radius: var(--radius-sm); margin-bottom: 8px; text-decoration: none; transition: var(--transition); }
+.btn-ressource:hover { border-color: var(--primary-light); background: var(--light); transform: translateX(5px); }
+.btn-ressource .info { display: flex; align-items: center; gap: 10px; }
+.btn-ressource .info i { color: var(--danger); font-size: 1.2rem; }
+.btn-ressource .info span { font-size: 0.9rem; font-weight: 600; color: var(--ink); }
+.btn-ressource .icon-dl { background: var(--ink); color: var(--white); padding: 6px 10px; border-radius: 4px; font-size: 0.75rem; font-weight: 700; }
+.btn-ressource:hover .icon-dl { background: var(--primary-light); }
 
 .loading-zone { text-align: center; padding: 60px 20px; color: var(--gray); }
 .loading-zone i { font-size: 2.1rem; color: var(--primary-light); animation: spin 1s linear infinite; display: block; margin-bottom: 15px; }
@@ -174,17 +186,20 @@ nav { background: var(--white); border-bottom: 2px solid var(--ink); padding: 10
 <script>
 let currentLang = localStorage.getItem('darrssy-lang') || 'fr';
 let tousLesCours = [];
+let toutesLesRessources = [];
 
 const trad = {
   fr: {
     'nav.menu': 'Menu', 'nav.home': 'Site', 'nav.svt_home': 'Accueil', 'nav.cours': 'Cours', 'nav.exercices': 'Exercices', 'nav.examens': 'Examens', 'nav.schemas': 'Schémas', 'nav.formules': 'Lois & Formules', 'title': 'Cours de SVT', 'desc': 'Cliquez sur un cours pour voir le résumé complet.',
     'lvl.tronc': 'Tronc Commun', 'lvl.1bac': '1ère Année Bac', 'lvl.2bac': '2ème Année Bac',
-    'loading': 'Chargement...', 'resume': 'Résumé du cours', 'noCours': 'Aucun cours disponible pour ce niveau pour le moment.'
+    'loading': 'Chargement...', 'resume': 'Résumé du cours', 'noCours': 'Aucun cours disponible pour ce niveau pour le moment.',
+    'ressources': 'Ressources à télécharger', 'noRessources': 'Aucun document disponible pour ce cours.', 'telecharger': 'Télécharger'
   },
   ar: {
     'nav.menu': 'القائمة', 'nav.home': 'الموقع', 'nav.svt_home': 'الرئيسية', 'nav.cours': 'الدروس', 'nav.exercices': 'التمارين', 'nav.examens': 'الامتحانات', 'nav.schemas': 'الرسوم التفاعلية', 'nav.formules': 'القوانين والصيغ', 'title': 'دروس علوم الحياة والأرض', 'desc': 'انقر على درس لرؤية الملخص الكامل.',
     'lvl.tronc': 'الجذع المشترك', 'lvl.1bac': 'الأولى باكالوريا', 'lvl.2bac': 'الثانية باكالوريا',
-    'loading': 'جارٍ التحميل...', 'resume': 'ملخص الدرس', 'noCours': 'لا يوجد أي درس متاح لهذا المستوى حالياً.'
+    'loading': 'جارٍ التحميل...', 'resume': 'ملخص الدرس', 'noCours': 'لا يوجد أي درس متاح لهذا المستوى حالياً.',
+    'ressources': 'الموارد للتحميل', 'noRessources': 'لا يوجد أي مستند متاح لهذا الدرس.', 'telecharger': 'تحميل'
   }
 };
 
@@ -243,17 +258,20 @@ function bindEvents() {
 }
 
 // ==========================================
-// CHARGEMENT DES COURS DEPUIS SUPABASE
+// CHARGEMENT DES COURS ET RESSOURCES DEPUIS SUPABASE
 // ==========================================
 async function chargerCours() {
   try {
     if (typeof lireTable !== 'function') throw new Error("lireTable non chargé");
     
-    // On récupère uniquement les cours de la matière "svt"
-    tousLesCours = await lireTable('cours', { 
-      filtres: { publie: true, matiere: 'svt' }, 
-      ordre: { col: 'created_at', asc: false } 
-    });
+    // On charge les cours SVT ET les ressources en même temps
+    const [cours, ressources] = await Promise.all([
+      lireTable('cours', { filtres: { publie: true, matiere: 'svt' }, ordre: { col: 'created_at', asc: false } }),
+      lireTable('ressources', { filtres: { publie: true } })
+    ]);
+    
+    tousLesCours = cours;
+    toutesLesRessources = ressources;
     
     afficherCours();
   } catch (err) {
@@ -291,6 +309,28 @@ function afficherCours() {
     const titre = currentLang === 'fr' ? c.titre_fr : (c.titre_ar || c.titre_fr);
     const desc = currentLang === 'fr' ? (c.description_fr || '') : (c.description_ar || c.description_fr || '');
     
+    // Trouver les ressources associées à ce cours
+    const ressourcesDuCours = toutesLesRessources.filter(r => r.cours_id === c.id);
+    
+    // Construire la liste des ressources
+    let ressourcesHtml = '';
+    if (ressourcesDuCours.length > 0) {
+      ressourcesHtml = ressourcesDuCours.map(r => {
+        const titreRessource = currentLang === 'fr' ? r.titre_fr : (r.titre_ar || r.titre_fr);
+        return `
+          <a href="${r.fichier_url}" target="_blank" class="btn-ressource">
+            <div class="info">
+              <i class="fas fa-file-pdf"></i>
+              <span>${titreRessource}</span>
+            </div>
+            <div class="icon-dl"><i class="fas fa-download"></i> ${trad[currentLang]['telecharger']}</div>
+          </a>
+        `;
+      }).join('');
+    } else {
+      ressourcesHtml = `<p style="font-size:0.85rem; color:var(--gray-light);">${trad[currentLang]['noRessources']}</p>`;
+    }
+
     // On crée l'accordéon
     const accordion = document.createElement('div');
     accordion.className = 'cours-accordion';
@@ -310,6 +350,11 @@ function afficherCours() {
           <div class="resume-block">
             <h4><i class="fas fa-bookmark"></i> ${trad[currentLang]['resume']}</h4>
             <p>${desc}</p>
+          </div>
+          
+          <div class="ressources-liste">
+            <h5><i class="fas fa-folder-open"></i> ${trad[currentLang]['ressources']}</h5>
+            ${ressourcesHtml}
           </div>
         </div>
       </div>
