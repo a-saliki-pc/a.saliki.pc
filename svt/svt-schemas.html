@@ -80,6 +80,7 @@ nav { background: var(--white); border-bottom: 2px solid var(--ink); padding: 10
 .badge-gen { background: #cce5e0; color: #1a6b5a; }
 .badge-imm { background: #e0d4f0; color: #5b3a8c; }
 .badge-neuro { background: #fce4c7; color: #b06020; }
+.badge-physio { background: #d4edda; color: #2d6a4f; }
 
 /* CONTENEUR SVG */
 .svg-container { width: 100%; height: 250px; background: #fafbfc; border: 1px solid var(--border); border-radius: var(--radius-sm); display: flex; justify-content: center; align-items: center; overflow: hidden; position: relative; }
@@ -120,6 +121,20 @@ nav { background: var(--white); border-bottom: 2px solid var(--ink); padding: 10
 @keyframes phagocytosis { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.12); } }
 @keyframes dnaBasePulse { 0%, 100% { opacity: 0.85; } 50% { opacity: 1; } }
 @keyframes helixWave { 0% { transform: translateY(0); } 50% { transform: translateY(-3px); } 100% { transform: translateY(0); } }
+@keyframes organellePulse { 0%, 100% { transform: scale(1); opacity: 0.85; } 50% { transform: scale(1.06); opacity: 1; } }
+@keyframes divergeLeft { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(-8px); } }
+@keyframes divergeRight { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(8px); } }
+@keyframes magmaSpread { 0%, 100% { transform: scaleY(1); opacity: 0.6; } 50% { transform: scaleY(1.15); opacity: 1; } }
+@keyframes alleleFlow { 0% { opacity: 0; transform: translateY(-8px); } 50% { opacity: 1; transform: translateY(0); } 100% { opacity: 0; transform: translateY(8px); } }
+@keyframes insulinPump { 0%, 100% { r: 3; opacity: 0.7; } 50% { r: 5; opacity: 1; } }
+@keyframes glucoseFloat { 0%, 100% { transform: translate(0,0); } 25% { transform: translate(3px,-2px); } 75% { transform: translate(-3px,2px); } }
+@keyframes chloroSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+@keyframes lightAbsorb { 0%, 100% { opacity: 0.4; stroke-width: 1; } 50% { opacity: 1; stroke-width: 2.5; } }
+@keyframes collisionPush { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(5px); } }
+@keyframes collisionPushR { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(-5px); } }
+@keyframes mountainRise { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+@keyframes depolarize { 0% { transform: translateX(0); opacity: 1; } 100% { transform: translateX(60px); opacity: 0.3; } }
+@keyframes ionChannel { 0%, 100% { transform: scaleY(0.8); } 50% { transform: scaleY(1.2); } }
 
 .fault-block-right { animation: slideFaultRight 6s ease-in-out infinite; }
 .fault-block-left { animation: slideFaultLeft 6s ease-in-out infinite; }
@@ -142,6 +157,20 @@ nav { background: var(--white); border-bottom: 2px solid var(--ink); padding: 10
 .gentle-bob { animation: gentleBob 3s ease-in-out infinite; }
 .stress-arrow-anim { animation: stressArrow 3s ease-in-out infinite; }
 .dna-base-pulse { animation: dnaBasePulse 3s ease-in-out infinite; }
+.organelle-pulse { animation: organellePulse 4s ease-in-out infinite; }
+.diverge-left { animation: divergeLeft 7s ease-in-out infinite; }
+.diverge-right { animation: divergeRight 7s ease-in-out infinite; }
+.magma-spread { animation: magmaSpread 4s ease-in-out infinite; }
+.allele-flow { animation: alleleFlow 3s ease-in-out infinite; }
+.insulin-pump { animation: insulinPump 3s ease-in-out infinite; }
+.glucose-float { animation: glucoseFloat 4s ease-in-out infinite; }
+.chloro-spin { animation: chloroSpin 12s linear infinite; }
+.light-absorb { animation: lightAbsorb 3s ease-in-out infinite; }
+.collision-push { animation: collisionPush 6s ease-in-out infinite; }
+.collision-push-r { animation: collisionPushR 6s ease-in-out infinite; }
+.mountain-rise { animation: mountainRise 5s ease-in-out infinite; }
+.depolarize-anim { animation: depolarize 3s linear infinite; }
+.ion-channel-anim { animation: ionChannel 2s ease-in-out infinite; }
 
 /* ============ LEGEND ============ */
 .schema-legend { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; padding: 8px 10px; background: var(--light); border-radius: var(--radius-sm); border: 1px solid var(--border); }
@@ -907,6 +936,676 @@ nav { background: var(--white); border-bottom: 2px solid var(--ink); padding: 10
       </div>
     </div>
 
+    <!-- ============ S10 : CELLULE ANIMALE vs VÉGÉTALE ============ -->
+    <div class="schema-card" onclick="openModal('s10')">
+      <div class="click-hint"><i class="fas fa-expand"></i> Cliquer</div>
+      <h3><i class="fas fa-microscope"></i> <span data-i18n="s10.title">Cellule Animale vs Végétale</span> <span class="category-badge badge-gen">Biologie cellulaire</span></h3>
+      <div class="svg-container">
+        <svg viewBox="0 0 500 260" xmlns="http://www.w3.org/2000/svg">
+          <!-- ANIMAL CELL -->
+          <text x="125" y="18" font-size="11" fill="#16213e" font-family="Fraunces" font-weight="700" text-anchor="middle">Cellule Animale</text>
+          <g data-tooltip-fr="Cellule animale : pas de paroi, pas de chloroplaste, petites vacuoles" data-tooltip-ar="خلية حيوانية: بدون جدار، بدون صانعات خضراء، فجوات صغيرة">
+            <!-- Membrane -->
+            <ellipse cx="125" cy="140" rx="105" ry="95" fill="none" stroke="#e76f51" stroke-width="2.5" stroke-dasharray="6,3"/>
+            <text x="125" y="246" font-size="7" fill="#e76f51" font-family="Inter" font-weight="600" text-anchor="middle">Membrane plasmique</text>
+            <!-- Cytoplasm -->
+            <ellipse cx="125" cy="140" rx="102" ry="92" fill="#fef3e2" opacity="0.5"/>
+            <!-- Nucleus -->
+            <g data-tooltip-fr="Noyau : contient l'ADN (chromosomes)" data-tooltip-ar="النواة: تحتوي على الحمض النووي (الصبغيات)">
+              <ellipse cx="125" cy="130" rx="30" ry="28" fill="#d4a5ff" opacity="0.5" stroke="#7b2cbf" stroke-width="1.5" class="organelle-pulse"/>
+              <circle cx="125" cy="130" r="8" fill="#7b2cbf" opacity="0.4"/>
+              <text x="125" y="133" font-size="7" fill="#5a189a" font-family="Inter" font-weight="600" text-anchor="middle">Noyau</text>
+              <text x="125" y="142" font-size="5" fill="#7b2cbf" font-family="Inter" text-anchor="middle">Nucléole</text>
+            </g>
+            <!-- Mitochondria -->
+            <g data-tooltip-fr="Mitochondrie : respiration cellulaire, production d'ATP" data-tooltip-ar="الميتوكوندريا: التنفس الخلوي، إنتاج ATP">
+              <ellipse cx="70" cy="90" rx="16" ry="8" fill="#ff6b6b" opacity="0.6" stroke="#c0392b" stroke-width="1" class="organelle-pulse" style="animation-delay:0.5s"/>
+              <path d="M58,90 Q64,85 70,90 Q76,95 82,90" stroke="#c0392b" stroke-width="0.7" fill="none"/>
+              <text x="70" y="106" font-size="5.5" fill="#c0392b" font-family="Inter" text-anchor="middle">Mitochondrie</text>
+            </g>
+            <ellipse cx="175" cy="170" rx="14" ry="7" fill="#ff6b6b" opacity="0.5" stroke="#c0392b" stroke-width="0.8" class="organelle-pulse" style="animation-delay:1s"/>
+            <!-- Rough ER -->
+            <g data-tooltip-fr="Réticulum endoplasmique rugueux : synthèse des protéines" data-tooltip-ar="الشبكة الإندوبلازمية الخشنة: تخليق البروتينات">
+              <path d="M155,110 Q170,105 175,115 Q180,125 165,128 Q150,130 155,120" stroke="#3498db" stroke-width="1.2" fill="none"/>
+              <circle cx="160" cy="112" r="1.5" fill="#3498db"/>
+              <circle cx="172" cy="118" r="1.5" fill="#3498db"/>
+              <circle cx="162" cy="125" r="1.5" fill="#3498db"/>
+              <text x="172" y="140" font-size="5" fill="#3498db" font-family="Inter" text-anchor="middle">RER</text>
+            </g>
+            <!-- Golgi -->
+            <g data-tooltip-fr="Appareil de Golgi : tri et emballage des protéines" data-tooltip-ar="جهاز غولجي: فرز وتغليف البروتينات">
+              <path d="M60,160 Q80,155 85,165" stroke="#e8a33d" stroke-width="2" fill="none"/>
+              <path d="M62,166 Q82,161 87,171" stroke="#e8a33d" stroke-width="1.5" fill="none"/>
+              <path d="M64,172 Q84,167 89,177" stroke="#e8a33d" stroke-width="1" fill="none"/>
+              <text x="75" y="190" font-size="5" fill="#c17f1e" font-family="Inter" text-anchor="middle">Golgi</text>
+            </g>
+            <!-- Centrosome -->
+            <g data-tooltip-fr="Centrosome : organise les microtubules (division cellulaire)" data-tooltip-ar="الجسيم المركزي: ينظم الأنيبيبات الدقيقة (الانقسام)">
+              <circle cx="160" cy="85" r="6" fill="none" stroke="#2d6a4f" stroke-width="1" stroke-dasharray="2,1"/>
+              <line x1="157" y1="85" x2="163" y2="85" stroke="#2d6a4f" stroke-width="1.5"/>
+              <line x1="160" y1="82" x2="160" y2="88" stroke="#2d6a4f" stroke-width="1.5"/>
+              <text x="160" y="98" font-size="5" fill="#2d6a4f" font-family="Inter" text-anchor="middle">Centrosome</text>
+            </g>
+            <!-- Small vacuoles -->
+            <circle cx="100" cy="185" r="6" fill="#a8dadc" opacity="0.4" stroke="#457b9d" stroke-width="0.8"/>
+            <circle cx="145" cy="195" r="4" fill="#a8dadc" opacity="0.3" stroke="#457b9d" stroke-width="0.6"/>
+          </g>
+
+          <!-- PLANT CELL -->
+          <text x="375" y="18" font-size="11" fill="#16213e" font-family="Fraunces" font-weight="700" text-anchor="middle">Cellule Végétale</text>
+          <g data-tooltip-fr="Cellule végétale : paroi cellulosique, chloroplastes, grande vacuole" data-tooltip-ar="خلية نباتية: جدار سليلوزي، صانعات خضراء، فجوة كبيرة">
+            <!-- Cell wall -->
+            <rect x="272" y="30" width="206" height="215" rx="12" fill="none" stroke="#2d6a4f" stroke-width="3"/>
+            <text x="375" y="253" font-size="7" fill="#2d6a4f" font-family="Inter" font-weight="600" text-anchor="middle">Paroi cellulosique</text>
+            <!-- Membrane -->
+            <rect x="278" y="36" width="194" height="203" rx="10" fill="none" stroke="#e76f51" stroke-width="1.5" stroke-dasharray="5,3"/>
+            <!-- Cytoplasm -->
+            <rect x="281" y="39" width="188" height="197" rx="8" fill="#e8f5e9" opacity="0.4"/>
+            <!-- Large vacuole -->
+            <g data-tooltip-fr="Grande vacuole centrale : stockage d'eau et maintien de la turgescence" data-tooltip-ar="الفجوة المركزية الكبيرة: تخزين الماء والحفاظ على الامتلاء">
+              <ellipse cx="375" cy="145" rx="55" ry="50" fill="#bbdefb" opacity="0.3" stroke="#42a5f5" stroke-width="1.5" stroke-dasharray="4,2" class="organelle-pulse" style="animation-delay:1.5s"/>
+              <text x="375" y="148" font-size="7" fill="#1565c0" font-family="Inter" font-weight="600" text-anchor="middle">Vacuole</text>
+              <text x="375" y="158" font-size="5" fill="#42a5f5" font-family="Inter" text-anchor="middle">centrale</text>
+            </g>
+            <!-- Nucleus -->
+            <g data-tooltip-fr="Noyau : contient l'information génétique" data-tooltip-ar="النواة: تحتوي على المعلومة الوراثية">
+              <ellipse cx="340" cy="80" rx="22" ry="20" fill="#d4a5ff" opacity="0.5" stroke="#7b2cbf" stroke-width="1.5"/>
+              <circle cx="340" cy="80" r="6" fill="#7b2cbf" opacity="0.4"/>
+              <text x="340" y="83" font-size="6" fill="#5a189a" font-family="Inter" font-weight="600" text-anchor="middle">Noyau</text>
+            </g>
+            <!-- Chloroplasts -->
+            <g data-tooltip-fr="Chloroplaste : photosynthèse (conversion lumière → énergie chimique)" data-tooltip-ar="الصانعة الخضراء: التركيب الضوئي (تحويل الضوء إلى طاقة كيميائية)">
+              <ellipse cx="420" cy="70" rx="14" ry="8" fill="#66bb6a" opacity="0.7" stroke="#2e7d32" stroke-width="1" class="organelle-pulse" style="animation-delay:0.3s"/>
+              <line x1="410" y1="70" x2="430" y2="70" stroke="#2e7d32" stroke-width="0.6"/>
+              <line x1="412" y1="66" x2="428" y2="66" stroke="#2e7d32" stroke-width="0.5"/>
+              <line x1="412" y1="74" x2="428" y2="74" stroke="#2e7d32" stroke-width="0.5"/>
+              <text x="420" y="86" font-size="5.5" fill="#2e7d32" font-family="Inter" text-anchor="middle">Chloroplaste</text>
+            </g>
+            <ellipse cx="310" cy="200" rx="12" ry="7" fill="#66bb6a" opacity="0.6" stroke="#2e7d32" stroke-width="0.8" class="organelle-pulse" style="animation-delay:0.8s"/>
+            <ellipse cx="440" cy="190" rx="11" ry="6" fill="#66bb6a" opacity="0.5" stroke="#2e7d32" stroke-width="0.8" class="organelle-pulse" style="animation-delay:1.2s"/>
+            <!-- Mitochondria -->
+            <ellipse cx="430" cy="120" rx="12" ry="6" fill="#ff6b6b" opacity="0.5" stroke="#c0392b" stroke-width="0.8"/>
+            <text x="430" y="133" font-size="5" fill="#c0392b" font-family="Inter" text-anchor="middle">Mito.</text>
+            <!-- Golgi -->
+            <path d="M295,110 Q310,105 315,112" stroke="#e8a33d" stroke-width="1.5" fill="none"/>
+            <path d="M297,116 Q312,111 317,118" stroke="#e8a33d" stroke-width="1" fill="none"/>
+            <text x="306" y="130" font-size="5" fill="#c17f1e" font-family="Inter" text-anchor="middle">Golgi</text>
+          </g>
+
+          <!-- VS separator -->
+          <text x="250" y="145" font-size="16" fill="#93a3b0" font-family="Fraunces" font-weight="700" text-anchor="middle">VS</text>
+        </svg>
+      </div>
+      <div class="schema-legend">
+        <div class="legend-item"><span class="legend-swatch" style="background:#d4a5ff"></span> Noyau</div>
+        <div class="legend-item"><span class="legend-swatch" style="background:#ff6b6b"></span> Mitochondrie</div>
+        <div class="legend-item"><span class="legend-swatch" style="background:#66bb6a"></span> Chloroplaste</div>
+        <div class="legend-item"><span class="legend-swatch" style="background:#bbdefb"></span> Vacuole</div>
+        <div class="legend-item"><span class="legend-swatch" style="background:#2d6a4f"></span> Paroi</div>
+        <div class="legend-item"><span class="legend-swatch" style="background:#e8a33d"></span> Golgi</div>
+      </div>
+      <div class="schema-desc" data-i18n="s10.desc">
+        <strong>Cellule animale vs végétale :</strong> La cellule végétale possède une <strong>paroi cellulosique</strong>, des <strong>chloroplastes</strong> et une <strong>grande vacuole centrale</strong>. La cellule animale a un <strong>centrosome</strong> et de petites vacuoles.
+      </div>
+    </div>
+
+    <!-- ============ S11 : DORSALE OCÉANIQUE / DIVERGENCE ============ -->
+    <div class="schema-card" onclick="openModal('s11')">
+      <div class="click-hint"><i class="fas fa-expand"></i> Cliquer</div>
+      <h3><i class="fas fa-water"></i> <span data-i18n="s11.title">Dorsale Océanique — Divergence</span> <span class="category-badge badge-geo">Géologie</span></h3>
+      <div class="svg-container">
+        <svg viewBox="0 0 450 260" xmlns="http://www.w3.org/2000/svg">
+          <!-- Ocean water -->
+          <rect x="0" y="0" width="450" height="80" fill="#bbdefb" opacity="0.3"/>
+          <text x="225" y="20" font-size="9" fill="#1565c0" font-family="Inter" font-weight="600" text-anchor="middle">Océan</text>
+          <!-- Sea floor surface -->
+          <path d="M0,80 L150,80 Q180,80 195,100 Q210,120 225,130 Q240,120 255,100 Q270,80 300,80 L450,80" fill="none" stroke="#5d4037" stroke-width="2"/>
+          <!-- Left plate -->
+          <g class="diverge-left" data-tooltip-fr="Plaque lithosphérique gauche : s'éloigne de la dorsale" data-tooltip-ar="الصفيحة الصخرية اليسرى: تبتعد عن الذروة">
+            <path d="M0,80 L150,80 Q180,80 195,100 L195,180 L0,180 Z" fill="#8d6e63" opacity="0.7"/>
+            <rect x="0" y="80" width="150" height="12" fill="#a1887f" opacity="0.5"/>
+            <text x="75" y="135" font-size="8" fill="#fff" font-family="Inter" font-weight="600" text-anchor="middle">Plaque 1</text>
+            <!-- Direction arrow -->
+            <line x1="130" y1="68" x2="80" y2="68" stroke="#c0392b" stroke-width="2" marker-end="url(#arrowDivRed)"/>
+            <text x="105" y="62" font-size="6" fill="#c0392b" font-family="Inter" font-weight="600" text-anchor="middle">←</text>
+          </g>
+          <!-- Right plate -->
+          <g class="diverge-right" data-tooltip-fr="Plaque lithosphérique droite : s'éloigne de la dorsale" data-tooltip-ar="الصفيحة الصخرية اليمنى: تبتعد عن الذروة">
+            <path d="M255,100 Q270,80 300,80 L450,80 L450,180 L255,180 Z" fill="#8d6e63" opacity="0.7"/>
+            <rect x="300" y="80" width="150" height="12" fill="#a1887f" opacity="0.5"/>
+            <text x="370" y="135" font-size="8" fill="#fff" font-family="Inter" font-weight="600" text-anchor="middle">Plaque 2</text>
+            <line x1="320" y1="68" x2="370" y2="68" stroke="#c0392b" stroke-width="2"/>
+            <text x="345" y="62" font-size="6" fill="#c0392b" font-family="Inter" font-weight="600" text-anchor="middle">→</text>
+          </g>
+          <!-- Rift valley / Ridge -->
+          <g data-tooltip-fr="Rift : vallée centrale de la dorsale où le magma remonte" data-tooltip-ar="الصدع: الوادي المركزي للذروة حيث يرتفع الصهير">
+            <path d="M195,100 Q210,120 225,130 Q240,120 255,100" fill="#ff7043" opacity="0.4"/>
+            <text x="225" y="108" font-size="7" fill="#d84315" font-family="Inter" font-weight="700" text-anchor="middle">Rift</text>
+          </g>
+          <!-- Magma rising -->
+          <g class="magma-anim" data-tooltip-fr="Magma : remontée de matériel chaud depuis l'asthénosphère" data-tooltip-ar="الصهير: صعود المواد الساخنة من الغلاف الموري">
+            <path d="M210,240 Q218,200 225,160 Q232,200 240,240" fill="#ff5722" opacity="0.5"/>
+            <circle cx="225" cy="180" r="5" fill="#ff9800" opacity="0.7">
+              <animate attributeName="r" values="4;6;4" dur="2s" repeatCount="indefinite"/>
+            </circle>
+            <circle cx="218" cy="200" r="3" fill="#ff9800" opacity="0.5">
+              <animate attributeName="cy" values="210;195;210" dur="3s" repeatCount="indefinite"/>
+            </circle>
+            <circle cx="232" cy="195" r="3" fill="#ff9800" opacity="0.5">
+              <animate attributeName="cy" values="205;190;205" dur="2.5s" repeatCount="indefinite"/>
+            </circle>
+          </g>
+          <!-- Asthenosphere -->
+          <rect x="0" y="180" width="450" height="80" fill="#d84315" opacity="0.15"/>
+          <text x="225" y="225" font-size="9" fill="#d84315" font-family="Inter" font-weight="600" text-anchor="middle">Asthénosphère</text>
+          <!-- New crust forming arrows -->
+          <g data-tooltip-fr="Nouvelle croûte océanique formée par le refroidissement du magma" data-tooltip-ar="قشرة محيطية جديدة تتشكل بتبريد الصهير">
+            <rect x="195" y="92" width="15" height="10" fill="#bf360c" opacity="0.5" rx="2">
+              <animate attributeName="opacity" values="0.3;0.7;0.3" dur="3s" repeatCount="indefinite"/>
+            </rect>
+            <rect x="240" y="92" width="15" height="10" fill="#bf360c" opacity="0.5" rx="2">
+              <animate attributeName="opacity" values="0.3;0.7;0.3" dur="3s" repeatCount="indefinite" begin="0.5s"/>
+            </rect>
+            <text x="225" y="145" font-size="6" fill="#bf360c" font-family="Inter" text-anchor="middle">Nouvelle croûte</text>
+          </g>
+          <!-- Arrow marker -->
+          <defs>
+            <marker id="arrowDivRed" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#c0392b"/></marker>
+          </defs>
+          <!-- Convection currents -->
+          <g opacity="0.3">
+            <path d="M120,210 Q120,190 160,190 Q200,190 200,210" fill="none" stroke="#ff9800" stroke-width="1.5" stroke-dasharray="3,2"/>
+            <path d="M250,210 Q250,190 290,190 Q330,190 330,210" fill="none" stroke="#ff9800" stroke-width="1.5" stroke-dasharray="3,2"/>
+          </g>
+          <text x="170" y="250" font-size="6" fill="#ff9800" font-family="Inter" text-anchor="middle">Courants de convection</text>
+        </svg>
+      </div>
+      <div class="schema-legend">
+        <div class="legend-item"><span class="legend-swatch" style="background:#8d6e63"></span> Lithosphère</div>
+        <div class="legend-item"><span class="legend-swatch" style="background:#ff5722"></span> Magma</div>
+        <div class="legend-item"><span class="legend-swatch" style="background:#bbdefb"></span> Océan</div>
+        <div class="legend-item"><span class="legend-swatch" style="background:#bf360c"></span> Nouvelle croûte</div>
+        <div class="legend-item"><span class="legend-swatch" style="background:#d84315;opacity:0.3"></span> Asthénosphère</div>
+      </div>
+      <div class="schema-desc" data-i18n="s11.desc">
+        <strong>Dorsale océanique :</strong> Les deux plaques <strong>divergent</strong>. Le magma remonte de l'asthénosphère, se refroidit et forme une <strong>nouvelle croûte océanique</strong>. Le rift est la vallée centrale de la dorsale.
+      </div>
+    </div>
+
+    <!-- ============ S12 : LOIS DE MENDEL — ÉCHIQUIER DE CROISEMENT ============ -->
+    <div class="schema-card" onclick="openModal('s12')">
+      <div class="click-hint"><i class="fas fa-expand"></i> Cliquer</div>
+      <h3><i class="fas fa-chess-board"></i> <span data-i18n="s12.title">Lois de Mendel — Croisement</span> <span class="category-badge badge-gen">Génétique</span></h3>
+      <div class="svg-container">
+        <svg viewBox="0 0 450 260" xmlns="http://www.w3.org/2000/svg">
+          <!-- Title -->
+          <text x="225" y="20" font-size="10" fill="#16213e" font-family="Fraunces" font-weight="700" text-anchor="middle">Croisement monohybride (Aa × Aa)</text>
+          <!-- Parents -->
+          <g data-tooltip-fr="Parent 1 : hétérozygote Aa (phénotype dominant)" data-tooltip-ar="الأب 1: متغاير الزيجوت Aa (نمط ظاهري سائد)">
+            <rect x="80" y="32" width="80" height="28" rx="6" fill="#2a9d8f" opacity="0.2" stroke="#2a9d8f" stroke-width="1.5"/>
+            <text x="120" y="43" font-size="7" fill="#2a9d8f" font-family="Inter" font-weight="700" text-anchor="middle">♂ Parent</text>
+            <text x="120" y="54" font-size="9" fill="#16213e" font-family="JetBrains Mono" font-weight="700" text-anchor="middle">Aa</text>
+          </g>
+          <text x="225" y="50" font-size="12" fill="#e8a33d" font-family="Inter" font-weight="700" text-anchor="middle">×</text>
+          <g data-tooltip-fr="Parent 2 : hétérozygote Aa (phénotype dominant)" data-tooltip-ar="الأب 2: متغاير الزيجوت Aa (نمط ظاهري سائد)">
+            <rect x="290" y="32" width="80" height="28" rx="6" fill="#e76f51" opacity="0.2" stroke="#e76f51" stroke-width="1.5"/>
+            <text x="330" y="43" font-size="7" fill="#e76f51" font-family="Inter" font-weight="700" text-anchor="middle">♀ Parent</text>
+            <text x="330" y="54" font-size="9" fill="#16213e" font-family="JetBrains Mono" font-weight="700" text-anchor="middle">Aa</text>
+          </g>
+          <!-- Gametes arrows -->
+          <line x1="100" y1="62" x2="100" y2="80" stroke="#2a9d8f" stroke-width="1.5"/>
+          <line x1="140" y1="62" x2="140" y2="80" stroke="#2a9d8f" stroke-width="1.5"/>
+          <line x1="310" y1="62" x2="310" y2="80" stroke="#e76f51" stroke-width="1.5"/>
+          <line x1="350" y1="62" x2="350" y2="80" stroke="#e76f51" stroke-width="1.5"/>
+          <!-- Gametes -->
+          <circle cx="100" cy="86" r="10" fill="#2a9d8f" opacity="0.2" stroke="#2a9d8f" stroke-width="1"/>
+          <text x="100" y="89" font-size="9" fill="#2a9d8f" font-family="JetBrains Mono" font-weight="700" text-anchor="middle">A</text>
+          <circle cx="140" cy="86" r="10" fill="#2a9d8f" opacity="0.15" stroke="#2a9d8f" stroke-width="1"/>
+          <text x="140" y="89" font-size="9" fill="#2a9d8f" font-family="JetBrains Mono" font-weight="700" text-anchor="middle">a</text>
+          <circle cx="310" cy="86" r="10" fill="#e76f51" opacity="0.2" stroke="#e76f51" stroke-width="1"/>
+          <text x="310" y="89" font-size="9" fill="#e76f51" font-family="JetBrains Mono" font-weight="700" text-anchor="middle">A</text>
+          <circle cx="350" cy="86" r="10" fill="#e76f51" opacity="0.15" stroke="#e76f51" stroke-width="1"/>
+          <text x="350" y="89" font-size="9" fill="#e76f51" font-family="JetBrains Mono" font-weight="700" text-anchor="middle">a</text>
+
+          <!-- PUNNETT SQUARE -->
+          <g transform="translate(140,110)" data-tooltip-fr="Échiquier de Punnett : tableau de croisement pour prédire les génotypes" data-tooltip-ar="مربع بونيت: جدول التهجين للتنبؤ بالأنماط الوراثية">
+            <!-- Grid -->
+            <rect x="0" y="0" width="170" height="130" rx="4" fill="none" stroke="#16213e" stroke-width="1.5"/>
+            <!-- Header row -->
+            <rect x="0" y="0" width="170" height="30" rx="4" fill="#16213e" opacity="0.08"/>
+            <line x1="0" y1="30" x2="170" y2="30" stroke="#16213e" stroke-width="1"/>
+            <!-- Header col -->
+            <rect x="0" y="0" width="45" height="130" rx="4" fill="#16213e" opacity="0.05"/>
+            <line x1="45" y1="0" x2="45" y2="130" stroke="#16213e" stroke-width="1"/>
+            <!-- Column headers -->
+            <text x="22" y="20" font-size="8" fill="#93a3b0" font-family="Inter" font-weight="600" text-anchor="middle">♀ \ ♂</text>
+            <line x1="107" y1="0" x2="107" y2="130" stroke="#16213e" stroke-width="0.5" opacity="0.4"/>
+            <line x1="45" y1="80" x2="170" y2="80" stroke="#16213e" stroke-width="0.5" opacity="0.4"/>
+            <text x="76" y="20" font-size="10" fill="#2a9d8f" font-family="JetBrains Mono" font-weight="700" text-anchor="middle">A</text>
+            <text x="138" y="20" font-size="10" fill="#2a9d8f" font-family="JetBrains Mono" font-weight="700" text-anchor="middle">a</text>
+            <text x="22" y="58" font-size="10" fill="#e76f51" font-family="JetBrains Mono" font-weight="700" text-anchor="middle">A</text>
+            <text x="22" y="108" font-size="10" fill="#e76f51" font-family="JetBrains Mono" font-weight="700" text-anchor="middle">a</text>
+            <!-- AA -->
+            <g data-tooltip-fr="AA : homozygote dominant → phénotype [A]" data-tooltip-ar="AA: متماثل الزيجوت سائد → نمط ظاهري [A]">
+              <rect x="46" y="31" width="60" height="48" fill="#2a9d8f" opacity="0.15"/>
+              <text x="76" y="60" font-size="14" fill="#1a6b5a" font-family="JetBrains Mono" font-weight="700" text-anchor="middle">AA</text>
+            </g>
+            <!-- Aa (top right) -->
+            <g data-tooltip-fr="Aa : hétérozygote → phénotype [A] (dominant)" data-tooltip-ar="Aa: متغاير الزيجوت → نمط ظاهري [A] (سائد)">
+              <rect x="108" y="31" width="61" height="48" fill="#2a9d8f" opacity="0.1"/>
+              <text x="138" y="60" font-size="14" fill="#1a6b5a" font-family="JetBrains Mono" font-weight="700" text-anchor="middle">Aa</text>
+            </g>
+            <!-- Aa (bottom left) -->
+            <g data-tooltip-fr="Aa : hétérozygote → phénotype [A] (dominant)" data-tooltip-ar="Aa: متغاير الزيجوت → نمط ظاهري [A] (سائد)">
+              <rect x="46" y="81" width="60" height="48" fill="#2a9d8f" opacity="0.1"/>
+              <text x="76" y="110" font-size="14" fill="#1a6b5a" font-family="JetBrains Mono" font-weight="700" text-anchor="middle">Aa</text>
+            </g>
+            <!-- aa -->
+            <g data-tooltip-fr="aa : homozygote récessif → phénotype [a] (récessif)" data-tooltip-ar="aa: متماثل الزيجوت متنحي → نمط ظاهري [a] (متنحي)">
+              <rect x="108" y="81" width="61" height="48" fill="#e76f51" opacity="0.15"/>
+              <text x="138" y="110" font-size="14" fill="#c0392b" font-family="JetBrains Mono" font-weight="700" text-anchor="middle">aa</text>
+            </g>
+          </g>
+          <!-- Ratio -->
+          <text x="225" y="252" font-size="9" fill="#16213e" font-family="Inter" font-weight="700" text-anchor="middle">Rapport phénotypique : 3 [A] : 1 [a]  →  75% dominant, 25% récessif</text>
+        </svg>
+      </div>
+      <div class="schema-legend">
+        <div class="legend-item"><span class="legend-swatch" style="background:#2a9d8f"></span> Allèle dominant (A)</div>
+        <div class="legend-item"><span class="legend-swatch" style="background:#e76f51"></span> Allèle récessif (a)</div>
+        <div class="legend-item"><span class="legend-swatch" style="background:#1a6b5a;opacity:0.3"></span> Phénotype [A]</div>
+        <div class="legend-item"><span class="legend-swatch" style="background:#c0392b;opacity:0.3"></span> Phénotype [a]</div>
+      </div>
+      <div class="schema-desc" data-i18n="s12.desc">
+        <strong>Lois de Mendel :</strong> Croisement <strong>Aa × Aa</strong>. L'échiquier de Punnett montre 4 combinaisons : <strong>1 AA</strong>, <strong>2 Aa</strong>, <strong>1 aa</strong>. Rapport phénotypique <strong>3:1</strong> (3 dominants pour 1 récessif).
+      </div>
+    </div>
+
+    <!-- ============ S13 : RÉGULATION DE LA GLYCÉMIE ============ -->
+    <div class="schema-card" onclick="openModal('s13')">
+      <div class="click-hint"><i class="fas fa-expand"></i> Cliquer</div>
+      <h3><i class="fas fa-tint"></i> <span data-i18n="s13.title">Régulation de la Glycémie</span> <span class="category-badge badge-physio">Physiologie</span></h3>
+      <div class="svg-container">
+        <svg viewBox="0 0 450 260" xmlns="http://www.w3.org/2000/svg">
+          <!-- Blood glucose level bar -->
+          <g data-tooltip-fr="Glycémie normale : environ 1 g/L de glucose dans le sang" data-tooltip-ar="نسبة السكر الطبيعية: حوالي 1 غ/ل من الغلوكوز في الدم">
+            <rect x="175" y="10" width="100" height="20" rx="4" fill="#fff3e0" stroke="#e8a33d" stroke-width="1.5"/>
+            <text x="225" y="24" font-size="8" fill="#e8a33d" font-family="JetBrains Mono" font-weight="700" text-anchor="middle">Glycémie ≈ 1 g/L</text>
+          </g>
+
+          <!-- HYPERGLYCEMIA (left path) -->
+          <g data-tooltip-fr="Hyperglycémie : glycémie > 1 g/L → stimule les cellules β" data-tooltip-ar="ارتفاع السكر: نسبة السكر > 1 غ/ل → تنبه خلايا β">
+            <text x="100" y="55" font-size="8" fill="#c0392b" font-family="Inter" font-weight="700" text-anchor="middle">Hyperglycémie</text>
+            <text x="100" y="65" font-size="6" fill="#c0392b" font-family="Inter" text-anchor="middle">(glycémie ↑)</text>
+            <line x1="100" y1="68" x2="100" y2="85" stroke="#c0392b" stroke-width="1.5"/>
+          </g>
+          <!-- Pancreas beta cells -->
+          <g data-tooltip-fr="Cellules β des îlots de Langerhans : sécrètent l'insuline" data-tooltip-ar="خلايا β لجزر لانغرهانس: تفرز الأنسولين">
+            <ellipse cx="100" cy="105" rx="45" ry="22" fill="#e8f5e9" stroke="#2d6a4f" stroke-width="1.5"/>
+            <text x="100" y="101" font-size="7" fill="#2d6a4f" font-family="Inter" font-weight="700" text-anchor="middle">Pancréas</text>
+            <text x="100" y="112" font-size="6" fill="#2d6a4f" font-family="Inter" text-anchor="middle">Cellules β</text>
+            <circle cx="80" cy="102" r="4" fill="#66bb6a" opacity="0.5" class="insulin-pump"/>
+            <circle cx="120" cy="102" r="3" fill="#66bb6a" opacity="0.4" class="insulin-pump" style="animation-delay:0.5s"/>
+          </g>
+          <!-- Insulin arrow -->
+          <line x1="100" y1="128" x2="100" y2="150" stroke="#2d6a4f" stroke-width="1.5"/>
+          <text x="130" y="142" font-size="7" fill="#2d6a4f" font-family="Inter" font-weight="600">Insuline</text>
+          <!-- Insulin effects -->
+          <g transform="translate(30,155)">
+            <g data-tooltip-fr="Le foie stocke le glucose sous forme de glycogène (glycogénogenèse)" data-tooltip-ar="يخزن الكبد الغلوكوز على شكل غليكوجين (تكوين الغليكوجين)">
+              <rect x="0" y="0" width="60" height="35" rx="6" fill="#a5d6a7" opacity="0.4" stroke="#2d6a4f" stroke-width="1"/>
+              <text x="30" y="14" font-size="6" fill="#2d6a4f" font-family="Inter" font-weight="600" text-anchor="middle">Foie</text>
+              <text x="30" y="23" font-size="5" fill="#2d6a4f" font-family="Inter" text-anchor="middle">Glucose →</text>
+              <text x="30" y="31" font-size="5" fill="#1b5e20" font-family="Inter" font-weight="600" text-anchor="middle">Glycogène</text>
+            </g>
+            <g data-tooltip-fr="Les cellules musculaires absorbent le glucose (↓ glycémie)" data-tooltip-ar="تمتص الخلايا العضلية الغلوكوز (↓ نسبة السكر)">
+              <rect x="75" y="0" width="60" height="35" rx="6" fill="#a5d6a7" opacity="0.3" stroke="#2d6a4f" stroke-width="1"/>
+              <text x="105" y="14" font-size="6" fill="#2d6a4f" font-family="Inter" font-weight="600" text-anchor="middle">Muscles</text>
+              <text x="105" y="25" font-size="5" fill="#2d6a4f" font-family="Inter" text-anchor="middle">Absorption</text>
+              <text x="105" y="33" font-size="5" fill="#1b5e20" font-family="Inter" text-anchor="middle">du glucose</text>
+            </g>
+          </g>
+          <text x="100" y="210" font-size="7" fill="#2d6a4f" font-family="Inter" font-weight="700" text-anchor="middle">→ Glycémie ↓</text>
+
+          <!-- HYPOGLYCEMIA (right path) -->
+          <g data-tooltip-fr="Hypoglycémie : glycémie < 1 g/L → stimule les cellules α" data-tooltip-ar="انخفاض السكر: نسبة السكر < 1 غ/ل → تنبه خلايا α">
+            <text x="350" y="55" font-size="8" fill="#1565c0" font-family="Inter" font-weight="700" text-anchor="middle">Hypoglycémie</text>
+            <text x="350" y="65" font-size="6" fill="#1565c0" font-family="Inter" text-anchor="middle">(glycémie ↓)</text>
+            <line x1="350" y1="68" x2="350" y2="85" stroke="#1565c0" stroke-width="1.5"/>
+          </g>
+          <!-- Pancreas alpha cells -->
+          <g data-tooltip-fr="Cellules α des îlots de Langerhans : sécrètent le glucagon" data-tooltip-ar="خلايا α لجزر لانغرهانس: تفرز الغلوكاغون">
+            <ellipse cx="350" cy="105" rx="45" ry="22" fill="#e3f2fd" stroke="#1565c0" stroke-width="1.5"/>
+            <text x="350" y="101" font-size="7" fill="#1565c0" font-family="Inter" font-weight="700" text-anchor="middle">Pancréas</text>
+            <text x="350" y="112" font-size="6" fill="#1565c0" font-family="Inter" text-anchor="middle">Cellules α</text>
+            <circle cx="330" cy="102" r="4" fill="#42a5f5" opacity="0.5" class="insulin-pump" style="animation-delay:0.3s"/>
+            <circle cx="370" cy="102" r="3" fill="#42a5f5" opacity="0.4" class="insulin-pump" style="animation-delay:0.8s"/>
+          </g>
+          <!-- Glucagon arrow -->
+          <line x1="350" y1="128" x2="350" y2="150" stroke="#1565c0" stroke-width="1.5"/>
+          <text x="385" y="142" font-size="7" fill="#1565c0" font-family="Inter" font-weight="600">Glucagon</text>
+          <!-- Glucagon effects -->
+          <g transform="translate(290,155)">
+            <g data-tooltip-fr="Le foie libère le glucose à partir du glycogène (glycogénolyse)" data-tooltip-ar="يحرر الكبد الغلوكوز من الغليكوجين (تحلل الغليكوجين)">
+              <rect x="0" y="0" width="60" height="35" rx="6" fill="#bbdefb" opacity="0.4" stroke="#1565c0" stroke-width="1"/>
+              <text x="30" y="14" font-size="6" fill="#1565c0" font-family="Inter" font-weight="600" text-anchor="middle">Foie</text>
+              <text x="30" y="23" font-size="5" fill="#1565c0" font-family="Inter" text-anchor="middle">Glycogène →</text>
+              <text x="30" y="31" font-size="5" fill="#0d47a1" font-family="Inter" font-weight="600" text-anchor="middle">Glucose</text>
+            </g>
+            <g data-tooltip-fr="Néoglucogenèse : synthèse de glucose à partir de lipides/acides aminés" data-tooltip-ar="تكوين الغلوكوز الجديد: تخليق الغلوكوز من الدهون/الأحماض الأمينية">
+              <rect x="75" y="0" width="60" height="35" rx="6" fill="#bbdefb" opacity="0.3" stroke="#1565c0" stroke-width="1"/>
+              <text x="105" y="14" font-size="5.5" fill="#1565c0" font-family="Inter" font-weight="600" text-anchor="middle">Néogluco-</text>
+              <text x="105" y="24" font-size="5.5" fill="#1565c0" font-family="Inter" text-anchor="middle">genèse</text>
+            </g>
+          </g>
+          <text x="350" y="210" font-size="7" fill="#1565c0" font-family="Inter" font-weight="700" text-anchor="middle">→ Glycémie ↑</text>
+
+          <!-- Feedback loop arrows -->
+          <path d="M100,215 Q100,240 225,240 Q350,240 350,215" fill="none" stroke="#e8a33d" stroke-width="1.5" stroke-dasharray="4,3"/>
+          <text x="225" y="250" font-size="7" fill="#e8a33d" font-family="Inter" font-weight="700" text-anchor="middle">⟲ Boucle de rétrocontrôle négatif</text>
+
+          <!-- Central divider -->
+          <line x1="225" y1="40" x2="225" y2="230" stroke="#d9d2bb" stroke-width="1" stroke-dasharray="4,4" opacity="0.5"/>
+        </svg>
+      </div>
+      <div class="schema-legend">
+        <div class="legend-item"><span class="legend-swatch" style="background:#2d6a4f"></span> Insuline (β)</div>
+        <div class="legend-item"><span class="legend-swatch" style="background:#1565c0"></span> Glucagon (α)</div>
+        <div class="legend-item"><span class="legend-swatch" style="background:#e8a33d"></span> Rétrocontrôle</div>
+        <div class="legend-item"><span class="legend-swatch" style="background:#a5d6a7"></span> Stockage</div>
+        <div class="legend-item"><span class="legend-swatch" style="background:#bbdefb"></span> Libération</div>
+      </div>
+      <div class="schema-desc" data-i18n="s13.desc">
+        <strong>Régulation de la glycémie :</strong> Le <strong>pancréas</strong> détecte le taux de glucose. En <strong>hyperglycémie</strong>, les cellules β sécrètent l'<strong>insuline</strong> (stockage). En <strong>hypoglycémie</strong>, les cellules α sécrètent le <strong>glucagon</strong> (libération). Boucle de rétrocontrôle négatif.
+      </div>
+    </div>
+
+    <!-- ============ S14 : PHOTOSYNTHÈSE ============ -->
+    <div class="schema-card" onclick="openModal('s14')">
+      <div class="click-hint"><i class="fas fa-expand"></i> Cliquer</div>
+      <h3><i class="fas fa-sun"></i> <span data-i18n="s14.title">La Photosynthèse</span> <span class="category-badge badge-gen">Biologie</span></h3>
+      <div class="svg-container">
+        <svg viewBox="0 0 450 260" xmlns="http://www.w3.org/2000/svg">
+          <!-- Chloroplast outer membrane -->
+          <g data-tooltip-fr="Chloroplaste : organite de la photosynthèse dans les cellules végétales" data-tooltip-ar="الصانعة الخضراء: عضية التركيب الضوئي في الخلايا النباتية">
+            <ellipse cx="225" cy="140" rx="200" ry="105" fill="#e8f5e9" opacity="0.4" stroke="#2e7d32" stroke-width="2.5"/>
+            <text x="225" y="250" font-size="8" fill="#2e7d32" font-family="Inter" font-weight="600" text-anchor="middle">Chloroplaste</text>
+          </g>
+
+          <!-- LIGHT REACTIONS (left side) - Thylakoid -->
+          <text x="130" y="40" font-size="9" fill="#f57f17" font-family="Fraunces" font-weight="700" text-anchor="middle">Phase claire</text>
+          <text x="130" y="50" font-size="6" fill="#f57f17" font-family="Inter" text-anchor="middle">(Thylakoïde)</text>
+
+          <!-- Thylakoid stack -->
+          <g data-tooltip-fr="Thylakoïde : membrane où se déroulent les réactions lumineuses" data-tooltip-ar="الثايلاكويد: غشاء تجري فيه التفاعلات الضوئية">
+            <rect x="60" y="70" width="140" height="16" rx="8" fill="#66bb6a" opacity="0.6" stroke="#2e7d32" stroke-width="1"/>
+            <rect x="65" y="90" width="130" height="14" rx="7" fill="#66bb6a" opacity="0.5" stroke="#2e7d32" stroke-width="0.8"/>
+            <rect x="70" y="108" width="120" height="12" rx="6" fill="#66bb6a" opacity="0.4" stroke="#2e7d32" stroke-width="0.8"/>
+            <text x="130" y="82" font-size="6" fill="#fff" font-family="Inter" font-weight="600" text-anchor="middle">Thylakoïde (granum)</text>
+          </g>
+
+          <!-- Sun light arrows -->
+          <g class="light-absorb" data-tooltip-fr="Énergie lumineuse absorbée par la chlorophylle" data-tooltip-ar="الطاقة الضوئية الممتصة بواسطة الكلوروفيل">
+            <line x1="40" y1="30" x2="75" y2="65" stroke="#fdd835" stroke-width="2"/>
+            <line x1="60" y1="25" x2="90" y2="60" stroke="#fdd835" stroke-width="1.5"/>
+            <line x1="80" y1="22" x2="105" y2="55" stroke="#fdd835" stroke-width="1.5"/>
+            <text x="40" y="22" font-size="8" fill="#f57f17" font-family="Inter" font-weight="700">☀️ Lumière</text>
+          </g>
+
+          <!-- H2O input -->
+          <g data-tooltip-fr="Photolyse de l'eau : H₂O → O₂ + H⁺ + e⁻" data-tooltip-ar="التحلل الضوئي للماء: H₂O → O₂ + H⁺ + e⁻">
+            <text x="55" y="140" font-size="8" fill="#1565c0" font-family="JetBrains Mono" font-weight="700">H₂O</text>
+            <line x1="75" y1="135" x2="95" y2="120" stroke="#1565c0" stroke-width="1.5"/>
+          </g>
+
+          <!-- O2 output -->
+          <g data-tooltip-fr="O₂ : libéré comme sous-produit de la photolyse" data-tooltip-ar="O₂: يُطلق كمنتج ثانوي للتحلل الضوئي">
+            <text x="55" y="165" font-size="8" fill="#e53935" font-family="JetBrains Mono" font-weight="700">O₂ ↑</text>
+            <circle cx="50" cy="175" r="4" fill="#e53935" opacity="0.3">
+              <animate attributeName="cy" values="175;160;175" dur="3s" repeatCount="indefinite"/>
+              <animate attributeName="opacity" values="0.5;0.1;0.5" dur="3s" repeatCount="indefinite"/>
+            </circle>
+          </g>
+
+          <!-- ATP & NADPH production -->
+          <g data-tooltip-fr="ATP et NADPH : énergie chimique produite par la phase claire" data-tooltip-ar="ATP و NADPH: طاقة كيميائية ناتجة عن المرحلة الضوئية">
+            <rect x="90" y="140" width="80" height="30" rx="6" fill="#fff9c4" stroke="#f9a825" stroke-width="1.5"/>
+            <text x="130" y="153" font-size="7" fill="#e65100" font-family="JetBrains Mono" font-weight="700" text-anchor="middle">ATP</text>
+            <text x="130" y="164" font-size="6" fill="#e65100" font-family="JetBrains Mono" font-weight="600" text-anchor="middle">NADPH</text>
+          </g>
+
+          <!-- Arrow to Calvin -->
+          <line x1="170" y1="155" x2="250" y2="155" stroke="#e8a33d" stroke-width="2" stroke-dasharray="5,3"/>
+          <text x="210" y="148" font-size="6" fill="#e8a33d" font-family="Inter" font-weight="600" text-anchor="middle">→ énergie</text>
+
+          <!-- DARK REACTIONS (right side) - Calvin Cycle -->
+          <text x="330" y="40" font-size="9" fill="#2e7d32" font-family="Fraunces" font-weight="700" text-anchor="middle">Phase sombre</text>
+          <text x="330" y="50" font-size="6" fill="#2e7d32" font-family="Inter" text-anchor="middle">(Cycle de Calvin)</text>
+
+          <!-- Calvin cycle circle -->
+          <g data-tooltip-fr="Cycle de Calvin : fixe le CO₂ et produit du glucose (C₆H₁₂O₆) dans le stroma" data-tooltip-ar="دورة كالفن: تثبت CO₂ وتنتج الغلوكوز (C₆H₁₂O₆) في اللُّحمة">
+            <circle cx="330" cy="130" r="55" fill="none" stroke="#43a047" stroke-width="2" stroke-dasharray="6,3"/>
+            <text x="330" y="118" font-size="7" fill="#2e7d32" font-family="Inter" font-weight="700" text-anchor="middle">Cycle de</text>
+            <text x="330" y="130" font-size="7" fill="#2e7d32" font-family="Inter" font-weight="700" text-anchor="middle">Calvin</text>
+            <!-- Rotating indicator -->
+            <circle cx="330" cy="75" r="4" fill="#43a047" opacity="0.6" class="chloro-spin" style="transform-origin:330px 130px"/>
+          </g>
+
+          <!-- CO2 input -->
+          <g data-tooltip-fr="CO₂ : dioxyde de carbone fixé par la RuBisCO" data-tooltip-ar="CO₂: ثنائي أكسيد الكربون المثبت بواسطة RuBisCO">
+            <text x="395" y="80" font-size="8" fill="#546e7a" font-family="JetBrains Mono" font-weight="700">CO₂</text>
+            <line x1="395" y1="85" x2="375" y2="100" stroke="#546e7a" stroke-width="1.5"/>
+          </g>
+
+          <!-- Glucose output -->
+          <g data-tooltip-fr="Glucose (C₆H₁₂O₆) : produit final de la photosynthèse" data-tooltip-ar="الغلوكوز (C₆H₁₂O₆): المنتج النهائي للتركيب الضوئي">
+            <rect x="290" y="195" width="80" height="28" rx="6" fill="#fff" stroke="#e8a33d" stroke-width="2"/>
+            <text x="330" y="208" font-size="6" fill="#e65100" font-family="JetBrains Mono" font-weight="700" text-anchor="middle">C₆H₁₂O₆</text>
+            <text x="330" y="218" font-size="6" fill="#e8a33d" font-family="Inter" font-weight="600" text-anchor="middle">Glucose</text>
+          </g>
+          <line x1="330" y1="185" x2="330" y2="195" stroke="#e8a33d" stroke-width="1.5"/>
+
+          <!-- Stroma label -->
+          <text x="330" y="240" font-size="6" fill="#81c784" font-family="Inter" text-anchor="middle">Stroma</text>
+
+          <!-- Overall equation -->
+          <text x="225" y="258" font-size="6.5" fill="#16213e" font-family="JetBrains Mono" text-anchor="middle">6CO₂ + 6H₂O + lumière → C₆H₁₂O₆ + 6O₂</text>
+        </svg>
+      </div>
+      <div class="schema-legend">
+        <div class="legend-item"><span class="legend-swatch" style="background:#66bb6a"></span> Thylakoïde</div>
+        <div class="legend-item"><span class="legend-swatch" style="background:#fdd835"></span> Lumière</div>
+        <div class="legend-item"><span class="legend-swatch" style="background:#fff9c4;border-color:#f9a825"></span> ATP/NADPH</div>
+        <div class="legend-item"><span class="legend-swatch" style="background:#43a047"></span> Cycle de Calvin</div>
+        <div class="legend-item"><span class="legend-swatch" style="background:#e8a33d"></span> Glucose</div>
+      </div>
+      <div class="schema-desc" data-i18n="s14.desc">
+        <strong>Photosynthèse :</strong> <strong>Phase claire</strong> (thylakoïde) : la lumière décompose H₂O → O₂ + ATP + NADPH. <strong>Phase sombre</strong> (stroma) : le cycle de Calvin fixe le CO₂ et produit le <strong>glucose</strong> (C₆H₁₂O₆).
+      </div>
+    </div>
+
+    <!-- ============ S15 : CHAÎNE DE MONTAGNES — COLLISION ============ -->
+    <div class="schema-card" onclick="openModal('s15')">
+      <div class="click-hint"><i class="fas fa-expand"></i> Cliquer</div>
+      <h3><i class="fas fa-mountain"></i> <span data-i18n="s15.title">Collision Continentale</span> <span class="category-badge badge-geo">Géologie</span></h3>
+      <div class="svg-container">
+        <svg viewBox="0 0 450 260" xmlns="http://www.w3.org/2000/svg">
+          <!-- Background mantle -->
+          <rect x="0" y="170" width="450" height="90" fill="#ffccbc" opacity="0.3"/>
+          <text x="225" y="245" font-size="8" fill="#bf360c" font-family="Inter" font-weight="600" text-anchor="middle">Manteau lithosphérique</text>
+
+          <!-- Left continental plate -->
+          <g class="collision-push" data-tooltip-fr="Plaque continentale A : poussée vers la droite (convergence)" data-tooltip-ar="الصفيحة القارية أ: دفع نحو اليمين (التقارب)">
+            <rect x="0" y="100" width="180" height="70" rx="4" fill="#d7ccc8" stroke="#5d4037" stroke-width="1.5"/>
+            <rect x="0" y="100" width="180" height="15" rx="2" fill="#bcaaa4" opacity="0.5"/>
+            <text x="90" y="140" font-size="8" fill="#3e2723" font-family="Inter" font-weight="700" text-anchor="middle">Croûte continentale A</text>
+            <!-- Compression arrow -->
+            <line x1="150" y1="85" x2="190" y2="85" stroke="#c0392b" stroke-width="2.5"/>
+            <polygon points="190,80 200,85 190,90" fill="#c0392b"/>
+            <text x="170" y="78" font-size="6" fill="#c0392b" font-family="Inter" font-weight="700" text-anchor="middle">Force →</text>
+          </g>
+
+          <!-- Right continental plate -->
+          <g class="collision-push-r" data-tooltip-fr="Plaque continentale B : poussée vers la gauche (convergence)" data-tooltip-ar="الصفيحة القارية ب: دفع نحو اليسار (التقارب)">
+            <rect x="270" y="100" width="180" height="70" rx="4" fill="#d7ccc8" stroke="#5d4037" stroke-width="1.5"/>
+            <rect x="270" y="100" width="180" height="15" rx="2" fill="#bcaaa4" opacity="0.5"/>
+            <text x="360" y="140" font-size="8" fill="#3e2723" font-family="Inter" font-weight="700" text-anchor="middle">Croûte continentale B</text>
+            <!-- Compression arrow -->
+            <line x1="300" y1="85" x2="260" y2="85" stroke="#c0392b" stroke-width="2.5"/>
+            <polygon points="260,80 250,85 260,90" fill="#c0392b"/>
+            <text x="280" y="78" font-size="6" fill="#c0392b" font-family="Inter" font-weight="700" text-anchor="middle">← Force</text>
+          </g>
+
+          <!-- Mountain chain rising -->
+          <g class="mountain-rise" data-tooltip-fr="Chaîne de montagnes : résultat du plissement et chevauchement lors de la collision" data-tooltip-ar="سلسلة جبلية: نتيجة الطي والتراكب أثناء التصادم">
+            <path d="M180,100 L195,55 L210,75 L225,25 L240,75 L255,55 L270,100" fill="#8d6e63" stroke="#5d4037" stroke-width="2"/>
+            <!-- Snow caps -->
+            <path d="M218,35 L225,25 L232,35" fill="#fff" opacity="0.8"/>
+            <path d="M190,62 L195,55 L200,62" fill="#fff" opacity="0.6"/>
+            <path d="M250,62 L255,55 L260,62" fill="#fff" opacity="0.6"/>
+            <text x="225" y="18" font-size="8" fill="#5d4037" font-family="Fraunces" font-weight="700" text-anchor="middle">Chaîne de montagnes</text>
+          </g>
+
+          <!-- Folded layers at depth -->
+          <g data-tooltip-fr="Plis et chevauchements : déformations des couches rocheuses sous compression" data-tooltip-ar="طيات وتراكبات: تشوهات الطبقات الصخرية تحت الضغط">
+            <path d="M190,170 Q205,155 225,160 Q245,165 260,170" fill="none" stroke="#795548" stroke-width="1.5"/>
+            <path d="M185,180 Q205,165 225,170 Q245,175 265,180" fill="none" stroke="#a1887f" stroke-width="1.2"/>
+            <path d="M180,190 Q205,175 225,180 Q245,185 270,190" fill="none" stroke="#bcaaa4" stroke-width="1"/>
+            <text x="225" y="206" font-size="6" fill="#795548" font-family="Inter" font-weight="600" text-anchor="middle">Plis et chevauchements</text>
+          </g>
+
+          <!-- Metamorphism zone -->
+          <g data-tooltip-fr="Zone de métamorphisme : transformation des roches sous pression et température élevées" data-tooltip-ar="منطقة التحول: تحول الصخور تحت الضغط والحرارة المرتفعين">
+            <ellipse cx="225" cy="165" rx="30" ry="12" fill="#ff7043" opacity="0.2" stroke="#e64a19" stroke-width="1" stroke-dasharray="3,2">
+              <animate attributeName="opacity" values="0.1;0.3;0.1" dur="4s" repeatCount="indefinite"/>
+            </ellipse>
+            <text x="225" y="220" font-size="6" fill="#e64a19" font-family="Inter" text-anchor="middle">Métamorphisme</text>
+          </g>
+
+          <!-- Root -->
+          <g data-tooltip-fr="Racine crustale : épaississement de la croûte en profondeur (isostasie)" data-tooltip-ar="الجذر القشري: تثخن القشرة في العمق (التوازن)">
+            <path d="M200,170 Q210,210 225,220 Q240,210 250,170" fill="#d7ccc8" opacity="0.5" stroke="#5d4037" stroke-width="1" stroke-dasharray="3,2"/>
+            <text x="225" y="235" font-size="5.5" fill="#5d4037" font-family="Inter" text-anchor="middle">Racine crustale</text>
+          </g>
+
+          <!-- Labels -->
+          <text x="90" y="92" font-size="6" fill="#8d6e63" font-family="Inter" text-anchor="middle">Ex: Plaque africaine</text>
+          <text x="360" y="92" font-size="6" fill="#8d6e63" font-family="Inter" text-anchor="middle">Ex: Plaque eurasienne</text>
+          <text x="225" y="255" font-size="7" fill="#93a3b0" font-family="Inter" text-anchor="middle">Exemple : Atlas, Himalaya, Alpes</text>
+        </svg>
+      </div>
+      <div class="schema-legend">
+        <div class="legend-item"><span class="legend-swatch" style="background:#d7ccc8"></span> Croûte continentale</div>
+        <div class="legend-item"><span class="legend-swatch" style="background:#8d6e63"></span> Montagnes</div>
+        <div class="legend-item"><span class="legend-swatch" style="background:#c0392b"></span> Forces de compression</div>
+        <div class="legend-item"><span class="legend-swatch" style="background:#ff7043;opacity:0.3"></span> Métamorphisme</div>
+        <div class="legend-item"><span class="legend-swatch" style="background:#ffccbc"></span> Manteau</div>
+      </div>
+      <div class="schema-desc" data-i18n="s15.desc">
+        <strong>Collision continentale :</strong> Deux plaques continentales convergent. La compression crée des <strong>plis</strong>, des <strong>chevauchements</strong> et une <strong>chaîne de montagnes</strong> (ex: Atlas, Himalaya). En profondeur : <strong>métamorphisme</strong> et <strong>racine crustale</strong>.
+      </div>
+    </div>
+
+    <!-- ============ S16 : POTENTIEL D'ACTION ============ -->
+    <div class="schema-card" onclick="openModal('s16')">
+      <div class="click-hint"><i class="fas fa-expand"></i> Cliquer</div>
+      <h3><i class="fas fa-bolt"></i> <span data-i18n="s16.title">Potentiel d'Action</span> <span class="category-badge badge-neuro">Neurologie</span></h3>
+      <div class="svg-container">
+        <svg viewBox="0 0 450 260" xmlns="http://www.w3.org/2000/svg">
+          <!-- Axes -->
+          <line x1="50" y1="20" x2="50" y2="230" stroke="#16213e" stroke-width="1.5"/>
+          <line x1="50" y1="230" x2="430" y2="230" stroke="#16213e" stroke-width="1.5"/>
+          <text x="30" y="130" font-size="7" fill="#16213e" font-family="Inter" font-weight="600" text-anchor="middle" transform="rotate(-90,30,130)">Potentiel de membrane (mV)</text>
+          <text x="240" y="252" font-size="7" fill="#16213e" font-family="Inter" font-weight="600" text-anchor="middle">Temps (ms)</text>
+
+          <!-- Voltage scale marks -->
+          <text x="45" y="52" font-size="6" fill="#93a3b0" font-family="JetBrains Mono" text-anchor="end">+30</text>
+          <line x1="47" y1="50" x2="53" y2="50" stroke="#93a3b0" stroke-width="0.8"/>
+          <text x="45" y="102" font-size="6" fill="#93a3b0" font-family="JetBrains Mono" text-anchor="end">0</text>
+          <line x1="47" y1="100" x2="430" y2="100" stroke="#93a3b0" stroke-width="0.5" stroke-dasharray="3,3"/>
+          <text x="45" y="172" font-size="6" fill="#93a3b0" font-family="JetBrains Mono" text-anchor="end">-55</text>
+          <line x1="47" y1="170" x2="430" y2="170" stroke="#e8a33d" stroke-width="0.8" stroke-dasharray="4,2" opacity="0.5"/>
+          <text x="45" y="202" font-size="6" fill="#93a3b0" font-family="JetBrains Mono" text-anchor="end">-70</text>
+          <line x1="47" y1="200" x2="430" y2="200" stroke="#93a3b0" stroke-width="0.5" stroke-dasharray="3,3"/>
+          <text x="45" y="222" font-size="6" fill="#93a3b0" font-family="JetBrains Mono" text-anchor="end">-80</text>
+
+          <!-- Threshold label -->
+          <text x="435" y="168" font-size="5.5" fill="#e8a33d" font-family="Inter" font-weight="600">Seuil</text>
+
+          <!-- Resting potential label -->
+          <text x="435" y="198" font-size="5.5" fill="#93a3b0" font-family="Inter">Repos</text>
+
+          <!-- ACTION POTENTIAL CURVE -->
+          <g data-tooltip-fr="Courbe du potentiel d'action : dépolarisation puis repolarisation" data-tooltip-ar="منحنى جهد الفعل: زوال الاستقطاب ثم إعادة الاستقطاب">
+            <path d="M60,200 L130,200 L140,195 L150,170 L170,50 L195,50 L215,210 L240,220 L270,200 L400,200" 
+              fill="none" stroke="#2a9d8f" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+          </g>
+
+          <!-- Phase labels with boxes -->
+          <!-- 1. Resting -->
+          <g data-tooltip-fr="Potentiel de repos : -70 mV, canaux K⁺ ouverts, Na⁺ fermés" data-tooltip-ar="جهد الراحة: -70 مللي فولت، قنوات K⁺ مفتوحة، Na⁺ مغلقة">
+            <rect x="65" y="176" width="55" height="20" rx="4" fill="#e3f2fd" opacity="0.7" stroke="#1565c0" stroke-width="0.8"/>
+            <text x="92" y="185" font-size="5.5" fill="#1565c0" font-family="Inter" font-weight="600" text-anchor="middle">① Repos</text>
+            <text x="92" y="193" font-size="5" fill="#1565c0" font-family="Inter" text-anchor="middle">-70 mV</text>
+          </g>
+
+          <!-- 2. Depolarization -->
+          <g data-tooltip-fr="Dépolarisation : ouverture des canaux Na⁺ → entrée massive de Na⁺ → le potentiel monte vers +30 mV" data-tooltip-ar="زوال الاستقطاب: فتح قنوات Na⁺ → دخول كثيف لـ Na⁺ → يرتفع الجهد إلى +30 مللي فولت">
+            <rect x="142" y="58" width="30" height="50" rx="3" fill="#ffcdd2" opacity="0.3"/>
+            <text x="157" y="30" font-size="6" fill="#c0392b" font-family="Inter" font-weight="700" text-anchor="middle">② Dépolarisation</text>
+            <text x="157" y="39" font-size="5" fill="#c0392b" font-family="Inter" text-anchor="middle">Na⁺ entre ↓</text>
+            <!-- Na+ arrows -->
+            <line x1="160" y1="145" x2="160" y2="85" stroke="#c0392b" stroke-width="1" stroke-dasharray="2,2">
+              <animate attributeName="opacity" values="0.3;1;0.3" dur="2s" repeatCount="indefinite"/>
+            </line>
+          </g>
+
+          <!-- 3. Peak / Overshoot -->
+          <g data-tooltip-fr="Pic : +30 mV — inversion du potentiel, canaux Na⁺ se ferment" data-tooltip-ar="القمة: +30 مللي فولت — انعكاس الجهد، قنوات Na⁺ تُغلق">
+            <text x="192" y="45" font-size="6" fill="#7b1fa2" font-family="Inter" font-weight="700" text-anchor="middle">③ Pic +30mV</text>
+          </g>
+
+          <!-- 4. Repolarization -->
+          <g data-tooltip-fr="Repolarisation : ouverture des canaux K⁺ → sortie de K⁺ → le potentiel redescend" data-tooltip-ar="إعادة الاستقطاب: فتح قنوات K⁺ → خروج K⁺ → ينخفض الجهد">
+            <rect x="200" y="85" width="25" height="80" rx="3" fill="#c8e6c9" opacity="0.3"/>
+            <text x="232" y="120" font-size="6" fill="#2e7d32" font-family="Inter" font-weight="700">④ Repolarisation</text>
+            <text x="232" y="130" font-size="5" fill="#2e7d32" font-family="Inter">K⁺ sort ↑</text>
+            <line x1="212" y1="100" x2="212" y2="170" stroke="#2e7d32" stroke-width="1" stroke-dasharray="2,2">
+              <animate attributeName="opacity" values="0.3;1;0.3" dur="2s" repeatCount="indefinite" begin="1s"/>
+            </line>
+          </g>
+
+          <!-- 5. Hyperpolarization -->
+          <g data-tooltip-fr="Hyperpolarisation : le potentiel descend en-dessous du repos (-80 mV) avant de revenir à -70 mV" data-tooltip-ar="فرط الاستقطاب: ينخفض الجهد تحت مستوى الراحة (-80 مللي فولت) قبل العودة">
+            <rect x="230" y="203" width="50" height="20" rx="4" fill="#fff3e0" opacity="0.5" stroke="#e8a33d" stroke-width="0.8"/>
+            <text x="255" y="212" font-size="5" fill="#e65100" font-family="Inter" font-weight="600" text-anchor="middle">⑤ Hyper-</text>
+            <text x="255" y="220" font-size="5" fill="#e65100" font-family="Inter" text-anchor="middle">polarisation</text>
+          </g>
+
+          <!-- 6. Return to resting -->
+          <g data-tooltip-fr="Retour au repos : la pompe Na⁺/K⁺ ATPase rétablit l'équilibre ionique" data-tooltip-ar="العودة للراحة: مضخة Na⁺/K⁺ ATPase تعيد التوازن الأيوني">
+            <text x="340" y="193" font-size="5.5" fill="#1565c0" font-family="Inter" font-weight="600" text-anchor="middle">⑥ Retour repos</text>
+            <text x="340" y="203" font-size="5" fill="#93a3b0" font-family="Inter" text-anchor="middle">Pompe Na⁺/K⁺</text>
+          </g>
+
+          <!-- Moving signal dot on curve -->
+          <circle r="4" fill="#2a9d8f">
+            <animateMotion dur="4s" repeatCount="indefinite" path="M60,200 L130,200 L140,195 L150,170 L170,50 L195,50 L215,210 L240,220 L270,200 L400,200"/>
+          </circle>
+        </svg>
+      </div>
+      <div class="schema-legend">
+        <div class="legend-item"><span class="legend-swatch" style="background:#2a9d8f"></span> Potentiel d'action</div>
+        <div class="legend-item"><span class="legend-swatch" style="background:#c0392b"></span> Na⁺ (entrée)</div>
+        <div class="legend-item"><span class="legend-swatch" style="background:#2e7d32"></span> K⁺ (sortie)</div>
+        <div class="legend-item"><span class="legend-swatch" style="background:#e8a33d"></span> Seuil (-55 mV)</div>
+        <div class="legend-item"><span class="legend-swatch" style="background:#1565c0"></span> Repos (-70 mV)</div>
+      </div>
+      <div class="schema-desc" data-i18n="s16.desc">
+        <strong>Potentiel d'action :</strong> Au repos (-70 mV). Si le stimulus atteint le <strong>seuil</strong> (-55 mV) : <strong>dépolarisation</strong> (Na⁺ entre, +30 mV), puis <strong>repolarisation</strong> (K⁺ sort), <strong>hyperpolarisation</strong> (-80 mV), et retour au repos via la pompe Na⁺/K⁺.
+      </div>
+    </div>
+
   </div>
 </div>
 
@@ -940,7 +1639,14 @@ const trad = {
     's6.title': 'La Mitose', 's6.desc': '<strong>Mitose :</strong> Division en 4 phases : <strong>Prophase</strong> (condensation), <strong>Métaphase</strong> (alignement), <strong>Anaphase</strong> (séparation), <strong>Télophase</strong> (2 cellules filles identiques, 2n).',
     's7.title': 'Synthèse des Protéines', 's7.desc': '<strong>Synthèse des protéines :</strong> <strong>1) Transcription</strong> (dans le noyau) : l\'ADN est copié en ARNm par l\'ARN polymérase. <strong>2) Traduction</strong> (dans le cytoplasme) : le ribosome lit les codons de l\'ARNm et assemble les acides aminés en protéine.',
     's8.title': 'Réponse Immunitaire', 's8.desc': '<strong>Réponse immunitaire :</strong> Le <strong>macrophage</strong> phagocyte l\'antigène et le présente (CPA). Le <strong>lymphocyte T</strong> active le <strong>lymphocyte B</strong>, qui produit des <strong>anticorps</strong> neutralisant l\'antigène (complexe Ag-Ac).',
-    's9.title': 'Arc Réflexe Myotatique', 's9.desc': '<strong>Arc réflexe :</strong> Un stimulus active le <strong>récepteur</strong> sensoriel. Le message nerveux afférent passe par le <strong>neurone sensitif</strong> jusqu\'à la <strong>moelle épinière</strong> (synapse), puis le <strong>neurone moteur</strong> efférent commande la contraction du <strong>muscle</strong> effecteur. Réponse rapide et involontaire.'
+    's9.title': 'Arc Réflexe Myotatique', 's9.desc': '<strong>Arc réflexe :</strong> Un stimulus active le <strong>récepteur</strong> sensoriel. Le message nerveux afférent passe par le <strong>neurone sensitif</strong> jusqu\'à la <strong>moelle épinière</strong> (synapse), puis le <strong>neurone moteur</strong> efférent commande la contraction du <strong>muscle</strong> effecteur. Réponse rapide et involontaire.',
+    's10.title': 'Cellule Animale vs Végétale', 's10.desc': '<strong>Cellule animale vs végétale :</strong> La cellule végétale possède une <strong>paroi cellulosique</strong>, des <strong>chloroplastes</strong> et une <strong>grande vacuole centrale</strong>. La cellule animale a un <strong>centrosome</strong> et de petites vacuoles.',
+    's11.title': 'Dorsale Océanique — Divergence', 's11.desc': '<strong>Dorsale océanique :</strong> Les deux plaques <strong>divergent</strong>. Le magma remonte de l\'asthénosphère, se refroidit et forme une <strong>nouvelle croûte océanique</strong>. Le rift est la vallée centrale de la dorsale.',
+    's12.title': 'Lois de Mendel — Croisement', 's12.desc': '<strong>Lois de Mendel :</strong> Croisement <strong>Aa × Aa</strong>. L\'échiquier de Punnett montre 4 combinaisons : <strong>1 AA</strong>, <strong>2 Aa</strong>, <strong>1 aa</strong>. Rapport phénotypique <strong>3:1</strong> (3 dominants pour 1 récessif).',
+    's13.title': 'Régulation de la Glycémie', 's13.desc': '<strong>Régulation de la glycémie :</strong> Le <strong>pancréas</strong> détecte le taux de glucose. En <strong>hyperglycémie</strong>, les cellules β sécrètent l\'<strong>insuline</strong> (stockage). En <strong>hypoglycémie</strong>, les cellules α sécrètent le <strong>glucagon</strong> (libération). Boucle de rétrocontrôle négatif.',
+    's14.title': 'La Photosynthèse', 's14.desc': '<strong>Photosynthèse :</strong> <strong>Phase claire</strong> (thylakoïde) : la lumière décompose H₂O → O₂ + ATP + NADPH. <strong>Phase sombre</strong> (stroma) : le cycle de Calvin fixe le CO₂ et produit le <strong>glucose</strong> (C₆H₁₂O₆).',
+    's15.title': 'Collision Continentale', 's15.desc': '<strong>Collision continentale :</strong> Deux plaques continentales convergent. La compression crée des <strong>plis</strong>, des <strong>chevauchements</strong> et une <strong>chaîne de montagnes</strong> (ex: Atlas, Himalaya). En profondeur : <strong>métamorphisme</strong> et <strong>racine crustale</strong>.',
+    's16.title': 'Potentiel d\'Action', 's16.desc': '<strong>Potentiel d\'action :</strong> Au repos (-70 mV). Si le stimulus atteint le <strong>seuil</strong> (-55 mV) : <strong>dépolarisation</strong> (Na⁺ entre, +30 mV), puis <strong>repolarisation</strong> (K⁺ sort), <strong>hyperpolarisation</strong> (-80 mV), et retour au repos via la pompe Na⁺/K⁺.'
   },
   ar: {
     'nav.menu': 'القائمة', 'nav.home': 'الموقع',
@@ -954,7 +1660,14 @@ const trad = {
     's6.title': 'الانقسام الخيطي المتساوي', 's6.desc': '<strong>الانقسام الخيطي :</strong> ينقسم إلى 4 أطوار: <strong>الطور التمهيدي</strong> (تكثف)، <strong>الطور الاستوائي</strong> (اصطفاف)، <strong>الطور الانفصالي</strong> (انفصال)، <strong>الطور النهائي</strong> (خليتان بنتان متطابقتان 2n).',
     's7.title': 'تخليق البروتينات', 's7.desc': '<strong>تخليق البروتينات :</strong> <strong>1) النسخ</strong> (في النواة): يُنسخ الحمض النووي إلى ARNm بواسطة بوليميراز RNA. <strong>2) الترجمة</strong> (في السيتوبلازم): يقرأ الريبوسوم الرامزات ويجمع الأحماض الأمينية لتشكيل البروتين.',
     's8.title': 'الاستجابة المناعية', 's8.desc': '<strong>الاستجابة المناعية :</strong> تبتلع <strong>البلعمية</strong> المستضد وتعرضه (خلية عارضة). ينشط <strong>اللمفاوي T</strong> <strong>اللمفاوي B</strong> الذي ينتج <strong>أجساماً مضادة</strong> تحيد المستضد (معقد مستضد-جسم مضاد).',
-    's9.title': 'القوس الانعكاسية', 's9.desc': '<strong>القوس الانعكاسية :</strong> ينبه <strong>المنبه</strong> المستقبل الحسي. ينتقل السيال العصبي الوارد عبر <strong>العصبون الحسي</strong> إلى <strong>النخاع الشوكي</strong> (مشبك)، ثم يأمر <strong>العصبون المحرك</strong> الصادر بانقباض <strong>العضلة</strong> المنفذة. استجابة سريعة ولاإرادية.'
+    's9.title': 'القوس الانعكاسية', 's9.desc': '<strong>القوس الانعكاسية :</strong> ينبه <strong>المنبه</strong> المستقبل الحسي. ينتقل السيال العصبي الوارد عبر <strong>العصبون الحسي</strong> إلى <strong>النخاع الشوكي</strong> (مشبك)، ثم يأمر <strong>العصبون المحرك</strong> الصادر بانقباض <strong>العضلة</strong> المنفذة. استجابة سريعة ولاإرادية.',
+    's10.title': 'الخلية الحيوانية والنباتية', 's10.desc': '<strong>الخلية الحيوانية والنباتية :</strong> تمتلك الخلية النباتية <strong>جداراً سليلوزياً</strong> و<strong>صانعات خضراء</strong> و<strong>فجوة مركزية كبيرة</strong>. بينما تمتلك الخلية الحيوانية <strong>جسيماً مركزياً</strong> وفجوات صغيرة.',
+    's11.title': 'الذروة المحيطية — التباعد', 's11.desc': '<strong>الذروة المحيطية :</strong> تتباعد الصفيحتان. يصعد الصهير من الغلاف الموري (الأستينوسفير)، يبرد ويشكل <strong>قشرة محيطية جديدة</strong>. الخسف (Rift) هو الوادي المركزي للذروة.',
+    's12.title': 'قوانين مندل — شبكة التزاوج', 's12.desc': '<strong>قوانين مندل :</strong> تزاوج <strong>Aa × Aa</strong>. تُظهر شبكة التزاوج 4 احتمالات: <strong>1 AA</strong>، <strong>2 Aa</strong>، <strong>1 aa</strong>. النسبة المظهرية هي <strong>3:1</strong> (3 سائد مقابل 1 متنحي).',
+    's13.title': 'تنظيم تحلون الدم', 's13.desc': '<strong>تنظيم تحلون الدم :</strong> يرصد <strong>البنكرياس</strong> نسبة السكر. عند <strong>ارتفاع السكر</strong>، تفرز خلايا β <strong>الأنسولين</strong> (تخزين). عند <strong>انخفاض السكر</strong>، تفرز خلايا α <strong>الغلوكاغون</strong> (تحرير). حلقة تغذية راجعة سلبية.',
+    's14.title': 'التركيب الضوئي', 's14.desc': '<strong>التركيب الضوئي :</strong> <strong>المرحلة المضاءة</strong> (التيلاكويد): يحلل الضوء الماء H₂O ← O₂ + ATP + NADPH. <strong>المرحلة المظلمة</strong> (اللُّحمة): تثبت دورة كالفن CO₂ وتنتج <strong>الغلوكوز</strong> (C₆H₁₂O₆).',
+    's15.title': 'التصادم القاري', 's15.desc': '<strong>التصادم القاري :</strong> تتقارب صفيحتان قاريتان. يؤدي الانضغاط إلى تشكل <strong>طيات</strong> و<strong>تراكبات</strong> و<strong>سلاسل جبلية</strong> (مثل الأطلس، الهيمالايا). في العمق: <strong>تحول الصخور</strong> و<strong>جذر قشري</strong>.',
+    's16.title': 'جهد الفعل', 's16.desc': '<strong>جهد الفعل :</strong> في الراحة (-70 mV). إذا بلغ المهيج <strong>العتبة</strong> (-55 mV): يحدث <strong>زوال الاستقطاب</strong> (دخول Na⁺، +30 mV)، ثم <strong>إعادة الاستقطاب</strong> (خروج K⁺)، ثم <strong>فرط الاستقطاب</strong> (-80 mV)، والعودة للراحة عبر مضخة Na⁺/K⁺.'
   }
 };
 
