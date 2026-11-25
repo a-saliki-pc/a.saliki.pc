@@ -146,6 +146,7 @@ nav { background: var(--white); border-bottom: 2px solid var(--ink); padding: 10
     <li><a href="svt-examens.html" data-i18n="nav.examens">Examens</a></li>
     <li><a href="svt-schemas.html" data-i18n="nav.schemas">Schémas</a></li>
     <li><a href="svt-formules.html" data-i18n="nav.formules">Lois & Formules</a></li>
+    <li><a href="svt-qcm.html" data-i18n="nav.qcm">QCM</a></li>
   </ul>
   <div class="nav-right">
     <div class="lang-switcher">
@@ -190,13 +191,13 @@ let toutesLesRessources = [];
 
 const trad = {
   fr: {
-    'nav.menu': 'Menu', 'nav.home': 'Site', 'nav.svt_home': 'Accueil', 'nav.cours': 'Cours', 'nav.exercices': 'Exercices', 'nav.examens': 'Examens', 'nav.schemas': 'Schémas', 'nav.formules': 'Lois & Formules', 'title': 'Cours de SVT', 'desc': 'Cliquez sur un cours pour voir le résumé complet.',
+    'nav.menu': 'Menu', 'nav.home': 'Site', 'nav.svt_home': 'Accueil', 'nav.cours': 'Cours', 'nav.exercices': 'Exercices', 'nav.examens': 'Examens', 'nav.schemas': 'Schémas', 'nav.formules': 'Lois & Formules', 'nav.qcm': 'QCM', 'title': 'Cours de SVT', 'desc': 'Cliquez sur un cours pour voir le résumé complet.',
     'lvl.tronc': 'Tronc Commun', 'lvl.1bac': '1ère Année Bac', 'lvl.2bac': '2ème Année Bac',
     'loading': 'Chargement...', 'resume': 'Résumé du cours', 'noCours': 'Aucun cours disponible pour ce niveau pour le moment.',
     'ressources': 'Ressources à télécharger', 'noRessources': 'Aucun document disponible pour ce cours.', 'telecharger': 'Télécharger'
   },
   ar: {
-    'nav.menu': 'القائمة', 'nav.home': 'الموقع', 'nav.svt_home': 'الرئيسية', 'nav.cours': 'الدروس', 'nav.exercices': 'التمارين', 'nav.examens': 'الامتحانات', 'nav.schemas': 'الرسوم التفاعلية', 'nav.formules': 'القوانين والصيغ', 'title': 'دروس علوم الحياة والأرض', 'desc': 'انقر على درس لرؤية الملخص الكامل.',
+    'nav.menu': 'القائمة', 'nav.home': 'الموقع', 'nav.svt_home': 'الرئيسية', 'nav.cours': 'الدروس', 'nav.exercices': 'التمارين', 'nav.examens': 'الامتحانات', 'nav.schemas': 'الرسوم التفاعلية', 'nav.formules': 'القوانين والصيغ', 'nav.qcm': 'اختبار', 'title': 'دروس علوم الحياة والأرض', 'desc': 'انقر على درس لرؤية الملخص الكامل.',
     'lvl.tronc': 'الجذع المشترك', 'lvl.1bac': 'الأولى باكالوريا', 'lvl.2bac': 'الثانية باكالوريا',
     'loading': 'جارٍ التحميل...', 'resume': 'ملخص الدرس', 'noCours': 'لا يوجد أي درس متاح لهذا المستوى حالياً.',
     'ressources': 'الموارد للتحميل', 'noRessources': 'لا يوجد أي مستند متاح لهذا الدرس.', 'telecharger': 'تحميل'
