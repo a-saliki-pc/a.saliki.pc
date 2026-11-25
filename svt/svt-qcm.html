@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr" id="htmlRoot">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QCM SVT — Quiz Interactifs Bac | DARRSSY</title>
+<meta name="description" content="Testez vos connaissances en Sciences de la Vie et de la Terre (SVT) avec des QCM interactifs corrigés instantanément. Quiz pour préparer le Bac (Tronc Commun, 1ère Bac, 2ème Bac SVT).">
+<meta name="theme-color" content="#16213e">
+<link rel="icon" type="image/png" href="../assets/logo-darrssy.png">
+<link rel="apple-touch-icon" href="../assets/logo-darrssy.png">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,500&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+:root {
+  --primary: #16213e; --primary-light: #2a9d8f; --primary-dark: #0f1a30;
+  --accent: #e8a33d; --accent-dark: #c17f1e; --success: #2a9d8f;
+  --danger: #c0483f; --violet: #7c6fba; --dark: #16213e;
+  --gray: #5b6b7a; --gray-light: #93a3b0; --border: #d9d2bb;
+  --light: #faf6ec; --white: #fffdf7; --ink: #16213e;
+  --gradient: linear-gradient(120deg, #16213e 0%, #1d3b36 55%, #2a9d8f 100%);
+  --shadow-sm: 0 1px 0 rgba(22, 33, 62, 0.06);
+  --shadow: 6px 6px 0 rgba(22, 33, 62, 0.08);
+  --shadow-lg: 10px 10px 0 rgba(22, 33, 62, 0.1);
+  --radius: 6px; --radius-sm: 4px;
+  --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Inter', 'Tajawal', sans-serif; background: linear-gradient(rgba(22,33,62,0.1) 0.5px, transparent 0.5px), linear-gradient(90deg, rgba(22,33,62,0.1) 0.5px, transparent 0.5px), linear-gradient(rgba(22,33,62,0.028) 0.5px, transparent 0.5px), linear-gradient(90deg, rgba(22,33,62,0.028) 0.5px, transparent 0.5px), var(--light); background-size: 50px 50px, 50px 50px, 10px 10px, 10px 10px, auto; background-position: -1px -1px, -1px -1px, -1px -1px, -1px -1px, 0 0; color: var(--ink); line-height: 1.6; overflow-x: hidden; position: relative; }
+[dir="rtl"] body { font-family: 'Tajawal', 'Inter', sans-serif; }
+a { text-decoration: none; color: inherit; }
+img { max-width: 100%; display: block; }
+h1, h2, h3 { font-family: 'Fraunces', 'Tajawal', serif; letter-spacing: -0.01em; }
+
+nav { position: fixed; top: 0; left: 0; right: 0; background: rgba(250, 246, 236, 0.95); backdrop-filter: blur(10px); border-bottom: 2px solid var(--ink); z-index: 1000; padding: 10px 5%; display: flex; justify-content: space-between; align-items: center; }
+.logo { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+.logo-img-wrap { width: 50px; height: 50px; border-radius: 50%; background: var(--white); padding: 2px; border: 2px solid var(--ink); outline: 1px dashed var(--accent); outline-offset: 3px; flex-shrink: 0; transition: var(--transition); }
+.logo-img-wrap img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; display: block; }
+.logo:hover .logo-img-wrap { transform: rotate(-6deg); }
+.logo-texte { display: flex; flex-direction: column; line-height: 1; }
+.logo-texte .titre { font-family: 'Fraunces', 'Tajawal', serif; font-size: 1.4rem; font-weight: 700; color: var(--ink); letter-spacing: -0.02em; }
+.logo-texte .arabe { font-size: 0.72rem; font-weight: 700; color: var(--primary-light); font-family: 'Tajawal', sans-serif; margin-top: 1px; }
+.nav-links { display: flex; gap: 18px; list-style: none; align-items: center; margin: 0; padding: 0; }
+.nav-links a { color: var(--ink); font-weight: 500; font-size: 0.92rem; transition: color 0.25s; position: relative; padding: 4px 0; }
+.nav-links a:hover, .nav-links a.actif { color: var(--primary-light); }
+.nav-links a::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background: var(--accent); transition: width 0.25s; }
+.nav-links a:hover::after, .nav-links a.actif::after { width: 100%; }
+.nav-links a.actif { font-weight: 700; }
+.nav-right { display: flex; align-items: center; gap: 15px; }
+.lang-switcher { display: flex; background: var(--white); border: 2px solid var(--ink); border-radius: var(--radius-sm); overflow: hidden; }
+.lang-btn { background: transparent; border: none; color: var(--ink); font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; font-weight: 700; padding: 8px 14px; cursor: pointer; transition: var(--transition); }
+.lang-btn.actif { background: var(--ink); color: var(--white); }
+.btn-back { background: var(--ink); color: var(--white); padding: 8px 18px; border-radius: var(--radius-sm); font-weight: 600; font-size: 0.9rem; transition: var(--transition); display: flex; align-items: center; gap: 6px; border: 2px solid var(--ink); }
+.btn-back:hover { background: var(--white); color: var(--ink); }
+.menu-toggle { display: none; font-size: 1.3rem; cursor: pointer; color: var(--ink); background: none; border: none; padding: 5px; }
+
+.hero-page { padding: 130px 5% 60px; background: var(--gradient); color: var(--white); position: relative; overflow: hidden; }
+.hero-page::before { content: ''; position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px); background-size: 44px 44px; pointer-events: none; }
+.hero-page-content { max-width: 1200px; margin: 0 auto; position: relative; z-index: 2; text-align: center; }
+.hero-page h1 { font-size: 2.8rem; font-weight: 600; margin-bottom: 15px; line-height: 1.15; }
+.hero-page h1 span { color: #74c6bb; font-style: italic; }
+.hero-page p { font-size: 1.05rem; max-width: 700px; margin: 0 auto; opacity: 0.9; }
+
+.conteneur { max-width: 1000px; margin: -30px auto 0; padding: 0 5% 60px; position: relative; z-index: 3; }
+
+.filtres-bar { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-bottom: 30px; }
+.filtre-btn { background: var(--white); border: 2px solid var(--ink); color: var(--ink); padding: 9px 20px; border-radius: var(--radius-sm); font-family: inherit; font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: var(--transition); display: inline-flex; align-items: center; gap: 6px; }
+.filtre-btn:hover { background: var(--light); }
+.filtre-btn.actif { background: var(--ink); color: var(--white); }
+
+.progress-wrap { background: var(--white); border: 2px solid var(--ink); border-radius: var(--radius); padding: 20px; margin-bottom: 30px; display: flex; align-items: center; gap: 20px; flex-wrap: wrap; box-shadow: var(--shadow-sm); }
+.progress-info { display: flex; align-items: center; gap: 15px; flex: 1; min-width: 200px; }
+.score-badge { background: var(--ink); color: var(--white); padding: 6px 14px; border-radius: var(--radius-sm); font-weight: 700; font-family: 'JetBrains Mono', monospace; font-size: 0.95rem; white-space: nowrap; }
+.progress-text { font-size: 0.9rem; color: var(--gray); font-weight: 500; }
+.progress-bar-outer { flex: 1; min-width: 200px; height: 8px; background: var(--light); border-radius: 4px; overflow: hidden; border: 1px solid var(--border); }
+.progress-bar-inner { height: 100%; width: 0%; background: var(--primary-light); transition: width 0.4s ease; }
+
+.question-wrap { background: var(--white); border: 2px solid var(--ink); border-radius: var(--radius); padding: 30px; box-shadow: var(--shadow); display: none; }
+.question-wrap.visible { display: block; animation: fadeIn 0.4s ease; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+.question-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; }
+.question-numero { font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; font-weight: 700; color: var(--ink); }
+.question-tags { display: flex; gap: 8px; flex-wrap: wrap; }
+.question-tag { background: var(--light); border: 1px solid var(--border); color: var(--ink); padding: 3px 10px; border-radius: 3px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; font-family: 'JetBrains Mono', monospace; }
+.question-tag.matiere { background: var(--primary-light); color: var(--white); border-color: var(--primary-light); }
+
+.question-texte { font-size: 1.25rem; font-weight: 600; color: var(--ink); margin-bottom: 25px; line-height: 1.5; font-family: 'Fraunces', 'Tajawal', serif; }
+
+.reponses-liste { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+.reponse-btn { display: flex; align-items: center; gap: 15px; background: var(--light); border: 2px solid var(--border); padding: 14px 18px; border-radius: var(--radius-sm); cursor: pointer; font-family: inherit; font-size: 0.98rem; font-weight: 500; color: var(--ink); text-align: left; transition: var(--transition); }
+[dir="rtl"] .reponse-btn { text-align: right; }
+.reponse-btn:hover:not(:disabled) { border-color: var(--ink); transform: translateX(4px); }
+[dir="rtl"] .reponse-btn:hover:not(:disabled) { transform: translateX(-4px); }
+.reponse-btn:disabled { cursor: not-allowed; }
+.reponse-lettre { width: 30px; height: 30px; border-radius: 4px; background: var(--white); border: 1px solid var(--ink); color: var(--ink); display: flex; align-items: center; justify-content: center; font-weight: 700; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; flex-shrink: 0; }
+.reponse-btn.correct { border-color: var(--success); background: rgba(42,157,143,0.08); }
+.reponse-btn.correct .reponse-lettre { background: var(--success); border-color: var(--success); color: white; }
+.reponse-btn.incorrect { border-color: var(--danger); background: rgba(192,72,63,0.08); }
+.reponse-btn.incorrect .reponse-lettre { background: var(--danger); border-color: var(--danger); color: white; }
+
+.explication { background: var(--light); border-left: 4px solid var(--primary-light); padding: 15px 20px; border-radius: var(--radius-sm); margin-bottom: 20px; display: none; }
+[dir="rtl"] .explication { border-left: none; border-right: 4px solid var(--primary-light); }
+.explication.visible { display: block; animation: fadeIn 0.3s ease; }
+.explication-title { font-size: 0.8rem; font-weight: 700; color: var(--primary-light); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; display: flex; align-items: center; gap: 6px; }
+.explication-texte { font-size: 0.95rem; color: var(--ink); line-height: 1.6; }
+
+.question-actions { display: flex; justify-content: space-between; align-items: center; gap: 15px; padding-top: 20px; border-top: 1px dashed var(--border); flex-wrap: wrap; }
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px; border-radius: var(--radius-sm); font-weight: 600; font-size: 0.9rem; border: 2px solid transparent; cursor: pointer; transition: var(--transition); font-family: inherit; }
+.btn-primary { background: var(--ink); color: var(--white); }
+.btn-primary:hover:not(:disabled) { background: var(--primary-light); border-color: var(--primary-light); transform: translateY(-2px); }
+.btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
+.btn-outline { background: transparent; border-color: var(--ink); color: var(--ink); }
+.btn-outline:hover { background: var(--ink); color: var(--white); }
+
+.ecran-final { display: none; background: var(--white); border: 2px solid var(--ink); border-radius: var(--radius); padding: 40px 30px; text-align: center; box-shadow: var(--shadow-lg); }
+.ecran-final.visible { display: block; animation: fadeIn 0.5s ease; }
+.ecran-final .trophee { font-size: 4rem; margin-bottom: 15px; }
+.ecran-final h2 { font-size: 1.8rem; font-weight: 600; color: var(--ink); margin-bottom: 10px; }
+.ecran-final .score-final { font-family: 'JetBrains Mono', monospace; font-size: 3rem; font-weight: 700; color: var(--primary-light); margin: 15px 0; }
+.ecran-final .message { color: var(--gray); font-size: 1.05rem; margin-bottom: 30px; max-width: 500px; margin-left: auto; margin-right: auto; }
+
+@media (max-width: 991px) {
+  .menu-toggle { display: block; }
+  .nav-links {
+    position: absolute; top: 100%; left: 0; right: 0;
+    background: var(--white);
+    flex-direction: column;
+    padding: 20px; gap: 15px;
+    border-bottom: 2px solid var(--ink);
+    box-shadow: var(--shadow-lg);
+    display: none;
+    z-index: 1000;
+  }
+  .nav-links.active { display: flex; }
+  .nav-links a { font-size: 1rem; width: 100%; text-align: center; }
+  .hero-page h1 { font-size: 2.2rem; }
+}
+@media (max-width: 768px) {
+  nav { padding: 10px 4%; }
+  .logo-img-wrap { width: 42px; height: 42px; }
+  .logo-texte .titre { font-size: 1.1rem; }
+  .logo-texte .arabe { font-size: 0.63rem; }
+  .nav-right { gap: 8px; }
+  .btn-back span { display: none; }
+  .btn-back { padding: 8px 12px; }
+  .hero-page { padding: 100px 4% 50px; }
+  .hero-page h1 { font-size: 1.8rem; }
+  .question-wrap { padding: 20px; }
+  .question-texte { font-size: 1.1rem; }
+  .question-actions { flex-direction: column; }
+  .question-actions .btn { width: 100%; justify-content: center; }
+  .ecran-final { padding: 30px 20px; }
+}
+@media (max-width: 480px) {
+  .hero-page h1 { font-size: 1.5rem; }
+  .logo-texte { display: none; }
+  .logo-img-wrap { width: 40px; height: 40px; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="../index.html" class="logo">
+    <div class="logo-img-wrap"><img src="../assets/logo-darrssy.png" alt="DARRSSY"></div>
+    <div class="logo-texte">
+      <span class="titre">DARRSSY</span>
+      <span class="arabe">دَرْسِي</span>
+    </div>
+  </a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="index.html" data-i18n="nav.svt_home">Accueil</a></li>
+    <li><a href="svt-cours.html" data-i18n="nav.cours">Cours</a></li>
+    <li><a href="svt-exercices.html" data-i18n="nav.exercices">Exercices</a></li>
+    <li><a href="svt-examens.html" data-i18n="nav.examens">Examens</a></li>
+    <li><a href="svt-schemas.html" data-i18n="nav.schemas">Schémas</a></li>
+    <li><a href="svt-formules.html" data-i18n="nav.formules">Lois & Formules</a></li>
+    <li><a href="svt-qcm.html" class="actif" data-i18n="nav.qcm">QCM</a></li>
+  </ul>
+  <div class="nav-right">
+    <div class="lang-switcher">
+      <button class="lang-btn actif" data-lang="fr">FR</button>
+      <button class="lang-btn" data-lang="ar">AR</button>
+    </div>
+    <a href="../index.html" class="btn-back"><i class="fas fa-home"></i> <span data-i18n="nav.back">Retour au site</span></a>
+    <button class="menu-toggle" id="menuToggle" aria-label="Menu"><i class="fas fa-bars"></i></button>
+  </div>
+</nav>
+
+<section class="hero-page">
+  <div class="hero-page-content">
+    <h1><span data-i18n="qcm.titre1">QCM</span> <span data-i18n="qcm.titre2">SVT</span></h1>
+    <p data-i18n="qcm.desc">Testez vos connaissances en Sciences de la Vie et de la Terre. 10 questions tirées au hasard. Correction immédiate.</p>
+  </div>
+</section>
+
+<div class="conteneur">
+  <div class="filtres-bar" id="filtresBar">
+    <button class="filtre-btn actif" data-niveau="all"><i class="fas fa-th"></i> <span data-i18n="filtre.tous">Tous niveaux</span></button>
+    <button class="filtre-btn" data-niveau="tronc"><i class="fas fa-seedling"></i> <span data-i18n="niveau.tronc">Tronc Commun</span></button>
+    <button class="filtre-btn" data-niveau="1bac"><i class="fas fa-mountain"></i> <span data-i18n="niveau.1bac">1ère Bac</span></button>
+    <button class="filtre-btn" data-niveau="2bac"><i class="fas fa-dna"></i> <span data-i18n="niveau.2bac">2ème Bac SVT</span></button>
+  </div>
+
+  <div class="progress-wrap">
+    <div class="progress-info">
+      <span class="score-badge"><i class="fas fa-star"></i> <span id="scoreText">0 / 10</span></span>
+      <span class="progress-text" id="progressText">Prêt à commencer</span>
+    </div>
+    <div class="progress-bar-outer">
+      <div class="progress-bar-inner" id="progressBar"></div>
+    </div>
+  </div>
+
+  <div class="question-wrap visible" id="questionWrap">
+    <div class="question-header">
+      <span class="question-numero">
+        <i class="fas fa-question-circle"></i>
+        <span data-i18n="qcm.question">Question</span> <span id="questionNum">1</span> / <span id="questionTotal">10</span>
+      </span>
+      <div class="question-tags" id="questionTags"></div>
+    </div>
+    <div class="question-texte" id="questionTexte">Chargement…</div>
+    <div class="reponses-liste" id="reponsesListe"></div>
+    <div class="explication" id="explication">
+      <div class="explication-title"><i class="fas fa-lightbulb"></i> <span data-i18n="qcm.explication">Explication</span></div>
+      <div class="explication-texte" id="explicationTexte"></div>
+    </div>
+    <div class="question-actions">
+      <button class="btn btn-outline" id="btnPasser"><i class="fas fa-forward"></i> <span data-i18n="qcm.passer">Passer</span></button>
+      <button class="btn btn-primary" id="btnSuivant" disabled><span data-i18n="qcm.suivant">Question suivante</span> <i class="fas fa-arrow-right"></i></button>
+    </div>
+  </div>
+
+  <div class="ecran-final" id="ecranFinal">
+    <div class="trophee">🏆</div>
+    <h2 data-i18n="qcm.termine">QCM terminé !</h2>
+    <div class="score-final" id="scoreFinal">0 / 10</div>
+    <p class="message" id="messageFinal"></p>
+    <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+      <button class="btn btn-primary" id="btnRecommencer"><i class="fas fa-redo"></i> <span data-i18n="qcm.recommencer">Recommencer</span></button>
+      <a href="index.html" class="btn btn-outline"><i class="fas fa-home"></i> <span data-i18n="qcm.accueil">Accueil SVT</span></a>
+    </div>
+  </div>
+</div>
+
+<script>
+// ============================================================
+// BASE DE DONNÉES DES QCM SVT (Dédiée uniquement aux SVT)
+// ============================================================
+const BANQUE_QUESTIONS_SVT = [
+  // --- TRONC COMMUN ---
+  { niveau: 'tronc', domaine: 'ecologie', chap_fr: 'Écologie', chap_ar: 'علم البيئة', q_fr: "Un écosystème est constitué de :", q_ar: "يتكون النظام البيئي من:", rep_fr: ["Uniquement des êtres vivants", "Biotope + Biocénose", "Uniquement du climat et du sol", "Uniquement des végétaux"], rep_ar: ["الكائنات الحية فقط", "المحيا + العشيرة الإحيائية", "المناخ والتربة فقط", "النباتات فقط"], ok: 1, expl_fr: "Un écosystème = Biotope (milieu physico-chimique) + Biocénose (ensemble des êtres vivants).", expl_ar: "النظام البيئي = المحيا (الوسط الفيزيائي الكيميائي) + العشيرة الإحيائية (مجموع الكائنات الحية)." },
+  { niveau: 'tronc', domaine: 'ecologie', chap_fr: 'Facteurs édaphiques', chap_ar: 'العوامل التربوية', q_fr: "La perméabilité d'un sol est maximale dans :", q_ar: "تكون نفاذية التربة قصوى في:", rep_fr: ["Un sol argileux", "Un sol sableux", "Un sol limoneux", "Un sol humifère compact"], rep_ar: ["تربة طينية", "تربة رملية", "تربة طميية", "تربة ذبالية متراصة"], ok: 1, expl_fr: "Le sol sableux possède de gros pores qui laissent passer l'eau très rapidement.", expl_ar: "التربة الرملية تحتوي على مسام كبيرة تسمح بمرور الماء بسرعة." },
+  { niveau: 'tronc', domaine: 'ecologie', chap_fr: 'Facteurs climatiques', chap_ar: 'العوامل المناخية', q_fr: "L'indice xérothermique ou le diagramme ombrothermique permet de déterminer :", q_ar: "يمكن الأخطوط المطري الحراري من تحديد:", rep_fr: ["La nature chimique du sol", "La période de sécheresse", "Le pH de l'eau", "La biomasse animale"], rep_ar: ["الطبيعة الكيميائية للتربة", "فترة الجفاف", "pH الماء", "الكتلة الحية الحيوانية"], ok: 1, expl_fr: "Sur le diagramme ombrothermique, la période sèche correspond à P < 2T.", expl_ar: "في الأخطوط المطري الحراري، توافق فترة الجفاف الحالة P < 2T." },
+  { niveau: 'tronc', domaine: 'ecologie', chap_fr: 'Flux de matière', chap_ar: 'تدفق المادة', q_fr: "Dans une chaîne alimentaire, les végétaux chlorophylliens sont des :", q_ar: "في السلسلة الغذائية، تعتبر النباتات اليخضورية:", rep_fr: ["Consommateurs primaires", "Producteurs", "Décomposeurs", "Consommateurs secondaires"], rep_ar: ["مستهلكات من الدرجة الأولى", "منتجات", "محللات", "مستهلكات من الدرجة الثانية"], ok: 1, expl_fr: "Les végétaux autotrophes produisent la matière organique par photosynthèse.", expl_ar: "النباتات ذاتية التغذية تنتج المادة العضوية عبر التركيب الضوئي." },
+  { niveau: 'tronc', domaine: 'ecologie', chap_fr: 'Relations trophiques', chap_ar: 'العلاقات الغذائية', q_fr: "La symbiose est une relation entre deux espèces où :", q_ar: "التكافل علاقة بين نوعين حيث:", rep_fr: ["Les deux espèces en tirent profit", "Une espèce détruit l'autre", "Une espèce parasite l'autre", "Aucune espèce n'est affectée"], rep_ar: ["يستفيد كلا النوعين", "يدمر نوع النوع الآخر", "يتطفل نوع على الآخر", "لا يتأثر أي نوع"], ok: 0, expl_fr: "La symbiose est une association obligatoire à bénéfice réciproque (ex: mycorhizes, lichens).", expl_ar: "التكافل ارتباط إجباري ذو منفعة متبادلة (مثل الفطريات الجذرية والأشنات)." },
+  { niveau: 'tronc', domaine: 'biologie', chap_fr: 'Reproduction végétale', chap_ar: 'التوالد عند النباتات', q_fr: "Chez les angiospermes, l'organe reproducteur mâle est :", q_ar: "عند كاسيات البذور، العضو التناسلي الذكري هو:", rep_fr: ["Le pistil", "L'étamine", "Le sépale", "Le pétale"], rep_ar: ["المدقة", "السداة", "السبلة", "البتلة"], ok: 1, expl_fr: "L'étamine produit les grains de pollen (gamétophytes mâles).", expl_ar: "تنتج السداة حبوب اللقاح." },
+  { niveau: 'tronc', domaine: 'biologie', chap_fr: 'Reproduction végétale', chap_ar: 'التوالد عند النباتات', q_fr: "Chez les angiospermes, la double fécondation donne :", q_ar: "عند كاسيات البذور، ينتج عن الإخصاب المزدوج:", rep_fr: ["Deux embryons identiques", "Un zygote principal (2n) et un albumen (3n)", "Uniquement une graine sans réserves", "Deux fruits"], rep_ar: ["جنينين متماثلين", "بيضة رئيسية (2n) وسويداء (3n)", "بذرة بدون مدخرات فقط", "ثمرتين"], ok: 1, expl_fr: "Un anthérozoïde féconde l'oosphère (zygote 2n) et l'autre féconde les noyaux du sac (albumen 3n).", expl_ar: "يخصب أحد الأمشاج الذكرية البويضة (بيضة 2n) ويخصب الثاني نواتي الكيس الجنيني (سويداء 3n)." },
+  { niveau: 'tronc', domaine: 'ecologie', chap_fr: 'Écosystème', chap_ar: 'النظام البيئي', q_fr: "Les bactéries et champignons du sol qui transforment la matière organique en matière minérale sont des :", q_ar: "البكتيريا والفطريات التي تحول المادة العضوية إلى مادة معدنية هي:", rep_fr: ["Producteurs", "Herbivores", "Décomposeurs", "Carnivores"], rep_ar: ["منتجات", "عاشبات", "محللات", "لاحمات"], ok: 2, expl_fr: "Les décomposeurs assurent la minéralisation de la matière organique.", expl_ar: "تؤمن المحللات تمعدن المادة العضوية." },
+  { niveau: 'tronc', domaine: 'ecologie', chap_fr: 'Facteurs édaphiques', chap_ar: 'العوامل التربوية', q_fr: "La capacité de rétention en eau d'un sol est la plus élevée dans :", q_ar: "تكون قدرة الاحتفاظ بالماء أكبر ما يمكن في:", rep_fr: ["Un sol sableux", "Un sol argileux", "Un sol graveleux", "Un sol calcaire grossier"], rep_ar: ["التربة الرملية", "التربة الطينية", "التربة الحصوية", "التربة الكلسية الخشنة"], ok: 1, expl_fr: "L'argile possède des micropores qui retiennent fortement l'eau.", expl_ar: "تحتوي التربة الطينية على مسام دقيقة تحتفظ بالماء بقوة." },
+  { niveau: 'tronc', domaine: 'ecologie', chap_fr: 'Pyramides écologiques', chap_ar: 'الأهرام البيئية', q_fr: "Lors du passage d'un niveau trophique au suivant dans une chaîne alimentaire, la biomasse :", q_ar: "عند الانتقال من مستوى غذائي إلى الموالي في سلسلة غذائية، الكتلة الحية:", rep_fr: ["Augmente de 10 fois", "Diminue fortement (perte d'énergie)", "Reste toujours identique", "Double systématiquement"], rep_ar: ["تزداد 10 مرات", "تنقص بشكل كبير (ضياع الطاقة)", "تبقى دائماً متساوية", "تتضاعف تلقائياً"], ok: 1, expl_fr: "Seule une faible fraction (~10 %) de l'énergie est transférée au niveau supérieur.", expl_ar: "ينتقل جزء ضئيل فقط (~10%) من الطاقة إلى المستوى الأعلى." },
+  { niveau: 'tronc', domaine: 'biologie', chap_fr: 'Reproduction végétale', chap_ar: 'التوالد عند النباتات', q_fr: "La pollinisation correspond au transport du grain de pollen de :", q_ar: "يوافق الأبر انتقال حبة اللقاح من:", rep_fr: ["L'ovule vers le pétale", "L'anthère vers le stigmate", "La racine vers la tige", "L'ovaire vers le sépale"], rep_ar: ["البويضة نحو البتلة", "المئبر نحو الميسم", "الجذر نحو الساق", "المبيض نحو السبلة"], ok: 1, expl_fr: "Le pollen produit par l'anthère est déposé sur le stigmate du pistil (par le vent, les insectes, etc.).", expl_ar: "تنتقل حبة اللقاح من المئبر إلى ميسم المدقة بواسطة الرياح أو الحشرات." },
+  { niveau: 'tronc', domaine: 'biologie', chap_fr: 'Reproduction végétale', chap_ar: 'التوالد عند النباتات', q_fr: "Après la fécondation chez les plantes à fleurs, l'ovaire se transforme en :", q_ar: "بعد الإخصاب عند النباتات الزهرية، يتحول المبيض إلى:", rep_fr: ["Graine", "Fruit", "Pollen", "Étamines"], rep_ar: ["بذرة", "ثمرة", "حبوب لقاح", "أسدية"], ok: 1, expl_fr: "L'ovule fécondé donne la graine et l'ovaire se transforme en fruit.", expl_ar: "تتحول البويضة المخصبة إلى بذرة بينما يتحول المبيض إلى ثمرة." },
+
+  // --- 1ÈRE BAC ---
+  { niveau: '1bac', domaine: 'geologie', chap_fr: 'Géologie externe', chap_ar: 'الجيولوجيا الخارجية', q_fr: "Selon le principe de superposition, dans une série sédimentaire non déformée :", q_ar: "حسب مبدأ التراكب، في سلسلة رسوبية غير مشوهة:", rep_fr: ["La couche la plus profonde est la plus récente", "La couche la plus profonde est la plus ancienne", "Toutes les couches ont le même âge", "L'âge dépend de la couleur"], rep_ar: ["الطبقة الأعمق هي الأحدث", "الطبقة الأعمق هي الأقدم", "كل الطبقات لها نفس العمر", "العمر يعتمد على اللون"], ok: 1, expl_fr: "Une couche sédimentaire est plus récente que celle qu'elle recouvre.", expl_ar: "كل طبقة رسوبية أحدث من الطبقة التي تغطيها." },
+  { niveau: '1bac', domaine: 'geologie', chap_fr: 'Stratigraphie', chap_ar: 'الطبقية', q_fr: "Un bon fossile stratigraphique doit avoir :", q_ar: "يجب أن يتميز المستحاث الطبقاتي الجيد بـ:", rep_fr: ["Une grande extension géographique et une courte durée de vie", "Une faible extension géographique et une longue durée de vie", "Une vie uniquement terrestre", "Une grande taille"], rep_ar: ["انتشار جغرافي واسع ومدة عيش قصيرة", "انتشار جغرافي ضيق ومدة عيش طويلة", "عيش بري فقط", "حجم كبير"], ok: 0, expl_fr: "Il permet de dater précisément les couches sur de vastes régions (ex: trilobites, ammonites).", expl_ar: "يمكن من التأريخ الدقيق للطبقات في مناطق شاسعة (مثل ثلاثيات الفصوص والأمونيت)." },
+  { niveau: '1bac', domaine: 'geologie', chap_fr: 'Stratigraphie', chap_ar: 'الطبقية', q_fr: "Selon le principe de recoupement, une faille ou un filon est toujours :", q_ar: "حسب مبدأ التقاطع، الفالق أو العرق يكون دائماً:", rep_fr: ["Plus ancien que les couches qu'il traverse", "Plus récent que les couches qu'il traverse", "Du même âge que la surface", "Sans lien avec les couches"], rep_ar: ["أقدم من الطبقات التي يقطعها", "أحدث من الطبقات التي يقطعها", "بنفس عمر السطح", "دون علاقة بالطبقات"], ok: 1, expl_fr: "Toute structure qui en recoupe une autre lui est postérieure (plus récente).", expl_ar: "كل بنية تقطع بنية أخرى تكون أحدث منها." },
+  { niveau: '1bac', domaine: 'geologie', chap_fr: 'Sédimentation', chap_ar: 'الترسب', q_fr: "Une régression marine correspond à :", q_ar: "يدل التراجع البحري على:", rep_fr: ["Une avancée de la mer sur le continent", "Un retrait de la mer", "Un séisme sous-marin", "Une éruption volcanique"], rep_ar: ["تقدم البحر نحو القارة", "انسحاب البحر", "زلزال تحت مائي", "ثوران بركاني"], ok: 1, expl_fr: "La régression est le retrait de la mer, laissant des dépôts détritiques grossiers au sommet.", expl_ar: "التراجع البحري هو انسحاب البحر عن اليابسة." },
+  { niveau: '1bac', domaine: 'biologie', chap_fr: 'Glycémie', chap_ar: 'تحلون الدم', q_fr: "L'hormone hypoglycémiante sécrétée par les cellules β des îlots de Langerhans est :", q_ar: "الهرمون المخفض لتحلون الدم الذي تفرزه الخلايا β لجزيرات لانجرهانس هو:", rep_fr: ["Le glucagon", "L'insuline", "L'adrénaline", "Le cortisol"], rep_ar: ["الكليكاغون", "الأنسولين", "الأدرينالين", "الكورتيزول"], ok: 1, expl_fr: "L'insuline favorise l'absorption du glucose et la glycogénogenèse, abaissant la glycémie.", expl_ar: "الأنسولين يسهل امتصاص الكليكوز وتخزينه، مما يخفض تحلون الدم." },
+  { niveau: '1bac', domaine: 'biologie', chap_fr: 'Glycémie', chap_ar: 'تحلون الدم', q_fr: "Le glucagon agit principalement sur le foie pour stimuler :", q_ar: "يؤثر الكليكاغون أساساً على الكبد لتحفيز:", rep_fr: ["La glycogénogenèse", "La glycogénolyse", "La lipogenèse", "La respiration cellulaire"], rep_ar: ["تكوين الكليكوجين", "حلمأة الكليكوجين", "تكوين الدهون", "التنفس الخلوي"], ok: 1, expl_fr: "Le glucagon est hyperglycémiant : il stimule la dégradation du glycogène hépatique en glucose.", expl_ar: "الكليكاغون رافع لتحلون الدم عبر تحفيز حلمأة الكليكوجين الكبدي إلى كليكوز." },
+  { niveau: '1bac', domaine: 'biologie', chap_fr: 'Système nerveux', chap_ar: 'الجهاز العصبي', q_fr: "Au repos, le potentiel de membrane d'un neurone est d'environ :", q_ar: "في حالة الراحة، كمون غشاء العصبون يساوي تقريباً:", rep_fr: ["+30 mV", "0 mV", "-70 mV", "+100 mV"], rep_ar: ["+30 mV", "0 mV", "-70 mV", "+100 mV"], ok: 2, expl_fr: "Le potentiel de repos est négatif (environ -70 mV) grâce à la pompe Na⁺/K⁺ et la perméabilité aux ions K⁺.", expl_ar: "كمون الراحة سالب (-70 mV تقريباً) بفضل مضخة Na⁺/K⁺." },
+  { niveau: '1bac', domaine: 'biologie', chap_fr: 'Système nerveux', chap_ar: 'الجهاز العصبي', q_fr: "La phase de dépolarisation du potentiel d'action est due à :", q_ar: "تنتج مرحلة إزالة الاستقطاب في كمون العمل عن:", rep_fr: ["Une sortie massive d'ions K⁺", "Une entrée massive d'ions Na⁺", "Une entrée d'ions Cl⁻", "Un arrêt de la pompe Na⁺/K⁺"], rep_ar: ["خروج مكثف لأيونات K⁺", "دخول مكثف لأيونات Na⁺", "دخول أيونات Cl⁻", "توقف مضخة Na⁺/K⁺"], ok: 1, expl_fr: "L'ouverture des canaux Na⁺ voltage-dépendants provoque une entrée rapide de Na⁺ dans l'axone.", expl_ar: "انفتاح قنوات Na⁺ يؤدي إلى دخول سريع لأيونات Na⁺." },
+  { niveau: '1bac', domaine: 'biologie', chap_fr: 'Système nerveux', chap_ar: 'الجهاز العصبي', q_fr: "La transmission du message nerveux au niveau d'une synapse chimique se fait par :", q_ar: "يتم نقل السيالة العصبية على مستوى السينابس الكيميائي بواسطة:", rep_fr: ["Passage direct d'électrons", "Libération de neurotransmetteurs", "Contraction musculaire", "Diffusion d'ATP"], rep_ar: ["مرور مباشر للإلكترونات", "إفراز المبلغات العصبية", "تقلص عضلي", "انتشار ATP"], ok: 1, expl_fr: "L'arrivée du PA provoque l'exocytose de neurotransmetteurs (ex: acétylcholine) dans la fente synaptique.", expl_ar: "وصول كمون العمل يحفز إفراز المبلغات العصبية في الحيز السينابسي." },
+  { niveau: '1bac', domaine: 'geologie', chap_fr: 'Paléogéographie', chap_ar: 'الجغرافيا القديمة', q_fr: "La présence d'un niveau d'évaporites (gypse, sel gemme) indique un ancien milieu :", q_ar: "يدل وجود طبقات المتبخرات (الجبس، الملح الصخري) على وسط قديم:", rep_fr: ["Glaciaire profond", "Lagunaire chaud et aride", "Volcanique sous-marin", "Forestier humide"], rep_ar: ["جليدي عميق", "لاغوني حار وجاف", "بركاني تحت مائي", "غابوي رطب"], ok: 1, expl_fr: "Les évaporites se forment par forte évaporation de l'eau dans des lagunes sous climat chaud.", expl_ar: "تتشكل المتبخرات نتيجة تبخر قوي للماء في اللاغونات تحت مناخ حار." },
+  { niveau: '1bac', domaine: 'geologie', chap_fr: 'Stratigraphie', chap_ar: 'الطبقية', q_fr: "Selon le principe d'identité paléontologique, deux couches éloignées contenant les mêmes fossiles stratigraphiques :", q_ar: "حسب مبدأ التماثل الاستحاثي، طبقتان متباعدتان تحتويان على نفس المستحاثات الطبقاتية:", rep_fr: ["Ont le même âge", "Ont toujours des âges différents", "Sont obligatoirement magmatiques", "Ne peuvent pas être datées"], rep_ar: ["لهما نفس العمر", "لهما دائماً عمر مختلف", "صهاريتان بالضرورة", "لا يمكن تأريخهما"], ok: 0, expl_fr: "Ce principe permet la corrélation stratigraphique entre des régions éloignées.", expl_ar: "يمكن هذا المبدأ من المضاهاة الطبقاتية بين مناطق متباعدة." },
+  { niveau: '1bac', domaine: 'geologie', chap_fr: 'Stratigraphie', chap_ar: 'الطبقية', q_fr: "Une discordance angulaire entre deux ensembles de couches sédimentaires traduit :", q_ar: "يدل التنافر الزاوي بين مجموعتين من الطبقات الرسوبية على:", rep_fr: ["Une sédimentation continue et calme", "Une phase tectonique suivie d'une érosion puis d'une nouvelle transgression", "Une activité uniquement glaciaire", "L'absence de toute déformation"], rep_ar: ["ترسب مستمر وهادئ", "مرحلة تكتونية تليها تعرية ثم تجاوز بحري جديد", "نشاط جليدي فقط", "غياب أي تشوه"], ok: 1, expl_fr: "Les couches inférieures plissées/inclinées sont érodées avant le dépôt horizontal des couches supérieures.", expl_ar: "تتعرض الطبقات السفلى للتشوه والتعرية قبل توضع الطبقات العليا أفقياً." },
+  { niveau: '1bac', domaine: 'biologie', chap_fr: 'Glycémie', chap_ar: 'تحلون الدم', q_fr: "Le diabète de type 1 est principalement dû à :", q_ar: "ينتج داء السكري من النوع 1 أساساً عن:", rep_fr: ["Une surproduction d'insuline", "Une destruction des cellules β du pancréas", "Un excès de glucagon uniquement", "Une carence en calcium"], rep_ar: ["إفراط في إنتاج الأنسولين", "تدمير الخلايا β للبنكرياس", "فائض في الكليكاغون فقط", "نقص في الكالسيوم"], ok: 1, expl_fr: "C'est une maladie auto-immune entraînant un déficit absolu en insuline.", expl_ar: "هو مرض مناعي ذاتي يؤدي إلى غياب إنتاج الأنسولين." },
+  { niveau: '1bac', domaine: 'biologie', chap_fr: 'Système nerveux', chap_ar: 'الجهاز العصبي', q_fr: "La période réfractaire d'une fibre nerveuse correspond à :", q_ar: "توافق فترة الكمون العازلة (دور الامتناع) لليف عصبي:", rep_fr: ["L'impossibilité de générer un nouveau PA immédiatement après un premier PA", "La vitesse maximale de conduction", "La mort du neurone", "L'ouverture permanente des canaux K⁺"], rep_ar: ["استحالة توليد كمون عمل جديد مباشرة بعد كمون عمل أول", "السرعة القصوى للتوصيل", "موت العصبون", "الانفتاح الدائم لقنوات K⁺"], ok: 0, expl_fr: "Elle garantit la propagation unidirectionnelle de l'influx nerveux le long de l'axone.", expl_ar: "تضمن انتشار السيالة العصبية في منحى واحد على طول المحورة." },
+
+  // --- 2ÈME BAC SVT ---
+  { niveau: '2bac', domaine: 'biologie', chap_fr: 'Métabolisme énergétique', chap_ar: 'استهلاك المادة العضوية', q_fr: "La glycolyse se déroule dans :", q_ar: "تحدث انحلال الكليكوز في:", rep_fr: ["La matrice mitochondriale", "Le hyaloplasme (cytoplasme)", "La membrane interne de la mitochondrie", "Le noyau"], rep_ar: ["ماتريس الميتوكوندري", "الجبلة الشفافة", "الغشاء الداخلي للميتوكوندري", "النواة"], ok: 1, expl_fr: "La glycolyse est une voie anaérobie qui transforme le glucose en 2 pyruvates dans le hyaloplasme.", expl_ar: "انحلال الكليكوز مرحلة لا هوائية تتم في الجبلة الشفافة." },
+  { niveau: '2bac', domaine: 'biologie', chap_fr: 'Métabolisme énergétique', chap_ar: 'استهلاك المادة العضوية', q_fr: "Le bilan énergétique net en ATP de la glycolyse d'une molécule de glucose est :", q_ar: "الحصيلة الطاقية الصافية من ATP لانحلال جزيئة كليكوز واحدة هي:", rep_fr: ["2 ATP", "36 ou 38 ATP", "1 ATP", "12 ATP"], rep_ar: ["2 ATP", "36 أو 38 ATP", "1 ATP", "12 ATP"], ok: 0, expl_fr: "La glycolyse consomme 2 ATP et en produit 4, soit un gain net de 2 ATP (+ 2 NADH,H⁺).", expl_ar: "يستهلك انحلال الكليكوز 2 ATP وينتج 4، أي حصيلة صافية تساوي 2 ATP." },
+  { niveau: '2bac', domaine: 'biologie', chap_fr: 'Respiration cellulaire', chap_ar: 'التنفس الخلوي', q_fr: "Lors de la respiration cellulaire, l'accepteur final d'électrons dans la chaîne respiratoire est :", q_ar: "أثناء التنفس الخلوي، المتقبل النهائي للإلكترونات في السلسلة التنفسية هو:", rep_fr: ["Le CO₂", "Le dioxygène O₂", "Le pyruvate", "L'acide lactique"], rep_ar: ["CO₂", "ثنائي الأوكسجين O₂", "حمض البيروفيك", "الحمض اللبني"], ok: 1, expl_fr: "O₂ capte les électrons et les protons H⁺ pour former H₂O au niveau du complexe IV.", expl_ar: "يلتقط O₂ الإلكترونات والبروتونات ليشكل الماء H₂O." },
+  { niveau: '2bac', domaine: 'biologie', chap_fr: 'Fermentation', chap_ar: 'التخمر', q_fr: "La fermentation alcoolique produit :", q_ar: "ينتج عن التخمر الكحولي:", rep_fr: ["Acide lactique uniquement", "Éthanol + CO₂ + 2 ATP", "Éthanol + O₂", "38 ATP + H₂O"], rep_ar: ["الحمض اللبني فقط", "الإيثانول + CO₂ + 2 ATP", "الإيثانول + O₂", "38 ATP + H₂O"], ok: 1, expl_fr: "C₆H₁₂O₆ → 2 C₂H₅OH + 2 CO₂ + 2 ATP (dégradation incomplète du glucose).", expl_ar: "في التخمر الكحولي يتحول الكليكوز إلى إيثانول وCO₂ مع إنتاج 2 ATP." },
+  { niveau: '2bac', domaine: 'biologie', chap_fr: 'Muscle squelettique', chap_ar: 'العضلة الهيكلية', q_fr: "Lors de la contraction d'un sarcomère :", q_ar: "أثناء تقلص الساركومير:", rep_fr: ["Les filaments d'actine raccourcissent", "Les bandes sombres A raccourcissent", "Les stries Z se rapprochent et la bande H diminue", "Les filaments de myosine disparaissent"], rep_ar: ["تقصر خييطات الأكتين", "تقصر الأشرطة الداكنة A", "تتقارب الحزوز Z وينقص الشريط H", "تختفي خييطات الميوزين"], ok: 2, expl_fr: "Les filaments d'actine glissent entre les filaments de myosine sans changer de longueur.", expl_ar: "تنزلق خييطات الأكتين بين خييطات الميوزين فتتقارب الحزوز Z." },
+  { niveau: '2bac', domaine: 'biologie', chap_fr: 'Muscle squelettique', chap_ar: 'العضلة الهيكلية', q_fr: "L'ion indispensable à la liaison entre les têtes de myosine et l'actine est :", q_ar: "الأيون الضروري لارتباط رؤوس الميوزين بالأكتين هو:", rep_fr: ["Na⁺", "K⁺", "Ca²⁺", "Cl⁻"], rep_ar: ["Na⁺", "K⁺", "Ca²⁺", "Cl⁻"], ok: 2, expl_fr: "Les ions Ca²⁺ libérés par le réticulum sarcoplasmique se fixent sur la troponine et démasquent les sites de fixation.", expl_ar: "ترتبط أيونات Ca²⁺ بالتروبونين لتحرير مواقع ارتباط الميوزين بالأكتين." },
+  { niveau: '2bac', domaine: 'genetique', chap_fr: 'Information génétique', chap_ar: 'الخبر الوراثي', q_fr: "La réplication de l'ADN est dite :", q_ar: "يوصف تضاعف ADN بأنه:", rep_fr: ["Conservative", "Semi-conservative", "Dispersive", "Aléatoire"], rep_ar: ["محافظ", "نصف محافظ", "مشتت", "عشوائي"], ok: 1, expl_fr: "Chaque nouvelle molécule d'ADN contient un brin parental conservé et un brin néoformé.", expl_ar: "تحتوي كل جزيئة ADN جديدة على لولب أصلي قديم ولولب جديد." },
+  { niveau: '2bac', domaine: 'genetique', chap_fr: 'Cycle cellulaire', chap_ar: 'الدورة الخلوية', q_fr: "La réplication de l'ADN a lieu pendant :", q_ar: "يتم تضاعف ADN خلال:", rep_fr: ["La phase G1", "La phase S de l'interphase", "La métaphase", "La télophase"], rep_ar: ["المرحلة G1", "المرحلة S من السكون", "المرحلة الاستوائية", "المرحلة النهائية"], ok: 1, expl_fr: "Pendant la phase S (Synthèse), la quantité d'ADN passe de 2Q à 4Q.", expl_ar: "خلال المرحلة S تتضاعف كمية ADN من 2Q إلى 4Q." },
+  { niveau: '2bac', domaine: 'genetique', chap_fr: 'Expression génique', chap_ar: 'تعبير الخبر الوراثي', q_fr: "La transcription permet de synthétiser :", q_ar: "يمكن الاستنساخ من تركيب:", rep_fr: ["Une protéine à partir de l'ARNm", "Un ARNm à partir d'un brin d'ADN", "Un ADN à partir d'un autre ADN", "Un acide aminé"], rep_ar: ["بروتين انطلاقاً من ARNm", "ARNm انطلاقاً من لولب ADN", "ADN انطلاقاً من ADN آخر", "حمض أميني"], ok: 1, expl_fr: "Dans le noyau, l'ARN polymérase synthétise l'ARNm complémentaire du brin transcrit de l'ADN.", expl_ar: "في النواة، يركب أنزيم ARN بوليميراز جزيئة ARNm مكملة للولب المنسوخ." },
+  { niveau: '2bac', domaine: 'genetique', chap_fr: 'Code génétique', chap_ar: 'الرمز الوراثي', q_fr: "Sur l'ARNm, le codon initiateur de la traduction est généralement :", q_ar: "على مستوى ARNm، الوحدة الرمزية البادئة للترجمة هي عموماً:", rep_fr: ["UAA", "UGA", "AUG", "UAG"], rep_ar: ["UAA", "UGA", "AUG", "UAG"], ok: 2, expl_fr: "AUG code pour la méthionine (Met) et initie la traduction ; UAA, UAG, UGA sont des codons stop.", expl_ar: "AUG ترمز للميثيونين وتبدأ الترجمة؛ بينما UAA وUAG وUGA وحدات بدون معنى." },
+  { niveau: '2bac', domaine: 'genetique', chap_fr: 'Méiose', chap_ar: 'الانقسام الاختزالي', q_fr: "Le brassage intrachromosomique (crossing-over) a lieu pendant :", q_ar: "يحدث التخليط الضمصبغي (العبور) خلال:", rep_fr: ["L'anaphase I", "La prophase I", "La métaphase II", "L'interphase"], rep_ar: ["الطور الانفصالي I", "الطور التمهيدي I", "الطور الاستوائي II", "مرحلة السكون"], ok: 1, expl_fr: "En prophase I, les chromosomes homologues s'apparient et échangent des segments de chromatides.", expl_ar: "في الطور التمهيدي I تقترن الصبغيات المتماثلة وتتبادل أجزاء من الصبيغيات." },
+  { niveau: '2bac', domaine: 'genetique', chap_fr: 'Lois de Mendel', chap_ar: 'قوانين مندل', q_fr: "Lors d'un croisement dihybride entre deux hétérozygotes (AaBb × AaBb) pour deux gènes indépendants, la proportion phénotypique en F2 est :", q_ar: "في تزاوج ثنائي الهجونة بين متخالفي الاقتران (AaBb × AaBb) لمورثتين مستقلتين، النسب المظهرية في F2 هي:", rep_fr: ["3/4 ; 1/4", "9/16 ; 3/16 ; 3/16 ; 1/16", "1/2 ; 1/2", "1/4 ; 2/4 ; 1/4"], rep_ar: ["3/4 ; 1/4", "9/16 ; 3/16 ; 3/16 ; 1/16", "1/2 ; 1/2", "1/4 ; 2/4 ; 1/4"], ok: 1, expl_fr: "Pour deux gènes indépendants à dominance absolue, F2 donne 9/16 [AB], 3/16 [Ab], 3/16 [aB], 1/16 [ab].", expl_ar: "بالنسبة لمورثتين مستقلتين مع سيادة تامة، نحصل في F2 على النسب 9/16، 3/16، 3/16، 1/16." },
+  { niveau: '2bac', domaine: 'genetique', chap_fr: 'Génétique humaine', chap_ar: 'الوراثة البشرية', q_fr: "Un caractère autosomique récessif peut s'exprimer chez un individu dont :", q_ar: "تظهر صفة متنحية غير مرتبطة بالجنس عند فرد:", rep_fr: ["Les deux parents sont sains (hétérozygotes)", "Un parent est obligatoirement malade", "Le père est toujours malade", "Seuls les garçons sont atteints"], rep_ar: ["أبواه سليمان (ناقلان للمرض)", "أحد الأبوين مصاب حتماً", "الأب مصاب دائماً", "الذكور فقط يصابون"], ok: 0, expl_fr: "Deux parents phénotypiquement sains mais porteurs (A//a) peuvent avoir un enfant atteint (a//a) avec une probabilité de 1/4.", expl_ar: "أبوان سليمان ظاهرياً وناقلان للمورثة المتنحية يمكن أن ينجبا طفلاً مصاباً باحتمال 1/4." },
+  { niveau: '2bac', domaine: 'biologie', chap_fr: 'Immunologie', chap_ar: 'علم المناعة', q_fr: "Les anticorps (immunoglobulines) sont produits par :", q_ar: "تُنتج مضادات الأجسام من طرف:", rep_fr: ["Les lymphocytes T8", "Les plasmocytes (issus des LB)", "Les macrophages", "Les hématies"], rep_ar: ["اللمفاويات T8", "البلزميات (الناتجة عن LB)", "البلعميات الكبيرة", "الكريات الحمراء"], ok: 1, expl_fr: "Après activation, les lymphocytes B se différencient en plasmocytes sécréteurs d'anticorps.", expl_ar: "بعد التنشيط، تتحول اللمفاويات B إلى بلزميات مفرزة لمضادات الأجسام." },
+  { niveau: '2bac', domaine: 'biologie', chap_fr: 'Immunologie', chap_ar: 'علم المناعة', q_fr: "Les lymphocytes T cytotoxiques (Tc) détruisent les cellules cibles infectées par :", q_ar: "تدمر اللمفاويات T القاتلة (Tc) الخلايا المعفنة بواسطة:", rep_fr: ["Phagocytose directe", "Sécrétion de perforines et granzymes", "Production d'anticorps", "Coagulation sanguine"], rep_ar: ["البلعمة المباشرة", "إفراز البرفورين والغرانزيم", "إنتاج مضادات الأجسام", "تخثر الدم"], ok: 1, expl_fr: "La perforine crée des pores dans la membrane de la cellule cible et les granzymes déclenchent son apoptose.", expl_ar: "يشكل البرفورين ثقوباً في غشاء الخلية الهدف ويحفز الغرانزيم موتها المبرمج." },
+  { niveau: '2bac', domaine: 'biologie', chap_fr: 'Immunologie', chap_ar: 'علم المناعة', q_fr: "Les molécules du CMH (complexe majeur d'histocompatibilité) permettent :", q_ar: "تمكن جزيئات CMH من:", rep_fr: ["Le transport de l'O₂", "La reconnaissance du soi et du non-soi", "La digestion des lipides", "La synthèse d'ATP"], rep_ar: ["نقل O₂", "التمييز بين الذاتي وغير الذاتي", "هضم الدهون", "تركيب ATP"], ok: 1, expl_fr: "Le CMH présente des peptides antigéniques aux lymphocytes T et constitue la carte d'identité biologique.", expl_ar: "تعرض جزيئات CMH البيبتيدات المستضدية للمفاويات T وتمثل بطاقة الهوية البيولوجية." },
+  { niveau: '2bac', domaine: 'geologie', chap_fr: 'Tectonique', chap_ar: 'تكتونية الصفائح', q_fr: "Les zones de subduction sont caractérisées par :", q_ar: "تتميز مناطق الطمر بـ:", rep_fr: ["Une fosse océanique et un volcanisme andésitique", "Une dorsale médio-océanique", "Une absence totale de séismes", "Des roches sédimentaires uniquement"], rep_ar: ["حفرة محيطية وبركانية أنديزيتية", "ذروة وسط محيطية", "غياب تام للزلازل", "صخور رسوبية فقط"], ok: 0, expl_fr: "L'enfoncement de la lithosphère océanique crée une fosse, un prisme d'accrétion, des séismes (plan de Wadati-Benioff) et du volcanisme andésitique.", expl_ar: "انغراز الغلاف الصخري المحيطي يولد حفرة محيطية، زلازل عميقة وبركانية أنديزيتية." },
+  { niveau: '2bac', domaine: 'geologie', chap_fr: 'Métamorphisme', chap_ar: 'التحول', q_fr: "Le métamorphisme est la transformation d'une roche à l'état :", q_ar: "التحول هو تغير الصخرة في الحالة:", rep_fr: ["Liquide totale", "Solide sous l'effet de la pression et de la température", "Gazeuse", "Aqueuse uniquement"], rep_ar: ["السائلة الكاملة", "الصلبة تحت تأثير الضغط والحرارة", "الغازية", "المائية فقط"], ok: 1, expl_fr: "Les roches métamorphiques se forment à l'état solide par recristallisation minéralogique sous l'effet de P et T.", expl_ar: "تتشكل الصخور المتحولة في الحالة الصلبة نتيجة تغير الضغط ودرجة الحرارة." },
+  { niveau: '2bac', domaine: 'biologie', chap_fr: 'Respiration cellulaire', chap_ar: 'التنفس الخلوي', q_fr: "Le cycle de Krebs se déroule dans :", q_ar: "تحدث حلقة كريبس في:", rep_fr: ["Le hyaloplasme", "La matrice mitochondriale", "L'espace intermembranaire", "Le réticulum endoplasmique"], rep_ar: ["الجبلة الشفافة", "ماتريس الميتوكوندري", "الحيز البيغشائي", "الشبكة السيتوبلازمية"], ok: 1, expl_fr: "L'acétyl-CoA entre dans le cycle de Krebs au niveau de la matrice mitochondriale.", expl_ar: "يدخل الأسيتيل كوأنزيم A في حلقة كريبس داخل ماتريس الميتوكوندري." },
+  { niveau: '2bac', domaine: 'biologie', chap_fr: 'Phosphorylation oxydative', chap_ar: 'التفسفر المؤكسد', q_fr: "L'ATP synthase produit de l'ATP grâce à :", q_ar: "يركب أنزيم ATP سنتاز جزيئات ATP بفضل:", rep_fr: ["La diffusion passive de glucose", "Un gradient électrochimique de protons H⁺", "La dégradation directe de l'ADN", "L'absorption d'O₂ par le noyau"], rep_ar: ["الانتشار السلبي للكليكوز", "ممال البروتونات H⁺ عبر الغشاء الداخلي", "تحلل ADN المباشر", "امتصاص O₂ من طرف النواة"], ok: 1, expl_fr: "Le retour des protons H⁺ de l'espace intermembranaire vers la matrice active l'ATP synthase.", expl_ar: "عودة البروتونات H⁺ من الحيز البيغشائي نحو الماتريس تنشط ATP سنتاز." },
+  { niveau: '2bac', domaine: 'genetique', chap_fr: 'Mitose', chap_ar: 'الانقسام غير المباشر', q_fr: "Au cours de la mitose, les chromosomes s'alignent sur la plaque équatoriale pendant :", q_ar: "خلال الانقسام غير المباشر، تتوضع الصبغيات في الصفيحة الاستوائية أثناء:", rep_fr: ["La prophase", "La métaphase", "L'anaphase", "La télophase"], rep_ar: ["الطور التمهيدي", "الطور الاستوائي", "الطور الانفصالي", "الطور النهائي"], ok: 1, expl_fr: "À la métaphase, les chromosomes condensés sont alignés à l'équateur de la cellule.", expl_ar: "في الطور الاستوائي تصطف الصبغيات في خط استواء الخلية." },
+  { niveau: '2bac', domaine: 'genetique', chap_fr: 'Mutations', chap_ar: 'الطفرات', q_fr: "Une mutation ponctuelle qui remplace un codon sens par un codon stop est dite :", q_ar: "تُسمى الطفرة النقطية التي تحول وحدة رمزية دالة إلى وحدة رمزية قف:", rep_fr: ["Mutation silencieuse", "Mutation faux-sens", "Mutation non-sens", "Mutation chromosomique"], rep_ar: ["طفرة صامتة", "طفرة خاطئة المعنى", "طفرة بدون معنى", "طفرة صبغية"], ok: 2, expl_fr: "Une mutation non-sens interrompt prématurément la synthèse de la protéine.", expl_ar: "تؤدي الطفرة بدون معنى إلى توقف مبكر لتركيب البروتين." },
+  { niveau: '2bac', domaine: 'biologie', chap_fr: 'Immunologie', chap_ar: 'علم المناعة', q_fr: "Les lymphocytes T4 (auxiliaires) jouent un rôle central dans l'immunité adaptative car ils :", q_ar: "تلعب اللمفاويات T4 المساعدة دوراً محورياً في المناعة النوعية لأنها:", rep_fr: ["Produisent directement des anticorps", "Sécrètent des interleukines activant les LB et les LT8", "Phagocytent les bactéries", "Transportent le dioxygène"], rep_ar: ["تنتج مضادات الأجسام مباشرة", "تفرز الأنترلوكينات المنشطة لـ LB و LT8", "تبلعم البكتيريا", "تنقل ثنائي الأوكسجين"], ok: 1, expl_fr: "Sans LT4 (comme lors du SIDA), l'activation des réponses humorale et cellulaire est fortement compromise.", expl_ar: "تفرز LT4 الأنترلوكين 2 الضروري لتنشيط وتكاثر اللمفاويات B و T8." },
+  { niveau: '2bac', domaine: 'geologie', chap_fr: 'Granitisation', chap_ar: 'الكرانيتية', q_fr: "Le granite d'anatexie se forme par :", q_ar: "يتشكل كرانيت الأناتيكسي نتيجة:", rep_fr: ["Refroidissement rapide de lave en surface", "Fusion partielle de roches métamorphiques en profondeur", "Sédimentation marine", "Érosion éolienne"], rep_ar: ["تبريد سريع للحمم على السطح", "انصهار جزئي لصخور متحولة في العمق", "ترسب بحري", "تعرية ريحية"], ok: 1, expl_fr: "L'anatexie est la fusion partielle de la croûte continentale à haute température et pression.", expl_ar: "الأناتيكسي هو الانصهار الجزئي للقشرة القارية في أعماق كبيرة." }
+];
+
+const trad = {
+  fr: {
+    'nav.back': 'Retour au site',
+    'nav.svt_home': 'Accueil', 'nav.cours': 'Cours', 'nav.exercices': 'Exercices', 'nav.examens': 'Examens', 'nav.schemas': 'Schémas', 'nav.formules': 'Lois & Formules', 'nav.qcm': 'QCM',
+    'qcm.titre1': 'QCM', 'qcm.titre2': 'SVT',
+    'qcm.desc': 'Testez vos connaissances en Sciences de la Vie et de la Terre. 10 questions tirées au hasard. Correction immédiate.',
+    'filtre.tous': 'Tous niveaux', 'niveau.tronc': 'Tronc Commun', 'niveau.1bac': '1ère Bac', 'niveau.2bac': '2ème Bac SVT',
+    'domaine.biologie': 'Biologie', 'domaine.geologie': 'Géologie', 'domaine.genetique': 'Génétique', 'domaine.ecologie': 'Écologie',
+    'qcm.question': 'Question', 'qcm.explication': 'Explication', 'qcm.passer': 'Passer', 'qcm.suivant': 'Question suivante',
+    'qcm.termine': 'QCM terminé !', 'qcm.recommencer': 'Recommencer', 'qcm.accueil': 'Accueil SVT',
+    'score.enCours': 'Question {n} sur {total}',
+    'msg.excellent': 'Excellent ! Tu maîtrises ce sujet SVT ! 🎉', 'msg.bien': 'Bien joué ! Continue comme ça ! 👍', 'msg.moyen': 'Pas mal ! Révise un peu plus. 💪', 'msg.reviser': 'Courage ! Relis tes cours de SVT et recommence. 📚'
+  },
+  ar: {
+    'nav.back': 'العودة للموقع',
+    'nav.svt_home': 'الرئيسية', 'nav.cours': 'الدروس', 'nav.exercices': 'التمارين', 'nav.examens': 'الامتحانات', 'nav.schemas': 'الرسوم التفاعلية', 'nav.formules': 'القوانين والصيغ', 'nav.qcm': 'اختبار',
+    'qcm.titre1': 'اختبارات', 'qcm.titre2': 'علوم الحياة والأرض',
+    'qcm.desc': 'اختبر معلوماتك في علوم الحياة والأرض. 10 أسئلة عشوائية. تصحيح فوري.',
+    'filtre.tous': 'جميع المستويات', 'niveau.tronc': 'الجذع المشترك', 'niveau.1bac': 'الأولى باك', 'niveau.2bac': 'الثانية باك ع.ح.أ',
+    'domaine.biologie': 'البيولوجيا', 'domaine.geologie': 'الجيولوجيا', 'domaine.genetique': 'الوراثة', 'domaine.ecologie': 'علم البيئة',
+    'qcm.question': 'سؤال', 'qcm.explication': 'التفسير', 'qcm.passer': 'تخطي', 'qcm.suivant': 'السؤال التالي',
+    'qcm.termine': 'انتهى الاختبار!', 'qcm.recommencer': 'إعادة', 'qcm.accueil': 'رئيسية SVT',
+    'score.enCours': 'السؤال {n} من {total}',
+    'msg.excellent': 'ممتاز! أنت متمكن في علوم الحياة والأرض! 🎉', 'msg.bien': 'أحسنت! واصل! 👍', 'msg.moyen': 'لا بأس! راجع أكثر. 💪', 'msg.reviser': 'تشجع! راجع دروسك وأعد المحاولة. 📚'
+  }
+};
+
+let currentLang = localStorage.getItem('darrssy-lang') || 'fr';
+let currentNiveau = 'all';
+let questionsSession = [];
+let indexActuel = 0;
+let score = 0;
+let aRepondu = false;
+
+document.addEventListener('DOMContentLoaded', () => {
+  appliquerLangue(currentLang);
+  bindEvents();
+  lancerSession();
+});
+
+function appliquerLangue(lang) {
+  currentLang = lang;
+  document.getElementById('htmlRoot').setAttribute('lang', lang);
+  document.getElementById('htmlRoot').setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (trad[lang] && trad[lang][key]) el.textContent = trad[lang][key];
+  });
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.classList.toggle('actif', btn.getAttribute('data-lang') === lang);
+  });
+  localStorage.setItem('darrssy-lang', lang);
+  if (questionsSession.length > 0 && !aRepondu) afficherQuestion();
+}
+
+function bindEvents() {
+  const menuToggle = document.getElementById('menuToggle');
+  const navLinks = document.getElementById('navLinks');
+  if (menuToggle && navLinks) {
+    menuToggle.addEventListener('click', () => {
+      navLinks.classList.toggle('active');
+      const icon = menuToggle.querySelector('i');
+      if (icon) {
+        icon.classList.toggle('fa-bars', !navLinks.classList.contains('active'));
+        icon.classList.toggle('fa-times', navLinks.classList.contains('active'));
+      }
+    });
+  }
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.addEventListener('click', () => appliquerLangue(btn.getAttribute('data-lang')));
+  });
+  document.querySelectorAll('.filtre-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.filtre-btn').forEach(b => b.classList.remove('actif'));
+      btn.classList.add('actif');
+      currentNiveau = btn.getAttribute('data-niveau');
+      lancerSession();
+    });
+  });
+  document.getElementById('btnSuivant').addEventListener('click', questionSuivante);
+  document.getElementById('btnPasser').addEventListener('click', () => {
+    if (!aRepondu) {
+      aRepondu = true;
+      revelerReponse();
+      document.getElementById('btnSuivant').disabled = false;
+    } else {
+      questionSuivante();
+    }
+  });
+  document.getElementById('btnRecommencer').addEventListener('click', lancerSession);
+}
+
+function lancerSession() {
+  let pool = BANQUE_QUESTIONS_SVT;
+  if (currentNiveau !== 'all') {
+    pool = BANQUE_QUESTIONS_SVT.filter(q => q.niveau === currentNiveau);
+  }
+
+  const melange = [...pool].sort(() => Math.random() - 0.5);
+  questionsSession = melange.slice(0, 10);
+
+  indexActuel = 0;
+  score = 0;
+  aRepondu = false;
+
+  document.getElementById('ecranFinal').classList.remove('visible');
+  document.getElementById('questionWrap').classList.add('visible');
+
+  if (questionsSession.length === 0) {
+    document.getElementById('questionTexte').textContent = 'Aucune question disponible pour ce niveau.';
+    return;
+  }
+
+  afficherQuestion();
+  majProgression();
+}
+
+function afficherQuestion() {
+  if (indexActuel >= questionsSession.length) {
+    afficherEcranFinal();
+    return;
+  }
+
+  const q = questionsSession[indexActuel];
+  aRepondu = false;
+
+  document.getElementById('questionNum').textContent = indexActuel + 1;
+  document.getElementById('questionTotal').textContent = questionsSession.length;
+
+  const tags = document.getElementById('questionTags');
+  tags.innerHTML = `
+    <span class="question-tag">${trad[currentLang]['niveau.' + q.niveau] || q.niveau}</span>
+    <span class="question-tag matiere">${trad[currentLang]['domaine.' + q.domaine] || q.domaine}</span>
+    <span class="question-tag">${currentLang === 'fr' ? q.chap_fr : q.chap_ar}</span>
+  `;
+
+  document.getElementById('questionTexte').textContent = currentLang === 'fr' ? q.q_fr : q.q_ar;
+
+  const liste = document.getElementById('reponsesListe');
+  liste.innerHTML = '';
+  const lettres = ['A', 'B', 'C', 'D'];
+  const reponses = currentLang === 'fr' ? q.rep_fr : q.rep_ar;
+
+  reponses.forEach((rep, idx) => {
+    const btn = document.createElement('button');
+    btn.className = 'reponse-btn';
+    btn.innerHTML = `<span class="reponse-lettre">${lettres[idx]}</span><span>${rep}</span>`;
+    btn.addEventListener('click', () => verifierReponse(idx, btn));
+    liste.appendChild(btn);
+  });
+
+  document.getElementById('explication').classList.remove('visible');
+  document.getElementById('btnSuivant').disabled = true;
+
+  const wrap = document.getElementById('questionWrap');
+  wrap.style.animation = 'none';
+  setTimeout(() => { wrap.style.animation = 'fadeIn 0.4s ease'; }, 10);
+
+  majProgression();
+}
+
+function verifierReponse(indexChoisi, btnClique) {
+  if (aRepondu) return;
+  aRepondu = true;
+
+  const q = questionsSession[indexActuel];
+  const tousBtns = document.querySelectorAll('.reponse-btn');
+  tousBtns.forEach(b => b.disabled = true);
+
+  tousBtns[q.ok].classList.add('correct');
+
+  if (indexChoisi !== q.ok) {
+    btnClique.classList.add('incorrect');
+  } else {
+    score++;
+  }
+
+  revelerReponse();
+  document.getElementById('btnSuivant').disabled = false;
+  majProgression();
+}
+
+function revelerReponse() {
+  const q = questionsSession[indexActuel];
+  const tousBtns = document.querySelectorAll('.reponse-btn');
+  tousBtns.forEach(b => b.disabled = true);
+  tousBtns[q.ok].classList.add('correct');
+
+  document.getElementById('explicationTexte').textContent = currentLang === 'fr' ? q.expl_fr : q.expl_ar;
+  document.getElementById('explication').classList.add('visible');
+}
+
+function questionSuivante() {
+  indexActuel++;
+  if (indexActuel >= questionsSession.length) {
+    afficherEcranFinal();
+  } else {
+    afficherQuestion();
+  }
+}
+
+function majProgression() {
+  const total = questionsSession.length;
+  const current = Math.min(indexActuel + 1, total);
+  document.getElementById('scoreText').textContent = `${score} / ${total}`;
+  document.getElementById('progressText').textContent = trad[currentLang]['score.enCours'].replace('{n}', current).replace('{total}', total);
+  const pct = total > 0 ? (current / total) * 100 : 0;
+  document.getElementById('progressBar').style.width = pct + '%';
+}
+
+function afficherEcranFinal() {
+  document.getElementById('questionWrap').classList.remove('visible');
+  const final = document.getElementById('ecranFinal');
+  final.classList.add('visible');
+
+  const total = questionsSession.length;
+  document.getElementById('scoreFinal').textContent = `${score} / ${total}`;
+
+  const pct = total > 0 ? (score / total) * 100 : 0;
+  let msgKey = 'msg.reviser';
+  if (pct >= 80) msgKey = 'msg.excellent';
+  else if (pct >= 60) msgKey = 'msg.bien';
+  else if (pct >= 40) msgKey = 'msg.moyen';
+
+  document.getElementById('messageFinal').textContent = trad[currentLang][msgKey];
+
+  const trophee = final.querySelector('.trophee');
+  if (pct >= 80) trophee.textContent = '🏆';
+  else if (pct >= 60) trophee.textContent = '🥈';
+  else if (pct >= 40) trophee.textContent = '🥉';
+  else trophee.textContent = '📚';
+
+  document.getElementById('progressBar').style.width = '100%';
+}
+</script>
+<script data-goatcounter="https://darrssy.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>
