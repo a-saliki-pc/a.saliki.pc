@@ -227,6 +227,7 @@ nav { background: var(--white); border-bottom: 2px solid var(--ink); padding: 10
     <li><a href="svt-examens.html" data-i18n="nav.examens">Examens</a></li>
     <li><a href="svt-schemas.html" class="actif" data-i18n="nav.schemas">Schémas</a></li>
     <li><a href="svt-formules.html" data-i18n="nav.formules">Lois & Formules</a></li>
+    <li><a href="svt-qcm.html" data-i18n="nav.qcm">QCM</a></li>
   </ul>
   <div class="nav-right">
     <div class="lang-switcher">
@@ -1629,7 +1630,7 @@ let currentLang = localStorage.getItem('darrssy-lang') || 'fr';
 const trad = {
   fr: {
     'nav.menu': 'Menu', 'nav.home': 'Site',
-    'nav.svt_home': 'Accueil', 'nav.cours': 'Cours', 'nav.exercices': 'Exercices', 'nav.examens': 'Examens', 'nav.schemas': 'Schémas', 'nav.formules': 'Lois & Formules',
+    'nav.svt_home': 'Accueil', 'nav.cours': 'Cours', 'nav.exercices': 'Exercices', 'nav.examens': 'Examens', 'nav.schemas': 'Schémas', 'nav.formules': 'Lois & Formules', 'nav.qcm': 'QCM',
     'title': 'Schémas Animés de SVT', 'desc': 'Cliquez sur un schéma pour l\'agrandir. Survolez les éléments pour voir les explications.',
     's1.title': 'La Faille Normale', 's1.desc': '<strong>Faille normale :</strong> Créée par une force d\'extension. Le compartiment supérieur monte relativement par rapport au compartiment inférieur. Les couches de roches (grès, calcaire, argile) sont décalées le long du plan de faille.',
     's2.title': 'Les Plis Géologiques', 's2.desc': '<strong>Plis :</strong> Créés par une force de <strong>compression</strong>. L\'<strong>anticlinal</strong> est convexe (bosse). Le <strong>synclinal</strong> est concave (creux). Le plan axial divise le pli en deux flancs.',
@@ -1650,7 +1651,7 @@ const trad = {
   },
   ar: {
     'nav.menu': 'القائمة', 'nav.home': 'الموقع',
-    'nav.svt_home': 'الرئيسية', 'nav.cours': 'الدروس', 'nav.exercices': 'التمارين', 'nav.examens': 'الامتحانات', 'nav.schemas': 'الرسوم التفاعلية', 'nav.formules': 'القوانين والصيغ',
+    'nav.svt_home': 'الرئيسية', 'nav.cours': 'الدروس', 'nav.exercices': 'التمارين', 'nav.examens': 'الامتحانات', 'nav.schemas': 'الرسوم التفاعلية', 'nav.formules': 'القوانين والصيغ', 'nav.qcm': 'اختبار',
     'title': 'رسوم متحركة لعلوم الحياة والأرض', 'desc': 'انقر على رسم لتكبيره. مرر الماوس فوق العناصر لرؤية الشروحات.',
     's1.title': 'الصدع العادي', 's1.desc': '<strong>الصدع العادي :</strong> ينشأ بفعل قوة تمدد. ترتفع الكتلة العلوية نسبيًا مقارنة بالكتلة السفلية. تتزحزح طبقات الصخور (حجر رملي، حجر جيري، صلصال) على طول مستوى الصدع.',
     's2.title': 'الطيات الجيولوجية', 's2.desc': '<strong>الطيات :</strong> تنشأ بفعل قوة <strong>ضغط</strong>. <strong>المحدب</strong> هو انتفاخ. <strong>المقعر</strong> هو تجويف. المستوى المحوري يقسم الطية إلى جناحين.',
