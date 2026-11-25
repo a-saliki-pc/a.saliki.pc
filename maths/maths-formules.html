@@ -120,6 +120,7 @@ nav { background: var(--white); border-bottom: 2px solid var(--ink); padding: 10
     <li><a href="traceur-graphe.html" data-i18n="nav.traceur">Traceur</a></li>
     <li><a href="calculateur-limites.html" data-i18n="nav.limites">Limites</a></li>
     <li><a href="maths-formules.html" class="actif" data-i18n="nav.formules">Formules</a></li>
+    <li><a href="maths-qcm.html" data-i18n="nav.qcm">QCM</a></li>
   </ul>
   <div class="nav-right">
     <div class="lang-switcher">
@@ -254,7 +255,7 @@ let currentLang = localStorage.getItem('darrssy-lang') || 'fr';
 
 const trad = {
   fr: {
-    'nav.menu': 'Menu Maths', 'nav.home': 'Site', 'nav.maths_home': 'Accueil', 'nav.cours': 'Cours', 'nav.exercices': 'Exercices', 'nav.examens': 'Examens', 'nav.traceur': 'Traceur', 'nav.limites': 'Limites', 'nav.formules': 'Formules',
+    'nav.menu': 'Menu Maths', 'nav.home': 'Site', 'nav.maths_home': 'Accueil', 'nav.cours': 'Cours', 'nav.exercices': 'Exercices', 'nav.examens': 'Examens', 'nav.traceur': 'Traceur', 'nav.limites': 'Limites', 'nav.formules': 'Formules', 'nav.qcm': 'QCM',
     'title': 'Fiches de formules', 'desc': 'Votre aide-mémoire pour toutes les formules essentielles du lycée.',
     'tab.derivees': 'Dérivées', 'tab.primitives': 'Primitives', 'tab.trigo': 'Trigonométrie', 'tab.logexp': 'Log & Exp',
     'der.fonctionsBase': 'Fonctions de base', 'der.expLog': 'Exponentielle & Logarithme', 'der.trigo': 'Fonctions trigonométriques', 'der.operations': 'Opérations sur les dérivées',
@@ -263,7 +264,7 @@ const trad = {
     'logexp.propLog': 'Propriétés des logarithmes', 'logexp.propExp': 'Propriétés des exponentielles', 'logexp.liens': 'Liens Log / Exp'
   },
   ar: {
-    'nav.menu': 'قائمة الرياضيات', 'nav.home': 'الموقع', 'nav.maths_home': 'الرئيسية', 'nav.cours': 'الدروس', 'nav.exercices': 'التمارين', 'nav.examens': 'الامتحانات', 'nav.traceur': 'راسم الدوال', 'nav.limites': 'حاسبة النهايات', 'nav.formules': 'الصيغ',
+    'nav.menu': 'قائمة الرياضيات', 'nav.home': 'الموقع', 'nav.maths_home': 'الرئيسية', 'nav.cours': 'الدروس', 'nav.exercices': 'التمارين', 'nav.examens': 'الامتحانات', 'nav.traceur': 'راسم الدوال', 'nav.limites': 'حاسبة النهايات', 'nav.formules': 'الصيغ', 'nav.qcm': 'اختبار',
     'title': 'بطاقات الصيغ', 'desc': 'مساعد ذاكرتك لجميع الصيغ الأساسية في الثانوية.',
     'tab.derivees': 'الاشتقاق', 'tab.primitives': 'التكامل', 'tab.trigo': 'حساب المثلثات', 'tab.logexp': 'اللوغاريتم والأس',
     'der.fonctionsBase': 'الدوال الأساسية', 'der.expLog': 'الدالة الأسية واللوغاريتمية', 'der.trigo': 'الدوال المثلثية', 'der.operations': 'عمليات على الاشتقاق',
