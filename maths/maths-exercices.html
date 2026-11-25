@@ -128,6 +128,7 @@ nav { background: var(--white); border-bottom: 2px solid var(--ink); padding: 10
     <li><a href="traceur-graphe.html" data-i18n="nav.traceur">Traceur</a></li>
     <li><a href="calculateur-limites.html" data-i18n="nav.limites">Limites</a></li>
     <li><a href="maths-formules.html" data-i18n="nav.formules">Formules</a></li>
+    <li><a href="maths-qcm.html" data-i18n="nav.qcm">QCM</a></li>
   </ul>
   <div class="nav-right">
     <div class="lang-switcher">
@@ -169,13 +170,13 @@ let tousLesExercices = [];
 
 const trad = {
   fr: {
-    'nav.menu': 'Menu', 'nav.home': 'Site', 'nav.maths_home': 'Accueil', 'nav.cours': 'Cours', 'nav.exercices': 'Exercices', 'nav.examens': 'Examens', 'nav.traceur': 'Traceur', 'nav.limites': 'Limites', 'nav.formules': 'Formules', 'title': 'Exercices de Mathématiques', 'desc': 'Téléchargez les énoncés et les corrigés des exercices.',
+    'nav.menu': 'Menu', 'nav.home': 'Site', 'nav.maths_home': 'Accueil', 'nav.cours': 'Cours', 'nav.exercices': 'Exercices', 'nav.examens': 'Examens', 'nav.traceur': 'Traceur', 'nav.limites': 'Limites', 'nav.formules': 'Formules', 'nav.qcm': 'QCM', 'title': 'Exercices de Mathématiques', 'desc': 'Téléchargez les énoncés et les corrigés des exercices.',
     'lvl.tronc': 'Tronc Commun', 'lvl.1bac': '1ère Année Bac', 'lvl.2bac': '2ème Année Bac',
     'loading': 'Chargement...', 'noExo': 'Aucun exercice disponible pour ce niveau pour le moment.',
     'btn.enonce': 'Télécharger l\'énoncé', 'btn.corrige': 'Télécharger le corrigé', 'btn.indispo': 'Indisponible'
   },
   ar: {
-    'nav.menu': 'القائمة', 'nav.home': 'الموقع', 'nav.maths_home': 'الرئيسية', 'nav.cours': 'الدروس', 'nav.exercices': 'التمارين', 'nav.examens': 'الامتحانات', 'nav.traceur': 'راسم الدوال', 'nav.limites': 'حاسبة النهايات', 'nav.formules': 'الصيغ', 'title': 'تمارين الرياضيات', 'desc': 'قم بتحميل نصوص وحلول التمارين.',
+    'nav.menu': 'القائمة', 'nav.home': 'الموقع', 'nav.maths_home': 'الرئيسية', 'nav.cours': 'الدروس', 'nav.exercices': 'التمارين', 'nav.examens': 'الامتحانات', 'nav.traceur': 'راسم الدوال', 'nav.limites': 'حاسبة النهايات', 'nav.formules': 'الصيغ', 'nav.qcm': 'اختبار', 'title': 'تمارين الرياضيات', 'desc': 'قم بتحميل نصوص وحلول التمارين.',
     'lvl.tronc': 'الجذع المشترك', 'lvl.1bac': 'الأولى باكالوريا', 'lvl.2bac': 'الثانية باكالوريا',
     'loading': 'جارٍ التحميل...', 'noExo': 'لا يوجد أي تمرين متاح لهذا المستوى حالياً.',
     'btn.enonce': 'تحميل النص', 'btn.corrige': 'تحميل الحل', 'btn.indispo': 'غير متوفر'
