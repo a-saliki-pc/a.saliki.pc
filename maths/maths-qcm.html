@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr" id="htmlRoot">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QCM Mathématiques — Quiz Interactifs Bac | DARRSSY</title>
+<meta name="description" content="Testez vos connaissances en Mathématiques avec des QCM interactifs corrigés instantanément. Quiz pour préparer le Bac (Tronc Commun, 1ère Bac, 2ème Bac).">
+<meta name="theme-color" content="#16213e">
+<link rel="icon" type="image/png" href="../assets/logo-darrssy.png">
+<link rel="apple-touch-icon" href="../assets/logo-darrssy.png">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,500&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+:root {
+  --primary: #16213e; --primary-light: #2a9d8f; --primary-dark: #0f1a30;
+  --accent: #e8a33d; --accent-dark: #c17f1e; --success: #2a9d8f;
+  --danger: #c0483f; --violet: #7c6fba; --dark: #16213e;
+  --gray: #5b6b7a; --gray-light: #93a3b0; --border: #d9d2bb;
+  --light: #faf6ec; --white: #fffdf7; --ink: #16213e;
+  --gradient: linear-gradient(120deg, #16213e 0%, #1f3a5f 55%, #2a9d8f 100%);
+  --shadow-sm: 0 1px 0 rgba(22, 33, 62, 0.06);
+  --shadow: 6px 6px 0 rgba(22, 33, 62, 0.08);
+  --shadow-lg: 10px 10px 0 rgba(22, 33, 62, 0.1);
+  --radius: 6px; --radius-sm: 4px;
+  --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Inter', 'Tajawal', sans-serif; background: linear-gradient(rgba(22,33,62,0.1) 0.5px, transparent 0.5px), linear-gradient(90deg, rgba(22,33,62,0.1) 0.5px, transparent 0.5px), linear-gradient(rgba(22,33,62,0.028) 0.5px, transparent 0.5px), linear-gradient(90deg, rgba(22,33,62,0.028) 0.5px, transparent 0.5px), var(--light); background-size: 50px 50px, 50px 50px, 10px 10px, 10px 10px, auto; background-position: -1px -1px, -1px -1px, -1px -1px, -1px -1px, 0 0; color: var(--ink); line-height: 1.6; overflow-x: hidden; position: relative; }
+[dir="rtl"] body { font-family: 'Tajawal', 'Inter', sans-serif; }
+a { text-decoration: none; color: inherit; }
+img { max-width: 100%; display: block; }
+h1, h2, h3 { font-family: 'Fraunces', 'Tajawal', serif; letter-spacing: -0.01em; }
+
+nav { position: fixed; top: 0; left: 0; right: 0; background: rgba(250, 246, 236, 0.95); backdrop-filter: blur(10px); border-bottom: 2px solid var(--ink); z-index: 1000; padding: 10px 5%; display: flex; justify-content: space-between; align-items: center; }
+.logo { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+.logo-img-wrap { width: 50px; height: 50px; border-radius: 50%; background: var(--white); padding: 2px; border: 2px solid var(--ink); outline: 1px dashed var(--accent); outline-offset: 3px; flex-shrink: 0; transition: var(--transition); }
+.logo-img-wrap img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; display: block; }
+.logo:hover .logo-img-wrap { transform: rotate(-6deg); }
+.logo-texte { display: flex; flex-direction: column; line-height: 1; }
+.logo-texte .titre { font-family: 'Fraunces', 'Tajawal', serif; font-size: 1.4rem; font-weight: 700; color: var(--ink); letter-spacing: -0.02em; }
+.logo-texte .arabe { font-size: 0.72rem; font-weight: 700; color: var(--primary-light); font-family: 'Tajawal', sans-serif; margin-top: 1px; }
+.nav-links { display: flex; gap: 18px; list-style: none; align-items: center; margin: 0; padding: 0; }
+.nav-links a { color: var(--ink); font-weight: 500; font-size: 0.92rem; transition: color 0.25s; position: relative; padding: 4px 0; }
+.nav-links a:hover, .nav-links a.actif { color: var(--primary-light); }
+.nav-links a::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background: var(--accent); transition: width 0.25s; }
+.nav-links a:hover::after, .nav-links a.actif::after { width: 100%; }
+.nav-links a.actif { font-weight: 700; }
+.nav-right { display: flex; align-items: center; gap: 15px; }
+.lang-switcher { display: flex; background: var(--white); border: 2px solid var(--ink); border-radius: var(--radius-sm); overflow: hidden; }
+.lang-btn { background: transparent; border: none; color: var(--ink); font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; font-weight: 700; padding: 8px 14px; cursor: pointer; transition: var(--transition); }
+.lang-btn.actif { background: var(--ink); color: var(--white); }
+.btn-back { background: var(--ink); color: var(--white); padding: 8px 18px; border-radius: var(--radius-sm); font-weight: 600; font-size: 0.9rem; transition: var(--transition); display: flex; align-items: center; gap: 6px; border: 2px solid var(--ink); }
+.btn-back:hover { background: var(--white); color: var(--ink); }
+.menu-toggle { display: none; font-size: 1.3rem; cursor: pointer; color: var(--ink); background: none; border: none; padding: 5px; }
+
+.hero-page { padding: 130px 5% 60px; background: var(--gradient); color: var(--white); position: relative; overflow: hidden; }
+.hero-page::before { content: ''; position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px); background-size: 44px 44px; pointer-events: none; }
+.hero-page-content { max-width: 1200px; margin: 0 auto; position: relative; z-index: 2; text-align: center; }
+.hero-page h1 { font-size: 2.8rem; font-weight: 600; margin-bottom: 15px; line-height: 1.15; }
+.hero-page h1 span { color: var(--accent); font-style: italic; }
+.hero-page p { font-size: 1.05rem; max-width: 700px; margin: 0 auto; opacity: 0.9; }
+
+.conteneur { max-width: 1000px; margin: -30px auto 0; padding: 0 5% 60px; position: relative; z-index: 3; }
+
+.filtres-bar { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-bottom: 30px; }
+.filtre-btn { background: var(--white); border: 2px solid var(--ink); color: var(--ink); padding: 9px 20px; border-radius: var(--radius-sm); font-family: inherit; font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: var(--transition); display: inline-flex; align-items: center; gap: 6px; }
+.filtre-btn:hover { background: var(--light); }
+.filtre-btn.actif { background: var(--ink); color: var(--white); }
+
+.progress-wrap { background: var(--white); border: 2px solid var(--ink); border-radius: var(--radius); padding: 20px; margin-bottom: 30px; display: flex; align-items: center; gap: 20px; flex-wrap: wrap; box-shadow: var(--shadow-sm); }
+.progress-info { display: flex; align-items: center; gap: 15px; flex: 1; min-width: 200px; }
+.score-badge { background: var(--ink); color: var(--white); padding: 6px 14px; border-radius: var(--radius-sm); font-weight: 700; font-family: 'JetBrains Mono', monospace; font-size: 0.95rem; white-space: nowrap; }
+.progress-text { font-size: 0.9rem; color: var(--gray); font-weight: 500; }
+.progress-bar-outer { flex: 1; min-width: 200px; height: 8px; background: var(--light); border-radius: 4px; overflow: hidden; border: 1px solid var(--border); }
+.progress-bar-inner { height: 100%; width: 0%; background: var(--primary-light); transition: width 0.4s ease; }
+
+.question-wrap { background: var(--white); border: 2px solid var(--ink); border-radius: var(--radius); padding: 30px; box-shadow: var(--shadow); display: none; }
+.question-wrap.visible { display: block; animation: fadeIn 0.4s ease; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+.question-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; }
+.question-numero { font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; font-weight: 700; color: var(--ink); }
+.question-tags { display: flex; gap: 8px; flex-wrap: wrap; }
+.question-tag { background: var(--light); border: 1px solid var(--border); color: var(--ink); padding: 3px 10px; border-radius: 3px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; font-family: 'JetBrains Mono', monospace; }
+.question-tag.matiere { background: var(--ink); color: var(--white); border-color: var(--ink); }
+
+.question-texte { font-size: 1.25rem; font-weight: 600; color: var(--ink); margin-bottom: 25px; line-height: 1.5; font-family: 'Fraunces', 'Tajawal', serif; }
+
+.reponses-liste { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+.reponse-btn { display: flex; align-items: center; gap: 15px; background: var(--light); border: 2px solid var(--border); padding: 14px 18px; border-radius: var(--radius-sm); cursor: pointer; font-family: inherit; font-size: 0.98rem; font-weight: 500; color: var(--ink); text-align: left; transition: var(--transition); }
+[dir="rtl"] .reponse-btn { text-align: right; }
+.reponse-btn:hover:not(:disabled) { border-color: var(--ink); transform: translateX(4px); }
+[dir="rtl"] .reponse-btn:hover:not(:disabled) { transform: translateX(-4px); }
+.reponse-btn:disabled { cursor: not-allowed; }
+.reponse-lettre { width: 30px; height: 30px; border-radius: 4px; background: var(--white); border: 1px solid var(--ink); color: var(--ink); display: flex; align-items: center; justify-content: center; font-weight: 700; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; flex-shrink: 0; }
+.reponse-btn.correct { border-color: var(--success); background: rgba(42,157,143,0.08); }
+.reponse-btn.correct .reponse-lettre { background: var(--success); border-color: var(--success); color: white; }
+.reponse-btn.incorrect { border-color: var(--danger); background: rgba(192,72,63,0.08); }
+.reponse-btn.incorrect .reponse-lettre { background: var(--danger); border-color: var(--danger); color: white; }
+
+.explication { background: var(--light); border-left: 4px solid var(--primary-light); padding: 15px 20px; border-radius: var(--radius-sm); margin-bottom: 20px; display: none; }
+[dir="rtl"] .explication { border-left: none; border-right: 4px solid var(--primary-light); }
+.explication.visible { display: block; animation: fadeIn 0.3s ease; }
+.explication-title { font-size: 0.8rem; font-weight: 700; color: var(--primary-light); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; display: flex; align-items: center; gap: 6px; }
+.explication-texte { font-size: 0.95rem; color: var(--ink); line-height: 1.6; }
+
+.question-actions { display: flex; justify-content: space-between; align-items: center; gap: 15px; padding-top: 20px; border-top: 1px dashed var(--border); flex-wrap: wrap; }
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 24px; border-radius: var(--radius-sm); font-weight: 600; font-size: 0.9rem; border: 2px solid transparent; cursor: pointer; transition: var(--transition); font-family: inherit; }
+.btn-primary { background: var(--ink); color: var(--white); }
+.btn-primary:hover:not(:disabled) { background: var(--primary-light); border-color: var(--primary-light); transform: translateY(-2px); }
+.btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
+.btn-outline { background: transparent; border-color: var(--ink); color: var(--ink); }
+.btn-outline:hover { background: var(--ink); color: var(--white); }
+
+.ecran-final { display: none; background: var(--white); border: 2px solid var(--ink); border-radius: var(--radius); padding: 40px 30px; text-align: center; box-shadow: var(--shadow-lg); }
+.ecran-final.visible { display: block; animation: fadeIn 0.5s ease; }
+.ecran-final .trophee { font-size: 4rem; margin-bottom: 15px; }
+.ecran-final h2 { font-size: 1.8rem; font-weight: 600; color: var(--ink); margin-bottom: 10px; }
+.ecran-final .score-final { font-family: 'JetBrains Mono', monospace; font-size: 3rem; font-weight: 700; color: var(--primary-light); margin: 15px 0; }
+.ecran-final .message { color: var(--gray); font-size: 1.05rem; margin-bottom: 30px; max-width: 500px; margin-left: auto; margin-right: auto; }
+
+@media (max-width: 991px) {
+  .menu-toggle { display: block; }
+  .nav-links {
+    position: absolute; top: 100%; left: 0; right: 0;
+    background: var(--white);
+    flex-direction: column;
+    padding: 20px; gap: 15px;
+    border-bottom: 2px solid var(--ink);
+    box-shadow: var(--shadow-lg);
+    display: none;
+    z-index: 1000;
+  }
+  .nav-links.active { display: flex; }
+  .nav-links a { font-size: 1rem; width: 100%; text-align: center; }
+  .hero-page h1 { font-size: 2.2rem; }
+}
+@media (max-width: 768px) {
+  nav { padding: 10px 4%; }
+  .logo-img-wrap { width: 42px; height: 42px; }
+  .logo-texte .titre { font-size: 1.1rem; }
+  .logo-texte .arabe { font-size: 0.63rem; }
+  .nav-right { gap: 8px; }
+  .btn-back span { display: none; }
+  .btn-back { padding: 8px 12px; }
+  .hero-page { padding: 100px 4% 50px; }
+  .hero-page h1 { font-size: 1.8rem; }
+  .question-wrap { padding: 20px; }
+  .question-texte { font-size: 1.1rem; }
+  .question-actions { flex-direction: column; }
+  .question-actions .btn { width: 100%; justify-content: center; }
+  .ecran-final { padding: 30px 20px; }
+}
+@media (max-width: 480px) {
+  .hero-page h1 { font-size: 1.5rem; }
+  .logo-texte { display: none; }
+  .logo-img-wrap { width: 40px; height: 40px; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="../index.html" class="logo">
+    <div class="logo-img-wrap"><img src="../assets/logo-darrssy.png" alt="DARRSSY"></div>
+    <div class="logo-texte">
+      <span class="titre">DARRSSY</span>
+      <span class="arabe">دَرْسِي</span>
+    </div>
+  </a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="index.html" data-i18n="nav.maths_home">Accueil</a></li>
+    <li><a href="maths-cours.html" data-i18n="nav.cours">Cours</a></li>
+    <li><a href="maths-exercices.html" data-i18n="nav.exercices">Exercices</a></li>
+    <li><a href="maths-examens.html" data-i18n="nav.examens">Examens</a></li>
+    <li><a href="traceur-graphe.html" data-i18n="nav.traceur">Traceur</a></li>
+    <li><a href="calculateur-limites.html" data-i18n="nav.limites">Limites</a></li>
+    <li><a href="maths-formules.html" data-i18n="nav.formules">Formules</a></li>
+    <li><a href="maths-qcm.html" class="actif" data-i18n="nav.qcm">QCM</a></li>
+  </ul>
+  <div class="nav-right">
+    <div class="lang-switcher">
+      <button class="lang-btn actif" data-lang="fr">FR</button>
+      <button class="lang-btn" data-lang="ar">AR</button>
+    </div>
+    <a href="../index.html" class="btn-back"><i class="fas fa-home"></i> <span data-i18n="nav.back">Retour au site</span></a>
+    <button class="menu-toggle" id="menuToggle" aria-label="Menu"><i class="fas fa-bars"></i></button>
+  </div>
+</nav>
+
+<section class="hero-page">
+  <div class="hero-page-content">
+    <h1><span data-i18n="qcm.titre1">QCM</span> <span data-i18n="qcm.titre2">Mathématiques</span></h1>
+    <p data-i18n="qcm.desc">Testez vos connaissances en Mathématiques. 10 questions tirées au hasard. Correction immédiate.</p>
+  </div>
+</section>
+
+<div class="conteneur">
+  <div class="filtres-bar" id="filtresBar">
+    <button class="filtre-btn actif" data-niveau="all"><i class="fas fa-th"></i> <span data-i18n="filtre.tous">Tous niveaux</span></button>
+    <button class="filtre-btn" data-niveau="tronc"><i class="fas fa-square-root-alt"></i> <span data-i18n="niveau.tronc">Tronc Commun</span></button>
+    <button class="filtre-btn" data-niveau="1bac"><i class="fas fa-superscript"></i> <span data-i18n="niveau.1bac">1ère Bac</span></button>
+    <button class="filtre-btn" data-niveau="2bac"><i class="fas fa-infinity"></i> <span data-i18n="niveau.2bac">2ème Bac</span></button>
+  </div>
+
+  <div class="progress-wrap">
+    <div class="progress-info">
+      <span class="score-badge"><i class="fas fa-star"></i> <span id="scoreText">0 / 10</span></span>
+      <span class="progress-text" id="progressText">Prêt à commencer</span>
+    </div>
+    <div class="progress-bar-outer">
+      <div class="progress-bar-inner" id="progressBar"></div>
+    </div>
+  </div>
+
+  <div class="question-wrap visible" id="questionWrap">
+    <div class="question-header">
+      <span class="question-numero">
+        <i class="fas fa-question-circle"></i>
+        <span data-i18n="qcm.question">Question</span> <span id="questionNum">1</span> / <span id="questionTotal">10</span>
+      </span>
+      <div class="question-tags" id="questionTags"></div>
+    </div>
+    <div class="question-texte" id="questionTexte">Chargement…</div>
+    <div class="reponses-liste" id="reponsesListe"></div>
+    <div class="explication" id="explication">
+      <div class="explication-title"><i class="fas fa-lightbulb"></i> <span data-i18n="qcm.explication">Explication</span></div>
+      <div class="explication-texte" id="explicationTexte"></div>
+    </div>
+    <div class="question-actions">
+      <button class="btn btn-outline" id="btnPasser"><i class="fas fa-forward"></i> <span data-i18n="qcm.passer">Passer</span></button>
+      <button class="btn btn-primary" id="btnSuivant" disabled><span data-i18n="qcm.suivant">Question suivante</span> <i class="fas fa-arrow-right"></i></button>
+    </div>
+  </div>
+
+  <div class="ecran-final" id="ecranFinal">
+    <div class="trophee">🏆</div>
+    <h2 data-i18n="qcm.termine">QCM terminé !</h2>
+    <div class="score-final" id="scoreFinal">0 / 10</div>
+    <p class="message" id="messageFinal"></p>
+    <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+      <button class="btn btn-primary" id="btnRecommencer"><i class="fas fa-redo"></i> <span data-i18n="qcm.recommencer">Recommencer</span></button>
+      <a href="index.html" class="btn btn-outline"><i class="fas fa-home"></i> <span data-i18n="qcm.accueil">Accueil Maths</span></a>
+    </div>
+  </div>
+</div>
+
+<script>
+// ============================================================
+// BASE DE DONNÉES DES QCM MATHÉMATIQUES (50 questions)
+// ============================================================
+const BANQUE_QUESTIONS_MATHS = [
+  // --- TRONC COMMUN (12 questions) ---
+  { niveau: 'tronc', domaine: 'algebre', chap_fr: 'Ensembles', chap_ar: 'المجموعات', q_fr: "Quel ensemble contient tous les entiers relatifs ?", q_ar: "أي مجموعة تحتوي على جميع الأعداد الصحيحة النسبية؟", rep_fr: ["ℕ", "ℤ", "𝔻", "ℝ⁺"], rep_ar: ["ℕ", "ℤ", "𝔻", "ℝ⁺"], ok: 1, expl_fr: "ℤ est l'ensemble des entiers relatifs (..., -2, -1, 0, 1, 2, ...).", expl_ar: "ℤ هي مجموعة الأعداد الصحيحة النسبية." },
+  { niveau: 'tronc', domaine: 'algebre', chap_fr: 'Arithmétique', chap_ar: 'الحسابيات', q_fr: "Un nombre entier n est pair s'il s'écrit sous la forme :", q_ar: "يكون العدد الصحيح n زوجياً إذا كُتب على الشكل:", rep_fr: ["2k + 1", "2k (avec k ∈ ℤ)", "k²", "3k"], rep_ar: ["2k + 1", "2k (حيث k ∈ ℤ)", "k²", "3k"], ok: 1, expl_fr: "Tout entier pair est un multiple de 2 : n = 2k.", expl_ar: "كل عدد زوجي هو مضاعف للعدد 2." },
+  { niveau: 'tronc', domaine: 'algebre', chap_fr: 'Polynômes', chap_ar: 'الحدوديات', q_fr: "Si P(a) = 0 pour un polynôme P(x), alors :", q_ar: "إذا كان P(a) = 0 لحدودية P(x)، فإن:", rep_fr: ["P(x) est divisible par (x + a)", "P(x) est divisible par (x - a)", "P(x) n'a pas de racine", "Le degré de P est 0"], rep_ar: ["P(x) تقبل القسمة على (x + a)", "P(x) تقبل القسمة على (x - a)", "P(x) ليس لها جذر", "درجة P هي 0"], ok: 1, expl_fr: "a est une racine de P, donc P(x) = (x - a)Q(x).", expl_ar: "a جذر للحدودية P، إذن P(x) تقبل القسمة على (x - a)." },
+  { niveau: 'tronc', domaine: 'algebre', chap_fr: 'Équations 2nd degré', chap_ar: 'معادلات الدرجة الثانية', q_fr: "Pour ax² + bx + c = 0 (a ≠ 0), si Δ = b² - 4ac < 0, l'équation admet dans ℝ :", q_ar: "للمعادلة ax² + bx + c = 0 (a ≠ 0)، إذا كان Δ < 0 فإنها تقبل في ℝ:", rep_fr: ["Deux solutions distinctes", "Une solution double", "Aucune solution réelle", "Une infinité de solutions"], rep_ar: ["حلين مختلفين", "حلاً مزدوجاً", "لا حل في ℝ", "ما لا نهاية من الحلول"], ok: 2, expl_fr: "Un discriminant strictement négatif signifie qu'il n'y a pas de racine réelle.", expl_ar: "عندما يكون المميز Δ سالباً قطعا لا توجد حلول حقيقية." },
+  { niveau: 'tronc', domaine: 'algebre', chap_fr: 'Ordre dans ℝ', chap_ar: 'الترتيب في ℝ', q_fr: "La valeur absolue |x - 3| ≤ 2 équivaut à :", q_ar: "القيمة المطلقة |x - 3| ≤ 2 تكافئ:", rep_fr: ["x ∈ [1 ; 5]", "x ∈ [-2 ; 2]", "x ∈ [3 ; 5]", "x ∈ [-1 ; 5]"], rep_ar: ["x ∈ [1 ; 5]", "x ∈ [-2 ; 2]", "x ∈ [3 ; 5]", "x ∈ [-1 ; 5]"], ok: 0, expl_fr: "-2 ≤ x - 3 ≤ 2 ⇔ 1 ≤ x ≤ 5.", expl_ar: "-2 ≤ x - 3 ≤ 2 تكافئ 1 ≤ x ≤ 5." },
+  { niveau: 'tronc', domaine: 'analyse', chap_fr: 'Fonctions', chap_ar: 'الدوال', q_fr: "Une fonction f est dite paire si pour tout x ∈ Df :", q_ar: "تكون الدالة f زوجية إذا كان لكل x ∈ Df:", rep_fr: ["f(-x) = -f(x)", "f(-x) = f(x)", "f(x + 1) = f(x)", "f(0) = 0"], rep_ar: ["f(-x) = -f(x)", "f(-x) = f(x)", "f(x + 1) = f(x)", "f(0) = 0"], ok: 1, expl_fr: "La courbe d'une fonction paire est symétrique par rapport à l'axe des ordonnées.", expl_ar: "منحنى الدالة الزوجية متماثل بالنسبة لمحور الأراتيب." },
+  { niveau: 'tronc', domaine: 'analyse', chap_fr: 'Fonctions usuelles', chap_ar: 'الدوال الاعتيادية', q_fr: "Le domaine de définition de f(x) = √(x - 2) est :", q_ar: "مجموعة تعريف الدالة f(x) = √(x - 2) هي:", rep_fr: ["ℝ", "[2 ; +∞[", "]2 ; +∞[", "]-∞ ; 2]"], rep_ar: ["ℝ", "[2 ; +∞[", "]2 ; +∞[", "]-∞ ; 2]"], ok: 1, expl_fr: "Il faut x - 2 ≥ 0, soit x ≥ 2.", expl_ar: "يجب أن يكون x - 2 ≥ 0، أي x ≥ 2." },
+  { niveau: 'tronc', domaine: 'geometrie', chap_fr: 'Vecteurs', chap_ar: 'المتجهات', q_fr: "Deux vecteurs u⃗ et v⃗ sont colinéaires si et seulement si :", q_ar: "تكون المتجهتان u⃗ و v⃗ مستقيميتين إذا وفقط إذا كان:", rep_fr: ["u⃗ · v⃗ = 0", "det(u⃗, v⃗) = 0", "‖u⃗‖ = ‖v⃗‖", "u⃗ + v⃗ = 0⃗"], rep_ar: ["u⃗ · v⃗ = 0", "det(u⃗, v⃗) = 0", "‖u⃗‖ = ‖v⃗‖", "u⃗ + v⃗ = 0⃗"], ok: 1, expl_fr: "det(u⃗, v⃗) = x·y' - y·x' = 0 caractérise la colinéarité.", expl_ar: "المحددة det(u⃗, v⃗) = 0 تميز الاستقامية." },
+  { niveau: 'tronc', domaine: 'geometrie', chap_fr: 'Droite dans le plan', chap_ar: 'المستقيم في المستوى', q_fr: "Deux droites d'équations y = mx + p et y = m'x + p' sont parallèles si :", q_ar: "يكون المستقيمان y = mx + p و y = m'x + p' متوازيين إذا كان:", rep_fr: ["m × m' = -1", "m = m'", "p = p'", "m + m' = 0"], rep_ar: ["m × m' = -1", "m = m'", "p = p'", "m + m' = 0"], ok: 1, expl_fr: "Deux droites parallèles ont le même coefficient directeur (pente) m = m'.", expl_ar: "المستقيمان المتوازيان لهما نفس المعامل الموجه m = m'." },
+  { niveau: 'tronc', domaine: 'geometrie', chap_fr: 'Trigonométrie', chap_ar: 'حساب المثلثات', q_fr: "Pour tout réel x, cos²(x) + sin²(x) est égal à :", q_ar: "لكل عدد حقيقي x، cos²(x) + sin²(x) يساوي:", rep_fr: ["0", "1", "2", "-1"], rep_ar: ["0", "1", "2", "-1"], ok: 1, expl_fr: "C'est l'identité trigonométrique fondamentale sur le cercle trigonométrique.", expl_ar: "إنها المتطابقة المثلثية الأساسية." },
+  { niveau: 'tronc', domaine: 'geometrie', chap_fr: 'Trigonométrie', chap_ar: 'حساب المثلثات', q_fr: "La valeur exacte de cos(π/3) est :", q_ar: "القيمة المضبوطة لـ cos(π/3) هي:", rep_fr: ["√3/2", "1/2", "√2/2", "0"], rep_ar: ["√3/2", "1/2", "√2/2", "0"], ok: 1, expl_fr: "cos(π/3) = 1/2 et sin(π/3) = √3/2.", expl_ar: "cos(π/3) = 1/2 و sin(π/3) = √3/2." },
+  { niveau: 'tronc', domaine: 'geometrie', chap_fr: 'Produit scalaire', chap_ar: 'الجداء السلمي', q_fr: "Le produit scalaire u⃗ · v⃗ de deux vecteurs orthogonaux vaut :", q_ar: "الجداء السلمي u⃗ · v⃗ لمتجهتين متعامدتين يساوي:", rep_fr: ["1", "-1", "0", "‖u⃗‖·‖v⃗‖"], rep_ar: ["1", "-1", "0", "‖u⃗‖·‖v⃗‖"], ok: 2, expl_fr: "u⃗ ⊥ v⃗ ⇔ u⃗ · v⃗ = 0 (car cos(π/2) = 0).", expl_ar: "التعامد يكافئ الجداء السلمي منعدم." },
+
+  // --- 1ÈRE BAC (14 questions) ---
+  { niveau: '1bac', domaine: 'algebre', chap_fr: 'Logique', chap_ar: 'المنطق', q_fr: "La négation de la proposition (∀x ∈ ℝ, P(x)) est :", q_ar: "نفي العبارة (∀x ∈ ℝ, P(x)) هو:", rep_fr: ["∀x ∈ ℝ, non P(x)", "∃x ∈ ℝ, non P(x)", "∃x ∈ ℝ, P(x)", "∀x ∉ ℝ, P(x)"], rep_ar: ["∀x ∈ ℝ, non P(x)", "∃x ∈ ℝ, non P(x)", "∃x ∈ ℝ, P(x)", "∀x ∉ ℝ, P(x)"], ok: 1, expl_fr: "La négation de « pour tout » (∀) est « il existe au moins un » (∃) avec négation de P(x).", expl_ar: "نفي المكمم الكوني ∀ هو المكمم الوجودي ∃ مع نفي P(x)." },
+  { niveau: '1bac', domaine: 'algebre', chap_fr: 'Logique', chap_ar: 'المنطق', q_fr: "L'implication P ⇒ Q est équivalente à sa contraposée :", q_ar: "الاستلزام P ⇒ Q يكافئ عكس نقيضه:", rep_fr: ["Q ⇒ P", "non Q ⇒ non P", "non P ⇒ non Q", "P et Q"], rep_ar: ["Q ⇒ P", "non Q ⇒ non P", "non P ⇒ non Q", "P و Q"], ok: 1, expl_fr: "La contraposée de P ⇒ Q est (non Q) ⇒ (non P).", expl_ar: "عكس نقيض P ⇒ Q هو (non Q) ⇒ (non P)." },
+  { niveau: '1bac', domaine: 'analyse', chap_fr: 'Suites arithmétiques', chap_ar: 'المتتاليات الحسابية', q_fr: "Pour une suite arithmétique (uₙ) de raison r, uₙ s'écrit :", q_ar: "لمتتالية حسابية (uₙ) أساسها r، الحد العام uₙ يكتب:", rep_fr: ["u₀ × rⁿ", "u₀ + n·r", "u₀ + rⁿ", "n·u₀ + r"], rep_ar: ["u₀ × rⁿ", "u₀ + n·r", "u₀ + rⁿ", "n·u₀ + r"], ok: 1, expl_fr: "Formule du terme général d'une suite arithmétique : uₙ = u₀ + n·r.", expl_ar: "الحد العام للمتتالية الحسابية هو uₙ = u₀ + n·r." },
+  { niveau: '1bac', domaine: 'analyse', chap_fr: 'Suites géométriques', chap_ar: 'المتتاليات الهندسية', q_fr: "Pour une suite géométrique (vₙ) de raison q ≠ 1, la somme v₀ + v₁ + ... + vₙ vaut :", q_ar: "لمتتالية هندسية (vₙ) أساسها q ≠ 1، المجموع v₀ + v₁ + ... + vₙ يساوي:", rep_fr: ["v₀ · (1 - qⁿ⁺¹)/(1 - q)", "v₀ · (1 - qⁿ)/(1 - q)", "(n + 1) · v₀", "v₀ · qⁿ"], rep_ar: ["v₀ · (1 - qⁿ⁺¹)/(1 - q)", "v₀ · (1 - qⁿ)/(1 - q)", "(n + 1) · v₀", "v₀ · qⁿ"], ok: 0, expl_fr: "Il y a (n + 1) termes, donc S = v₀ × (1 - qⁿ⁺¹) / (1 - q).", expl_ar: "يوجد (n + 1) حداً، إذن S = v₀ × (1 - qⁿ⁺¹) / (1 - q)." },
+  { niveau: '1bac', domaine: 'analyse', chap_fr: 'Limites', chap_ar: 'النهايات', q_fr: "La limite lim(x→0) sin(x) / x est égale à :", q_ar: "النهاية lim(x→0) sin(x) / x تساوي:", rep_fr: ["0", "+∞", "1", "-1"], rep_ar: ["0", "+∞", "1", "-1"], ok: 2, expl_fr: "C'est une limite trigonométrique usuelle fondamentale : lim(x→0) sin(x)/x = 1.", expl_ar: "إنها نهاية مثلثية اعتيادية تساوي 1." },
+  { niveau: '1bac', domaine: 'analyse', chap_fr: 'Dérivation', chap_ar: 'الاشتقاق', q_fr: "La dérivée de la fonction f(x) = xⁿ (n ∈ ℕ*) est :", q_ar: "مشتقة الدالة f(x) = xⁿ (n ∈ ℕ*) هي:", rep_fr: ["xⁿ⁻¹", "n·xⁿ⁻¹", "n·xⁿ⁺¹", "(n-1)·xⁿ"], rep_ar: ["xⁿ⁻¹", "n·xⁿ⁻¹", "n·xⁿ⁺¹", "(n-1)·xⁿ"], ok: 1, expl_fr: "(xⁿ)' = n·xⁿ⁻¹.", expl_ar: "مشتقة xⁿ هي n·xⁿ⁻¹." },
+  { niveau: '1bac', domaine: 'analyse', chap_fr: 'Dérivation', chap_ar: 'الاشتقاق', q_fr: "La dérivée d'un quotient (u / v)' est égale à :", q_ar: "مشتقة خارج دالتين (u / v)' تساوي:", rep_fr: ["u' / v'", "(u'v - uv') / v²", "(u'v + uv') / v²", "(uv' - u'v) / v"], rep_ar: ["u' / v'", "(u'v - uv') / v²", "(u'v + uv') / v²", "(uv' - u'v) / v"], ok: 1, expl_fr: "Formule de dérivation d'un quotient : (u/v)' = (u'v - uv') / v².", expl_ar: "مشتقة خارج دالتين هي (u'v - uv') / v²." },
+  { niveau: '1bac', domaine: 'analyse', chap_fr: 'Dérivation', chap_ar: 'الاشتقاق', q_fr: "L'équation de la tangente à la courbe de f au point d'abscisse a est :", q_ar: "معادلة المماس لمنحنى الدالة f عند النقطة ذات الأفصول a هي:", rep_fr: ["y = f'(a)(x - a) + f(a)", "y = f(a)(x - a) + f'(a)", "y = f'(a)x + a", "y = f'(x) + f(a)"], rep_ar: ["y = f'(a)(x - a) + f(a)", "y = f(a)(x - a) + f'(a)", "y = f'(a)x + a", "y = f'(x) + f(a)"], ok: 0, expl_fr: "Le nombre dérivé f'(a) est la pente de la tangente en a.", expl_ar: "العدد المشتق f'(a) هو ميل المماس عند a." },
+  { niveau: '1bac', domaine: 'geometrie', chap_fr: 'Barycentre', chap_ar: 'المرجح', q_fr: "Le barycentre G de (A, α) et (B, β) existe si et seulement si :", q_ar: "يوجد المرجح G للنقطتين المتزنتين (A, α) و (B, β) إذا وفقط إذا كان:", rep_fr: ["α · β ≠ 0", "α + β ≠ 0", "α = β", "α - β ≠ 0"], rep_ar: ["α · β ≠ 0", "α + β ≠ 0", "α = β", "α - β ≠ 0"], ok: 1, expl_fr: "La somme des poids doit être non nulle : α + β ≠ 0.", expl_ar: "يجب أن يكون مجموع المعاملات غير منعدم: α + β ≠ 0." },
+  { niveau: '1bac', domaine: 'geometrie', chap_fr: 'Analytique du plan', chap_ar: 'التحليلية في المستوى', q_fr: "La distance du point A(x₀, y₀) à la droite (D) : ax + by + c = 0 est :", q_ar: "مسافة النقطة A(x₀, y₀) عن المستقيم (D) : ax + by + c = 0 هي:", rep_fr: ["|ax₀ + by₀ + c| / (a² + b²)", "|ax₀ + by₀ + c| / √(a² + b²)", "(ax₀ + by₀) / √(a + b)", "√(x₀² + y₀²)"], rep_ar: ["|ax₀ + by₀ + c| / (a² + b²)", "|ax₀ + by₀ + c| / √(a² + b²)", "(ax₀ + by₀) / √(a + b)", "√(x₀² + y₀²)"], ok: 1, expl_fr: "d(A, (D)) = |ax₀ + by₀ + c| / √(a² + b²).", expl_ar: "المسافة هي |ax₀ + by₀ + c| / √(a² + b²)." },
+  { niveau: '1bac', domaine: 'geometrie', chap_fr: 'Cercle', chap_ar: 'الدائرة', q_fr: "L'équation d'un cercle de centre Ω(a, b) et de rayon R est :", q_ar: "معادلة الدائرة التي مركزها Ω(a, b) وشعاعها R هي:", rep_fr: ["(x + a)² + (y + b)² = R", "(x - a)² + (y - b)² = R²", "(x - a)² - (y - b)² = R²", "x² + y² = a² + b²"], rep_ar: ["(x + a)² + (y + b)² = R", "(x - a)² + (y - b)² = R²", "(x - a)² - (y - b)² = R²", "x² + y² = a² + b²"], ok: 1, expl_fr: "M(x, y) ∈ C(Ω, R) ⇔ ΩM² = R² ⇔ (x - a)² + (y - b)² = R².", expl_ar: "ΩM² = R² تكافئ (x - a)² + (y - b)² = R²." },
+  { niveau: '1bac', domaine: 'geometrie', chap_fr: 'Trigonométrie', chap_ar: 'حساب المثلثات', q_fr: "La formule de duplication cos(2x) est égale à :", q_ar: "صيغة ضعف الزاوية cos(2x) تساوي:", rep_fr: ["cos²(x) + sin²(x)", "2cos(x)·sin(x)", "cos²(x) - sin²(x)", "1 - cos²(x)"], rep_ar: ["cos²(x) + sin²(x)", "2cos(x)·sin(x)", "cos²(x) - sin²(x)", "1 - cos²(x)"], ok: 2, expl_fr: "cos(2x) = cos²(x) - sin²(x) = 2cos²(x) - 1 = 1 - 2sin²(x).", expl_ar: "cos(2x) = cos²(x) - sin²(x)." },
+  { niveau: '1bac', domaine: 'proba', chap_fr: 'Dénombrement', chap_ar: 'التعداد', q_fr: "Le nombre de combinaisons de p éléments parmi n (Cₙᵖ) vaut :", q_ar: "عدد التأليفات لـ p عنصر من بين n عنصر (Cₙᵖ) يساوي:", rep_fr: ["n! / (n - p)!", "n! / [p!(n - p)!]", "nᵖ", "p! / n!"], rep_ar: ["n! / (n - p)!", "n! / [p!(n - p)!]", "nᵖ", "p! / n!"], ok: 1, expl_fr: "Cₙᵖ = Aₙᵖ / p! = n! / [p!(n - p)!].", expl_ar: "Cₙᵖ = n! / [p!(n - p)!]." },
+  { niveau: '1bac', domaine: 'analyse', chap_fr: 'Rotation', chap_ar: 'الدوران', q_fr: "Une rotation conserve :", q_ar: "يحافظ الدوران على:", rep_fr: ["Uniquement les distances", "Les distances, les angles orientés et le barycentre", "Uniquement les aires", "Rien du tout"], rep_ar: ["المسافات فقط", "المسافات والزوايا الموجهة والمرجح", "المساحات فقط", "لا شيء"], ok: 1, expl_fr: "La rotation est une isométrie qui conserve les distances, les angles, l'alignement et les aires.", expl_ar: "الدوران تقايس يحافظ على المسافات والزوايا والمرجح." },
+
+  // --- 2ÈME BAC (24 questions) ---
+  { niveau: '2bac', domaine: 'analyse', chap_fr: 'Continuité (TVI)', chap_ar: 'الاتصال (مبرهنة القيم الوسطية)', q_fr: "Si f est continue et strictement monotone sur [a, b] et f(a)·f(b) < 0, alors f(x) = 0 admet sur ]a, b[ :", q_ar: "إذا كانت f متصلة ورتيبة قطعا على [a, b] وكان f(a)·f(b) < 0، فإن المعادلة f(x) = 0 تقبل في ]a, b[:", rep_fr: ["Au moins deux solutions", "Une solution unique", "Aucune solution", "Une infinité de solutions"], rep_ar: ["حلين على الأقل", "حلاً وحيداً", "لا حل", "ما لا نهاية من الحلول"], ok: 1, expl_fr: "C'est le corollaire du Théorème des Valeurs Intermédiaires (TVI).", expl_ar: "إنها نتيجة مبرهنة القيم الوسطية." },
+  { niveau: '2bac', domaine: 'analyse', chap_fr: 'Fonction réciproque', chap_ar: 'الدالة العكسية', q_fr: "Les courbes Cf et Cf⁻¹ d'une bijection et de sa réciproque sont symétriques par rapport à :", q_ar: "منحنى الدالة f ومنحنى دالتها العكسية f⁻¹ متماثلان بالنسبة لـ:", rep_fr: ["L'axe des abscisses", "L'axe des ordonnées", "La première bissectrice y = x", "L'origine O"], rep_ar: ["محور الأفاصيل", "محور الأراتيب", "المنصف الأول y = x", "أصل المعلم O"], ok: 2, expl_fr: "(x, y) ∈ Cf ⇔ (y, x) ∈ Cf⁻¹, ce qui correspond à la symétrie d'axe y = x.", expl_ar: "منحنى f و f⁻¹ متماثلان بالنسبة للمستقيم ذي المعادلة y = x." },
+  { niveau: '2bac', domaine: 'analyse', chap_fr: 'Logarithme népérien', chap_ar: 'اللوغاريتم النبيري', q_fr: "La dérivée de ln(u(x)) (avec u(x) > 0) est :", q_ar: "مشتقة الدالة ln(u(x)) (حيث u(x) > 0) هي:", rep_fr: ["1 / u(x)", "u'(x) / u(x)", "u(x) / u'(x)", "ln(u'(x))"], rep_ar: ["1 / u(x)", "u'(x) / u(x)", "u(x) / u'(x)", "ln(u'(x))"], ok: 1, expl_fr: "(ln ∘ u)' = u' / u.", expl_ar: "مشتقة ln(u) هي u' / u." },
+  { niveau: '2bac', domaine: 'analyse', chap_fr: 'Logarithme népérien', chap_ar: 'اللوغاريتم النبيري', q_fr: "La limite lim(x→+∞) ln(x) / x vaut :", q_ar: "النهاية lim(x→+∞) ln(x) / x تساوي:", rep_fr: ["+∞", "1", "0", "-∞"], rep_ar: ["+∞", "1", "0", "-∞"], ok: 2, expl_fr: "Par croissance comparée, x l'emporte sur ln(x) en +∞, donc ln(x)/x → 0.", expl_ar: "حسب النمو المقارن، lim(x→+∞) ln(x)/x = 0." },
+  { niveau: '2bac', domaine: 'analyse', chap_fr: 'Logarithme népérien', chap_ar: 'اللوغاريتم النبيري', q_fr: "Pour tous réels a > 0 et b > 0, ln(a × b) est égal à :", q_ar: "لكل عددين حقيقيين موجبين قطعا a و b، ln(a × b) يساوي:", rep_fr: ["ln(a) × ln(b)", "ln(a) + ln(b)", "ln(a) - ln(b)", "b · ln(a)"], rep_ar: ["ln(a) × ln(b)", "ln(a) + ln(b)", "ln(a) - ln(b)", "b · ln(a)"], ok: 1, expl_fr: "Le logarithme transforme un produit en somme : ln(ab) = ln(a) + ln(b).", expl_ar: "اللوغاريتم يحول الجداء إلى مجموع." },
+  { niveau: '2bac', domaine: 'analyse', chap_fr: 'Exponentielle', chap_ar: 'الدالة الأسية', q_fr: "La dérivée de e^(u(x)) est :", q_ar: "مشتقة الدالة e^(u(x)) هي:", rep_fr: ["e^(u(x))", "u'(x) · e^(u(x))", "u(x) · e^(u'(x))", "e^(u'(x))"], rep_ar: ["e^(u(x))", "u'(x) · e^(u(x))", "u(x) · e^(u'(x))", "e^(u'(x))"], ok: 1, expl_fr: "(eᵘ)' = u' · eᵘ.", expl_ar: "مشتقة eᵘ هي u' · eᵘ." },
+  { niveau: '2bac', domaine: 'analyse', chap_fr: 'Exponentielle', chap_ar: 'الدالة الأسية', q_fr: "La limite lim(x→-∞) x · eˣ vaut :", q_ar: "النهاية lim(x→-∞) x · eˣ تساوي:", rep_fr: ["-∞", "+∞", "0", "1"], rep_ar: ["-∞", "+∞", "0", "1"], ok: 2, expl_fr: "Par croissance comparée, lim(x→-∞) x·eˣ = 0.", expl_ar: "حسب النهايات الاعتيادية، lim(x→-∞) x·eˣ = 0." },
+  { niveau: '2bac', domaine: 'analyse', chap_fr: 'Convexité', chap_ar: 'التقعر', q_fr: "Si f''(x₀) = 0 et f'' change de signe en x₀, alors le point (x₀, f(x₀)) est :", q_ar: "إذا انعدمت f'' في x₀ مع تغير الإشارة، فإن النقطة (x₀, f(x₀)) هي:", rep_fr: ["Un extremum local", "Un point d'inflexion", "Une asymptote verticale", "Un point anguleux"], rep_ar: ["مطرف محلي", "نقطة انعطاف", "مقارب عمودي", "نقطة مزواة"], ok: 1, expl_fr: "Un changement de concavité (signe de f'') définit un point d'inflexion.", expl_ar: "تغير إشارة المشتقة الثانية f'' يحدد نقطة انعطاف." },
+  { niveau: '2bac', domaine: 'analyse', chap_fr: 'Suites numériques', chap_ar: 'المتتاليات العددية', q_fr: "Toute suite croissante et majorée est :", q_ar: "كل متتالية تزايدية ومكبورة تكون:", rep_fr: ["Divergente vers +∞", "Convergente", "Constante", "Décroissante"], rep_ar: ["متباعدة نحو +∞", "متقاربة", "ثابتة", "تناقصية"], ok: 1, expl_fr: "C'est le théorème de convergence monotone.", expl_ar: "كل متتالية تزايدية ومكبورة فهي متقاربة." },
+  { niveau: '2bac', domaine: 'analyse', chap_fr: 'Suites (qⁿ)', chap_ar: 'المتتاليات (qⁿ)', q_fr: "Si |q| < 1, alors lim(n→+∞) qⁿ vaut :", q_ar: "إذا كان |q| < 1، فإن lim(n→+∞) qⁿ تساوي:", rep_fr: ["1", "+∞", "0", "q"], rep_ar: ["1", "+∞", "0", "q"], ok: 2, expl_fr: "Pour -1 < q < 1, qⁿ tend vers 0 quand n → +∞.", expl_ar: "عندما يكون -1 < q < 1 فإن نهاية qⁿ تساوي 0." },
+  { niveau: '2bac', domaine: 'analyse', chap_fr: 'Intégrales', chap_ar: 'التكامل', q_fr: "Si F est une primitive de f sur [a, b], alors ∫ₐᵇ f(x) dx vaut :", q_ar: "إذا كانت F دالة أصلية لـ f على [a, b]، فإن ∫ₐᵇ f(x) dx يساوي:", rep_fr: ["F(a) - F(b)", "F(b) - F(a)", "F'(b) - F'(a)", "F(b) + F(a)"], rep_ar: ["F(a) - F(b)", "F(b) - F(a)", "F'(b) - F'(a)", "F(b) + F(a)"], ok: 1, expl_fr: "Formule fondamentale du calcul intégral : [F(x)]ₐᵇ = F(b) - F(a).", expl_ar: "∫ₐᵇ f(x) dx = F(b) - F(a)." },
+  { niveau: '2bac', domaine: 'analyse', chap_fr: 'Intégration par parties', chap_ar: 'المكاملة بالأجزاء', q_fr: "La formule d'intégration par parties est ∫ₐᵇ u'(x)v(x) dx = :", q_ar: "صيغة المكاملة بالأجزاء هي ∫ₐᵇ u'(x)v(x) dx = :", rep_fr: ["[uv]ₐᵇ + ∫ₐᵇ uv' dx", "[uv]ₐᵇ - ∫ₐᵇ u(x)v'(x) dx", "[u'v']ₐᵇ - ∫ₐᵇ uv dx", "u(b)v(b) - u(a)v(a)"], rep_ar: ["[uv]ₐᵇ + ∫ₐᵇ uv' dx", "[uv]ₐᵇ - ∫ₐᵇ u(x)v'(x) dx", "[u'v']ₐᵇ - ∫ₐᵇ uv dx", "u(b)v(b) - u(a)v(a)"], ok: 1, expl_fr: "∫ u'v = [uv] - ∫ uv'.", expl_ar: "∫ u'v = [uv] - ∫ uv'." },
+  { niveau: '2bac', domaine: 'analyse', chap_fr: 'Équations différentielles', chap_ar: 'المعادلات التفاضلية', q_fr: "Les solutions de l'équation différentielle y' = ay (a ∈ ℝ) sont :", q_ar: "حلول المعادلة التفاضلية y' = ay (a ∈ ℝ) هي:", rep_fr: ["y(x) = k·e^(ax) (k ∈ ℝ)", "y(x) = k·e^(-ax)", "y(x) = ax + k", "y(x) = k·cos(ax)"], rep_ar: ["y(x) = k·e^(ax) (k ∈ ℝ)", "y(x) = k·e^(-ax)", "y(x) = ax + k", "y(x) = k·cos(ax)"], ok: 0, expl_fr: "La solution générale de y' - ay = 0 est y(x) = k·e^(ax).", expl_ar: "الحل العام للمعادلة y' = ay هو y(x) = k·e^(ax)." },
+  { niveau: '2bac', domaine: 'analyse', chap_fr: 'Équations différentielles', chap_ar: 'المعادلات التفاضلية', q_fr: "Les solutions de y'' + ω²y = 0 (ω ≠ 0) sont de la forme :", q_ar: "حلول المعادلة y'' + ω²y = 0 (ω ≠ 0) تكتب على الشكل:", rep_fr: ["α·e^(ωx) + β·e^(-ωx)", "α·cos(ωx) + β·sin(ωx)", "αx + β", "α·ln(ωx)"], rep_ar: ["α·e^(ωx) + β·e^(-ωx)", "α·cos(ωx) + β·sin(ωx)", "αx + β", "α·ln(ωx)"], ok: 1, expl_fr: "Équation différentielle du second ordre à racines imaginaires pures ±iω.", expl_ar: "حلول المعادلة y'' + ω²y = 0 هي α·cos(ωx) + β·sin(ωx)." },
+  { niveau: '2bac', domaine: 'algebre', chap_fr: 'Nombres complexes', chap_ar: 'الأعداد العقدية', q_fr: "Le module du nombre complexe z = a + ib (a, b ∈ ℝ) est :", q_ar: "معيار العدد العقدي z = a + ib (a, b ∈ ℝ) هو:", rep_fr: ["a² + b²", "√(a² + b²)", "|a| + |b|", "√(a² - b²)"], rep_ar: ["a² + b²", "√(a² + b²)", "|a| + |b|", "√(a² - b²)"], ok: 1, expl_fr: "|z| = √(a² + b²) = √(z · z̄).", expl_ar: "معيار z هو √(a² + b²)." },
+  { niveau: '2bac', domaine: 'algebre', chap_fr: 'Nombres complexes', chap_ar: 'الأعداد العقدية', q_fr: "La formule d'Euler pour cos(θ) s'écrit :", q_ar: "صيغة أولير لـ cos(θ) تكتب:", rep_fr: ["(e^(iθ) - e^(-iθ)) / 2", "(e^(iθ) + e^(-iθ)) / 2", "(e^(iθ) + e^(-iθ)) / 2i", "e^(iθ) + e^(-iθ)"], rep_ar: ["(e^(iθ) - e^(-iθ)) / 2", "(e^(iθ) + e^(-iθ)) / 2", "(e^(iθ) + e^(-iθ)) / 2i", "e^(iθ) + e^(-iθ)"], ok: 1, expl_fr: "cos(θ) = (e^(iθ) + e^(-iθ))/2 et sin(θ) = (e^(iθ) - e^(-iθ))/(2i).", expl_ar: "cos(θ) = (e^(iθ) + e^(-iθ)) / 2." },
+  { niveau: '2bac', domaine: 'algebre', chap_fr: 'Nombres complexes', chap_ar: 'الأعداد العقدية', q_fr: "Si arg((zC - zA)/(zB - zA)) ≡ π/2 [π], alors le triangle ABC est :", q_ar: "إذا كان arg((zC - zA)/(zB - zA)) ≡ π/2 [π]، فإن المثلث ABC:", rep_fr: ["Équilatéral", "Rectangle en A", "Isocèle en B", "Plat"], rep_ar: ["متساوي الأضلاع", "قائم الزاوية في A", "متساوي الساقين في B", "نقط مستقيمية"], ok: 1, expl_fr: "L'angle (AB⃗, AC⃗) vaut ±π/2, donc les droites (AB) et (AC) sont perpendiculaires.", expl_ar: "الزاوية في A قائمة، إذن المثلث قائم الزاوية في A." },
+  { niveau: '2bac', domaine: 'algebre', chap_fr: 'Nombres complexes', chap_ar: 'الأعداد العقدية', q_fr: "La formule de Moivre donne (cos θ + i sin θ)ⁿ =", q_ar: "تعطي صيغة موافر (cos θ + i sin θ)ⁿ =", rep_fr: ["cos(nθ) + i sin(nθ)", "n·cos(θ) + i·n·sin(θ)", "cos(θⁿ) + i sin(θⁿ)", "e^(in)"], rep_ar: ["cos(nθ) + i sin(nθ)", "n·cos(θ) + i·n·sin(θ)", "cos(θⁿ) + i sin(θⁿ)", "e^(in)"], ok: 0, expl_fr: "(e^(iθ))ⁿ = e^(inθ) = cos(nθ) + i sin(nθ).", expl_ar: "(cos θ + i sin θ)ⁿ = cos(nθ) + i sin(nθ)." },
+  { niveau: '2bac', domaine: 'geometrie', chap_fr: 'Géométrie dans l\'espace', chap_ar: 'الهندسة الفضائية', q_fr: "Dans l'espace, un plan d'équation ax + by + cz + d = 0 a pour vecteur normal :", q_ar: "في الفضاء، للمستوى ذي المعادلة ax + by + cz + d = 0 متجهة منظمية هي:", rep_fr: ["n⃗(a, b, d)", "n⃗(a, b, c)", "n⃗(-a, b, c)", "n⃗(d, c, b)"], rep_ar: ["n⃗(a, b, d)", "n⃗(a, b, c)", "n⃗(-a, b, c)", "n⃗(d, c, b)"], ok: 1, expl_fr: "Les coefficients (a, b, c) de x, y, z donnent directement un vecteur normal au plan.", expl_ar: "معاملات x و y و z تحدد إحداثيات المتجهة المنظمية n⃗(a, b, c)." },
+  { niveau: '2bac', domaine: 'geometrie', chap_fr: 'Produit vectoriel', chap_ar: 'الجداء المتجهي', q_fr: "La norme du produit vectoriel ‖u⃗ ∧ v⃗‖ représente :", q_ar: "منظم الجداء المتجهي ‖u⃗ ∧ v⃗‖ يمثل:", rep_fr: ["Le volume du cube", "L'aire du parallélogramme construit sur u⃗ et v⃗", "Le produit scalaire", "La longueur de u⃗ + v⃗"], rep_ar: ["حجم المكعب", "مساحة متوازي الأضلاع المنشأ على u⃗ و v⃗", "الجداء السلمي", "طول u⃗ + v⃗"], ok: 1, expl_fr: "L'aire du triangle ABC est ½ ‖AB⃗ ∧ AC⃗‖.", expl_ar: "مساحة المثلث ABC هي ½ ‖AB⃗ ∧ AC⃗‖." },
+  { niveau: '2bac', domaine: 'geometrie', chap_fr: 'Sphère dans l\'espace', chap_ar: 'الفلكة في الفضاء', q_fr: "Un plan (P) est tangent à une sphère S(Ω, R) si :", q_ar: "يكون المستوى (P) مماساً للفلكة S(Ω, R) إذا كان:", rep_fr: ["d(Ω, (P)) < R", "d(Ω, (P)) = R", "d(Ω, (P)) > R", "d(Ω, (P)) = 0"], rep_ar: ["d(Ω, (P)) < R", "d(Ω, (P)) = R", "d(Ω, (P)) > R", "d(Ω, (P)) = 0"], ok: 1, expl_fr: "La distance du centre Ω au plan doit être égale au rayon R.", expl_ar: "يجب أن تساوي مسافة المركز Ω عن المستوى الشعاع R." },
+  { niveau: '2bac', domaine: 'proba', chap_fr: 'Probabilités', chap_ar: 'الاحتمالات', q_fr: "La probabilité conditionnelle P_A(B) (ou P(B|A)) avec P(A) > 0 est :", q_ar: "الاحتمال الشرطي P_A(B) علماً أن P(A) > 0 هو:", rep_fr: ["P(A ∪ B) / P(A)", "P(A ∩ B) / P(A)", "P(A) × P(B)", "P(A ∩ B) / P(B)"], rep_ar: ["P(A ∪ B) / P(A)", "P(A ∩ B) / P(A)", "P(A) × P(B)", "P(A ∩ B) / P(B)"], ok: 1, expl_fr: "P_A(B) = P(A ∩ B) / P(A).", expl_ar: "P_A(B) = P(A ∩ B) / P(A)." },
+  { niveau: '2bac', domaine: 'proba', chap_fr: 'Indépendance', chap_ar: 'الاستقلالية', q_fr: "Deux événements A et B sont indépendants si et seulement si :", q_ar: "يكون الحدثان A و B مستقلين إذا وفقط إذا كان:", rep_fr: ["P(A ∩ B) = 0", "P(A ∩ B) = P(A) × P(B)", "P(A ∪ B) = P(A) + P(B)", "P(A) = P(B)"], rep_ar: ["P(A ∩ B) = 0", "P(A ∩ B) = P(A) × P(B)", "P(A ∪ B) = P(A) + P(B)", "P(A) = P(B)"], ok: 1, expl_fr: "L'indépendance signifie que P(A ∩ B) = P(A) · P(B).", expl_ar: "الاستقلالية تعني P(A ∩ B) = P(A) × P(B)." },
+  { niveau: '2bac', domaine: 'proba', chap_fr: 'Loi binomiale', chap_ar: 'القانون الحداني', q_fr: "Pour une variable aléatoire X suivant une loi binomiale B(n, p), l'espérance E(X) vaut :", q_ar: "لمتغير عشوائي X يتبع القانون الحداني B(n, p)، الأمل الرياضي E(X) يساوي:", rep_fr: ["n + p", "n · p", "n · p · (1 - p)", "√(np)"], rep_ar: ["n + p", "n · p", "n · p · (1 - p)", "√(np)"], ok: 1, expl_fr: "E(X) = n·p et la variance V(X) = n·p·(1 - p).", expl_ar: "الأمل الرياضي E(X) = n·p والمغايرة V(X) = n·p·(1 - p)." }
+];
+
+const trad = {
+  fr: {
+    'nav.back': 'Retour au site',
+    'nav.maths_home': 'Accueil', 'nav.cours': 'Cours', 'nav.exercices': 'Exercices', 'nav.examens': 'Examens', 'nav.traceur': 'Traceur', 'nav.limites': 'Limites', 'nav.formules': 'Formules', 'nav.qcm': 'QCM',
+    'qcm.titre1': 'QCM', 'qcm.titre2': 'Mathématiques',
+    'qcm.desc': 'Testez vos connaissances en Mathématiques. 10 questions tirées au hasard. Correction immédiate.',
+    'filtre.tous': 'Tous niveaux', 'niveau.tronc': 'Tronc Commun', 'niveau.1bac': '1ère Bac', 'niveau.2bac': '2ème Bac',
+    'domaine.algebre': 'Algèbre', 'domaine.analyse': 'Analyse', 'domaine.geometrie': 'Géométrie', 'domaine.proba': 'Probabilités',
+    'qcm.question': 'Question', 'qcm.explication': 'Explication', 'qcm.passer': 'Passer', 'qcm.suivant': 'Question suivante',
+    'qcm.termine': 'QCM terminé !', 'qcm.recommencer': 'Recommencer', 'qcm.accueil': 'Accueil Maths',
+    'score.enCours': 'Question {n} sur {total}',
+    'msg.excellent': 'Excellent ! Tu maîtrises ce sujet en Maths ! 🎉', 'msg.bien': 'Bien joué ! Continue comme ça ! 👍', 'msg.moyen': 'Pas mal ! Révise un peu plus. 💪', 'msg.reviser': 'Courage ! Relis tes cours de Maths et recommence. 📚'
+  },
+  ar: {
+    'nav.back': 'العودة للموقع',
+    'nav.maths_home': 'الرئيسية', 'nav.cours': 'الدروس', 'nav.exercices': 'التمارين', 'nav.examens': 'الامتحانات', 'nav.traceur': 'راسم الدوال', 'nav.limites': 'حاسبة النهايات', 'nav.formules': 'الصيغ', 'nav.qcm': 'اختبار',
+    'qcm.titre1': 'اختبارات', 'qcm.titre2': 'الرياضيات',
+    'qcm.desc': 'اختبر معلوماتك في الرياضيات. 10 أسئلة عشوائية. تصحيح فوري.',
+    'filtre.tous': 'جميع المستويات', 'niveau.tronc': 'الجذع المشترك', 'niveau.1bac': 'الأولى باك', 'niveau.2bac': 'الثانية باك',
+    'domaine.algebre': 'الجبر', 'domaine.analyse': 'التحليل', 'domaine.geometrie': 'الهندسة', 'domaine.proba': 'الاحتمالات',
+    'qcm.question': 'سؤال', 'qcm.explication': 'التفسير', 'qcm.passer': 'تخطي', 'qcm.suivant': 'السؤال التالي',
+    'qcm.termine': 'انتهى الاختبار!', 'qcm.recommencer': 'إعادة', 'qcm.accueil': 'رئيسية الرياضيات',
+    'score.enCours': 'السؤال {n} من {total}',
+    'msg.excellent': 'ممتاز! أنت متمكن في الرياضيات! 🎉', 'msg.bien': 'أحسنت! واصل! 👍', 'msg.moyen': 'لا بأس! راجع أكثر. 💪', 'msg.reviser': 'تشجع! راجع دروسك وأعد المحاولة. 📚'
+  }
+};
+
+let currentLang = localStorage.getItem('darrssy-lang') || 'fr';
+let currentNiveau = 'all';
+let questionsSession = [];
+let indexActuel = 0;
+let score = 0;
+let aRepondu = false;
+
+document.addEventListener('DOMContentLoaded', () => {
+  appliquerLangue(currentLang);
+  bindEvents();
+  lancerSession();
+});
+
+function appliquerLangue(lang) {
+  currentLang = lang;
+  document.getElementById('htmlRoot').setAttribute('lang', lang);
+  document.getElementById('htmlRoot').setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (trad[lang] && trad[lang][key]) el.textContent = trad[lang][key];
+  });
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.classList.toggle('actif', btn.getAttribute('data-lang') === lang);
+  });
+  localStorage.setItem('darrssy-lang', lang);
+  if (questionsSession.length > 0 && !aRepondu) afficherQuestion();
+}
+
+function bindEvents() {
+  const menuToggle = document.getElementById('menuToggle');
+  const navLinks = document.getElementById('navLinks');
+  if (menuToggle && navLinks) {
+    menuToggle.addEventListener('click', () => {
+      navLinks.classList.toggle('active');
+      const icon = menuToggle.querySelector('i');
+      if (icon) {
+        icon.classList.toggle('fa-bars', !navLinks.classList.contains('active'));
+        icon.classList.toggle('fa-times', navLinks.classList.contains('active'));
+      }
+    });
+  }
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.addEventListener('click', () => appliquerLangue(btn.getAttribute('data-lang')));
+  });
+  document.querySelectorAll('.filtre-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.filtre-btn').forEach(b => b.classList.remove('actif'));
+      btn.classList.add('actif');
+      currentNiveau = btn.getAttribute('data-niveau');
+      lancerSession();
+    });
+  });
+  document.getElementById('btnSuivant').addEventListener('click', questionSuivante);
+  document.getElementById('btnPasser').addEventListener('click', () => {
+    if (!aRepondu) {
+      aRepondu = true;
+      revelerReponse();
+      document.getElementById('btnSuivant').disabled = false;
+    } else {
+      questionSuivante();
+    }
+  });
+  document.getElementById('btnRecommencer').addEventListener('click', lancerSession);
+}
+
+function lancerSession() {
+  let pool = BANQUE_QUESTIONS_MATHS;
+  if (currentNiveau !== 'all') {
+    pool = BANQUE_QUESTIONS_MATHS.filter(q => q.niveau === currentNiveau);
+  }
+
+  const melange = [...pool].sort(() => Math.random() - 0.5);
+  questionsSession = melange.slice(0, 10);
+
+  indexActuel = 0;
+  score = 0;
+  aRepondu = false;
+
+  document.getElementById('ecranFinal').classList.remove('visible');
+  document.getElementById('questionWrap').classList.add('visible');
+
+  if (questionsSession.length === 0) {
+    document.getElementById('questionTexte').textContent = 'Aucune question disponible pour ce niveau.';
+    return;
+  }
+
+  afficherQuestion();
+  majProgression();
+}
+
+function afficherQuestion() {
+  if (indexActuel >= questionsSession.length) {
+    afficherEcranFinal();
+    return;
+  }
+
+  const q = questionsSession[indexActuel];
+  aRepondu = false;
+
+  document.getElementById('questionNum').textContent = indexActuel + 1;
+  document.getElementById('questionTotal').textContent = questionsSession.length;
+
+  const tags = document.getElementById('questionTags');
+  tags.innerHTML = `
+    <span class="question-tag">${trad[currentLang]['niveau.' + q.niveau] || q.niveau}</span>
+    <span class="question-tag matiere">${trad[currentLang]['domaine.' + q.domaine] || q.domaine}</span>
+    <span class="question-tag">${currentLang === 'fr' ? q.chap_fr : q.chap_ar}</span>
+  `;
+
+  document.getElementById('questionTexte').textContent = currentLang === 'fr' ? q.q_fr : q.q_ar;
+
+  const liste = document.getElementById('reponsesListe');
+  liste.innerHTML = '';
+  const lettres = ['A', 'B', 'C', 'D'];
+  const reponses = currentLang === 'fr' ? q.rep_fr : q.rep_ar;
+
+  reponses.forEach((rep, idx) => {
+    const btn = document.createElement('button');
+    btn.className = 'reponse-btn';
+    btn.innerHTML = `<span class="reponse-lettre">${lettres[idx]}</span><span>${rep}</span>`;
+    btn.addEventListener('click', () => verifierReponse(idx, btn));
+    liste.appendChild(btn);
+  });
+
+  document.getElementById('explication').classList.remove('visible');
+  document.getElementById('btnSuivant').disabled = true;
+
+  const wrap = document.getElementById('questionWrap');
+  wrap.style.animation = 'none';
+  setTimeout(() => { wrap.style.animation = 'fadeIn 0.4s ease'; }, 10);
+
+  majProgression();
+}
+
+function verifierReponse(indexChoisi, btnClique) {
+  if (aRepondu) return;
+  aRepondu = true;
+
+  const q = questionsSession[indexActuel];
+  const tousBtns = document.querySelectorAll('.reponse-btn');
+  tousBtns.forEach(b => b.disabled = true);
+
+  tousBtns[q.ok].classList.add('correct');
+
+  if (indexChoisi !== q.ok) {
+    btnClique.classList.add('incorrect');
+  } else {
+    score++;
+  }
+
+  revelerReponse();
+  document.getElementById('btnSuivant').disabled = false;
+  majProgression();
+}
+
+function revelerReponse() {
+  const q = questionsSession[indexActuel];
+  const tousBtns = document.querySelectorAll('.reponse-btn');
+  tousBtns.forEach(b => b.disabled = true);
+  tousBtns[q.ok].classList.add('correct');
+
+  document.getElementById('explicationTexte').textContent = currentLang === 'fr' ? q.expl_fr : q.expl_ar;
+  document.getElementById('explication').classList.add('visible');
+}
+
+function questionSuivante() {
+  indexActuel++;
+  if (indexActuel >= questionsSession.length) {
+    afficherEcranFinal();
+  } else {
+    afficherQuestion();
+  }
+}
+
+function majProgression() {
+  const total = questionsSession.length;
+  const current = Math.min(indexActuel + 1, total);
+  document.getElementById('scoreText').textContent = `${score} / ${total}`;
+  document.getElementById('progressText').textContent = trad[currentLang]['score.enCours'].replace('{n}', current).replace('{total}', total);
+  const pct = total > 0 ? (current / total) * 100 : 0;
+  document.getElementById('progressBar').style.width = pct + '%';
+}
+
+function afficherEcranFinal() {
+  document.getElementById('questionWrap').classList.remove('visible');
+  const final = document.getElementById('ecranFinal');
+  final.classList.add('visible');
+
+  const total = questionsSession.length;
+  document.getElementById('scoreFinal').textContent = `${score} / ${total}`;
+
+  const pct = total > 0 ? (score / total) * 100 : 0;
+  let msgKey = 'msg.reviser';
+  if (pct >= 80) msgKey = 'msg.excellent';
+  else if (pct >= 60) msgKey = 'msg.bien';
+  else if (pct >= 40) msgKey = 'msg.moyen';
+
+  document.getElementById('messageFinal').textContent = trad[currentLang][msgKey];
+
+  const trophee = final.querySelector('.trophee');
+  if (pct >= 80) trophee.textContent = '🏆';
+  else if (pct >= 60) trophee.textContent = '🥈';
+  else if (pct >= 40) trophee.textContent = '🥉';
+  else trophee.textContent = '📚';
+
+  document.getElementById('progressBar').style.width = '100%';
+}
+</script>
+<script data-goatcounter="https://darrssy.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>
