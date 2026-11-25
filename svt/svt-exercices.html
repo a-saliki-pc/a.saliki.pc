@@ -125,6 +125,7 @@ nav { background: var(--white); border-bottom: 2px solid var(--ink); padding: 10
     <li><a href="svt-examens.html" data-i18n="nav.examens">Examens</a></li>
     <li><a href="svt-schemas.html" data-i18n="nav.schemas">Schémas</a></li>
     <li><a href="svt-formules.html" data-i18n="nav.formules">Lois & Formules</a></li>
+    <li><a href="svt-qcm.html" data-i18n="nav.qcm">QCM</a></li>
   </ul>
   <div class="nav-right">
     <div class="lang-switcher">
@@ -166,13 +167,13 @@ let tousLesExercices = [];
 
 const trad = {
   fr: {
-    'nav.menu': 'Menu', 'nav.home': 'Site', 'nav.svt_home': 'Accueil', 'nav.cours': 'Cours', 'nav.exercices': 'Exercices', 'nav.examens': 'Examens', 'nav.schemas': 'Schémas', 'nav.formules': 'Lois & Formules', 'title': 'Exercices de SVT', 'desc': 'Téléchargez les énoncés et les corrigés des exercices.',
+    'nav.menu': 'Menu', 'nav.home': 'Site', 'nav.svt_home': 'Accueil', 'nav.cours': 'Cours', 'nav.exercices': 'Exercices', 'nav.examens': 'Examens', 'nav.schemas': 'Schémas', 'nav.formules': 'Lois & Formules', 'nav.qcm': 'QCM', 'title': 'Exercices de SVT', 'desc': 'Téléchargez les énoncés et les corrigés des exercices.',
     'lvl.tronc': 'Tronc Commun', 'lvl.1bac': '1ère Année Bac', 'lvl.2bac': '2ème Année Bac',
     'loading': 'Chargement...', 'noExo': 'Aucun exercice disponible pour ce niveau pour le moment.',
     'btn.enonce': 'Télécharger l\'énoncé', 'btn.corrige': 'Télécharger le corrigé', 'btn.indispo': 'Indisponible'
   },
   ar: {
-    'nav.menu': 'القائمة', 'nav.home': 'الموقع', 'nav.svt_home': 'الرئيسية', 'nav.cours': 'الدروس', 'nav.exercices': 'التمارين', 'nav.examens': 'الامتحانات', 'nav.schemas': 'الرسوم التفاعلية', 'nav.formules': 'القوانين والصيغ', 'title': 'تمارين علوم الحياة والأرض', 'desc': 'قم بتحميل نصوص وحلول التمارين.',
+    'nav.menu': 'القائمة', 'nav.home': 'الموقع', 'nav.svt_home': 'الرئيسية', 'nav.cours': 'الدروس', 'nav.exercices': 'التمارين', 'nav.examens': 'الامتحانات', 'nav.schemas': 'الرسوم التفاعلية', 'nav.formules': 'القوانين والصيغ', 'nav.qcm': 'اختبار', 'title': 'تمارين علوم الحياة والأرض', 'desc': 'قم بتحميل نصوص وحلول التمارين.',
     'lvl.tronc': 'الجذع المشترك', 'lvl.1bac': 'الأولى باكالوريا', 'lvl.2bac': 'الثانية باكالوريا',
     'loading': 'جارٍ التحميل...', 'noExo': 'لا يوجد أي تمرين متاح لهذا المستوى حالياً.',
     'btn.enonce': 'تحميل النص', 'btn.corrige': 'تحميل الحل', 'btn.indispo': 'غير متوفر'
