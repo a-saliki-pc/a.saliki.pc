@@ -15,6 +15,7 @@
 :root { 
   --primary: #16213e; --primary-light: #2a9d8f; --accent: #e8a33d; --accent-dark: #c17f1e;
   --ink: #16213e; --gray: #5b6b7a; --gray-light: #93a3b0; --border: #d9d2bb; --light: #faf6ec; --white: #fffdf7;
+  --danger: #c0483f;
   --shadow: 6px 6px 0 rgba(22,33,62,0.08); --shadow-lg: 10px 10px 0 rgba(22,33,62,0.1);
   --radius: 6px; --radius-sm: 4px; --transition: all 0.25s ease;
 }
@@ -144,6 +145,7 @@ nav { background: var(--white); border-bottom: 2px solid var(--ink); padding: 10
     <li><a href="traceur-graphe.html" data-i18n="nav.traceur">Traceur</a></li>
     <li><a href="calculateur-limites.html" data-i18n="nav.limites">Limites</a></li>
     <li><a href="maths-formules.html" data-i18n="nav.formules">Formules</a></li>
+    <li><a href="maths-qcm.html" data-i18n="nav.qcm">QCM</a></li>
   </ul>
   <div class="nav-right">
     <div class="lang-switcher">
@@ -187,13 +189,13 @@ let toutesLesRessources = [];
 
 const trad = {
   fr: {
-    'nav.menu': 'Menu', 'nav.home': 'Site', 'nav.maths_home': 'Accueil', 'nav.cours': 'Cours', 'nav.exercices': 'Exercices', 'nav.examens': 'Examens', 'nav.traceur': 'Traceur', 'nav.limites': 'Limites', 'nav.formules': 'Formules', 'title': 'Cours de Mathématiques', 'desc': 'Cliquez sur un cours pour voir le résumé complet.',
+    'nav.menu': 'Menu', 'nav.home': 'Site', 'nav.maths_home': 'Accueil', 'nav.cours': 'Cours', 'nav.exercices': 'Exercices', 'nav.examens': 'Examens', 'nav.traceur': 'Traceur', 'nav.limites': 'Limites', 'nav.formules': 'Formules', 'nav.qcm': 'QCM', 'title': 'Cours de Mathématiques', 'desc': 'Cliquez sur un cours pour voir le résumé complet.',
     'lvl.tronc': 'Tronc Commun', 'lvl.1bac': '1ère Année Bac', 'lvl.2bac': '2ème Année Bac',
     'loading': 'Chargement...', 'resume': 'Résumé du cours', 'noCours': 'Aucun cours disponible pour ce niveau pour le moment.',
     'ressources': 'Ressources à télécharger', 'noRessources': 'Aucun document disponible pour ce cours.', 'telecharger': 'Télécharger'
   },
   ar: {
-    'nav.menu': 'القائمة', 'nav.home': 'الموقع', 'nav.maths_home': 'الرئيسية', 'nav.cours': 'الدروس', 'nav.exercices': 'التمارين', 'nav.examens': 'الامتحانات', 'nav.traceur': 'راسم الدوال', 'nav.limites': 'حاسبة النهايات', 'nav.formules': 'الصيغ', 'title': 'دروس الرياضيات', 'desc': 'انقر على درس لرؤية الملخص الكامل.',
+    'nav.menu': 'القائمة', 'nav.home': 'الموقع', 'nav.maths_home': 'الرئيسية', 'nav.cours': 'الدروس', 'nav.exercices': 'التمارين', 'nav.examens': 'الامتحانات', 'nav.traceur': 'راسم الدوال', 'nav.limites': 'حاسبة النهايات', 'nav.formules': 'الصيغ', 'nav.qcm': 'اختبار', 'title': 'دروس الرياضيات', 'desc': 'انقر على درس لرؤية الملخص الكامل.',
     'lvl.tronc': 'الجذع المشترك', 'lvl.1bac': 'الأولى باكالوريا', 'lvl.2bac': 'الثانية باكالوريا',
     'loading': 'جارٍ التحميل...', 'resume': 'ملخص الدرس', 'noCours': 'لا يوجد أي درس متاح لهذا المستوى حالياً.',
     'ressources': 'الموارد للتحميل', 'noRessources': 'لا يوجد أي مستند متاح لهذا الدرس.', 'telecharger': 'تحميل'
