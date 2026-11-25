@@ -124,6 +124,7 @@ nav { background: var(--white); border-bottom: 2px solid var(--ink); padding: 10
     <li><a href="traceur-graphe.html" data-i18n="nav.traceur">Traceur</a></li>
     <li><a href="calculateur-limites.html" data-i18n="nav.limites">Limites</a></li>
     <li><a href="maths-formules.html" data-i18n="nav.formules">Formules</a></li>
+    <li><a href="maths-qcm.html" data-i18n="nav.qcm">QCM</a></li>
   </ul>
   <div class="nav-right">
     <div class="lang-switcher">
@@ -165,14 +166,14 @@ let tousLesExamens = [];
 
 const trad = {
   fr: {
-    'nav.menu': 'Menu', 'nav.home': 'Site', 'nav.maths_home': 'Accueil', 'nav.cours': 'Cours', 'nav.exercices': 'Exercices', 'nav.examens': 'Examens', 'nav.traceur': 'Traceur', 'nav.limites': 'Limites', 'nav.formules': 'Formules', 'title': 'Examens de Mathématiques', 'desc': 'Téléchargez les sujets et corrigés des examens.',
+    'nav.menu': 'Menu', 'nav.home': 'Site', 'nav.maths_home': 'Accueil', 'nav.cours': 'Cours', 'nav.exercices': 'Exercices', 'nav.examens': 'Examens', 'nav.traceur': 'Traceur', 'nav.limites': 'Limites', 'nav.formules': 'Formules', 'nav.qcm': 'QCM', 'title': 'Examens de Mathématiques', 'desc': 'Téléchargez les sujets et corrigés des examens.',
     'lvl.tronc': 'Tronc Commun', 'lvl.1bac': '1ère Année Bac', 'lvl.2bac': '2ème Année Bac',
     'loading': 'Chargement...', 'noExam': 'Aucun examen disponible pour ce niveau pour le moment.',
     'type.controle': 'Contrôle', 'type.regional': 'Régional', 'type.national': 'National',
     'btn.sujet': 'Télécharger le sujet', 'btn.corrige': 'Télécharger le corrigé', 'btn.indispo': 'Indisponible'
   },
   ar: {
-    'nav.menu': 'القائمة', 'nav.home': 'الموقع', 'nav.maths_home': 'الرئيسية', 'nav.cours': 'الدروس', 'nav.exercices': 'التمارين', 'nav.examens': 'الامتحانات', 'nav.traceur': 'راسم الدوال', 'nav.limites': 'حاسبة النهايات', 'nav.formules': 'الصيغ', 'title': 'امتحانات الرياضيات', 'desc': 'قم بتحميل مواضيع وحلول الامتحانات.',
+    'nav.menu': 'القائمة', 'nav.home': 'الموقع', 'nav.maths_home': 'الرئيسية', 'nav.cours': 'الدروس', 'nav.exercices': 'التمارين', 'nav.examens': 'الامتحانات', 'nav.traceur': 'راسم الدوال', 'nav.limites': 'حاسبة النهايات', 'nav.formules': 'الصيغ', 'nav.qcm': 'اختبار', 'title': 'امتحانات الرياضيات', 'desc': 'قم بتحميل مواضيع وحلول الامتحانات.',
     'lvl.tronc': 'الجذع المشترك', 'lvl.1bac': 'الأولى باكالوريا', 'lvl.2bac': 'الثانية باكالوريا',
     'loading': 'جارٍ التحميل...', 'noExam': 'لا يوجد أي امتحان متاح لهذا المستوى حالياً.',
     'type.controle': 'فرض', 'type.regional': 'جهوي', 'type.national': 'وطني',
