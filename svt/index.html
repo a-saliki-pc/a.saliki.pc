@@ -114,6 +114,7 @@ nav { position: fixed; top: 0; left: 0; right: 0; background: rgba(250, 246, 236
     <li><a href="svt-examens.html" data-i18n="nav.examens">Examens</a></li>
     <li><a href="svt-schemas.html" data-i18n="nav.schemas">Schémas</a></li>
     <li><a href="svt-formules.html" data-i18n="nav.formules">Lois & Formules</a></li>
+    <li><a href="svt-qcm.html" data-i18n="nav.qcm">QCM</a></li>
   </ul>
   <div class="nav-right">
     <div class="lang-switcher">
@@ -182,6 +183,14 @@ nav { position: fixed; top: 0; left: 0; right: 0; background: rgba(250, 246, 236
       <div class="menu-btn"><span data-i18n="dash.btn.consult">Consulter</span> <i class="fas fa-arrow-right"></i></div>
     </a>
 
+    <!-- 6. QCM SVT -->
+    <a href="svt-qcm.html" class="menu-card">
+      <div class="menu-icon"><i class="fas fa-check-double"></i></div>
+      <h3 data-i18n="dash.qcm.title">QCM SVT</h3>
+      <p data-i18n="dash.qcm.desc">Teste tes connaissances en SVT avec des quiz interactifs corrigés instantanément.</p>
+      <div class="menu-btn"><span data-i18n="dash.btn.launch">Lancer</span> <i class="fas fa-arrow-right"></i></div>
+    </a>
+
   </div>
 </section>
 
@@ -191,7 +200,7 @@ let currentLang = localStorage.getItem('darrssy-lang') || 'fr';
 const trad = {
   fr: {
     'nav.back': 'Retour au site',
-    'nav.svt_home': 'Accueil', 'nav.cours': 'Cours', 'nav.exercices': 'Exercices', 'nav.examens': 'Examens', 'nav.schemas': 'Schémas', 'nav.formules': 'Lois & Formules',
+    'nav.svt_home': 'Accueil', 'nav.cours': 'Cours', 'nav.exercices': 'Exercices', 'nav.examens': 'Examens', 'nav.schemas': 'Schémas', 'nav.formules': 'Lois & Formules', 'nav.qcm': 'QCM',
     'hero.title1': 'Espace', 'hero.title2': 'SVT',
     'hero.desc': 'Explorez les Sciences de la Vie et de la Terre : cours, exercices, examens, schémas interactifs et fiches de révision.',
     'dash.title': 'Que veux-tu faire aujourd\'hui ?', 'dash.desc': 'Choisis une section pour commencer à réviser ou à explorer.',
@@ -200,11 +209,12 @@ const trad = {
     'dash.exams.title': 'Examens', 'dash.exams.desc': 'Prépare-toi avec les examens nationaux et régionaux de SVT, avec leurs corrigés.',
     'dash.schemas.title': 'Schémas interactifs', 'dash.schemas.desc': 'Visualise la structure de l\'ADN, la cellule, et d\'autres concepts clés en 3D/2D.',
     'dash.formules.title': 'Lois et formules', 'dash.formules.desc': 'Lois de la génétique, formules de géologie et constantes biologiques essentielles.',
+    'dash.qcm.title': 'QCM SVT', 'dash.qcm.desc': 'Teste tes connaissances en SVT avec des quiz interactifs corrigés instantanément.',
     'dash.btn.open': 'Ouvrir', 'dash.btn.launch': 'Lancer', 'dash.btn.consult': 'Consulter'
   },
   ar: {
     'nav.back': 'العودة للموقع',
-    'nav.svt_home': 'الرئيسية', 'nav.cours': 'الدروس', 'nav.exercices': 'التمارين', 'nav.examens': 'الامتحانات', 'nav.schemas': 'الرسوم التفاعلية', 'nav.formules': 'القوانين والصيغ',
+    'nav.svt_home': 'الرئيسية', 'nav.cours': 'الدروس', 'nav.exercices': 'التمارين', 'nav.examens': 'الامتحانات', 'nav.schemas': 'الرسوم التفاعلية', 'nav.formules': 'القوانين والصيغ', 'nav.qcm': 'اختبار',
     'hero.title1': 'فضاء', 'hero.title2': 'علوم الحياة والأرض',
     'hero.desc': 'استكشف علوم الحياة والأرض: دروس، تمارين، امتحانات، رسوم تفاعلية وبطاقات مراجعة لجميع المستويات.',
     'dash.title': 'ماذا تريد أن تفعل اليوم؟', 'dash.desc': 'اختر قسماً لتبدأ المراجعة أو الاستكشاف.',
@@ -213,6 +223,7 @@ const trad = {
     'dash.exams.title': 'الامتحانات', 'dash.exams.desc': 'استعد مع الامتحانات الوطنية والجهوية لعلوم الحياة والأرض، مع حلولها.',
     'dash.schemas.title': 'رسوم تفاعلية', 'dash.schemas.desc': 'شاهد بنية الحمض النووي DNA، الخلية، ومفاهيم أساسية أخرى.',
     'dash.formules.title': 'القوانين والصيغ', 'dash.formules.desc': 'قوانين الوراثة، صيغ الجيولوجيا والثوابت البيولوجية الأساسية.',
+    'dash.qcm.title': 'اختبارات SVT', 'dash.qcm.desc': 'اختبر معلوماتك في علوم الحياة والأرض عبر اختبارات تفاعلية بتصحيح فوري.',
     'dash.btn.open': 'فتح', 'dash.btn.launch': 'تشغيل', 'dash.btn.consult': 'استعراض'
   }
 };
