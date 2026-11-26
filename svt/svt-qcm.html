@@ -53,6 +53,21 @@ nav { position: fixed; top: 0; left: 0; right: 0; background: rgba(250, 246, 236
 .btn-back { background: var(--ink); color: var(--white); padding: 8px 16px; border-radius: var(--radius-sm); font-weight: 600; font-size: 0.88rem; transition: var(--transition); display: flex; align-items: center; gap: 6px; border: 2px solid var(--ink); }
 .btn-back:hover { background: var(--white); color: var(--ink); }
 .menu-toggle { display: none; font-size: 1.35rem; cursor: pointer; color: var(--ink); background: none; border: none; padding: 4px; }
+.live-meter-panel { margin-top: 12px; padding-top: 12px; border-top: 1px dashed rgba(255,255,255,0.14); display: flex; align-items: center; gap: 14px; text-align: left; }
+[dir="rtl"] .live-meter-panel { text-align: right; }
+.live-ring-wrap { position: relative; width: 64px; height: 64px; flex-shrink: 0; }
+.live-ring-svg { width: 64px; height: 64px; transform: rotate(-90deg); display: block; }
+.live-ring-track { fill: none; stroke: rgba(255,255,255,0.12); stroke-width: 6; }
+.live-ring-arc { fill: none; stroke: #74c6bb; stroke-width: 6; stroke-linecap: round; stroke-dasharray: 163.36; stroke-dashoffset: 163.36; transition: stroke-dashoffset 0.45s cubic-bezier(0.4,0,0.2,1), stroke 0.3s ease; }
+.live-ring-val { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-family: 'JetBrains Mono', monospace; font-size: 0.86rem; font-weight: 800; color: #fffdf7; }
+.live-meter-info { flex: 1; min-width: 0; }
+.live-meter-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 8px; font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; color: #c9d6df; }
+.live-meter-frac { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); padding: 2px 8px; border-radius: 12px; color: var(--accent); font-weight: 700; }
+.live-streak-dots { display: grid; grid-template-columns: repeat(10, 1fr); gap: 4px; }
+.streak-dot { height: 8px; border-radius: 3px; background: rgba(255,255,255,0.12); transition: background 0.25s ease, box-shadow 0.25s ease; }
+.streak-dot.seg-ok { background: #74c6bb; box-shadow: 0 0 8px rgba(116,198,187,0.45); }
+.streak-dot.seg-ko { background: #f87171; }
+.streak-dot.seg-cur { background: rgba(232,163,61,0.45); box-shadow: 0 0 0 1.5px var(--accent); }
 
 /* CREATIVE SVT HERO */
 .svt-hero {
@@ -309,6 +324,22 @@ footer { background: var(--light); border-top: 2px solid var(--ink); color: var(
         <div class="atlas-stat"><strong>3</strong><span>Niveaux Bac</span></div>
         <div class="atlas-stat"><strong>100%</strong><span>Corrigés</span></div>
       </div>
+      <div class="live-meter-panel">
+        <div class="live-ring-wrap">
+          <svg class="live-ring-svg" viewBox="0 0 64 64">
+            <circle class="live-ring-track" cx="32" cy="32" r="26"></circle>
+            <circle class="live-ring-arc" id="liveRingArc" cx="32" cy="32" r="26"></circle>
+          </svg>
+          <div class="live-ring-val" id="livePctVal">0%</div>
+        </div>
+        <div class="live-meter-info">
+          <div class="live-meter-top">
+            <span id="livePctLabel">Réussite en direct</span>
+            <span class="live-meter-frac" id="livePctSub">0 / 0</span>
+          </div>
+          <div class="live-streak-dots" id="liveStreakDots"></div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -499,6 +530,8 @@ let currentNiveau = 'all';
 let questionsSession = [];
 let indexActuel = 0;
 let score = 0;
+let reponduCount = 0;
+let resultatsSession = [];
 let aRepondu = false;
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -519,6 +552,8 @@ function appliquerLangue(lang) {
     btn.classList.toggle('actif', btn.getAttribute('data-lang') === lang);
   });
   localStorage.setItem('darrssy-lang', lang);
+  const liveLbl = document.getElementById('livePctLabel');
+  if (liveLbl) liveLbl.textContent = lang === 'ar' ? 'نسبة النجاح المباشرة' : 'Réussite en direct';
   if (questionsSession.length > 0 && !aRepondu) afficherQuestion();
 }
 
@@ -550,8 +585,11 @@ function bindEvents() {
   document.getElementById('btnPasser').addEventListener('click', () => {
     if (!aRepondu) {
       aRepondu = true;
+      reponduCount++;
+      resultatsSession.push('ko');
       revelerReponse();
       document.getElementById('btnSuivant').disabled = false;
+      majProgression();
     } else {
       questionSuivante();
     }
@@ -570,6 +608,8 @@ function lancerSession() {
 
   indexActuel = 0;
   score = 0;
+  reponduCount = 0;
+  resultatsSession = [];
   aRepondu = false;
 
   document.getElementById('ecranFinal').classList.remove('visible');
@@ -631,6 +671,7 @@ function afficherQuestion() {
 function verifierReponse(indexChoisi, btnClique) {
   if (aRepondu) return;
   aRepondu = true;
+  reponduCount++;
 
   const q = questionsSession[indexActuel];
   const tousBtns = document.querySelectorAll('.reponse-btn');
@@ -640,8 +681,10 @@ function verifierReponse(indexChoisi, btnClique) {
 
   if (indexChoisi !== q.ok) {
     btnClique.classList.add('incorrect');
+    resultatsSession.push('ko');
   } else {
     score++;
+    resultatsSession.push('ok');
   }
 
   revelerReponse();
@@ -675,6 +718,34 @@ function majProgression() {
   document.getElementById('progressText').textContent = trad[currentLang]['score.enCours'].replace('{n}', current).replace('{total}', total);
   const pct = total > 0 ? (current / total) * 100 : 0;
   document.getElementById('progressBar').style.width = pct + '%';
+
+  const liveArc = document.getElementById('liveRingArc');
+  const liveVal = document.getElementById('livePctVal');
+  const liveSub = document.getElementById('livePctSub');
+  const liveDots = document.getElementById('liveStreakDots');
+  if (liveArc && liveVal && liveSub) {
+    const livePct = reponduCount > 0 ? Math.round((score / reponduCount) * 100) : 0;
+    const circ = 2 * Math.PI * 26;
+    liveArc.style.strokeDashoffset = (circ * (1 - livePct / 100)).toFixed(2);
+    liveArc.style.stroke = reponduCount === 0
+      ? 'rgba(255,255,255,0.22)'
+      : (livePct >= 70 ? '#74c6bb' : (livePct >= 40 ? '#e8a33d' : '#f87171'));
+    liveVal.textContent = livePct + '%';
+    liveSub.textContent = `${score} / ${reponduCount}`;
+  }
+  if (liveDots) {
+    let dotsHtml = '';
+    for (let i = 0; i < total; i++) {
+      let cls = 'streak-dot';
+      if (i < resultatsSession.length) {
+        cls += resultatsSession[i] === 'ok' ? ' seg-ok' : ' seg-ko';
+      } else if (i === indexActuel && !aRepondu) {
+        cls += ' seg-cur';
+      }
+      dotsHtml += `<span class="${cls}"></span>`;
+    }
+    liveDots.innerHTML = dotsHtml;
+  }
 }
 
 function afficherEcranFinal() {
