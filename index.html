@@ -67,8 +67,7 @@ h1, h2, h3 { font-family: 'Fraunces', 'Tajawal', serif; letter-spacing: -0.01em;
 }
 .new-banner.hidden { transform: translateY(-100%); }
 .new-banner-content { display: flex; align-items: center; gap: 15px; flex-wrap: wrap; justify-content: center; max-width: 1200px; width: 100%; }
-.new-badge { background: var(--accent); color: var(--ink); font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; font-weight: 800; padding: 4px 10px; border-radius: 3px; letter-spacing: 1px; animation: pulse-badge 2s infinite; }
-@keyframes pulse-badge { 0%, 100% { box-shadow: 0 0 0 0 rgba(232, 163, 61, 0.7); } 50% { box-shadow: 0 0 0 6px rgba(232, 163, 61, 0); } }
+.new-badge { background: var(--accent); color: var(--ink); font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; font-weight: 800; padding: 4px 10px; border-radius: 3px; letter-spacing: 1px; }
 .new-text { font-size: 0.95rem; font-weight: 500; }
 .new-buttons { display: flex; gap: 10px; }
 .btn-new { padding: 6px 16px; border-radius: 50px; font-weight: 700; font-size: 0.85rem; display: inline-flex; align-items: center; gap: 6px; transition: var(--transition); border: 2px solid white; }
@@ -88,7 +87,6 @@ nav { position: fixed; top: 0; left: 0; right: 0; background: rgba(250, 246, 236
 .logo-img-wrap { position: relative; width: 50px; height: 50px; border-radius: 50%; background: var(--white); padding: 2px; border: 2px solid var(--ink); outline: 1px dashed var(--accent); outline-offset: 3px; flex-shrink: 0; transition: var(--transition); }
 .logo-img-wrap::before { content: ''; position: absolute; inset: 2px; border-radius: 50%; background: white; z-index: 0; }
 .logo-img-wrap img { position: relative; z-index: 1; width: 100%; height: 100%; border-radius: 50%; object-fit: cover; display: block; }
-.logo:hover .logo-img-wrap { transform: rotate(-6deg); }
 .logo-texte { display: flex; flex-direction: column; line-height: 1; }
 .logo-texte .titre { font-family: 'Fraunces', 'Tajawal', serif; font-size: 1.4rem; font-weight: 700; color: var(--ink); letter-spacing: -0.02em; }
 .logo-texte .arabe { font-size: 0.72rem; font-weight: 700; color: var(--primary-light); font-family: 'Tajawal', sans-serif; margin-top: 1px; }
@@ -104,36 +102,42 @@ nav { position: fixed; top: 0; left: 0; right: 0; background: rgba(250, 246, 236
 .lang-btn { background: transparent; border: none; color: var(--ink); font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; font-weight: 700; padding: 8px 14px; cursor: pointer; transition: var(--transition); }
 .lang-btn.actif { background: var(--ink); color: var(--white); }
 .menu-toggle { display: none; font-size: 1.5rem; cursor: pointer; color: var(--primary); background: none; border: none; }
-.hero { min-height: 100vh; background: var(--gradient); display: flex; align-items: center; justify-content: center; padding: 130px 5% 80px; position: relative; overflow: hidden; color: var(--white); }
-.hero::before { content: ''; position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px); background-size: 44px 44px; pointer-events: none; }
-.hero::after { content: ''; position: absolute; top: -20%; right: -10%; width: 520px; height: 520px; border: 1px dashed rgba(232,163,61,0.45); border-radius: 50%; }
-.hero-content { max-width: 1200px; display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 60px; align-items: center; position: relative; z-index: 2; width: 100%; }
-.hero-tag { display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.3); padding: 7px 16px; border-radius: 50px; font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; font-weight: 500; margin-bottom: 22px; }
-.hero-tag .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 8px var(--accent); }
-.hero-text h1 { font-size: 3.5rem; font-weight: 600; line-height: 1.08; margin-bottom: 22px; }
+.hero { min-height: 92vh; background: radial-gradient(circle at 85% 20%, rgba(42,157,143,0.28) 0%, transparent 45%), radial-gradient(circle at 15% 85%, rgba(232,163,61,0.16) 0%, transparent 40%), linear-gradient(135deg, #0a1120 0%, #16213e 52%, #152e3e 100%); display: flex; align-items: center; justify-content: center; padding: 132px 5% 82px; position: relative; overflow: hidden; color: var(--white); border-bottom: 3px solid var(--ink); }
+.hero::before { content: ''; position: absolute; inset: 0; background-image: linear-gradient(rgba(42,157,143,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(42,157,143,0.08) 1px, transparent 1px); background-size: 46px 46px; pointer-events: none; }
+.hero-content { max-width: 1200px; display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 48px; align-items: center; position: relative; z-index: 2; width: 100%; }
+.hero-kicker { display: inline-flex; align-items: center; gap: 8px; background: rgba(232,163,61,0.15); border: 1px solid rgba(232,163,61,0.45); color: var(--accent); padding: 6px 14px; border-radius: 30px; font-family: 'JetBrains Mono', monospace; font-size: 0.76rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 20px; }
+.hero-text h1 { font-size: 3.45rem; font-weight: 700; line-height: 1.08; margin-bottom: 20px; }
 .hero-text h1 span { display: inline; }
-.hero-text h1 span:nth-child(2) { font-style: italic; font-weight: 500; color: var(--accent); }
-.hero-text .sous-titre { font-size: 1.1rem; margin-bottom: 32px; opacity: 0.88; max-width: 520px; font-weight: 400; }
+.hero-text h1 span:nth-child(2) { font-style: italic; font-weight: 600; color: var(--accent); }
+.hero-text .sous-titre { font-size: 1.08rem; margin-bottom: 30px; opacity: 0.88; max-width: 540px; font-weight: 400; }
 .hero-buttons { display: flex; gap: 15px; flex-wrap: wrap; }
 .btn { padding: 14px 30px; border-radius: var(--radius-sm); font-weight: 600; font-size: 0.98rem; cursor: pointer; border: 2px solid transparent; transition: var(--transition); text-decoration: none; display: inline-flex; align-items: center; gap: 10px; font-family: inherit; }
 .btn-primary { background: var(--accent); color: var(--ink); border-color: var(--accent); }
 .btn-primary:hover { background: transparent; color: var(--accent); transform: translateY(-2px); }
 .btn-outline { background: transparent; color: var(--white); border: 2px solid rgba(255,255,255,0.6); }
 .btn-outline:hover { background: var(--white); color: var(--primary); border-color: var(--white); }
-.hero-visual { position: relative; display: flex; justify-content: center; align-items: center; }
-.hero-card { background: var(--white); color: var(--ink); border: 2px solid var(--ink); border-radius: var(--radius); padding: 34px 30px; width: 100%; max-width: 420px; text-align: center; transform: rotate(-2deg); box-shadow: var(--shadow-lg); position: relative; transition: var(--transition); cursor: pointer; }
-.hero-card:hover { transform: rotate(0deg) translateY(-5px); box-shadow: 12px 12px 0 rgba(22,33,62,0.15); }
-.hero-card::before { content: 'FICHE N°1'; position: absolute; top: -13px; left: 26px; background: var(--accent); color: var(--ink); font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; font-weight: 700; padding: 3px 10px; border-radius: 3px; letter-spacing: 0.04em; }
-.hero-logo-wrap { position: relative; width: 118px; height: 118px; margin: 10px auto 20px; border-radius: 50%; background: var(--light); padding: 3px; border: 2px solid var(--ink); outline: 1px dashed var(--primary-light); outline-offset: 5px; }
-.hero-logo-wrap::before { content: ''; position: absolute; inset: 3px; border-radius: 50%; background: white; z-index: 0; }
-.hero-logo-wrap img { position: relative; z-index: 1; width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
-.hero-card h3 { font-size: 1.3rem; margin-bottom: 13px; display: flex; align-items: center; justify-content: center; gap: 10px; font-weight: 600; color: var(--ink); }
-.hero-card h3 i { color: var(--primary-light); }
-.hero-card .tagline { font-size: 0.88rem; color: var(--gray); margin-bottom: 22px; }
-.hero-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-top: 20px; padding-top: 20px; border-top: 1px dashed var(--border); }
-.hero-stat { text-align: center; }
-.hero-stat strong { display: block; font-family: 'JetBrains Mono', monospace; font-size: 1.4rem; font-weight: 700; color: var(--primary-light); }
-.hero-stat span { font-size: 0.74rem; color: var(--gray); }
+.hero-visual { position: relative; display: flex; justify-content: center; align-items: center; width: 100%; }
+.hero-studio-card { background: rgba(14,21,37,0.92); color: var(--white); border: 1.5px solid rgba(232,163,61,0.38); border-radius: 14px; padding: 22px 24px; width: 100%; max-width: 440px; backdrop-filter: blur(10px); box-shadow: 0 18px 40px rgba(0,0,0,0.38); text-align: left; transition: border-color 0.25s ease, transform 0.25s ease; }
+[dir="rtl"] .hero-studio-card { text-align: right; }
+.hero-visual:hover .hero-studio-card { border-color: var(--accent); transform: translateY(-3px); }
+.studio-head { display: flex; align-items: center; justify-content: space-between; padding-bottom: 12px; margin-bottom: 16px; border-bottom: 1px solid rgba(255,255,255,0.08); font-family: 'JetBrains Mono', monospace; font-size: 0.76rem; color: var(--accent); font-weight: 700; }
+.studio-identity { display: flex; align-items: center; gap: 15px; margin-bottom: 18px; }
+.hero-logo-wrap { position: relative; width: 66px; height: 66px; border-radius: 50%; background: var(--white); padding: 2px; border: 2px solid var(--accent); flex-shrink: 0; }
+.hero-logo-wrap img { position: relative; z-index: 1; width: 100%; height: 100%; border-radius: 50%; object-fit: cover; display: block; }
+.studio-identity h3 { font-size: 1.22rem; margin-bottom: 4px; display: flex; align-items: center; gap: 8px; font-weight: 600; color: var(--white); }
+.studio-identity h3 i { color: #3dd9c5; }
+.studio-identity .tagline { font-size: 0.85rem; color: #c9d6df; margin: 0; line-height: 1.4; }
+.studio-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 9px; }
+.studio-stat { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 12px 8px; text-align: center; }
+.studio-stat strong { display: block; font-family: 'JetBrains Mono', monospace; font-size: 1.35rem; font-weight: 700; color: #3dd9c5; line-height: 1.1; }
+.studio-stat span { font-size: 0.71rem; color: #c9d6df; }
+.studio-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 14px; }
+.studio-chip { font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; font-weight: 600; color: #d9e6ee; background: rgba(42,157,143,0.16); border: 1px solid rgba(116,198,187,0.32); padding: 4px 9px; border-radius: 20px; }
+.studio-cta { margin-top: 14px; background: var(--accent); color: var(--ink); border-radius: 8px; padding: 11px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; font-weight: 800; font-size: 0.9rem; transition: background 0.25s ease, transform 0.25s ease; }
+.studio-cta i { transition: transform 0.25s ease; }
+.hero-visual:hover .studio-cta { background: #f3b453; }
+.hero-visual:hover .studio-cta i { transform: translateX(4px); }
+[dir="rtl"] .hero-visual:hover .studio-cta i { transform: translateX(-4px); }
 .instrument { position: absolute; pointer-events: none; z-index: 0; fill: none; stroke-linecap: round; stroke-linejoin: round; }
 #classes, #quiz { position: relative; overflow: hidden; }
 #classes > *:not(.instrument), #quiz > *:not(.instrument) { position: relative; z-index: 1; }
@@ -261,12 +265,12 @@ footer { background: var(--light); border-top: 2px solid var(--ink); color: var(
 @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
 @media (max-width: 900px) {
-  .hero-content { grid-template-columns: 1fr; text-align: center; }
+  .hero-content { grid-template-columns: 1fr; text-align: center; gap: 32px; }
   .hero-text h1 { font-size: 2.5rem; }
   .hero-text .sous-titre { margin: 0 auto 30px; }
   .hero-buttons { justify-content: center; }
   .hero-visual { order: -1; }
-  .hero-card { transform: none; }
+  .hero-studio-card { max-width: 480px; }
   .footer-grid { grid-template-columns: 1fr 1fr; }
   .section-title h2 { font-size: 2rem; }
 }
@@ -291,12 +295,12 @@ footer { background: var(--light); border-top: 2px solid var(--ink); color: var(
   .nav-links .btn-nav { width: 100%; text-align: center; justify-content: center; }
   section { padding: 60px 4%; }
   .section-title h2 { font-size: 1.65rem; }
-  .hero { padding: 100px 4% 60px; }
+  .hero { padding: 100px 4% 60px; min-height: auto; }
   .hero-text h1 { font-size: 2rem; }
-  .hero-card { padding: 28px 22px; }
-  .hero-logo-wrap { width: 100px; height: 100px; }
-  .hero-card h3 { font-size: 1.1rem; }
-  .hero-stat strong { font-size: 1.2rem; }
+  .hero-studio-card { padding: 18px; }
+  .hero-logo-wrap { width: 54px; height: 54px; }
+  .studio-identity h3 { font-size: 1.05rem; }
+  .studio-stat strong { font-size: 1.15rem; }
   .quiz-body { padding: 22px 18px; }
   .quiz-header { padding: 18px; }
   .quiz-header h3 { font-size: 1rem; }
@@ -383,8 +387,8 @@ footer { background: var(--light); border-top: 2px solid var(--ink); color: var(
   </svg>
   <div class="hero-content">
     <div class="hero-text">
-      <div class="hero-tag">
-        <span class="dot"></span>
+      <div class="hero-kicker">
+        <i class="fas fa-atom"></i>
         <span data-i18n="hero.tag">Plateforme Physique-Chimie · Lycée Maroc</span>
       </div>
       <h1>
@@ -402,25 +406,43 @@ footer { background: var(--light); border-top: 2px solid var(--ink); color: var(
       </div>
     </div>
     <a href="simulations.html" class="hero-visual" style="text-decoration: none; color: inherit;">
-      <div class="hero-card">
-        <div class="hero-logo-wrap">
-          <img src="assets/logo-darrssy.png" alt="DARRSSY Logo">
+      <div class="hero-studio-card">
+        <div class="studio-head">
+          <span><i class="fas fa-play-circle"></i> LABO VIRTUEL · LIVE</span>
+          <span>Φ · دَرْسِي</span>
         </div>
-        <h3><i class="fas fa-flask"></i> <span data-i18n="hero.card">Laboratoire interactif</span></h3>
-        <p class="tagline" data-i18n="hero.cardDesc">Apprends avec des simulations et des expériences virtuelles</p>
-        <div class="hero-stats">
-          <div class="hero-stat">
+        <div class="studio-identity">
+          <div class="hero-logo-wrap">
+            <img src="assets/logo-darrssy.png" alt="DARRSSY Logo">
+          </div>
+          <div>
+            <h3><i class="fas fa-wave-square"></i> <span data-i18n="hero.card">Simulations interactives</span></h3>
+            <p class="tagline" data-i18n="hero.cardDesc">Manipule les lois en direct : dipôle RC, ondes, mécanique, chimie…</p>
+          </div>
+        </div>
+        <div class="studio-stats">
+          <div class="studio-stat">
             <strong id="statRessources">+500</strong>
             <span data-i18n="hero.stat1">Ressources</span>
           </div>
-          <div class="hero-stat">
+          <div class="studio-stat">
             <strong id="statCours">+100</strong>
             <span data-i18n="hero.stat2">Cours</span>
           </div>
-          <div class="hero-stat">
+          <div class="studio-stat">
             <strong id="statExercices">+1000</strong>
             <span data-i18n="hero.stat3">Exercices</span>
           </div>
+        </div>
+        <div class="studio-chips">
+          <span class="studio-chip">⚡ Dipôle RC</span>
+          <span class="studio-chip">🌊 Ondes</span>
+          <span class="studio-chip">🧪 Cinétique</span>
+          <span class="studio-chip">🚀 Mécanique</span>
+        </div>
+        <div class="studio-cta">
+          <span data-i18n="hero.cardCta">Lancer une simulation gratuite</span>
+          <i class="fas fa-arrow-right"></i>
         </div>
       </div>
     </a>
@@ -657,8 +679,9 @@ const trad = {
     'hero.titre1': 'Réussis ton Bac avec', 'hero.titre2': 'DARRSSY',
     'hero.desc': 'Cours, exercices, examens et simulations interactives pour réussir ton Bac en Physique-Chimie.',
     'hero.btn1': 'Commencer maintenant', 'hero.btn2': 'Voir les classes',
-    'hero.card': 'Laboratoire interactif',
-    'hero.cardDesc': "Apprends avec des simulations et des expériences virtuelles",
+    'hero.card': 'Simulations interactives',
+    'hero.cardDesc': 'Manipule les lois en direct : dipôle RC, ondes, mécanique, chimie…',
+    'hero.cardCta': 'Lancer une simulation gratuite',
     'hero.stat1': 'Ressources', 'hero.stat2': 'Cours', 'hero.stat3': 'Exercices',
     'classes.badge': 'Niveaux scolaires', 'classes.titre': 'Choisis ta classe',
     'classes.desc': 'Un programme adapté au système éducatif marocain, du Tronc Commun à la 2ème année Bac.',
@@ -701,8 +724,9 @@ const trad = {
     'hero.titre1': 'انجح في الباكالوريا مع', 'hero.titre2': 'DARRSSY',
     'hero.desc': 'دروس، تمارين، امتحانات ومحاكاة تفاعلية للنجاح في الباكالوريا.',
     'hero.btn1': 'ابدأ الآن', 'hero.btn2': 'شاهد المستويات',
-    'hero.card': 'مختبر تفاعلي',
-    'hero.cardDesc': 'تعلم من خلال المحاكاة والتجارب الافتراضية',
+    'hero.card': 'محاكاة تفاعلية',
+    'hero.cardDesc': 'جرّب القوانين مباشرة: ثنائي القطب RC، الموجات، الميكانيك والكيمياء…',
+    'hero.cardCta': 'ابدأ محاكاة مجانية الآن',
     'hero.stat1': 'موارد', 'hero.stat2': 'دروس', 'hero.stat3': 'تمارين',
     'classes.badge': 'المستويات الدراسية', 'classes.titre': 'اختر مستواك',
     'classes.desc': 'برنامج مكيف مع النظام التعليمي المغربي.',
