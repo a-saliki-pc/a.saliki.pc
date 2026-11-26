@@ -7,128 +7,448 @@
 <link rel="icon" type="image/png" href="../assets/logo-darrssy.png">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,500&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<!-- KaTeX pour les formules mathématiques -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
-
 <style>
-:root { 
-  --primary: #16213e; --primary-light: #2a9d8f; --accent: #e8a33d; --accent-dark: #c17f1e;
-  --ink: #16213e; --gray: #5b6b7a; --gray-light: #93a3b0; --border: #d9d2bb; --light: #faf6ec; --white: #fffdf7;
+:root {
+  --primary: #16213e;
+  --primary-light: #2a9d8f;
+  --mint: #74c6bb;
+  --accent: #e8a33d;
+  --accent-dark: #c17f1e;
   --danger: #c0483f;
-  --shadow: 6px 6px 0 rgba(22,33,62,0.08); --shadow-lg: 10px 10px 0 rgba(22,33,62,0.1);
-  --radius: 6px; --radius-sm: 4px; --transition: all 0.25s ease;
+  --ink: #16213e;
+  --gray: #5b6b7a;
+  --gray-light: #93a3b0;
+  --border: #d9d2bb;
+  --light: #faf6ec;
+  --white: #fffdf7;
+  --shadow: 6px 6px 0 rgba(22, 33, 62, 0.08);
+  --shadow-lg: 10px 10px 0 rgba(22, 33, 62, 0.12);
+  --radius: 10px;
+  --radius-sm: 6px;
+  --transition: all 0.22s ease;
 }
+
 * { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: 'Inter', 'Tajawal', sans-serif; background: linear-gradient(rgba(22,33,62,0.1) 0.5px, transparent 0.5px), linear-gradient(90deg, rgba(22,33,62,0.1) 0.5px, transparent 0.5px), linear-gradient(rgba(22,33,62,0.028) 0.5px, transparent 0.5px), linear-gradient(90deg, rgba(22,33,62,0.028) 0.5px, transparent 0.5px), var(--light); background-size: 50px 50px, 50px 50px, 10px 10px, 10px 10px, auto; color: var(--ink); line-height: 1.6; min-height: 100vh; display: flex; flex-direction: column; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Inter', 'Tajawal', sans-serif;
+  background:
+    linear-gradient(rgba(22,33,62,0.08) 0.5px, transparent 0.5px),
+    linear-gradient(90deg, rgba(22,33,62,0.08) 0.5px, transparent 0.5px),
+    var(--light);
+  background-size: 40px 40px, 40px 40px;
+  color: var(--ink);
+  line-height: 1.6;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
 [dir="rtl"] body { font-family: 'Tajawal', 'Inter', sans-serif; }
 a { text-decoration: none; color: inherit; }
-h1, h2, h3 { font-family: 'Fraunces', 'Tajawal', serif; }
+h1, h2, h3 { font-family: 'Fraunces', 'Tajawal', serif; letter-spacing: -0.01em; }
 
-nav { background: var(--white); border-bottom: 2px solid var(--ink); padding: 10px 5%; display: flex; justify-content: space-between; align-items: center; position: relative; }
-.logo { display: flex; align-items: center; gap: 12px; }
-.logo-img-wrap { width: 40px; height: 40px; border-radius: 50%; background: var(--white); padding: 2px; border: 2px solid var(--ink); }
-.logo-img-wrap img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
-.logo-texte .titre { font-family: 'Fraunces', serif; font-size: 1.2rem; font-weight: 700; }
-.nav-right { display: flex; align-items: center; gap: 10px; }
-.lang-switcher { display: flex; background: var(--white); border: 2px solid var(--ink); border-radius: var(--radius-sm); overflow: hidden; }
-.lang-btn { background: transparent; border: none; color: var(--ink); font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; font-weight: 700; padding: 6px 12px; cursor: pointer; transition: var(--transition); }
-.lang-btn.actif { background: var(--ink); color: var(--white); }
-.btn-back { background: var(--ink); color: var(--white); padding: 8px 18px; border-radius: var(--radius-sm); font-weight: 600; font-size: 0.9rem; transition: var(--transition); display: flex; align-items: center; gap: 6px; border: 2px solid var(--ink); }
-.btn-back:hover { background: var(--white); color: var(--ink); }
-.btn-back.secondary { background: transparent; color: var(--ink); border-color: var(--ink); }
-.btn-back.secondary:hover { background: var(--ink); color: var(--white); }
+/* NAV */
+nav { position: fixed; top: 0; left: 0; right: 0; background: rgba(250, 246, 236, 0.95); backdrop-filter: blur(10px); border-bottom: 2px solid var(--ink); z-index: 1000; padding: 10px 5%; display: flex; justify-content: space-between; align-items: center; }
+.logo { display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+.logo-img-wrap { width: 46px; height: 46px; border-radius: 50%; background: var(--white); padding: 2px; border: 2px solid var(--ink); outline: 1px dashed var(--accent); outline-offset: 3px; flex-shrink: 0; }
+.logo-img-wrap img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; display: block; }
+.logo-texte { display: flex; flex-direction: column; line-height: 1; }
+.logo-texte .titre { font-family: 'Fraunces', 'Tajawal', serif; font-size: 1.3rem; font-weight: 700; color: var(--ink); }
+.logo-texte .arabe { font-size: 0.7rem; color: var(--primary-light); font-family: 'Tajawal', sans-serif; font-weight: 700; margin-top: 2px; }
 
-/* NAV LINKS */
 .nav-links { display: flex; gap: 18px; list-style: none; align-items: center; margin: 0; padding: 0; }
 .nav-links a { color: var(--ink); font-weight: 500; font-size: 0.92rem; transition: color 0.25s; position: relative; padding: 4px 0; }
 .nav-links a:hover, .nav-links a.actif { color: var(--primary-light); }
+.nav-links a.actif { font-weight: 700; }
 .nav-links a::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background: var(--accent); transition: width 0.25s; }
 .nav-links a:hover::after, .nav-links a.actif::after { width: 100%; }
-.nav-links a.actif { font-weight: 700; }
-.menu-toggle { display: none; font-size: 1.3rem; cursor: pointer; color: var(--ink); background: none; border: none; padding: 5px; }
+
+.nav-right { display: flex; align-items: center; gap: 12px; }
+.lang-switcher { display: flex; background: var(--white); border: 2px solid var(--ink); border-radius: var(--radius-sm); overflow: hidden; }
+.lang-btn { background: transparent; border: none; color: var(--ink); font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; font-weight: 700; padding: 7px 12px; cursor: pointer; transition: var(--transition); }
+.lang-btn.actif { background: var(--ink); color: var(--white); }
+.btn-back { background: var(--ink); color: var(--white); padding: 8px 16px; border-radius: var(--radius-sm); font-weight: 600; font-size: 0.88rem; transition: var(--transition); display: flex; align-items: center; gap: 6px; border: 2px solid var(--ink); }
+.btn-back:hover { background: var(--white); color: var(--ink); }
+.menu-toggle { display: none; font-size: 1.35rem; cursor: pointer; color: var(--ink); background: none; border: none; padding: 4px; }
+
+/* CREATIVE SVT HERO */
+.svt-hero {
+  background:
+    radial-gradient(circle at 88% 22%, rgba(42, 157, 143, 0.32) 0%, transparent 42%),
+    radial-gradient(circle at 12% 85%, rgba(232, 163, 61, 0.14) 0%, transparent 40%),
+    linear-gradient(135deg, #0b1817 0%, #16213e 52%, #153632 100%);
+  color: var(--white);
+  padding: 118px 5% 68px;
+  position: relative;
+  overflow: hidden;
+  border-bottom: 3px solid var(--ink);
+}
+.svt-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(116, 198, 187, 0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(116, 198, 187, 0.07) 1px, transparent 1px);
+  background-size: 44px 44px;
+  pointer-events: none;
+}
+.svt-hero-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: 1.25fr 0.75fr;
+  gap: 32px;
+  align-items: center;
+}
+.hero-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(116, 198, 187, 0.14);
+  border: 1px solid rgba(116, 198, 187, 0.4);
+  color: var(--mint);
+  padding: 6px 14px;
+  border-radius: 30px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.76rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  margin-bottom: 14px;
+}
+.svt-hero h1 { font-size: 2.75rem; font-weight: 700; line-height: 1.15; margin-bottom: 12px; }
+.svt-hero h1 span:last-child { color: var(--mint); font-style: italic; }
+.svt-hero p { font-size: 1.02rem; opacity: 0.88; max-width: 600px; }
+
+/* Static Studio Specimen Summary Panel */
+.hero-atlas-card {
+  background: rgba(12, 24, 28, 0.88);
+  border: 1.5px solid rgba(116, 198, 187, 0.35);
+  border-radius: 14px;
+  padding: 20px 22px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
+}
+.atlas-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 12px;
+  margin-bottom: 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.76rem;
+  color: var(--mint);
+  font-weight: 700;
+}
+.atlas-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.atlas-stat {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  padding: 12px 10px;
+  text-align: center;
+}
+.atlas-stat strong { display: block; font-family: 'JetBrains Mono', monospace; font-size: 1.45rem; color: var(--accent); line-height: 1.1; }
+.atlas-stat span { font-size: 0.72rem; color: #c9d6df; }
+
+/* FLOATING STUDIO DOCK */
+.studio-wrap { max-width: 1200px; width: 100%; margin: -32px auto 0; padding: 0 5% 60px; position: relative; z-index: 4; flex: 1; }
+.studio-dock {
+  background: var(--white);
+  border: 2px solid var(--ink);
+  border-radius: 12px;
+  padding: 20px 22px;
+  box-shadow: var(--shadow-lg);
+  margin-bottom: 32px;
+}
+.dock-top { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 16px; }
+.level-pills { display: flex; gap: 8px; flex-wrap: wrap; }
+.level-pill {
+  background: var(--light);
+  border: 1.5px solid var(--border);
+  color: var(--ink);
+  padding: 8px 16px;
+  border-radius: 30px;
+  font-family: inherit;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+}
+.level-pill:hover { border-color: var(--primary-light); background: rgba(42, 157, 143, 0.08); }
+.level-pill.actif { background: #153632; border-color: #153632; color: var(--white); box-shadow: 0 4px 12px rgba(21, 54, 50, 0.25); }
+
+.dock-count {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.82rem;
+  color: var(--gray);
+  background: var(--light);
+  border: 1px solid var(--border);
+  padding: 6px 14px;
+  border-radius: 20px;
+}
+.dock-count strong { color: var(--ink); font-size: 0.95rem; }
+
+.dock-controls { display: grid; grid-template-columns: 1.5fr 1fr auto; gap: 12px; align-items: center; }
+.search-box { position: relative; }
+.search-box input {
+  width: 100%;
+  padding: 11px 16px 11px 42px;
+  background: var(--light);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--ink);
+  font-family: inherit;
+  font-size: 0.94rem;
+  transition: var(--transition);
+}
+[dir="rtl"] .search-box input { padding: 11px 42px 11px 16px; }
+.search-box input:focus { outline: none; border-color: var(--primary-light); background: var(--white); }
+.search-box i { position: absolute; top: 50%; left: 15px; transform: translateY(-50%); color: var(--primary-light); }
+[dir="rtl"] .search-box i { left: auto; right: 15px; }
+
+.chap-select {
+  width: 100%;
+  padding: 11px 14px;
+  background: var(--light);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--ink);
+  font-family: inherit;
+  font-size: 0.92rem;
+  cursor: pointer;
+}
+.chap-select:focus { outline: none; border-color: var(--primary-light); }
+
+.btn-reset {
+  background: transparent;
+  border: 1.5px solid var(--danger);
+  color: var(--danger);
+  padding: 10px 16px;
+  border-radius: var(--radius-sm);
+  font-family: inherit;
+  font-weight: 600;
+  font-size: 0.86rem;
+  cursor: pointer;
+  transition: var(--transition);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+.btn-reset:hover { background: var(--danger); color: var(--white); }
+
+/* CHAPTER GROUPS */
+.chap-group { margin-bottom: 42px; }
+.chap-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 20px;
+  padding: 12px 18px;
+  background: var(--white);
+  border: 2px solid var(--ink);
+  border-left: 6px solid var(--primary-light);
+  border-radius: var(--radius-sm);
+  box-shadow: 4px 4px 0 rgba(22, 33, 62, 0.06);
+}
+[dir="rtl"] .chap-header { border-left: 2px solid var(--ink); border-right: 6px solid var(--primary-light); }
+.chap-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.74rem;
+  font-weight: 800;
+  background: #153632;
+  color: var(--mint);
+  padding: 4px 10px;
+  border-radius: 4px;
+  letter-spacing: 0.5px;
+}
+.chap-header h2 { font-size: 1.28rem; font-weight: 600; color: var(--ink); }
+.chap-nb { margin-left: auto; font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; font-weight: 700; color: var(--primary-light); background: rgba(42, 157, 143, 0.1); padding: 4px 12px; border-radius: 20px; }
+[dir="rtl"] .chap-nb { margin-left: 0; margin-right: auto; }
+
+/* CREATIVE SVT SPECIMEN CARDS */
+.bio-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 22px; }
+.bio-card {
+  background: var(--white);
+  border: 2px solid var(--ink);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  transition: var(--transition);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+.bio-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-lg); border-color: var(--primary-light); }
+.bio-card-accent {
+  height: 7px;
+  background: linear-gradient(90deg, #153632 0%, #2a9d8f 65%, #e8a33d 100%);
+}
+.bio-card-top {
+  padding: 18px 20px 12px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+.bio-emblem {
+  width: 52px;
+  height: 52px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #153632 0%, #1d4e47 100%);
+  color: var(--mint);
+  border: 1.5px solid var(--ink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  flex-shrink: 0;
+}
+.bio-emblem.gen { background: linear-gradient(135deg, #16213e 0%, #243b6b 100%); color: var(--accent); }
+.bio-emblem.geo { background: linear-gradient(135deg, #3a2a1d 0%, #5c4028 100%); color: var(--accent); }
+.bio-badges { display: flex; flex-direction: column; align-items: flex-end; gap: 5px; }
+[dir="rtl"] .bio-badges { align-items: flex-start; }
+.pill-lvl {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  font-weight: 700;
+  background: var(--accent);
+  color: var(--ink);
+  padding: 3px 10px;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+.pill-res {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--primary-light);
+  background: rgba(42, 157, 143, 0.1);
+  border: 1px solid rgba(42, 157, 143, 0.3);
+  padding: 2px 9px;
+  border-radius: 20px;
+}
+
+.bio-card-body { padding: 4px 20px 18px; flex: 1; display: flex; flex-direction: column; }
+.bio-card-body h3 { font-size: 1.12rem; font-weight: 600; color: var(--ink); margin-bottom: 8px; line-height: 1.35; }
+.bio-excerpt {
+  font-size: 0.87rem;
+  color: var(--gray);
+  line-height: 1.55;
+  margin-bottom: 16px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.bio-card-cta {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--light);
+  border: 1.5px solid var(--ink);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  font-weight: 700;
+  font-size: 0.86rem;
+  color: var(--ink);
+  transition: var(--transition);
+}
+.bio-card:hover .bio-card-cta { background: #153632; color: var(--white); border-color: #153632; }
+
+.share-bar { display: flex; gap: 6px; padding: 10px 20px 16px; border-top: 1px dashed var(--border); background: rgba(250, 246, 236, 0.55); }
+.share-btn { flex: 1; height: 32px; border-radius: 4px; border: 1px solid var(--ink); cursor: pointer; display: inline-flex; align-items: center; justify-content: center; font-size: 0.82rem; color: var(--white); transition: var(--transition); }
+.share-btn.whatsapp { background: #25d366; border-color: #25d366; }
+.share-btn.facebook { background: #1877f2; border-color: #1877f2; }
+.share-btn.telegram { background: #0088cc; border-color: #0088cc; }
+.share-btn.copy { background: var(--ink); }
+.share-btn:hover { transform: translateY(-2px); }
+
+/* SLIDE-OVER LAB READER DRAWER */
+.panneau-overlay { position: fixed; inset: 0; background: rgba(11, 24, 23, 0.78); backdrop-filter: blur(5px); z-index: 1999; opacity: 0; pointer-events: none; transition: opacity 0.25s; }
+.panneau-overlay.ouvert { opacity: 1; pointer-events: all; }
+.panneau-detail { position: fixed; top: 0; right: 0; width: 100%; max-width: 700px; height: 100vh; background: var(--white); border-left: 2px solid var(--ink); z-index: 2000; transform: translateX(100%); transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1); overflow-y: auto; }
+[dir="rtl"] .panneau-detail { right: auto; left: 0; border-left: none; border-right: 2px solid var(--ink); transform: translateX(-100%); }
+.panneau-detail.ouvert { transform: translateX(0); }
+.panneau-header { position: sticky; top: 0; background: var(--white); border-bottom: 2px solid var(--ink); padding: 18px 24px; display: flex; justify-content: space-between; align-items: center; z-index: 10; }
+.panneau-header h2 { font-size: 1.1rem; display: flex; align-items: center; gap: 10px; }
+.panneau-header h2 i { color: var(--primary-light); }
+.btn-fermer { background: var(--light); border: 2px solid var(--ink); color: var(--ink); width: 38px; height: 38px; border-radius: var(--radius-sm); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: var(--transition); }
+.btn-fermer:hover { background: var(--ink); color: var(--white); }
+.panneau-corps { padding: 24px; }
+.panneau-hero { background: linear-gradient(135deg, #0b1817 0%, #153632 100%); color: var(--white); border-radius: 10px; padding: 28px; margin-bottom: 22px; border: 2px solid var(--ink); text-align: center; }
+.panneau-hero .icon-grand { font-size: 2.6rem; color: var(--mint); margin-bottom: 10px; }
+.panneau-hero h1 { font-size: 1.4rem; margin-bottom: 12px; }
+.panneau-hero .badges { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
+.panneau-hero .badges span { background: rgba(255,255,255,0.12); border: 1px solid rgba(116,198,187,0.4); padding: 4px 12px; border-radius: 20px; font-family: 'JetBrains Mono', monospace; font-size: 0.76rem; }
+.panneau-section { margin-bottom: 24px; }
+.panneau-section h3 { font-size: 1rem; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; color: var(--ink); }
+.panneau-section h3 i { color: var(--primary-light); }
+.panneau-resume { background: var(--light); border: 1.5px solid var(--border); border-radius: 8px; padding: 18px; font-size: 0.95rem; line-height: 1.75; color: var(--ink); }
+.ressource-item { display: flex; align-items: center; gap: 12px; background: var(--light); border: 1.5px solid var(--border); border-radius: var(--radius-sm); padding: 12px 15px; margin-bottom: 10px; transition: var(--transition); }
+.ressource-item:hover { border-color: var(--ink); transform: translateX(4px); }
+[dir="rtl"] .ressource-item:hover { transform: translateX(-4px); }
+.ressource-item .icon-type { width: 40px; height: 40px; border-radius: var(--radius-sm); background: var(--white); border: 1.5px solid var(--ink); display: flex; align-items: center; justify-content: center; color: var(--danger); flex-shrink: 0; }
+.ressource-item .info { flex: 1; }
+.ressource-item .info h4 { font-size: 0.92rem; font-weight: 600; }
+.ressource-item .info span { font-size: 0.76rem; color: var(--gray); font-family: 'JetBrains Mono', monospace; }
+.ressource-item .btn-dl { background: #153632; color: var(--white); padding: 8px 14px; border-radius: var(--radius-sm); font-size: 0.8rem; font-weight: 600; display: inline-flex; align-items: center; gap: 6px; transition: var(--transition); white-space: nowrap; }
+.ressource-item .btn-dl:hover { background: var(--primary-light); }
+
+.loading-zone, .aucun-resultat { text-align: center; padding: 60px 20px; color: var(--gray); }
+.loading-zone i { font-size: 2.3rem; color: var(--primary-light); animation: spin 1s linear infinite; display: block; margin-bottom: 14px; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.aucun-resultat i { font-size: 3.5rem; color: var(--border); margin-bottom: 14px; display: block; }
+
+footer { background: var(--light); border-top: 2px solid var(--ink); color: var(--ink); padding: 48px 5% 24px; margin-top: auto; }
+.footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 36px; max-width: 1200px; margin: 0 auto 30px; }
+.footer-brand .footer-logo { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+.footer-logo-wrap { width: 48px; height: 48px; border-radius: 50%; background: var(--white); padding: 2px; border: 2px solid var(--ink); flex-shrink: 0; }
+.footer-logo-wrap img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
+.footer-nom { font-family: 'Fraunces', serif; font-size: 1.35rem; font-weight: 700; line-height: 1; }
+.footer-arabe { font-size: 0.72rem; color: var(--primary-light); font-weight: 700; margin-top: 2px; }
+.footer-brand p { color: var(--gray); font-size: 0.88rem; max-width: 300px; }
+.footer-col h4 { font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; margin-bottom: 14px; }
+.footer-col ul { list-style: none; }
+.footer-col ul li { margin-bottom: 8px; }
+.footer-col ul a { color: var(--gray); font-size: 0.88rem; }
+.footer-col ul a:hover { color: var(--primary-light); }
+.footer-bottom { border-top: 1px dashed var(--border); padding-top: 20px; text-align: center; color: var(--gray); font-size: 0.84rem; font-family: 'JetBrains Mono', monospace; }
+
+.toast { position: fixed; bottom: 25px; right: 25px; background: var(--ink); color: white; padding: 12px 20px; border-radius: var(--radius-sm); font-weight: 600; font-size: 0.9rem; box-shadow: var(--shadow-lg); z-index: 9999; opacity: 0; transform: translateY(20px); transition: var(--transition); pointer-events: none; }
+[dir="rtl"] .toast { right: auto; left: 25px; }
+.toast.show { opacity: 1; transform: translateY(0); }
+.toast.success { background: var(--primary-light); }
 
 @media (max-width: 991px) {
   .menu-toggle { display: block; }
-  .nav-links {
-    position: absolute; top: 100%; left: 0; right: 0;
-    background: var(--white);
-    flex-direction: column;
-    padding: 20px; gap: 15px;
-    border-bottom: 2px solid var(--ink);
-    box-shadow: var(--shadow-lg);
-    display: none;
-    z-index: 1000;
-  }
+  .nav-links { position: absolute; top: 100%; left: 0; right: 0; background: var(--white); flex-direction: column; padding: 20px; gap: 15px; border-bottom: 2px solid var(--ink); box-shadow: var(--shadow-lg); display: none; z-index: 1000; }
   .nav-links.active { display: flex; }
-  .nav-links a { font-size: 1rem; width: 100%; text-align: center; }
+  .nav-links a { width: 100%; text-align: center; }
+  .svt-hero-inner { grid-template-columns: 1fr; text-align: center; }
+  .svt-hero p { margin: 0 auto; }
+  .footer-grid { grid-template-columns: 1fr 1fr; }
 }
-
-.main-content { flex: 1; padding: 40px 5%; max-width: 1000px; margin: 0 auto; width: 100%; }
-.page-title { text-align: center; margin-bottom: 30px; }
-.page-title h1 { font-size: 2.2rem; margin-bottom: 10px; }
-.page-title p { color: var(--gray); }
-
-.level-filters { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-bottom: 40px; }
-.level-btn { background: var(--white); border: 2px solid var(--ink); color: var(--ink); padding: 10px 20px; border-radius: 50px; font-family: inherit; font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: var(--transition); }
-.level-btn:hover { background: var(--light); }
-.level-btn.actif { background: var(--ink); color: var(--white); }
-
-.level-section { display: none; animation: fadeIn 0.4s ease; }
-.level-section.actif { display: block; }
-@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-.cours-accordion { background: var(--white); border: 2px solid var(--ink); border-radius: var(--radius); margin-bottom: 15px; box-shadow: var(--shadow); overflow: hidden; transition: var(--transition); }
-.cours-accordion:hover { border-color: var(--primary-light); box-shadow: var(--shadow-lg); }
-.cours-header { padding: 20px 25px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; background: var(--white); transition: var(--transition); }
-.cours-header:hover { background: var(--light); }
-.cours-header-left { display: flex; align-items: center; gap: 15px; }
-.cours-icon { width: 45px; height: 45px; border-radius: 50%; background: var(--light); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; color: var(--accent-dark); flex-shrink: 0; }
-.cours-title { font-size: 1.15rem; font-weight: 600; color: var(--ink); margin-bottom: 4px; }
-.cours-subtitle { font-size: 0.85rem; color: var(--gray); font-family: 'JetBrains Mono', monospace; }
-.cours-toggle-icon { font-size: 1.2rem; color: var(--primary-light); transition: transform 0.3s ease; }
-.cours-content { max-height: 0; overflow: hidden; transition: max-height 0.4s ease-out; background: #fafbfc; border-top: 0 solid var(--border); }
-.cours-content.open { max-height: 3000px; border-top: 2px dashed var(--border); }
-.cours-inner { padding: 25px; font-size: 0.95rem; color: var(--ink); }
-
-.resume-block { margin-bottom: 20px; }
-.resume-block h4 { font-size: 1rem; color: var(--primary-light); margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
-.resume-block p { line-height: 1.7; color: var(--ink); margin-bottom: 20px; }
-.formule-box { background: var(--white); border: 1.5px solid var(--ink); border-radius: var(--radius-sm); padding: 15px; text-align: center; font-size: 1.05rem; color: var(--accent-dark); margin: 15px 0; font-weight: 600; box-shadow: var(--shadow-sm); overflow-x: auto; }
-
-/* NOUVEAU : Zone des ressources */
-.ressources-liste { margin-top: 20px; border-top: 2px dashed var(--border); padding-top: 20px; }
-.ressources-liste h5 { font-size: 0.95rem; font-weight: 700; color: var(--ink); margin-bottom: 15px; display: flex; align-items: center; gap: 8px; }
-.btn-ressource { display: flex; align-items: center; justify-content: space-between; background: var(--white); border: 1px solid var(--border); padding: 12px 15px; border-radius: var(--radius-sm); margin-bottom: 8px; text-decoration: none; transition: var(--transition); }
-.btn-ressource:hover { border-color: var(--primary-light); background: var(--light); transform: translateX(5px); }
-.btn-ressource .info { display: flex; align-items: center; gap: 10px; }
-.btn-ressource .info i { color: var(--danger); font-size: 1.2rem; }
-.btn-ressource .info span { font-size: 0.9rem; font-weight: 600; color: var(--ink); }
-.btn-ressource .icon-dl { background: var(--ink); color: var(--white); padding: 6px 10px; border-radius: 4px; font-size: 0.75rem; font-weight: 700; }
-.btn-ressource:hover .icon-dl { background: var(--primary-light); }
-
-.loading-zone { text-align: center; padding: 60px 20px; color: var(--gray); }
-.loading-zone i { font-size: 2.1rem; color: var(--primary-light); animation: spin 1s linear infinite; display: block; margin-bottom: 15px; }
-@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-
 @media (max-width: 768px) {
-  nav { padding: 10px 3%; }
-  .logo-img-wrap { width: 35px; height: 35px; }
-  .logo-texte .titre { font-size: 1rem; }
+  .dock-controls { grid-template-columns: 1fr; }
+  .bio-grid { grid-template-columns: 1fr; }
+  .svt-hero h1 { font-size: 2rem; }
   .btn-back span { display: none; }
-  .btn-back { padding: 8px 12px; font-size: 0.8rem; }
-  .lang-btn { padding: 6px 8px; font-size: 0.7rem; }
-  .main-content { padding: 20px 4%; }
-  .page-title h1 { font-size: 1.6rem; }
-  .level-filters { gap: 5px; }
-  .level-btn { padding: 8px 12px; font-size: 0.8rem; }
-  .cours-header { padding: 15px; }
-  .cours-title { font-size: 0.95rem; }
-  .cours-subtitle { font-size: 0.75rem; }
-  .cours-icon { width: 35px; height: 35px; font-size: 1rem; }
-  .cours-inner { padding: 15px; }
-  .formule-box { font-size: 0.9rem; padding: 10px; }
+  .footer-grid { grid-template-columns: 1fr; }
+  .panneau-detail { max-width: 100%; }
+}
+@media (max-width: 480px) {
+  .logo-texte { display: none; }
 }
 </style>
 </head>
@@ -137,7 +457,10 @@ nav { background: var(--white); border-bottom: 2px solid var(--ink); padding: 10
 <nav>
   <a href="index.html" class="logo">
     <div class="logo-img-wrap"><img src="../assets/logo-darrssy.png" alt="DARRSSY"></div>
-    <div class="logo-texte"><span class="titre">DARRSSY SVT</span></div>
+    <div class="logo-texte">
+      <span class="titre">DARRSSY SVT</span>
+      <span class="arabe">دَرْسِي</span>
+    </div>
   </a>
   <ul class="nav-links" id="navLinks">
     <li><a href="index.html" data-i18n="nav.svt_home">Accueil</a></li>
@@ -158,49 +481,147 @@ nav { background: var(--white); border-bottom: 2px solid var(--ink); padding: 10
   </div>
 </nav>
 
-<div class="main-content">
-  <div class="page-title">
-    <h1 data-i18n="title">Cours de SVT</h1>
-    <p data-i18n="desc">Cliquez sur un cours pour voir le résumé complet.</p>
+<section class="svt-hero">
+  <div class="svt-hero-inner">
+    <div>
+      <div class="hero-kicker"><i class="fas fa-microscope"></i> <span data-i18n="hero.badge">Atlas & Fiches SVT</span></div>
+      <h1><span data-i18n="hero.t1">Cours complets</span> <span data-i18n="hero.t2">de SVT</span></h1>
+      <p data-i18n="desc">Génétique, métabolisme cellulaire, immunologie et géologie : explorez les fiches de cours structurées et téléchargez les supports PDF.</p>
+    </div>
+    <div class="hero-atlas-card">
+      <div class="atlas-head">
+        <span><i class="fas fa-dna"></i> <span data-i18n="atlas.title">BIBLIOTHÈQUE SVT</span></span>
+        <span>2026</span>
+      </div>
+      <div class="atlas-stats">
+        <div class="atlas-stat"><strong id="statCours">0</strong><span data-i18n="atlas.cours">Cours</span></div>
+        <div class="atlas-stat"><strong id="statChapitres">0</strong><span data-i18n="atlas.chaps">Chapitres</span></div>
+        <div class="atlas-stat"><strong id="statPdfs">0</strong><span data-i18n="atlas.pdfs">Fiches PDF</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="studio-wrap">
+  <div class="studio-dock">
+    <div class="dock-top">
+      <div class="level-pills" id="levelPills">
+        <button class="level-pill actif" data-level="all" data-i18n="lvl.all">Tous les niveaux</button>
+        <button class="level-pill" data-level="tronc" data-i18n="lvl.tronc">Tronc Commun</button>
+        <button class="level-pill" data-level="1bac" data-i18n="lvl.1bac">1ère Année Bac</button>
+        <button class="level-pill" data-level="2bac" data-i18n="lvl.2bac">2ème Année Bac</button>
+      </div>
+      <div class="dock-count"><strong id="countResultats">0</strong> <span data-i18n="cours.resultats">cours affichés</span></div>
+    </div>
+    <div class="dock-controls">
+      <div class="search-box">
+        <i class="fas fa-search"></i>
+        <input type="text" id="searchInput" placeholder="Rechercher un cours ou un chapitre..." data-i18n-placeholder="cours.searchPlaceholder">
+      </div>
+      <select class="chap-select" id="filtreLecon">
+        <option value="all" data-i18n="filtre.toutesLecons">Tous les chapitres</option>
+      </select>
+      <button class="btn-reset" id="btnReset"><i class="fas fa-redo"></i> <span data-i18n="filtre.reset">Réinitialiser</span></button>
+    </div>
   </div>
 
-  <div class="level-filters">
-    <button class="level-btn actif" data-level="tronc" data-i18n="lvl.tronc">Tronc Commun</button>
-    <button class="level-btn" data-level="1bac" data-i18n="lvl.1bac">1ère Année Bac</button>
-    <button class="level-btn" data-level="2bac" data-i18n="lvl.2bac">2ème Année Bac</button>
-  </div>
-
-  <!-- ZONES DE CONTENU DYNAMIQUE -->
-  <div class="level-section actif" id="level-tronc">
-    <div id="cours-tronc" class="loading-zone"><i class="fas fa-spinner"></i><p data-i18n="loading">Chargement...</p></div>
-  </div>
-  <div class="level-section" id="level-1bac">
-    <div id="cours-1bac" class="loading-zone"><i class="fas fa-spinner"></i><p data-i18n="loading">Chargement...</p></div>
-  </div>
-  <div class="level-section" id="level-2bac">
-    <div id="cours-2bac" class="loading-zone"><i class="fas fa-spinner"></i><p data-i18n="loading">Chargement...</p></div>
+  <div id="coursSections">
+    <div class="loading-zone"><i class="fas fa-spinner"></i><p data-i18n="loading">Chargement...</p></div>
   </div>
 </div>
 
-<!-- IMPORTANT : Charger darrssy-config.js pour Supabase -->
+<div class="panneau-overlay" id="panneauOverlay"></div>
+<div class="panneau-detail" id="panneauDetail">
+  <div class="panneau-header">
+    <h2><i class="fas fa-dna"></i> <span data-i18n="panneau.titre">Fiche de cours SVT</span></h2>
+    <button class="btn-fermer" id="btnFermerPanneau" aria-label="Fermer"><i class="fas fa-times"></i></button>
+  </div>
+  <div class="panneau-corps" id="panneauCorps"></div>
+</div>
+
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="footer-logo">
+        <div class="footer-logo-wrap"><img src="../assets/logo-darrssy.png" alt="DARRSSY"></div>
+        <div>
+          <div class="footer-nom">DARRSSY SVT</div>
+          <div class="footer-arabe">دَرْسِي</div>
+        </div>
+      </div>
+      <p data-i18n="footer.desc">Le pôle SVT de la plateforme DARRSSY pour réussir le Baccalauréat marocain.</p>
+    </div>
+    <div class="footer-col">
+      <h4 data-i18n="footer.navigation">Navigation</h4>
+      <ul>
+        <li><a href="index.html" data-i18n="nav.svt_home">Accueil</a></li>
+        <li><a href="svt-cours.html" data-i18n="nav.cours">Cours</a></li>
+        <li><a href="svt-exercices.html" data-i18n="nav.exercices">Exercices</a></li>
+        <li><a href="svt-examens.html" data-i18n="nav.examens">Examens</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4 data-i18n="footer.outils">Outils SVT</h4>
+      <ul>
+        <li><a href="svt-schemas.html" data-i18n="nav.schemas">Schémas</a></li>
+        <li><a href="svt-formules.html" data-i18n="nav.formules">Lois & Formules</a></li>
+        <li><a href="svt-qcm.html" data-i18n="nav.qcm">QCM</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4 data-i18n="footer.contact">Contact</h4>
+      <ul>
+        <li><a href="mailto:contact@darrssy.com">contact@darrssy.com</a></li>
+        <li><a href="../index.html">darrssy.com</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">© 2026 DARRSSY — <span data-i18n="footer.droits">Tous droits réservés.</span></div>
+</footer>
+
+<div class="toast" id="toast"></div>
+
 <script src="../admin/darrssy-config.js"></script>
 <script>
 let currentLang = localStorage.getItem('darrssy-lang') || 'fr';
 let tousLesCours = [];
 let toutesLesRessources = [];
+let filtres = { niveau: 'all', lecon: 'all', recherche: '' };
 
 const trad = {
   fr: {
-    'nav.menu': 'Menu', 'nav.home': 'Site', 'nav.svt_home': 'Accueil', 'nav.cours': 'Cours', 'nav.exercices': 'Exercices', 'nav.examens': 'Examens', 'nav.schemas': 'Schémas', 'nav.formules': 'Lois & Formules', 'nav.qcm': 'QCM', 'title': 'Cours de SVT', 'desc': 'Cliquez sur un cours pour voir le résumé complet.',
-    'lvl.tronc': 'Tronc Commun', 'lvl.1bac': '1ère Année Bac', 'lvl.2bac': '2ème Année Bac',
-    'loading': 'Chargement...', 'resume': 'Résumé du cours', 'noCours': 'Aucun cours disponible pour ce niveau pour le moment.',
-    'ressources': 'Ressources à télécharger', 'noRessources': 'Aucun document disponible pour ce cours.', 'telecharger': 'Télécharger'
+    'nav.home': 'Site', 'nav.svt_home': 'Accueil', 'nav.cours': 'Cours', 'nav.exercices': 'Exercices',
+    'nav.examens': 'Examens', 'nav.schemas': 'Schémas', 'nav.formules': 'Lois & Formules', 'nav.qcm': 'QCM',
+    'hero.badge': 'Atlas & Fiches SVT', 'hero.t1': 'Cours complets', 'hero.t2': 'de SVT',
+    'desc': 'Génétique, métabolisme cellulaire, immunologie et géologie : explorez les fiches de cours structurées et téléchargez les supports PDF.',
+    'atlas.title': 'BIBLIOTHÈQUE SVT', 'atlas.cours': 'Cours', 'atlas.chaps': 'Chapitres', 'atlas.pdfs': 'Fiches PDF',
+    'lvl.all': 'Tous les niveaux', 'lvl.tronc': 'Tronc Commun', 'lvl.1bac': '1ère Année Bac', 'lvl.2bac': '2ème Année Bac',
+    'cours.resultats': 'cours affichés', 'cours.searchPlaceholder': 'Rechercher un cours ou un chapitre...',
+    'filtre.toutesLecons': 'Tous les chapitres', 'filtre.reset': 'Réinitialiser',
+    'cours.aucun': 'Aucun cours trouvé', 'cours.aucunDesc': 'Essayez de modifier vos filtres.',
+    'cours.cta': 'Consulter le cours & PDFs', 'cours.nb': 'cours',
+    'panneau.titre': 'Fiche de cours SVT', 'resume': 'Résumé du cours',
+    'ressources': 'Ressources à télécharger', 'noRessources': 'Aucun document disponible pour ce cours.',
+    'telecharger': 'Télécharger', 'loading': 'Chargement...', 'share.copied': 'Lien copié !',
+    'footer.desc': 'Le pôle SVT de la plateforme DARRSSY pour réussir le Baccalauréat marocain.',
+    'footer.navigation': 'Navigation', 'footer.outils': 'Outils SVT', 'footer.contact': 'Contact', 'footer.droits': 'Tous droits réservés.'
   },
   ar: {
-    'nav.menu': 'القائمة', 'nav.home': 'الموقع', 'nav.svt_home': 'الرئيسية', 'nav.cours': 'الدروس', 'nav.exercices': 'التمارين', 'nav.examens': 'الامتحانات', 'nav.schemas': 'الرسوم التفاعلية', 'nav.formules': 'القوانين والصيغ', 'nav.qcm': 'اختبار', 'title': 'دروس علوم الحياة والأرض', 'desc': 'انقر على درس لرؤية الملخص الكامل.',
-    'lvl.tronc': 'الجذع المشترك', 'lvl.1bac': 'الأولى باكالوريا', 'lvl.2bac': 'الثانية باكالوريا',
-    'loading': 'جارٍ التحميل...', 'resume': 'ملخص الدرس', 'noCours': 'لا يوجد أي درس متاح لهذا المستوى حالياً.',
-    'ressources': 'الموارد للتحميل', 'noRessources': 'لا يوجد أي مستند متاح لهذا الدرس.', 'telecharger': 'تحميل'
+    'nav.home': 'الموقع', 'nav.svt_home': 'الرئيسية', 'nav.cours': 'الدروس', 'nav.exercices': 'التمارين',
+    'nav.examens': 'الامتحانات', 'nav.schemas': 'الرسوم التفاعلية', 'nav.formules': 'القوانين والصيغ', 'nav.qcm': 'اختبار',
+    'hero.badge': 'أطلس وملخصات SVT', 'hero.t1': 'الدروس الكاملة', 'hero.t2': 'لعلوم الحياة والأرض',
+    'desc': 'الوراثة، الاستقلاب الخلوي، المناعة والجيولوجيا: تصفح الدروس المنظمة وحمّل ملفات PDF.',
+    'atlas.title': 'مكتبة SVT', 'atlas.cours': 'دروس', 'atlas.chaps': 'فصول', 'atlas.pdfs': 'ملفات PDF',
+    'lvl.all': 'جميع المستويات', 'lvl.tronc': 'الجذع المشترك', 'lvl.1bac': 'الأولى باكالوريا', 'lvl.2bac': 'الثانية باكالوريا',
+    'cours.resultats': 'درس معروض', 'cours.searchPlaceholder': 'ابحث عن درس أو فصل...',
+    'filtre.toutesLecons': 'جميع الفصول', 'filtre.reset': 'إعادة',
+    'cours.aucun': 'لا يوجد أي درس', 'cours.aucunDesc': 'حاول تغيير الفلاتر.',
+    'cours.cta': 'فتح الدرس والملفات', 'cours.nb': 'دروس',
+    'panneau.titre': 'بطاقة درس SVT', 'resume': 'ملخص الدرس',
+    'ressources': 'الموارد للتحميل', 'noRessources': 'لا يوجد أي مستند متاح لهذا الدرس.',
+    'telecharger': 'تحميل', 'loading': 'جارٍ التحميل...', 'share.copied': 'تم نسخ الرابط!',
+    'footer.desc': 'قطب علوم الحياة والأرض في منصة درسي لنجاح تلاميذ البكالوريا بالمغرب.',
+    'footer.navigation': 'التنقل', 'footer.outils': 'أدوات SVT', 'footer.contact': 'اتصل بنا', 'footer.droits': 'جميع الحقوق محفوظة.'
   }
 };
 
@@ -208,7 +629,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   appliquerLangue(currentLang);
   bindEvents();
   await chargerCours();
-  setTimeout(renderMath, 500);
 });
 
 function appliquerLangue(lang) {
@@ -217,182 +637,321 @@ function appliquerLangue(lang) {
   document.getElementById('htmlRoot').setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
   document.querySelectorAll('[data-i18n]').forEach(el => {
     const key = el.getAttribute('data-i18n');
-    if (trad[lang] && trad[lang][key]) el.innerHTML = trad[lang][key];
+    if (trad[lang] && trad[lang][key]) el.textContent = trad[lang][key];
   });
-  document.querySelectorAll('.lang-btn').forEach(btn => {
-    btn.classList.toggle('actif', btn.getAttribute('data-lang') === lang);
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+    const key = el.getAttribute('data-i18n-placeholder');
+    if (trad[lang] && trad[lang][key]) el.placeholder = trad[lang][key];
   });
+  document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.toggle('actif', btn.getAttribute('data-lang') === lang));
   localStorage.setItem('darrssy-lang', lang);
-  if (tousLesCours.length > 0) afficherCours();
-  setTimeout(renderMath, 200);
+  if (tousLesCours.length > 0) {
+    remplirFiltresChapitres();
+    afficherCours();
+  }
 }
 
 function bindEvents() {
-  document.querySelectorAll('.lang-btn').forEach(btn => {
-    btn.addEventListener('click', () => appliquerLangue(btn.getAttribute('data-lang')));
-  });
-  document.querySelectorAll('.level-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('.level-btn').forEach(b => b.classList.remove('actif'));
-      btn.classList.add('actif');
-      document.querySelectorAll('.level-section').forEach(s => s.classList.remove('actif'));
-      document.getElementById('level-' + btn.getAttribute('data-level')).classList.add('actif');
+  document.querySelectorAll('.lang-btn').forEach(btn => btn.addEventListener('click', () => appliquerLangue(btn.getAttribute('data-lang'))));
+  document.querySelectorAll('.level-pill').forEach(pill => {
+    pill.addEventListener('click', () => {
+      document.querySelectorAll('.level-pill').forEach(p => p.classList.remove('actif'));
+      pill.classList.add('actif');
+      filtres.niveau = pill.getAttribute('data-level');
+      afficherCours();
     });
   });
+  document.getElementById('searchInput').addEventListener('input', (e) => {
+    filtres.recherche = e.target.value.toLowerCase().trim();
+    afficherCours();
+  });
+  document.getElementById('filtreLecon').addEventListener('change', (e) => {
+    filtres.lecon = e.target.value;
+    afficherCours();
+  });
+  document.getElementById('btnReset').addEventListener('click', () => {
+    filtres = { niveau: 'all', lecon: 'all', recherche: '' };
+    document.getElementById('searchInput').value = '';
+    document.getElementById('filtreLecon').value = 'all';
+    document.querySelectorAll('.level-pill').forEach(p => p.classList.toggle('actif', p.getAttribute('data-level') === 'all'));
+    afficherCours();
+  });
+  document.getElementById('btnFermerPanneau').addEventListener('click', fermerPanneau);
+  document.getElementById('panneauOverlay').addEventListener('click', fermerPanneau);
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') fermerPanneau(); });
   const menuToggle = document.getElementById('menuToggle');
   const navLinks = document.getElementById('navLinks');
   if (menuToggle && navLinks) {
     menuToggle.addEventListener('click', () => {
       navLinks.classList.toggle('active');
       const icon = menuToggle.querySelector('i');
-      if (icon) {
-        if (navLinks.classList.contains('active')) {
-          icon.classList.remove('fa-bars');
-          icon.classList.add('fa-times');
-        } else {
-          icon.classList.remove('fa-times');
-          icon.classList.add('fa-bars');
-        }
-      }
+      if (icon) { icon.classList.toggle('fa-bars'); icon.classList.toggle('fa-times'); }
     });
   }
 }
 
-// ==========================================
-// CHARGEMENT DES COURS ET RESSOURCES DEPUIS SUPABASE
-// ==========================================
 async function chargerCours() {
   try {
     if (typeof lireTable !== 'function') throw new Error("lireTable non chargé");
-    
-    // On charge les cours SVT ET les ressources en même temps
     const [cours, ressources] = await Promise.all([
       lireTable('cours', { filtres: { publie: true, matiere: 'svt' }, ordre: { col: 'created_at', asc: false } }),
       lireTable('ressources', { filtres: { publie: true } })
     ]);
-    
     tousLesCours = cours;
     toutesLesRessources = ressources;
-    
+
+    const coursIds = new Set(cours.map(c => c.id));
+    document.getElementById('statCours').textContent = cours.length;
+    document.getElementById('statChapitres').textContent = new Set(cours.map(c => c.chapitre_fr || 'Général')).size;
+    document.getElementById('statPdfs').textContent = ressources.filter(r => coursIds.has(r.cours_id)).length;
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const niv = urlParams.get('niveau');
+    if (niv) {
+      filtres.niveau = (niv === '2bacpc' || niv === '2bacsvt') ? '2bac' : niv;
+      document.querySelectorAll('.level-pill').forEach(p => p.classList.toggle('actif', p.getAttribute('data-level') === filtres.niveau));
+    }
+
+    remplirFiltresChapitres();
     afficherCours();
+
+    const idURL = urlParams.get('id');
+    if (idURL) {
+      const target = tousLesCours.find(c => String(c.id) === String(idURL));
+      if (target) ouvrirPanneau(target);
+    }
   } catch (err) {
     console.error(err);
-    document.getElementById('cours-tronc').innerHTML = `<p style="color:red;">Erreur de chargement: ${err.message}</p>`;
+    document.getElementById('coursSections').innerHTML = `<div class="loading-zone"><i class="fas fa-exclamation-triangle" style="color:var(--danger);animation:none;"></i><p>Erreur de chargement : ${err.message}</p></div>`;
   }
+}
+
+function remplirFiltresChapitres() {
+  const select = document.getElementById('filtreLecon');
+  const prev = select.value;
+  const map = new Map();
+  tousLesCours.forEach(c => {
+    const key = c.chapitre_fr || 'Général';
+    if (!map.has(key)) map.set(key, currentLang === 'ar' ? (c.chapitre_ar || key) : key);
+  });
+  select.innerHTML = `<option value="all">${trad[currentLang]['filtre.toutesLecons']}</option>`;
+  map.forEach((label, key) => {
+    const opt = document.createElement('option');
+    opt.value = key;
+    opt.textContent = label;
+    select.appendChild(opt);
+  });
+  if ([...map.keys()].includes(prev)) select.value = prev;
+}
+
+function filtrerCours() {
+  return tousLesCours.filter(c => {
+    if (filtres.niveau !== 'all') {
+      if (filtres.niveau === '2bac') {
+        if (c.niveau !== '2bac' && c.niveau !== '2bacpc' && c.niveau !== '2bacsvt') return false;
+      } else if (c.niveau !== filtres.niveau) return false;
+    }
+    if (filtres.lecon !== 'all' && (c.chapitre_fr || 'Général') !== filtres.lecon) return false;
+    if (filtres.recherche) {
+      const t = ((c.titre_fr || '') + ' ' + (c.titre_ar || '') + ' ' + (c.chapitre_fr || '') + ' ' + (c.chapitre_ar || '')).toLowerCase();
+      if (!t.includes(filtres.recherche)) return false;
+    }
+    return true;
+  });
+}
+
+function getNiveauLabel(niv) {
+  if (niv === '2bacpc' || niv === '2bacsvt' || niv === '2bac') return trad[currentLang]['lvl.2bac'];
+  return trad[currentLang]['lvl.' + niv] || niv;
 }
 
 function afficherCours() {
-  // Vider les conteneurs
-  const containers = {
-    tronc: document.getElementById('cours-tronc'),
-    '1bac': document.getElementById('cours-1bac'),
-    '2bac': document.getElementById('cours-2bac')
-  };
-  
-  Object.values(containers).forEach(c => c.innerHTML = '');
+  const container = document.getElementById('coursSections');
+  const filtered = filtrerCours();
+  document.getElementById('countResultats').textContent = filtered.length;
 
-  if (tousLesCours.length === 0) {
-    containers['tronc'].innerHTML = `<p>${trad[currentLang]['noCours']}</p>`;
+  if (filtered.length === 0) {
+    container.innerHTML = `<div class="aucun-resultat"><i class="fas fa-dna"></i><h3>${trad[currentLang]['cours.aucun']}</h3><p>${trad[currentLang]['cours.aucunDesc']}</p></div>`;
     return;
   }
 
-  tousLesCours.forEach(c => {
-    let niveau = c.niveau;
-    let container = containers[niveau];
-    
-    // Si le niveau est 2bacpc ou 2bacsvt, on le met dans l'onglet 2bac
-    if (niveau === '2bacpc' || niveau === '2bacsvt') {
-      container = containers['2bac'];
-    }
-    
-    if (!container) return; // Sécurité
+  const parChap = {};
+  filtered.forEach(c => {
+    const chap = c.chapitre_fr || 'Général';
+    if (!parChap[chap]) parChap[chap] = [];
+    parChap[chap].push(c);
+  });
 
-    const titre = currentLang === 'fr' ? c.titre_fr : (c.titre_ar || c.titre_fr);
-    const desc = currentLang === 'fr' ? (c.description_fr || '') : (c.description_ar || c.description_fr || '');
-    
-    // Trouver les ressources associées à ce cours
-    const ressourcesDuCours = toutesLesRessources.filter(r => r.cours_id === c.id);
-    
-    // Construire la liste des ressources
-    let ressourcesHtml = '';
-    if (ressourcesDuCours.length > 0) {
-      ressourcesHtml = ressourcesDuCours.map(r => {
-        const titreRessource = currentLang === 'fr' ? r.titre_fr : (r.titre_ar || r.titre_fr);
-        return `
-          <a href="${r.fichier_url}" target="_blank" class="btn-ressource">
-            <div class="info">
-              <i class="fas fa-file-pdf"></i>
-              <span>${titreRessource}</span>
+  let html = '';
+  Object.keys(parChap).forEach((chapFR, idx) => {
+    const cours = parChap[chapFR];
+    const c0 = cours[0];
+    const chapLabel = currentLang === 'ar' ? (c0 && c0.chapitre_ar ? c0.chapitre_ar : chapFR) : chapFR;
+    const chapNum = String(idx + 1).padStart(2, '0');
+
+    html += `<div class="chap-group">
+      <div class="chap-header">
+        <span class="chap-num">CH.${chapNum}</span>
+        <h2>${chapLabel}</h2>
+        <span class="chap-nb">${cours.length} ${trad[currentLang]['cours.nb']}</span>
+      </div>
+      <div class="bio-grid">`;
+
+    cours.forEach(c => {
+      const titre = currentLang === 'fr' ? c.titre_fr : (c.titre_ar || c.titre_fr);
+      const descRaw = currentLang === 'fr' ? (c.description_fr || '') : (c.description_ar || c.description_fr || '');
+      const descText = descRaw.replace(/<[^>]*>/g, ' ').trim();
+      const nivLabel = getNiveauLabel(c.niveau);
+      const resCount = toutesLesRessources.filter(r => r.cours_id === c.id).length;
+      const shareUrl = `svt-cours.html?id=${c.id}`;
+
+      const chapLow = chapFR.toLowerCase();
+      let embClass = '';
+      if (chapLow.includes('gén') || chapLow.includes('adn')) embClass = 'gen';
+      else if (chapLow.includes('géol') || chapLow.includes('tect')) embClass = 'geo';
+
+      html += `<div class="bio-card" data-cours-id="${c.id}">
+        <div class="bio-card-accent"></div>
+        <div class="bio-card-top">
+          <div class="bio-emblem ${embClass}"><i class="fas ${c.icone || 'fa-dna'}"></i></div>
+          <div class="bio-badges">
+            <span class="pill-lvl">${nivLabel}</span>
+            <span class="pill-res"><i class="fas fa-file-pdf"></i> ${resCount} PDF</span>
+          </div>
+        </div>
+        <div class="bio-card-body">
+          <h3>${titre}</h3>
+          <p class="bio-excerpt">${descText || chapLabel}</p>
+          <div class="bio-card-cta">
+            <span>${trad[currentLang]['cours.cta']}</span>
+            <i class="fas fa-arrow-${currentLang === 'ar' ? 'left' : 'right'}"></i>
+          </div>
+        </div>
+        <div class="share-bar">
+          <button type="button" class="share-btn whatsapp" data-url="${shareUrl}" data-title="${titre.replace(/"/g, '&quot;')}"><i class="fab fa-whatsapp"></i></button>
+          <button type="button" class="share-btn facebook" data-url="${shareUrl}" data-title="${titre.replace(/"/g, '&quot;')}"><i class="fab fa-facebook-f"></i></button>
+          <button type="button" class="share-btn telegram" data-url="${shareUrl}" data-title="${titre.replace(/"/g, '&quot;')}"><i class="fab fa-telegram-plane"></i></button>
+          <button type="button" class="share-btn copy" data-url="${shareUrl}"><i class="fas fa-link"></i></button>
+        </div>
+      </div>`;
+    });
+
+    html += `</div></div>`;
+  });
+
+  container.innerHTML = html;
+
+  container.querySelectorAll('.bio-card').forEach(card => {
+    card.addEventListener('click', () => {
+      const c = tousLesCours.find(item => String(item.id) === String(card.dataset.coursId));
+      if (c) ouvrirPanneau(c);
+    });
+  });
+  container.querySelectorAll('.share-btn').forEach(btn => {
+    btn.addEventListener('click', (ev) => {
+      ev.stopPropagation();
+      const reseau = btn.classList.contains('whatsapp') ? 'whatsapp' :
+                     btn.classList.contains('facebook') ? 'facebook' :
+                     btn.classList.contains('telegram') ? 'telegram' : 'copy';
+      partager(reseau, btn.dataset.url, btn.dataset.title || '');
+    });
+  });
+  setTimeout(() => renderMath(container), 80);
+}
+
+function ouvrirPanneau(c) {
+  const panneau = document.getElementById('panneauDetail');
+  const overlay = document.getElementById('panneauOverlay');
+  const corps = document.getElementById('panneauCorps');
+  const titre = currentLang === 'fr' ? c.titre_fr : (c.titre_ar || c.titre_fr);
+  const desc = currentLang === 'fr' ? (c.description_fr || '—') : (c.description_ar || c.description_fr || '—');
+  const chap = currentLang === 'fr' ? (c.chapitre_fr || 'Général') : (c.chapitre_ar || c.chapitre_fr || 'عام');
+  const niv = getNiveauLabel(c.niveau);
+  const resList = toutesLesRessources.filter(r => r.cours_id === c.id);
+  const shareUrl = `svt-cours.html?id=${c.id}`;
+
+  corps.innerHTML = `
+    <div class="panneau-hero">
+      <div class="icon-grand"><i class="fas ${c.icone || 'fa-dna'}"></i></div>
+      <h1>${titre}</h1>
+      <div class="badges"><span>${niv}</span><span>${chap}</span></div>
+    </div>
+    <div class="panneau-section">
+      <h3><i class="fas fa-bookmark"></i> ${trad[currentLang]['resume']}</h3>
+      <div class="panneau-resume">${desc}</div>
+    </div>
+    <div class="panneau-section">
+      <h3><i class="fas fa-folder-open"></i> ${trad[currentLang]['ressources']}</h3>
+      ${resList.length === 0
+        ? `<p style="color:var(--gray);font-style:italic;">${trad[currentLang]['noRessources']}</p>`
+        : resList.map(r => `
+            <div class="ressource-item">
+              <div class="icon-type"><i class="fas fa-file-pdf"></i></div>
+              <div class="info">
+                <h4>${currentLang === 'fr' ? r.titre_fr : (r.titre_ar || r.titre_fr)}</h4>
+                <span>${r.taille || 'PDF'}</span>
+              </div>
+              <a class="btn-dl" href="${r.fichier_url}" target="_blank" rel="noopener"><i class="fas fa-download"></i> ${trad[currentLang]['telecharger']}</a>
             </div>
-            <div class="icon-dl"><i class="fas fa-download"></i> ${trad[currentLang]['telecharger']}</div>
-          </a>
-        `;
-      }).join('');
-    } else {
-      ressourcesHtml = `<p style="font-size:0.85rem; color:var(--gray-light);">${trad[currentLang]['noRessources']}</p>`;
-    }
+          `).join('')}
+      <div class="share-bar" style="margin-top:18px;border-radius:6px;">
+        <button type="button" class="share-btn whatsapp" data-url="${shareUrl}" data-title="${titre.replace(/"/g, '&quot;')}"><i class="fab fa-whatsapp"></i></button>
+        <button type="button" class="share-btn facebook" data-url="${shareUrl}" data-title="${titre.replace(/"/g, '&quot;')}"><i class="fab fa-facebook-f"></i></button>
+        <button type="button" class="share-btn telegram" data-url="${shareUrl}" data-title="${titre.replace(/"/g, '&quot;')}"><i class="fab fa-telegram-plane"></i></button>
+        <button type="button" class="share-btn copy" data-url="${shareUrl}"><i class="fas fa-link"></i></button>
+      </div>
+    </div>`;
 
-    // On crée l'accordéon
-    const accordion = document.createElement('div');
-    accordion.className = 'cours-accordion';
-    accordion.innerHTML = `
-      <div class="cours-header" onclick="toggleAccordion(this)">
-        <div class="cours-header-left">
-          <div class="cours-icon"><i class="fas ${c.icone || 'fa-dna'}"></i></div>
-          <div>
-            <div class="cours-title">${titre}</div>
-            <div class="cours-subtitle">${c.chapitre_fr || 'Général'}</div>
-          </div>
-        </div>
-        <i class="fas fa-chevron-down cours-toggle-icon"></i>
-      </div>
-      <div class="cours-content">
-        <div class="cours-inner">
-          <div class="resume-block">
-            <h4><i class="fas fa-bookmark"></i> ${trad[currentLang]['resume']}</h4>
-            <p>${desc}</p>
-          </div>
-          
-          <div class="ressources-liste">
-            <h5><i class="fas fa-folder-open"></i> ${trad[currentLang]['ressources']}</h5>
-            ${ressourcesHtml}
-          </div>
-        </div>
-      </div>
-    `;
-    
-    container.appendChild(accordion);
+  corps.querySelectorAll('.share-btn').forEach(btn => {
+    btn.addEventListener('click', (ev) => {
+      ev.stopPropagation();
+      const reseau = btn.classList.contains('whatsapp') ? 'whatsapp' :
+                     btn.classList.contains('facebook') ? 'facebook' :
+                     btn.classList.contains('telegram') ? 'telegram' : 'copy';
+      partager(reseau, btn.dataset.url, btn.dataset.title || '');
+    });
   });
-  
-  // Si un conteneur est resté vide (aucun cours pour ce niveau)
-  Object.keys(containers).forEach(k => {
-    if (containers[k].innerHTML === '') {
-      containers[k].innerHTML = `<p style="color:var(--gray);">${trad[currentLang]['noCours']}</p>`;
-    }
-  });
-  
-  setTimeout(renderMath, 100);
+
+  panneau.classList.add('ouvert');
+  overlay.classList.add('ouvert');
+  document.body.style.overflow = 'hidden';
+  setTimeout(() => renderMath(corps), 60);
 }
 
-function toggleAccordion(header) {
-  const content = header.nextElementSibling;
-  const icon = header.querySelector('.cours-toggle-icon');
-  content.classList.toggle('open');
-  if (content.classList.contains('open')) icon.style.transform = 'rotate(180deg)';
-  else icon.style.transform = 'rotate(0deg)';
-  setTimeout(renderMath, 100);
+function fermerPanneau() {
+  document.getElementById('panneauDetail').classList.remove('ouvert');
+  document.getElementById('panneauOverlay').classList.remove('ouvert');
+  document.body.style.overflow = '';
 }
 
-function renderMath() {
+function renderMath(el = document.body) {
   if (window.renderMathInElement) {
-    renderMathInElement(document.body, {
-      delimiters: [
-        { left: '$$', right: '$$', display: false },
-        { left: '$', right: '$', display: false }
-      ],
+    renderMathInElement(el, {
+      delimiters: [{ left: '$$', right: '$$', display: false }, { left: '$', right: '$', display: false }],
       throwOnError: false
     });
   }
+}
+
+function partager(reseau, urlRelatif, titre = '') {
+  const url = new URL(urlRelatif || window.location.href, window.location.href).href;
+  const text = encodeURIComponent((titre || 'DARRSSY') + ' — Découvre ce cours SVT sur DARRSSY !');
+  let lien = '';
+  if (reseau === 'whatsapp') lien = `https://wa.me/?text=${text}%20${encodeURIComponent(url)}`;
+  else if (reseau === 'facebook') lien = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
+  else if (reseau === 'telegram') lien = `https://t.me/share/url?url=${encodeURIComponent(url)}&text=${text}`;
+  else if (reseau === 'copy') {
+    navigator.clipboard.writeText(url).then(() => toast(trad[currentLang]['share.copied'], 'success'));
+    return;
+  }
+  window.open(lien, '_blank', 'noopener,noreferrer');
+}
+
+function toast(msg, type = '') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast show ' + type;
+  setTimeout(() => t.classList.remove('show'), 2600);
 }
 </script>
 <script data-goatcounter="https://darrssy.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
