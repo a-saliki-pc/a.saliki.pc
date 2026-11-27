@@ -507,11 +507,19 @@ async function chargerExercices() {
   }
 }
 
+function estContenuPourLangue(item) {
+  const regexArabe = /[\u0600-\u06FF]/;
+  const estArabe = regexArabe.test(item.titre_fr || '') || regexArabe.test(item.titre_ar || '');
+  if (currentLang === 'fr' && estArabe) return false;
+  if (currentLang === 'ar' && !estArabe) return false;
+  return true;
+}
+
 function remplirFiltresChapitres() {
   const select = document.getElementById('filtreLecon');
   const prev = select.value;
   const map = new Map();
-  tousLesExercices.forEach(e => {
+  tousLesExercices.filter(estContenuPourLangue).forEach(e => {
     const key = e.chapitre_fr || 'Général';
     if (!map.has(key)) map.set(key, currentLang === 'ar' ? (e.chapitre_ar || key) : key);
   });
@@ -527,6 +535,7 @@ function remplirFiltresChapitres() {
 
 function filtrerExercices() {
   return tousLesExercices.filter(e => {
+    if (!estContenuPourLangue(e)) return false;
     if (filtres.niveau !== 'all') {
       if (filtres.niveau === '2bac') {
         if (e.niveau !== '2bac' && e.niveau !== '2bacpc' && e.niveau !== '2bacsvt') return false;
