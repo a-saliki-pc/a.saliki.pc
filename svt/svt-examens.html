@@ -582,10 +582,18 @@ async function chargerExamens() {
   }
 }
 
+function estContenuPourLangue(item) {
+  const regexArabe = /[\u0600-\u06FF]/;
+  const estArabe = regexArabe.test(item.titre_fr || '') || regexArabe.test(item.titre_ar || '');
+  if (currentLang === 'fr' && estArabe) return false;
+  if (currentLang === 'ar' && !estArabe) return false;
+  return true;
+}
+
 function remplirFiltresAnnees() {
   const select = document.getElementById('filtreAnnee');
   const prev = select.value;
-  const annees = [...new Set(tousLesExamens.map(e => e.annee).filter(Boolean))].sort((a, b) => b - a);
+  const annees = [...new Set(tousLesExamens.filter(estContenuPourLangue).map(e => e.annee).filter(Boolean))].sort((a, b) => b - a);
   select.innerHTML = `<option value="all">${trad[currentLang]['filtre.toutesAnnees']}</option>`;
   annees.forEach(a => {
     const opt = document.createElement('option');
@@ -598,6 +606,7 @@ function remplirFiltresAnnees() {
 
 function filtrerExamens() {
   return tousLesExamens.filter(e => {
+    if (!estContenuPourLangue(e)) return false;
     if (filtres.niveau !== 'all') {
       if (filtres.niveau === '2bac') {
         if (e.niveau !== '2bac' && e.niveau !== '2bacpc' && e.niveau !== '2bacsvt') return false;
