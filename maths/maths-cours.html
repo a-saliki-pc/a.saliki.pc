@@ -729,11 +729,19 @@ async function chargerCours() {
   }
 }
 
+function estContenuPourLangue(item) {
+  const regexArabe = /[\u0600-\u06FF]/;
+  const estArabe = regexArabe.test(item.titre_fr || '') || regexArabe.test(item.titre_ar || '');
+  if (currentLang === 'fr' && estArabe) return false;
+  if (currentLang === 'ar' && !estArabe) return false;
+  return true;
+}
+
 function remplirFiltresChapitres() {
   const select = document.getElementById('filtreLecon');
   const prev = select.value;
   const map = new Map();
-  tousLesCours.forEach(c => {
+  tousLesCours.filter(estContenuPourLangue).forEach(c => {
     const key = c.chapitre_fr || 'Général';
     if (!map.has(key)) map.set(key, currentLang === 'ar' ? (c.chapitre_ar || key) : key);
   });
@@ -749,6 +757,7 @@ function remplirFiltresChapitres() {
 
 function filtrerCours() {
   return tousLesCours.filter(c => {
+    if (!estContenuPourLangue(c)) return false;
     if (filtres.niveau !== 'all') {
       if (filtres.niveau === '2bac') {
         if (c.niveau !== '2bac' && c.niveau !== '2bacpc' && c.niveau !== '2bacsvt') return false;
