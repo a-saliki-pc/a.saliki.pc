@@ -1,0 +1,1768 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr" id="htmlRoot">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simulation Dipôle RC (Charge & Décharge) — 2ème Bac | DARRSSY</title>
+<meta name="description" content="Simulation interactive du dipôle RC selon le programme marocain (2ème Bac PC, SM, SVT) : phases de charge et décharge, oscilloscope temps réel et équations différentielles dynamiques.">
+<link rel="icon" type="image/png" href="../assets/logo-darrssy.png">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,700;1,9..144,500&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<style>
+:root {
+  --ink: #16213e;
+  --ink-soft: #1f3258;
+  --teal: #2a9d8f;
+  --mint: #74c6bb;
+  --accent: #e8a33d;
+  --accent-dark: #c17f1e;
+  --danger: #c0483f;
+  --violet: #7c6fba;
+  --sky: #0ea5e9;
+  --light: #faf6ec;
+  --white: #fffdf7;
+  --gray: #5b6b7a;
+  --border: #d9d2bb;
+  --shadow: 5px 5px 0 rgba(22, 33, 62, 0.08);
+  --shadow-lg: 8px 8px 0 rgba(22, 33, 62, 0.11);
+  --radius: 12px;
+  --radius-sm: 6px;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { min-height: 100%; }
+body {
+  font-family: 'Inter', 'Tajawal', sans-serif;
+  background:
+    linear-gradient(rgba(22,33,62,0.07) 0.5px, transparent 0.5px),
+    linear-gradient(90deg, rgba(22,33,62,0.07) 0.5px, transparent 0.5px),
+    var(--light);
+  background-size: 40px 40px;
+  color: var(--ink);
+  line-height: 1.5;
+  display: flex;
+  flex-direction: column;
+}
+[dir="rtl"] body { font-family: 'Tajawal', 'Inter', sans-serif; }
+h1, h2, h3 { font-family: 'Fraunces', 'Tajawal', serif; letter-spacing: -0.01em; }
+.mono { font-family: 'JetBrains Mono', monospace; }
+
+/* TOP STUDIO HEADER */
+.lab-header {
+  background: linear-gradient(135deg, #0b1424 0%, #16213e 60%, #143635 100%);
+  color: var(--white);
+  border-bottom: 3px solid var(--ink);
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.lab-brand { display: flex; align-items: center; gap: 12px; }
+.lab-logo-wrap {
+  width: 42px; height: 42px; border-radius: 50%;
+  background: var(--white); padding: 2px; border: 2px solid var(--accent);
+  flex-shrink: 0;
+}
+.lab-logo-wrap img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; display: block; }
+.lab-title-group h1 { font-size: 1.25rem; font-weight: 700; line-height: 1.15; color: var(--white); }
+.lab-title-group h1 span { color: var(--accent); font-style: italic; }
+.lab-sub {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem; color: var(--mint); letter-spacing: 0.4px;
+}
+.lab-header-actions { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+
+.phase-switch-top {
+  display: inline-flex;
+  background: rgba(255,255,255,0.08);
+  border: 1.5px solid rgba(255,255,255,0.22);
+  border-radius: 8px;
+  padding: 3px;
+  gap: 4px;
+}
+.phase-top-btn {
+  border: none;
+  background: transparent;
+  color: #dbe6ef;
+  font-family: inherit;
+  font-size: 0.82rem;
+  font-weight: 700;
+  padding: 6px 13px;
+  border-radius: 6px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: 0.2s ease;
+}
+.phase-top-btn.active-charge { background: var(--teal); color: #ffffff; }
+.phase-top-btn.active-decharge { background: var(--accent); color: var(--ink); }
+
+.lang-switcher {
+  display: inline-flex; background: var(--white);
+  border: 2px solid var(--ink); border-radius: 6px; overflow: hidden;
+}
+.lang-btn {
+  border: none; background: transparent; color: var(--ink);
+  font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; font-weight: 700;
+  padding: 6px 10px; cursor: pointer;
+}
+.lang-btn.actif { background: var(--ink); color: var(--white); }
+
+.btn-back-site {
+  background: rgba(255,255,255,0.1);
+  border: 1.5px solid rgba(255,255,255,0.28);
+  color: var(--white);
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: 0.2s ease;
+}
+.btn-back-site:hover { background: var(--white); color: var(--ink); }
+
+/* MAIN WORKSPACE GRID */
+.lab-main {
+  max-width: 1460px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 18px 18px 28px;
+  display: grid;
+  grid-template-columns: 330px minmax(420px, 1.25fr) 410px;
+  gap: 18px;
+  flex: 1;
+}
+
+.panel-card {
+  background: var(--white);
+  border: 2px solid var(--ink);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding-bottom: 10px;
+  border-bottom: 1.5px dashed var(--border);
+}
+.panel-head h2 {
+  font-size: 1.04rem;
+  font-weight: 700;
+  color: var(--ink);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.panel-head h2 i { color: var(--teal); }
+.badge-chip {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  font-weight: 700;
+  background: var(--light);
+  border: 1px solid var(--border);
+  padding: 3px 9px;
+  border-radius: 20px;
+  color: var(--ink);
+}
+
+/* LEFT CONTROLS */
+.topo-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+.topo-btn {
+  background: var(--light);
+  border: 1.5px solid var(--border);
+  color: var(--ink);
+  border-radius: 8px;
+  padding: 8px 6px;
+  font-family: inherit;
+  font-size: 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+  text-align: center;
+  transition: 0.2s ease;
+  line-height: 1.25;
+}
+.topo-btn:hover { border-color: var(--teal); }
+.topo-btn.actif { background: var(--ink); color: var(--white); border-color: var(--ink); }
+.topo-btn small { display: block; font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; opacity: 0.8; margin-top: 2px; font-weight: 500; }
+
+.slider-box {
+  background: var(--light);
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 12px;
+}
+.slider-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.83rem;
+  font-weight: 600;
+  margin-bottom: 7px;
+  gap: 8px;
+}
+.slider-val {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--teal);
+  background: rgba(42, 157, 143, 0.11);
+  border: 1px solid rgba(42, 157, 143, 0.3);
+  padding: 2px 8px;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+input[type="range"].rc-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 6px;
+  background: var(--border);
+  border-radius: 4px;
+  outline: none;
+  cursor: pointer;
+}
+input[type="range"].rc-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 17px; height: 17px; border-radius: 50%;
+  background: var(--white); border: 3px solid var(--teal);
+  cursor: pointer;
+}
+input[type="range"].rc-slider::-moz-range-thumb {
+  width: 17px; height: 17px; border-radius: 50%;
+  background: var(--white); border: 3px solid var(--teal);
+  cursor: pointer;
+}
+
+.toggle-line {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 0.8rem; font-weight: 600; color: var(--ink);
+  cursor: pointer;
+  background: var(--light); border: 1px solid var(--border);
+  padding: 8px 10px; border-radius: 7px;
+}
+.toggle-line input { accent-color: var(--teal); width: 15px; height: 15px; cursor: pointer; }
+
+.transport-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.btn-sim {
+  border: 2px solid var(--ink);
+  background: var(--white);
+  color: var(--ink);
+  border-radius: 8px;
+  padding: 9px 12px;
+  font-family: inherit;
+  font-size: 0.84rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: 0.2s ease;
+}
+.btn-sim:hover { background: var(--light); }
+.btn-sim.primary { background: var(--ink); color: var(--white); }
+.btn-sim.primary:hover { background: var(--teal); border-color: var(--teal); }
+.btn-sim.accent { background: var(--accent); color: var(--ink); border-color: var(--ink); }
+.btn-sim.accent:hover { background: var(--accent-dark); color: var(--white); }
+.btn-sim.full { grid-column: 1 / -1; }
+
+.quick-jumps { display: flex; gap: 6px; }
+.quick-jumps button {
+  flex: 1;
+  background: var(--light);
+  border: 1.5px solid var(--border);
+  border-radius: 6px;
+  padding: 5px 8px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: var(--ink);
+  cursor: pointer;
+}
+.quick-jumps button:hover { border-color: var(--ink); background: var(--white); }
+
+/* CENTER VISUALIZATION */
+.center-col { display: flex; flex-direction: column; gap: 18px; min-width: 0; }
+
+.canvas-frame {
+  background: #0d1628;
+  border: 2px solid var(--ink);
+  border-radius: 10px;
+  position: relative;
+  overflow: hidden;
+}
+#circuitCanvas { width: 100%; height: 265px; display: block; cursor: pointer; }
+#graphCanvas { width: 100%; height: 320px; display: block; cursor: crosshair; }
+
+.circuit-hint {
+  position: absolute;
+  bottom: 8px;
+  right: 10px;
+  background: rgba(13, 22, 40, 0.85);
+  border: 1px solid rgba(116, 198, 187, 0.4);
+  color: var(--mint);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  padding: 3px 9px;
+  border-radius: 20px;
+  pointer-events: none;
+}
+
+.curve-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  justify-content: space-between;
+}
+.curve-pills { display: flex; flex-wrap: wrap; gap: 6px; }
+.curve-pill {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: var(--light); border: 1.5px solid var(--border);
+  padding: 4px 10px; border-radius: 20px;
+  font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; font-weight: 700;
+  cursor: pointer; user-select: none;
+}
+.curve-pill input { accent-color: var(--ink); cursor: pointer; }
+.dot-swatch { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }
+
+.hover-readout {
+  background: var(--light);
+  border: 1px dashed var(--border);
+  border-radius: 7px;
+  padding: 7px 12px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.76rem;
+  color: var(--ink);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: space-between;
+}
+
+/* RIGHT PANEL: TELEMETRY + DIFFERENTIAL EQUATION */
+.telemetry-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+.tele-box {
+  background: var(--light);
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  padding: 8px 10px;
+}
+.tele-box .t-lbl { font-size: 0.72rem; color: var(--gray); font-weight: 600; display: block; }
+.tele-box .t-val { font-family: 'JetBrains Mono', monospace; font-size: 0.96rem; font-weight: 700; color: var(--ink); }
+.tele-box.highlight { border-color: var(--teal); background: rgba(42, 157, 143, 0.08); }
+.tele-box.highlight .t-val { color: var(--teal); }
+
+.eq-var-bar { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+.eq-var-btn {
+  background: var(--light);
+  border: 1.5px solid var(--border);
+  border-radius: 7px;
+  padding: 7px 4px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--ink);
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+.eq-var-btn:hover { border-color: var(--teal); }
+.eq-var-btn.actif { background: var(--ink); color: var(--accent); border-color: var(--ink); }
+
+.eq-steps { display: flex; flex-direction: column; gap: 10px; }
+.eq-step {
+  background: var(--light);
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 12px;
+}
+.eq-step.main-eq {
+  background: linear-gradient(135deg, rgba(22,33,62,0.04) 0%, rgba(42,157,143,0.09) 100%);
+  border: 2px solid var(--ink);
+  border-left: 5px solid var(--accent);
+}
+[dir="rtl"] .eq-step.main-eq { border-left: 2px solid var(--ink); border-right: 5px solid var(--accent); }
+.eq-step-title {
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  color: var(--teal);
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.eq-step.main-eq .eq-step-title { color: var(--ink); }
+.eq-math {
+  direction: ltr;
+  text-align: center;
+  overflow-x: auto;
+  padding: 4px 2px;
+  font-size: 0.94rem;
+}
+.eq-math .katex-display { margin: 0.25em 0 !important; }
+.eq-note { font-size: 0.78rem; color: var(--gray); margin-top: 4px; line-height: 1.45; }
+
+.lab-footer {
+  border-top: 2px solid var(--ink);
+  background: var(--white);
+  padding: 10px 20px;
+  text-align: center;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.76rem;
+  color: var(--gray);
+}
+
+@media (max-width: 1220px) {
+  .lab-main { grid-template-columns: 310px 1fr; }
+  .eq-panel-col { grid-column: 1 / -1; }
+}
+@media (max-width: 820px) {
+  .lab-main { grid-template-columns: 1fr; padding: 12px; }
+  #circuitCanvas { height: 230px; }
+  #graphCanvas { height: 270px; }
+  .lab-header { padding: 10px 14px; }
+  .lab-title-group h1 { font-size: 1.05rem; }
+}
+</style>
+</head>
+<body>
+
+<header class="lab-header">
+  <div class="lab-brand">
+    <div class="lab-logo-wrap"><img src="../assets/logo-darrssy.png" alt="DARRSSY" onerror="this.onerror=null;this.src='https://darrssy.com/assets/logo-darrssy.png';"></div>
+    <div class="lab-title-group">
+      <h1><span data-i18n="header.title1">Simulation Dipôle</span> <span>RC</span></h1>
+      <div class="lab-sub" data-i18n="header.sub">Programme Marocain · 2ème Bac (PC / SM / SVT)</div>
+    </div>
+  </div>
+  <div class="lab-header-actions">
+    <div class="phase-switch-top" role="group" aria-label="Phase du dipôle RC">
+      <button class="phase-top-btn active-charge" id="btnTopCharge" onclick="setPhase('charge')">
+        <i class="fas fa-bolt"></i> <span data-i18n="phase.charge">Charge (K→1)</span>
+      </button>
+      <button class="phase-top-btn" id="btnTopDecharge" onclick="setPhase('decharge')">
+        <i class="fas fa-battery-quarter"></i> <span data-i18n="phase.decharge">Décharge (K→2)</span>
+      </button>
+    </div>
+    <div class="lang-switcher">
+      <button class="lang-btn actif" data-lang="fr" onclick="appliquerLangue('fr')">FR</button>
+      <button class="lang-btn" data-lang="ar" onclick="appliquerLangue('ar')">AR</button>
+    </div>
+    <button type="button" class="btn-back-site" id="btnFullscreenLab" onclick="toggleLabFullscreen()" title="Plein écran"><i class="fas fa-expand"></i></button>
+    <a href="../simulations.html" class="btn-back-site" id="btnBackSimulations">
+      <i class="fas fa-arrow-left"></i> <span data-i18n="nav.back">Simulations</span>
+    </a>
+  </div>
+</header>
+
+<main class="lab-main">
+
+  <!-- COLONNE GAUCHE : ÉLÉMENTS DU CIRCUIT & COMMANDES -->
+  <section class="panel-card">
+    <div class="panel-head">
+      <h2><i class="fas fa-sliders-h"></i> <span data-i18n="ctrl.title">Éléments du circuit</span></h2>
+      <span class="badge-chip" id="badgeRegime">Transitoire</span>
+    </div>
+
+    <div>
+      <div style="font-size:0.78rem;font-weight:700;color:var(--gray);margin-bottom:6px;" data-i18n="ctrl.topoLabel">Configuration des éléments :</div>
+      <div class="topo-grid">
+        <button class="topo-btn actif" data-topo="simple" onclick="setTopology('simple')">
+          <span data-i18n="topo.simple">Simple</span>
+          <small>R, C</small>
+        </button>
+        <button class="topo-btn" data-topo="serie" onclick="setTopology('serie')">
+          <span data-i18n="topo.serie">Série</span>
+          <small>R + r, C</small>
+        </button>
+        <button class="topo-btn" data-topo="parallele" onclick="setTopology('parallele')">
+          <span data-i18n="topo.para">Parallèle</span>
+          <small>(R₁ // R₂), C</small>
+        </button>
+      </div>
+    </div>
+
+    <div class="slider-box">
+      <div class="slider-row">
+        <span data-i18n="param.E">F.é.m du générateur (E)</span>
+        <span class="slider-val" id="valE">6.0 V</span>
+      </div>
+      <input type="range" class="rc-slider" id="sliderE" min="1" max="24" step="0.5" value="6">
+    </div>
+
+    <div class="slider-box">
+      <div class="slider-row">
+        <span id="lblR1" data-i18n="param.R">Résistance R</span>
+        <span class="slider-val" id="valR1">1000 Ω</span>
+      </div>
+      <input type="range" class="rc-slider" id="sliderR1" min="100" max="10000" step="100" value="1000">
+    </div>
+
+    <div class="slider-box" id="boxR2" style="display:none;">
+      <div class="slider-row">
+        <span id="lblR2">Résistance interne r</span>
+        <span class="slider-val" id="valR2">500 Ω</span>
+      </div>
+      <input type="range" class="rc-slider" id="sliderR2" min="100" max="5000" step="100" value="500">
+    </div>
+
+    <div class="slider-box">
+      <div class="slider-row">
+        <span data-i18n="param.C">Capacité du condensateur (C)</span>
+        <span class="slider-val" id="valC">10 µF</span>
+      </div>
+      <input type="range" class="rc-slider" id="sliderC" min="1" max="100" step="1" value="10">
+    </div>
+
+    <div class="slider-box">
+      <div class="slider-row">
+        <span data-i18n="param.speed">Vitesse de simulation</span>
+        <span class="slider-val" id="valSpeed">1.0×</span>
+      </div>
+      <input type="range" class="rc-slider" id="sliderSpeed" min="0.25" max="3" step="0.25" value="1">
+    </div>
+
+    <div class="slider-box">
+      <div class="slider-row">
+        <span data-i18n="param.time">Instant t (curseur)</span>
+        <span class="slider-val" id="valTime">0.00 ms</span>
+      </div>
+      <input type="range" class="rc-slider" id="sliderTime" min="0" max="600" step="1" value="0">
+      <div class="quick-jumps" style="margin-top:8px;">
+        <button type="button" onclick="jumpToTau(0)">t = 0</button>
+        <button type="button" onclick="jumpToTau(1)">t = τ</button>
+        <button type="button" onclick="jumpToTau(5)">t = 5τ</button>
+      </div>
+    </div>
+
+    <label class="toggle-line">
+      <input type="checkbox" id="chkKeepU0">
+      <span data-i18n="ctrl.keepU0">Conserver uC actuel au basculement K</span>
+    </label>
+
+    <div class="transport-grid">
+      <button class="btn-sim primary" id="btnPlayPause" onclick="togglePlay()">
+        <i class="fas fa-pause"></i> <span data-i18n="btn.pause">Pause</span>
+      </button>
+      <button class="btn-sim" onclick="resetSim()">
+        <i class="fas fa-redo"></i> <span data-i18n="btn.reset">t = 0</span>
+      </button>
+      <button class="btn-sim accent full" onclick="toggleSwitchK()">
+        <i class="fas fa-exchange-alt"></i> <span data-i18n="btn.switchK">Basculer l'interrupteur K (Charge ↔ Décharge)</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- COLONNE CENTRALE : SCHÉMA ANIMÉ + OSCILLOSCOPE -->
+  <section class="center-col">
+    <div class="panel-card">
+      <div class="panel-head">
+        <h2><i class="fas fa-project-diagram"></i> <span data-i18n="circuit.title">Circuit électrique animé (Convention Récepteur)</span></h2>
+        <span class="badge-chip" id="badgeSwitch">K → Position 1 (Charge)</span>
+      </div>
+      <div class="canvas-frame">
+        <canvas id="circuitCanvas"></canvas>
+        <div class="circuit-hint" data-i18n="circuit.hint">Cliquez sur K pour basculer</div>
+      </div>
+    </div>
+
+    <div class="panel-card">
+      <div class="panel-head">
+        <h2><i class="fas fa-chart-line"></i> <span data-i18n="graph.title">Oscilloscope — Évolution temporelle</span></h2>
+        <span class="badge-chip" id="badgeTauTop">τ = 10.0 ms</span>
+      </div>
+
+      <div class="curve-toolbar">
+        <div class="curve-pills">
+          <label class="curve-pill"><input type="checkbox" id="showUc" checked onchange="drawAll()"><span class="dot-swatch" style="background:#2dd4bf;"></span> uC(t)</label>
+          <label class="curve-pill"><input type="checkbox" id="showUr" checked onchange="drawAll()"><span class="dot-swatch" style="background:#f59e0b;"></span> uR(t)</label>
+          <label class="curve-pill"><input type="checkbox" id="showI" onchange="drawAll()"><span class="dot-swatch" style="background:#a78bfa;"></span> i(t)</label>
+          <label class="curve-pill"><input type="checkbox" id="showEe" onchange="drawAll()"><span class="dot-swatch" style="background:#fb7185;"></span> Ee(t)</label>
+        </div>
+        <div class="curve-pills">
+          <label class="curve-pill"><input type="checkbox" id="showTangent" checked onchange="drawAll()"> <span data-i18n="graph.tangent">Tangente t=0</span></label>
+          <label class="curve-pill"><input type="checkbox" id="showTauGuides" checked onchange="drawAll()"> <span data-i18n="graph.guides">Repères τ & 5τ</span></label>
+        </div>
+      </div>
+
+      <div class="canvas-frame">
+        <canvas id="graphCanvas"></canvas>
+      </div>
+
+      <div class="hover-readout" id="hoverReadout">
+        <span data-i18n="graph.hoverHint">Survolez le graphe pour mesurer t, uC(t), uR(t), i(t) et Ee(t).</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- COLONNE DROITE : MESURES & ÉQUATION DIFFÉRENTIELLE -->
+  <section class="panel-card eq-panel-col">
+    <div class="panel-head">
+      <h2><i class="fas fa-tachometer-alt"></i> <span data-i18n="tele.title">Mesures & Constantes</span></h2>
+      <span class="badge-chip" id="badgeReq">Réq = 1000 Ω</span>
+    </div>
+
+    <div class="telemetry-grid">
+      <div class="tele-box highlight">
+        <span class="t-lbl">τ = R<sub>éq</sub>·C</span>
+        <span class="t-val" id="teleTau">10.00 ms</span>
+      </div>
+      <div class="tele-box">
+        <span class="t-lbl">5τ (<span data-i18n="tele.permanent">Régime perm.</span>)</span>
+        <span class="t-val" id="tele5Tau">50.00 ms</span>
+      </div>
+      <div class="tele-box">
+        <span class="t-lbl">u<sub>C</sub>(t)</span>
+        <span class="t-val" id="teleUc">0.00 V</span>
+      </div>
+      <div class="tele-box">
+        <span class="t-lbl">u<sub>R</sub>(t)</span>
+        <span class="t-val" id="teleUr">6.00 V</span>
+      </div>
+      <div class="tele-box">
+        <span class="t-lbl">i(t)</span>
+        <span class="t-val" id="teleI">6.00 mA</span>
+      </div>
+      <div class="tele-box">
+        <span class="t-lbl">E<sub>e</sub>(t) = ½·C·u<sub>C</sub>²</span>
+        <span class="t-val" id="teleEe">0.000 mJ</span>
+      </div>
+    </div>
+
+    <div class="panel-head" style="margin-top:4px;">
+      <h2><i class="fas fa-square-root-alt"></i> <span data-i18n="eq.title">Équation différentielle</span></h2>
+      <span class="badge-chip" id="badgePhaseEq">Charge</span>
+    </div>
+
+    <div>
+      <div style="font-size:0.78rem;font-weight:700;color:var(--gray);margin-bottom:6px;" data-i18n="eq.varPrompt">Grandeur étudiée en fonction du circuit :</div>
+      <div class="eq-var-bar">
+        <button class="eq-var-btn actif" data-eqvar="uc" onclick="setEqVar('uc')">uC(t)</button>
+        <button class="eq-var-btn" data-eqvar="q" onclick="setEqVar('q')">q(t)</button>
+        <button class="eq-var-btn" data-eqvar="i" onclick="setEqVar('i')">i(t)</button>
+        <button class="eq-var-btn" data-eqvar="ur" onclick="setEqVar('ur')">uR(t)</button>
+      </div>
+    </div>
+
+    <div class="eq-steps">
+      <div class="eq-step">
+        <div class="eq-step-title"><i class="fas fa-1"></i> <span data-i18n="eq.step1">Loi d'additivité des tensions</span></div>
+        <div class="eq-math" id="mathStep1"></div>
+      </div>
+
+      <div class="eq-step">
+        <div class="eq-step-title"><i class="fas fa-2"></i> <span data-i18n="eq.step2">Relations des éléments du circuit</span></div>
+        <div class="eq-math" id="mathStep2"></div>
+      </div>
+
+      <div class="eq-step main-eq">
+        <div class="eq-step-title"><i class="fas fa-bolt"></i> <span data-i18n="eq.step3">Équation différentielle (littérale & numérique)</span></div>
+        <div class="eq-math" id="mathStep3"></div>
+        <div class="eq-note" id="eqDimNote"></div>
+      </div>
+
+      <div class="eq-step">
+        <div class="eq-step-title"><i class="fas fa-check-circle"></i> <span data-i18n="eq.step4">Solution analytique & valeurs</span></div>
+        <div class="eq-math" id="mathStep4"></div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="lab-footer">
+  © 2026 DARRSSY — Simulation Dipôle RC (2ème Bac Programme Marocain)
+</footer>
+
+<script>
+const trad = {
+  fr: {
+    'header.title1': 'Simulation Dipôle',
+    'header.sub': 'Programme Marocain · 2ème Bac (PC / SM / SVT)',
+    'phase.charge': 'Charge (K→1)',
+    'phase.decharge': 'Décharge (K→2)',
+    'nav.back': 'Simulations',
+    'ctrl.title': 'Éléments du circuit',
+    'ctrl.topoLabel': 'Configuration des éléments :',
+    'topo.simple': 'Simple',
+    'topo.serie': 'Série',
+    'topo.para': 'Parallèle',
+    'param.E': 'F.é.m du générateur (E)',
+    'param.R': 'Résistance R',
+    'param.R1': 'Résistance R₁',
+    'param.r': 'Résistance interne r',
+    'param.R2': 'Résistance R₂',
+    'param.C': 'Capacité du condensateur (C)',
+    'param.speed': 'Vitesse de simulation',
+    'param.time': 'Instant t (curseur)',
+    'ctrl.keepU0': 'Conserver uC actuel au basculement K',
+    'btn.pause': 'Pause',
+    'btn.play': 'Lancer',
+    'btn.reset': 't = 0',
+    'btn.switchK': "Basculer l'interrupteur K (Charge ↔ Décharge)",
+    'circuit.title': 'Circuit électrique animé (Convention Récepteur)',
+    'circuit.hint': 'Cliquez sur K pour basculer',
+    'graph.title': 'Oscilloscope — Évolution temporelle',
+    'graph.tangent': 'Tangente t=0',
+    'graph.guides': 'Repères τ & 5τ',
+    'graph.hoverHint': 'Survolez le graphe pour mesurer t, uC(t), uR(t), i(t) et Ee(t).',
+    'tele.title': 'Mesures & Constantes',
+    'tele.permanent': 'Régime perm.',
+    'regime.trans': 'Transitoire',
+    'regime.perm': 'Permanent',
+    'eq.title': 'Équation différentielle',
+    'eq.varPrompt': 'Grandeur étudiée en fonction du circuit :',
+    'eq.step1': "Loi d'additivité des tensions",
+    'eq.step2': 'Relations des éléments du circuit',
+    'eq.step3': 'Équation différentielle (littérale & numérique)',
+    'eq.step4': 'Solution analytique & valeurs',
+    'switch.1': 'K → Position 1 (Charge)',
+    'switch.2': 'K → Position 2 (Décharge)',
+    'badge.charge': 'Charge',
+    'badge.decharge': 'Décharge',
+    'dim.note': 'Analyse dimensionnelle : [τ] = [R]·[C] = (U/I)·(I·T/U) = T (en secondes).'
+  },
+  ar: {
+    'header.title1': 'محاكاة ثنائي القطب',
+    'header.sub': 'المنهاج المغربي · الثانية باك (ف.ك / ع.ر / ع.ح.أ)',
+    'phase.charge': 'الشحن (K→1)',
+    'phase.decharge': 'التفريغ (K→2)',
+    'nav.back': 'المحاكاة',
+    'ctrl.title': 'عناصر الدارة',
+    'ctrl.topoLabel': 'تركيب عناصر الدارة:',
+    'topo.simple': 'بسيطة',
+    'topo.serie': 'على التوالي',
+    'topo.para': 'على التوازي',
+    'param.E': 'القوة الكهرمحركة (E)',
+    'param.R': 'المقاومة R',
+    'param.R1': 'المقاومة R₁',
+    'param.r': 'المقاومة الداخلية r',
+    'param.R2': 'المقاومة R₂',
+    'param.C': 'سعة المكثف (C)',
+    'param.speed': 'سرعة المحاكاة',
+    'param.time': 'اللحظة الزمنية t',
+    'ctrl.keepU0': 'الاحتفاظ بالتوتر uC عند قلب K',
+    'btn.pause': 'إيقاف مؤقت',
+    'btn.play': 'تشغيل',
+    'btn.reset': 't = 0',
+    'btn.switchK': 'قلب قاطع التيار K (شحن ↔ تفريغ)',
+    'circuit.title': 'الدارة الكهربائية التفاعلية (اصطلاح مستقبل)',
+    'circuit.hint': 'انقر على K لتغيير الموضع',
+    'graph.title': 'راسم التذبذب — التطور الزمني',
+    'graph.tangent': 'المماس t=0',
+    'graph.guides': 'معالم τ و 5τ',
+    'graph.hoverHint': 'مرر المؤشر على المنحنى لقراءة t و uC(t) و uR(t) و i(t) و Ee(t).',
+    'tele.title': 'القياسات والثوابت',
+    'tele.permanent': 'النظام الدائم',
+    'regime.trans': 'النظام الانتقالي',
+    'regime.perm': 'النظام الدائم',
+    'eq.title': 'المعادلة التفاضلية',
+    'eq.varPrompt': 'المقدار المدروس بدلالة عناصر الدارة:',
+    'eq.step1': 'قانون إضافية التوترات',
+    'eq.step2': 'علاقات عناصر الدارة',
+    'eq.step3': 'المعادلة التفاضلية (حرفية وعددية)',
+    'eq.step4': 'الحل التحليلي والقيم العددية',
+    'switch.1': 'K ← الموضع 1 (الشحن)',
+    'switch.2': 'K ← الموضع 2 (التفريغ)',
+    'badge.charge': 'الشحن',
+    'badge.decharge': 'التفريغ',
+    'dim.note': 'معادلة الأبعاد: [τ] = [R]·[C] = (U/I)·(I·T/U) = T (بالثانية).'
+  }
+};
+
+const state = {
+  lang: localStorage.getItem('darrssy-lang') || 'fr',
+  phase: 'charge',       // 'charge' | 'decharge'
+  topo: 'simple',        // 'simple' | 'serie' | 'parallele'
+  eqVar: 'uc',           // 'uc' | 'q' | 'i' | 'ur'
+  E: 6,
+  R1: 1000,
+  R2: 500,
+  CuF: 10,
+  U0: 0,                 // Initial capacitor voltage for active phase
+  tRatio: 0,             // 0..6 (representing t / tau)
+  speed: 1,
+  playing: true,
+  electronPhase: 0,
+  hoverRatio: null,
+  kHitBox: { x: 0, y: 0, r: 36 }
+};
+
+function getReq() {
+  if (state.topo === 'simple') return state.R1;
+  if (state.topo === 'serie') return state.R1 + state.R2;
+  return (state.R1 * state.R2) / (state.R1 + state.R2);
+}
+function getTau() {
+  return getReq() * state.CuF * 1e-6; // seconds
+}
+function getUinf() {
+  return state.phase === 'charge' ? state.E : 0;
+}
+function evalAt(tSec) {
+  const tau = getTau();
+  const Req = getReq();
+  const C = state.CuF * 1e-6;
+  const Uinf = getUinf();
+  const exp = Math.exp(-tSec / tau);
+  const uc = Uinf + (state.U0 - Uinf) * exp;
+  const i = ((Uinf - state.U0) / Req) * exp; // A (receptor convention)
+  const urDisplayed = (state.topo === 'serie') ? (state.R1 * i) : (Req * i);
+  const urTotal = Req * i;
+  const q = C * uc; // Coulombs
+  const Ee = 0.5 * C * uc * uc; // Joules
+  return { uc, i, urDisplayed, urTotal, q, Ee };
+}
+
+function fmtNum(v, dec = 2) {
+  if (Math.abs(v) < 1e-12) return (0).toFixed(dec);
+  return Number(v.toFixed(dec)).toString();
+}
+function fmtTime(sec) {
+  const tau = getTau();
+  if (tau >= 0.5) return (sec).toFixed(3) + ' s';
+  return (sec * 1000).toFixed(2) + ' ms';
+}
+function fmtSciLatex(val) {
+  if (Math.abs(val) === 0) return '0';
+  const a = Math.abs(val);
+  if (a >= 0.01 && a < 10000) {
+    return parseFloat(val.toPrecision(3)).toString();
+  }
+  const exp = Math.floor(Math.log10(a));
+  const mant = parseFloat((val / Math.pow(10, exp)).toPrecision(3));
+  return `${mant}\\times 10^{${exp}}`;
+}
+
+function setPhase(phase, fromSwitch = false) {
+  const keep = document.getElementById('chkKeepU0').checked;
+  if (keep || fromSwitch) {
+    // Keep current uc as new U0 if keepU0 is checked; otherwise canonical 0 or E
+    if (keep) {
+      const cur = evalAt(state.tRatio * getTau());
+      state.U0 = cur.uc;
+    } else {
+      state.U0 = phase === 'charge' ? 0 : state.E;
+    }
+  } else {
+    state.U0 = phase === 'charge' ? 0 : state.E;
+  }
+  state.phase = phase;
+  state.tRatio = 0;
+  document.getElementById('sliderTime').value = 0;
+
+  const btnC = document.getElementById('btnTopCharge');
+  const btnD = document.getElementById('btnTopDecharge');
+  btnC.className = 'phase-top-btn' + (phase === 'charge' ? ' active-charge' : '');
+  btnD.className = 'phase-top-btn' + (phase === 'decharge' ? ' active-decharge' : '');
+
+  if (!state.playing) {
+    state.playing = true;
+    updatePlayBtn();
+  }
+  updateLabelsAndEquations();
+  drawAll();
+}
+
+function toggleSwitchK() {
+  setPhase(state.phase === 'charge' ? 'decharge' : 'charge', true);
+}
+
+function setTopology(topo) {
+  state.topo = topo;
+  document.querySelectorAll('.topo-btn').forEach(b => {
+    b.classList.toggle('actif', b.dataset.topo === topo);
+  });
+  const boxR2 = document.getElementById('boxR2');
+  boxR2.style.display = topo === 'simple' ? 'none' : 'block';
+  updateLabelsAndEquations();
+  drawAll();
+}
+
+function setEqVar(v) {
+  state.eqVar = v;
+  document.querySelectorAll('.eq-var-btn').forEach(b => {
+    b.classList.toggle('actif', b.dataset.eqvar === v);
+  });
+  renderEquations();
+}
+
+function jumpToTau(n) {
+  state.tRatio = n;
+  state.playing = false;
+  document.getElementById('sliderTime').value = Math.round(n * 100);
+  updatePlayBtn();
+  updateTelemetry();
+  drawAll();
+}
+
+function togglePlay() {
+  if (!state.playing && state.tRatio >= 6) {
+    state.tRatio = 0;
+  }
+  state.playing = !state.playing;
+  updatePlayBtn();
+}
+
+function resetSim() {
+  state.tRatio = 0;
+  if (!document.getElementById('chkKeepU0').checked) {
+    state.U0 = state.phase === 'charge' ? 0 : state.E;
+  }
+  document.getElementById('sliderTime').value = 0;
+  state.playing = true;
+  updatePlayBtn();
+  updateTelemetry();
+  drawAll();
+}
+
+function updatePlayBtn() {
+  const btn = document.getElementById('btnPlayPause');
+  const t = trad[state.lang];
+  if (state.playing) {
+    btn.innerHTML = `<i class="fas fa-pause"></i> <span>${t['btn.pause']}</span>`;
+  } else {
+    btn.innerHTML = `<i class="fas fa-play"></i> <span>${t['btn.play']}</span>`;
+  }
+}
+
+function appliquerLangue(lang) {
+  state.lang = lang;
+  localStorage.setItem('darrssy-lang', lang);
+  const root = document.getElementById('htmlRoot');
+  root.setAttribute('lang', lang);
+  root.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const k = el.getAttribute('data-i18n');
+    if (trad[lang] && trad[lang][k]) el.textContent = trad[lang][k];
+  });
+  document.querySelectorAll('.lang-btn').forEach(b => {
+    b.classList.toggle('actif', b.dataset.lang === lang);
+  });
+  updatePlayBtn();
+  updateLabelsAndEquations();
+  drawAll();
+}
+
+function updateLabelsAndEquations() {
+  const t = trad[state.lang];
+  const lblR1 = document.getElementById('lblR1');
+  const lblR2 = document.getElementById('lblR2');
+  if (state.topo === 'simple') {
+    lblR1.textContent = t['param.R'];
+  } else if (state.topo === 'serie') {
+    lblR1.textContent = t['param.R'];
+    lblR2.textContent = t['param.r'];
+  } else {
+    lblR1.textContent = t['param.R1'];
+    lblR2.textContent = t['param.R2'];
+  }
+
+  document.getElementById('valE').textContent = state.E.toFixed(1) + ' V';
+  document.getElementById('valR1').textContent = state.R1 + ' Ω';
+  document.getElementById('valR2').textContent = state.R2 + ' Ω';
+  document.getElementById('valC').textContent = state.CuF + ' µF';
+  document.getElementById('valSpeed').textContent = state.speed + '×';
+
+  const Req = getReq();
+  const tau = getTau();
+  document.getElementById('badgeReq').textContent = `Réq = ${Math.round(Req)} Ω`;
+  document.getElementById('badgeTauTop').textContent = `τ = ${fmtTime(tau)}`;
+  document.getElementById('teleTau').textContent = fmtTime(tau);
+  document.getElementById('tele5Tau').textContent = fmtTime(5 * tau);
+
+  document.getElementById('badgeSwitch').textContent = state.phase === 'charge' ? t['switch.1'] : t['switch.2'];
+  document.getElementById('badgePhaseEq').textContent = state.phase === 'charge' ? t['badge.charge'] : t['badge.decharge'];
+  document.getElementById('eqDimNote').textContent = t['dim.note'];
+
+  updateTelemetry();
+  renderEquations();
+}
+
+function updateTelemetry() {
+  const tau = getTau();
+  const tSec = state.tRatio * tau;
+  const v = evalAt(tSec);
+  const t = trad[state.lang];
+
+  document.getElementById('valTime').textContent = fmtTime(tSec);
+  document.getElementById('teleUc').textContent = v.uc.toFixed(2) + ' V';
+  document.getElementById('teleUr').textContent = v.urDisplayed.toFixed(2) + ' V';
+  document.getElementById('teleI').textContent = (v.i * 1000).toFixed(2) + ' mA';
+  document.getElementById('teleEe').textContent = (v.Ee * 1000).toFixed(3) + ' mJ';
+
+  const isPerm = state.tRatio >= 5;
+  const badgeReg = document.getElementById('badgeRegime');
+  badgeReg.textContent = isPerm ? t['regime.perm'] : t['regime.trans'];
+  badgeReg.style.background = isPerm ? 'rgba(42,157,143,0.16)' : 'rgba(232,163,61,0.18)';
+}
+
+function renderTex(elId, tex, fallback) {
+  const el = document.getElementById(elId);
+  if (!el) return;
+  if (window.katex && typeof window.katex.render === 'function') {
+    window.katex.render(tex, el, { displayMode: true, throwOnError: false });
+  } else {
+    el.textContent = fallback || tex;
+  }
+}
+
+function renderEquations() {
+  const isCharge = state.phase === 'charge';
+  const Req = getReq();
+  const tau = getTau();
+  const C = state.CuF * 1e-6;
+  const tauStr = fmtSciLatex(tau);
+  const E = state.E;
+  const U0 = state.U0;
+  const rhsText = isCharge ? 'E' : '0';
+  const rhsVal = isCharge ? `${E}` : '0';
+
+  // Symbolic Req expression
+  let ReqSym = 'R';
+  let uRLine = 'u_R = R \\cdot i';
+  let additivite = isCharge ? 'u_R + u_C = E' : 'u_R + u_C = 0';
+  if (state.topo === 'serie') {
+    ReqSym = '(R + r)';
+    additivite = isCharge ? 'u_R + u_r + u_C = E' : 'u_R + u_r + u_C = 0';
+    uRLine = 'u_R + u_r = (R+r)\\,i';
+  } else if (state.topo === 'parallele') {
+    ReqSym = '\\dfrac{R_1 R_2}{R_1 + R_2}';
+    uRLine = 'i = i_1 + i_2 = \\dfrac{u_R}{R_{\\text{éq}}}';
+  }
+
+  renderTex('mathStep1', additivite, additivite);
+
+  const relC = state.eqVar === 'q'
+    ? 'u_C = \\dfrac{q}{C}, \\quad i = \\dfrac{dq}{dt}'
+    : 'i = \\dfrac{dq}{dt} = C\\,\\dfrac{du_C}{dt}';
+  renderTex('mathStep2', `${uRLine} \\quad ; \\quad ${relC}`, `${uRLine} ; ${relC}`);
+
+  // Step 3: Differential equation (symbolic + numerical)
+  let eqLit = '';
+  let eqNum = '';
+  let solLit = '';
+  let solNum = '';
+
+  const tauLit = `${ReqSym}C`;
+  const Qmax = C * E * 1e6; // uC
+  const ImaxmA = ((isCharge ? (E - U0) : -U0) / Req) * 1000;
+  const ratioR = state.topo === 'serie' ? (state.R1 / Req) : 1;
+  const Ur0 = ratioR * (isCharge ? (E - U0) : -U0);
+
+  if (state.eqVar === 'uc') {
+    eqLit = `${tauLit}\\,\\dfrac{du_C}{dt} + u_C = ${rhsText}`;
+    eqNum = `${tauStr}\\,\\dfrac{du_C}{dt} + u_C = ${rhsVal}`;
+    if (isCharge && Math.abs(U0) < 1e-6) {
+      solLit = `u_C(t) = E\\left(1 - e^{-t/\\tau}\\right),\\; \\tau = ${tauLit}`;
+      solNum = `u_C(t) = ${E}\\left(1 - e^{-t/(${tauStr})}\\right)\\;\\text{V}`;
+    } else if (!isCharge && Math.abs(U0 - E) < 1e-6) {
+      solLit = `u_C(t) = E\\,e^{-t/\\tau},\\; \\tau = ${tauLit}`;
+      solNum = `u_C(t) = ${E}\\,e^{-t/(${tauStr})}\\;\\text{V}`;
+    } else {
+      solLit = isCharge
+        ? `u_C(t) = E + (U_0 - E)e^{-t/\\tau}`
+        : `u_C(t) = U_0\\,e^{-t/\\tau}`;
+      solNum = isCharge
+        ? `u_C(t) = ${E} + (${U0.toFixed(2)} - ${E})e^{-t/(${tauStr})}\\;\\text{V}`
+        : `u_C(t) = ${U0.toFixed(2)}\\,e^{-t/(${tauStr})}\\;\\text{V}`;
+    }
+  } else if (state.eqVar === 'q') {
+    const qRhsLit = isCharge ? 'C E' : '0';
+    const qRhsNum = isCharge ? `${fmtNum(Qmax, 1)}\\times 10^{-6}` : '0';
+    eqLit = `${tauLit}\\,\\dfrac{dq}{dt} + q = ${qRhsLit}`;
+    eqNum = `${tauStr}\\,\\dfrac{dq}{dt} + q = ${qRhsNum}`;
+    if (isCharge && Math.abs(U0) < 1e-6) {
+      solLit = `q(t) = CE\\left(1 - e^{-t/\\tau}\\right)`;
+      solNum = `q(t) = ${fmtNum(Qmax, 1)}\\left(1 - e^{-t/(${tauStr})}\\right)\\;\\mu\\text{C}`;
+    } else {
+      const q0uC = C * U0 * 1e6;
+      solLit = isCharge ? `q(t) = CE + (q_0 - CE)e^{-t/\\tau}` : `q(t) = q_0\\,e^{-t/\\tau}`;
+      solNum = isCharge
+        ? `q(t) = ${fmtNum(Qmax, 1)} + (${fmtNum(q0uC, 1)} - ${fmtNum(Qmax, 1)})e^{-t/(${tauStr})}\\;\\mu\\text{C}`
+        : `q(t) = ${fmtNum(q0uC, 1)}\\,e^{-t/(${tauStr})}\\;\\mu\\text{C}`;
+    }
+  } else if (state.eqVar === 'i') {
+    eqLit = `${tauLit}\\,\\dfrac{di}{dt} + i = 0`;
+    eqNum = `${tauStr}\\,\\dfrac{di}{dt} + i = 0`;
+    solLit = isCharge && Math.abs(U0) < 1e-6
+      ? `i(t) = \\dfrac{E}{${ReqSym}}\\,e^{-t/\\tau}`
+      : !isCharge && Math.abs(U0 - E) < 1e-6
+        ? `i(t) = -\\dfrac{E}{${ReqSym}}\\,e^{-t/\\tau}`
+        : `i(t) = ${isCharge ? '\\dfrac{E-U_0}{' + ReqSym + '}' : '-\\dfrac{U_0}{' + ReqSym + '}'}\\,e^{-t/\\tau}`;
+    solNum = `i(t) = ${fmtNum(ImaxmA, 2)}\\,e^{-t/(${tauStr})}\\;\\text{mA}`;
+  } else {
+    eqLit = `${tauLit}\\,\\dfrac{du_R}{dt} + u_R = 0`;
+    eqNum = `${tauStr}\\,\\dfrac{du_R}{dt} + u_R = 0`;
+    if (state.topo === 'serie') {
+      solLit = isCharge && Math.abs(U0) < 1e-6
+        ? `u_R(t) = \\dfrac{R}{R+r}E\\,e^{-t/\\tau}`
+        : `u_R(t) = ${isCharge ? '\\dfrac{R(E-U_0)}{R+r}' : '-\\dfrac{R\\,U_0}{R+r}'}\\,e^{-t/\\tau}`;
+    } else {
+      solLit = isCharge && Math.abs(U0) < 1e-6
+        ? `u_R(t) = E\\,e^{-t/\\tau}`
+        : `u_R(t) = ${isCharge ? '(E - U_0)' : '-U_0'}\\,e^{-t/\\tau}`;
+    }
+    solNum = `u_R(t) = ${fmtNum(Ur0, 2)}\\,e^{-t/(${tauStr})}\\;\\text{V}`;
+  }
+
+  renderTex('mathStep3', `${eqLit} \\\\[6pt] \\Rightarrow\\; ${eqNum}`);
+  renderTex('mathStep4', `${solLit} \\\\[6pt] ${solNum}`);
+}
+
+/* ===== DESSIN DU CIRCUIT ANIMÉ ===== */
+function resizeCanvas(canvas) {
+  const dpr = window.devicePixelRatio || 1;
+  const rect = canvas.getBoundingClientRect();
+  const w = Math.max(200, Math.floor(rect.width));
+  const h = Math.max(150, Math.floor(rect.height));
+  if (canvas.width !== Math.floor(w * dpr) || canvas.height !== Math.floor(h * dpr)) {
+    canvas.width = Math.floor(w * dpr);
+    canvas.height = Math.floor(h * dpr);
+  }
+  const ctx = canvas.getContext('2d');
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  return { ctx, w, h };
+}
+
+function drawArrow(ctx, x1, y1, x2, y2, color, head = 7) {
+  const angle = Math.atan2(y2 - y1, x2 - x1);
+  ctx.save();
+  ctx.strokeStyle = color;
+  ctx.fillStyle = color;
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.moveTo(x1, y1);
+  ctx.lineTo(x2, y2);
+  ctx.stroke();
+  ctx.beginPath();
+  ctx.moveTo(x2, y2);
+  ctx.lineTo(x2 - head * Math.cos(angle - Math.PI / 6), y2 - head * Math.sin(angle - Math.PI / 6));
+  ctx.lineTo(x2 - head * Math.cos(angle + Math.PI / 6), y2 - head * Math.sin(angle + Math.PI / 6));
+  ctx.closePath();
+  ctx.fill();
+  ctx.restore();
+}
+
+function drawCircuit() {
+  const canvas = document.getElementById('circuitCanvas');
+  const { ctx, w, h } = resizeCanvas(canvas);
+  ctx.clearRect(0, 0, w, h);
+
+  // Subtle background grid
+  ctx.strokeStyle = 'rgba(116, 198, 187, 0.06)';
+  ctx.lineWidth = 1;
+  for (let gx = 0; gx < w; gx += 26) { ctx.beginPath(); ctx.moveTo(gx, 0); ctx.lineTo(gx, h); ctx.stroke(); }
+  for (let gy = 0; gy < h; gy += 26) { ctx.beginPath(); ctx.moveTo(0, gy); ctx.lineTo(w, gy); ctx.stroke(); }
+
+  const tau = getTau();
+  const cur = evalAt(state.tRatio * tau);
+  const ratioUc = Math.max(0, Math.min(1, cur.uc / state.E));
+  const isCharge = state.phase === 'charge';
+
+  // Coordinates
+  const leftX = Math.max(66, w * 0.14);
+  const midX = w * 0.37;     // switch K pivot
+  const kPos1X = leftX + (midX - leftX) * 0.55;
+  const kPos2X = midX;
+  const rightX = Math.min(w - 72, w * 0.85);
+  const topY = 58;
+  const botY = h - 46;
+  const resStartX = midX + 34;
+  const resEndX = rightX - 36;
+
+  // Store switch click hitbox
+  state.kHitBox = { x: midX - 18, y: topY, r: 44 };
+
+  // Wires
+  ctx.lineCap = 'round';
+  ctx.lineJoin = 'round';
+
+  // Inactive branch dim wire
+  ctx.strokeStyle = '#334155';
+  ctx.lineWidth = 3;
+  // Left loop (E branch)
+  ctx.beginPath();
+  ctx.moveTo(leftX, botY); ctx.lineTo(leftX, topY); ctx.lineTo(kPos1X, topY);
+  ctx.moveTo(leftX, botY); ctx.lineTo(midX, botY);
+  // Discharge center drop wire
+  ctx.moveTo(midX, topY + 26); ctx.lineTo(midX, botY);
+  ctx.stroke();
+
+  // Active energized wires highlight
+  ctx.strokeStyle = isCharge ? '#2dd4bf' : '#f59e0b';
+  ctx.lineWidth = 3.2;
+  ctx.beginPath();
+  if (isCharge) {
+    ctx.moveTo(leftX, botY); ctx.lineTo(leftX, topY); ctx.lineTo(kPos1X, topY);
+    ctx.moveTo(midX, topY); ctx.lineTo(rightX, topY);
+    ctx.lineTo(rightX, botY); ctx.lineTo(leftX, botY);
+  } else {
+    ctx.moveTo(midX, topY); ctx.lineTo(rightX, topY);
+    ctx.lineTo(rightX, botY); ctx.lineTo(midX, botY);
+    ctx.lineTo(midX, topY + 26);
+  }
+  ctx.stroke();
+
+  // Draw Generator E on leftX (between topY+45 and botY-45)
+  const genCy = (topY + botY) / 2;
+  ctx.fillStyle = '#0d1628';
+  ctx.fillRect(leftX - 24, genCy - 28, 48, 56);
+  ctx.strokeStyle = isCharge ? '#74c6bb' : '#64748b';
+  ctx.lineWidth = 2.5;
+  ctx.beginPath();
+  ctx.arc(leftX, genCy, 22, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.stroke();
+  ctx.fillStyle = '#e2e8f0';
+  ctx.font = '700 13px "JetBrains Mono", monospace';
+  ctx.textAlign = 'center';
+  ctx.fillText('E', leftX, genCy + 4);
+  ctx.fillStyle = '#fb7185';
+  ctx.font = '700 12px "JetBrains Mono", monospace';
+  ctx.fillText('+', leftX - 18, genCy - 22);
+  ctx.fillStyle = '#60a5fa';
+  ctx.fillText('−', leftX - 18, genCy + 30);
+  // Arrow E upward
+  drawArrow(ctx, leftX - 36, genCy + 24, leftX - 36, genCy - 24, isCharge ? '#e8a33d' : '#64748b', 6);
+  ctx.fillStyle = isCharge ? '#e8a33d' : '#64748b';
+  ctx.font = '700 11px "JetBrains Mono", monospace';
+  ctx.fillText(`${state.E}V`, leftX - 36, genCy - 30);
+
+  // Draw Switch K
+  // Terminal 1 & 2 dots
+  ctx.fillStyle = '#0d1628';
+  ctx.fillRect(kPos1X - 4, topY - 12, midX - kPos1X + 8, 42);
+  // Node 1
+  ctx.fillStyle = isCharge ? '#2dd4bf' : '#94a3b8';
+  ctx.beginPath(); ctx.arc(kPos1X, topY, 4.5, 0, Math.PI * 2); ctx.fill();
+  // Node 2
+  ctx.fillStyle = !isCharge ? '#f59e0b' : '#94a3b8';
+  ctx.beginPath(); ctx.arc(midX, topY + 26, 4.5, 0, Math.PI * 2); ctx.fill();
+  // Pivot on right of switch
+  const pivotX = midX + 2;
+  ctx.fillStyle = '#ffffff';
+  ctx.beginPath(); ctx.arc(pivotX, topY, 4.5, 0, Math.PI * 2); ctx.fill();
+  // Switch blade
+  ctx.strokeStyle = '#ffffff';
+  ctx.lineWidth = 3.5;
+  ctx.beginPath();
+  ctx.moveTo(pivotX, topY);
+  if (isCharge) {
+    ctx.lineTo(kPos1X, topY);
+  } else {
+    ctx.lineTo(midX, topY + 26);
+  }
+  ctx.stroke();
+  ctx.fillStyle = '#f8fafc';
+  ctx.font = '700 12px "JetBrains Mono", monospace';
+  ctx.fillText('K', (kPos1X + pivotX) / 2, topY - 18);
+  ctx.font = '600 10px "JetBrains Mono", monospace';
+  ctx.fillStyle = isCharge ? '#2dd4bf' : '#94a3b8';
+  ctx.fillText('1', kPos1X - 10, topY - 8);
+  ctx.fillStyle = !isCharge ? '#f59e0b' : '#94a3b8';
+  ctx.fillText('2', midX - 14, topY + 30);
+
+  // Draw Resistor(s) along top rail (between resStartX and resEndX)
+  const resMidX = (resStartX + resEndX) / 2;
+  ctx.fillStyle = '#0d1628';
+  ctx.fillRect(resStartX, topY - 20, resEndX - resStartX, 40);
+
+  if (state.topo === 'simple') {
+    const rw = Math.min(82, resEndX - resStartX - 16);
+    ctx.strokeStyle = '#e8a33d';
+    ctx.fillStyle = '#1e293b';
+    ctx.lineWidth = 2.5;
+    ctx.fillRect(resMidX - rw / 2, topY - 13, rw, 26);
+    ctx.strokeRect(resMidX - rw / 2, topY - 13, rw, 26);
+    // Connecting wire ends inside cleared box
+    ctx.strokeStyle = isCharge ? '#2dd4bf' : '#f59e0b';
+    ctx.beginPath();
+    ctx.moveTo(resStartX, topY); ctx.lineTo(resMidX - rw / 2, topY);
+    ctx.moveTo(resMidX + rw / 2, topY); ctx.lineTo(resEndX, topY);
+    ctx.stroke();
+    ctx.fillStyle = '#f8fafc';
+    ctx.font = '700 11px "JetBrains Mono", monospace';
+    ctx.fillText(`R = ${state.R1}Ω`, resMidX, topY + 4);
+  } else if (state.topo === 'serie') {
+    const rw = Math.min(62, (resEndX - resStartX - 28) / 2);
+    const gap = 14;
+    const r1x = resMidX - gap / 2 - rw;
+    const r2x = resMidX + gap / 2;
+    ctx.strokeStyle = isCharge ? '#2dd4bf' : '#f59e0b';
+    ctx.lineWidth = 2.5;
+    ctx.beginPath();
+    ctx.moveTo(resStartX, topY); ctx.lineTo(r1x, topY);
+    ctx.moveTo(r1x + rw, topY); ctx.lineTo(r2x, topY);
+    ctx.moveTo(r2x + rw, topY); ctx.lineTo(resEndX, topY);
+    ctx.stroke();
+    ctx.fillStyle = '#1e293b'; ctx.strokeStyle = '#e8a33d';
+    ctx.fillRect(r1x, topY - 13, rw, 26); ctx.strokeRect(r1x, topY - 13, rw, 26);
+    ctx.strokeStyle = '#fb7185';
+    ctx.fillRect(r2x, topY - 13, rw, 26); ctx.strokeRect(r2x, topY - 13, rw, 26);
+    ctx.fillStyle = '#f8fafc';
+    ctx.font = '700 10px "JetBrains Mono", monospace';
+    ctx.fillText(`R`, r1x + rw / 2, topY + 4);
+    ctx.fillText(`r`, r2x + rw / 2, topY + 4);
+  } else {
+    // Parallel R1 // R2
+    const rw = Math.min(72, resEndX - resStartX - 30);
+    const bx1 = resMidX - rw / 2 - 12;
+    const bx2 = resMidX + rw / 2 + 12;
+    ctx.strokeStyle = isCharge ? '#2dd4bf' : '#f59e0b';
+    ctx.lineWidth = 2.4;
+    ctx.beginPath();
+    ctx.moveTo(resStartX, topY); ctx.lineTo(bx1, topY);
+    ctx.moveTo(bx1, topY - 18); ctx.lineTo(bx1, topY + 18);
+    ctx.moveTo(bx1, topY - 18); ctx.lineTo(bx2, topY - 18);
+    ctx.moveTo(bx1, topY + 18); ctx.lineTo(bx2, topY + 18);
+    ctx.moveTo(bx2, topY - 18); ctx.lineTo(bx2, topY + 18);
+    ctx.moveTo(bx2, topY); ctx.lineTo(resEndX, topY);
+    ctx.stroke();
+    ctx.fillStyle = '#1e293b'; ctx.strokeStyle = '#e8a33d';
+    ctx.fillRect(resMidX - rw / 2, topY - 28, rw, 20); ctx.strokeRect(resMidX - rw / 2, topY - 28, rw, 20);
+    ctx.fillRect(resMidX - rw / 2, topY + 8, rw, 20); ctx.strokeRect(resMidX - rw / 2, topY + 8, rw, 20);
+    ctx.fillStyle = '#f8fafc';
+    ctx.font = '700 10px "JetBrains Mono", monospace';
+    ctx.fillText(`R₁`, resMidX, topY - 14);
+    ctx.fillText(`R₂`, resMidX, topY + 22);
+  }
+
+  // Voltage arrow uR (opposite to positive current i -> points left!)
+  const urY = topY - 34;
+  drawArrow(ctx, resEndX - 12, urY, resStartX + 12, urY, '#f59e0b', 6);
+  ctx.fillStyle = '#f59e0b';
+  ctx.font = '700 11px "JetBrains Mono", monospace';
+  ctx.fillText(`uR = ${cur.urDisplayed.toFixed(2)}V`, resMidX, urY - 7);
+
+  // Draw Capacitor C on rightX
+  const capCy = (topY + botY) / 2;
+  ctx.fillStyle = '#0d1628';
+  ctx.fillRect(rightX - 28, capCy - 18, 56, 36);
+  // Plates
+  ctx.strokeStyle = '#74c6bb';
+  ctx.lineWidth = 4.5;
+  ctx.beginPath();
+  ctx.moveTo(rightX - 24, capCy - 9); ctx.lineTo(rightX + 24, capCy - 9);
+  ctx.moveTo(rightX - 24, capCy + 9); ctx.lineTo(rightX + 24, capCy + 9);
+  ctx.stroke();
+
+  // Plate charge indicators (+ on top plate, - on bottom plate)
+  const nCharges = Math.round(ratioUc * 5);
+  ctx.font = '800 12px "JetBrains Mono", monospace';
+  for (let k = 0; k < nCharges; k++) {
+    const cx = rightX - 16 + k * 8;
+    ctx.fillStyle = '#fb7185';
+    ctx.fillText('+', cx, capCy - 15);
+    ctx.fillStyle = '#60a5fa';
+    ctx.fillText('−', cx, capCy + 23);
+  }
+
+  // Label C & Voltage arrow uC (receptor convention: points upward from - to + plate)
+  ctx.fillStyle = '#e2e8f0';
+  ctx.font = '700 12px "JetBrains Mono", monospace';
+  ctx.fillText(`C=${state.CuF}µF`, rightX, capCy + 42);
+  drawArrow(ctx, rightX - 40, capCy + 24, rightX - 40, capCy - 24, '#2dd4bf', 6);
+  ctx.fillStyle = '#2dd4bf';
+  ctx.font = '700 11px "JetBrains Mono", monospace';
+  ctx.textAlign = 'right';
+  ctx.fillText(`uC=${cur.uc.toFixed(2)}V`, rightX - 47, capCy + 4);
+  ctx.textAlign = 'center';
+
+  // Current direction arrow + animated dots
+  const iNorm = cur.i / (state.E / getReq());
+  if (Math.abs(iNorm) > 0.015) {
+    // Positive i convention arrow on top wire between K and resStartX
+    if (cur.i > 0) {
+      drawArrow(ctx, pivotX + 8, topY - 12, resStartX - 4, topY - 12, '#a78bfa', 6);
+    } else {
+      drawArrow(ctx, resStartX - 4, topY - 12, pivotX + 8, topY - 12, '#a78bfa', 6);
+    }
+    ctx.fillStyle = '#a78bfa';
+    ctx.font = '700 11px "JetBrains Mono", monospace';
+    ctx.fillText(`i=${(cur.i * 1000).toFixed(1)}mA`, (pivotX + resStartX) / 2, topY - 22);
+
+    // Animated moving charge dots around the active loop
+    const loopPts = isCharge
+      ? [[leftX, botY], [leftX, topY], [rightX, topY], [rightX, botY], [leftX, botY]]
+      : [[midX, botY], [midX, topY], [rightX, topY], [rightX, botY], [midX, botY]];
+    const dir = cur.i >= 0 ? 1 : -1;
+    const totalSegs = loopPts.length - 1;
+    let perimeter = 0;
+    const segLens = [];
+    for (let s = 0; s < totalSegs; s++) {
+      const dx = loopPts[s + 1][0] - loopPts[s][0];
+      const dy = loopPts[s + 1][1] - loopPts[s][1];
+      const len = Math.hypot(dx, dy);
+      segLens.push(len);
+      perimeter += len;
+    }
+    const dotCount = 14;
+    ctx.fillStyle = isCharge ? '#34d399' : '#fbbf24';
+    ctx.globalAlpha = Math.min(1, 0.25 + Math.abs(iNorm) * 0.9);
+    for (let d = 0; d < dotCount; d++) {
+      let dist = (((d / dotCount) + dir * state.electronPhase) % 1 + 1) % 1;
+      dist *= perimeter;
+      for (let s = 0; s < totalSegs; s++) {
+        if (dist <= segLens[s] || s === totalSegs - 1) {
+          const f = dist / segLens[s];
+          const px = loopPts[s][0] + (loopPts[s + 1][0] - loopPts[s][0]) * f;
+          const py = loopPts[s][1] + (loopPts[s + 1][1] - loopPts[s][1]) * f;
+          ctx.beginPath();
+          ctx.arc(px, py, 3.2, 0, Math.PI * 2);
+          ctx.fill();
+          break;
+        }
+        dist -= segLens[s];
+      }
+    }
+    ctx.globalAlpha = 1;
+  }
+}
+
+/* ===== DESSIN DE L'OSCILLOSCOPE ===== */
+function drawGraph() {
+  const canvas = document.getElementById('graphCanvas');
+  const { ctx, w, h } = resizeCanvas(canvas);
+  ctx.clearRect(0, 0, w, h);
+
+  const padL = 52, padR = 52, padT = 24, padB = 38;
+  const gW = w - padL - padR;
+  const gH = h - padT - padB;
+
+  const tau = getTau();
+  const tMax = 6 * tau;
+  const E = state.E;
+  const isCharge = state.phase === 'charge';
+
+  // Vertical range for voltages: if discharge is active (uR goes down to -E), span [-E*1.08, E*1.08] when uR shown, else [0, E*1.1]
+  const showUc = document.getElementById('showUc').checked;
+  const showUr = document.getElementById('showUr').checked;
+  const showI = document.getElementById('showI').checked;
+  const showEe = document.getElementById('showEe').checked;
+  const showTan = document.getElementById('showTangent').checked;
+  const showGuides = document.getElementById('showTauGuides').checked;
+
+  const vMin = (!isCharge && showUr) ? -E * 1.12 : -E * 0.08;
+  const vMax = E * 1.12;
+  const mapX = (ratio) => padL + (ratio / 6) * gW;
+  const mapY = (volts) => padT + ((vMax - volts) / (vMax - vMin)) * gH;
+
+  // Transient vs Permanent background shading
+  if (showGuides) {
+    ctx.fillStyle = 'rgba(42, 157, 143, 0.07)';
+    ctx.fillRect(mapX(5), padT, mapX(6) - mapX(5), gH);
+  }
+
+  // Oscilloscope grid & tau ticks
+  ctx.strokeStyle = 'rgba(148, 163, 184, 0.14)';
+  ctx.lineWidth = 1;
+  for (let r = 0; r <= 6; r++) {
+    const x = mapX(r);
+    ctx.beginPath(); ctx.moveTo(x, padT); ctx.lineTo(x, padT + gH); ctx.stroke();
+    ctx.fillStyle = '#94a3b8';
+    ctx.font = '600 11px "JetBrains Mono", monospace';
+    ctx.textAlign = 'center';
+    ctx.fillText(r === 0 ? '0' : (r === 1 ? 'τ' : `${r}τ`), x, h - 14);
+  }
+  const yZero = mapY(0);
+  const yTicks = !isCharge && showUr ? [-E, -E / 2, 0, E / 2, E] : [0, E / 2, E];
+  yTicks.forEach(val => {
+    const y = mapY(val);
+    ctx.strokeStyle = Math.abs(val) < 1e-6 ? 'rgba(226, 232, 240, 0.35)' : 'rgba(148, 163, 184, 0.14)';
+    ctx.beginPath(); ctx.moveTo(padL, y); ctx.lineTo(w - padR, y); ctx.stroke();
+    ctx.fillStyle = '#94a3b8';
+    ctx.font = '600 10px "JetBrains Mono", monospace';
+    ctx.textAlign = 'right';
+    ctx.fillText(val.toFixed(1) + 'V', padL - 7, y + 3);
+  });
+
+  // Asymptote E dashed line in charge
+  if (isCharge) {
+    ctx.save();
+    ctx.setLineDash([5, 5]);
+    ctx.strokeStyle = 'rgba(116, 198, 187, 0.45)';
+    ctx.beginPath(); ctx.moveTo(padL, mapY(E)); ctx.lineTo(w - padR, mapY(E)); ctx.stroke();
+    ctx.restore();
+  }
+
+  // Guides: 5tau + Tau 0.63E / 0.37E + Tangent at t=0
+  if (showGuides) {
+    // 5tau marker
+    ctx.save();
+    ctx.setLineDash([4, 4]);
+    ctx.strokeStyle = 'rgba(232, 163, 61, 0.55)';
+    ctx.beginPath(); ctx.moveTo(mapX(5), padT); ctx.lineTo(mapX(5), padT + gH); ctx.stroke();
+    ctx.fillStyle = '#e8a33d';
+    ctx.font = '700 10px "JetBrains Mono", monospace';
+    ctx.textAlign = 'center';
+    ctx.fillText('5τ', mapX(5), padT + 12);
+
+    // Tau marker on uc
+    const ucTau = evalAt(tau).uc;
+    const tx = mapX(1), ty = mapY(ucTau);
+    ctx.strokeStyle = 'rgba(45, 212, 191, 0.55)';
+    ctx.beginPath();
+    ctx.moveTo(padL, ty); ctx.lineTo(tx, ty); ctx.lineTo(tx, yZero);
+    ctx.stroke();
+    ctx.fillStyle = '#2dd4bf';
+    ctx.beginPath(); ctx.arc(tx, ty, 4, 0, Math.PI * 2); ctx.fill();
+    ctx.textAlign = 'left';
+    const pctLbl = isCharge && Math.abs(state.U0) < 1e-6 ? '0.63E' : (!isCharge && Math.abs(state.U0 - E) < 1e-6 ? '0.37E' : ucTau.toFixed(2) + 'V');
+    ctx.fillText(`(τ, ${pctLbl})`, tx + 5, ty - 5);
+    ctx.restore();
+  }
+
+  if (showTan && showUc) {
+    ctx.save();
+    ctx.setLineDash([6, 4]);
+    ctx.strokeStyle = '#fb7185';
+    ctx.lineWidth = 1.8;
+    const yStart = mapY(state.U0);
+    const yEnd = mapY(getUinf()); // tangent reaches asymptote at t = tau!
+    ctx.beginPath();
+    ctx.moveTo(mapX(0), yStart);
+    ctx.lineTo(mapX(1), yEnd);
+    ctx.stroke();
+    ctx.fillStyle = '#fb7185';
+    ctx.beginPath(); ctx.arc(mapX(1), yEnd, 4, 0, Math.PI * 2); ctx.fill();
+    ctx.restore();
+  }
+
+  // Helper to plot curve up to current tRatio (and ghost preview up to 6)
+  function plotSeries(fnY, color, label) {
+    // Faint full preview
+    ctx.save();
+    ctx.strokeStyle = color;
+    ctx.globalAlpha = 0.22;
+    ctx.lineWidth = 1.8;
+    ctx.beginPath();
+    for (let s = 0; s <= 180; s++) {
+      const r = (s / 180) * 6;
+      const x = mapX(r);
+      const y = fnY(r * tau);
+      if (s === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+    }
+    ctx.stroke();
+    ctx.restore();
+
+    // Active traced portion up to state.tRatio
+    const steps = Math.max(2, Math.round((state.tRatio / 6) * 200));
+    ctx.save();
+    ctx.strokeStyle = color;
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    for (let s = 0; s <= steps; s++) {
+      const r = (s / steps) * state.tRatio;
+      const x = mapX(r);
+      const y = fnY(r * tau);
+      if (s === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+    }
+    ctx.stroke();
+
+    // Active point dot
+    const curX = mapX(state.tRatio);
+    const curY = fnY(state.tRatio * tau);
+    ctx.fillStyle = color;
+    ctx.beginPath(); ctx.arc(curX, curY, 4.5, 0, Math.PI * 2); ctx.fill();
+    ctx.restore();
+  }
+
+  if (showUr) plotSeries(tSec => mapY(evalAt(tSec).urDisplayed), '#f59e0b');
+  if (showI) {
+    const Imax = Math.max(1e-6, state.E / getReq());
+    plotSeries(tSec => mapY((evalAt(tSec).i / Imax) * E), '#a78bfa');
+  }
+  if (showEe) {
+    const EeMax = Math.max(1e-12, 0.5 * (state.CuF * 1e-6) * E * E);
+    plotSeries(tSec => mapY((evalAt(tSec).Ee / EeMax) * E), '#fb7185');
+  }
+  if (showUc) plotSeries(tSec => mapY(evalAt(tSec).uc), '#2dd4bf');
+
+  // Vertical current playhead line
+  ctx.save();
+  ctx.strokeStyle = 'rgba(255,255,255,0.22)';
+  ctx.lineWidth = 1.2;
+  ctx.beginPath();
+  ctx.moveTo(mapX(state.tRatio), padT);
+  ctx.lineTo(mapX(state.tRatio), padT + gH);
+  ctx.stroke();
+  ctx.restore();
+
+  // Secondary axis label for i(t) or Ee(t)
+  if (showI) {
+    ctx.fillStyle = '#a78bfa';
+    ctx.font = '600 10px "JetBrains Mono", monospace';
+    ctx.textAlign = 'left';
+    const im = (state.E / getReq()) * 1000;
+    ctx.fillText(`+${im.toFixed(1)}mA`, w - padR + 5, mapY(E) + 3);
+    if (!isCharge && showUr) ctx.fillText(`-${im.toFixed(1)}mA`, w - padR + 5, mapY(-E) + 3);
+  }
+
+  // Hover crosshair
+  if (state.hoverRatio !== null) {
+    const hx = mapX(state.hoverRatio);
+    ctx.save();
+    ctx.strokeStyle = 'rgba(255,255,255,0.45)';
+    ctx.setLineDash([3, 3]);
+    ctx.beginPath(); ctx.moveTo(hx, padT); ctx.lineTo(hx, padT + gH); ctx.stroke();
+    ctx.restore();
+  }
+}
+
+function drawAll() {
+  drawCircuit();
+  drawGraph();
+}
+
+/* ===== ANIMATION LOOP & EVENTS ===== */
+let lastTs = 0;
+function loop(ts) {
+  if (!lastTs) lastTs = ts;
+  const dt = Math.min(0.05, (ts - lastTs) / 1000);
+  lastTs = ts;
+
+  const cur = evalAt(state.tRatio * getTau());
+  const iNorm = Math.abs(cur.i / (state.E / getReq()));
+  if (state.playing) {
+    // Complete 6*tau sweep in ~6 seconds at speed 1x
+    state.tRatio += dt * state.speed * 1.0;
+    if (state.tRatio >= 6) {
+      state.tRatio = 6;
+      state.playing = false;
+      updatePlayBtn();
+    }
+    document.getElementById('sliderTime').value = Math.round(state.tRatio * 100);
+    updateTelemetry();
+  }
+  state.electronPhase = (state.electronPhase + dt * (0.25 + 1.4 * iNorm) * state.speed) % 1;
+
+  drawAll();
+  requestAnimationFrame(loop);
+}
+
+function bindListeners() {
+  document.getElementById('sliderE').addEventListener('input', e => {
+    state.E = parseFloat(e.target.value);
+    if (state.tRatio === 0 && !document.getElementById('chkKeepU0').checked) {
+      state.U0 = state.phase === 'charge' ? 0 : state.E;
+    }
+    updateLabelsAndEquations();
+    drawAll();
+  });
+  document.getElementById('sliderR1').addEventListener('input', e => {
+    state.R1 = parseInt(e.target.value, 10);
+    updateLabelsAndEquations();
+    drawAll();
+  });
+  document.getElementById('sliderR2').addEventListener('input', e => {
+    state.R2 = parseInt(e.target.value, 10);
+    updateLabelsAndEquations();
+    drawAll();
+  });
+  document.getElementById('sliderC').addEventListener('input', e => {
+    state.CuF = parseInt(e.target.value, 10);
+    updateLabelsAndEquations();
+    drawAll();
+  });
+  document.getElementById('sliderSpeed').addEventListener('input', e => {
+    state.speed = parseFloat(e.target.value);
+    document.getElementById('valSpeed').textContent = state.speed + '×';
+  });
+  document.getElementById('sliderTime').addEventListener('input', e => {
+    state.playing = false;
+    state.tRatio = parseInt(e.target.value, 10) / 100;
+    updatePlayBtn();
+    updateTelemetry();
+    drawAll();
+  });
+
+  // Click on switch K inside #circuitCanvas
+  const circuitCanvas = document.getElementById('circuitCanvas');
+  circuitCanvas.addEventListener('click', e => {
+    const rect = circuitCanvas.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const dist = Math.hypot(x - state.kHitBox.x, y - state.kHitBox.y);
+    if (dist <= state.kHitBox.r + 18) {
+      toggleSwitchK();
+    }
+  });
+
+  // Hover readout on #graphCanvas
+  const graphCanvas = document.getElementById('graphCanvas');
+  graphCanvas.addEventListener('mousemove', e => {
+    const rect = graphCanvas.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const padL = 52, padR = 52;
+    const gW = rect.width - padL - padR;
+    if (x < padL || x > rect.width - padR) {
+      state.hoverRatio = null;
+      return;
+    }
+    const r = Math.max(0, Math.min(6, ((x - padL) / gW) * 6));
+    state.hoverRatio = r;
+    const tSec = r * getTau();
+    const v = evalAt(tSec);
+    document.getElementById('hoverReadout').innerHTML =
+      `<span>t = <strong>${fmtTime(tSec)}</strong> (${r.toFixed(2)}τ)</span>` +
+      `<span style="color:#0f766e;">uC = <strong>${v.uc.toFixed(2)} V</strong></span>` +
+      `<span style="color:#b45309;">uR = <strong>${v.urDisplayed.toFixed(2)} V</strong></span>` +
+      `<span style="color:#6d28d9;">i = <strong>${(v.i * 1000).toFixed(2)} mA</strong></span>` +
+      `<span style="color:#be123c;">Ee = <strong>${(v.Ee * 1000).toFixed(3)} mJ</strong></span>`;
+  });
+  graphCanvas.addEventListener('mouseleave', () => {
+    state.hoverRatio = null;
+    document.getElementById('hoverReadout').textContent = trad[state.lang]['graph.hoverHint'];
+  });
+
+  window.addEventListener('resize', drawAll);
+}
+
+
+function toggleLabFullscreen() {
+  if (!document.fullscreenElement) {
+    document.documentElement.requestFullscreen && document.documentElement.requestFullscreen().catch(() => {});
+  } else {
+    document.exitFullscreen && document.exitFullscreen().catch(() => {});
+  }
+}
+(function initEmbedLinks() {
+  const back = document.getElementById('btnBackSimulations');
+  if (!back) return;
+  if (window.self !== window.top) back.style.display = 'none';
+  else if (location.hostname.includes('supabase')) back.href = 'https://darrssy.com/simulations.html';
+})();
+
+document.addEventListener('DOMContentLoaded', () => {
+  bindListeners();
+  appliquerLangue(state.lang);
+  requestAnimationFrame(loop);
+});
+window.addEventListener('load', () => {
+  renderEquations();
+});
+</script>
+<script data-goatcounter="https://darrssy.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>
